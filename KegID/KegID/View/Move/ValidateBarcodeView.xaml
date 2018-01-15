@@ -10,7 +10,7 @@
     <StackLayout 
         VerticalOptions="Center" 
         HorizontalOptions="FillAndExpand"
-        Padding="20, 10, 20, 10">
+        Padding="20, 0, 20, 0">
         
         <Label
             BackgroundColor="White"
@@ -26,7 +26,7 @@
                     SeparatorColor="Black"
                     HasUnevenRows="True"
                     CachingStrategy="RecycleElement"
-                    ItemsSource="{Binding ValidateBarcodeCollection}">
+                    ItemsSource="{Binding PartnerCollection}">
 
                 <ListView.Behaviors>
                     <behaviors:EventToCommandBehavior
@@ -43,7 +43,7 @@
 
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <TextCell Text="{Binding Path=ValidateBarcodeCollection.Kegs.Partners.FullName}"/>
+                        <TextCell Text="{Binding FullName}"/>
                     </DataTemplate>
                 </ListView.ItemTemplate>
 

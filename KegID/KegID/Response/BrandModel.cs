@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using SQLite;
 
 namespace KegID.Response
 {
     public class BrandModel
     {
+        [PrimaryKey, AutoIncrement]
         public string BrandId { get; set; }
         public string BrandName { get; set; }
         public string StyleName { get; set; }
-        public object Description { get; set; }
-        public object BrandCode { get; set; }
-        public object SourceKey { get; set; }
+        public string Description { get; set; }
+        public string BrandCode { get; set; }
+        public string SourceKey { get; set; }
         public long? FreshDays { get; set; }
     }
 }

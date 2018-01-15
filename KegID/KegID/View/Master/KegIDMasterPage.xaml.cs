@@ -26,6 +26,12 @@ namespace KegID.View
             if (item == null)
                 return;
 
+            if (((NavigationPage)Detail).CurrentPage.GetType() == item.TargetType)
+            {
+                IsPresented = false;
+                return;
+            }
+
             switch (item.Id)
             {
                 case 1:
@@ -56,7 +62,7 @@ namespace KegID.View
             Detail = new NavigationPage(page);
             IsPresented = false;
 
-            MasterPage.ListView.SelectedItem = null;
+            //MasterPage.ListView.SelectedItem = null;
         }
     }
 }

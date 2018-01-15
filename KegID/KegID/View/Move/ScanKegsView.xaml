@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="KegID.View.ScanKegsView"
              xmlns:local="clr-namespace:KegID"
-             xmlns:behaviors="clr-namespace:KegID.Behaviors"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=ScanKegs}">
    
     <ContentPage.Content>
@@ -151,19 +150,6 @@
                 CachingStrategy="RecycleElement"
                 ItemsSource="{Binding BarcodeCollection}">
 
-                <ListView.Behaviors>
-                    <behaviors:EventToCommandBehavior
-                    EventName="ItemTapped" 
-                    Command="{Binding ItemTappedCommand}"
-                    Converter="{StaticResource ItemTappedConverter}"/>
-
-                    <behaviors:EventToCommandBehavior
-                      EventName="ItemSelected"
-                      Command="{Binding ItemSelectedCommand}"
-                      Converter="{StaticResource SelectedItemConverter}"/>
-
-                </ListView.Behaviors>
-
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
@@ -171,12 +157,18 @@
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="80*"/>
                                     <ColumnDefinition Width="20*"/>
-                                </Grid.ColumnDefinitions> 
-                                
+                                </Grid.ColumnDefinitions>
+
                                 <Label 
                                     VerticalOptions="FillAndExpand" 
                                     VerticalTextAlignment="Center" 
-                                    Text="{Binding Id}" />
+                                    Text="{Binding Id}" >
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Path=BindingContext.LabelItemTappedCommand, 
+                                                        Source={x:Reference Name=lstBarcode}}"
+                                                         CommandParameter="{Binding}"/>
+                                    </Label.GestureRecognizers>
+                                </Label>
 
                                 <Image 
                                     Grid.Column="1"
@@ -185,7 +177,13 @@
                                     Margin="10,0,0,0"
                                     VerticalOptions="Center"
                                     HorizontalOptions="Center"
-                                    Source="{Binding Icon}"/>
+                                    Source="{Binding Icon,Mode=TwoWay}">
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Path=BindingContext.IconItemTappedCommand, 
+                                                        Source={x:Reference Name=lstBarcode}}"
+                                                         CommandParameter="{Binding}"/>
+                                    </Image.GestureRecognizers>
+                                </Image>
                             </Grid>
                         </ViewCell>
                     </DataTemplate>

@@ -2,8 +2,10 @@
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
+using KegID.Common;
 using KegID.Response;
 using KegID.Services;
+using KegID.SQLiteClient;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -225,7 +227,26 @@ namespace KegID.ViewModel
 
         private async void LoadPartnersAsync()
         {
-            PartnerCollection = await _moveService.GetPartnersListAsync(Configuration.SessionId);
+            var model = await SQLiteServiceClient.Db.Table<PartnerModel>().ToListAsync();
+            try
+            {
+                if (model.Count > 0)
+                    PartnerCollection = model;
+                else
+                {
+                    Loader.StartLoading();
+                    PartnerCollection = await _moveService.GetPartnersListAsync(Configuration.SessionId);
+                    await SQLiteServiceClient.Db.InsertAllAsync(PartnerCollection);
+                }
+            }
+            catch (System.Exception)
+            {
+            }
+            finally
+            {
+                Loader.StopLoading();
+                model = null;
+            }
         }
         private void AlphabeticalCommandReciever()
         {
@@ -243,6 +264,12 @@ namespace KegID.ViewModel
 
             AlphabeticalBackgroundColor = "White";
             AlphabeticalTextColor = "Blue";
+        }
+
+        public override void Cleanup()
+        {
+            base.Cleanup();
+            PartnerCollection = null;
         }
 
         #endregion

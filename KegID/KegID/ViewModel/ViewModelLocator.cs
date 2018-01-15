@@ -31,6 +31,8 @@ namespace KegID.ViewModel
             SimpleIoc.Default.Register<BatchViewModel>();
             SimpleIoc.Default.Register<SizeViewModel>();
             SimpleIoc.Default.Register<ValidateBarcodeViewModel>();
+            SimpleIoc.Default.Register<PrinterSettingViewModel>();
+            SimpleIoc.Default.Register<ScanInfoViewModel>();
 
         }
         #endregion
@@ -370,6 +372,42 @@ namespace KegID.ViewModel
             }
         }
 
+
+        #endregion
+
+        #region PrinterSetting
+
+        /// <summary>
+        /// Gets the PrinterSetting property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public PrinterSettingViewModel PrinterSetting
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<PrinterSettingViewModel>();
+            }
+        }
+
+        #endregion
+
+        #region ScanInfo
+
+        /// <summary>
+        /// Gets the ScanInfo property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public ScanInfoViewModel ScanInfo
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<ScanInfoViewModel>();
+            }
+        }
 
         #endregion
 

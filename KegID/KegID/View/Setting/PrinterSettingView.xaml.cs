@@ -5,9 +5,9 @@ using Xamarin.Forms.Xaml;
 namespace KegID.View
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class ScanKegsView : ContentPage
+	public partial class PrinterSettingView : ContentPage
 	{
-		public ScanKegsView ()
+		public PrinterSettingView ()
 		{
 			InitializeComponent ();
 		}

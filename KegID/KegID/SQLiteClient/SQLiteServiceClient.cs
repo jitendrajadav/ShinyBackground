@@ -1,5 +1,5 @@
-﻿using GalaSoft.MvvmLight.Ioc;
-using KegID.Model;
+﻿using KegID.Model;
+using KegID.Response;
 using SQLite.Net.Async;
 using System;
 using System.Diagnostics;
@@ -32,7 +32,6 @@ namespace KegID.SQLiteClient
                     catch (Exception ex)
                     {
                         Debug.WriteLine(ex.Message);
-                        //LazyInitializer.EnsureInitialized(ref _dbConnection, SimpleIoc.Default.GetInstance<ISQLite>().GetAsyncConnection);
                     }
                 }
 
@@ -42,7 +41,14 @@ namespace KegID.SQLiteClient
 
         public async void CreateDbIfNotExist()
         {
-            await Db.CreateTableAsync<GlobalModel>();
+            try
+            {
+                await Db.CreateTablesAsync<GlobalModel, PartnerModel, BrandModel, PartnerTable>();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
         }
     }
 }

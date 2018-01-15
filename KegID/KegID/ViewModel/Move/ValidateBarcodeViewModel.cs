@@ -1,6 +1,9 @@
-﻿using System;
-using GalaSoft.MvvmLight;
+﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Ioc;
+using KegID.Response;
+using System.Linq;
+using System.Collections.Generic;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -43,26 +46,67 @@ namespace KegID.ViewModel
 
         #endregion
 
+        #region PartnerCollection
+
+        /// <summary>
+        /// The <see cref="PartnerCollection" /> property's name.
+        /// </summary>
+        public const string PartnerCollectionPropertyName = "PartnerCollection";
+
+        private IList<PartnerTable> _PartnerCollection = null;
+
+        /// <summary>
+        /// Sets and gets the PartnerCollection property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public IList<PartnerTable> PartnerCollection
+        {
+            get
+            {
+                return _PartnerCollection;
+            }
+
+            set
+            {
+                if (_PartnerCollection == value)
+                {
+                    return;
+                }
+
+                _PartnerCollection = value;
+                RaisePropertyChanged(PartnerCollectionPropertyName);
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Commands
         public RelayCommand CancelCommand { get; set; }
+
+        public RelayCommand<PartnerTable> ItemTappedCommand { get; set; }
         #endregion
 
         #region Constructor
         public ValidateBarcodeViewModel()
         {
             CancelCommand = new RelayCommand(CancelCommandRecievierAsync);
-            MultipleKegsTitle = string.Format(" Multiple kgs were found with \n barcode {0}. \n Please select the correct one.", 12345646646);
+            ItemTappedCommand = new RelayCommand<PartnerTable>((model) => ItemTappedCommandRecieverAsync(model));
         }
 
+        #endregion
+
+        #region Methods
         private async void CancelCommandRecievierAsync()
         {
             await Application.Current.MainPage.Navigation.PopModalAsync();
         }
-        #endregion
-
-        #region Methods
+        private async void ItemTappedCommandRecieverAsync(PartnerTable model)
+        {
+            SimpleIoc.Default.GetInstance<ScanKegsViewModel>().BarcodeCollection.Where(x => x.Id == model.Barcode).FirstOrDefault().Icon = "validationquestion.png";
+            await Application.Current.MainPage.Navigation.PopModalAsync();
+        }
 
         #endregion
     }

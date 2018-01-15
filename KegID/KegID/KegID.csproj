@@ -34,7 +34,7 @@
     <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="MainPage.xaml.cs">
       <DependentUpon>*.xaml</DependentUpon>
     </Compile>
-    <Compile Update="View\WhatIsNew\WhatIsNewView.xaml.cs">
+    <Compile Update="View\Setting\WhatIsNewView.xaml.cs">
       <DependentUpon>WhatIsNewView.xaml</DependentUpon>
     </Compile>
     <Compile Update="View\Scanner\ScannerView.xaml.cs">
@@ -50,6 +50,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="View\Move\PartnersView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="View\Move\ScanInfoView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="View\Move\SearchPartnersView.xaml">
@@ -94,10 +97,13 @@
     <EmbeddedResource Update="View\Palletize\PalletizeView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="View\Setting\PrinterSettingView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="View\Setting\SettingView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="View\WhatIsNew\WhatIsNewView.xaml">
+    <EmbeddedResource Update="View\Setting\WhatIsNewView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="View\Scanner\ScannerView.xaml">

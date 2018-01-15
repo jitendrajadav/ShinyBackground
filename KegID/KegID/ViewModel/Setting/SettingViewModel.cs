@@ -27,11 +27,17 @@ namespace KegID.ViewModel
         {
             WhatsNewCommand = new RelayCommand(WhatsNewCommandRecieverAsync);
             SupportCommand = new RelayCommand(SupportCommandReciever);
+            PrinterSettingCommand = new RelayCommand(PrinterSettingCommandRecieverAsync);
         }
 
         #endregion
 
         #region Methods
+        private async void PrinterSettingCommandRecieverAsync()
+        {
+            await Application.Current.MainPage.Navigation.PushModalAsync(new PrinterSettingView());
+        }
+
         private async void WhatsNewCommandRecieverAsync()
         {
             await Application.Current.MainPage.Navigation.PushModalAsync(new WhatIsNewView());

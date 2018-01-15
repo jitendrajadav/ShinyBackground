@@ -1,7 +1,10 @@
-﻿namespace KegID.Response
+﻿using SQLite;
+
+namespace KegID.Response
 {
     public class PartnerModel
     {
+        [PrimaryKey, AutoIncrement]
         public string PartnerId { get; set; }
         public string FullName { get; set; }
         public string Address { get; set; }
@@ -23,7 +26,7 @@
         public string MasterCompanyId { get; set; }
         public string ParentPartnerId { get; set; }
         public string ParentPartnerName { get; set; }
-        public object SourceKey { get; set; }
+        public string SourceKey { get; set; }
         public string LocationStatus { get; set; }
         public long? CompanyNo { get; set; }
     }

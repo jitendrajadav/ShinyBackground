@@ -94,15 +94,14 @@ namespace KegID.ViewModel
             SaveCommand = new RelayCommand(SaveCommandRecieverAsync);
         }
 
-        private async void SaveCommandRecieverAsync()
-        {
-            SimpleIoc.Default.GetInstance<MoveViewModel>().MoreInfoTitle = "BestBy Date : " +BestByDateDate.ToShortDateString() + " Production Date + "+ ProductionDate.ToShortDateString();
-            await Application.Current.MainPage.Navigation.PopModalAsync();
-        }
-
         #endregion
 
         #region Methods
+        private async void SaveCommandRecieverAsync()
+        {
+            SimpleIoc.Default.GetInstance<MoveViewModel>().MoreInfoTitle = "BestBy Date : " + BestByDateDate.ToShortDateString() + " Production Date " + ProductionDate.ToShortDateString();
+            await Application.Current.MainPage.Navigation.PopModalAsync();
+        }
 
         #endregion
 

@@ -1,4 +1,6 @@
 ﻿
+using GalaSoft.MvvmLight.Ioc;
+using KegID.ViewModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -11,5 +13,10 @@ namespace KegID.View
 		{
 			InitializeComponent ();
 		}
-	}
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+        }
+    }
 }
