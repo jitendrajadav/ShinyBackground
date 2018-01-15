@@ -1,0 +1,5 @@
+MainPackage=F:\LiveProject\KegID\KegID\KegID.UWP\bin\ARM\Release\KegID.UWP_1.0.1.0_ARM.appx
+ResourcePack=F:\LiveProject\KegID\KegID\KegID.UWP\bin\ARM\Release\KegID.UWP_1.0.1.0_scale-100.appx
+ResourcePack=F:\LiveProject\KegID\KegID\KegID.UWP\bin\ARM\Release\KegID.UWP_1.0.1.0_scale-125.appx
+ResourcePack=F:\LiveProject\KegID\KegID\KegID.UWP\bin\ARM\Release\KegID.UWP_1.0.1.0_scale-150.appx
+ResourcePack=F:\LiveProject\KegID\KegID\KegID.UWP\bin\ARM\Release\KegID.UWP_1.0.1.0_scale-400.appx

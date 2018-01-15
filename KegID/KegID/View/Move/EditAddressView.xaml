@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KegID.View.EditAddressView"
+             xmlns:local="clr-namespace:KegID"
+             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=EditAddress}">
+    
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <StackLayout
+                VerticalOptions="Center"
+                Orientation="Horizontal">
+
+                <Button
+                    BackgroundColor="Transparent"
+                    Command="{Binding BackCommand}"
+                    Text="Back"/>
+
+                <Label
+                    Text="{Binding AddressTitle}"/>
+
+                <Button
+                    BackgroundColor="Transparent"
+                    Command="{Binding DoneCommand}"
+                    Text="Done"/>
+            </StackLayout>
+
+            <BoxView
+                Margin="-10,0,-10,0"
+                Grid.Row="1"
+                BackgroundColor="Black"
+                HeightRequest="1"
+                VerticalOptions="Start"
+                HorizontalOptions="FillAndExpand"/>
+
+            <Entry
+                Grid.Row="2"
+                Placeholder="Address Line 1"/>
+
+            <Entry
+                Grid.Row="3"
+                Placeholder="Address Line 2"/>
+
+            <Entry
+                Grid.Row="4"
+                Placeholder="Address Line 3"/>
+
+            <Entry
+                Grid.Row="5"
+                Placeholder="City"/>
+
+            <Entry
+                Grid.Row="6"
+                Placeholder="State"/>
+
+            <Entry
+                Grid.Row="7"
+                Placeholder="Postal Code"/>
+
+            <Entry
+                Grid.Row="8"
+                Placeholder="Country"/>
+            
+            <Button
+                BackgroundColor="Transparent"
+                TextColor="Blue"
+                Grid.Row="9"
+                Text="Get current location"/>
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

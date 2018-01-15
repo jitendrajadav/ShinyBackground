@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KegID.View.AddTagsView"
+             xmlns:local="clr-namespace:KegID"
+             xmlns:behaviors="clr-namespace:KegID.Behaviors"
+             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=AddTags}">
+    
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20*"/>
+                <ColumnDefinition Width="69*"/>
+                <ColumnDefinition Width="11*"/>
+            </Grid.ColumnDefinitions>
+            
+            <Label 
+                Grid.Column="1"
+                Text="Add tags"
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="CenterAndExpand" />
+
+            <Button
+                TextColor="Blue"
+                BackgroundColor="Transparent"
+                Grid.Column="2"
+                VerticalOptions="Start"
+                Text="Save"
+                Command="{Binding SaveCommand}"/>
+
+            <BoxView
+                Margin="-10,0,-10,0"
+                Grid.Row="1"
+                Grid.ColumnSpan="3"
+                BackgroundColor="Black"
+                VerticalOptions="FillAndExpand"
+                HorizontalOptions="FillAndExpand"/>
+
+            <Label
+                VerticalOptions="Center"
+                Text="Name"
+                HorizontalOptions="Center"
+                TextColor="White"
+                Grid.Row="1"/>
+            
+            <Label
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                Text="Value"
+                TextColor="White"
+                Grid.Row="1"
+                Grid.Column="1"/>
+
+            <Button
+                VerticalOptions="Center"
+                Text="+"
+                BackgroundColor="Transparent"
+                TextColor="White"
+                Grid.Row="1"
+                Grid.Column="2"
+                Clicked="OnAddTagsClicked"/>
+
+            <Grid
+                Margin="10,0,10,0"
+                Grid.ColumnSpan="3"
+                Grid.Row="2"
+                x:Name="grdTag">
+                
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30*"/>
+                    <ColumnDefinition Width="60*"/>
+                    <ColumnDefinition Width="10*"/>
+                </Grid.ColumnDefinitions>
+
+                <Label
+                    IsEnabled="False"
+                    Grid.Column="0"
+                    Grid.Row="0"
+                    Text="Best By Date"/>
+
+                <DatePicker
+                    Date="{Binding BestByDataDate}"
+                    TextColor="Blue"
+                    Grid.Column="1"
+                    Grid.Row="0"/>
+
+                <Button
+                    Text="x"
+                    Grid.Column="2"
+                    Grid.Row="0"
+                    TextColor="Blue"
+                    BackgroundColor="Transparent"
+                    Clicked="OnRemoveTagsClicked"/>
+
+                <Label
+                    IsEnabled="False"
+                    Grid.Column="0"
+                    Grid.Row="1"
+                    Text="Production date"/>
+
+                <DatePicker
+                    Date="{Binding ProductionDate}"
+                    TextColor="Blue"
+                    Grid.Column="1"
+                    Grid.Row="1"/>
+
+                <Button
+                    Text="x"
+                    Grid.Column="2"
+                    Grid.Row="1"
+                    TextColor="Blue"
+                    BackgroundColor="Transparent"
+                    Clicked="OnRemoveTagsClicked"/>
+
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

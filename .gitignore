@@ -3,3 +3,12 @@
 ################################################################################
 
 /KegID/KegID/bin/Debug/netstandard2.0
+/.vs
+/KegID/KegID.iOS/obj
+/KegID/KegID.UWP/AppPackages
+/KegID/KegID.UWP/bin/x86/Debug
+/KegID/KegID.UWP/obj
+/KegID/KegID/obj
+/KegID/KegID.Android/bin/Debug
+/KegID/KegID.Android/obj/Debug
+/KegID/KegID.Android/obj

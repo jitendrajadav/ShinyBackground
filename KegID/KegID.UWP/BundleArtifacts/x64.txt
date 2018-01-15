@@ -1,0 +1,2 @@
+MainPackage=F:\LiveProject\KegID\KegID\KegID.UWP\bin\x64\Release\KegID.UWP_1.0.0.0_x64.appx
+SymbolPackage=F:\LiveProject\KegID\KegID\KegID.UWP\AppPackages\KegID.UWP_1.0.0.0_Test\KegID.UWP_1.0.0.0_x64.appxsym

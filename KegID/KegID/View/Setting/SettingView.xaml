@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KegID.View.SettingView"
+             xmlns:local="clr-namespace:KegID"
+             Title="Setting"
+             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Setting}">
+    
+    <ContentPage.Content>
+       
+        <StackLayout 
+            VerticalOptions="Center">
+            
+            <Button
+                BackgroundColor="LightGray"
+                Text="Printer Seetings"
+                Command="{Binding PrinterSettingCommand}"/>
+            
+            <Button
+                BackgroundColor="LightGray"
+                Text="What's New"
+                Command="{Binding WhatsNewCommand}"/>
+        
+            <Button
+                BackgroundColor="LightGray"
+                Text="Support"
+                Command="{Binding SupportCommand}"/>
+            
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

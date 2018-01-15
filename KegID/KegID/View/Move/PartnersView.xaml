@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KegID.View.PartnersView"
+             xmlns:local="clr-namespace:KegID"
+             xmlns:behaviors="clr-namespace:KegID.Behaviors"
+             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Partners}">
+    
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            
+            <StackLayout
+                VerticalOptions="Start"
+                HeightRequest="40"
+                Orientation="Horizontal">
+
+                <Button
+                    BackgroundColor="Transparent"
+                    HeightRequest="40"
+                    TextColor="Blue"
+                    Text="Back"/>
+
+                <Label 
+                    Text="Partners"
+                    VerticalOptions="CenterAndExpand" 
+                    HorizontalOptions="CenterAndExpand" />
+
+                <Button
+                    HorizontalOptions="Center"                  
+                    BorderRadius="5"
+                    WidthRequest="50"
+                    BorderWidth="0"
+                    Command="{Binding ActionSearchCommand}"
+                    BackgroundColor="White" >
+                    <Button.Image>
+                        <OnPlatform x:TypeArguments="FileImageSource">
+                            <OnPlatform.iOS>
+                                <FileImageSource File="actionsearch.png"/>
+                            </OnPlatform.iOS>
+                            <OnPlatform.Android>
+                                <FileImageSource File="actionsearch.png"/>
+                            </OnPlatform.Android>
+                            <OnPlatform.WinPhone>
+                                <FileImageSource File="Assets/actionsearch.png"/>
+                            </OnPlatform.WinPhone>
+                        </OnPlatform>
+                    </Button.Image>
+                </Button>
+
+                <Button
+                    HorizontalOptions="Center"                  
+                    BorderRadius="5"
+                    WidthRequest="50"
+                    BorderWidth="0"
+                    Command="{Binding ActionNewCommand}"
+                    BackgroundColor="White" >
+                    <Button.Image>
+                        <OnPlatform x:TypeArguments="FileImageSource">
+                            <OnPlatform.iOS>
+                                <FileImageSource File="contentnew.png"/>
+                            </OnPlatform.iOS>
+                            <OnPlatform.Android>
+                                <FileImageSource File="contentnew.png"/>
+                            </OnPlatform.Android>
+                            <OnPlatform.WinPhone>
+                                <FileImageSource File="Assets/contentnew.png"/>
+                            </OnPlatform.WinPhone>
+                        </OnPlatform>
+                    </Button.Image>
+                </Button>
+
+            </StackLayout>
+
+            <Entry
+                Margin="10,0,10,0"
+                Placeholder="Partner Name"
+                Grid.Row="1"/>
+            
+            <ListView
+                Margin="10,0,10,0"
+                x:Name="lstPartners"
+                Grid.Row="2"
+                SeparatorVisibility="Default"
+                SeparatorColor="Black"
+                HasUnevenRows="True"
+                CachingStrategy="RecycleElement"
+                ItemsSource="{Binding PartnerCollection}">
+
+                <ListView.Behaviors>
+                    <behaviors:EventToCommandBehavior
+                        EventName="ItemTapped" 
+                        Command="{Binding ItemTappedCommand}"
+                        Converter="{StaticResource ItemTappedConverter}"/>
+
+                    <behaviors:EventToCommandBehavior
+                        EventName="ItemSelected"
+                        Command="{Binding ItemSelectedCommand}"
+                        Converter="{StaticResource SelectedItemConverter}"/>
+
+                </ListView.Behaviors>
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextCell Text="{Binding FullName}" Detail="{Binding Address}" />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                
+            </ListView>
+
+            <StackLayout
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                Grid.Row="3"
+                Spacing="0"
+                Orientation="Horizontal">
+                
+                <Button
+                    BackgroundColor="{Binding InternalBackgroundColor}"
+                    TextColor="{Binding InternalTextColor}"
+                    Text="Internal"
+                    Command="{Binding InternalCommand}"/>
+                
+                <Button
+                    BackgroundColor="{Binding AlphabeticalBackgroundColor}"
+                    TextColor="{Binding AlphabeticalTextColor}"
+                    Text="Alphabetical"
+                    Command="{Binding AlphabeticalCommand}"/>
+                
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

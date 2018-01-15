@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KegID.View.SearchPartnersView"
+             xmlns:local="clr-namespace:KegID"
+             xmlns:behaviors="clr-namespace:KegID.Behaviors"
+             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=SearchPartners}">
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+            <Button 
+                Text="{Binding BackPartners}"
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="Start" />
+            
+            <Entry
+                Grid.Row="1"/>
+            
+            <ListView
+                x:Name="lstSearchPartners"
+                Grid.Row="2"
+                SeparatorVisibility="Default"
+                SeparatorColor="Black"
+                HasUnevenRows="True"
+                CachingStrategy="RecycleElement"
+                ItemsSource="{Binding BarcodeCollection}">
+
+                <ListView.Behaviors>
+                    <behaviors:EventToCommandBehavior
+                        EventName="ItemTapped" 
+                        Command="{Binding ItemTappedCommand}"
+                        Converter="{StaticResource ItemTappedConverter}"/>
+
+                    <behaviors:EventToCommandBehavior
+                        EventName="ItemSelected"
+                        Command="{Binding ItemSelectedCommand}"
+                        Converter="{StaticResource SelectedItemConverter}"/>
+
+                </ListView.Behaviors>
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextCell Text="{Binding .}" Detail="{Binding .}" />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+
+            </ListView>
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

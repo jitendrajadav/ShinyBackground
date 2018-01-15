@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KegID.View.AddPartnerView"
+             xmlns:local="clr-namespace:KegID"
+             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=AddPartner}">
+    
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <StackLayout
+                VerticalOptions="Center"
+                Orientation="Horizontal">
+                
+                <Button
+                    BackgroundColor="Transparent"
+                    Command="{Binding CalcelCommand}"
+                    Text="Cancel"/>
+                
+                <Label
+                    Text="Add Partner"/>
+                
+                <Button
+                    BackgroundColor="Transparent"
+                    Command="{Binding SubmitCommand}"/>
+            </StackLayout>
+
+            <BoxView
+                Margin="-10,0,-10,0"
+                Grid.Row="1"
+                BackgroundColor="Black"
+                HeightRequest="1"
+                VerticalOptions="Start"
+                HorizontalOptions="FillAndExpand"/>
+
+            <Entry
+                Grid.Row="2"
+                Placeholder="Company Name"/>
+
+            <StackLayout
+                Orientation="Horizontal"
+                Grid.Row="3">
+                
+                <Label
+                    Text="Shared"/>
+
+                <Switch/>
+
+                <Label
+                    Text="Internal"/>
+
+                <Switch/>
+
+            </StackLayout>
+
+            <Label
+                Grid.Row="4"
+                Text="Type:"/>
+            
+            <Picker
+                HorizontalOptions="Center"
+                Grid.Row="4"
+                Title="Select a type"/>
+
+            <Label
+                Grid.Row="5"
+                Text="Shipping Address:"/>
+
+            <Button
+                BackgroundColor="Transparent"
+                TextColor="Blue"
+                Grid.Row="6"
+                Text="Edit address"/>
+
+            <Label
+                Grid.Row="7"
+                Text="Billing Address:"/>
+
+            <Button
+                BackgroundColor="Transparent"
+                TextColor="Blue"
+                Grid.Row="8"
+                Text="Edit address"/>
+            
+            <Entry
+                Grid.Row="9"
+                Placeholder="Contact Name"/>
+
+            <Entry
+                Grid.Row="10"
+                Placeholder="Contact phone"/>
+
+            <Entry
+                Grid.Row="11"
+                Placeholder="Contact Email"/>
+
+            <Entry
+                Grid.Row="12"
+                Placeholder="Account #"/>
+
+            <Entry
+                Grid.Row="13"
+                Placeholder="Reference #"/>
+
+            <Entry
+                Grid.Row="14"
+                Placeholder="Notes"/>
+            
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

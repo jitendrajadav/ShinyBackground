@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KegID.View.MoveView"
+             xmlns:behaviors="clr-namespace:KegID.Behaviors"
+             xmlns:local="clr-namespace:KegID"
+             Title="Create Manifest"
+             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Move}">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Scan" Command="{Binding ScannedCommand}"/>
+    </ContentPage.ToolbarItems>
+    
+    <ContentPage.Content>
+        
+        <Grid
+            Margin="10,0,10,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <BoxView
+                Margin="-10,0,0,0"
+                Grid.Row="0"
+                BackgroundColor="CadetBlue"
+                WidthRequest="10"
+                VerticalOptions="FillAndExpand"
+                HorizontalOptions="FillAndExpand"/>
+            
+            <Label 
+                Margin="0,0,-10,0"
+                HeightRequest="40"
+                Text="{Binding MenifestRefId}"
+                BackgroundColor="CadetBlue"
+                TextColor="White"
+                VerticalTextAlignment="Center"
+                VerticalOptions="CenterAndExpand"/>
+
+            <Label
+                Text="Destination:"
+                Grid.Row="1"/>
+
+            <Button
+                BackgroundColor="Transparent"
+                TextColor="Blue"
+                Margin="10,0,0,0"
+                HorizontalOptions="Start"
+                Text="{Binding DestinationButtonTitle}"
+                Grid.Row="2"
+                Command="{Binding SelectLocationCommand}"/>
+
+            <BoxView
+                Grid.Row="3"
+                BackgroundColor="Black"
+                HeightRequest="1"
+                VerticalOptions="Start"
+                HorizontalOptions="FillAndExpand"/>
+
+            <Label
+                Text="More Info:"
+                Grid.Row="4"/>
+
+            <Button
+                BackgroundColor="Transparent"
+                TextColor="Blue"
+                HorizontalOptions="Start"
+                Margin="10,0,0,0"
+                Text="{Binding MoreInfoTitle}"
+                Grid.Row="5"
+                Command="{Binding MoreInfoCommand}"/>
+
+            <BoxView
+                Grid.Row="6"
+                BackgroundColor="Black"
+                HeightRequest="1"
+                VerticalOptions="Start"
+                HorizontalOptions="FillAndExpand"/>
+
+            <Label
+                Text="Kegs:"
+                Grid.Row="7"/>
+
+            <Button
+                Margin="10,0,0,0"
+                Text="Add Kegs"
+                HorizontalOptions="Start"
+                BackgroundColor="Transparent"
+                TextColor="Blue"
+                FontSize="40"
+                Grid.Row="8"
+                Command="{Binding ScanKegsCommad}"/>
+
+            <BoxView
+                Grid.Row="9"
+                BackgroundColor="Black"
+                HeightRequest="3"
+                VerticalOptions="Start"
+                HorizontalOptions="FillAndExpand"/>
+
+            <Button
+                BackgroundColor="Transparent"
+                TextColor="Blue"
+                HorizontalOptions="End"
+                Text="Save draft"
+                Grid.Row="10"/>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

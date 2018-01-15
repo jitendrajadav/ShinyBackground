@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KegID.View.SizeView"
+             xmlns:local="clr-namespace:KegID"
+             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Size}">
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            
+            <Button
+                BackgroundColor="Transparent"
+                Text="1/2 bbl"
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="Start" 
+                Command="{Binding BBL2Command}"/>
+            
+            <Button
+                Grid.Row="1"
+                BackgroundColor="Transparent"
+                Text="1/4 bbl"
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="Start" 
+                Command="{Binding BBL4Command}"/>
+            
+            <Button
+                Grid.Row="2"
+                BackgroundColor="Transparent"
+                Text="1/6 bbl"
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="Start" 
+                Command="{Binding BBL6Command}"/>
+            
+            <Button
+                Grid.Row="3"
+                BackgroundColor="Transparent"
+                Text="40 L"
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="Start" 
+                Command="{Binding L40Command}"/>
+            
+            <Button
+                Grid.Row="4"
+                BackgroundColor="Transparent"
+                Text="50 L"
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="Start" 
+                Command="{Binding L50Command}"/>
+            
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
