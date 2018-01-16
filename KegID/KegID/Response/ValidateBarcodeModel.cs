@@ -70,49 +70,17 @@ namespace KegID.Response
         public long? CompanyNo { get; set; }
     }
 
-    public class PartnerTable
-    {
-        [PrimaryKey,AutoIncrement]
-        public int Id { get; set; }
-        public string PartnerId { get; set; }
-
-        public string Barcode { get; set; }
-        public string FullName { get; set; }
-        public string Address { get; set; }
-        public string Address1 { get; set; }
-        public string City { get; set; }
-        public string State { get; set; }
-        public string PostalCode { get; set; }
-        public string Country { get; set; }
-        public string PhoneNumber { get; set; }
-        public string PartnerTypeName { get; set; }
-        public string PartnerTypeCode { get; set; }
-        public string LocationCode { get; set; }
-        public double Lat { get; set; }
-        public double Lon { get; set; }
-        public bool IsInternal { get; set; }
-        public bool IsShared { get; set; }
-        public bool IsActive { get; set; }
-        public bool PartnershipIsActive { get; set; }
-        public string MasterCompanyId { get; set; }
-        public string ParentPartnerId { get; set; }
-        public string ParentPartnerName { get; set; }
-        public string SourceKey { get; set; }
-        public string LocationStatus { get; set; }
-        public long? CompanyNo { get; set; }
-    }
-
     public class Keg
     {
         public string KegId { get; set; }
         public string Barcode { get; set; }
-        public object AltBarcode { get; set; }
+        public string AltBarcode { get; set; }
         public long Contents { get; set; }
         public long Batch { get; set; }
         public long Size { get; set; }
         public string Alert { get; set; }
         public long Location { get; set; }
-        public List<object> MaintenanceItems { get; set; }
+        public List<long> MaintenanceItems { get; set; }
         public List<long> PendingMaintenanceItems { get; set; }
         public long? Sku { get; set; }
         public long? ContentsSku { get; set; }
@@ -135,10 +103,10 @@ namespace KegID.Response
         public string BrandName { get; set; }
         public bool IsScanRequired { get; set; }
         public bool IsActive { get; set; }
-        public object SourceKey { get; set; }
+        public string SourceKey { get; set; }
         public string ShortName { get; set; }
         public string AssetOwnerSkuId { get; set; }
-        public object Barcode { get; set; }
+        public string Barcode { get; set; }
     }
 
     public class Pallets

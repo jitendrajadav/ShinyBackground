@@ -2266,7 +2266,6 @@ namespace KegID.Droid
 			global::Com.ViewPagerIndicator.Resource.Styleable.CirclePageIndicator_vpiStrokeWidth = global::KegID.Droid.Resource.Styleable.CirclePageIndicator_vpiStrokeWidth;
 			global::Com.ViewPagerIndicator.Resource.Styleable.ViewPagerIndicator = global::KegID.Droid.Resource.Styleable.ViewPagerIndicator;
 			global::Com.ViewPagerIndicator.Resource.Styleable.ViewPagerIndicator_vpiCirclePageIndicatorStyle = global::KegID.Droid.Resource.Styleable.ViewPagerIndicator_vpiCirclePageIndicatorStyle;
-			global::Splat.Resource.String.library_name = global::KegID.Droid.Resource.String.library_name;
 			global::SQLite.Net.Platform.XamarinAndroid.Resource.String.ApplicationName = global::KegID.Droid.Resource.String.ApplicationName;
 			global::SQLite.Net.Platform.XamarinAndroid.Resource.String.Hello = global::KegID.Droid.Resource.String.Hello;
 			global::Xamarin.Forms.Platform.Android.Resource.Attribute.actionBarSize = global::KegID.Droid.Resource.Attribute.actionBarSize;

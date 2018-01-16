@@ -27,6 +27,7 @@
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
 
+            <!--Command="{Binding SaveCommand}"-->
             <Button
                 TextColor="Blue"
                 BackgroundColor="Transparent"
@@ -34,7 +35,7 @@
                 VerticalOptions="Center"
                 HorizontalOptions="Center"
                 Text="Save"
-                Command="{Binding SaveCommand}"/>
+                Clicked="SaveTagsClickedAsync"/>
 
             <BoxView
                 Margin="-10,0,-10,0"
@@ -88,7 +89,7 @@
                 <Label
                     Grid.Column="0"
                     Grid.Row="0"
-                    Text="Best By Date"/>
+                    Text="Best by date:"/>
 
                 <DatePicker
                     Date="{Binding BestByDataDate}"
@@ -107,7 +108,7 @@
                 <Label
                     Grid.Column="0"
                     Grid.Row="1"
-                    Text="Production date"/>
+                    Text="Production date:"/>
 
                 <DatePicker
                     Date="{Binding ProductionDate}"

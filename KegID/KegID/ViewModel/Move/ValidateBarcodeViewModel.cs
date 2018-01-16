@@ -1,10 +1,10 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
-using KegID.Response;
 using System.Linq;
 using System.Collections.Generic;
 using Xamarin.Forms;
+using KegID.Model;
 
 namespace KegID.ViewModel
 {
@@ -53,13 +53,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string PartnerCollectionPropertyName = "PartnerCollection";
 
-        private IList<PartnerTable> _PartnerCollection = null;
+        private IList<ValidatePartnerModel> _PartnerCollection = null;
 
         /// <summary>
         /// Sets and gets the PartnerCollection property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public IList<PartnerTable> PartnerCollection
+        public IList<ValidatePartnerModel> PartnerCollection
         {
             get
             {
@@ -85,14 +85,14 @@ namespace KegID.ViewModel
         #region Commands
         public RelayCommand CancelCommand { get; set; }
 
-        public RelayCommand<PartnerTable> ItemTappedCommand { get; set; }
+        public RelayCommand<ValidatePartnerModel> ItemTappedCommand { get; set; }
         #endregion
 
         #region Constructor
         public ValidateBarcodeViewModel()
         {
             CancelCommand = new RelayCommand(CancelCommandRecievierAsync);
-            ItemTappedCommand = new RelayCommand<PartnerTable>((model) => ItemTappedCommandRecieverAsync(model));
+            ItemTappedCommand = new RelayCommand<ValidatePartnerModel>((model) => ItemTappedCommandRecieverAsync(model));
         }
 
         #endregion
@@ -102,7 +102,7 @@ namespace KegID.ViewModel
         {
             await Application.Current.MainPage.Navigation.PopModalAsync();
         }
-        private async void ItemTappedCommandRecieverAsync(PartnerTable model)
+        private async void ItemTappedCommandRecieverAsync(ValidatePartnerModel model)
         {
             SimpleIoc.Default.GetInstance<ScanKegsViewModel>().BarcodeCollection.Where(x => x.Id == model.Barcode).FirstOrDefault().Icon = "validationquestion.png";
             await Application.Current.MainPage.Navigation.PopModalAsync();

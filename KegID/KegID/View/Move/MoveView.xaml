@@ -74,7 +74,7 @@
                 TextColor="Blue"
                 HorizontalOptions="Start"
                 Margin="10,0,0,0"
-                Text="{Binding MoreInfoTitle}"
+                Text="{Binding Tags}"
                 Grid.Row="5"
                 Command="{Binding MoreInfoCommand}"/>
 
@@ -111,7 +111,8 @@
                 TextColor="Blue"
                 HorizontalOptions="End"
                 Text="Save draft"
-                Grid.Row="10"/>
+                Grid.Row="10"
+                Command="{Binding SaveDraftCommand}"/>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

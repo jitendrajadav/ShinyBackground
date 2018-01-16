@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using KegID.Services;
 using KegID.View;
 using System;
 using System.Text.RegularExpressions;
@@ -10,6 +11,7 @@ namespace KegID.ViewModel
     public class MoveViewModel : ViewModelBase
     {
         #region Properties
+        public IMoveService _moveService { get; set; }
 
         #region MenifestRefId
 
@@ -79,35 +81,35 @@ namespace KegID.ViewModel
 
         #endregion
 
-        #region MoreInfoTitle
+        #region Tags
 
         /// <summary>
-        /// The <see cref="MoreInfoTitle" /> property's name.
+        /// The <see cref="Tags" /> property's name.
         /// </summary>
-        public const string MoreInfoTitlePropertyName = "MoreInfoTitle";
+        public const string TagsPropertyName = "Tags";
 
-        private string _MoreInfoTitle = "Add info";
+        private string _tags = "Add info";
 
         /// <summary>
-        /// Sets and gets the MoreInfoTitle property.
+        /// Sets and gets the Tags property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public string MoreInfoTitle
+        public string Tags
         {
             get
             {
-                return _MoreInfoTitle;
+                return _tags;
             }
 
             set
             {
-                if (_MoreInfoTitle == value)
+                if (_tags == value)
                 {
                     return;
                 }
 
-                _MoreInfoTitle = value;
-                RaisePropertyChanged(MoreInfoTitlePropertyName);
+                _tags = value;
+                RaisePropertyChanged(TagsPropertyName);
             }
         }
 
@@ -125,15 +127,25 @@ namespace KegID.ViewModel
 
         public RelayCommand ScanKegsCommad { get; set; }
 
+        public RelayCommand SaveDraftCommand { get; set; }
+
         #endregion
 
         #region Constructor
-        public MoveViewModel()
+        public MoveViewModel(IMoveService moveService)
         {
+            _moveService = moveService;
+
             ScannedCommand = new RelayCommand(ScannedCommandRecieverAsync);
             SelectLocationCommand = new RelayCommand(SelectLocationCommandRecieverAsync);
             MoreInfoCommand = new RelayCommand(MoreInfoCommandRecieverAsync);
             ScanKegsCommad = new RelayCommand(ScanKegsCommadRecieverAsync);
+            SaveDraftCommand = new RelayCommand(SaveDraftCommandRecieverAsync);
+        }
+
+        private async void SaveDraftCommandRecieverAsync()
+        {
+            var manifest = await _moveService.GetManifestListAsync(Configuration.SessionId);
         }
 
         #endregion

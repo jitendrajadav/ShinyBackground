@@ -13,6 +13,12 @@ namespace KegID.Services
             return await Helper.ExecutePostCall<IList<BrandModel>>(url, HttpMethodType.Get, string.Empty);
         }
 
+        public async Task<IList<ManifestModel>> GetManifestListAsync(string sessionId)
+        {
+            string url = string.Format(Configuration.GetManifestUrl, sessionId);
+            return await Helper.ExecutePostCall<IList<ManifestModel>>(url, HttpMethodType.Get, string.Empty);
+        }
+
         public async Task<IList<PartnerModel>> GetPartnersListAsync(string sessionId)
         {
             string url = string.Format(Configuration.GetPartnerUrl, sessionId);

@@ -38,5 +38,39 @@ namespace KegID.Model
         }
 
         #endregion
+
+        #region Tags
+
+        /// <summary>
+        /// The <see cref="Tags" /> property's name.
+        /// </summary>
+        public const string TagsPropertyName = "Tags";
+
+        private string _tags = default(string);
+
+        /// <summary>
+        /// Sets and gets the Tags property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public string Tags
+        {
+            get
+            {
+                return _tags;
+            }
+
+            set
+            {
+                if (_tags == value)
+                {
+                    return;
+                }
+
+                _tags = value;
+                RaisePropertyChanged(TagsPropertyName);
+            }
+        }
+
+        #endregion
     }
 }

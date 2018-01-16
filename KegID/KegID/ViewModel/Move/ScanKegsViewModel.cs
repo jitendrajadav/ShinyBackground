@@ -23,6 +23,7 @@ namespace KegID.ViewModel
 
         #region Properties
 
+        public bool IsFromScanned { get; set; }
         public IMoveService _moveService { get; set; }
 
         #region BarcodeCollection
@@ -127,6 +128,73 @@ namespace KegID.ViewModel
 
         #endregion
 
+        #region ManaulBarcode
+
+        /// <summary>
+        /// The <see cref="ManaulBarcode" /> property's name.
+        /// </summary>
+        public const string ManaulBarcodePropertyName = "ManaulBarcode";
+
+        private string _ManaulBarcode = default(string);
+
+        /// <summary>
+        /// Sets and gets the ManaulBarcode property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public string ManaulBarcode
+        {
+            get
+            {
+                return _ManaulBarcode;
+            }
+
+            set
+            {
+                if (_ManaulBarcode == value)
+                {
+                    return;
+                }
+
+                _ManaulBarcode = value;
+                RaisePropertyChanged(ManaulBarcodePropertyName);
+            }
+        }
+
+        #endregion
+
+        #region Tags
+
+        /// <summary>
+        /// The <see cref="Tags" /> property's name.
+        /// </summary>
+        public const string TagsPropertyName = "Tags";
+
+        private string _tags = default(string);
+
+        /// <summary>
+        /// Sets and gets the Tags property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public string Tags
+        {
+            get
+            {
+                return _tags;
+            }
+
+            set
+            {
+                if (_tags == value)
+                {
+                    return;
+                }
+
+                _tags = value;
+                RaisePropertyChanged(TagsPropertyName);
+            }
+        }
+
+        #endregion
 
         #endregion
 
@@ -134,10 +202,11 @@ namespace KegID.ViewModel
 
         public RelayCommand DoneCommand { get; set; }
         public RelayCommand BarcodeScanCommand { get; set; }
+        public RelayCommand BarcodeManualCommand { get; set; }
         public RelayCommand AddTagsCommand { get; set; }
         public RelayCommand<Barcode> IconItemTappedCommand { get; set; }
         public RelayCommand<Barcode> LabelItemTappedCommand { get; set; }
-        
+
         #endregion
 
         #region Constructor
@@ -148,12 +217,13 @@ namespace KegID.ViewModel
 
             DoneCommand = new RelayCommand(DoneCommandRecieverAsync);
             BarcodeScanCommand = new RelayCommand(BarcodeScanCommandReciever);
+            BarcodeManualCommand = new RelayCommand(BarcodeManualCommandRecieverAsync);
             AddTagsCommand = new RelayCommand(AddTagsCommandRecieverAsync);
             LabelItemTappedCommand = new RelayCommand<Barcode>((model) => LabelItemTappedCommandRecieverAsync(model));
             IconItemTappedCommand = new RelayCommand<Barcode>((model) => IconItemTappedCommandRecieverAsync(model));
             LoadBrandAsync();
         }
-       
+
         #endregion
 
         #region Methods
@@ -184,15 +254,38 @@ namespace KegID.ViewModel
 
         private async void LabelItemTappedCommandRecieverAsync(Barcode model)
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new ValidateBarcodeView());
-
-            SimpleIoc.Default.GetInstance<ValidateBarcodeViewModel>().MultipleKegsTitle = string.Format(" Multiple kgs were found with \n barcode {0}. \n Please select the correct one.", model.Id);
-            SimpleIoc.Default.GetInstance<ValidateBarcodeViewModel>().PartnerCollection = await SQLiteServiceClient.Db.Table<PartnerTable>().Where(x => x.Barcode == model.Id).ToListAsync();
+            if (model.Icon == "validationerror.png")
+                await NavigateToValidatePartner(model);
+            else
+            {
+                IsFromScanned = true;
+                await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView());
+            }
         }
 
         private async void IconItemTappedCommandRecieverAsync(Barcode model)
         {
+            if (model.Icon == "validationerror.png")
+                await NavigateToValidatePartner(model);
+            else
+            {
+                await Application.Current.MainPage.Navigation.PushModalAsync(new ScanInfoView());
+                var value = await SQLiteServiceClient.Db.Table<ValidatePartnerModel>().Where(x => x.Barcode == model.Id).ToListAsync();
+
+                SimpleIoc.Default.GetInstance<ScanInfoViewModel>().Barcode = string.Format(" Barcode {0} ", model.Id);
+                SimpleIoc.Default.GetInstance<ScanInfoViewModel>().Ownername = value.FirstOrDefault().FullName;
+                SimpleIoc.Default.GetInstance<ScanInfoViewModel>().Size = value.FirstOrDefault().Size;
+                SimpleIoc.Default.GetInstance<ScanInfoViewModel>().Contents = value.FirstOrDefault().Contents;
+                SimpleIoc.Default.GetInstance<ScanInfoViewModel>().Batch = value.FirstOrDefault().Batch;
+                SimpleIoc.Default.GetInstance<ScanInfoViewModel>().Location = value.FirstOrDefault().Location;
+            }
+        }
+
+        private static async System.Threading.Tasks.Task NavigateToValidatePartner(Barcode model)
+        {
             await Application.Current.MainPage.Navigation.PushModalAsync(new ValidateBarcodeView());
+            SimpleIoc.Default.GetInstance<ValidateBarcodeViewModel>().MultipleKegsTitle = string.Format(" Multiple kgs were found with \n barcode {0}. \n Please select the correct one.", model.Id);
+            SimpleIoc.Default.GetInstance<ValidateBarcodeViewModel>().PartnerCollection = await SQLiteServiceClient.Db.Table<ValidatePartnerModel>().Where(x => x.Barcode == model.Id).ToListAsync();
         }
 
         private async void AddTagsCommandRecieverAsync()
@@ -205,10 +298,14 @@ namespace KegID.ViewModel
             await Application.Current.MainPage.Navigation.PopModalAsync();
         }
 
+        private async void BarcodeManualCommandRecieverAsync()
+        {
+            await ValidateBarcodeInsertIntoLocalDB(ManaulBarcode);
+            ManaulBarcode = string.Empty;
+        }
+
         private async void BarcodeScanCommandReciever()
         {
-            ValidateBarcodeModel validateBarcodeModel = null;
-
             // Create our custom overlay
             var customOverlay = new Grid
             {
@@ -255,67 +352,82 @@ namespace KegID.ViewModel
             scanPage.OnScanResult += (result) =>
             Device.BeginInvokeOnMainThread(async () =>
             {
-            var check = BarcodeCollection.ToList().Find(x => x.Id == result.Text);
+                var check = BarcodeCollection.ToList().Any(x => x.Id == result.Text);
 
-            if (check == null)
-            {
-                validateBarcodeModel = await _moveService.GetValidateBarcodeAsync(Configuration.SessionId, result.Text);
-                title.Text = "Last scan: " + result.Text;
-                Barcode barcode = new Barcode
+                if (!check)
                 {
-                    Id = result.Text,
-                    Icon = validateBarcodeModel.Kegs.Partners.Count > 1 ? "validationerror.png" : "validationquestion.png"
-                };
-                    var partnerTable = (from partner in validateBarcodeModel.Kegs.Partners
-                                        select new PartnerTable()
-                                        {
-                                            Barcode = validateBarcodeModel.Kegs.Partners.FirstOrDefault().Kegs.FirstOrDefault().Barcode,
-                                            ParentPartnerId = partner.ParentPartnerId,
-                                            Address = partner.Address,
-                                            Address1 = partner.Address1,
-                                            City = partner.City,
-                                            CompanyNo = partner.CompanyNo,
-                                            Country = partner.Country,
-                                            FullName = partner.FullName,
-                                            IsActive = partner.IsActive,
-                                            IsInternal = partner.IsInternal,
-                                            IsShared = partner.IsShared,
-                                            Lat = partner.Lat,
-                                            LocationCode = partner.LocationCode,
-                                            LocationStatus = partner.LocationStatus,
-                                            Lon = partner.Lon,
-                                            MasterCompanyId = partner.MasterCompanyId,
-                                            ParentPartnerName = partner.ParentPartnerName,
-                                            PartnerId = partner.PartnerId,
-                                            PartnershipIsActive = partner.PartnershipIsActive,
-                                            PartnerTypeCode = partner.PartnerTypeCode,
-                                            PartnerTypeName = partner.PartnerTypeName,
-                                            PhoneNumber = partner.PhoneNumber,
-                                            PostalCode = partner.PostalCode,
-                                            SourceKey = partner.SourceKey,
-                                            State = partner.State
-                                        }).ToList();
-
-                    try
-                    {
-                        var rowsAffected = await SQLiteServiceClient.Db.UpdateAllAsync(partnerTable);
-                        if (rowsAffected == 0)
-                        {
-                            // The item does not exists in the database so lets insert it
-                            await SQLiteServiceClient.Db.InsertAllAsync(partnerTable);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        await SQLiteServiceClient.Db.InsertAllAsync(partnerTable);
-                        Debug.WriteLine(ex.Message);
-                    }
-
-                    BarcodeCollection.Add(barcode); 
+                    title.Text = "Last scan: " + result.Text;
+                    await ValidateBarcodeInsertIntoLocalDB(result.Text);
                 }
             });
 
             await Application.Current.MainPage.Navigation.PushModalAsync(scanPage);
+        }
+
+        private async System.Threading.Tasks.Task ValidateBarcodeInsertIntoLocalDB(string barcodeId)
+        {
+            ValidateBarcodeModel validateBarcodeModel = await _moveService.GetValidateBarcodeAsync(Configuration.SessionId, barcodeId);
+
+            Barcode barcode = new Barcode
+            {
+                Id = barcodeId,
+                Icon = validateBarcodeModel.Kegs.Partners.Count > 1 ? "validationerror.png" : "validationquestion.png",
+                Tags = Tags
+            };
+            var partnerTable = (from partner in validateBarcodeModel.Kegs.Partners
+                                select new ValidatePartnerModel()
+                                {
+                                    Contents = validateBarcodeModel.Kegs.Contents.FirstOrDefault(),
+                                    Size = validateBarcodeModel.Kegs.Sizes.FirstOrDefault(),
+                                    Batch = validateBarcodeModel.Kegs.Batches.FirstOrDefault(),
+                                    Location = validateBarcodeModel.Kegs.Locations.FirstOrDefault().Name,
+                                    Barcode = validateBarcodeModel.Kegs.Partners.FirstOrDefault().Kegs.FirstOrDefault().Barcode,
+                                    ParentPartnerId = partner.ParentPartnerId,
+                                    Address = partner.Address,
+                                    Address1 = partner.Address1,
+                                    City = partner.City,
+                                    CompanyNo = partner.CompanyNo ?? 0,
+                                    Country = partner.Country,
+                                    FullName = partner.FullName,
+                                    IsActive = partner.IsActive,
+                                    IsInternal = partner.IsInternal,
+                                    IsShared = partner.IsShared,
+                                    Lat = partner.Lat,
+                                    LocationCode = partner.LocationCode,
+                                    LocationStatus = partner.LocationStatus,
+                                    Lon = partner.Lon,
+                                    MasterCompanyId = partner.MasterCompanyId,
+                                    ParentPartnerName = partner.ParentPartnerName,
+                                    PartnerId = partner.PartnerId,
+                                    PartnershipIsActive = partner.PartnershipIsActive,
+                                    PartnerTypeCode = partner.PartnerTypeCode,
+                                    PartnerTypeName = partner.PartnerTypeName,
+                                    PhoneNumber = partner.PhoneNumber,
+                                    PostalCode = partner.PostalCode,
+                                    SourceKey = partner.SourceKey,
+                                    State = partner.State
+                                }).ToList();
+
+            try
+            {
+                string tempBarcodeId = validateBarcodeModel.Kegs.Partners.FirstOrDefault().Kegs.FirstOrDefault().Barcode;
+                var rowsAffected = await SQLiteServiceClient.Db.Table<ValidatePartnerModel>().Where(x => x.Barcode == tempBarcodeId).ToListAsync();
+                if (rowsAffected.Count == 0)
+                {
+                    // The item does not exists in the database so lets insert it
+                    await SQLiteServiceClient.Db.InsertAllAsync(partnerTable);
+                }
+                else
+                    await SQLiteServiceClient.Db.UpdateAllAsync(partnerTable);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+
+            var isNew = BarcodeCollection.ToList().Any(x => x.Id == barcode.Id);
+            if (!isNew)
+                BarcodeCollection.Add(barcode);
         }
 
         #endregion

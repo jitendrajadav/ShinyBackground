@@ -1,14 +1,11 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Ioc;
 using System;
-using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
     public class AddTagsViewModel : ViewModelBase
     {
-
         #region Properties
 
         #region ProductionDate
@@ -18,7 +15,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string ProductionDatePropertyName = "ProductionDate";
 
-        private DateTime _ProductionDate = DateTime.Now;
+        private DateTime _ProductionDate = DateTime.Today;
 
         /// <summary>
         /// Sets and gets the ProductionDate property.
@@ -91,19 +88,13 @@ namespace KegID.ViewModel
 
         public AddTagsViewModel()
         {
-            SaveCommand = new RelayCommand(SaveCommandRecieverAsync);
+
         }
 
         #endregion
 
         #region Methods
-        private async void SaveCommandRecieverAsync()
-        {
-            SimpleIoc.Default.GetInstance<MoveViewModel>().MoreInfoTitle = "BestBy Date : " + BestByDateDate.ToShortDateString() + " Production Date " + ProductionDate.ToShortDateString();
-            await Application.Current.MainPage.Navigation.PopModalAsync();
-        }
 
         #endregion
-
     }
 }

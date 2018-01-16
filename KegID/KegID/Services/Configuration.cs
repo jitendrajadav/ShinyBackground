@@ -28,7 +28,8 @@ namespace KegID.Services
         public const string GetPartnerUrl = ServiceUrl + "Partner/?sessionId={0}";
         public const string GetValidateBarcodeUrl = ServiceUrl + "validation/?barcode={0}&sessionId={1}";
         public const string GetBrandUrl = ServiceUrl + "brand/?sessionId={0}";
-
+        public const string GetManifestUrl = ServiceUrl + "Manifest/?sessionId={0}";
+        
 
         /// <summary>
         /// Fill Service Url
