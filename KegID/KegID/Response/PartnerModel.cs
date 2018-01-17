@@ -1,10 +1,10 @@
-﻿using SQLite;
+﻿using SQLite.Net.Attributes;
 
 namespace KegID.Response
 {
     public class PartnerModel
     {
-        [PrimaryKey, AutoIncrement]
+        [PrimaryKey]
         public string PartnerId { get; set; }
         public string FullName { get; set; }
         public string Address { get; set; }

@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KegID.View.ManifestsView"
+             xmlns:local="clr-namespace:KegID"
+             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Manifests}">
+    <ContentPage.Content>
+        
+        <Grid
+            Margin="10,0,10,0">
+            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Button
+                Text="Home"
+                VerticalOptions="Center" 
+                HorizontalOptions="Start"
+                Command="{Binding HomeCommand}"/>
+
+            <Label 
+                Text="Manifests"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" />
+
+            <Button
+                HorizontalOptions="End"  
+                VerticalOptions="Center"
+                BorderRadius="5"
+                WidthRequest="50"
+                BorderWidth="0"
+                Command="{Binding ActionSearchCommand}"
+                BackgroundColor="White" >
+                <Button.Image>
+                    <OnPlatform x:TypeArguments="FileImageSource">
+                        <OnPlatform.iOS>
+                            <FileImageSource File="actionsearch.png"/>
+                        </OnPlatform.iOS>
+                        <OnPlatform.Android>
+                            <FileImageSource File="actionsearch.png"/>
+                        </OnPlatform.Android>
+                        <OnPlatform.WinPhone>
+                            <FileImageSource File="Assets/actionsearch.png"/>
+                        </OnPlatform.WinPhone>
+                    </OnPlatform>
+                </Button.Image>
+            </Button>
+            
+            <BoxView
+                Margin="-10,0,-10,0"
+                Grid.Row="1"
+                BackgroundColor="Black"
+                HeightRequest="1"
+                VerticalOptions="Start"
+                HorizontalOptions="FillAndExpand"/>
+
+            <StackLayout
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                Grid.Row="2"
+                Orientation="Horizontal">
+                
+                <Button
+                    Command="{Binding QueuedCommand}"
+                    Text="Queued"/>
+
+                <Button
+                    Command="{Binding DraftCommand}"
+                    Text="Draft"/>
+                
+                <Button
+                    Command="{Binding RecentCommand}"
+                    Text="Recent"/>
+
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

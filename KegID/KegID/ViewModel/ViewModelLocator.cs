@@ -33,6 +33,10 @@ namespace KegID.ViewModel
             SimpleIoc.Default.Register<ValidateBarcodeViewModel>();
             SimpleIoc.Default.Register<PrinterSettingViewModel>();
             SimpleIoc.Default.Register<ScanInfoViewModel>();
+            SimpleIoc.Default.Register<ManifestsViewModel>();
+            SimpleIoc.Default.Register<SearchManifestsViewModel>();
+            SimpleIoc.Default.Register<SearchedManifestsListViewModel>();
+            SimpleIoc.Default.Register<ManifestDetailViewModel>();
 
         }
         #endregion
@@ -406,6 +410,78 @@ namespace KegID.ViewModel
             get
             {
                 return SimpleIoc.Default.GetInstance<ScanInfoViewModel>();
+            }
+        }
+
+        #endregion
+
+        #region Manifests
+
+        /// <summary>
+        /// Gets the Manifests property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public ManifestsViewModel Manifests
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<ManifestsViewModel>();
+            }
+        }
+
+        #endregion
+
+        #region SearchManifests
+
+        /// <summary>
+        /// Gets the SearchManifests property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public SearchManifestsViewModel SearchManifests
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<SearchManifestsViewModel>();
+            }
+        }
+
+        #endregion
+
+        #region SearchedManifestsList
+
+        /// <summary>
+        /// Gets the SearchedManifestsList property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public SearchedManifestsListViewModel SearchedManifestsList
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<SearchedManifestsListViewModel>();
+            }
+        }
+
+        #endregion
+
+        #region ManifestDetail
+
+        /// <summary>
+        /// Gets the ManifestDetail property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public ManifestDetailViewModel ManifestDetail
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<ManifestDetailViewModel>();
             }
         }
 

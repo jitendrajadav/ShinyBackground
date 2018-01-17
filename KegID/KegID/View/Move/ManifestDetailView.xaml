@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:KegID"
+             x:Class="KegID.View.ManifestDetailView"
+             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=ManifestDetail}">
+    <ContentPage.Content>
+        <Grid
+            Margin="10,0,10,0">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+            <Button
+                BackgroundColor="Transparent"
+                TextColor="Blue"
+                VerticalOptions="Start"
+                HorizontalOptions="Center"
+                Text="Manifests"
+                Command="{Binding ManifestsCommand}"/>
+
+            <Label 
+                Text="Manifest"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" />
+
+            <Button
+                HorizontalOptions="End"                  
+                BorderRadius="5"
+                WidthRequest="50"
+                BorderWidth="0"
+                Command="{Binding ShareCommand}"
+                BackgroundColor="White" >
+                <Button.Image>
+                    <OnPlatform x:TypeArguments="FileImageSource">
+                        <OnPlatform.iOS>
+                            <FileImageSource File="actionshare.png"/>
+                        </OnPlatform.iOS>
+                        <OnPlatform.Android>
+                            <FileImageSource File="actionshare.png"/>
+                        </OnPlatform.Android>
+                        <OnPlatform.WinPhone>
+                            <FileImageSource File="Assets/actionshare.png"/>
+                        </OnPlatform.WinPhone>
+                    </OnPlatform>
+                </Button.Image>
+            </Button>
+
+            <BoxView
+                Margin="-10,0,-10,0"
+                Grid.Row="1"
+                BackgroundColor="Black"
+                VerticalOptions="FillAndExpand"
+                HorizontalOptions="FillAndExpand"/>
+
+            <Label 
+                Grid.Row="1"
+                TextColor="White"
+                Text="{Binding TrackingNumber}"
+                VerticalOptions="Start" 
+                HorizontalOptions="Center" />
+
+            <Label 
+                Grid.Row="2"
+                Text="To:"
+                VerticalOptions="Start" 
+                HorizontalOptions="Center" />
+            
+            <Label 
+                Grid.Row="3"
+                Text="{Binding ManifestTo}"
+                VerticalOptions="Start" 
+                HorizontalOptions="Center" />
+
+            <Label 
+                Grid.Row="4"
+                Text="Shipping date:"
+                VerticalOptions="Start" 
+                HorizontalOptions="Center" />
+
+            <Label 
+                Grid.Row="1"
+                TextColor="White"
+                Text="{Binding ShippingDate}"
+                VerticalOptions="Start" 
+                HorizontalOptions="Center" />
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

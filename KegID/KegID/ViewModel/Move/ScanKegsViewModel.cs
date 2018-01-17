@@ -14,6 +14,7 @@ using KegID.SQLiteClient;
 using System.Diagnostics;
 using KegID.Common;
 using GalaSoft.MvvmLight.Ioc;
+using System.Threading.Tasks;
 
 namespace KegID.ViewModel
 {
@@ -221,35 +222,41 @@ namespace KegID.ViewModel
             AddTagsCommand = new RelayCommand(AddTagsCommandRecieverAsync);
             LabelItemTappedCommand = new RelayCommand<Barcode>((model) => LabelItemTappedCommandRecieverAsync(model));
             IconItemTappedCommand = new RelayCommand<Barcode>((model) => IconItemTappedCommandRecieverAsync(model));
-            LoadBrandAsync();
+            LoadBrand();
+        }
+
+        public async void LoadBrand()
+        {
+            BrandCollection = await LoadBrandAsync();
         }
 
         #endregion
 
         #region Methods
-        private async void LoadBrandAsync()
+        public async Task<IList<BrandModel>> LoadBrandAsync()
         {
-            var model = await SQLiteServiceClient.Db.Table<BrandModel>().ToListAsync();
+            IList<BrandModel> model = await SQLiteServiceClient.Db.Table<BrandModel>().ToListAsync();
             try
             {
                 if (model.Count > 0)
-                    BrandCollection = model;
+                    return model;
                 else
                 {
                     Loader.StartLoading();
-                    BrandCollection = await _moveService.GetBrandListAsync(Configuration.SessionId);
-                    await SQLiteServiceClient.Db.InsertAllAsync(BrandCollection);
+                    model = await _moveService.GetBrandListAsync(Configuration.SessionId);
+                    await SQLiteServiceClient.Db.InsertAllAsync(model);
                 }
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
+                return null;
             }
             finally
             {
-                model = null;
                 Loader.StopLoading();
             }
+            return model;
         }
 
         private async void LabelItemTappedCommandRecieverAsync(Barcode model)
@@ -281,7 +288,7 @@ namespace KegID.ViewModel
             }
         }
 
-        private static async System.Threading.Tasks.Task NavigateToValidatePartner(Barcode model)
+        private static async Task NavigateToValidatePartner(Barcode model)
         {
             await Application.Current.MainPage.Navigation.PushModalAsync(new ValidateBarcodeView());
             SimpleIoc.Default.GetInstance<ValidateBarcodeViewModel>().MultipleKegsTitle = string.Format(" Multiple kgs were found with \n barcode {0}. \n Please select the correct one.", model.Id);
@@ -295,6 +302,11 @@ namespace KegID.ViewModel
 
         private async void DoneCommandRecieverAsync()
         {
+            if (BarcodeCollection.Count > 1)
+                SimpleIoc.Default.GetInstance<MoveViewModel>().AddKegs = string.Format("{0} Items", BarcodeCollection.Count);
+            else if (BarcodeCollection.Count == 1)
+                SimpleIoc.Default.GetInstance<MoveViewModel>().AddKegs = string.Format("{0} Item", BarcodeCollection.Count);
+
             await Application.Current.MainPage.Navigation.PopModalAsync();
         }
 
@@ -364,7 +376,7 @@ namespace KegID.ViewModel
             await Application.Current.MainPage.Navigation.PushModalAsync(scanPage);
         }
 
-        private async System.Threading.Tasks.Task ValidateBarcodeInsertIntoLocalDB(string barcodeId)
+        private async Task ValidateBarcodeInsertIntoLocalDB(string barcodeId)
         {
             ValidateBarcodeModel validateBarcodeModel = await _moveService.GetValidateBarcodeAsync(Configuration.SessionId, barcodeId);
 

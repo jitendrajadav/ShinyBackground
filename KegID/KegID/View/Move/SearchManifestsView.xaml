@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KegID.View.SearchManifestsView"
+             xmlns:local="clr-namespace:KegID"
+             xmlns:behaviors="clr-namespace:KegID.Behaviors"
+             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=SearchManifests}">
+    <ContentPage.Content>
+        <Grid
+            Margin="10,0,10,0">
+            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+           
+            <Button
+                BackgroundColor="Transparent"
+                TextColor="Blue"
+                Grid.ColumnSpan="2"
+                HorizontalOptions="Start"
+                Text="Manifests"
+                Command="{Binding ManifestsCommand}"/>
+
+            <Label 
+                Grid.ColumnSpan="2"
+                Text="Search Manifests"
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="CenterAndExpand" />
+
+            <BoxView
+                Margin="-10,0,-10,0"
+                Grid.Row="1"
+                Grid.ColumnSpan="2"
+                BackgroundColor="Black"
+                HeightRequest="1"
+                VerticalOptions="Start"
+                HorizontalOptions="FillAndExpand"/>
+
+            <Entry
+                Grid.Row="2"
+                Grid.ColumnSpan="2"
+                Text="{Binding TrackingNumber}"
+                Placeholder="Tracking number"/>
+
+            <Entry
+                Text="{Binding Barcode}"
+                Grid.Row="3"
+                Grid.ColumnSpan="2"
+                Placeholder="Barcode"/>
+
+            <Entry
+                Text="{Binding ManifestSender}"
+                Grid.Row="4"
+                Grid.ColumnSpan="2"
+                Placeholder="Manifest sender">
+                <Entry.Behaviors>
+                    <behaviors:EntryEventToCommandBehavior
+                        EventName="Focused"
+                      Command="{Binding ManifestSenderCommand}"/>
+                </Entry.Behaviors>
+            </Entry>
+
+            <Entry
+                Text="{Binding ManifestDestination}"
+                Grid.Row="5"
+                Grid.ColumnSpan="2"
+                Placeholder="Manifest destination">
+                <Entry.Behaviors>
+                    <behaviors:EntryEventToCommandBehavior
+                        EventName="Focused"
+                      Command="{Binding ManifestDestinationCommand}"/>
+                </Entry.Behaviors>
+            </Entry>
+
+            <Entry
+                Text="{Binding Referencekey}"
+                Grid.Row="6"
+                Grid.ColumnSpan="2"
+                Placeholder="Reference key"/>
+
+            <StackLayout
+                Grid.Row="6"
+                Orientation="Horizontal">
+                
+                <Label
+                    Text="From"/>
+                
+                <DatePicker/>
+            </StackLayout>
+
+            <StackLayout
+                Grid.Row="6"
+                Grid.Column="1"
+                Orientation="Horizontal">
+
+                <Label
+                    Text="To"/>
+
+                <DatePicker/>
+            </StackLayout>
+
+            <Button
+                Grid.Column="1"
+                Grid.Row="7"
+                HorizontalOptions="End"
+                Text="Search"
+                Command="{Binding SearchCommand}"/>
+            
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

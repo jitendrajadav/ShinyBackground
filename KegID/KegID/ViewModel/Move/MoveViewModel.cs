@@ -1,8 +1,13 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using KegID.Response;
 using KegID.Services;
+using KegID.SQLiteClient;
 using KegID.View;
+using Plugin.Geolocator.Abstractions;
 using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text.RegularExpressions;
 using Xamarin.Forms;
 
@@ -10,6 +15,13 @@ namespace KegID.ViewModel
 {
     public class MoveViewModel : ViewModelBase
     {
+
+        int count;
+        bool tracking;
+        Position savedPosition;
+        public ObservableCollection<Position> Positions { get; } = new ObservableCollection<Position>();
+
+
         #region Properties
         public IMoveService _moveService { get; set; }
 
@@ -47,35 +59,35 @@ namespace KegID.ViewModel
 
         #endregion
 
-        #region DestinationButtonTitle
+        #region Destination
 
         /// <summary>
-        /// The <see cref="DestinationButtonTitle" /> property's name.
+        /// The <see cref="Destination" /> property's name.
         /// </summary>
-        public const string DestinationButtonTitlePropertyName = "DestinationButtonTitle";
+        public const string DestinationPropertyName = "Destination";
 
-        private string _DestinationButtonTitle = "Select a location";
+        private PartnerModel _destination =  new PartnerModel();
 
         /// <summary>
-        /// Sets and gets the DestinationButtonTitle property.
+        /// Sets and gets the Destination property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public string DestinationButtonTitle
+        public PartnerModel Destination
         {
             get
             {
-                return _DestinationButtonTitle;
+                return _destination;
             }
 
             set
             {
-                if (_DestinationButtonTitle == value)
+                if (_destination == value)
                 {
                     return;
                 }
 
-                _DestinationButtonTitle = value;
-                RaisePropertyChanged(DestinationButtonTitlePropertyName);
+                _destination = value;
+                RaisePropertyChanged(DestinationPropertyName);
             }
         }
 
@@ -115,6 +127,42 @@ namespace KegID.ViewModel
 
         #endregion
 
+        #region AddKegs
+
+        /// <summary>
+        /// The <see cref="AddKegs" /> property's name.
+        /// </summary>
+        public const string AddKegsPropertyName = "AddKegs";
+
+        private string _AddKegs = "Add Kegs";
+
+        /// <summary>
+        /// Sets and gets the AddKegs property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public string AddKegs
+        {
+            get
+            {
+                return _AddKegs;
+            }
+
+            set
+            {
+                if (_AddKegs == value)
+                {
+                    return;
+                }
+
+                _AddKegs = value;
+                RaisePropertyChanged(AddKegsPropertyName);
+            }
+        }
+
+        #endregion
+
+        public string BrewersAddress { get; set; }
+
         #endregion
 
         #region Commands
@@ -141,16 +189,45 @@ namespace KegID.ViewModel
             MoreInfoCommand = new RelayCommand(MoreInfoCommandRecieverAsync);
             ScanKegsCommad = new RelayCommand(ScanKegsCommadRecieverAsync);
             SaveDraftCommand = new RelayCommand(SaveDraftCommandRecieverAsync);
-        }
-
-        private async void SaveDraftCommandRecieverAsync()
-        {
-            var manifest = await _moveService.GetManifestListAsync(Configuration.SessionId);
+            Destination.FullName = "Select a location";
         }
 
         #endregion
 
         #region Methods
+
+        private async void SaveDraftCommandRecieverAsync()
+        {
+            ManifestModel manifestModel = new ManifestModel()
+            {
+                ClosedBatches = 0,
+                DestinationId = Destination.FullName,
+                EffectiveDate = DateTime.Today,
+                EventTypeId = 0,
+                GS1GSIN = "",
+                IsSendManifest = true,
+                KegOrderId = "",
+                Latitude = 12.20,
+                Longitude = 15.22,
+                NewBatch = "",
+                NewBatches = 0,
+                NewPallets = 0,
+                OriginId = Destination.Address,
+                PostedDate = DateTime.Today,
+                SourceKey = "",
+                SubmittedDate = DateTime.Today,
+                Tags = Tags,
+                ManifestItems = Convert.ToInt64(AddKegs.Split(' ').FirstOrDefault()),
+                Id = 0,
+                ManifestId = MenifestRefId.Split(':').LastOrDefault().Trim(),
+                ReceiverId = Destination.FullName,
+                SenderId = Destination.Address,
+                ShipDate = DateTime.Today,
+            };
+            await SQLiteServiceClient.Db.InsertAsync(manifestModel);
+
+            //var manifest = await _moveService.GetManifestListAsync(Configuration.SessionId);
+        }
 
         private async void ScannedCommandRecieverAsync()
         {

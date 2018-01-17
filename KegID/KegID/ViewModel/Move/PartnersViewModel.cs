@@ -220,7 +220,8 @@ namespace KegID.ViewModel
         {
             if (model != null)
             {
-                SimpleIoc.Default.GetInstance<MoveViewModel>().DestinationButtonTitle = model.FullName;
+                SimpleIoc.Default.GetInstance<MoveViewModel>().Destination = model;
+
                 await Application.Current.MainPage.Navigation.PopModalAsync();
             }
         }

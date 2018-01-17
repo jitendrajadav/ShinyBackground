@@ -54,7 +54,7 @@
                 TextColor="Blue"
                 Margin="10,0,0,0"
                 HorizontalOptions="Start"
-                Text="{Binding DestinationButtonTitle}"
+                Text="{Binding Path=Destination.FullName}"
                 Grid.Row="2"
                 Command="{Binding SelectLocationCommand}"/>
 
@@ -91,7 +91,7 @@
 
             <Button
                 Margin="10,0,0,0"
-                Text="Add Kegs"
+                Text="{Binding AddKegs}"
                 HorizontalOptions="Start"
                 BackgroundColor="Transparent"
                 TextColor="Blue"

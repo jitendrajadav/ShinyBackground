@@ -1,10 +1,10 @@
-﻿using SQLite;
+﻿using SQLite.Net.Attributes;
 
 namespace KegID.Response
 {
     public class BrandModel
     {
-        [PrimaryKey, AutoIncrement]
+        [PrimaryKey]
         public string BrandId { get; set; }
         public string BrandName { get; set; }
         public string StyleName { get; set; }

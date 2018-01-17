@@ -21,22 +21,24 @@ namespace KegID.View
                 {
                     if (SimpleIoc.Default.GetInstance<ScanKegsViewModel>().IsFromScanned)
                     {
-                        OnAddMoreTagsClicked("Asset Type");
-                        OnAddMoreTagsClicked("Size");
-                        OnAddMoreTagsClicked("Contents");
-                        OnAddMoreTagsClicked("Batch");
+                        OnAddMoreTagsClickedAsync("Asset Type");
+                        OnAddMoreTagsClickedAsync("Size");
+                        OnAddMoreTagsClickedAsync("Contents");
+                        OnAddMoreTagsClickedAsync("Batch");
                     }
                     else
                     {
-                        OnAddMoreTagsClicked("Asset Type");
-                        OnAddMoreTagsClicked("Size");
+                        OnAddMoreTagsClickedAsync("Asset Type");
+                        OnAddMoreTagsClickedAsync("Size");
                     }
                 }
             }
         }
 
-        void OnAddMoreTagsClicked(string title)
+        async void OnAddMoreTagsClickedAsync(string title)
         {
+            dynamic valueEntry;
+
             grdTag.RowDefinitions.Add(new RowDefinition { Height = new GridLength(0, GridUnitType.Auto) });
 
             Label nameEntry = new Label()
@@ -44,11 +46,46 @@ namespace KegID.View
                 VerticalOptions = LayoutOptions.Center,
                 Text = title
             };
-
-            Entry valueEntry = new Entry()
+            
+            if (!string.IsNullOrEmpty(title))
             {
-                VerticalOptions = LayoutOptions.Center,
-            };
+                valueEntry = new Picker()
+                {
+                    VerticalOptions = LayoutOptions.Center,
+                };
+
+                switch (title)
+                {
+                    case "Asset Type":
+                        valueEntry.Items.Add("Keg");
+                        valueEntry.Items.Add("Tap Handle");
+                        break;
+
+                    case "Size":
+                        valueEntry.Items.Add("1/2 bbl");
+                        valueEntry.Items.Add("1/4 bbl");
+                        valueEntry.Items.Add("1/6 bbl");
+                        valueEntry.Items.Add("30 L");
+                        valueEntry.Items.Add("40 L");
+                        valueEntry.Items.Add("50 L");
+                        break;
+
+                    case "Contents":
+                        var result = await SimpleIoc.Default.GetInstance<ScanKegsViewModel>().LoadBrandAsync();
+                        valueEntry.ItemsSource = result.ToList();
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                valueEntry = new Entry()
+                {
+                    VerticalOptions = LayoutOptions.Center,
+                }; 
+            }
 
             Button removeButton = new Button()
             {
@@ -135,6 +172,11 @@ namespace KegID.View
                             strValue = strValue + ((Label)child).Text;
                         else if (child.GetType() == typeof(DatePicker))
                             strValue = strValue + ((DatePicker)child).Date + "; ";
+                        else if (child.GetType() == typeof(Picker))
+                        {
+                            if (((Picker)child).SelectedItem!= null)
+                                strValue = strValue + ((Picker)child).SelectedItem + "; ";
+                        }
                         else if (child.GetType() == typeof(Entry))
                         {
                             if (!string.IsNullOrWhiteSpace(((Entry)child).Text))
@@ -142,9 +184,16 @@ namespace KegID.View
                         }
                     }
 
-                    if (strValue.Split(' ').Count() > 2)
-                        sb.Append(strValue);
-
+                    if (strValue.Contains(":"))
+                    {
+                        if (strValue.Split(' ').Count() > 3)
+                            sb.Append(strValue);
+                    }
+                    else
+                    {
+                        if (strValue.Split(' ').Count() > 2)
+                            sb.Append(strValue);
+                    }
                     strValue = string.Empty;
                 }
 

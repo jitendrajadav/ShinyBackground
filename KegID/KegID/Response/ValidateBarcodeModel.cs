@@ -1,5 +1,4 @@
-﻿using SQLite;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace KegID.Response
 {
