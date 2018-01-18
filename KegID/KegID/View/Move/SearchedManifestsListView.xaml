@@ -35,8 +35,8 @@
                 HorizontalOptions="FillAndExpand"/>
 
             <ListView
-                Margin="10,0,10,0"
-                x:Name="lstPartners"
+                Margin="-10,0,-10,0"
+                x:Name="lstSearchManifest"
                 Grid.Row="2"
                 SeparatorVisibility="Default"
                 SeparatorColor="Black"
@@ -59,7 +59,41 @@
 
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <TextCell Text="{Binding FullName}" Detail="{Binding Address}" />
+                        <ViewCell>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="70*"/>
+                                    <ColumnDefinition Width="30*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Label
+                                    TextColor="Blue"
+                                    LineBreakMode="TailTruncation"
+                                    Text="{Binding DestinationId}"/>
+
+                                <Label
+                                    TextColor="Blue"
+                                    Grid.Row="1"
+                                    Text="{Binding SubmittedDate, StringFormat='{0:dd/MM/yy}'}"/>
+
+                                <Label
+                                    TextColor="Blue"
+                                    HorizontalOptions="End"
+                                    Grid.Column="1"
+                                    Text="{Binding ManifestId, StringFormat='# {0}'}"/>
+
+                                <Label
+                                    TextColor="Blue"
+                                    HorizontalOptions="End"
+                                    Grid.Column="1"
+                                    Grid.Row="1"
+                                    Text="{Binding ManifestItems, StringFormat='{0} Items'}"/>
+                            </Grid>
+                        </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
 

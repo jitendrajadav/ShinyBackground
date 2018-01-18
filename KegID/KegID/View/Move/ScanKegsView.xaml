@@ -96,6 +96,7 @@
             <Entry
                 Grid.Row="3"
                 Grid.Column="1"
+                VerticalOptions="End"
                 Placeholder="Batch"/>
 
             <Button

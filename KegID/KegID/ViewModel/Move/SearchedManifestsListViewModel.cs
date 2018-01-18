@@ -1,5 +1,8 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Ioc;
+using KegID.Response;
+using KegID.SQLiteClient;
 using KegID.View;
 using System.Collections.Generic;
 using Xamarin.Forms;
@@ -17,13 +20,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string SearchManifestsCollectionPropertyName = "SearchManifestsCollection";
 
-        private IList<string> _SearchManifestsCollection = null;
+        private IList<ManifestModel> _SearchManifestsCollection = null;
 
         /// <summary>
         /// Sets and gets the SearchManifestsCollection property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public IList<string> SearchManifestsCollection
+        public IList<ManifestModel> SearchManifestsCollection
         {
             get
             {
@@ -48,7 +51,7 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand<string> ItemTappedCommand { get; set; }
+        public RelayCommand<ManifestModel> ItemTappedCommand { get; set; }
 
         #endregion
 
@@ -56,18 +59,27 @@ namespace KegID.ViewModel
 
         public SearchedManifestsListViewModel()
         {
-            ItemTappedCommand = new RelayCommand<string>((model) => ItemTappedCommandRecieverAsync(model));
-        }
-
-        private async void ItemTappedCommandRecieverAsync(string model)
-        {
-           await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestDetailView());
+            ItemTappedCommand = new RelayCommand<ManifestModel>((model) => ItemTappedCommandRecieverAsync(model));
+            LoadDraftManifestAsync();
         }
 
         #endregion
 
         #region Methods
+        private async void LoadDraftManifestAsync()
+        {
+            SearchManifestsCollection = await SQLiteServiceClient.Db.Table<ManifestModel>().ToListAsync();
+        }
 
+        private async void ItemTappedCommandRecieverAsync(ManifestModel model)
+        {
+            SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().TrackingNumber = model.ManifestId;
+            SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ManifestTo = model.DestinationId;
+            SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ShippingDate = model.ShipDate;
+            SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().Tags = model.Tags;
+
+            await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestDetailView());
+        }
         #endregion
 
     }

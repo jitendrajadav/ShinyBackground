@@ -21,8 +21,8 @@
             <Button
                 BackgroundColor="Transparent"
                 TextColor="Blue"
-                VerticalOptions="Start"
-                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                HorizontalOptions="Start"
                 Text="Manifests"
                 Command="{Binding ManifestsCommand}"/>
 
@@ -37,7 +37,7 @@
                 WidthRequest="50"
                 BorderWidth="0"
                 Command="{Binding ShareCommand}"
-                BackgroundColor="White" >
+                BackgroundColor="LightGray" >
                 <Button.Image>
                     <OnPlatform x:TypeArguments="FileImageSource">
                         <OnPlatform.iOS>
@@ -63,34 +63,162 @@
             <Label 
                 Grid.Row="1"
                 TextColor="White"
-                Text="{Binding TrackingNumber}"
-                VerticalOptions="Start" 
-                HorizontalOptions="Center" />
+                Text="{Binding TrackingNumber,StringFormat='Tracking #: {0}'}"
+                VerticalOptions="Center" 
+                HorizontalOptions="Start" />
 
             <Label 
                 Grid.Row="2"
                 Text="To:"
-                VerticalOptions="Start" 
-                HorizontalOptions="Center" />
+                VerticalOptions="Center" 
+                HorizontalOptions="Start" />
             
             <Label 
                 Grid.Row="3"
                 Text="{Binding ManifestTo}"
-                VerticalOptions="Start" 
-                HorizontalOptions="Center" />
+                VerticalOptions="Center" 
+                HorizontalOptions="Start" />
 
             <Label 
                 Grid.Row="4"
                 Text="Shipping date:"
-                VerticalOptions="Start" 
-                HorizontalOptions="Center" />
+                VerticalOptions="Center" 
+                HorizontalOptions="Start" />
 
             <Label 
-                Grid.Row="1"
-                TextColor="White"
-                Text="{Binding ShippingDate}"
-                VerticalOptions="Start" 
-                HorizontalOptions="Center" />
+                Grid.Row="5"
+                Text="{Binding ShippingDate,StringFormat='{0:dd/MM/yy}'}"
+                VerticalOptions="Center" 
+                HorizontalOptions="Start" />
+
+            <Grid
+                x:Name="grdContent"
+                Margin="0,30,0,0"
+                RowSpacing="0,0,0,0"
+                ColumnSpacing="0,0,0,0"
+                Grid.Row="6">
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.GridTappedCommand, 
+                                                        Source={x:Reference Name=grdContent}}"
+                                                         CommandParameter="{Binding}"/>
+                </Grid.GestureRecognizers>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="88*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="9*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <BoxView
+                    Grid.Row="0"
+                    Grid.ColumnSpan="5"
+                    BackgroundColor="Black"
+                    HeightRequest="1"
+                    VerticalOptions="Start"
+                    HorizontalOptions="FillAndExpand"/>
+
+                <BoxView
+                    Grid.Row="0"
+                    Grid.RowSpan="7"
+                    BackgroundColor="Black"
+                    WidthRequest="1"
+                    VerticalOptions="FillAndExpand"
+                    HorizontalOptions="Start"/>
+
+                <BoxView
+                    Grid.Row="6"
+                    Grid.ColumnSpan="5"
+                    BackgroundColor="Black"
+                    HeightRequest="1"
+                    VerticalOptions="End"
+                    HorizontalOptions="FillAndExpand"/>
+
+                <BoxView
+                    Grid.Row="0"
+                    Grid.Column="4"
+                    Grid.RowSpan="7"
+                    BackgroundColor="Black"
+                    WidthRequest="1"
+                    VerticalOptions="FillAndExpand"
+                    HorizontalOptions="End"/>
+
+                <Label
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    Grid.ColumnSpan="3"
+                    BackgroundColor="LightGray"
+                    HorizontalOptions="FillAndExpand"
+                    HorizontalTextAlignment="Center"
+                    VerticalTextAlignment="Center"
+                    VerticalOptions="FillAndExpand"
+                    Text="Barcode Blonde"/>
+
+                <BoxView
+                    Grid.Row="3"
+                    Grid.Column="2"
+                    Grid.RowSpan="3"
+                    BackgroundColor="Black"
+                    WidthRequest="1"
+                    VerticalOptions="FillAndExpand"
+                    HorizontalOptions="End"/>
+
+                <BoxView
+                    Grid.Row="2"
+                    Grid.ColumnSpan="4"
+                    BackgroundColor="Black"
+                    HeightRequest="1"
+                    VerticalOptions="Start"
+                    HorizontalOptions="FillAndExpand"/>
+
+                <Label
+                    Grid.Column="1"
+                    Grid.Row="3"
+                    Margin="5,0,0,0"
+                    Text="No size"/>
+
+                <Label
+                    Margin="0,0,5,0"
+                    HorizontalOptions="End"
+                    TextColor="Blue"
+                    Grid.Row="3"
+                    Grid.Column="3"
+                    Text="1"/>
+
+                <BoxView
+                    Grid.Row="4"
+                    Grid.ColumnSpan="4"
+                    BackgroundColor="Black"
+                    HeightRequest="1"
+                    VerticalOptions="Start"
+                    HorizontalOptions="FillAndExpand"/>
+
+                <Label
+                    Margin="5,0,0,0"
+                    Grid.Column="1"
+                    Grid.Row="5"
+                    FontAttributes="Bold"
+                    Text="Total"/>
+
+                <Label
+                    Margin="0,0,5,0"
+                    HorizontalOptions="End"
+                    TextColor="Blue"
+                    Grid.Row="5"
+                    Grid.Column="3"
+                    Text="1"/>
+
+            </Grid>
 
         </Grid>
     </ContentPage.Content>

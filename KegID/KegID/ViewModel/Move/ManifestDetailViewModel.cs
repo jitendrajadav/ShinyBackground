@@ -1,6 +1,7 @@
 ﻿using System;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using KegID.View;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -84,13 +85,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string ShippingDatePropertyName = "ShippingDate";
 
-        private string _ShippingDate = default(string);
+        private DateTime _ShippingDate = DateTime.Today;
 
         /// <summary>
         /// Sets and gets the ShippingDate property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public string ShippingDate
+        public DateTime ShippingDate
         {
             get
             {
@@ -111,12 +112,47 @@ namespace KegID.ViewModel
 
         #endregion
 
+        #region Tags
+
+        /// <summary>
+        /// The <see cref="Tags" /> property's name.
+        /// </summary>
+        public const string TagsPropertyName = "Tags";
+
+        private string _Tags = default(string);
+
+        /// <summary>
+        /// Sets and gets the Tags property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public string Tags
+        {
+            get
+            {
+                return _Tags;
+            }
+
+            set
+            {
+                if (_Tags == value)
+                {
+                    return;
+                }
+
+                _Tags = value;
+                RaisePropertyChanged(TagsPropertyName);
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Commands
 
         public RelayCommand ManifestsCommand { get; set; }
         public RelayCommand ShareCommand { get; set; }
+        public RelayCommand GridTappedCommand { get; set; }
 
         #endregion
 
@@ -126,13 +162,17 @@ namespace KegID.ViewModel
         {
             ManifestsCommand = new RelayCommand(ManifestsCommandRecieverAsync);
             ShareCommand = new RelayCommand(ShareCommandReciever);
-
-            TrackingNumber = string.Format("Tracking #: {0}", 123456);
+            GridTappedCommand = new RelayCommand(GridTappedCommandRecieverAsync);
         }
 
         #endregion
 
         #region Methods
+
+        private async void GridTappedCommandRecieverAsync()
+        {
+           await Application.Current.MainPage.Navigation.PushModalAsync(new ContentTagsView());
+        }
 
         private void ShareCommandReciever()
         {

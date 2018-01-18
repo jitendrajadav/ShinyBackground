@@ -37,6 +37,7 @@ namespace KegID.ViewModel
             SimpleIoc.Default.Register<SearchManifestsViewModel>();
             SimpleIoc.Default.Register<SearchedManifestsListViewModel>();
             SimpleIoc.Default.Register<ManifestDetailViewModel>();
+            SimpleIoc.Default.Register<ContentTagsViewModel>();
 
         }
         #endregion
@@ -482,6 +483,24 @@ namespace KegID.ViewModel
             get
             {
                 return SimpleIoc.Default.GetInstance<ManifestDetailViewModel>();
+            }
+        }
+
+        #endregion
+
+        #region ContentTags
+
+        /// <summary>
+        /// Gets the ContentView property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public ContentTagsViewModel ContentTags
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<ContentTagsViewModel>();
             }
         }
 

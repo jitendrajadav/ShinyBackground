@@ -3,10 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="KegID.View.ManifestsView"
              xmlns:local="clr-namespace:KegID"
+             xmlns:behaviors="clr-namespace:KegID.Behaviors"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Manifests}">
     <ContentPage.Content>
         
         <Grid
+            ColumnSpacing="0"
+            RowSpacing="0"
             Margin="10,0,10,0">
             
             <Grid.RowDefinitions>
@@ -17,6 +20,8 @@
             </Grid.RowDefinitions>
 
             <Button
+                BackgroundColor="Transparent"
+                TextColor="Blue"
                 Text="Home"
                 VerticalOptions="Center" 
                 HorizontalOptions="Start"
@@ -59,24 +64,99 @@
                 HorizontalOptions="FillAndExpand"/>
 
             <StackLayout
+                Spacing="0"
+                Padding="0"
+                Margin="0"
                 HorizontalOptions="Center"
                 VerticalOptions="Center"
                 Grid.Row="2"
                 Orientation="Horizontal">
                 
                 <Button
+                    TextColor="{Binding QueuedTextColor}"
+                    BackgroundColor="{Binding QueuedBackgroundColor}"
                     Command="{Binding QueuedCommand}"
                     Text="Queued"/>
 
                 <Button
+                    TextColor="{Binding DraftTextColor}"
+                    BackgroundColor="{Binding DraftBackgroundColor}"
                     Command="{Binding DraftCommand}"
                     Text="Draft"/>
                 
                 <Button
+                    TextColor="{Binding RecentTextColor}"
+                    BackgroundColor="{Binding RecentBackgroundColor}"
                     Command="{Binding RecentCommand}"
                     Text="Recent"/>
 
             </StackLayout>
+            
+            <ListView
+                Margin="-10,0,-10,0"
+                x:Name="lstManifest"
+                Grid.Row="3"
+                SeparatorVisibility="Default"
+                SeparatorColor="Black"
+                HasUnevenRows="True"
+                CachingStrategy="RecycleElement"
+                ItemsSource="{Binding ManifestCollection}">
+
+                <ListView.Behaviors>
+                    <behaviors:EventToCommandBehavior
+                        EventName="ItemTapped" 
+                        Command="{Binding ItemTappedCommand}"
+                        Converter="{StaticResource ItemTappedConverter}"/>
+
+                    <behaviors:EventToCommandBehavior
+                        EventName="ItemSelected"
+                        Command="{Binding ItemSelectedCommand}"
+                        Converter="{StaticResource SelectedItemConverter}"/>
+
+                </ListView.Behaviors>
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="70*"/>
+                                    <ColumnDefinition Width="30*"/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <Label
+                                    TextColor="Blue"
+                                    LineBreakMode="TailTruncation"
+                                    Text="{Binding DestinationId}"/>
+
+                                <Label
+                                    TextColor="Blue"
+                                    Grid.Row="1"
+                                    Text="{Binding SubmittedDate, StringFormat='{0:dd/MM/yy}'}"/>
+
+                                <Label
+                                    TextColor="Blue"
+                                    HorizontalOptions="End"
+                                    Grid.Column="1"
+                                    Text="{Binding ManifestId, StringFormat='# {0}'}"/>
+
+                                <Label
+                                    TextColor="Blue"
+                                    HorizontalOptions="End"
+                                    Grid.Column="1"
+                                    Grid.Row="1"
+                                    Text="{Binding ManifestItems, StringFormat='{0} Items'}"/>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+
+            </ListView>
+
         </Grid>
     </ContentPage.Content>
 </ContentPage>

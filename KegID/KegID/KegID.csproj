@@ -37,6 +37,9 @@
     <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="MainPage.xaml.cs">
       <DependentUpon>*.xaml</DependentUpon>
     </Compile>
+    <Compile Update="View\Move\ContentTagsView.xaml.cs">
+      <DependentUpon>ContentTagsView.xaml</DependentUpon>
+    </Compile>
     <Compile Update="View\Setting\WhatIsNewView.xaml.cs">
       <DependentUpon>WhatIsNewView.xaml</DependentUpon>
     </Compile>
@@ -47,6 +50,9 @@
 
   <ItemGroup>
     <EmbeddedResource Update="View\Move\AddPartnerView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="View\Move\ContentTagsView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="View\Move\EditAddressView.xaml">

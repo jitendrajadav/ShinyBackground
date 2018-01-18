@@ -92,7 +92,7 @@
                 Placeholder="Reference key"/>
 
             <StackLayout
-                Grid.Row="6"
+                Grid.Row="7"
                 Orientation="Horizontal">
                 
                 <Label
@@ -102,7 +102,7 @@
             </StackLayout>
 
             <StackLayout
-                Grid.Row="6"
+                Grid.Row="7"
                 Grid.Column="1"
                 Orientation="Horizontal">
 
@@ -113,8 +113,10 @@
             </StackLayout>
 
             <Button
+                BackgroundColor="Transparent"
+                TextColor="Blue"
                 Grid.Column="1"
-                Grid.Row="7"
+                Grid.Row="8"
                 HorizontalOptions="End"
                 Text="Search"
                 Command="{Binding SearchCommand}"/>

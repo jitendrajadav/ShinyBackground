@@ -1,10 +1,13 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using KegID.Common;
 using KegID.Response;
 using KegID.Services;
 using KegID.SQLiteClient;
 using KegID.View;
+using Plugin.Geolocator;
 using Plugin.Geolocator.Abstractions;
+using Plugin.Permissions.Abstractions;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -190,6 +193,8 @@ namespace KegID.ViewModel
             ScanKegsCommad = new RelayCommand(ScanKegsCommadRecieverAsync);
             SaveDraftCommand = new RelayCommand(SaveDraftCommandRecieverAsync);
             Destination.FullName = "Select a location";
+            GetGPS();
+           
         }
 
         #endregion
@@ -207,8 +212,8 @@ namespace KegID.ViewModel
                 GS1GSIN = "",
                 IsSendManifest = true,
                 KegOrderId = "",
-                Latitude = 12.20,
-                Longitude = 15.22,
+                Latitude = savedPosition.Latitude,
+                Longitude = savedPosition.Longitude,
                 NewBatch = "",
                 NewBatches = 0,
                 NewPallets = 0,
@@ -225,6 +230,8 @@ namespace KegID.ViewModel
                 ShipDate = DateTime.Today,
             };
             await SQLiteServiceClient.Db.InsertAsync(manifestModel);
+
+            await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestsView());
 
             //var manifest = await _moveService.GetManifestListAsync(Configuration.SessionId);
         }
@@ -252,7 +259,175 @@ namespace KegID.ViewModel
         {
             await Application.Current.MainPage.Navigation.PushModalAsync(new ScanKegsView());
         }
-        
+        private async void LastCached(object sender, EventArgs e)
+        {
+            try
+            {
+                var hasPermission = await Utils.CheckPermissions(Permission.Location);
+                if (!hasPermission)
+                    return;
+
+
+                var locator = CrossGeolocator.Current;
+                locator.DesiredAccuracy = 500;
+                //LabelCached.Text = "Getting gps...";
+
+                var position = await locator.GetLastKnownLocationAsync();
+
+                if (position == null)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Alert", "null cached location :(", "Ok");
+                    return;
+                }
+
+                savedPosition = position;
+                var value = string.Format("Time: {0} \nLat: {1} \nLong: {2} \nAltitude: {3} \nAltitude Accuracy: {4} \nAccuracy: {5} \nHeading: {6} \nSpeed: {7}",
+                    position.Timestamp, position.Latitude, position.Longitude,
+                    position.Altitude, position.AltitudeAccuracy, position.Accuracy, position.Heading, position.Speed);
+
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Uh oh", "Something went wrong, but don't worry we captured for analysis! Thanks.", "OK");
+            }
+            finally
+            {
+            }
+        }
+
+        private async void GetGPS()
+        {
+            try
+            {
+                var hasPermission = await Utils.CheckPermissions(Permission.Location);
+                if (!hasPermission)
+                    return;
+
+                var locator = CrossGeolocator.Current;
+                locator.DesiredAccuracy = 500;
+                //labelGPS.Text = "Getting gps...";
+
+                var position = await locator.GetPositionAsync(TimeSpan.FromSeconds(15), null, true);
+
+                if (position == null)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Alert", "null gps :(", "cancel");
+                    return;
+                }
+                savedPosition = position;
+                var valu = string.Format("Time: {0} \nLat: {1} \nLong: {2} \nAltitude: {3} \nAltitude Accuracy: {4} \nAccuracy: {5} \nHeading: {6} \nSpeed: {7}",
+                    position.Timestamp, position.Latitude, position.Longitude,
+                    position.Altitude, position.AltitudeAccuracy, position.Accuracy, position.Heading, position.Speed);
+
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Uh oh", "Something went wrong, but don't worry we captured for analysis! Thanks.", "OK");
+            }
+            finally
+            {
+                ButtonAddressForPosition();
+            }
+        }
+
+        private async void ButtonAddressForPosition()
+        {
+            try
+            {
+                if (savedPosition == null)
+                    return;
+
+                var hasPermission = await Utils.CheckPermissions(Permission.Location);
+                if (!hasPermission)
+                    return;
+
+                var locator = CrossGeolocator.Current;
+
+                var address = await locator.GetAddressesForPositionAsync(savedPosition, "RJHqIE53Onrqons5CNOx~FrDr3XhjDTyEXEjng-CRoA~Aj69MhNManYUKxo6QcwZ0wmXBtyva0zwuHB04rFYAPf7qqGJ5cHb03RCDw1jIW8l");
+                if (address == null || address.Count() == 0)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Alert", "Unable to find address", "Ok");
+                }
+
+                var a = address.FirstOrDefault();
+                var value = $"Address: Thoroughfare = {a.Thoroughfare}\nLocality = {a.Locality}\nCountryCode = {a.CountryCode}\nCountryName = {a.CountryName}\nPostalCode = {a.PostalCode}\nSubLocality = {a.SubLocality}\nSubThoroughfare = {a.SubThoroughfare}";
+
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Uh oh", "Something went wrong, but don't worry we captured for analysis! Thanks.", "OK");
+            }
+            finally
+            {
+            }
+        }
+
+        private async void ButtonTrack_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                var hasPermission = await Utils.CheckPermissions(Permission.Location);
+                if (!hasPermission)
+                    return;
+
+                if (tracking)
+                {
+                    CrossGeolocator.Current.PositionChanged -= CrossGeolocator_Current_PositionChanged;
+                    CrossGeolocator.Current.PositionError -= CrossGeolocator_Current_PositionError;
+                }
+                else
+                {
+                    CrossGeolocator.Current.PositionChanged += CrossGeolocator_Current_PositionChanged;
+                    CrossGeolocator.Current.PositionError += CrossGeolocator_Current_PositionError;
+                }
+
+                if (CrossGeolocator.Current.IsListening)
+                {
+                    await CrossGeolocator.Current.StopListeningAsync();
+                    //labelGPSTrack.Text = "Stopped tracking";
+                    //ButtonTrack.Text = "Start Tracking";
+                    tracking = false;
+                    count = 0;
+                }
+                else
+                {
+                    Positions.Clear();
+                    if (await CrossGeolocator.Current.StartListeningAsync(TimeSpan.FromSeconds(10), 10, true, null))
+                    {
+                        //labelGPSTrack.Text = "Started tracking";
+                        //ButtonTrack.Text = "Stop Tracking";
+                        tracking = true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Uh oh", "Something went wrong, but don't worry we captured for analysis! Thanks.", "OK");
+            }
+        }
+
+        void CrossGeolocator_Current_PositionError(object sender, PositionErrorEventArgs e)
+        {
+
+            var str = "Location error: " + e.Error.ToString();
+        }
+
+        void CrossGeolocator_Current_PositionChanged(object sender, PositionEventArgs e)
+        {
+
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                var position = e.Position;
+                Positions.Add(position);
+                count++;
+                var upate = $"{count} updates";
+                var latinfo = string.Format("Time: {0} \nLat: {1} \nLong: {2} \nAltitude: {3} \nAltitude Accuracy: {4} \nAccuracy: {5} \nHeading: {6} \nSpeed: {7}",
+                    position.Timestamp, position.Latitude, position.Longitude,
+                    position.Altitude, position.AltitudeAccuracy, position.Accuracy, position.Heading, position.Speed);
+
+            });
+        }
+
         #endregion
     }
 }
