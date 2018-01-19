@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight.Ioc;
+using KegID.Response;
 using KegID.ViewModel;
 using System;
 using System.Diagnostics;
@@ -108,14 +109,16 @@ namespace KegID.View
         {
             grdTag.RowDefinitions.Add(new RowDefinition { Height = new GridLength(0, GridUnitType.Auto) });
 
-            Entry nameEntry = new Entry()
+            Entry propertyEntry = new Entry()
             {
                 VerticalOptions = LayoutOptions.Center,
+                 AutomationId = "Property"
             };
 
             Entry valueEntry = new Entry()
             {
                 VerticalOptions = LayoutOptions.Center,
+                AutomationId = "Value"
             };
 
             Button removeButton = new Button()
@@ -127,10 +130,10 @@ namespace KegID.View
             };
             removeButton.Clicked += OnRemoveTagsClicked;
 
-            Grid.SetColumn(nameEntry, 0);
+            Grid.SetColumn(propertyEntry, 0);
             Grid.SetColumn(valueEntry, 1);
             Grid.SetColumn(removeButton, 2);
-            grdTag.Children.Add(nameEntry, 0, grdTag.RowDefinitions.Count - 1);
+            grdTag.Children.Add(propertyEntry, 0, grdTag.RowDefinitions.Count - 1);
             grdTag.Children.Add(valueEntry, 1, grdTag.RowDefinitions.Count - 1);
             grdTag.Children.Add(removeButton, 2, grdTag.RowDefinitions.Count - 1);
         }
@@ -159,52 +162,55 @@ namespace KegID.View
 
         async void SaveTagsClickedAsync(object sender, EventArgs e)
         {
-            StringBuilder sb = new StringBuilder();
-            string strValue = string.Empty;
+            Tag tag = null;
+            string tagsStr = string.Empty;
+
             try
             {
                 var children = grdTag.Children.ToList();
                 for (int i = 0; i < grdTag.RowDefinitions.Count; i++)
                 {
+                    tag = new Tag();
                     foreach (var child in children.Where(child => Grid.GetRow(child) == i))
                     {
                         if (child.GetType() == typeof(Label))
-                            strValue = strValue + ((Label)child).Text;
+                            tag.Property = ((Label)child).Text;
                         else if (child.GetType() == typeof(DatePicker))
-                            strValue = strValue + ((DatePicker)child).Date + "; ";
+                            tag.Value = ((DatePicker)child).Date.ToShortDateString();
                         else if (child.GetType() == typeof(Picker))
                         {
                             if (((Picker)child).SelectedItem!= null)
-                                strValue = strValue + ((Picker)child).SelectedItem + "; ";
+                                tag.Value = ((Picker)child).SelectedItem.ToString() ;
                         }
                         else if (child.GetType() == typeof(Entry))
                         {
                             if (!string.IsNullOrWhiteSpace(((Entry)child).Text))
-                                strValue = strValue + ((Entry)child).Text + " ";
+                            {
+                                if (((Entry)child).AutomationId == "Property")
+                                    tag.Property = ((Entry)child).Text;
+                                else if(((Entry)child).AutomationId == "Value")
+                                    tag.Value = ((Entry)child).Text;
+                            }
                         }
                     }
-
-                    if (strValue.Contains(":"))
+                    if (!string.IsNullOrEmpty(tag.Value) && !string.IsNullOrEmpty(tag.Property))
                     {
-                        if (strValue.Split(' ').Count() > 3)
-                            sb.Append(strValue);
+                        if (Application.Current.MainPage.Navigation.ModalStack[1].GetType() == typeof(ScanKegsView))
+                        {
+                            SimpleIoc.Default.GetInstance<ScanKegsViewModel>().Tags.Add(tag);
+                            SimpleIoc.Default.GetInstance<ScanKegsViewModel>().IsFromScanned = false;
+                        }
+                        else
+                            SimpleIoc.Default.GetInstance<MoveViewModel>().Tags.Add(tag);
                     }
-                    else
-                    {
-                        if (strValue.Split(' ').Count() > 2)
-                            sb.Append(strValue);
-                    }
-                    strValue = string.Empty;
                 }
-
-                if (Application.Current.MainPage.Navigation.ModalStack[1].GetType() == typeof(ScanKegsView))
+                
+                foreach (var item in SimpleIoc.Default.GetInstance<MoveViewModel>().Tags)
                 {
-                    SimpleIoc.Default.GetInstance<ScanKegsViewModel>().Tags = sb.ToString();
-                    SimpleIoc.Default.GetInstance<ScanKegsViewModel>().IsFromScanned = false;
+                    tagsStr = tagsStr + item.Property + ":" + item.Value;
                 }
-                else
-                    SimpleIoc.Default.GetInstance<MoveViewModel>().Tags = sb.ToString();
 
+                SimpleIoc.Default.GetInstance<MoveViewModel>().TagsStr = tagsStr;
                 await Application.Current.MainPage.Navigation.PopModalAsync();
             }
             catch (Exception ex)
@@ -213,7 +219,8 @@ namespace KegID.View
             }
             finally
             {
-                sb.Clear();
+                tag = null;
+                tagsStr = string.Empty;
             }
         }
     }

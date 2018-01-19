@@ -57,7 +57,6 @@ namespace KegID.ViewModel
             {
                     new KegIDMasterPageMenuItem { Id = 0, Title = "Dashboard", MenuIcon="Assets/partners.png", TargetType = typeof(DashboardView)},
                     new KegIDMasterPageMenuItem { Id = 1, Title = "Move", MenuIcon="Assets/movekegs.png",TargetType = typeof(MoveView) },
-                    //new KegIDMasterPageMenuItem { Id = 1, Title = "Move", MenuIcon="Assets/movekegs.png",TargetType = typeof(AddTagsView) },
                     new KegIDMasterPageMenuItem { Id = 2, Title = "Fill", MenuIcon="Assets/fillkegs.png",TargetType = typeof(FillView)},
                     new KegIDMasterPageMenuItem { Id = 3, Title = "Palletize", MenuIcon="Assets/pallet.png",TargetType = typeof(PalletizeView)},
                     new KegIDMasterPageMenuItem { Id = 4, Title = "Maintain", MenuIcon="Assets/repair.png",TargetType = typeof(MaintainView)},

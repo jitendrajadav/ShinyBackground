@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
+using KegID.Common;
 using KegID.Response;
 using KegID.SQLiteClient;
 using KegID.View;
@@ -68,13 +69,24 @@ namespace KegID.ViewModel
         #region Methods
         private async void LoadDraftManifestAsync()
         {
-            SearchManifestsCollection = await SQLiteServiceClient.Db.Table<ManifestModel>().ToListAsync();
+            try
+            {
+                Loader.StartLoading();
+                SearchManifestsCollection = await SQLiteServiceClient.Db.Table<ManifestModel>().ToListAsync();
+            }
+            catch (System.Exception)
+            {
+            }
+            finally
+            {
+                Loader.StopLoading();
+            }
         }
 
         private async void ItemTappedCommandRecieverAsync(ManifestModel model)
         {
             SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().TrackingNumber = model.ManifestId;
-            SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ManifestTo = model.DestinationId;
+            SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ManifestTo = model.DestinationName;
             SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ShippingDate = model.ShipDate;
             SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().Tags = model.Tags;
 

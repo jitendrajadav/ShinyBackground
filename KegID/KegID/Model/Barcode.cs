@@ -1,4 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
+using KegID.Response;
+using System.Collections.Generic;
 
 namespace KegID.Model
 {
@@ -40,19 +42,18 @@ namespace KegID.Model
         #endregion
 
         #region Tags
-
         /// <summary>
         /// The <see cref="Tags" /> property's name.
         /// </summary>
         public const string TagsPropertyName = "Tags";
 
-        private string _tags = default(string);
+        private List<Tag> _tags = new List<Tag>();
 
         /// <summary>
         /// Sets and gets the Tags property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public string Tags
+        public List<Tag> Tags
         {
             get
             {

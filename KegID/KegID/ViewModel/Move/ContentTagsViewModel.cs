@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using KegID.Common;
 using KegID.Response;
 using KegID.SQLiteClient;
 using System;
@@ -66,13 +67,22 @@ namespace KegID.ViewModel
         #region Methods
         public async void LoadContentAsync(string manifestId)
         {
-            ContentCollection = await SQLiteServiceClient.Db.Table<ManifestModel>().Where(x=>x.ManifestId == manifestId).ToListAsync();
+            try
+            {
+                Loader.StartLoading();
+                ContentCollection = await SQLiteServiceClient.Db.Table<ManifestModel>().Where(x => x.ManifestId == manifestId).ToListAsync();
+            }
+            catch (Exception)
+            {
+
+            }
+            finally
+            {
+                Loader.StopLoading();
+            }
         }
 
-        private async void ManifestCommandRecieverAsync()
-        {
-           await Application.Current.MainPage.Navigation.PopModalAsync();
-        }
+        private async void ManifestCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PopModalAsync();
 
         #endregion
     }

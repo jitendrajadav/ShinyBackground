@@ -78,12 +78,47 @@ namespace KegID.ViewModel
 
         #endregion
 
+        #region DestinationTitle
+
+        /// <summary>
+        /// The <see cref="DestinationTitle" /> property's name.
+        /// </summary>
+        public const string DestinationTitlePropertyName = "DestinationTitle";
+
+        private string _DestinationTitle = "Barcode Brewing";
+
+        /// <summary>
+        /// Sets and gets the DestinationTitle property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public string DestinationTitle
+        {
+            get
+            {
+                return _DestinationTitle;
+            }
+
+            set
+            {
+                if (_DestinationTitle == value)
+                {
+                    return;
+                }
+
+                _DestinationTitle = value;
+                RaisePropertyChanged(DestinationTitlePropertyName);
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Commands
         public RelayCommand BatchCommand { get; set; }
-
         public RelayCommand SizeCommand { get; set; }
+        public RelayCommand DestinationCommand { get; set; }
+        public RelayCommand NextCommand { get; set; }
 
         #endregion
 
@@ -92,19 +127,21 @@ namespace KegID.ViewModel
         {
             BatchCommand = new RelayCommand(BatchCommandRecieverAsync);
             SizeCommand = new RelayCommand(SizeCommandRecieverAsync);
+            DestinationCommand = new RelayCommand(DestinationCommandRecieverAsync);
+            NextCommand = new RelayCommand(NextCommandRecieverAsync);
         }
 
         #endregion
 
         #region Methods
-        private async void BatchCommandRecieverAsync()
-        {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new BatchView());
-        }
-        private async void SizeCommandRecieverAsync()
-        {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new SizeView());
-        }
+
+        private async void NextCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new AddPalletsView());
+
+        private async void DestinationCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView());
+
+        private async void BatchCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new BatchView());
+
+        private async void SizeCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new SizeView());
 
         #endregion
     }

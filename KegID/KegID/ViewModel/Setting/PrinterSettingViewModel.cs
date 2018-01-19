@@ -1,5 +1,4 @@
-﻿using System;
-using GalaSoft.MvvmLight;
+﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Xamarin.Forms;
 
@@ -31,15 +30,9 @@ namespace KegID.ViewModel
 
         #region Methods
 
-        private async void CancelCommandRecieverAsync()
-        {
-            await Application.Current.MainPage.Navigation.PopModalAsync();
-        }
+        private async void CancelCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PopModalAsync();
 
-        private async void SaveCommandRecieverAsync()
-        {
-            await Application.Current.MainPage.Navigation.PopModalAsync();
-        }
+        private async void SaveCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PopModalAsync();
 
         #endregion
 

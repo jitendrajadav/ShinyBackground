@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using KegID.Response;
 using KegID.View;
 using Xamarin.Forms;
 
@@ -113,33 +115,32 @@ namespace KegID.ViewModel
         #endregion
 
         #region Tags
-
         /// <summary>
         /// The <see cref="Tags" /> property's name.
         /// </summary>
         public const string TagsPropertyName = "Tags";
 
-        private string _Tags = default(string);
+        private List<Tag> _tags = new List<Tag>();
 
         /// <summary>
         /// Sets and gets the Tags property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public string Tags
+        public List<Tag> Tags
         {
             get
             {
-                return _Tags;
+                return _tags;
             }
 
             set
             {
-                if (_Tags == value)
+                if (_tags == value)
                 {
                     return;
                 }
 
-                _Tags = value;
+                _tags = value;
                 RaisePropertyChanged(TagsPropertyName);
             }
         }
@@ -169,20 +170,14 @@ namespace KegID.ViewModel
 
         #region Methods
 
-        private async void GridTappedCommandRecieverAsync()
-        {
-           await Application.Current.MainPage.Navigation.PushModalAsync(new ContentTagsView());
-        }
+        private async void GridTappedCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new ContentTagsView());
 
         private void ShareCommandReciever()
         {
            
         }
 
-        private async void ManifestsCommandRecieverAsync()
-        {
-          await Application.Current.MainPage.Navigation.PopModalAsync();
-        }
+        private async void ManifestsCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PopModalAsync();
 
         #endregion
 

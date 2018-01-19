@@ -1,7 +1,6 @@
 ﻿using System;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using KegID.DependencyServices;
 using KegID.View;
 using Xamarin.Forms;
 
@@ -33,24 +32,17 @@ namespace KegID.ViewModel
         #endregion
 
         #region Methods
-        private async void PrinterSettingCommandRecieverAsync()
-        {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new PrinterSettingView());
-        }
+        private async void PrinterSettingCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new PrinterSettingView());
 
-        private async void WhatsNewCommandRecieverAsync()
-        {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new WhatIsNewView());
-        }
+        private async void WhatsNewCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new WhatIsNewView());
 
         private void SupportCommandReciever()
         {
             // You can remove the switch to UI Thread if you are already in the UI Thread.
             Device.BeginInvokeOnMainThread(() =>
             {
-                Xamarin.Forms.Device.OpenUri(new Uri("https://www.slg.com/"));
+                Device.OpenUri(new Uri("https://www.slg.com/"));
             });
-            //DependencyService.Get<IOpenAppService>().Launch("https://www.slg.com/");
         }
         #endregion
 

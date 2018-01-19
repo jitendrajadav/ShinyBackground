@@ -7,6 +7,7 @@ using KegID.Services;
 using KegID.SQLiteClient;
 using KegID.View;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Xamarin.Forms;
 
@@ -109,11 +110,11 @@ namespace KegID.ViewModel
 
         private async void LoginCommandReciever()
         {
-            GlobalModel globalData = null;
+            LoginModel globalData = null;
             try
             {
                 Loader.StartLoading();
-                globalData = await SQLiteServiceClient.Db.Table<GlobalModel>().FirstOrDefaultAsync();
+                globalData = await SQLiteServiceClient.Db.Table<LoginModel>().FirstOrDefaultAsync();
 
                 if (globalData == null)
                     LoginCommandRecieverAsync();
@@ -123,7 +124,7 @@ namespace KegID.ViewModel
                     await Application.Current.MainPage.Navigation.PushModalAsync(new KegIDMasterPage());
                 }
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
             }
@@ -142,11 +143,12 @@ namespace KegID.ViewModel
             try
             {
                 Loader.StartLoading();
-                var globalData = await SQLiteServiceClient.Db.Table<GlobalModel>().FirstOrDefaultAsync();
+                var globalData = await SQLiteServiceClient.Db.Table<LoginModel>().FirstOrDefaultAsync();
                 if (globalData == null)
                 {
                     Result = await _accountService.AuthenticateAsync(Username, Password);
-                    await SQLiteServiceClient.Db.InsertAsync(new GlobalModel { SessionId = Result.SessionId });
+                    await SQLiteServiceClient.Db.InsertAsync(Result);
+                    await SQLiteServiceClient.Db.InsertAllAsync(Result.Preferences);
                     Configuration.SessionId = Result.SessionId;
                 }
                 await Application.Current.MainPage.Navigation.PushModalAsync(new KegIDMasterPage());

@@ -74,7 +74,7 @@
                 TextColor="Blue"
                 HorizontalOptions="Start"
                 Margin="10,0,0,0"
-                Text="{Binding Tags}"
+                Text="{Binding TagsStr}"
                 Grid.Row="5"
                 Command="{Binding MoreInfoCommand}"/>
 

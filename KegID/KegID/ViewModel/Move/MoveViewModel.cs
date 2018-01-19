@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using KegID.Common;
+using KegID.Model;
 using KegID.Response;
 using KegID.Services;
 using KegID.SQLiteClient;
@@ -9,6 +10,7 @@ using Plugin.Geolocator;
 using Plugin.Geolocator.Abstractions;
 using Plugin.Permissions.Abstractions;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -18,14 +20,14 @@ namespace KegID.ViewModel
 {
     public class MoveViewModel : ViewModelBase
     {
-
         int count;
         bool tracking;
         Position savedPosition;
         public ObservableCollection<Position> Positions { get; } = new ObservableCollection<Position>();
 
-
         #region Properties
+
+        public string MenifestId { get; set; }
         public IMoveService _moveService { get; set; }
 
         #region MenifestRefId
@@ -96,20 +98,53 @@ namespace KegID.ViewModel
 
         #endregion
 
-        #region Tags
+        #region TagsStr
 
+        /// <summary>
+        /// The <see cref="TagsStr" /> property's name.
+        /// </summary>
+        public const string TagsStrPropertyName = "TagsStr";
+
+        private string _tagsStr = "Add info";
+
+        /// <summary>
+        /// Sets and gets the TagsStr property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public string TagsStr
+        {
+            get
+            {
+                return _tagsStr;
+            }
+
+            set
+            {
+                if (_tagsStr == value)
+                {
+                    return;
+                }
+
+                _tagsStr = value;
+                RaisePropertyChanged(TagsStrPropertyName);
+            }
+        }
+
+        #endregion
+
+        #region Tags
         /// <summary>
         /// The <see cref="Tags" /> property's name.
         /// </summary>
         public const string TagsPropertyName = "Tags";
 
-        private string _tags = "Add info";
+        private List<Tag> _tags = new List<Tag>();
 
         /// <summary>
         /// Sets and gets the Tags property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public string Tags
+        public List<Tag> Tags
         {
             get
             {
@@ -164,8 +199,6 @@ namespace KegID.ViewModel
 
         #endregion
 
-        public string BrewersAddress { get; set; }
-
         #endregion
 
         #region Commands
@@ -194,7 +227,6 @@ namespace KegID.ViewModel
             SaveDraftCommand = new RelayCommand(SaveDraftCommandRecieverAsync);
             Destination.FullName = "Select a location";
             GetGPS();
-           
         }
 
         #endregion
@@ -203,7 +235,7 @@ namespace KegID.ViewModel
 
         private async void SaveDraftCommandRecieverAsync()
         {
-            ManifestModel manifestModel = new ManifestModel()
+            DraftManifestModel manifestModel = new DraftManifestModel()
             {
                 ClosedBatches = 0,
                 DestinationId = Destination.FullName,
@@ -221,7 +253,7 @@ namespace KegID.ViewModel
                 PostedDate = DateTime.Today,
                 SourceKey = "",
                 SubmittedDate = DateTime.Today,
-                Tags = Tags,
+                Tags = TagsStr,
                 ManifestItems = Convert.ToInt64(AddKegs.Split(' ').FirstOrDefault()),
                 Id = 0,
                 ManifestId = MenifestRefId.Split(':').LastOrDefault().Trim(),
@@ -231,34 +263,74 @@ namespace KegID.ViewModel
             };
             await SQLiteServiceClient.Db.InsertAsync(manifestModel);
 
+            ManifestModel manifestPostModel = new ManifestModel()
+            {
+                ManifestId = MenifestId,
+                EventTypeId = (long)EventTypeEnum.MOVE_MANIFEST,
+                Latitude = (long)savedPosition.Latitude,
+                Longitude = (long)savedPosition.Longitude,
+                SubmittedDate = DateTime.Today,
+                ShipDate = DateTime.Today,
+
+                SenderId = Destination.Address,
+                ReceiverId = Destination.FullName,
+                DestinationName = Destination.FullName,
+                DestinationTypeCode = Destination.LocationCode,
+
+                ManifestItems = new List<ManifestItem>()
+                {
+                   new ManifestItem()
+                   {
+                        Barcode = "",
+                        ScanDate = DateTime.Today,
+                        ValidationStatus =2,
+                        KegId = "",
+                        Tags =Tags,  
+                       KegStatus = new List<KegStatus>()
+                       {
+                            new KegStatus()
+                            {
+                                KegId= "",
+                                Barcode="",
+                                AltBarcode="",
+                                Contents ="",
+                                Batch ="",
+                                Size ="",
+                                Alert = "",
+                                Location = new Location()
+                                {
+                                    Name ="",
+                                    TypeCode ="",
+                                    EntityId = ""
+                                },
+                                OwnerName = "",
+                            }
+                        },
+                   }
+                }
+            };
+
+            var result = await _moveService.PostManifestAsync(manifestPostModel,Configuration.SessionId);
+
             await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestsView());
 
             //var manifest = await _moveService.GetManifestListAsync(Configuration.SessionId);
         }
 
-        private async void ScannedCommandRecieverAsync()
-        {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new ScannerView());
-        }
+        private async void ScannedCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new ScannerView());
 
         public void GetUuId()
         {
-            MenifestRefId = "Menifest #: " + Regex.Match(Guid.NewGuid().ToString(), @"(.{8})\s*$").Value.ToUpper();
+            MenifestId = Guid.NewGuid().ToString();
+            MenifestRefId = "Menifest #: " + Regex.Match(MenifestId, @"(.{8})\s*$").Value.ToUpper();
         }
 
-        private async void SelectLocationCommandRecieverAsync()
-        {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView());
-        }
+        private async void SelectLocationCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView());
 
-        private async void MoreInfoCommandRecieverAsync()
-        {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView());
-        }
-        private async void ScanKegsCommadRecieverAsync()
-        {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new ScanKegsView());
-        }
+        private async void MoreInfoCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView());
+
+        private async void ScanKegsCommadRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new ScanKegsView());
+
         private async void LastCached(object sender, EventArgs e)
         {
             try
@@ -406,9 +478,8 @@ namespace KegID.ViewModel
             }
         }
 
-        void CrossGeolocator_Current_PositionError(object sender, PositionErrorEventArgs e)
+        private void CrossGeolocator_Current_PositionError(object sender, PositionErrorEventArgs e)
         {
-
             var str = "Location error: " + e.Error.ToString();
         }
 

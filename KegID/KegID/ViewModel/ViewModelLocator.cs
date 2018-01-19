@@ -38,6 +38,7 @@ namespace KegID.ViewModel
             SimpleIoc.Default.Register<SearchedManifestsListViewModel>();
             SimpleIoc.Default.Register<ManifestDetailViewModel>();
             SimpleIoc.Default.Register<ContentTagsViewModel>();
+            SimpleIoc.Default.Register<AddPalletsViewModel>();
 
         }
         #endregion
@@ -501,6 +502,24 @@ namespace KegID.ViewModel
             get
             {
                 return SimpleIoc.Default.GetInstance<ContentTagsViewModel>();
+            }
+        }
+
+        #endregion
+
+        #region AddPallets
+
+        /// <summary>
+        /// Gets the AddPallets property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public AddPalletsViewModel AddPallets
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<AddPalletsViewModel>();
             }
         }
 

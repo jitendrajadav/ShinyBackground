@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using KegID.Common;
 using KegID.Response;
 using KegID.SQLiteClient;
 using KegID.View;
@@ -282,23 +283,25 @@ namespace KegID.ViewModel
 
         private async void LoadDraftManifestAsync()
         {
-            ManifestCollection = new ObservableCollection<ManifestModel>(await SQLiteServiceClient.Db.Table<ManifestModel>().ToListAsync());
+            try
+            {
+                Loader.StartLoading();
+                ManifestCollection = new ObservableCollection<ManifestModel>(await SQLiteServiceClient.Db.Table<ManifestModel>().ToListAsync());
+            }
+            catch (System.Exception)
+            {
+            }
+            finally
+            {
+                Loader.StopLoading();
+            }
         }
 
-        private async void ItemTappedCommandRecieverAsync(ManifestModel model)
-        {
-            await Application.Current.MainPage.Navigation.PopModalAsync();
-        }
+        private async void ItemTappedCommandRecieverAsync(ManifestModel model) => await Application.Current.MainPage.Navigation.PopModalAsync();
 
-        private async void HomeCommandRecieverAsync()
-        {
-           await Application.Current.MainPage.Navigation.PopModalAsync();
-        }
+        private async void HomeCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PopModalAsync();
 
-        private async void ActionSearchCommandRecieverAsync()
-        {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new SearchManifestsView());
-        }
+        private async void ActionSearchCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new SearchManifestsView());
 
         private void QueuedCommandReciever()
         {

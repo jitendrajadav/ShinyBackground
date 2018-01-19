@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using SQLite.Net.Attributes;
+using System;
+using System.Collections.Generic;
 
 namespace KegID.Response
 {
@@ -21,6 +23,8 @@ namespace KegID.Response
 
     public class Location
     {
+        [PrimaryKey,AutoIncrement]
+        public int Id { get; set; }
         public string Name { get; set; }
         public string TypeCode { get; set; }
         public string EntityId { get; set; }
@@ -35,14 +39,16 @@ namespace KegID.Response
         public bool IsAction { get; set; }
         public string DefectType { get; set; }
         public string ActivationMethod { get; set; }
-        public object DeletedDate { get; set; }
+        public DateTime DeletedDate { get; set; }
         public bool InUse { get; set; }
         public List<string> ActivationPartnerTypes { get; set; }
     }
 
     public class Partner
     {
+        [Ignore]
         public List<Keg> Kegs { get; set; }
+        [PrimaryKey]
         public string PartnerId { get; set; }
         public string FullName { get; set; }
         public string Address { get; set; }
@@ -71,7 +77,9 @@ namespace KegID.Response
 
     public class Keg
     {
+        [PrimaryKey]
         public string KegId { get; set; }
+        public string PartnerId { get; set; }
         public string Barcode { get; set; }
         public string AltBarcode { get; set; }
         public long Contents { get; set; }
@@ -79,7 +87,9 @@ namespace KegID.Response
         public long Size { get; set; }
         public string Alert { get; set; }
         public long Location { get; set; }
+        [Ignore]
         public List<long> MaintenanceItems { get; set; }
+        [Ignore]
         public List<long> PendingMaintenanceItems { get; set; }
         public long? Sku { get; set; }
         public long? ContentsSku { get; set; }

@@ -203,25 +203,13 @@ namespace KegID.ViewModel
         #endregion
 
         #region Methods
-        private async void SearchCommandRecieverAsync()
-        {
-           await Application.Current.MainPage.Navigation.PushModalAsync(new SearchedManifestsListView());
-        }
+        private async void SearchCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new SearchedManifestsListView());
 
-        private async void ManifestDestinationCommandRecieverAsync()
-        {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView());
-        }
+        private async void ManifestDestinationCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView());
 
-        private async void ManifestSenderCommandRecieverAsync()
-        {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView());
-        }
+        private async void ManifestSenderCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView());
 
-        private async void ManifestsCommandRecieverAsync()
-        {
-            await Application.Current.MainPage.Navigation.PopModalAsync();
-        }
+        private async void ManifestsCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PopModalAsync();
 
         #endregion
     }

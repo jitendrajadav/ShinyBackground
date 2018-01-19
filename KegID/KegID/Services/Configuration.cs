@@ -5,10 +5,14 @@ namespace KegID.Services
     public static class Configuration
     {
         /// <summary>
+        /// Global SessionId
+        /// </summary>
+        public static string SessionId;
+
+        /// <summary>
         /// Base Url
         /// </summary>
         public const string ServiceUrl = "https://testapi.kegid.com/api/";
-        public static string SessionId;
 
         /// <summary>
         /// Login Service Url
@@ -29,7 +33,9 @@ namespace KegID.Services
         public const string GetValidateBarcodeUrl = ServiceUrl + "validation/?barcode={0}&sessionId={1}";
         public const string GetBrandUrl = ServiceUrl + "brand/?sessionId={0}";
         public const string GetManifestUrl = ServiceUrl + "Manifest/?sessionId={0}";
-        
+
+        public const string PostManifestUrl = ServiceUrl + "Manifest/?sessionId={0}";
+
 
         /// <summary>
         /// Fill Service Url

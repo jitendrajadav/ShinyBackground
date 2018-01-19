@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
+using KegID.Common;
 using KegID.Response;
 using KegID.Services;
 using System.Collections.Generic;
@@ -78,7 +79,19 @@ namespace KegID.ViewModel
 
         private async void LoadBatchAsync()
         {
-            BatchCollection = await _fillService.GetBatchListAsync(Configuration.SessionId);
+            try
+            {
+                Loader.StartLoading();
+                BatchCollection = await _fillService.GetBatchListAsync(Configuration.SessionId);
+            }
+            catch (System.Exception)
+            {
+
+            }
+            finally
+            {
+                Loader.StopLoading();
+            }
         }
         #endregion
     }

@@ -80,11 +80,14 @@
                 Text="Destination:"
                 Grid.Row="7"/>
 
-            <Picker
+            <Button
                 Margin="10,0,0,0"
                 Grid.Row="8"
+                HorizontalOptions="Start"
                 TextColor="Blue"
-                Title="Barcode Brewing"/>
+                BackgroundColor="Transparent"
+                Text="{Binding DestinationTitle}"
+                Command="{Binding DestinationCommand}"/>
 
             <BoxView
                 Grid.Row="9"
@@ -116,7 +119,8 @@
                 HorizontalOptions="FillAndExpand"
                 VerticalOptions="End"
                 Grid.Row="13"
-                Text="Next"/>
+                Text="Next"
+                Command="{Binding NextCommand}"/>
 
         </Grid>
     </ContentPage.Content>

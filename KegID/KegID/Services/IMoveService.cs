@@ -10,6 +10,6 @@ namespace KegID.Services
         Task<ValidateBarcodeModel> GetValidateBarcodeAsync(string sessionId, string barcode);
         Task<IList<BrandModel>> GetBrandListAsync(string sessionId);
         Task<IList<ManifestModel>> GetManifestListAsync(string sessionId);
-
+        Task<object> PostManifestAsync(ManifestModel model, string sessionId);
     }
 }

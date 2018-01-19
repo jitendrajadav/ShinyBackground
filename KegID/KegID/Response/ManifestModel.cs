@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using SQLite.Net.Attributes;
 
 namespace KegID.Response
 {
-    public class ManifestModel
+    public class DraftManifestModel
     {
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
@@ -29,6 +30,58 @@ namespace KegID.Response
         public DateTime PostedDate { get; set; }
         public string SourceKey { get; set; }
         public long ClosedBatches { get; set; }
+    }
+
+    public class ManifestModel
+    {
+        [PrimaryKey]
+        public string ManifestId { get; set; }
+        public long EventTypeId { get; set; }
+        public long Latitude { get; set; }
+        public long Longitude { get; set; }
+        public DateTime SubmittedDate { get; set; }
+        public DateTime ShipDate { get; set; }
+        public string SenderId { get; set; }
+        public string ReceiverId { get; set; }
+        public string DestinationName { get; set; }
+        public string DestinationTypeCode { get; set; }
+        [Ignore]
+        public List<ManifestItem> ManifestItems { get; set; }
+        [Ignore]
+        public List<string> NewPallets { get; set; }
+        [Ignore]
+        public List<Tag> Tags { get; set; }
+    }
+
+    public class ManifestItem
+    {
+        public string Barcode { get; set; }
+        public DateTime ScanDate { get; set; }
+        public long ValidationStatus { get; set; }
+        public string KegId { get; set; }
+        public List<Tag> Tags { get; set; }
+        public List<KegStatus> KegStatus { get; set; }
+    }
+
+    public class KegStatus
+    {
+        public string KegId { get; set; }
+        public string Barcode { get; set; }
+        public string AltBarcode { get; set; }
+        public string Contents { get; set; }
+        public string Batch { get; set; }
+        public string Size { get; set; }
+        public string Alert { get; set; }
+        public Location Location { get; set; }
+        public string OwnerName { get; set; }
+    }
+
+    public class Tag
+    {
+        [PrimaryKey,AutoIncrement]
+        public int Id { get; set; }
+        public string Property { get; set; }
+        public string Value { get; set; }
     }
 
     public class ManifestModelOldGet
