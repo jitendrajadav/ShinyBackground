@@ -4,10 +4,12 @@
              xmlns:local="clr-namespace:KegID"
              x:Class="KegID.MainPage"
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
+             xmlns:views="clr-namespace:KegID.View"
+             xmlns:controls="clr-namespace:CarouselView.FormsPlugin.Abstractions;assembly=CarouselView.FormsPlugin.Abstractions"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Main}">
 
     <Grid>
-        <Grid.RowDefinitions>
+        <!--<Grid.RowDefinitions>
             <RowDefinition Height="40"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="50"/>
@@ -83,7 +85,18 @@
             Grid.Row="2"
             Grid.Column="1"
             Command="{Binding GotoDetailPage}"
-            Text="NEXT"/>
+            Text="NEXT"/>-->
+
+
+        <controls:CarouselViewControl 
+            Grid.Row="0"
+            x:Name="whatsNew"
+            ShowArrows="true"
+            ItemsSource="{Binding LandedPageCollection}"
+            ShowIndicators="true">
+            
+        </controls:CarouselViewControl>
+
     </Grid>
 
 </ContentPage>

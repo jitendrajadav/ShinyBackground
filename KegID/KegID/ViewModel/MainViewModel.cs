@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using KegID.Model;
+using KegID.View;
 using System.Collections.ObjectModel;
 using Xamarin.Forms;
 
@@ -112,6 +113,40 @@ namespace KegID.ViewModel
 
         #endregion
 
+        #region LandedPageCollection
+
+        /// <summary>
+        /// The <see cref="LandedPageCollection" /> property's name.
+        /// </summary>
+        public const string LandedPageCollectionPropertyName = "LandedPageCollection";
+
+        private ObservableCollection<Xamarin.Forms.View> _LandedPageCollection = null;
+
+        /// <summary>
+        /// Sets and gets the LandedPageCollection property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public ObservableCollection<Xamarin.Forms.View> LandedPageCollection
+        {
+            get
+            {
+                return _LandedPageCollection;
+            }
+
+            set
+            {
+                if (_LandedPageCollection == value)
+                {
+                    return;
+                }
+
+                _LandedPageCollection = value;
+                RaisePropertyChanged(LandedPageCollectionPropertyName);
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Commands
@@ -138,6 +173,12 @@ namespace KegID.ViewModel
             GotoDetailPage = new RelayCommand(GotoDetailPageCommandReciever);
             ItemSelectedCommand = new RelayCommand<Barcode>((model) => ItemSelectedCommandReciever(model));
             ItemTappedCommand = new RelayCommand<Barcode>((model) => ItemTappedCommandReciever(model));
+
+            //LandedPageCollection = new ObservableCollection<Xamarin.Forms.View>()
+            //{
+            //     new ContentPage(){ ()=> new MenuView()},
+            //     new ContentPage()
+            //};
         }
 
         private void ItemTappedCommandReciever(Barcode model)

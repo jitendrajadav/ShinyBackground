@@ -196,6 +196,40 @@ namespace KegID.ViewModel
 
         #endregion
 
+        #region TagsStr
+
+        /// <summary>
+        /// The <see cref="TagsStr" /> property's name.
+        /// </summary>
+        public const string TagsStrPropertyName = "TagsStr";
+
+        private string _tagsStr = "Add info";
+
+        /// <summary>
+        /// Sets and gets the TagsStr property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public string TagsStr
+        {
+            get
+            {
+                return _tagsStr;
+            }
+
+            set
+            {
+                if (_tagsStr == value)
+                {
+                    return;
+                }
+
+                _tagsStr = value;
+                RaisePropertyChanged(TagsStrPropertyName);
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Commands
@@ -369,6 +403,8 @@ namespace KegID.ViewModel
             await Application.Current.MainPage.Navigation.PushModalAsync(scanPage);
         }
 
+
+
         private async Task ValidateBarcodeInsertIntoLocalDB(string barcodeId)
         {
             ValidateBarcodeModel validateBarcodeModel = await _moveService.GetValidateBarcodeAsync(Configuration.SessionId, barcodeId);
@@ -376,7 +412,7 @@ namespace KegID.ViewModel
             Barcode barcode = new Barcode
             {
                 Id = barcodeId,
-                Icon = validateBarcodeModel.Kegs.Partners.Count > 1 ? "validationerror.png" : "validationquestion.png",
+                Icon = validateBarcodeModel.Kegs.Partners.Count > 1 ? GetIconByPlatform.GetIcon("validationerror.png") : GetIconByPlatform.GetIcon("validationquestion.png"),
                 Tags = Tags
             };
             var partnerTable = (from partner in validateBarcodeModel.Kegs.Partners

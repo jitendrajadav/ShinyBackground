@@ -128,7 +128,7 @@
                 Grid.Column="0"
                 Grid.ColumnSpan="3"
                 LineBreakMode="TailTruncation"
-                Text="{Binding Tags}"/>
+                Text="{Binding TagsStr}"/>
 
             <BoxView
                 Margin="-10,0,-10,0"

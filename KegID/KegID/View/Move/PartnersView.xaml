@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="KegID.View.PartnersView"
              xmlns:local="clr-namespace:KegID"
+             xmlns:extended="clr-namespace:Xamarin.Forms.Extended;assembly=Xamarin.Forms.Extended.InfiniteScrolling"
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Partners}">
     
@@ -14,7 +15,16 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            
+
+            <ActivityIndicator 
+                WidthRequest="32" 
+                HeightRequest="32" 
+                IsRunning="True"
+                Grid.RowSpan="4"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                IsVisible="{Binding IsWorking}" />
+
             <StackLayout
                 VerticalOptions="Start"
                 HeightRequest="40"
@@ -86,6 +96,7 @@
                 Margin="10,0,10,0"
                 x:Name="lstPartners"
                 Grid.Row="2"
+                VerticalOptions="FillAndExpand"
                 SeparatorVisibility="Default"
                 SeparatorColor="Black"
                 HasUnevenRows="True"
@@ -93,6 +104,10 @@
                 ItemsSource="{Binding PartnerCollection}">
 
                 <ListView.Behaviors>
+                    
+                    <!--<extended:InfiniteScrollBehavior 
+                        IsLoadingMore="{Binding IsWorking}" />-->
+
                     <behaviors:EventToCommandBehavior
                         EventName="ItemTapped" 
                         Command="{Binding ItemTappedCommand}"
@@ -111,6 +126,23 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
                 
+                <!-- the "loading..." view -->
+                <ListView.Footer>
+                    <Grid Padding="6"
+                          IsVisible="{Binding IsWorking}">
+                        <!-- set the footer to have a zero height when invisible -->
+                        <Grid.Triggers>
+                            <Trigger TargetType="Grid" Property="IsVisible" Value="False">
+                                <Setter Property="HeightRequest" Value="0" />
+                            </Trigger>
+                        </Grid.Triggers>
+                        <!-- the loading content -->
+                        <Label Text="Loading..." 
+                               VerticalOptions="Center" 
+                               HorizontalOptions="Center" />
+                    </Grid>
+                </ListView.Footer>
+
             </ListView>
 
             <StackLayout

@@ -4,13 +4,12 @@
              x:Class="KegID.View.LoginView"
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
              xmlns:local="clr-namespace:KegID"
+             BackgroundImage="{Binding BgImage}"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Login}">
-    
     <ContentPage.Content>
         <Grid 
             Margin="10"
             VerticalOptions="Center">
-            
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>

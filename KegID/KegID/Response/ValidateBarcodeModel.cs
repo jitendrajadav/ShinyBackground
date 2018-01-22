@@ -39,7 +39,7 @@ namespace KegID.Response
         public bool IsAction { get; set; }
         public string DefectType { get; set; }
         public string ActivationMethod { get; set; }
-        public DateTime DeletedDate { get; set; }
+        public DateTime? DeletedDate { get; set; }
         public bool InUse { get; set; }
         public List<string> ActivationPartnerTypes { get; set; }
     }

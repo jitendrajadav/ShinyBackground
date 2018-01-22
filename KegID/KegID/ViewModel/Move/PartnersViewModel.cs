@@ -7,6 +7,7 @@ using KegID.Response;
 using KegID.Services;
 using KegID.SQLiteClient;
 using Xamarin.Forms;
+using Xamarin.Forms.Extended;
 
 namespace KegID.ViewModel
 {
@@ -15,6 +16,42 @@ namespace KegID.ViewModel
         #region Properties
 
         public IMoveService _moveService { get; set; }
+
+        private const int PageSize = 20;
+
+        #region IsWorking
+
+        /// <summary>
+        /// The <see cref="IsWorking" /> property's name.
+        /// </summary>
+        public const string IsWorkingPropertyName = "IsWorking";
+
+        private bool _IsWorking = false;
+
+        /// <summary>
+        /// Sets and gets the IsWorking property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public bool IsWorking
+        {
+            get
+            {
+                return _IsWorking;
+            }
+
+            set
+            {
+                if (_IsWorking == value)
+                {
+                    return;
+                }
+
+                _IsWorking = value;
+                RaisePropertyChanged(IsWorkingPropertyName);
+            }
+        }
+
+        #endregion
 
         #region InternalBackgroundColor
 
@@ -159,13 +196,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string PartnerCollectionPropertyName = "PartnerCollection";
 
-        private IList<PartnerModel> _PartnerCollection = null;
+        private InfiniteScrollCollection<PartnerModel> _PartnerCollection = null;
 
         /// <summary>
         /// Sets and gets the PartnerCollection property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public IList<PartnerModel> PartnerCollection
+        public InfiniteScrollCollection<PartnerModel> PartnerCollection
         {
             get
             {
@@ -209,6 +246,17 @@ namespace KegID.ViewModel
             InternalBackgroundColor = "Blue";
             InternalTextColor = "White";
 
+            //PartnerCollection = new InfiniteScrollCollection<PartnerModel>
+            //{
+            //    OnLoadMore = async () =>
+            //    {
+            //        // load the next page
+            //        var page = PartnerCollection.Count / PageSize;
+            //        //var items = await dataSource.GetItemsAsync(page + 1, PageSize);
+            //        var items = await SQLiteServiceClient.Db.Table<PartnerModel>().ToListAsync();
+            //        return items;
+            //    }
+            //};
             LoadPartnersAsync();
         }
 
@@ -232,11 +280,11 @@ namespace KegID.ViewModel
             try
             {
                 if (model.Count > 0)
-                    PartnerCollection = model;
+                    PartnerCollection =new InfiniteScrollCollection<PartnerModel>(model);
                 else
                 {
                     Loader.StartLoading();
-                    PartnerCollection = await _moveService.GetPartnersListAsync(Configuration.SessionId);
+                   PartnerCollection = new InfiniteScrollCollection<PartnerModel>(await _moveService.GetPartnersListAsync(Configuration.SessionId));
                     await SQLiteServiceClient.Db.InsertAllAsync(PartnerCollection);
                 }
             }

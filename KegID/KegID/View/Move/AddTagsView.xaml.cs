@@ -201,16 +201,16 @@ namespace KegID.View
                             SimpleIoc.Default.GetInstance<ScanKegsViewModel>().IsFromScanned = false;
                         }
                         else
-                            SimpleIoc.Default.GetInstance<MoveViewModel>().Tags.Add(tag);
+                            SimpleIoc.Default.GetInstance<ScanKegsViewModel>().Tags.Add(tag);
                     }
                 }
                 
-                foreach (var item in SimpleIoc.Default.GetInstance<MoveViewModel>().Tags)
+                foreach (var item in SimpleIoc.Default.GetInstance<ScanKegsViewModel>().Tags)
                 {
-                    tagsStr = tagsStr + item.Property + ":" + item.Value;
+                    tagsStr = tagsStr + item.Property + item.Value + ";";
                 }
 
-                SimpleIoc.Default.GetInstance<MoveViewModel>().TagsStr = tagsStr;
+                SimpleIoc.Default.GetInstance<ScanKegsViewModel>().TagsStr = tagsStr;
                 await Application.Current.MainPage.Navigation.PopModalAsync();
             }
             catch (Exception ex)

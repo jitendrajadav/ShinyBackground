@@ -86,6 +86,40 @@ namespace KegID.ViewModel
 
         #endregion
 
+        #region BgImage
+
+        /// <summary>
+        /// The <see cref="BgImage" /> property's name.
+        /// </summary>
+        public const string BgImagePropertyName = "BgImage";
+
+        private string _BgImage = "Assets/kegbg.png";
+
+        /// <summary>
+        /// Sets and gets the BgImage property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public string BgImage
+        {
+            get
+            {
+                return _BgImage;
+            }
+
+            set
+            {
+                if (_BgImage == value)
+                {
+                    return;
+                }
+
+                _BgImage = value;
+                RaisePropertyChanged(BgImagePropertyName);
+            }
+        }
+
+        #endregion
+
         public IAccountService _accountService { get; set; }
 
         #endregion
@@ -104,7 +138,7 @@ namespace KegID.ViewModel
 
             Username = "test@kegid.com";
             Password = "beer2keg";
-
+            BgImage = GetIconByPlatform.GetIcon("kegbg.png");
             LoginCommandReciever();
         }
 
@@ -116,12 +150,11 @@ namespace KegID.ViewModel
                 Loader.StartLoading();
                 globalData = await SQLiteServiceClient.Db.Table<LoginModel>().FirstOrDefaultAsync();
 
-                if (globalData == null)
-                    LoginCommandRecieverAsync();
-                else
+                if (globalData != null)
                 {
                     Configuration.SessionId = globalData.SessionId;
-                    await Application.Current.MainPage.Navigation.PushModalAsync(new KegIDMasterPage());
+                    //await Application.Current.MainPage.Navigation.PushModalAsync(new KegIDMasterPage());
+                    await Application.Current.MainPage.Navigation.PushModalAsync(new MainPage());
                 }
             }
             catch (Exception ex)
@@ -151,7 +184,8 @@ namespace KegID.ViewModel
                     await SQLiteServiceClient.Db.InsertAllAsync(Result.Preferences);
                     Configuration.SessionId = Result.SessionId;
                 }
-                await Application.Current.MainPage.Navigation.PushModalAsync(new KegIDMasterPage());
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new KegIDMasterPage());
+                await Application.Current.MainPage.Navigation.PushModalAsync(new MainPage());
             }
             catch (Exception ex)
             {
