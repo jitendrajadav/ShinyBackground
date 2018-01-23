@@ -14,6 +14,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             
             <Grid.ColumnDefinitions>
@@ -24,6 +25,7 @@
             <Label
                 VerticalOptions="Center"
                 HorizontalTextAlignment="End"
+                TextColor="White"
                 Text="Username"/>
             
             <Entry
@@ -36,6 +38,7 @@
                 VerticalOptions="Center"
                 HorizontalTextAlignment="End"
                 Grid.Row="1"
+                TextColor="White"
                 Text="Password"/>
 
             <Entry
@@ -46,12 +49,48 @@
                 Text="{Binding Password}"/>
             
             <Button
-                BackgroundColor="LightGray"
+                BackgroundColor="Blue"
                 Grid.Row="2"
                 Grid.Column="1"
                 Text="Login"
+                TextColor="White"
                 HeightRequest="50"
                 Command="{Binding LoginCommand}"/>
+           
+            <Grid
+                Grid.ColumnSpan="2"
+                HorizontalOptions="Center"
+                Margin="0,80,0,0"
+                VerticalOptions="CenterAndExpand"
+                Grid.Row="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Label
+                    Grid.Row="0"
+                    TextColor="White"
+                    Text="https://www.kegid.com/">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding KegIDCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+                
+                <BoxView
+                    Grid.Row="1"
+                    BackgroundColor="White"
+                    HeightRequest="1"
+                    VerticalOptions="Start"
+                    HorizontalOptions="FillAndExpand"/>
+                
+                <Label
+                    Grid.Row="2"
+                     HorizontalOptions="Center"
+                    TextColor="White"
+                    Text="v4.0">
+                </Label>
+            </Grid>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

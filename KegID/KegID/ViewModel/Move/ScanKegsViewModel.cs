@@ -15,6 +15,7 @@ using System.Diagnostics;
 using KegID.Common;
 using GalaSoft.MvvmLight.Ioc;
 using System.Threading.Tasks;
+using Rg.Plugins.Popup.Extensions;
 
 namespace KegID.ViewModel
 {
@@ -291,8 +292,16 @@ namespace KegID.ViewModel
 
         private async void LabelItemTappedCommandRecieverAsync(Barcode model)
         {
-            if (model.Icon == "validationerror.png")
-                await NavigateToValidatePartner(model);
+            if (model.Icon.Contains("/"))
+            {
+                if (model.Icon.Split('/').LastOrDefault() == "validationerror.png")
+                    await NavigateToValidatePartner(model);
+                else
+                {
+                    IsFromScanned = true;
+                    await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView());
+                } 
+            }
             else
             {
                 IsFromScanned = true;
@@ -302,8 +311,23 @@ namespace KegID.ViewModel
 
         private async void IconItemTappedCommandRecieverAsync(Barcode model)
         {
-            if (model.Icon == "validationerror.png")
-                await NavigateToValidatePartner(model);
+            if (model.Icon.Contains("/"))
+            {
+                if (model.Icon.Split('/').LastOrDefault() == "validationerror.png")
+                    await NavigateToValidatePartner(model);
+                else
+                {
+                    await Application.Current.MainPage.Navigation.PushModalAsync(new ScanInfoView());
+                    var value = await SQLiteServiceClient.Db.Table<ValidatePartnerModel>().Where(x => x.Barcode == model.Id).ToListAsync();
+
+                    SimpleIoc.Default.GetInstance<ScanInfoViewModel>().Barcode = string.Format(" Barcode {0} ", model.Id);
+                    SimpleIoc.Default.GetInstance<ScanInfoViewModel>().Ownername = value.FirstOrDefault().FullName;
+                    SimpleIoc.Default.GetInstance<ScanInfoViewModel>().Size = value.FirstOrDefault().Size;
+                    SimpleIoc.Default.GetInstance<ScanInfoViewModel>().Contents = value.FirstOrDefault().Contents;
+                    SimpleIoc.Default.GetInstance<ScanInfoViewModel>().Batch = value.FirstOrDefault().Batch;
+                    SimpleIoc.Default.GetInstance<ScanInfoViewModel>().Location = value.FirstOrDefault().Location;
+                } 
+            }
             else
             {
                 await Application.Current.MainPage.Navigation.PushModalAsync(new ScanInfoView());
@@ -320,7 +344,7 @@ namespace KegID.ViewModel
 
         private static async Task NavigateToValidatePartner(Barcode model)
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new ValidateBarcodeView());
+            await Application.Current.MainPage.Navigation.PushPopupAsync(new ValidateBarcodeView());
             SimpleIoc.Default.GetInstance<ValidateBarcodeViewModel>().MultipleKegsTitle = string.Format(" Multiple kgs were found with \n barcode {0}. \n Please select the correct one.", model.Id);
             SimpleIoc.Default.GetInstance<ValidateBarcodeViewModel>().PartnerCollection = await SQLiteServiceClient.Db.Table<ValidatePartnerModel>().Where(x => x.Barcode == model.Id).ToListAsync();
         }
@@ -402,7 +426,6 @@ namespace KegID.ViewModel
 
             await Application.Current.MainPage.Navigation.PushModalAsync(scanPage);
         }
-
 
 
         private async Task ValidateBarcodeInsertIntoLocalDB(string barcodeId)

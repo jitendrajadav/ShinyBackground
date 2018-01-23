@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
 using Xamarin.Forms;
 
 namespace KegID
 {
-    public partial class MainPage : ContentPage
-	{
+    public partial class MainPage : CarouselPage
+    {
 		public MainPage()
 		{
             try
@@ -13,7 +14,7 @@ namespace KegID
             }
             catch (Exception ex)
             {
-
+                Debug.WriteLine(ex.Message);
             }
 		}
 	}

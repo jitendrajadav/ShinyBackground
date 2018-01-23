@@ -4,7 +4,6 @@ using KegID.ViewModel;
 using System;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -16,9 +15,9 @@ namespace KegID.View
         public AddTagsView()
         {
             InitializeComponent();
-            if (Application.Current.MainPage.Navigation.ModalStack.Count >= 2)
+            if (Application.Current.MainPage.Navigation.ModalStack.Count > 2)
             {
-                if (Application.Current.MainPage.Navigation.ModalStack[1].GetType() == typeof(ScanKegsView))
+                if (Application.Current.MainPage.Navigation.ModalStack[2].GetType() == typeof(ScanKegsView))
                 {
                     if (SimpleIoc.Default.GetInstance<ScanKegsViewModel>().IsFromScanned)
                     {
@@ -164,7 +163,7 @@ namespace KegID.View
         {
             Tag tag = null;
             string tagsStr = string.Empty;
-
+            string tagsStrMove = string.Empty;
             try
             {
                 var children = grdTag.Children.ToList();
@@ -195,13 +194,13 @@ namespace KegID.View
                     }
                     if (!string.IsNullOrEmpty(tag.Value) && !string.IsNullOrEmpty(tag.Property))
                     {
-                        if (Application.Current.MainPage.Navigation.ModalStack[1].GetType() == typeof(ScanKegsView))
+                        if (Application.Current.MainPage.Navigation.ModalStack[2].GetType() == typeof(ScanKegsView))
                         {
                             SimpleIoc.Default.GetInstance<ScanKegsViewModel>().Tags.Add(tag);
                             SimpleIoc.Default.GetInstance<ScanKegsViewModel>().IsFromScanned = false;
                         }
                         else
-                            SimpleIoc.Default.GetInstance<ScanKegsViewModel>().Tags.Add(tag);
+                            SimpleIoc.Default.GetInstance<MoveViewModel>().Tags.Add(tag);
                     }
                 }
                 
@@ -209,8 +208,12 @@ namespace KegID.View
                 {
                     tagsStr = tagsStr + item.Property + item.Value + ";";
                 }
-
+                foreach (var item in SimpleIoc.Default.GetInstance<MoveViewModel>().Tags)
+                {
+                    tagsStrMove = tagsStrMove + item.Property + item.Value + ";";
+                }
                 SimpleIoc.Default.GetInstance<ScanKegsViewModel>().TagsStr = tagsStr;
+                SimpleIoc.Default.GetInstance<MoveViewModel>().TagsStr = tagsStrMove;
                 await Application.Current.MainPage.Navigation.PopModalAsync();
             }
             catch (Exception ex)
@@ -221,6 +224,7 @@ namespace KegID.View
             {
                 tag = null;
                 tagsStr = string.Empty;
+                tagsStrMove = string.Empty;
             }
         }
     }

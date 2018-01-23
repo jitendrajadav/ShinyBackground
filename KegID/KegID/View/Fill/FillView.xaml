@@ -7,27 +7,45 @@
              Title="Fill Kegs"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Fill}">
     <ContentPage.Content>
-       
-        <Grid
-            Margin="10,0,10,0">
+
+        <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <BoxView
+            <Button
+                BackgroundColor="Transparent"
+                TextColor="Blue"
+                HorizontalOptions="Start"
+                Text="Cancel"
+                Command="{Binding CancelCommand}"/>
+
+            <Label
+                HorizontalOptions="Center"
+                Text="Fill Kegs"/>
+
+            <Grid
+                Grid.Row="1"
+                Margin="10,0,10,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <BoxView
                 Margin="-10,0,-10,0"
                 Grid.Row="0"
                 BackgroundColor="Black"
@@ -35,12 +53,12 @@
                 VerticalOptions="Start"
                 HorizontalOptions="FillAndExpand"/>
 
-            <Label 
+                <Label 
                 Text="Batch:"
                 Grid.Column="0"
                 Grid.Row="1"/>
-            
-            <Button
+
+                <Button
                 HorizontalOptions="Start"
                 Margin="10,0,0,0"
                 Grid.Row="2"
@@ -49,18 +67,18 @@
                 Text="{Binding BatchButtonTitle}"
                 Command="{Binding BatchCommand}"/>
 
-            <BoxView
+                <BoxView
                 Grid.Row="3"
                 BackgroundColor="Black"
                 HeightRequest="1"
                 VerticalOptions="Center"
                 HorizontalOptions="FillAndExpand"/>
 
-            <Label 
+                <Label 
                 Text="Size:"
                 Grid.Row="4"/>
 
-            <Button
+                <Button
                 BackgroundColor="Transparent"
                 HorizontalOptions="Start"
                 Margin="10,0,0,0"
@@ -69,18 +87,18 @@
                 Text="{Binding SizeButtonTitle}"
                 Command="{Binding SizeCommand}"/>
 
-            <BoxView
+                <BoxView
                 Grid.Row="6"
                 BackgroundColor="Black"
                 HeightRequest="1"
                 VerticalOptions="Center"
                 HorizontalOptions="FillAndExpand"/>
 
-            <Label 
+                <Label 
                 Text="Destination:"
                 Grid.Row="7"/>
 
-            <Button
+                <Button
                 Margin="10,0,0,0"
                 Grid.Row="8"
                 HorizontalOptions="Start"
@@ -89,29 +107,29 @@
                 Text="{Binding DestinationTitle}"
                 Command="{Binding DestinationCommand}"/>
 
-            <BoxView
+                <BoxView
                 Grid.Row="9"
                 BackgroundColor="Black"
                 HeightRequest="1"
                 VerticalOptions="Center"
                 HorizontalOptions="FillAndExpand"/>
 
-            <Label 
+                <Label 
                 Text="Palletize:"
                 Grid.Row="10"/>
 
-            <Switch
+                <Switch
                 Margin="10,0,0,0"
                 Grid.Row="11"/>
 
-            <BoxView
+                <BoxView
                 Grid.Row="12"
                 BackgroundColor="Black"
                 HeightRequest="1"
                 VerticalOptions="Center"
                 HorizontalOptions="FillAndExpand"/>
 
-            <Button
+                <Button
                 HeightRequest="40"
                 Margin="-10,0,-10,0"
                 TextColor="White"
@@ -122,6 +140,7 @@
                 Text="Next"
                 Command="{Binding NextCommand}"/>
 
+            </Grid>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

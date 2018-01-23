@@ -12,6 +12,7 @@ using Plugin.Permissions.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Xamarin.Forms;
@@ -203,15 +204,11 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand ScannedCommand { get; set; }
-
         public RelayCommand SelectLocationCommand { get; set; }
-
         public RelayCommand MoreInfoCommand { get; set; }
-
         public RelayCommand ScanKegsCommad { get; set; }
-
         public RelayCommand SaveDraftCommand { get; set; }
+        public RelayCommand CancelCommand { get; set; }
 
         #endregion
 
@@ -220,14 +217,15 @@ namespace KegID.ViewModel
         {
             _moveService = moveService;
 
-            ScannedCommand = new RelayCommand(ScannedCommandRecieverAsync);
             SelectLocationCommand = new RelayCommand(SelectLocationCommandRecieverAsync);
             MoreInfoCommand = new RelayCommand(MoreInfoCommandRecieverAsync);
             ScanKegsCommad = new RelayCommand(ScanKegsCommadRecieverAsync);
             SaveDraftCommand = new RelayCommand(SaveDraftCommandRecieverAsync);
+            CancelCommand = new RelayCommand(CancelCommandRecieverAsync);
             Destination.FullName = "Select a location";
             GetGPS();
         }
+
 
         #endregion
 
@@ -317,12 +315,18 @@ namespace KegID.ViewModel
             //var manifest = await _moveService.GetManifestListAsync(Configuration.SessionId);
         }
 
-        private async void ScannedCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new ScannerView());
-
         public void GetUuId()
         {
             MenifestId = Guid.NewGuid().ToString();
-            MenifestRefId = "Menifest #: " + Regex.Match(MenifestId, @"(.{8})\s*$").Value.ToUpper();
+            MenifestRefId = Regex.Match(MenifestId, @"(.{8})\s*$").Value.ToUpper();
+        }
+        private async void CancelCommandRecieverAsync()
+        {
+            var result = await Application.Current.MainPage.DisplayActionSheet("Cancel? \n You have like to save this manifest as a draft or delete?",null,null, "Delete manifest", "Save as draft");
+            if (result== "Delete manifest")
+            {
+                await Application.Current.MainPage.Navigation.PopModalAsync();
+            }
         }
 
         private async void SelectLocationCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView());
@@ -360,6 +364,7 @@ namespace KegID.ViewModel
             }
             catch (Exception ex)
             {
+                Debug.WriteLine(ex.Message);
                 await Application.Current.MainPage.DisplayAlert("Uh oh", "Something went wrong, but don't worry we captured for analysis! Thanks.", "OK");
             }
             finally
@@ -394,6 +399,7 @@ namespace KegID.ViewModel
             }
             catch (Exception ex)
             {
+                Debug.WriteLine(ex.Message);
                 await Application.Current.MainPage.DisplayAlert("Uh oh", "Something went wrong, but don't worry we captured for analysis! Thanks.", "OK");
             }
             finally
@@ -427,6 +433,7 @@ namespace KegID.ViewModel
             }
             catch (Exception ex)
             {
+                Debug.WriteLine(ex.Message);
                 await Application.Current.MainPage.DisplayAlert("Uh oh", "Something went wrong, but don't worry we captured for analysis! Thanks.", "OK");
             }
             finally
@@ -474,6 +481,7 @@ namespace KegID.ViewModel
             }
             catch (Exception ex)
             {
+                Debug.WriteLine(ex.Message);
                 await Application.Current.MainPage.DisplayAlert("Uh oh", "Something went wrong, but don't worry we captured for analysis! Thanks.", "OK");
             }
         }

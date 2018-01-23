@@ -1,102 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+<CarouselPage  xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:KegID"
              x:Class="KegID.MainPage"
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
              xmlns:views="clr-namespace:KegID.View"
-             xmlns:controls="clr-namespace:CarouselView.FormsPlugin.Abstractions;assembly=CarouselView.FormsPlugin.Abstractions"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Main}">
 
-    <Grid>
-        <!--<Grid.RowDefinitions>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="50"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="60"/>
-        </Grid.ColumnDefinitions>
-
-        <Entry 
-            HeightRequest="40"
-            Text="{Binding Title}" 
-            Placeholder="Scan here..."
-            VerticalOptions="Center" 
-            HorizontalOptions="Fill"/>
-
-        <Image 
-            HeightRequest="30"
-            WidthRequest="30"
-            HorizontalOptions="Center"
-            VerticalOptions="Center"
-            Grid.Column="1"
-            Source="{Binding CemeraIcon}"/>
-
-        <ListView
-            x:Name="lstBarcode"
-            Grid.Row="1"
-            Grid.ColumnSpan="2"
-            SeparatorVisibility="Default"
-            SeparatorColor="Black"
-            HasUnevenRows="True"
-            CachingStrategy="RecycleElement"
-            ItemsSource="{Binding BarcodeCollection}">
-
-            <ListView.Behaviors>
-                <behaviors:EventToCommandBehavior
-                    EventName="ItemTapped" 
-                    Command="{Binding ItemTappedCommand}"
-                    Converter="{StaticResource ItemTappedConverter}"/>
-
-                <behaviors:EventToCommandBehavior
-                      EventName="ItemSelected"
-                      Command="{Binding ItemSelectedCommand}"
-                      Converter="{StaticResource SelectedItemConverter}"/>
-
-            </ListView.Behaviors>
-
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <StackLayout
-                            Orientation="Horizontal">
-                            <Label 
-                                    VerticalOptions="FillAndExpand" 
-                                    VerticalTextAlignment="Center" 
-                                    Text="{Binding Id}" />
-
-                            <Image 
-                                    HeightRequest="30"
-                                    WidthRequest="30"
-                                    Margin="10,0,0,0"
-                                    VerticalOptions="Center"
-                                    HorizontalOptions="Center"
-                                    Source="{Binding Icon}"/>
-                        </StackLayout>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-
-        <Button 
-            Margin="0,0,5,5"
-            Grid.Row="2"
-            Grid.Column="1"
-            Command="{Binding GotoDetailPage}"
-            Text="NEXT"/>-->
-
-
-        <controls:CarouselViewControl 
-            Grid.Row="0"
-            x:Name="whatsNew"
-            ShowArrows="true"
-            ItemsSource="{Binding LandedPageCollection}"
-            ShowIndicators="true">
-            
-        </controls:CarouselViewControl>
-
-    </Grid>
-
-</ContentPage>
+    <CarouselPage.Children>
+        <views:MenuView />
+        <views:DashboardView />
+    </CarouselPage.Children>
+</CarouselPage>

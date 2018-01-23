@@ -262,4 +262,10 @@
   <ItemGroup>
     <BundleResource Include="Resources\actionshare.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\kegidbanner.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\more.png" />
+  </ItemGroup>
 </Project>

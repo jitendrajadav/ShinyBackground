@@ -119,6 +119,7 @@ namespace KegID.ViewModel
         public RelayCommand SizeCommand { get; set; }
         public RelayCommand DestinationCommand { get; set; }
         public RelayCommand NextCommand { get; set; }
+        public RelayCommand CancelCommand { get; set; }
 
         #endregion
 
@@ -129,11 +130,14 @@ namespace KegID.ViewModel
             SizeCommand = new RelayCommand(SizeCommandRecieverAsync);
             DestinationCommand = new RelayCommand(DestinationCommandRecieverAsync);
             NextCommand = new RelayCommand(NextCommandRecieverAsync);
+            CancelCommand = new RelayCommand(CancelCommandRecieverAsync);
         }
 
         #endregion
 
         #region Methods
+
+        private async void CancelCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PopModalAsync();
 
         private async void NextCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new AddPalletsView());
 

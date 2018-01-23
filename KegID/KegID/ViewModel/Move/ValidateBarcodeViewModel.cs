@@ -5,6 +5,8 @@ using System.Linq;
 using System.Collections.Generic;
 using Xamarin.Forms;
 using KegID.Model;
+using KegID.Common;
+using Rg.Plugins.Popup.Extensions;
 
 namespace KegID.ViewModel
 {
@@ -98,12 +100,12 @@ namespace KegID.ViewModel
         #endregion
 
         #region Methods
-        private async void CancelCommandRecievierAsync() => await Application.Current.MainPage.Navigation.PopModalAsync();
+        private async void CancelCommandRecievierAsync() => await Application.Current.MainPage.Navigation.PopPopupAsync();
 
         private async void ItemTappedCommandRecieverAsync(ValidatePartnerModel model)
         {
-            SimpleIoc.Default.GetInstance<ScanKegsViewModel>().BarcodeCollection.Where(x => x.Id == model.Barcode).FirstOrDefault().Icon = "validationquestion.png";
-            await Application.Current.MainPage.Navigation.PopModalAsync();
+            SimpleIoc.Default.GetInstance<ScanKegsViewModel>().BarcodeCollection.Where(x => x.Id == model.Barcode).FirstOrDefault().Icon = GetIconByPlatform.GetIcon("validationquestion.png");
+            await Application.Current.MainPage.Navigation.PopPopupAsync();
         }
 
         #endregion

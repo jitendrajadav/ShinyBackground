@@ -123,7 +123,9 @@
     <Content Include="Assets\fillkegs.png" />
     <Content Include="Assets\ic_action_edit.png" />
     <Content Include="Assets\kegbg.png" />
+    <Content Include="Assets\kegidbanner.png" />
     <Content Include="Assets\logout.png" />
+    <Content Include="Assets\more.png" />
     <Content Include="Assets\movekegs.png" />
     <Content Include="Assets\kegidlogo.png" />
     <Content Include="Assets\manifests.png" />
@@ -243,8 +245,8 @@
     <SDKReference Include="Microsoft.VCLibs, Version=14.0">
       <Name>Visual C++ 2015 Runtime for Universal Windows Platform Apps</Name>
     </SDKReference>
-    <SDKReference Include="SQLite.UWP.2015, Version=3.21.0">
-      <Name>SQLite for Universal Windows Platform</Name>
+    <SDKReference Include="SQLite.UWP.2015, Version=3.22.0">
+      <Name>SQLite for Universal Windows Platform %28SQLite.UWP.2015, Version=3.22.0%29</Name>
     </SDKReference>
   </ItemGroup>
   <ItemGroup>

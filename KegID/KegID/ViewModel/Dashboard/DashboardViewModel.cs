@@ -2,8 +2,12 @@
 using GalaSoft.MvvmLight.Command;
 using KegID.Response;
 using KegID.Services;
+using KegID.View;
+using Rg.Plugins.Popup.Extensions;
+using System;
 using System.Diagnostics;
 using System.Globalization;
+using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
@@ -221,26 +225,28 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand RefreshDashboard { get; set; }
-
+        public RelayCommand MoreCommand { get; set; }
         #endregion
 
         #region Constructor
         public DashboardViewModel(IDashboardService dashboardService)
         {
             _dashboardService = dashboardService;
-            RefreshDashboard = new RelayCommand(RefreshDashboardRecieverAsync);
+            MoreCommand = new RelayCommand(MoreCommandRecieverAsync);
             RefreshDashboardRecieverAsync();
         }
         
         #endregion
 
         #region Methods
-        private async void RefreshDashboardRecieverAsync()
+        public async void RefreshDashboardRecieverAsync(bool refresh = false)
         {
             DashboardModel Result = null;
             try
             {
+                if (refresh)
+                    await Application.Current.MainPage.Navigation.PopPopupAsync();
+
                 Result = await _dashboardService.GetDeshboardDetailAsync(Configuration.SessionId);
                 Stock = Result.Stock.ToString("0,0", CultureInfo.InvariantCulture);
                 //Stock= System.String.Format(CultureInfo.InvariantCulture,
@@ -250,9 +256,9 @@ namespace KegID.ViewModel
                 var total  = Result.Stock+ Result.Empty+ Result.InUse;
                 Total = total.ToString("0,0", CultureInfo.InvariantCulture);
                 AverageCycle = Result.AverageCycle.ToString() + " days";
-                Atriskegs = Result.InactiveKegs.ToString(); 
+                Atriskegs = Result.InactiveKegs.ToString();
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
             }
@@ -261,6 +267,9 @@ namespace KegID.ViewModel
                 Result = null;
             }
         }
+
+        private async void MoreCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushPopupAsync(new SettingView());
+        
         #endregion
     }
 }

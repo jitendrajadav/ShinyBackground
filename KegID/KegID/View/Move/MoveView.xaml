@@ -7,14 +7,31 @@
              Title="Create Manifest"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Move}">
 
-    <ContentPage.ToolbarItems>
+    <!--<ContentPage.ToolbarItems>
         <ToolbarItem Text="Scan" Command="{Binding ScannedCommand}"/>
-    </ContentPage.ToolbarItems>
+    </ContentPage.ToolbarItems>-->
     
     <ContentPage.Content>
-        
-        <Grid
-            Margin="10,0,10,0">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Button
+                BackgroundColor="Transparent"
+                TextColor="Blue"
+                HorizontalOptions="Start"
+                Text="Cancel"
+                Command="{Binding CancelCommand}"/>
+            
+            <Label
+                HorizontalOptions="Center"
+                Text="Create manifest"/>
+            
+            <Grid
+                Grid.Row="1"
+                Margin="10,0,10,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -39,7 +56,7 @@
             <Label 
                 Margin="0,0,-10,0"
                 HeightRequest="40"
-                Text="{Binding MenifestRefId}"
+                Text="{Binding MenifestRefId, StringFormat='Menifest #: {0}'}"
                 BackgroundColor="CadetBlue"
                 TextColor="White"
                 VerticalTextAlignment="Center"
@@ -113,6 +130,7 @@
                 Text="Save draft"
                 Grid.Row="10"
                 Command="{Binding SaveDraftCommand}"/>
+        </Grid>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

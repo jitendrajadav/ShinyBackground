@@ -8,25 +8,43 @@
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Palletize}">
     
     <ContentPage.Content>
-
-        <Grid
-            Margin="10,0,10,0">
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <BoxView
+
+            <Button
+                BackgroundColor="Transparent"
+                TextColor="Blue"
+                HorizontalOptions="Start"
+                Text="Cancel"
+                Command="{Binding CancelCommand}"/>
+
+            <Label
+                HorizontalOptions="Center"
+                Text="Build Pallet"/>
+
+            <Grid
+            Grid.Row="1"
+            Margin="10,0,10,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <BoxView
                 Margin="-10,0,0,0"
                 Grid.Row="0"
                 BackgroundColor="CadetBlue"
@@ -34,7 +52,7 @@
                 VerticalOptions="FillAndExpand"
                 HorizontalOptions="FillAndExpand"/>
 
-            <Label 
+                <Label 
                 Margin="0,0,-10,0"
                 HeightRequest="40"
                 Text="Pallet #:-10000008500359874"
@@ -43,68 +61,68 @@
                 VerticalTextAlignment="Center"
                 VerticalOptions="CenterAndExpand"/>
 
-            <Label
+                <Label
                 Text="Stock ocation:"
                 Grid.Row="1"/>
 
-            <Picker
+                <Picker
                 TextColor="Blue"
                 Margin="10,0,0,0"
                 Title="Select a location"
                 Grid.Row="2"/>
 
-            <BoxView
+                <BoxView
                 Grid.Row="3"
                 BackgroundColor="Black"
                 HeightRequest="1"
                 VerticalOptions="Start"
                 HorizontalOptions="FillAndExpand"/>
 
-            <Label
+                <Label
                 Text="Target location:"
                 Grid.Row="4"/>
 
-            <Picker
+                <Picker
                 TextColor="Blue"
                 Margin="10,0,0,0"
                 Title="None"
                 Grid.Row="5"/>
 
-            <BoxView
+                <BoxView
                 Grid.Row="6"
                 BackgroundColor="Black"
                 HeightRequest="1"
                 VerticalOptions="Start"
                 HorizontalOptions="FillAndExpand"/>
 
-            <Label
+                <Label
                 Text="More Info:"
                 Grid.Row="7"/>
 
-            <Picker
+                <Picker
                 Margin="10,0,0,0"
                 Title="Add info"
                 TextColor="Blue"
                 Grid.Row="8"/>
 
-            <BoxView
+                <BoxView
                 Grid.Row="9"
                 BackgroundColor="Black"
                 HeightRequest="1"
                 VerticalOptions="Start"
                 HorizontalOptions="FillAndExpand"/>
 
-            <Label
+                <Label
                 Text="Kegs:"
                 Grid.Row="10"/>
-            
-            <Button
+
+                <Button
                 BackgroundColor="Transparent"
                 TextColor="Blue"
                 Grid.Row="11"
                 FontSize="40"
                 Text="Add kegs"/>
+            </Grid>
         </Grid>
-
     </ContentPage.Content>
 </ContentPage>

@@ -134,7 +134,7 @@
                 Margin="-10,0,-10,0"
                 Grid.Row="5"
                 Grid.ColumnSpan="3"
-                BackgroundColor="Black"
+                BackgroundColor="CadetBlue"
                 VerticalOptions="FillAndExpand"
                 HorizontalOptions="FillAndExpand"/>
 
@@ -151,7 +151,7 @@
             <Label
                 Grid.Column="2"
                 Grid.Row="5"
-                TextColor="Green"
+                TextColor="White"
                 HorizontalOptions="Center"
                 VerticalOptions="Center"
                 Text="{Binding BarcodeCollection.Count}"/>

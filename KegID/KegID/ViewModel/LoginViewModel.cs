@@ -127,6 +127,7 @@ namespace KegID.ViewModel
         #region Commands
 
         public RelayCommand LoginCommand { get; set; }
+        public RelayCommand KegIDCommand { get; set; }
 
         #endregion
 
@@ -134,12 +135,26 @@ namespace KegID.ViewModel
         public LoginViewModel(IAccountService accountService)
         {
             LoginCommand = new RelayCommand(LoginCommandRecieverAsync);
+            KegIDCommand = new RelayCommand(KegIDCommandReciever);
             _accountService = accountService;
 
             Username = "test@kegid.com";
             Password = "beer2keg";
             BgImage = GetIconByPlatform.GetIcon("kegbg.png");
             LoginCommandReciever();
+        }
+
+        #endregion
+
+        #region Methods
+
+        private void KegIDCommandReciever()
+        {
+            // You can remove the switch to UI Thread if you are already in the UI Thread.
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                Device.OpenUri(new Uri("https://www.kegid.com/"));
+            });
         }
 
         private async void LoginCommandReciever()
@@ -167,9 +182,7 @@ namespace KegID.ViewModel
                 globalData = null;
             }
         }
-        #endregion
 
-        #region Methods
         private async void LoginCommandRecieverAsync()
         {
             LoginModel Result = null;

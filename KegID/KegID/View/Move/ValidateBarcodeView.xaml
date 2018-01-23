@@ -10,7 +10,7 @@
     <StackLayout 
         VerticalOptions="Center" 
         HorizontalOptions="FillAndExpand"
-        Padding="20, 0, 20, 0">
+        Padding="20, 50, 20, 50">
         
         <Label
             BackgroundColor="White"
@@ -51,8 +51,9 @@
         </StackLayout>
         
         <Button 
+            BackgroundColor="Blue"
             Text="Close" 
-            TextColor="#A9D1DE"
+            TextColor="White"
             Command="{Binding CancelCommand}"/>
     </StackLayout>
 </popup:PopupPage>
