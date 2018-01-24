@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -43,6 +44,31 @@ namespace KegID.Common
 
             return data;
         }
+        public static async Task<string> Send(string Url, string Json)
+        {
+            string data = string.Empty;
+            var uri = new Uri(string.Format(Url, string.Empty));
+
+            try
+            {
+                var content = new StringContent(Json, Encoding.UTF8, "application/json");
+
+                HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Post, uri);
+                requestMessage.Headers.Add("Request-type", "NewManifest");
+                requestMessage.Content = content;
+
+                HttpResponseMessage response = null;
+                response = await client.SendAsync(requestMessage);
+
+                if (response.IsSuccessStatusCode)
+                    data = await response.Content.ReadAsStringAsync();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(@"ERROR {0}", ex.Message);
+            }
+            return data;
+        }
         public static async Task<string> Post(string Url, string Json)
         {
             string data = string.Empty;
@@ -65,9 +91,9 @@ namespace KegID.Common
             return data;
         }
 
-        #region ExecutePostCall
+        #region ExecuteCall
 
-        public static async Task<T> ExecutePostCall<T>(string url, HttpMethodType httpMethodType,string content)
+        public static async Task<T> ExecuteServiceCall<T>(string url, HttpMethodType httpMethodType,string content)
         {
             T response = default(T);
             try
@@ -76,6 +102,9 @@ namespace KegID.Common
                 {
                     case HttpMethodType.Get:
                         content = await Get(url, content);
+                        break;
+                    case HttpMethodType.Send:
+                        content = await Send(url, content);
                         break;
                     case HttpMethodType.Post:
                         content = await Post(url, content);

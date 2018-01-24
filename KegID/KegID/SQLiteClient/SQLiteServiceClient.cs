@@ -43,7 +43,7 @@ namespace KegID.SQLiteClient
         {
             try
             {
-                await Db.CreateTablesAsync<LoginModel, Preference, Location, Keg,Tag>();
+                await Db.CreateTablesAsync<LoginModel, Preference, BarcodeModel>();
                 await Db.CreateTablesAsync<Partner,PartnerModel, BrandModel, ValidatePartnerModel, DraftManifestModel>();
 
             }

@@ -10,7 +10,7 @@ namespace KegID.Services
         public async Task<IList<BatchModel>> GetBatchListAsync(string sessionId)
         {
             string url = string.Format(Configuration.GetBatchUrl, sessionId);
-            return await Helper.ExecutePostCall<IList<BatchModel>>(url, HttpMethodType.Get, string.Empty);
+            return await Helper.ExecuteServiceCall<IList<BatchModel>>(url, HttpMethodType.Get, string.Empty);
         }
     }
 }

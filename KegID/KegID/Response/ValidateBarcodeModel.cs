@@ -23,8 +23,6 @@ namespace KegID.Response
 
     public class Location
     {
-        [PrimaryKey,AutoIncrement]
-        public int Id { get; set; }
         public string Name { get; set; }
         public string TypeCode { get; set; }
         public string EntityId { get; set; }

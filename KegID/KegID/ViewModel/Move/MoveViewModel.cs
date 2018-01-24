@@ -1,11 +1,13 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
 using KegID.Model;
 using KegID.Response;
 using KegID.Services;
 using KegID.SQLiteClient;
 using KegID.View;
+using Newtonsoft.Json;
 using Plugin.Geolocator;
 using Plugin.Geolocator.Abstractions;
 using Plugin.Permissions.Abstractions;
@@ -233,86 +235,103 @@ namespace KegID.ViewModel
 
         private async void SaveDraftCommandRecieverAsync()
         {
-            DraftManifestModel manifestModel = new DraftManifestModel()
+            try
             {
-                ClosedBatches = 0,
-                DestinationId = Destination.FullName,
-                EffectiveDate = DateTime.Today,
-                EventTypeId = 0,
-                GS1GSIN = "",
-                IsSendManifest = true,
-                KegOrderId = "",
-                Latitude = savedPosition.Latitude,
-                Longitude = savedPosition.Longitude,
-                NewBatch = "",
-                NewBatches = 0,
-                NewPallets = 0,
-                OriginId = Destination.Address,
-                PostedDate = DateTime.Today,
-                SourceKey = "",
-                SubmittedDate = DateTime.Today,
-                Tags = TagsStr,
-                ManifestItems = Convert.ToInt64(AddKegs.Split(' ').FirstOrDefault()),
-                Id = 0,
-                ManifestId = MenifestRefId.Split(':').LastOrDefault().Trim(),
-                ReceiverId = Destination.FullName,
-                SenderId = Destination.Address,
-                ShipDate = DateTime.Today,
-            };
-            await SQLiteServiceClient.Db.InsertAsync(manifestModel);
+                Loader.StartLoading();
 
-            ManifestModel manifestPostModel = new ManifestModel()
-            {
-                ManifestId = MenifestId,
-                EventTypeId = (long)EventTypeEnum.MOVE_MANIFEST,
-                Latitude = (long)savedPosition.Latitude,
-                Longitude = (long)savedPosition.Longitude,
-                SubmittedDate = DateTime.Today,
-                ShipDate = DateTime.Today,
+                ManifestModel manifestPostModel = null;
+                ValidateBarcodeModel validateBarcodeModel = null;
 
-                SenderId = Destination.Address,
-                ReceiverId = Destination.FullName,
-                DestinationName = Destination.FullName,
-                DestinationTypeCode = Destination.LocationCode,
+                //DraftManifestModel manifestModel = new DraftManifestModel()
+                //{
+                //    ClosedBatches = 0,
+                //    DestinationId = Destination.FullName,
+                //    EffectiveDate = DateTime.Today,
+                //    EventTypeId = 0,
+                //    GS1GSIN = "",
+                //    IsSendManifest = true,
+                //    KegOrderId = "",
+                //    Latitude = savedPosition.Latitude,
+                //    Longitude = savedPosition.Longitude,
+                //    NewBatch = "",
+                //    NewBatches = 0,
+                //    NewPallets = 0,
+                //    OriginId = Destination.Address,
+                //    PostedDate = DateTime.Today,
+                //    SourceKey = "",
+                //    SubmittedDate = DateTime.Today,
+                //    Tags = TagsStr,
+                //    ManifestItems = Convert.ToInt64(AddKegs.Split(' ').FirstOrDefault()),
+                //    Id = 0,
+                //    ManifestId = MenifestRefId.Split(':').LastOrDefault().Trim(),
+                //    ReceiverId = Destination.FullName,
+                //    SenderId = Destination.Address,
+                //    ShipDate = DateTime.Today,
+                //};
+                //await SQLiteServiceClient.Db.InsertAsync(manifestModel);
 
-                ManifestItems = new List<ManifestItem>()
+                foreach (var item in SimpleIoc.Default.GetInstance<ScanKegsViewModel>().BarcodeCollection)
                 {
-                   new ManifestItem()
-                   {
-                        Barcode = "",
-                        ScanDate = DateTime.Today,
-                        ValidationStatus =2,
-                        KegId = "",
-                        Tags =Tags,  
-                       KegStatus = new List<KegStatus>()
+                    var barcodeResult = await SQLiteServiceClient.Db.Table<BarcodeModel>().Where(x => x.Barcode == item.Id).FirstOrDefaultAsync();
+                    var globalData = await SQLiteServiceClient.Db.Table<LoginModel>().FirstOrDefaultAsync();
+
+                    validateBarcodeModel = JsonConvert.DeserializeObject<ValidateBarcodeModel>(barcodeResult.BarcodeJson);
+                    manifestPostModel = new ManifestModel()
+                    {
+                        ManifestId = MenifestId,
+                        EventTypeId = (long)EventTypeEnum.MOVE_MANIFEST,
+                        Latitude = (long)savedPosition.Latitude,
+                        Longitude = (long)savedPosition.Longitude,
+                        SubmittedDate = DateTime.Today,
+                        ShipDate = DateTime.Today,
+
+                        SenderId = globalData.CompanyId,
+                        ReceiverId = Destination.PartnerId,
+                        DestinationName = Destination.FullName,
+                        DestinationTypeCode = Destination.LocationCode,
+
+                        ManifestItems = new List<ManifestItem>()
+                    {
+                       new ManifestItem()
                        {
-                            new KegStatus()
-                            {
-                                KegId= "",
-                                Barcode="",
-                                AltBarcode="",
-                                Contents ="",
-                                Batch ="",
-                                Size ="",
-                                Alert = "",
-                                Location = new Location()
+                            Barcode = barcodeResult.Barcode,
+                            ScanDate = DateTime.Today,
+                            ValidationStatus =2,
+                            KegId = validateBarcodeModel.Kegs.Partners.FirstOrDefault().Kegs.FirstOrDefault().KegId,
+                            Tags =SimpleIoc.Default.GetInstance<ScanKegsViewModel>().Tags,
+                           KegStatus = new List<KegStatus>()
+                           {
+                                new KegStatus()
                                 {
-                                    Name ="",
-                                    TypeCode ="",
-                                    EntityId = ""
-                                },
-                                OwnerName = "",
-                            }
-                        },
-                   }
+                                    KegId= validateBarcodeModel.Kegs.Partners.FirstOrDefault().Kegs.FirstOrDefault().KegId,
+                                    Barcode=barcodeResult.Barcode,
+                                    AltBarcode=validateBarcodeModel.Kegs.Partners.FirstOrDefault().Kegs.FirstOrDefault().AltBarcode,
+                                    Contents =SimpleIoc.Default.GetInstance<ScanKegsViewModel>().SelectedBrand.BrandName,
+                                    Batch =validateBarcodeModel.Kegs.Partners.FirstOrDefault().Kegs.FirstOrDefault().Batch.ToString(),
+                                    Size = SimpleIoc.Default.GetInstance<ScanKegsViewModel>().Tags.Any(x=>x.Property == "Size") ? SimpleIoc.Default.GetInstance<ScanKegsViewModel>().Tags.Where(x=>x.Property == "Size").Select(x=>x.Value).FirstOrDefault():string.Empty,
+                                    Alert = validateBarcodeModel.Kegs.Partners.FirstOrDefault().Kegs.FirstOrDefault().Alert,
+                                    Location = validateBarcodeModel.Kegs.Locations.FirstOrDefault(),
+                                    OwnerName = Destination.FullName,
+                                }
+                            },
+                       }
+                    },
+                        NewPallets = new List<string>(),
+                        Tags = Tags
+                    };
                 }
-            };
-
-            var result = await _moveService.PostManifestAsync(manifestPostModel,Configuration.SessionId);
-
-            await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestsView());
-
-            //var manifest = await _moveService.GetManifestListAsync(Configuration.SessionId);
+                var result = await _moveService.PostManifestAsync(manifestPostModel, Configuration.SessionId);
+                Loader.StopLoading();
+                await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestsView());
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            finally
+            {
+                
+            }
         }
 
         public void GetUuId()

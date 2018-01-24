@@ -1,13 +1,10 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using KegID.Common;
-using KegID.Model;
 using KegID.Response;
 using KegID.Services;
 using KegID.SQLiteClient;
-using KegID.View;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using Xamarin.Forms;
 

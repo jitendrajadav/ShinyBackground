@@ -78,13 +78,11 @@ namespace KegID.Response
 
     public class Tag
     {
-        [PrimaryKey,AutoIncrement]
-        public int Id { get; set; }
         public string Property { get; set; }
         public string Value { get; set; }
     }
 
-    public class ManifestModelOldGet
+    public class ManifestModelGet
     {
         public string ManifestId { get; set; }
         public string TrackingNumber { get; set; }

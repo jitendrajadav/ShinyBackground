@@ -8,6 +8,7 @@ namespace KegID.Services
     {
         Get,
         Post,
+        Send,
         Put,
         Delete
     }
@@ -17,7 +18,7 @@ namespace KegID.Services
         public async Task<LoginModel> AuthenticateAsync(string username, string password)
         {
             string url = string.Format(Configuration.GetLoginUserUrl, username,password);
-            return await Helper.ExecutePostCall<LoginModel>(url, HttpMethodType.Get, string.Empty);
+            return await Helper.ExecuteServiceCall<LoginModel>(url, HttpMethodType.Get, string.Empty);
         }
     }
 }

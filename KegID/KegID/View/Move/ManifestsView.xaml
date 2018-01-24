@@ -131,25 +131,25 @@
                                 <Label
                                     TextColor="Blue"
                                     LineBreakMode="TailTruncation"
-                                    Text="{Binding DestinationId}"/>
+                                    Text="{Binding ReceiverName}"/>
 
                                 <Label
                                     TextColor="Blue"
                                     Grid.Row="1"
-                                    Text="{Binding SubmittedDate, StringFormat='{0:dd/MM/yy}'}"/>
+                                    Text="{Binding ShipDate, StringFormat='{0:dd/MM/yy}'}"/>
 
                                 <Label
                                     TextColor="Blue"
                                     HorizontalOptions="End"
                                     Grid.Column="1"
-                                    Text="{Binding ManifestId, StringFormat='# {0}'}"/>
+                                    Text="{Binding TrackingNumber, StringFormat='# {0}'}"/>
 
                                 <Label
                                     TextColor="Blue"
                                     HorizontalOptions="End"
                                     Grid.Column="1"
                                     Grid.Row="1"
-                                    Text="{Binding ManifestItems, StringFormat='{0} Items'}"/>
+                                    Text="{Binding ItemCount, StringFormat='{0} Items'}"/>
                             </Grid>
                         </ViewCell>
                     </DataTemplate>

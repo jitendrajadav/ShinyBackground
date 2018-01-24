@@ -16,6 +16,7 @@ using KegID.Common;
 using GalaSoft.MvvmLight.Ioc;
 using System.Threading.Tasks;
 using Rg.Plugins.Popup.Extensions;
+using Newtonsoft.Json;
 
 namespace KegID.ViewModel
 {
@@ -438,51 +439,16 @@ namespace KegID.ViewModel
                 Icon = validateBarcodeModel.Kegs.Partners.Count > 1 ? GetIconByPlatform.GetIcon("validationerror.png") : GetIconByPlatform.GetIcon("validationquestion.png"),
                 Tags = Tags
             };
-            var partnerTable = (from partner in validateBarcodeModel.Kegs.Partners
-                                select new ValidatePartnerModel()
-                                {
-                                    Contents = validateBarcodeModel.Kegs.Contents.FirstOrDefault(),
-                                    Size = validateBarcodeModel.Kegs.Sizes.FirstOrDefault(),
-                                    Batch = validateBarcodeModel.Kegs.Batches.FirstOrDefault(),
-                                    Location = validateBarcodeModel.Kegs.Locations.FirstOrDefault().Name,
-                                    Barcode = validateBarcodeModel.Kegs.Partners.FirstOrDefault().Kegs.FirstOrDefault().Barcode,
-                                    ParentPartnerId = partner.ParentPartnerId,
-                                    Address = partner.Address,
-                                    Address1 = partner.Address1,
-                                    City = partner.City,
-                                    CompanyNo = partner.CompanyNo ?? 0,
-                                    Country = partner.Country,
-                                    FullName = partner.FullName,
-                                    IsActive = partner.IsActive,
-                                    IsInternal = partner.IsInternal,
-                                    IsShared = partner.IsShared,
-                                    Lat = partner.Lat,
-                                    LocationCode = partner.LocationCode,
-                                    LocationStatus = partner.LocationStatus,
-                                    Lon = partner.Lon,
-                                    MasterCompanyId = partner.MasterCompanyId,
-                                    ParentPartnerName = partner.ParentPartnerName,
-                                    PartnerId = partner.PartnerId,
-                                    PartnershipIsActive = partner.PartnershipIsActive,
-                                    PartnerTypeCode = partner.PartnerTypeCode,
-                                    PartnerTypeName = partner.PartnerTypeName,
-                                    PhoneNumber = partner.PhoneNumber,
-                                    PostalCode = partner.PostalCode,
-                                    SourceKey = partner.SourceKey,
-                                    State = partner.State
-                                }).ToList();
 
+            BarcodeModel barcodeModel = new BarcodeModel()
+            {
+                Barcode = barcodeId,
+                BarcodeJson = JsonConvert.SerializeObject(validateBarcodeModel)
+            };
             try
             {
-                string tempBarcodeId = validateBarcodeModel.Kegs.Partners.FirstOrDefault().Kegs.FirstOrDefault().Barcode;
-                var rowsAffected = await SQLiteServiceClient.Db.Table<ValidatePartnerModel>().Where(x => x.Barcode == tempBarcodeId).ToListAsync();
-                if (rowsAffected.Count == 0)
-                {
-                    // The item does not exists in the database so lets insert it
-                    await SQLiteServiceClient.Db.InsertAllAsync(partnerTable);
-                }
-                else
-                    await SQLiteServiceClient.Db.UpdateAllAsync(partnerTable);
+                // The item does not exists in the database so lets insert it
+                await SQLiteServiceClient.Db.InsertAsync(barcodeModel);
             }
             catch (Exception ex)
             {

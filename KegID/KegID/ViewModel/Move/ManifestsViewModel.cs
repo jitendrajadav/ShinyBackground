@@ -1,8 +1,10 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using KegID.Common;
 using KegID.Response;
+using KegID.Services;
 using KegID.SQLiteClient;
 using KegID.View;
 using Xamarin.Forms;
@@ -13,6 +15,8 @@ namespace KegID.ViewModel
     {
         #region Properties
 
+        public IMoveService _moveService { get; set; }
+
         #region ManifestCollection
 
         /// <summary>
@@ -20,13 +24,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string ManifestCollectionPropertyName = "ManifestCollection";
 
-        private ObservableCollection<ManifestModel> _ManifestCollection = null;
+        private ObservableCollection<ManifestModelGet> _ManifestCollection = null;
 
         /// <summary>
         /// Sets and gets the ManifestCollection property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public ObservableCollection<ManifestModel> ManifestCollection
+        public ObservableCollection<ManifestModelGet> ManifestCollection
         {
             get
             {
@@ -266,8 +270,10 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public ManifestsViewModel()
+        public ManifestsViewModel(IMoveService moveService)
         {
+            _moveService = moveService;
+
             HomeCommand = new RelayCommand(HomeCommandRecieverAsync);
             ActionSearchCommand = new RelayCommand(ActionSearchCommandRecieverAsync);
             QueuedCommand = new RelayCommand(QueuedCommandReciever);
@@ -286,7 +292,9 @@ namespace KegID.ViewModel
             try
             {
                 Loader.StartLoading();
-                ManifestCollection = new ObservableCollection<ManifestModel>(await SQLiteServiceClient.Db.Table<ManifestModel>().ToListAsync());
+                var manifest = await _moveService.GetManifestListAsync(Configuration.SessionId);
+                ManifestCollection = new ObservableCollection<ManifestModelGet>(manifest);
+                //ManifestCollection = new ObservableCollection<ManifestModel>(await SQLiteServiceClient.Db.Table<ManifestModel>().ToListAsync());
             }
             catch (System.Exception)
             {
