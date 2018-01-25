@@ -511,7 +511,8 @@
                 HorizontalOptions="FillAndExpand"
                 HorizontalTextAlignment="Center"
                 BackgroundColor="Red"
-                Text="7 draft manifests"/>
+                IsVisible="{Binding IsVisibleDraftmaniFestsLabel}"
+                Text="{Binding DraftmaniFests,StringFormat='{0} draft manifests'}"/>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

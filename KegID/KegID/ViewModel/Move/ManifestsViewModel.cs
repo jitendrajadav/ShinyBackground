@@ -24,13 +24,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string ManifestCollectionPropertyName = "ManifestCollection";
 
-        private ObservableCollection<ManifestModelGet> _ManifestCollection = null;
+        private ObservableCollection<ManifestModel> _ManifestCollection = null;
 
         /// <summary>
         /// Sets and gets the ManifestCollection property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public ObservableCollection<ManifestModelGet> ManifestCollection
+        public ObservableCollection<ManifestModel> ManifestCollection
         {
             get
             {
@@ -58,7 +58,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string QueuedTextColorPropertyName = "QueuedTextColor";
 
-        private string _QueuedTextColor = "Black";
+        private string _QueuedTextColor = "#4E6388";
 
         /// <summary>
         /// Sets and gets the QueuedTextColor property.
@@ -160,7 +160,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string DraftBackgroundColorPropertyName = "DraftBackgroundColor";
 
-        private string _DraftBackgroundColor = "Black";
+        private string _DraftBackgroundColor = "#4E6388";
 
         /// <summary>
         /// Sets and gets the DraftBackgroundColor property.
@@ -194,7 +194,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string RecentTextColorPropertyName = "RecentTextColor";
 
-        private string _RecentTextColor = "Black";
+        private string _RecentTextColor = "#4E6388";
 
         /// <summary>
         /// Sets and gets the RecentTextColor property.
@@ -292,9 +292,10 @@ namespace KegID.ViewModel
             try
             {
                 Loader.StartLoading();
-                var manifest = await _moveService.GetManifestListAsync(Configuration.SessionId);
-                ManifestCollection = new ObservableCollection<ManifestModelGet>(manifest);
-                //ManifestCollection = new ObservableCollection<ManifestModel>(await SQLiteServiceClient.Db.Table<ManifestModel>().ToListAsync());
+                //var manifest = await _moveService.GetManifestListAsync(Configuration.SessionId);
+                //ManifestCollection = new ObservableCollection<ManifestModelGet>(manifest);
+                ManifestCollection = new ObservableCollection<ManifestModel>(await SQLiteServiceClient.Db.Table<ManifestModel>().ToListAsync());
+                var value = ManifestCollection.FirstOrDefault().ManifestItems.Count;
             }
             catch (System.Exception)
             {
@@ -314,30 +315,30 @@ namespace KegID.ViewModel
         private void QueuedCommandReciever()
         {
             QueuedTextColor = "White";
-            QueuedBackgroundColor = "Black";
-            DraftTextColor = "Black";
+            QueuedBackgroundColor = "#4E6388";
+            DraftTextColor = "#4E6388";
             DraftBackgroundColor = "Transparent";
-            RecentTextColor= "Black";
+            RecentTextColor= "#4E6388";
             RecentBackgroundColor = "Transparent";
         }
 
         private void DraftCommandReciever()
         {
             DraftTextColor = "White";
-            DraftBackgroundColor = "Black";
-            QueuedTextColor = "Black";
+            DraftBackgroundColor = "#4E6388";
+            QueuedTextColor = "#4E6388";
             QueuedBackgroundColor = "Transparent";
-            RecentTextColor = "Black";
+            RecentTextColor = "#4E6388";
             RecentBackgroundColor = "Transparent";
         }
 
         private void RecentCommandReciever()
         {
             RecentTextColor = "White";
-            RecentBackgroundColor = "Black";
-            QueuedTextColor = "Black";
+            RecentBackgroundColor = "#4E6388";
+            QueuedTextColor = "#4E6388";
             QueuedBackgroundColor = "Transparent";
-            DraftTextColor = "Black";
+            DraftTextColor = "#4E6388";
             DraftBackgroundColor = "Transparent";
         }
 

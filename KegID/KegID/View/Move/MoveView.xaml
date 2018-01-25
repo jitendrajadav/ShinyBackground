@@ -5,6 +5,7 @@
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
              xmlns:local="clr-namespace:KegID"
              Title="Create Manifest"
+             BackgroundColor="White"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Move}">
 
     <!--<ContentPage.ToolbarItems>
@@ -20,7 +21,7 @@
 
             <Button
                 BackgroundColor="Transparent"
-                TextColor="Blue"
+                TextColor="{StaticResource selectTextColor}"
                 HorizontalOptions="Start"
                 Text="Cancel"
                 Command="{Binding CancelCommand}"/>
@@ -29,6 +30,14 @@
                 HorizontalOptions="Center"
                 Text="Create manifest"/>
             
+            <Button
+                BackgroundColor="Transparent"
+                TextColor="{StaticResource selectTextColor}"
+                HorizontalOptions="End"
+                Text="Submit"
+                IsVisible="{Binding IsVisibleSubmit}"
+                Command="{Binding SubmitCommand}"/>
+
             <Grid
                 Grid.Row="1"
                 Margin="10,0,10,0">
@@ -46,9 +55,9 @@
             </Grid.RowDefinitions>
 
             <BoxView
-                Margin="-10,0,0,0"
+                Margin="-10,0,-10,0"
                 Grid.Row="0"
-                BackgroundColor="CadetBlue"
+                BackgroundColor="{StaticResource bannerBGColor}"
                 WidthRequest="10"
                 VerticalOptions="FillAndExpand"
                 HorizontalOptions="FillAndExpand"/>
@@ -56,9 +65,9 @@
             <Label 
                 Margin="0,0,-10,0"
                 HeightRequest="40"
-                Text="{Binding MenifestRefId, StringFormat='Menifest #: {0}'}"
-                BackgroundColor="CadetBlue"
+                Text="{Binding ManifestId, StringFormat=' Manifest #: {0}', Converter={StaticResource StringToLast8CharacterConverter}}"
                 TextColor="White"
+                FontSize="22"
                 VerticalTextAlignment="Center"
                 VerticalOptions="CenterAndExpand"/>
 
@@ -68,27 +77,34 @@
 
             <Button
                 BackgroundColor="Transparent"
-                TextColor="Blue"
+                TextColor="{StaticResource selectTextColor}"
                 Margin="10,0,0,0"
                 HorizontalOptions="Start"
                 Text="{Binding Path=Destination.FullName}"
                 Grid.Row="2"
                 Command="{Binding SelectLocationCommand}"/>
+                
+                <Label
+                    Grid.Row="2"
+                    HorizontalOptions="End"
+                    HorizontalTextAlignment="End"
+                    Text="(required)"
+                    TextColor="{StaticResource lightGrayColor}"/>
 
-            <BoxView
-                Grid.Row="3"
-                BackgroundColor="Black"
-                HeightRequest="1"
-                VerticalOptions="Start"
-                HorizontalOptions="FillAndExpand"/>
+                <BoxView
+                    Grid.Row="3"
+                    BackgroundColor="{StaticResource lightGrayColor}"
+                    HeightRequest="1"
+                    VerticalOptions="Start"
+                    HorizontalOptions="FillAndExpand"/>
 
-            <Label
-                Text="More Info:"
-                Grid.Row="4"/>
+                <Label
+                    Text="More Info:"
+                    Grid.Row="4"/>
 
             <Button
                 BackgroundColor="Transparent"
-                TextColor="Blue"
+                TextColor="{StaticResource selectTextColor}"
                 HorizontalOptions="Start"
                 Margin="10,0,0,0"
                 Text="{Binding TagsStr}"
@@ -97,7 +113,7 @@
 
             <BoxView
                 Grid.Row="6"
-                BackgroundColor="Black"
+                BackgroundColor="{StaticResource lightGrayColor}"
                 HeightRequest="1"
                 VerticalOptions="Start"
                 HorizontalOptions="FillAndExpand"/>
@@ -111,21 +127,22 @@
                 Text="{Binding AddKegs}"
                 HorizontalOptions="Start"
                 BackgroundColor="Transparent"
-                TextColor="Blue"
-                FontSize="40"
+                TextColor="{StaticResource selectTextColor}"
+                FontSize="32"
                 Grid.Row="8"
                 Command="{Binding ScanKegsCommad}"/>
 
             <BoxView
                 Grid.Row="9"
-                BackgroundColor="Black"
+                BackgroundColor="{StaticResource lightGrayColor}"
                 HeightRequest="3"
                 VerticalOptions="Start"
                 HorizontalOptions="FillAndExpand"/>
 
             <Button
+                IsVisible="{Binding IsSaveDraftVisible}"
                 BackgroundColor="Transparent"
-                TextColor="Blue"
+                TextColor="{StaticResource selectTextColor}"
                 HorizontalOptions="End"
                 Text="Save draft"
                 Grid.Row="10"

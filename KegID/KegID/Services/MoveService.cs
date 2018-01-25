@@ -37,7 +37,7 @@ namespace KegID.Services
             string url = string.Format(Configuration.PostManifestUrl, sessionId);
             string content = JsonConvert.SerializeObject(model);
 
-            return await Helper.ExecuteServiceCall<ManifestModelGet>(url, HttpMethodType.Post, content);
+            return await Helper.ExecuteServiceCall<ManifestModelGet>(url, HttpMethodType.Send, content);
         }
     }
 }

@@ -2,7 +2,9 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              BackgroundImage="{Binding BgImage}"
-             x:Class="KegID.View.MenuView">
+             x:Class="KegID.View.MenuView"
+             xmlns:local="clr-namespace:KegID"
+             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Dashboard}">
     <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>
@@ -391,7 +393,8 @@
                 HorizontalTextAlignment="Center"
                 BackgroundColor="Red"
                 VerticalOptions="End"
-                Text="7 draft manifests"/>
+                IsVisible="{Binding IsVisibleDraftmaniFestsLabel}"
+                Text="{Binding DraftmaniFests,StringFormat='{0} draft manifests'}"/>
 
         </Grid>
     </ContentPage.Content>

@@ -16,7 +16,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -30,38 +30,37 @@ namespace KegID.ViewModel
 
         #region Properties
 
-        public string MenifestId { get; set; }
         public IMoveService _moveService { get; set; }
 
-        #region MenifestRefId
+        #region ManifestId
 
         /// <summary>
-        /// The <see cref="MenifestRefId" /> property's name.
+        /// The <see cref="ManifestId" /> property's name.
         /// </summary>
-        public const string MenifestRefIdPropertyName = "MenifestRefId";
+        public const string ManifestIdPropertyName = "ManifestId";
 
-        private string _MenifestRefId = default(string);
+        private string _ManifestId = default(string);
 
         /// <summary>
-        /// Sets and gets the MenifestRefId property.
+        /// Sets and gets the ManifestId property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public string MenifestRefId
+        public string ManifestId
         {
             get
             {
-                return _MenifestRefId;
+                return _ManifestId;
             }
 
             set
             {
-                if (_MenifestRefId == value)
+                if (_ManifestId == value)
                 {
                     return;
                 }
 
-                _MenifestRefId = value;
-                RaisePropertyChanged(MenifestRefIdPropertyName);
+                _ManifestId = value;
+                RaisePropertyChanged(ManifestIdPropertyName);
             }
         }
 
@@ -202,6 +201,74 @@ namespace KegID.ViewModel
 
         #endregion
 
+        #region IsSaveDraftVisible
+
+        /// <summary>
+        /// The <see cref="IsSaveDraftVisible" /> property's name.
+        /// </summary>
+        public const string IsSaveDraftVisiblePropertyName = "IsSaveDraftVisible";
+
+        private bool _IsSaveDraftVisible = false;
+
+        /// <summary>
+        /// Sets and gets the IsSaveDraftVisible property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public bool IsSaveDraftVisible
+        {
+            get
+            {
+                return _IsSaveDraftVisible;
+            }
+
+            set
+            {
+                if (_IsSaveDraftVisible == value)
+                {
+                    return;
+                }
+
+                _IsSaveDraftVisible = value;
+                RaisePropertyChanged(IsSaveDraftVisiblePropertyName);
+            }
+        }
+
+        #endregion
+
+        #region IsVisibleSubmit
+
+        /// <summary>
+        /// The <see cref="IsVisibleSubmit" /> property's name.
+        /// </summary>
+        public const string IsVisibleSubmitPropertyName = "IsVisibleSubmit";
+
+        private bool _IsVisibleSubmit = false;
+
+        /// <summary>
+        /// Sets and gets the IsVisibleSubmit property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public bool IsVisibleSubmit
+        {
+            get
+            {
+                return _IsVisibleSubmit;
+            }
+
+            set
+            {
+                if (_IsVisibleSubmit == value)
+                {
+                    return;
+                }
+
+                _IsVisibleSubmit = value;
+                RaisePropertyChanged(IsVisibleSubmitPropertyName);
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Commands
@@ -211,6 +278,7 @@ namespace KegID.ViewModel
         public RelayCommand ScanKegsCommad { get; set; }
         public RelayCommand SaveDraftCommand { get; set; }
         public RelayCommand CancelCommand { get; set; }
+        public RelayCommand SubmitCommand { get; set; }
 
         #endregion
 
@@ -224,14 +292,95 @@ namespace KegID.ViewModel
             ScanKegsCommad = new RelayCommand(ScanKegsCommadRecieverAsync);
             SaveDraftCommand = new RelayCommand(SaveDraftCommandRecieverAsync);
             CancelCommand = new RelayCommand(CancelCommandRecieverAsync);
+            SubmitCommand = new RelayCommand(SubmitCommandRecieverAsync);
             Destination.FullName = "Select a location";
             GetGPS();
         }
 
-
         #endregion
 
         #region Methods
+        private async void SubmitCommandRecieverAsync()
+        {
+            try
+            {
+                Loader.StartLoading();
+
+                ManifestModel manifestPostModel = await ManifestDraft();
+                var result = await _moveService.PostManifestAsync(manifestPostModel, Configuration.SessionId);
+                Loader.StopLoading();
+                await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestDetailView());
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            finally
+            {
+
+            }
+        }
+
+        private async Task<ManifestModel> ManifestDraft()
+        {
+            ManifestModel manifestModel = null;
+            ValidateBarcodeModel validateBarcodeModel = null;
+            List<ManifestItem> manifestItemlst = new List<ManifestItem>();
+            ManifestItem manifestItem = null;
+            var globalData = await SQLiteServiceClient.Db.Table<LoginModel>().FirstOrDefaultAsync();
+
+            foreach (var item in SimpleIoc.Default.GetInstance<ScanKegsViewModel>().BarcodeCollection)
+            {
+                var barcodeResult = await SQLiteServiceClient.Db.Table<BarcodeModel>().Where(x => x.Barcode == item.Id).FirstOrDefaultAsync();
+                validateBarcodeModel = JsonConvert.DeserializeObject<ValidateBarcodeModel>(barcodeResult.BarcodeJson);
+
+                manifestItem = new ManifestItem()
+                {
+                    Barcode = barcodeResult.Barcode,
+                    ScanDate = DateTime.Today,
+                    ValidationStatus = 2,
+                    KegId = validateBarcodeModel.Kegs.Partners.FirstOrDefault().Kegs.FirstOrDefault().KegId,
+                    Tags = SimpleIoc.Default.GetInstance<ScanKegsViewModel>().Tags,
+                    KegStatus = new List<KegStatus>()
+                    {
+                        new KegStatus()
+                        {
+                            KegId= validateBarcodeModel.Kegs.Partners.FirstOrDefault().Kegs.FirstOrDefault().KegId,
+                            Barcode=barcodeResult.Barcode,
+                            AltBarcode=validateBarcodeModel.Kegs.Partners.FirstOrDefault().Kegs.FirstOrDefault().AltBarcode,
+                            Contents =SimpleIoc.Default.GetInstance<ScanKegsViewModel>().SelectedBrand.BrandName,
+                            Batch =validateBarcodeModel.Kegs.Partners.FirstOrDefault().Kegs.FirstOrDefault().Batch.ToString(),
+                            Size = SimpleIoc.Default.GetInstance<ScanKegsViewModel>().Tags.Any(x=>x.Property == "Size") ? SimpleIoc.Default.GetInstance<ScanKegsViewModel>().Tags.Where(x=>x.Property == "Size").Select(x=>x.Value).FirstOrDefault():string.Empty,
+                            Alert = validateBarcodeModel.Kegs.Partners.FirstOrDefault().Kegs.FirstOrDefault().Alert,
+                            Location = validateBarcodeModel.Kegs.Locations.FirstOrDefault(),
+                            OwnerName = Destination.FullName,
+                        }
+                    },
+                };
+                manifestItemlst.Add(manifestItem);
+            }
+
+            manifestModel = new ManifestModel()
+            {
+                ManifestId = ManifestId,
+                EventTypeId = (long)EventTypeEnum.MOVE_MANIFEST,
+                Latitude = (long)savedPosition.Latitude,
+                Longitude = (long)savedPosition.Longitude,
+                SubmittedDate = DateTime.Today,
+                ShipDate = DateTime.Today,
+
+                SenderId = globalData.CompanyId,
+                ReceiverId = Destination.PartnerId,
+                DestinationName = Destination.FullName,
+                DestinationTypeCode = Destination.LocationCode,
+
+                ManifestItems = manifestItemlst,
+                NewPallets = new List<string>(),
+                Tags = Tags
+            };
+
+            return manifestModel;
+        }
 
         private async void SaveDraftCommandRecieverAsync()
         {
@@ -239,9 +388,7 @@ namespace KegID.ViewModel
             {
                 Loader.StartLoading();
 
-                ManifestModel manifestPostModel = null;
-                ValidateBarcodeModel validateBarcodeModel = null;
-
+                #region Old Code
                 //DraftManifestModel manifestModel = new DraftManifestModel()
                 //{
                 //    ClosedBatches = 0,
@@ -263,64 +410,38 @@ namespace KegID.ViewModel
                 //    Tags = TagsStr,
                 //    ManifestItems = Convert.ToInt64(AddKegs.Split(' ').FirstOrDefault()),
                 //    Id = 0,
-                //    ManifestId = MenifestRefId.Split(':').LastOrDefault().Trim(),
+                //    ManifestId = MenifestId.Split(':').LastOrDefault().Trim(),
                 //    ReceiverId = Destination.FullName,
                 //    SenderId = Destination.Address,
                 //    ShipDate = DateTime.Today,
                 //};
-                //await SQLiteServiceClient.Db.InsertAsync(manifestModel);
+                //await SQLiteServiceClient.Db.InsertAsync(manifestModel); 
+                #endregion
 
-                foreach (var item in SimpleIoc.Default.GetInstance<ScanKegsViewModel>().BarcodeCollection)
+                ManifestModel manifestPostModel = await ManifestDraft();
+                DraftManifestModel draftManifestModel = new DraftManifestModel()
                 {
-                    var barcodeResult = await SQLiteServiceClient.Db.Table<BarcodeModel>().Where(x => x.Barcode == item.Id).FirstOrDefaultAsync();
-                    var globalData = await SQLiteServiceClient.Db.Table<LoginModel>().FirstOrDefaultAsync();
+                    ManifestId = ManifestId,
+                    DraftManifestJson = JsonConvert.SerializeObject(manifestPostModel)
+                };
 
-                    validateBarcodeModel = JsonConvert.DeserializeObject<ValidateBarcodeModel>(barcodeResult.BarcodeJson);
-                    manifestPostModel = new ManifestModel()
-                    {
-                        ManifestId = MenifestId,
-                        EventTypeId = (long)EventTypeEnum.MOVE_MANIFEST,
-                        Latitude = (long)savedPosition.Latitude,
-                        Longitude = (long)savedPosition.Longitude,
-                        SubmittedDate = DateTime.Today,
-                        ShipDate = DateTime.Today,
-
-                        SenderId = globalData.CompanyId,
-                        ReceiverId = Destination.PartnerId,
-                        DestinationName = Destination.FullName,
-                        DestinationTypeCode = Destination.LocationCode,
-
-                        ManifestItems = new List<ManifestItem>()
-                    {
-                       new ManifestItem()
-                       {
-                            Barcode = barcodeResult.Barcode,
-                            ScanDate = DateTime.Today,
-                            ValidationStatus =2,
-                            KegId = validateBarcodeModel.Kegs.Partners.FirstOrDefault().Kegs.FirstOrDefault().KegId,
-                            Tags =SimpleIoc.Default.GetInstance<ScanKegsViewModel>().Tags,
-                           KegStatus = new List<KegStatus>()
-                           {
-                                new KegStatus()
-                                {
-                                    KegId= validateBarcodeModel.Kegs.Partners.FirstOrDefault().Kegs.FirstOrDefault().KegId,
-                                    Barcode=barcodeResult.Barcode,
-                                    AltBarcode=validateBarcodeModel.Kegs.Partners.FirstOrDefault().Kegs.FirstOrDefault().AltBarcode,
-                                    Contents =SimpleIoc.Default.GetInstance<ScanKegsViewModel>().SelectedBrand.BrandName,
-                                    Batch =validateBarcodeModel.Kegs.Partners.FirstOrDefault().Kegs.FirstOrDefault().Batch.ToString(),
-                                    Size = SimpleIoc.Default.GetInstance<ScanKegsViewModel>().Tags.Any(x=>x.Property == "Size") ? SimpleIoc.Default.GetInstance<ScanKegsViewModel>().Tags.Where(x=>x.Property == "Size").Select(x=>x.Value).FirstOrDefault():string.Empty,
-                                    Alert = validateBarcodeModel.Kegs.Partners.FirstOrDefault().Kegs.FirstOrDefault().Alert,
-                                    Location = validateBarcodeModel.Kegs.Locations.FirstOrDefault(),
-                                    OwnerName = Destination.FullName,
-                                }
-                            },
-                       }
-                    },
-                        NewPallets = new List<string>(),
-                        Tags = Tags
-                    };
+                try
+                {
+                    await SQLiteServiceClient.Db.InsertAsync(draftManifestModel);
                 }
-                var result = await _moveService.PostManifestAsync(manifestPostModel, Configuration.SessionId);
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
+                try
+                {
+                    await SQLiteServiceClient.Db.InsertAsync(manifestPostModel);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
+
                 Loader.StopLoading();
                 await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestsView());
             }
@@ -330,14 +451,13 @@ namespace KegID.ViewModel
             }
             finally
             {
-                
+
             }
         }
 
         public void GetUuId()
         {
-            MenifestId = Guid.NewGuid().ToString();
-            MenifestRefId = Regex.Match(MenifestId, @"(.{8})\s*$").Value.ToUpper();
+            ManifestId = Guid.NewGuid().ToString();
         }
         private async void CancelCommandRecieverAsync()
         {
@@ -352,8 +472,15 @@ namespace KegID.ViewModel
 
         private async void MoreInfoCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView());
 
-        private async void ScanKegsCommadRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new ScanKegsView());
+        private async void ScanKegsCommadRecieverAsync()
+        {
+            if (!string.IsNullOrEmpty(Destination.PartnerId))
+                await Application.Current.MainPage.Navigation.PushModalAsync(new ScanKegsView());
+            else
+                await Application.Current.MainPage.DisplayAlert("Error", "Please select a destination first.", "Ok");
+        }
 
+        #region Location Services
         private async void LastCached(object sender, EventArgs e)
         {
             try
@@ -525,6 +652,8 @@ namespace KegID.ViewModel
 
             });
         }
+
+        #endregion
 
         #endregion
     }

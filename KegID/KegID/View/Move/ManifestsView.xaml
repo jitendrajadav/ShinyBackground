@@ -21,7 +21,7 @@
 
             <Button
                 BackgroundColor="Transparent"
-                TextColor="Blue"
+                TextColor="{StaticResource selectTextColor}"
                 Text="Home"
                 VerticalOptions="Center" 
                 HorizontalOptions="Start"
@@ -29,6 +29,7 @@
 
             <Label 
                 Text="Manifests"
+                FontAttributes="Bold"
                 VerticalOptions="Center" 
                 HorizontalOptions="Center" />
 
@@ -58,7 +59,7 @@
             <BoxView
                 Margin="-10,0,-10,0"
                 Grid.Row="1"
-                BackgroundColor="Black"
+                BackgroundColor="{StaticResource lightGrayColor}"
                 HeightRequest="1"
                 VerticalOptions="Start"
                 HorizontalOptions="FillAndExpand"/>
@@ -93,7 +94,6 @@
             </StackLayout>
             
             <ListView
-                Margin="-10,0,-10,0"
                 x:Name="lstManifest"
                 Grid.Row="3"
                 SeparatorVisibility="Default"
@@ -129,27 +129,27 @@
                                 </Grid.ColumnDefinitions>
                                 
                                 <Label
-                                    TextColor="Blue"
+                                    TextColor="{StaticResource selectTextColor}"
                                     LineBreakMode="TailTruncation"
-                                    Text="{Binding ReceiverName}"/>
+                                    Text="{Binding DestinationName}"/>
 
                                 <Label
-                                    TextColor="Blue"
+                                    TextColor="{StaticResource selectTextColor}"
                                     Grid.Row="1"
                                     Text="{Binding ShipDate, StringFormat='{0:dd/MM/yy}'}"/>
 
                                 <Label
-                                    TextColor="Blue"
+                                    TextColor="{StaticResource selectTextColor}"
                                     HorizontalOptions="End"
                                     Grid.Column="1"
-                                    Text="{Binding TrackingNumber, StringFormat='# {0}'}"/>
+                                    Text="{Binding ManifestId, StringFormat='# {0}',Converter={StaticResource StringToLast8CharacterConverter}}"/>
 
                                 <Label
-                                    TextColor="Blue"
+                                    TextColor="{StaticResource selectTextColor}"
                                     HorizontalOptions="End"
                                     Grid.Column="1"
                                     Grid.Row="1"
-                                    Text="{Binding ItemCount, StringFormat='{0} Items'}"/>
+                                    Text="{Binding Path=ManifestCollection.Count, StringFormat='{0} Items'}"/>
                             </Grid>
                         </ViewCell>
                     </DataTemplate>

@@ -7,6 +7,7 @@ using Xamarin.Forms;
 using KegID.Model;
 using KegID.Common;
 using Rg.Plugins.Popup.Extensions;
+using KegID.Response;
 
 namespace KegID.ViewModel
 {
@@ -55,13 +56,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string PartnerCollectionPropertyName = "PartnerCollection";
 
-        private IList<ValidatePartnerModel> _PartnerCollection = null;
+        private IList<Partner> _PartnerCollection = null;
 
         /// <summary>
         /// Sets and gets the PartnerCollection property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public IList<ValidatePartnerModel> PartnerCollection
+        public IList<Partner> PartnerCollection
         {
             get
             {
@@ -87,14 +88,14 @@ namespace KegID.ViewModel
         #region Commands
         public RelayCommand CancelCommand { get; set; }
 
-        public RelayCommand<ValidatePartnerModel> ItemTappedCommand { get; set; }
+        public RelayCommand<Partner> ItemTappedCommand { get; set; }
         #endregion
 
         #region Constructor
         public ValidateBarcodeViewModel()
         {
             CancelCommand = new RelayCommand(CancelCommandRecievierAsync);
-            ItemTappedCommand = new RelayCommand<ValidatePartnerModel>((model) => ItemTappedCommandRecieverAsync(model));
+            ItemTappedCommand = new RelayCommand<Partner>((model) => ItemTappedCommandRecieverAsync(model));
         }
 
         #endregion
@@ -102,9 +103,9 @@ namespace KegID.ViewModel
         #region Methods
         private async void CancelCommandRecievierAsync() => await Application.Current.MainPage.Navigation.PopPopupAsync();
 
-        private async void ItemTappedCommandRecieverAsync(ValidatePartnerModel model)
+        private async void ItemTappedCommandRecieverAsync(Partner model)
         {
-            SimpleIoc.Default.GetInstance<ScanKegsViewModel>().BarcodeCollection.Where(x => x.Id == model.Barcode).FirstOrDefault().Icon = GetIconByPlatform.GetIcon("validationquestion.png");
+            SimpleIoc.Default.GetInstance<ScanKegsViewModel>().BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = GetIconByPlatform.GetIcon("validationquestion.png");
             await Application.Current.MainPage.Navigation.PopPopupAsync();
         }
 

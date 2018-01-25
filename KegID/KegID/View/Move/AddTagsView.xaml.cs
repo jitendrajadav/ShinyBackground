@@ -92,7 +92,7 @@ namespace KegID.View
                 BackgroundColor = Color.Transparent,
                 VerticalOptions = LayoutOptions.Center,
                 Text = "x",
-                TextColor = Color.Blue
+                TextColor = (Color)Application.Current.Resources["selectTextColor"] 
             };
             removeButton.Clicked += OnRemoveTagsClicked;
 
@@ -125,7 +125,7 @@ namespace KegID.View
                 BackgroundColor = Color.Transparent,
                 VerticalOptions = LayoutOptions.Center,
                 Text = "x",
-                TextColor = Color.Blue
+                TextColor = (Color)Application.Current.Resources["selectTextColor"]
             };
             removeButton.Clicked += OnRemoveTagsClicked;
 

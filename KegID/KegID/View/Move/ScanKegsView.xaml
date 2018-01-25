@@ -32,7 +32,7 @@
 
             <Button
                 BackgroundColor="Transparent"
-                TextColor="Blue"
+                TextColor="{StaticResource selectTextColor}"
                 Grid.Column="2"
                 Text="Done"
                 Command="{Binding DoneCommand}"/>
@@ -41,7 +41,7 @@
                 Margin="-10,0,-10,0"
                 Grid.Row="1"
                 Grid.ColumnSpan="3"
-                BackgroundColor="Black"
+                BackgroundColor="{StaticResource lightGrayColor}"
                 HeightRequest="1"
                 VerticalOptions="Start"
                 HorizontalOptions="FillAndExpand"/>
@@ -86,7 +86,7 @@
             <Picker
                 Margin="10,0,0,0"
                 ItemsSource="{Binding BrandCollection}"
-                TextColor="Blue"
+                TextColor="{StaticResource selectTextColor}"
                 Grid.Column="0"
                 Grid.Row="3"
                 Title="Select Content"
@@ -127,6 +127,7 @@
                 Grid.Row="4"
                 Grid.Column="0"
                 Grid.ColumnSpan="3"
+                TextColor="{StaticResource lightGrayColor}"
                 LineBreakMode="TailTruncation"
                 Text="{Binding TagsStr}"/>
 
@@ -134,7 +135,7 @@
                 Margin="-10,0,-10,0"
                 Grid.Row="5"
                 Grid.ColumnSpan="3"
-                BackgroundColor="CadetBlue"
+                BackgroundColor="{StaticResource bannerBGColor}"
                 VerticalOptions="FillAndExpand"
                 HorizontalOptions="FillAndExpand"/>
 
@@ -170,7 +171,9 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Grid>
+                            <Grid 
+                                RowSpacing="0"
+                                ColumnSpacing="0">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*"/>
                                     <RowDefinition Height="Auto"/>
@@ -193,6 +196,7 @@
 
                                 <Image 
                                     Grid.Column="1"
+                                    Grid.RowSpan="2"
                                     HeightRequest="30"
                                     WidthRequest="30"
                                     Margin="10,0,0,0"
@@ -207,13 +211,11 @@
                                 </Image>
 
                                 <Label
-                                    FontSize="10"
-                                    Grid.ColumnSpan="2"
+                                    FontSize="11"
+                                    LineBreakMode="TailTruncation"
+                                    TextColor="{StaticResource lightGrayColor}"
                                     Grid.Row="1"
-                                    VerticalOptions="End"
-                                    VerticalTextAlignment="End"
-                                    Grid.Column="0"
-                                    Text="{Binding Tags}"/>
+                                    Text="{Binding Path=BindingContext.TagsStr,Source={x:Reference Name=lstBarcode}}"/>
                             </Grid>
                         </ViewCell>
                     </DataTemplate>

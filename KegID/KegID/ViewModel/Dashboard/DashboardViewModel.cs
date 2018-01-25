@@ -1,5 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Ioc;
+using KegID.Common;
 using KegID.Response;
 using KegID.Services;
 using KegID.View;
@@ -221,24 +223,158 @@ namespace KegID.ViewModel
 
         #endregion
 
+        #region DraftmaniFests
+
+        /// <summary>
+        /// The <see cref="DraftmaniFests" /> property's name.
+        /// </summary>
+        public const string DraftmaniFestsPropertyName = "DraftmaniFests";
+
+        private string _DraftmaniFests = default(string);
+
+        /// <summary>
+        /// Sets and gets the DraftmaniFests property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public string DraftmaniFests
+        {
+            get
+            {
+                return _DraftmaniFests;
+            }
+
+            set
+            {
+                if (_DraftmaniFests == value)
+                {
+                    return;
+                }
+
+                _DraftmaniFests = value;
+                RaisePropertyChanged(DraftmaniFestsPropertyName);
+            }
+        }
+
+        #endregion
+
+        #region BgImage
+
+        /// <summary>
+        /// The <see cref="BgImage" /> property's name.
+        /// </summary>
+        public const string BgImagePropertyName = "BgImage";
+
+        private string _BgImage = "Assets/kegbg.png";
+
+        /// <summary>
+        /// Sets and gets the BgImage property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public string BgImage
+        {
+            get
+            {
+                return _BgImage;
+            }
+
+            set
+            {
+                if (_BgImage == value)
+                {
+                    return;
+                }
+
+                _BgImage = value;
+                RaisePropertyChanged(BgImagePropertyName);
+            }
+        }
+
+        #endregion
+
+        #region IsVisibleDraftmaniFestsLabel
+
+        /// <summary>
+        /// The <see cref="IsVisibleDraftmaniFestsLabel" /> property's name.
+        /// </summary>
+        public const string IsVisibleDraftmaniFestsLabelPropertyName = "IsVisibleDraftmaniFestsLabel";
+
+        private bool _IsVisibleDraftmaniFestsLabel = false;
+
+        /// <summary>
+        /// Sets and gets the IsVisibleDraftmaniFestsLabel property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public bool IsVisibleDraftmaniFestsLabel
+        {
+            get
+            {
+                return _IsVisibleDraftmaniFestsLabel;
+            }
+
+            set
+            {
+                if (_IsVisibleDraftmaniFestsLabel == value)
+                {
+                    return;
+                }
+
+                _IsVisibleDraftmaniFestsLabel = value;
+                RaisePropertyChanged(IsVisibleDraftmaniFestsLabelPropertyName);
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Commands
 
         public RelayCommand MoreCommand { get; set; }
+        public RelayCommand MaintainCommand { get; set; }
+        public RelayCommand PalletizeCommand { get; set; }
+        public RelayCommand FillCommand { get; set; }
+        public RelayCommand MoveCommand { get; set; }
+
         #endregion
 
         #region Constructor
         public DashboardViewModel(IDashboardService dashboardService)
         {
             _dashboardService = dashboardService;
+            BgImage = GetIconByPlatform.GetIcon("kegbg.png");
+
             MoreCommand = new RelayCommand(MoreCommandRecieverAsync);
+            MaintainCommand = new RelayCommand(MaintainCommandRecieverAsync);
+            PalletizeCommand = new RelayCommand(PalletizeCommandRecieverAsync);
+            FillCommand = new RelayCommand(FillCommandRecieverAsync);
+            MoveCommand = new RelayCommand(MoveCommandRecieverAsync);
+
             RefreshDashboardRecieverAsync();
         }
-        
+
         #endregion
 
         #region Methods
+
+        private async void MoveCommandRecieverAsync()
+        {
+            SimpleIoc.Default.GetInstance<MoveViewModel>().GetUuId();
+            await Application.Current.MainPage.Navigation.PushModalAsync(new MoveView());
+
+            CheckDraftmaniFests();
+        }
+
+        private void CheckDraftmaniFests()
+        {
+            IsVisibleDraftmaniFestsLabel = false;
+        }
+
+        private async void FillCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new FillView());
+
+        private async void PalletizeCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new PalletizeView());
+
+        private async void MaintainCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new MaintainView());
+
         public async void RefreshDashboardRecieverAsync(bool refresh = false)
         {
             DashboardModel Result = null;

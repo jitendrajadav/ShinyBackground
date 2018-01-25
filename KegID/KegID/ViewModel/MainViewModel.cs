@@ -150,41 +150,6 @@ namespace KegID.ViewModel
 
         #endregion
 
-        #region BgImage
-
-        /// <summary>
-        /// The <see cref="BgImage" /> property's name.
-        /// </summary>
-        public const string BgImagePropertyName = "BgImage";
-
-        private string _BgImage = "Assets/kegbg.png";
-
-        /// <summary>
-        /// Sets and gets the BgImage property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string BgImage
-        {
-            get
-            {
-                return _BgImage;
-            }
-
-            set
-            {
-                if (_BgImage == value)
-                {
-                    return;
-                }
-
-                _BgImage = value;
-                RaisePropertyChanged(BgImagePropertyName);
-            }
-        }
-
-        #endregion
-
-
         #endregion
 
         #region Commands
@@ -194,11 +159,6 @@ namespace KegID.ViewModel
         public RelayCommand<Barcode> ItemSelectedCommand { get; set; }
 
         public RelayCommand<Barcode> ItemTappedCommand { get; set; }
-
-        public RelayCommand MaintainCommand { get; set; }
-        public RelayCommand PalletizeCommand { get; set; }
-        public RelayCommand FillCommand { get; set; }
-        public RelayCommand MoveCommand { get; set; }
 
         #endregion
 
@@ -211,25 +171,9 @@ namespace KegID.ViewModel
             ItemSelectedCommand = new RelayCommand<Barcode>((model) => ItemSelectedCommandReciever(model));
             ItemTappedCommand = new RelayCommand<Barcode>((model) => ItemTappedCommandReciever(model));
 
-            BgImage = GetIconByPlatform.GetIcon("kegbg.png");
-            MaintainCommand = new RelayCommand(MaintainCommandRecieverAsync);
-            PalletizeCommand = new RelayCommand(PalletizeCommandRecieverAsync);
-            FillCommand = new RelayCommand(FillCommandRecieverAsync);
-            MoveCommand = new RelayCommand(MoveCommandRecieverAsync);
         }
 
         #region Methods
-        private async void MoveCommandRecieverAsync()
-        {
-            SimpleIoc.Default.GetInstance<MoveViewModel>().GetUuId();
-            await Application.Current.MainPage.Navigation.PushModalAsync(new MoveView());
-        }
-
-        private async void FillCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new FillView());
-
-        private async void PalletizeCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new PalletizeView());
-
-        private async void MaintainCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new MaintainView());
 
         private void ItemTappedCommandReciever(Barcode model)
         {

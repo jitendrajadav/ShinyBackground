@@ -49,7 +49,7 @@
                 Text="{Binding Password}"/>
             
             <Button
-                BackgroundColor="Blue"
+                BackgroundColor="{StaticResource selectTextColor}"
                 Grid.Row="2"
                 Grid.Column="1"
                 Text="Login"

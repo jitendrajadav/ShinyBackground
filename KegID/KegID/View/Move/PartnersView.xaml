@@ -33,11 +33,12 @@
                 <Button
                     BackgroundColor="Transparent"
                     HeightRequest="40"
-                    TextColor="Blue"
+                    TextColor="{StaticResource selectTextColor}"
                     Text="Back"/>
 
                 <Label 
                     Text="Partners"
+                    FontAttributes="Bold"
                     VerticalOptions="CenterAndExpand" 
                     HorizontalOptions="CenterAndExpand" />
 
@@ -87,8 +88,15 @@
 
             </StackLayout>
 
+            <BoxView
+                Margin="-10,0,-10,0"
+                Grid.Row="1"
+                BackgroundColor="{StaticResource bannerBGColor}"
+                VerticalOptions="FillAndExpand"
+                HorizontalOptions="FillAndExpand"/>
+
             <Entry
-                Margin="10,0,10,0"
+                Margin="10,5,10,5"
                 Placeholder="Partner Name"
                 Grid.Row="1"/>
             
@@ -122,7 +130,12 @@
 
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <TextCell Text="{Binding FullName}" Detail="{Binding Address}" />
+                        <ViewCell>
+                            <StackLayout>
+                                <Label TextColor="{StaticResource selectTextColor}" Text="{Binding FullName}" />
+                                <Label TextColor="{StaticResource lightGrayColor}" Text="{Binding Address}" FontSize="Micro"/>
+                            </StackLayout>
+                        </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
                 

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using GalaSoft.MvvmLight;
+﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
@@ -162,7 +161,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string AlphabeticalTextColorPropertyName = "AlphabeticalTextColor";
 
-        private string _AlphabeticalTextColor = "Blue";
+        private string _AlphabeticalTextColor = "#4E6388";
 
         /// <summary>
         /// Sets and gets the AlphabeticalTextColor property.
@@ -241,9 +240,9 @@ namespace KegID.ViewModel
 
             InternalCommand = new RelayCommand(InternalCommandReciever);
             AlphabeticalCommand = new RelayCommand(AlphabeticalCommandReciever);
-            ItemTappedCommand = new RelayCommand<PartnerModel>((model)=>ItemTappedCommandRecieverAsync(model));
+            ItemTappedCommand = new RelayCommand<PartnerModel>((model) => ItemTappedCommandRecieverAsync(model));
 
-            InternalBackgroundColor = "Blue";
+            InternalBackgroundColor = "#4E6388";
             InternalTextColor = "White";
 
             //PartnerCollection = new InfiniteScrollCollection<PartnerModel>
@@ -280,11 +279,11 @@ namespace KegID.ViewModel
             try
             {
                 if (model.Count > 0)
-                    PartnerCollection =new InfiniteScrollCollection<PartnerModel>(model);
+                    PartnerCollection = new InfiniteScrollCollection<PartnerModel>(model);
                 else
                 {
                     Loader.StartLoading();
-                   PartnerCollection = new InfiniteScrollCollection<PartnerModel>(await _moveService.GetPartnersListAsync(Configuration.SessionId));
+                    PartnerCollection = new InfiniteScrollCollection<PartnerModel>(await _moveService.GetPartnersListAsync(Configuration.SessionId));
                     await SQLiteServiceClient.Db.InsertAllAsync(PartnerCollection);
                 }
             }
@@ -296,23 +295,23 @@ namespace KegID.ViewModel
                 Loader.StopLoading();
                 model = null;
             }
-        }
+        } 
         private void AlphabeticalCommandReciever()
         {
-            AlphabeticalBackgroundColor = "Blue";
+            AlphabeticalBackgroundColor = "#4E6388";
             AlphabeticalTextColor = "White";
 
             InternalBackgroundColor = "White";
-            InternalTextColor = "Blue";
+            InternalTextColor = "#4E6388";
         }
 
         private void InternalCommandReciever()
         {
-            InternalBackgroundColor = "Blue";
+            InternalBackgroundColor = "#4E6388";
             InternalTextColor = "White";
 
             AlphabeticalBackgroundColor = "White";
-            AlphabeticalTextColor = "Blue";
+            AlphabeticalTextColor = "#4E6388";
         }
 
         public override void Cleanup()

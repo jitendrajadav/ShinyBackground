@@ -347,7 +347,9 @@ namespace KegID.ViewModel
         {
             await Application.Current.MainPage.Navigation.PushPopupAsync(new ValidateBarcodeView());
             SimpleIoc.Default.GetInstance<ValidateBarcodeViewModel>().MultipleKegsTitle = string.Format(" Multiple kgs were found with \n barcode {0}. \n Please select the correct one.", model.Id);
-            SimpleIoc.Default.GetInstance<ValidateBarcodeViewModel>().PartnerCollection = await SQLiteServiceClient.Db.Table<ValidatePartnerModel>().Where(x => x.Barcode == model.Id).ToListAsync();
+            var value = await SQLiteServiceClient.Db.Table<BarcodeModel>().Where(x => x.Barcode == model.Id).FirstOrDefaultAsync();
+            var validateBarcodeModel = JsonConvert.DeserializeObject<ValidateBarcodeModel>(value.BarcodeJson);
+            SimpleIoc.Default.GetInstance<ValidateBarcodeViewModel>().PartnerCollection = validateBarcodeModel.Kegs.Partners;
         }
 
         private async void AddTagsCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView());
@@ -355,10 +357,18 @@ namespace KegID.ViewModel
         private async void DoneCommandRecieverAsync()
         {
             if (BarcodeCollection.Count > 1)
+            {
                 SimpleIoc.Default.GetInstance<MoveViewModel>().AddKegs = string.Format("{0} Items", BarcodeCollection.Count);
+                SimpleIoc.Default.GetInstance<MoveViewModel>().IsSaveDraftVisible = true;
+                SimpleIoc.Default.GetInstance<MoveViewModel>().IsVisibleSubmit = true;
+            }
             else if (BarcodeCollection.Count == 1)
+            {
                 SimpleIoc.Default.GetInstance<MoveViewModel>().AddKegs = string.Format("{0} Item", BarcodeCollection.Count);
+                SimpleIoc.Default.GetInstance<MoveViewModel>().IsSaveDraftVisible = true;
+                SimpleIoc.Default.GetInstance<MoveViewModel>().IsVisibleSubmit = true;
 
+            }
             await Application.Current.MainPage.Navigation.PopModalAsync();
         }
 
@@ -437,7 +447,6 @@ namespace KegID.ViewModel
             {
                 Id = barcodeId,
                 Icon = validateBarcodeModel.Kegs.Partners.Count > 1 ? GetIconByPlatform.GetIcon("validationerror.png") : GetIconByPlatform.GetIcon("validationquestion.png"),
-                Tags = Tags
             };
 
             BarcodeModel barcodeModel = new BarcodeModel()

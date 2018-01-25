@@ -8,9 +8,14 @@
         <ResourceDictionary>
             <!-- Application resource dictionary -->
 
+            <Color x:Key="bannerBGColor">#4E6388</Color>
+            <Color x:Key="selectTextColor">#0879F1</Color>
+            <Color x:Key="lightGrayColor">#E6E6E6</Color>
+
             <converter:SelectedItemEventArgsToSelectedItemConverter x:Key="SelectedItemConverter" />
             <converter:ItemTappedEventArgsToSelectedItemConverter x:Key="ItemTappedConverter" />
-
+            <converter:StringToLast8CharacterConverter x:Key="StringToLast8CharacterConverter"/>
+            
             <Style x:Key="LabelLeftAlign" TargetType="Label">
                 <Setter Property="HorizontalTextAlignment" Value="Center" />
                 <Setter Property="VerticalOptions" Value="Center"/>

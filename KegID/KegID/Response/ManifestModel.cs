@@ -4,7 +4,15 @@ using SQLite.Net.Attributes;
 
 namespace KegID.Response
 {
+
     public class DraftManifestModel
+    {
+        [PrimaryKey]
+        public string ManifestId { get; set; }
+        public string DraftManifestJson { get; set; }
+    }
+
+    public class DraftManifestModelOld
     {
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
