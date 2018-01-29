@@ -15,7 +15,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string ProductionDatePropertyName = "ProductionDate";
 
-        private DateTime _ProductionDate = DateTime.Today;
+        private DateTime _ProductionDate = DateTime.Now.Date;
 
         /// <summary>
         /// Sets and gets the ProductionDate property.
@@ -45,17 +45,17 @@ namespace KegID.ViewModel
         #region BestByDataDate
 
         /// <summary>
-        /// The <see cref="BestByDateDate" /> property's name.
+        /// The <see cref="BestByDataDate" /> property's name.
         /// </summary>
         public const string BestByDataDatePropertyName = "BestByDataDate";
 
-        private DateTime _BestByDataDate = DateTime.Today;
+        private DateTime _BestByDataDate = DateTime.Now;
 
         /// <summary>
         /// Sets and gets the BestByDataDate property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public DateTime BestByDateDate
+        public DateTime BestByDataDate
         {
             get
             {
@@ -75,7 +75,6 @@ namespace KegID.ViewModel
         }
 
         #endregion
-
         #endregion
 
         #region Commands

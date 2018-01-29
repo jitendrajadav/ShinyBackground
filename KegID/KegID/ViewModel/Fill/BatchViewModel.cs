@@ -5,6 +5,7 @@ using KegID.Common;
 using KegID.Response;
 using KegID.Services;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -77,7 +78,7 @@ namespace KegID.ViewModel
             }
         }
 
-        private async void LoadBatchAsync()
+        public async Task<IList<BatchModel>> LoadBatchAsync()
         {
             try
             {
@@ -92,6 +93,7 @@ namespace KegID.ViewModel
             {
                 Loader.StopLoading();
             }
+            return BatchCollection;
         }
         #endregion
     }

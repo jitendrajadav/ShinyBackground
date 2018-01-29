@@ -4,6 +4,7 @@ using KegID.ViewModel;
 using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -15,27 +16,32 @@ namespace KegID.View
         public AddTagsView()
         {
             InitializeComponent();
+            LoadAddTagsAsync();
+        }
+
+        private async void LoadAddTagsAsync()
+        {
             if (Application.Current.MainPage.Navigation.ModalStack.Count > 2)
             {
                 if (Application.Current.MainPage.Navigation.ModalStack[2].GetType() == typeof(ScanKegsView))
                 {
                     if (SimpleIoc.Default.GetInstance<ScanKegsViewModel>().IsFromScanned)
                     {
-                        OnAddMoreTagsClickedAsync("Asset Type");
-                        OnAddMoreTagsClickedAsync("Size");
-                        OnAddMoreTagsClickedAsync("Contents");
-                        OnAddMoreTagsClickedAsync("Batch");
+                        await OnAddMoreTagsClickedAsync("Asset Type");
+                        await OnAddMoreTagsClickedAsync("Size");
+                        await OnAddMoreTagsClickedAsync("Contents");
+                        await OnAddMoreTagsClickedAsync("Batch");
                     }
                     else
                     {
-                        OnAddMoreTagsClickedAsync("Asset Type");
-                        OnAddMoreTagsClickedAsync("Size");
+                        await OnAddMoreTagsClickedAsync("Asset Type");
+                        await OnAddMoreTagsClickedAsync("Size");
                     }
                 }
             }
         }
 
-        async void OnAddMoreTagsClickedAsync(string title)
+        async Task OnAddMoreTagsClickedAsync(string title)
         {
             dynamic valueEntry;
 
@@ -73,6 +79,13 @@ namespace KegID.View
                     case "Contents":
                         var result = await SimpleIoc.Default.GetInstance<ScanKegsViewModel>().LoadBrandAsync();
                         valueEntry.ItemsSource = result.ToList();
+                        valueEntry.ItemDisplayBinding = new Binding("BrandName"); ;
+                        break;
+
+                    case "Batch":
+                        var Batchresult = await SimpleIoc.Default.GetInstance<BatchViewModel>().LoadBatchAsync();
+                        valueEntry.ItemsSource = Batchresult.ToList();
+                        valueEntry.ItemDisplayBinding = new Binding("BrandName"); ;
                         break;
 
                     default:

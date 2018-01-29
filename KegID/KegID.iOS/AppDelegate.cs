@@ -1,10 +1,10 @@
-﻿
-using Acr.UserDialogs;
-using CarouselView.FormsPlugin.iOS;
+﻿using CarouselView.FormsPlugin.iOS;
 using FFImageLoading.Forms.Touch;
 using Foundation;
 using KegID.iOS.DependencyServices;
+using System;
 using UIKit;
+using Xamarin.Forms;
 
 namespace KegID.iOS
 {
@@ -23,14 +23,25 @@ namespace KegID.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
-            Xamarin.Forms.Forms.Init();
+            Forms.Init();
             CarouselViewRenderer.Init();
             CachedImageRenderer.Init();
             ZXing.Net.Mobile.Forms.iOS.Platform.Init();
-            Xamarin.Forms.DependencyService.Register<OpenAppService>();
+            DependencyService.Register<OpenAppService>();
+            UIApplication.SharedApplication.SetMinimumBackgroundFetchInterval(UIApplication.BackgroundFetchIntervalMinimum);
+
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);
+        }
+
+        public override void PerformFetch(UIApplication application, Action<UIBackgroundFetchResult> completionHandler)
+        {
+            // Check for new data, and display it
+            MessagingCenter.Send<object, string>(this, "UpdateLabel", "Hello from iOS");
+
+            // Inform system of fetch results
+            completionHandler(UIBackgroundFetchResult.NewData);
         }
     }
 }

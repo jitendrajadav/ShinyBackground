@@ -422,6 +422,7 @@ namespace KegID.ViewModel
             customOverlay.Children.Add(title, 0, 1);
             customOverlay.Children.Add(done, 0, 2);
 
+
             scanPage = new ZXingScannerPage(customOverlay: customOverlay);
             scanPage.OnScanResult += (result) =>
             Device.BeginInvokeOnMainThread(async () =>

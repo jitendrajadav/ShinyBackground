@@ -88,7 +88,7 @@ namespace KegID.ViewModel
             SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().TrackingNumber = model.ManifestId;
             SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ManifestTo = model.DestinationName;
             SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ShippingDate = model.ShipDate;
-            SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().Tags = model.Tags;
+            SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ItemCount = model.Tags.Count;
 
             await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestDetailView());
         }

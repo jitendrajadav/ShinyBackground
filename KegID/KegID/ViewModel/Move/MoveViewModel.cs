@@ -308,6 +308,13 @@ namespace KegID.ViewModel
 
                 ManifestModel manifestPostModel = await ManifestDraft();
                 var result = await _moveService.PostManifestAsync(manifestPostModel, Configuration.SessionId);
+                SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().TrackingNumber = result.TrackingNumber;
+
+                SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ManifestTo = result.ReceiverName;
+
+                SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ShippingDate = result.ShipDate;
+                SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ItemCount = (int)result.ItemCount;
+
                 Loader.StopLoading();
                 await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestDetailView());
             }

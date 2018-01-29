@@ -30,7 +30,7 @@
             <Button
                 BackgroundColor="Transparent"
                 TextColor="Blue"
-                Text="Printer Seetings"
+                Text="Printer Settings"
                 Command="{Binding PrinterSettingCommand}"/>
 
             <BoxView

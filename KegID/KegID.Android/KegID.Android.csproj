@@ -106,11 +106,14 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BackgroundReceiver.cs" />
     <Compile Include="DependencyServices\AndroidCloseApplication.cs" />
     <Compile Include="DependencyServices\AndroidUniqueIdentifier.cs" />
+    <Compile Include="DependencyServices\BackgroundService.cs" />
     <Compile Include="DependencyServices\OpenAppService.cs" />
     <Compile Include="DependencyServices\SQLiteAndroid.cs" />
     <Compile Include="MainActivity.cs" />
+    <Compile Include="PeriodicService.cs" />
     <Compile Include="Renderers\CustomButtonRenderer.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -114,34 +114,35 @@ namespace KegID.ViewModel
 
         #endregion
 
-        #region Tags
+        #region ItemCount
+
         /// <summary>
-        /// The <see cref="Tags" /> property's name.
+        /// The <see cref="ItemCount" /> property's name.
         /// </summary>
-        public const string TagsPropertyName = "Tags";
+        public const string ItemCountPropertyName = "ItemCount";
 
-        private List<Tag> _tags = new List<Tag>();
+        private int _ItemCount = 0;
 
         /// <summary>
-        /// Sets and gets the Tags property.
+        /// Sets and gets the ItemCount property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public List<Tag> Tags
+        public int ItemCount
         {
             get
             {
-                return _tags;
+                return _ItemCount;
             }
 
             set
             {
-                if (_tags == value)
+                if (_ItemCount == value)
                 {
                     return;
                 }
 
-                _tags = value;
-                RaisePropertyChanged(TagsPropertyName);
+                _ItemCount = value;
+                RaisePropertyChanged(ItemCountPropertyName);
             }
         }
 
