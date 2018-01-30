@@ -36,14 +36,14 @@
                 Grid.ColumnSpan="2"
                 Text="Done"
                 BackgroundColor="Transparent"
-                TextColor="Blue"
+                TextColor="{StaticResource selectTextColor}"
                 Command="{Binding DoneCommand}"/>
 
             <BoxView
                 Margin="-10,0,-10,0"
                 Grid.Row="1"
                 Grid.ColumnSpan="2"
-                BackgroundColor="Black"
+                BackgroundColor="{StaticResource bannerBGColor}"
                 VerticalOptions="FillAndExpand"
                 HorizontalOptions="FillAndExpand"/>
             

@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Globalization;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
-using KegID.Response;
 using KegID.Services;
 using KegID.View;
 using Rg.Plugins.Popup.Extensions;

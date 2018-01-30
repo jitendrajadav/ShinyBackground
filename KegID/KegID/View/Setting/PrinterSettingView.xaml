@@ -29,7 +29,7 @@
             
             <Button
                 BackgroundColor="Transparent"
-                TextColor="Blue"
+                TextColor="{StaticResource selectTextColor}"
                 HorizontalOptions="Start"
                 Text="Cancel"
                 Command="{Binding CancelCommand}"/>
@@ -37,7 +37,7 @@
             <Button
                 Grid.Column="1"
                 BackgroundColor="Transparent"
-                TextColor="Blue"
+                TextColor="{StaticResource selectTextColor}"
                 HorizontalOptions="End"
                 Text="Save"
                 Command="{Binding SaveCommand}"/>
@@ -135,7 +135,7 @@
 
             <Button
                 BackgroundColor="Transparent"
-                TextColor="Blue"
+                TextColor="{StaticResource selectTextColor}"
                 VerticalOptions="Center"
                 HorizontalOptions="Center"
                 Grid.ColumnSpan="2"

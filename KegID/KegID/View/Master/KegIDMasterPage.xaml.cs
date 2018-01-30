@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight.Ioc;
+using KegID.Common;
 using KegID.Model;
 using KegID.ViewModel;
 using System;
@@ -35,7 +36,7 @@ namespace KegID.View
             switch (item.Id)
             {
                 case 1:
-                    SimpleIoc.Default.GetInstance<MoveViewModel>().GetUuId();
+                    SimpleIoc.Default.GetInstance<MoveViewModel>().ManifestId = Uuid.GetUuId();
                     break;
                 case 2:
                     break;

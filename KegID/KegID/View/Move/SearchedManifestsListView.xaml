@@ -16,7 +16,7 @@
             
             <Button
                 BackgroundColor="Transparent"
-                TextColor="Blue"
+                TextColor="{StaticResource selectTextColor}"
                 HorizontalOptions="Start"
                 VerticalOptions="Center"
                 Command="{Binding SearchManifestsCommand}"
@@ -71,23 +71,23 @@
                                 </Grid.ColumnDefinitions>
 
                                 <Label
-                                    TextColor="Blue"
+                                    TextColor="{StaticResource selectTextColor}"
                                     LineBreakMode="TailTruncation"
                                     Text="{Binding DestinationId}"/>
 
                                 <Label
-                                    TextColor="Blue"
+                                    TextColor="{StaticResource selectTextColor}"
                                     Grid.Row="1"
                                     Text="{Binding SubmittedDate, StringFormat='{0:dd/MM/yy}'}"/>
 
                                 <Label
-                                    TextColor="Blue"
+                                    TextColor="{StaticResource selectTextColor}"
                                     HorizontalOptions="End"
                                     Grid.Column="1"
                                     Text="{Binding ManifestId, StringFormat='# {0}'}"/>
 
                                 <Label
-                                    TextColor="Blue"
+                                    TextColor="{StaticResource selectTextColor}"
                                     HorizontalOptions="End"
                                     Grid.Column="1"
                                     Grid.Row="1"

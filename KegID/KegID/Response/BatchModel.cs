@@ -1,4 +1,4 @@
-﻿namespace KegID.Response
+﻿namespace KegID.Model
 {
     public class BatchModel
     {

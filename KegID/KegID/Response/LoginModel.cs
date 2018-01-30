@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace KegID.Response
+namespace KegID.Model
 {
     public class LoginModel
     {

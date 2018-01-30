@@ -8,6 +8,11 @@ namespace KegID.Common
 {
     internal static class Uuid
     {
+
+        public static string GetUuId()
+        {
+           return Guid.NewGuid().ToString();
+        }
         /// <summary>
         ///     The namespace for fully-qualified domain names (from RFC 4122, Appendix C).
         /// </summary>

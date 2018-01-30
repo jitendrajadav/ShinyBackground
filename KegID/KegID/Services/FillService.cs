@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using KegID.Common;
-using KegID.Response;
+using KegID.Model;
 
 namespace KegID.Services
 {

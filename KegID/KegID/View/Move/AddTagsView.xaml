@@ -94,7 +94,7 @@
 
                 <DatePicker
                     Date="{Binding BestByDataDate}"
-                    TextColor="Blue"
+                    TextColor="{StaticResource selectTextColor}"
                     Grid.Column="1"
                     Grid.Row="0"/>
 
@@ -102,7 +102,7 @@
                     Text="x"
                     Grid.Column="2"
                     Grid.Row="0"
-                    TextColor="Blue"
+                    TextColor="{StaticResource selectTextColor}"
                     BackgroundColor="Transparent"
                     Clicked="OnRemoveTagsClicked"/>
 
@@ -113,7 +113,7 @@
 
                 <DatePicker
                     Date="{Binding ProductionDate}"
-                    TextColor="Blue"
+                    TextColor="{StaticResource selectTextColor}"
                     Grid.Column="1"
                     Grid.Row="1"/>
 

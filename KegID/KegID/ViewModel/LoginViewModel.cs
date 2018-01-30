@@ -1,7 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using KegID.Common;
-using KegID.Response;
+using KegID.Model;
 using KegID.Services;
 using KegID.SQLiteClient;
 using System;
@@ -165,6 +165,7 @@ namespace KegID.ViewModel
                 if (globalData != null)
                 {
                     Configuration.SessionId = globalData.SessionId;
+                    Configuration.CompanyId = globalData.CompanyId;
                     //await Application.Current.MainPage.Navigation.PushModalAsync(new KegIDMasterPage());
                     await Application.Current.MainPage.Navigation.PushModalAsync(new MainPage());
                 }

@@ -3,7 +3,7 @@ using System.Linq;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using KegID.Common;
-using KegID.Response;
+using KegID.Model;
 using KegID.Services;
 using KegID.SQLiteClient;
 using KegID.View;

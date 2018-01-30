@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using KegID.Response;
 using KegID.View;
 using Xamarin.Forms;
 

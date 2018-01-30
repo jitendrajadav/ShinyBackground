@@ -1,7 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using KegID.Common;
-using KegID.Response;
+using KegID.Model;
 using KegID.SQLiteClient;
 using System;
 using System.Collections.Generic;

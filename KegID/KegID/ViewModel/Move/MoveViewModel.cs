@@ -3,7 +3,6 @@ using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
 using KegID.Model;
-using KegID.Response;
 using KegID.Services;
 using KegID.SQLiteClient;
 using KegID.View;
@@ -307,7 +306,7 @@ namespace KegID.ViewModel
                 Loader.StartLoading();
 
                 ManifestModel manifestPostModel = await ManifestDraft();
-                var result = await _moveService.PostManifestAsync(manifestPostModel, Configuration.SessionId);
+                var result = await _moveService.PostManifestAsync(manifestPostModel, Configuration.SessionId, Configuration.NewManifest);
                 SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().TrackingNumber = result.TrackingNumber;
 
                 SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ManifestTo = result.ReceiverName;
@@ -462,10 +461,7 @@ namespace KegID.ViewModel
             }
         }
 
-        public void GetUuId()
-        {
-            ManifestId = Guid.NewGuid().ToString();
-        }
+       
         private async void CancelCommandRecieverAsync()
         {
             var result = await Application.Current.MainPage.DisplayActionSheet("Cancel? \n You have like to save this manifest as a draft or delete?",null,null, "Delete manifest", "Save as draft");

@@ -2,7 +2,7 @@
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
-using KegID.Response;
+using KegID.Model;
 using KegID.Services;
 using KegID.View;
 using Rg.Plugins.Popup.Extensions;
@@ -358,7 +358,7 @@ namespace KegID.ViewModel
 
         private async void MoveCommandRecieverAsync()
         {
-            SimpleIoc.Default.GetInstance<MoveViewModel>().GetUuId();
+            SimpleIoc.Default.GetInstance<MoveViewModel>().ManifestId = Uuid.GetUuId();
             await Application.Current.MainPage.Navigation.PushModalAsync(new MoveView());
 
             CheckDraftmaniFests();

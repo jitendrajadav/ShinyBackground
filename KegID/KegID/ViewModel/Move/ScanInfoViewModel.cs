@@ -224,7 +224,6 @@ namespace KegID.ViewModel
 
         public ScanInfoViewModel()
         {
-            Barcode = Barcode + "1234";
             DoneCommand = new RelayCommand(DoneCommandRecieverAsync);
         }
 

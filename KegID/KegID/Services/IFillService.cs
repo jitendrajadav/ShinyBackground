@@ -1,4 +1,4 @@
-﻿using KegID.Response;
+﻿using KegID.Model;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

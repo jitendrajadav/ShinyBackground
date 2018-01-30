@@ -14,9 +14,12 @@
             </Grid.RowDefinitions>
             
             <Button 
+                BackgroundColor="Transparent"
+                TextColor="{StaticResource selectTextColor}"
                 Text="{Binding BackPartners}"
                 VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="Start" />
+                HorizontalOptions="Start" 
+                Command="{Binding BackPartnersCommand}"/>
             
             <Entry
                 Grid.Row="1"/>

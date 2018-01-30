@@ -1,4 +1,7 @@
-﻿using GalaSoft.MvvmLight;
+﻿using System;
+using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
+using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
@@ -41,8 +44,10 @@ namespace KegID.ViewModel
         #endregion
 
         #endregion
-        
+
         #region Commands
+
+        public RelayCommand BackPartnersCommand { get; set; }
 
         #endregion
 
@@ -51,11 +56,13 @@ namespace KegID.ViewModel
         public SearchPartnersViewModel()
         {
             BackPartners = "< Partners";
+            BackPartnersCommand = new RelayCommand(BackPartnersCommandRecieverAsync);
         }
 
         #endregion
 
         #region Methods
+        private async void BackPartnersCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PopModalAsync();
 
         #endregion
     }

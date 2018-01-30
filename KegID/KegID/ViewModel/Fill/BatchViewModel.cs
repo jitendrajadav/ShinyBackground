@@ -2,7 +2,7 @@
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
-using KegID.Response;
+using KegID.Model;
 using KegID.Services;
 using System.Collections.Generic;
 using System.Threading.Tasks;

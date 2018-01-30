@@ -2,7 +2,7 @@
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
-using KegID.Response;
+using KegID.Model;
 using KegID.SQLiteClient;
 using KegID.View;
 using System.Collections.Generic;

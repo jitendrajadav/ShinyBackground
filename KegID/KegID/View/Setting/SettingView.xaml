@@ -17,7 +17,7 @@
 
             <Button
                 BackgroundColor="Transparent"
-                TextColor="Blue"
+                TextColor="{StaticResource selectTextColor}"
                 Text="Refresh"
                 Command="{Binding RefreshSettingCommand}"/>
 
@@ -29,7 +29,7 @@
 
             <Button
                 BackgroundColor="Transparent"
-                TextColor="Blue"
+                TextColor="{StaticResource selectTextColor}"
                 Text="Printer Settings"
                 Command="{Binding PrinterSettingCommand}"/>
 
@@ -41,7 +41,7 @@
 
             <Button
                 BackgroundColor="Transparent"
-                TextColor="Blue"
+                TextColor="{StaticResource selectTextColor}"
                 Text="What's New"
                 Command="{Binding WhatsNewCommand}"/>
 
@@ -53,7 +53,7 @@
 
             <Button
                 BackgroundColor="Transparent"
-                TextColor="Blue"
+                TextColor="{StaticResource selectTextColor}"
                 Text="Support"
                 Command="{Binding SupportCommand}"/>
 
@@ -65,7 +65,7 @@
 
             <Button
                 BackgroundColor="Transparent"
-                TextColor="Blue"
+                TextColor="{StaticResource selectTextColor}"
                 Text="Log Out"
                 Command="{Binding LogOutSettingCommand}"/>
         </StackLayout>

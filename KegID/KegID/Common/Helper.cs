@@ -44,7 +44,7 @@ namespace KegID.Common
 
             return data;
         }
-        public static async Task<string> Send(string Url, string Json)
+        public static async Task<string> Send(string Url, string Json, string RequestType)
         {
             string data = string.Empty;
             var uri = new Uri(string.Format(Url, string.Empty));
@@ -54,7 +54,7 @@ namespace KegID.Common
                 var content = new StringContent(Json, Encoding.UTF8, "application/json");
 
                 HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Post, uri);
-                requestMessage.Headers.Add("Request-type", "NewManifest");
+                requestMessage.Headers.Add("Request-type", RequestType);
                 requestMessage.Content = content;
 
                 HttpResponseMessage response = null;
@@ -93,7 +93,7 @@ namespace KegID.Common
 
         #region ExecuteCall
 
-        public static async Task<T> ExecuteServiceCall<T>(string url, HttpMethodType httpMethodType,string content)
+        public static async Task<T> ExecuteServiceCall<T>(string url, HttpMethodType httpMethodType,string content, string RequestType = "")
         {
             T response = default(T);
             try
@@ -104,7 +104,7 @@ namespace KegID.Common
                         content = await Get(url, content);
                         break;
                     case HttpMethodType.Send:
-                        content = await Send(url, content);
+                        content = await Send(url, content, RequestType);
                         break;
                     case HttpMethodType.Post:
                         content = await Post(url, content);

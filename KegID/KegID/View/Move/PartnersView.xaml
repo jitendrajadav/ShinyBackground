@@ -47,7 +47,7 @@
                     BorderRadius="5"
                     WidthRequest="50"
                     BorderWidth="0"
-                    Command="{Binding ActionSearchCommand}"
+                    Command="{Binding SearchPartnerCommand}"
                     BackgroundColor="White" >
                     <Button.Image>
                         <OnPlatform x:TypeArguments="FileImageSource">
@@ -69,7 +69,7 @@
                     BorderRadius="5"
                     WidthRequest="50"
                     BorderWidth="0"
-                    Command="{Binding ActionNewCommand}"
+                    Command="{Binding AddNewPartnerCommand}"
                     BackgroundColor="White" >
                     <Button.Image>
                         <OnPlatform x:TypeArguments="FileImageSource">

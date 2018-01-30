@@ -1,5 +1,5 @@
 ﻿using GalaSoft.MvvmLight.Ioc;
-using KegID.Response;
+using KegID.Model;
 using KegID.ViewModel;
 using System;
 using System.Diagnostics;

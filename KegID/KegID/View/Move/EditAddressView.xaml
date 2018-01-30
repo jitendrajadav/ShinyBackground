@@ -6,7 +6,8 @@
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=EditAddress}">
     
     <ContentPage.Content>
-        <Grid>
+        <Grid
+            Margin="10,0,10,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -22,23 +23,26 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <StackLayout
+            <Button
+                HorizontalOptions="Start"
                 VerticalOptions="Center"
-                Orientation="Horizontal">
+                TextColor="{StaticResource selectTextColor}"
+                BackgroundColor="Transparent"
+                Command="{Binding BackCommand}"
+                Text="Back"/>
 
-                <Button
-                    BackgroundColor="Transparent"
-                    Command="{Binding BackCommand}"
-                    Text="Back"/>
+            <Label
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                Text="{Binding AddressTitle}"/>
 
-                <Label
-                    Text="{Binding AddressTitle}"/>
-
-                <Button
-                    BackgroundColor="Transparent"
-                    Command="{Binding DoneCommand}"
-                    Text="Done"/>
-            </StackLayout>
+            <Button
+                HorizontalOptions="End"
+                VerticalOptions="Center"
+                BackgroundColor="Transparent"
+                Command="{Binding DoneCommand}"
+                Text="Done"
+                TextColor="{StaticResource selectTextColor}"/>
 
             <BoxView
                 Margin="-10,0,-10,0"
@@ -50,35 +54,42 @@
 
             <Entry
                 Grid.Row="2"
-                Placeholder="Address Line 1"/>
+                Placeholder="Address Line 1"
+                Text="{Binding Line1}"/>
 
             <Entry
                 Grid.Row="3"
-                Placeholder="Address Line 2"/>
+                Placeholder="Address Line 2"
+                Text="{Binding Line2}"/>
 
             <Entry
                 Grid.Row="4"
-                Placeholder="Address Line 3"/>
+                Placeholder="Address Line 3"
+                Text="{Binding Line3}"/>
 
             <Entry
                 Grid.Row="5"
-                Placeholder="City"/>
+                Placeholder="City"
+                Text="{Binding City}"/>
 
             <Entry
                 Grid.Row="6"
-                Placeholder="State"/>
+                Placeholder="State"
+                Text="{Binding State}"/>
 
             <Entry
                 Grid.Row="7"
-                Placeholder="Postal Code"/>
+                Placeholder="Postal Code"
+                Text="{Binding PostalCode}"/>
 
             <Entry
                 Grid.Row="8"
-                Placeholder="Country"/>
+                Placeholder="Country"
+                Text="{Binding Country}"/>
             
             <Button
                 BackgroundColor="Transparent"
-                TextColor="Blue"
+                TextColor="{StaticResource selectTextColor}"
                 Grid.Row="9"
                 Text="Get current location"/>
 

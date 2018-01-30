@@ -28,7 +28,7 @@
            
             <Button
                 BackgroundColor="Transparent"
-                TextColor="Blue"
+                TextColor="{StaticResource selectTextColor}"
                 Grid.ColumnSpan="2"
                 HorizontalOptions="Start"
                 Text="Manifests"
@@ -114,7 +114,7 @@
 
             <Button
                 BackgroundColor="Transparent"
-                TextColor="Blue"
+                TextColor="{StaticResource selectTextColor}"
                 Grid.Column="1"
                 Grid.Row="8"
                 HorizontalOptions="End"

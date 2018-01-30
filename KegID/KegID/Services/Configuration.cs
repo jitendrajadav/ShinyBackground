@@ -8,6 +8,9 @@ namespace KegID.Services
         /// Global SessionId
         /// </summary>
         public static string SessionId;
+        public static string CompanyId;
+        public const string NewManifest = "NewManifest";
+        public const string NewPartner = "NewPartner";
 
         /// <summary>
         /// Base Url
@@ -33,8 +36,10 @@ namespace KegID.Services
         public const string GetValidateBarcodeUrl = ServiceUrl + "validation/?barcode={0}&sessionId={1}";
         public const string GetBrandUrl = ServiceUrl + "brand/?sessionId={0}";
         public const string GetManifestUrl = ServiceUrl + "Manifest/?sessionId={0}";
+        public const string GetPartnerTypeUrl = ServiceUrl + "PartnerType/?sessionId={0}";
 
         public const string PostManifestUrl = ServiceUrl + "Manifest/?sessionId={0}";
+        public const string PostNewPartnerUrl = ServiceUrl + "Partner/?sessionId={0}";
 
 
         /// <summary>

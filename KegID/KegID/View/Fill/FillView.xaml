@@ -16,7 +16,7 @@
 
             <Button
                 BackgroundColor="Transparent"
-                TextColor="Blue"
+                TextColor="{StaticResource selectTextColor}"
                 HorizontalOptions="Start"
                 Text="Cancel"
                 Command="{Binding CancelCommand}"/>
@@ -62,7 +62,7 @@
                 HorizontalOptions="Start"
                 Margin="10,0,0,0"
                 Grid.Row="2"
-                TextColor="Blue"
+                TextColor="{StaticResource selectTextColor}"
                 BackgroundColor="Transparent"
                 Text="{Binding BatchButtonTitle}"
                 Command="{Binding BatchCommand}"/>
@@ -83,7 +83,7 @@
                 HorizontalOptions="Start"
                 Margin="10,0,0,0"
                 Grid.Row="5"
-                TextColor="Blue"
+                TextColor="{StaticResource selectTextColor}"
                 Text="{Binding SizeButtonTitle}"
                 Command="{Binding SizeCommand}"/>
 
@@ -102,7 +102,7 @@
                 Margin="10,0,0,0"
                 Grid.Row="8"
                 HorizontalOptions="Start"
-                TextColor="Blue"
+                TextColor="{StaticResource selectTextColor}"
                 BackgroundColor="Transparent"
                 Text="{Binding DestinationTitle}"
                 Command="{Binding DestinationCommand}"/>

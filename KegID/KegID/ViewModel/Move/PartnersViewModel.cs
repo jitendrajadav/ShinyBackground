@@ -1,12 +1,15 @@
-﻿using GalaSoft.MvvmLight;
+﻿using System.Collections.ObjectModel;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
-using KegID.Response;
 using KegID.Services;
 using KegID.SQLiteClient;
+using KegID.View;
 using Xamarin.Forms;
-using Xamarin.Forms.Extended;
+using System.Linq;
+using System.Collections.Generic;
+using KegID.Model;
 
 namespace KegID.ViewModel
 {
@@ -195,13 +198,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string PartnerCollectionPropertyName = "PartnerCollection";
 
-        private InfiniteScrollCollection<PartnerModel> _PartnerCollection = null;
+        private ObservableCollection<PartnerModel> _PartnerCollection = null;
 
         /// <summary>
         /// Sets and gets the PartnerCollection property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public InfiniteScrollCollection<PartnerModel> PartnerCollection
+        public ObservableCollection<PartnerModel> PartnerCollection
         {
             get
             {
@@ -222,14 +225,17 @@ namespace KegID.ViewModel
 
         #endregion
 
+        public IList<PartnerModel> FilterPartners { get; set; }
+
         #endregion
 
         #region Commands
 
         public RelayCommand InternalCommand { get; set; }
         public RelayCommand AlphabeticalCommand { get; set; }
-
         public RelayCommand<PartnerModel> ItemTappedCommand { get; set; }
+        public RelayCommand SearchPartnerCommand { get; set; }
+        public RelayCommand AddNewPartnerCommand { get; set; }
 
         #endregion
 
@@ -241,6 +247,8 @@ namespace KegID.ViewModel
             InternalCommand = new RelayCommand(InternalCommandReciever);
             AlphabeticalCommand = new RelayCommand(AlphabeticalCommandReciever);
             ItemTappedCommand = new RelayCommand<PartnerModel>((model) => ItemTappedCommandRecieverAsync(model));
+            SearchPartnerCommand = new RelayCommand(SearchPartnerCommandRecieverAsync);
+            AddNewPartnerCommand = new RelayCommand(AddNewPartnerCommandRecieverAsync);
 
             InternalBackgroundColor = "#4E6388";
             InternalTextColor = "White";
@@ -257,6 +265,16 @@ namespace KegID.ViewModel
             //    }
             //};
             LoadPartnersAsync();
+        }
+
+        private async void AddNewPartnerCommandRecieverAsync()
+        {
+           await Application.Current.MainPage.Navigation.PushModalAsync(new AddPartnerView());
+        }
+
+        private async void SearchPartnerCommandRecieverAsync()
+        {
+            await Application.Current.MainPage.Navigation.PushModalAsync(new SearchPartnersView());
         }
 
         #endregion
@@ -279,11 +297,11 @@ namespace KegID.ViewModel
             try
             {
                 if (model.Count > 0)
-                    PartnerCollection = new InfiniteScrollCollection<PartnerModel>(model);
+                    PartnerCollection = new ObservableCollection<PartnerModel>(model);
                 else
                 {
                     Loader.StartLoading();
-                    PartnerCollection = new InfiniteScrollCollection<PartnerModel>(await _moveService.GetPartnersListAsync(Configuration.SessionId));
+                    PartnerCollection = new ObservableCollection<PartnerModel>(await _moveService.GetPartnersListAsync(Configuration.SessionId));
                     await SQLiteServiceClient.Db.InsertAllAsync(PartnerCollection);
                 }
             }
@@ -298,6 +316,8 @@ namespace KegID.ViewModel
         } 
         private void AlphabeticalCommandReciever()
         {
+            PartnerCollection.OrderBy(x => x.FullName);
+
             AlphabeticalBackgroundColor = "#4E6388";
             AlphabeticalTextColor = "White";
 

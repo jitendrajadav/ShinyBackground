@@ -97,6 +97,7 @@
                 Grid.Row="3"
                 Grid.Column="1"
                 VerticalOptions="End"
+                Text="{Binding Batch}"
                 Placeholder="Batch"/>
 
             <Button

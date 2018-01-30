@@ -1,5 +1,4 @@
 ﻿using KegID.Model;
-using KegID.Response;
 using SQLite.Net.Async;
 using System;
 using System.Diagnostics;
@@ -44,7 +43,7 @@ namespace KegID.SQLiteClient
             try
             {
                 await Db.CreateTablesAsync<LoginModel, DraftManifestModel, BarcodeModel, Preference, PartnerModel>();
-                await Db.CreateTablesAsync<BrandModel, ManifestModel>();
+                await Db.CreateTablesAsync<BrandModel, ManifestModel, PartnerTypeModel>();
             }
             catch (Exception ex)
             {

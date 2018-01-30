@@ -9,7 +9,7 @@
             
             <Button 
                 BackgroundColor="Transparent"
-                TextColor="Blue"
+                TextColor="{StaticResource selectTextColor}"
                 Text="Manifest"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="Start" 

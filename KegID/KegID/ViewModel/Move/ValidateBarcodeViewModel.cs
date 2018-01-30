@@ -7,7 +7,11 @@ using Xamarin.Forms;
 using KegID.Model;
 using KegID.Common;
 using Rg.Plugins.Popup.Extensions;
-using KegID.Response;
+using KegID.SQLiteClient;
+using Newtonsoft.Json;
+using System.Threading.Tasks;
+using System;
+using System.Diagnostics;
 
 namespace KegID.ViewModel
 {
@@ -83,6 +87,7 @@ namespace KegID.ViewModel
 
         #endregion
 
+        public List<Barcode> models { get; set; }
         #endregion
 
         #region Commands
@@ -98,6 +103,33 @@ namespace KegID.ViewModel
             ItemTappedCommand = new RelayCommand<Partner>((model) => ItemTappedCommandRecieverAsync(model));
         }
 
+        public async void LoadBardeValue(List<Barcode> _models)
+        {
+            models = _models;
+            await ValidateScannedBarcode();
+        }
+
+        private async Task ValidateScannedBarcode()
+        {
+            string BarcodeId = default(string);
+            try
+            {
+                MultipleKegsTitle = string.Format(" Multiple kgs were found with \n barcode {0}. \n Please select the correct one.", models.FirstOrDefault().Id);
+                BarcodeId = models.FirstOrDefault().Id;
+                var value = await SQLiteServiceClient.Db.Table<BarcodeModel>().Where(x => x.Barcode == BarcodeId).FirstOrDefaultAsync();
+                var validateBarcodeModel = JsonConvert.DeserializeObject<ValidateBarcodeModel>(value.BarcodeJson);
+                PartnerCollection = validateBarcodeModel.Kegs.Partners;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            finally
+            {
+                BarcodeId = default(string);
+            }
+        }
+
         #endregion
 
         #region Methods
@@ -106,7 +138,11 @@ namespace KegID.ViewModel
         private async void ItemTappedCommandRecieverAsync(Partner model)
         {
             SimpleIoc.Default.GetInstance<ScanKegsViewModel>().BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = GetIconByPlatform.GetIcon("validationquestion.png");
-            await Application.Current.MainPage.Navigation.PopPopupAsync();
+            models.RemoveAt(0);
+            if (models.Count == 0)
+                await Application.Current.MainPage.Navigation.PopPopupAsync();
+            else
+                await ValidateScannedBarcode();
         }
 
         #endregion

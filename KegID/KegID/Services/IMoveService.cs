@@ -1,4 +1,4 @@
-﻿using KegID.Response;
+﻿using KegID.Model;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -10,6 +10,10 @@ namespace KegID.Services
         Task<ValidateBarcodeModel> GetValidateBarcodeAsync(string sessionId, string barcode);
         Task<IList<BrandModel>> GetBrandListAsync(string sessionId);
         Task<IList<ManifestModelGet>> GetManifestListAsync(string sessionId);
-        Task<ManifestModelGet> PostManifestAsync(ManifestModel model, string sessionId);
+        Task<IList<PartnerTypeModel>> GetPartnerTypeAsync(string sessionId);
+
+
+        Task<ManifestModelGet> PostManifestAsync(ManifestModel model, string sessionId,string RequestType);
+        Task<NewPartnerResponseModel> PostNewPartnerAsync(NewPartnerRequestModel model, string sessionId, string RequestType);
     }
 }

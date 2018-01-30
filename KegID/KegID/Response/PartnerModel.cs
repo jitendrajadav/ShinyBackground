@@ -1,6 +1,6 @@
 ﻿using SQLite.Net.Attributes;
 
-namespace KegID.Response
+namespace KegID.Model
 {
     public class PartnerModel
     {
