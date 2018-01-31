@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace KegID.Model
 {
-    public class ValidateBarcodeModel
+    public class ValidateBarcodeModel : KegIDResponse
     {
         public Kegs Kegs { get; set; }
         public Pallets Pallets { get; set; }

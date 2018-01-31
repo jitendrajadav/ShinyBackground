@@ -83,7 +83,11 @@ namespace KegID.ViewModel
             try
             {
                 Loader.StartLoading();
-                BatchCollection = await _fillService.GetBatchListAsync(Configuration.SessionId);
+                var value = await _fillService.GetBatchListAsync(Configuration.SessionId);
+                if (value.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    BatchCollection = value.BatchModel;
+                }
             }
             catch (System.Exception)
             {

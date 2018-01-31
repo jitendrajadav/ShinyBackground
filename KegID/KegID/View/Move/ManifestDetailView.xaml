@@ -162,7 +162,7 @@
                     HorizontalTextAlignment="Center"
                     VerticalTextAlignment="Center"
                     VerticalOptions="FillAndExpand"
-                    Text="Barcode Blonde"/>
+                    Text="{Binding Contents}"/>
 
                 <BoxView
                     Grid.Row="3"

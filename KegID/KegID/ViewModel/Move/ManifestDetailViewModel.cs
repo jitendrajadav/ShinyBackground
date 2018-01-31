@@ -146,6 +146,40 @@ namespace KegID.ViewModel
 
         #endregion
 
+        #region Contents
+
+        /// <summary>
+        /// The <see cref="Contents" /> property's name.
+        /// </summary>
+        public const string ContentsPropertyName = "Contents";
+
+        private string _Contents = "No contents";
+
+        /// <summary>
+        /// Sets and gets the Contents property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public string Contents
+        {
+            get
+            {
+                return _Contents;
+            }
+
+            set
+            {
+                if (_Contents == value)
+                {
+                    return;
+                }
+
+                _Contents = value;
+                RaisePropertyChanged(ContentsPropertyName);
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Commands

@@ -1,4 +1,5 @@
 ﻿using SQLite.Net.Attributes;
+using System.Collections.Generic;
 
 namespace KegID.Model
 {
@@ -31,4 +32,9 @@ namespace KegID.Model
         public long? CompanyNo { get; set; }
     }
 
+
+    public class PartnerResponseModel : KegIDResponse
+    {
+        public IList<PartnerModel> PartnerModel { get; set; }
+    }
 }

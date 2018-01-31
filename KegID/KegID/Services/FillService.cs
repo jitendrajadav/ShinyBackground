@@ -7,10 +7,16 @@ namespace KegID.Services
 {
     public class FillService : IFillService
     {
-        public async Task<IList<BatchModel>> GetBatchListAsync(string sessionId)
+        public async Task<BatchResponseModel> GetBatchListAsync(string sessionId)
         {
+            BatchResponseModel batchResponseModel = new BatchResponseModel();
+
             string url = string.Format(Configuration.GetBatchUrl, sessionId);
-            return await Helper.ExecuteServiceCall<IList<BatchModel>>(url, HttpMethodType.Get, string.Empty);
+            var value = await Helper.ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
+
+            batchResponseModel.BatchModel = Helper.DeserializeObject<IList<BatchModel>>(value.Response);
+            batchResponseModel.StatusCode = value.StatusCode;
+            return batchResponseModel;
         }
     }
 }

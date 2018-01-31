@@ -27,8 +27,10 @@
                 Command="{Binding CancelCommand}"/>
             
             <Label
+                VerticalOptions="Center"
                 HorizontalOptions="Center"
-                Text="Create manifest"/>
+                FontAttributes="Bold"
+                Text="Create Manifest"/>
             
             <Button
                 BackgroundColor="Transparent"

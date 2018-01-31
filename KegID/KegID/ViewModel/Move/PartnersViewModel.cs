@@ -225,7 +225,41 @@ namespace KegID.ViewModel
 
         #endregion
 
-        public IList<PartnerModel> FilterPartners { get; set; }
+        #region PartnerName
+
+        /// <summary>
+        /// The <see cref="PartnerName" /> property's name.
+        /// </summary>
+        public const string PartnerNamePropertyName = "PartnerName";
+
+        private string _PartnerName = default(string);
+
+        /// <summary>
+        /// Sets and gets the PartnerName property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public string PartnerName
+        {
+            get
+            {
+                return _PartnerName;
+            }
+
+            set
+            {
+                if (_PartnerName == value)
+                {
+                    return;
+                }
+
+                _PartnerName = value;
+                RaisePropertyChanged(PartnerNamePropertyName);
+            }
+        }
+
+        #endregion
+
+        public IList<PartnerModel> AllPartners { get; set; }
 
         #endregion
 
@@ -236,6 +270,9 @@ namespace KegID.ViewModel
         public RelayCommand<PartnerModel> ItemTappedCommand { get; set; }
         public RelayCommand SearchPartnerCommand { get; set; }
         public RelayCommand AddNewPartnerCommand { get; set; }
+        public RelayCommand BackCommand { get; set; }
+
+        public RelayCommand TextChangedCommand { get; set; }
 
         #endregion
 
@@ -249,10 +286,13 @@ namespace KegID.ViewModel
             ItemTappedCommand = new RelayCommand<PartnerModel>((model) => ItemTappedCommandRecieverAsync(model));
             SearchPartnerCommand = new RelayCommand(SearchPartnerCommandRecieverAsync);
             AddNewPartnerCommand = new RelayCommand(AddNewPartnerCommandRecieverAsync);
+            BackCommand = new RelayCommand(BackCommandRecieverAsync);
+            TextChangedCommand = new RelayCommand(TextChangedCommandRecieverAsync);
 
             InternalBackgroundColor = "#4E6388";
             InternalTextColor = "White";
 
+            #region Old Code
             //PartnerCollection = new InfiniteScrollCollection<PartnerModel>
             //{
             //    OnLoadMore = async () =>
@@ -264,18 +304,12 @@ namespace KegID.ViewModel
             //        return items;
             //    }
             //};
+            #endregion
+
             LoadPartnersAsync();
         }
 
-        private async void AddNewPartnerCommandRecieverAsync()
-        {
-           await Application.Current.MainPage.Navigation.PushModalAsync(new AddPartnerView());
-        }
-
-        private async void SearchPartnerCommandRecieverAsync()
-        {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new SearchPartnersView());
-        }
+        private void TextChangedCommandRecieverAsync() => PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners.Where(x => x.FullName.ToLowerInvariant().Contains(PartnerName.ToLowerInvariant())));
 
         #endregion
 
@@ -293,16 +327,20 @@ namespace KegID.ViewModel
 
         private async void LoadPartnersAsync()
         {
-            var model = await SQLiteServiceClient.Db.Table<PartnerModel>().ToListAsync();
+            AllPartners = await SQLiteServiceClient.Db.Table<PartnerModel>().ToListAsync();
             try
             {
-                if (model.Count > 0)
-                    PartnerCollection = new ObservableCollection<PartnerModel>(model);
+                if (AllPartners.Count > 0)
+                    PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners);
                 else
                 {
                     Loader.StartLoading();
-                    PartnerCollection = new ObservableCollection<PartnerModel>(await _moveService.GetPartnersListAsync(Configuration.SessionId));
-                    await SQLiteServiceClient.Db.InsertAllAsync(PartnerCollection);
+                    var value = await _moveService.GetPartnersListAsync(Configuration.SessionId);
+                    if (value.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        PartnerCollection = new ObservableCollection<PartnerModel>(value.PartnerModel);
+                        await SQLiteServiceClient.Db.InsertAllAsync(PartnerCollection);
+                    }
                 }
             }
             catch (System.Exception)
@@ -311,12 +349,11 @@ namespace KegID.ViewModel
             finally
             {
                 Loader.StopLoading();
-                model = null;
             }
         } 
         private void AlphabeticalCommandReciever()
         {
-            PartnerCollection.OrderBy(x => x.FullName);
+            PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners.OrderBy(x => x.FullName));
 
             AlphabeticalBackgroundColor = "#4E6388";
             AlphabeticalTextColor = "White";
@@ -327,11 +364,25 @@ namespace KegID.ViewModel
 
         private void InternalCommandReciever()
         {
+            PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners);
+
             InternalBackgroundColor = "#4E6388";
             InternalTextColor = "White";
 
             AlphabeticalBackgroundColor = "White";
             AlphabeticalTextColor = "#4E6388";
+        }
+
+        private async void BackCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PopModalAsync();
+
+        private async void AddNewPartnerCommandRecieverAsync()
+        {
+            await Application.Current.MainPage.Navigation.PushModalAsync(new AddPartnerView());
+        }
+
+        private async void SearchPartnerCommandRecieverAsync()
+        {
+            await Application.Current.MainPage.Navigation.PushModalAsync(new SearchPartnersView());
         }
 
         public override void Cleanup()

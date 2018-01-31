@@ -5,6 +5,6 @@ namespace KegID.Services
 {
     public interface IAccountService
     {
-        Task<LoginModel> AuthenticateAsync(string username, string password);
+        Task<LoginResponseModel> AuthenticateAsync(string username, string password);
     }
 }

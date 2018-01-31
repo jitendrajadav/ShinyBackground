@@ -164,7 +164,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string AccountNumberPropertyName = "AccountNumber";
 
-        private string _AccountNumber = default(string);
+        private string _AccountNumber = string.Empty;
 
         /// <summary>
         /// Sets and gets the AccountNumber property.
@@ -198,7 +198,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string ContactEmailPropertyName = "ContactEmail";
 
-        private string _ContactEmail = default(string);
+        private string _ContactEmail = string.Empty;
 
         /// <summary>
         /// Sets and gets the ContactEmail property.
@@ -232,7 +232,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string ContactNamePropertyName = "ContactName";
 
-        private string _ContactName = default(string);
+        private string _ContactName = string.Empty;
 
         /// <summary>
         /// Sets and gets the ContactName property.
@@ -266,7 +266,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string FaxPropertyName = "Fax";
 
-        private string _Fax = default(string);
+        private string _Fax = string.Empty;
 
         /// <summary>
         /// Sets and gets the Fax property.
@@ -288,40 +288,6 @@ namespace KegID.ViewModel
 
                 _Fax = value;
                 RaisePropertyChanged(FaxPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region FirstName
-
-        /// <summary>
-        /// The <see cref="FirstName" /> property's name.
-        /// </summary>
-        public const string FirstNamePropertyName = "FirstName";
-
-        private string _FirstName = default(string);
-
-        /// <summary>
-        /// Sets and gets the FirstName property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string FirstName
-        {
-            get
-            {
-                return _FirstName;
-            }
-
-            set
-            {
-                if (_FirstName == value)
-                {
-                    return;
-                }
-
-                _FirstName = value;
-                RaisePropertyChanged(FirstNamePropertyName);
             }
         }
 
@@ -361,40 +327,6 @@ namespace KegID.ViewModel
 
         #endregion
 
-        #region LastName
-
-        /// <summary>
-        /// The <see cref="LastName" /> property's name.
-        /// </summary>
-        public const string LastNamePropertyName = "LastName";
-
-        private string _LastName = default(string);
-
-        /// <summary>
-        /// Sets and gets the LastName property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string LastName
-        {
-            get
-            {
-                return _LastName;
-            }
-
-            set
-            {
-                if (_LastName == value)
-                {
-                    return;
-                }
-
-                _LastName = value;
-                RaisePropertyChanged(LastNamePropertyName);
-            }
-        }
-
-        #endregion
-
         #region LocationCode
 
         /// <summary>
@@ -402,7 +334,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string LocationCodePropertyName = "LocationCode";
 
-        private string _LocationCode = default(string);
+        private string _LocationCode = string.Empty;
 
         /// <summary>
         /// Sets and gets the LocationCode property.
@@ -436,7 +368,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string LocationStatusPropertyName = "LocationStatus";
 
-        private string _LocationStatus = default(string);
+        private string _LocationStatus = string.Empty;
 
         /// <summary>
         /// Sets and gets the LocationStatus property.
@@ -470,7 +402,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string NotesPropertyName = "Notes";
 
-        private string _Notes = default(string);
+        private string _Notes = string.Empty;
 
         /// <summary>
         /// Sets and gets the Notes property.
@@ -497,73 +429,73 @@ namespace KegID.ViewModel
 
         #endregion
 
-        #region ParentPartnerId
+        //#region ParentPartnerId
 
-        /// <summary>
-        /// The <see cref="ParentPartnerId" /> property's name.
-        /// </summary>
-        public const string ParentPartnerIdPropertyName = "ParentPartnerId";
+        ///// <summary>
+        ///// The <see cref="ParentPartnerId" /> property's name.
+        ///// </summary>
+        //public const string ParentPartnerIdPropertyName = "ParentPartnerId";
 
-        private string _ParentPartnerId = default(string);
+        //private string _ParentPartnerId = string.Empty;
 
-        /// <summary>
-        /// Sets and gets the ParentPartnerId property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string ParentPartnerId
-        {
-            get
-            {
-                return _ParentPartnerId;
-            }
+        ///// <summary>
+        ///// Sets and gets the ParentPartnerId property.
+        ///// Changes to that property's value raise the PropertyChanged event. 
+        ///// </summary>
+        //public string ParentPartnerId
+        //{
+        //    get
+        //    {
+        //        return _ParentPartnerId;
+        //    }
 
-            set
-            {
-                if (_ParentPartnerId == value)
-                {
-                    return;
-                }
+        //    set
+        //    {
+        //        if (_ParentPartnerId == value)
+        //        {
+        //            return;
+        //        }
 
-                _ParentPartnerId = value;
-                RaisePropertyChanged(ParentPartnerIdPropertyName);
-            }
-        }
+        //        _ParentPartnerId = value;
+        //        RaisePropertyChanged(ParentPartnerIdPropertyName);
+        //    }
+        //}
 
-        #endregion
+        //#endregion
 
-        #region PartnerId
+        //#region PartnerId
 
-        /// <summary>
-        /// The <see cref="PartnerId" /> property's name.
-        /// </summary>
-        public const string PartnerIdPropertyName = "PartnerId";
+        ///// <summary>
+        ///// The <see cref="PartnerId" /> property's name.
+        ///// </summary>
+        //public const string PartnerIdPropertyName = "PartnerId";
 
-        private string _PartnerId = default(string);
+        //private string _PartnerId = string.Empty;
 
-        /// <summary>
-        /// Sets and gets the PartnerId property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string PartnerId
-        {
-            get
-            {
-                return _PartnerId;
-            }
+        ///// <summary>
+        ///// Sets and gets the PartnerId property.
+        ///// Changes to that property's value raise the PropertyChanged event. 
+        ///// </summary>
+        //public string PartnerId
+        //{
+        //    get
+        //    {
+        //        return _PartnerId;
+        //    }
 
-            set
-            {
-                if (_PartnerId == value)
-                {
-                    return;
-                }
+        //    set
+        //    {
+        //        if (_PartnerId == value)
+        //        {
+        //            return;
+        //        }
 
-                _PartnerId = value;
-                RaisePropertyChanged(PartnerIdPropertyName);
-            }
-        }
+        //        _PartnerId = value;
+        //        RaisePropertyChanged(PartnerIdPropertyName);
+        //    }
+        //}
 
-        #endregion
+        //#endregion
 
         #region PartnerName
 
@@ -572,7 +504,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string PartnerNamePropertyName = "PartnerName";
 
-        private string _PartnerName = default(string);
+        private string _PartnerName = string.Empty;
 
         /// <summary>
         /// Sets and gets the PartnerName property.
@@ -600,40 +532,6 @@ namespace KegID.ViewModel
 
         #endregion
 
-        #region PartnerTypeCode
-
-        /// <summary>
-        /// The <see cref="PartnerTypeCode" /> property's name.
-        /// </summary>
-        public const string PartnerTypeCodePropertyName = "PartnerTypeCode";
-
-        private string _PartnerTypeCode = default(string);
-
-        /// <summary>
-        /// Sets and gets the PartnerTypeCode property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string PartnerTypeCode
-        {
-            get
-            {
-                return _PartnerTypeCode;
-            }
-
-            set
-            {
-                if (_PartnerTypeCode == value)
-                {
-                    return;
-                }
-
-                _PartnerTypeCode = value;
-                RaisePropertyChanged(PartnerTypeCodePropertyName);
-            }
-        }
-
-        #endregion
-
         #region Phone
 
         /// <summary>
@@ -641,7 +539,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string PhonePropertyName = "Phone";
 
-        private string _Phone = default(string);
+        private string _Phone = string.Empty;
 
         /// <summary>
         /// Sets and gets the Phone property.
@@ -675,7 +573,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string PrivateKeyPropertyName = "PrivateKey";
 
-        private string _PrivateKey = default(string);
+        private string _PrivateKey = string.Empty;
 
         /// <summary>
         /// Sets and gets the PrivateKey property.
@@ -709,7 +607,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string ReferenceKeyPropertyName = "ReferenceKey";
 
-        private string _ReferenceKey = default(string);
+        private string _ReferenceKey = string.Empty;
 
         /// <summary>
         /// Sets and gets the ReferenceKey property.
@@ -743,7 +641,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string RouteNamePropertyName = "RouteName";
 
-        private string _RouteName = default(string);
+        private string _RouteName = string.Empty;
 
         /// <summary>
         /// Sets and gets the RouteName property.
@@ -777,7 +675,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string SmsAddressPropertyName = "SmsAddress";
 
-        private string _SmsAddress = default(string);
+        private string _SmsAddress = string.Empty;
 
         /// <summary>
         /// Sets and gets the SmsAddress property.
@@ -804,40 +702,6 @@ namespace KegID.ViewModel
 
         #endregion
 
-        #region Tags
-
-        /// <summary>
-        /// The <see cref="Tags" /> property's name.
-        /// </summary>
-        public const string TagsPropertyName = "Tags";
-
-        private List<NewPartnerTag> _Tags = new List<NewPartnerTag>();
-
-        /// <summary>
-        /// Sets and gets the Tags property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public List<NewPartnerTag> Tags
-        {
-            get
-            {
-                return _Tags;
-            }
-
-            set
-            {
-                if (_Tags == value)
-                {
-                    return;
-                }
-
-                _Tags = value;
-                RaisePropertyChanged(TagsPropertyName);
-            }
-        }
-
-        #endregion
-
         #region PTTimeZone
 
         /// <summary>
@@ -845,7 +709,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string PTTimeZonePropertyName = "PTTimeZone";
 
-        private string _PTTimeZone = default(string);
+        private string _PTTimeZone = string.Empty;
 
         /// <summary>
         /// Sets and gets the PTTimeZone property.
@@ -879,7 +743,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string WebsitePropertyName = "Website";
 
-        private string _Website = default(string);
+        private string _Website = string.Empty;
 
         /// <summary>
         /// Sets and gets the Website property.
@@ -1098,32 +962,32 @@ namespace KegID.ViewModel
             newPartnerRequestModel.ContactEmail = ContactEmail;
             newPartnerRequestModel.ContactName = ContactName;
             newPartnerRequestModel.Fax = Fax;
-            newPartnerRequestModel.FirstName = FirstName;
             newPartnerRequestModel.IsInternal = IsInternalOn;
             newPartnerRequestModel.IsNotify = IsNotify;
             newPartnerRequestModel.IsShared = IsSharedOn;
-            newPartnerRequestModel.LastName = LastName;
             newPartnerRequestModel.LocationCode = LocationCode;
             newPartnerRequestModel.LocationStatus = LocationStatus;
             newPartnerRequestModel.Notes = Notes;
             newPartnerRequestModel.ParentPartnerId = IsInternalOn ? Configuration.CompanyId : Uuid.GetUuId();
             newPartnerRequestModel.PartnerId = Uuid.GetUuId();
             newPartnerRequestModel.PartnerName = PartnerName;
-            newPartnerRequestModel.PartnerTypeCode = PartnerTypeCode;
+            newPartnerRequestModel.PartnerTypeCode = SelectedPartnerType.Code;
             newPartnerRequestModel.Phone = Phone;
             newPartnerRequestModel.PrivateKey = PrivateKey;
             newPartnerRequestModel.ReferenceKey = ReferenceKey;
             newPartnerRequestModel.RouteName = RouteName;
             newPartnerRequestModel.ShipAddress = ShipAddress;
             newPartnerRequestModel.SmsAddress = SmsAddress;
-            newPartnerRequestModel.Tags = Tags;
-            newPartnerRequestModel.TimeZone = DateTime.Now.ToShortTimeString();//PTTimeZone;
-            newPartnerRequestModel.Website = "http://www.slg.com/";//Website;
+            newPartnerRequestModel.TimeZone = "+05:30";//PTTimeZone;
+            newPartnerRequestModel.Website = "";//Website;
 
             try
             {
                 Loader.StartLoading();
                 var result = await _moveService.PostNewPartnerAsync(newPartnerRequestModel, Configuration.SessionId, RequestType: Configuration.NewPartner);
+
+                if (result != null)
+                  await Application.Current.MainPage.Navigation.PopModalAsync();
             }
             catch (Exception ex)
             {
@@ -1146,8 +1010,12 @@ namespace KegID.ViewModel
                 else
                 {
                     Loader.StartLoading();
-                    PartnerTypeCollectioin = await _moveService.GetPartnerTypeAsync(Configuration.SessionId);
-                    await SQLiteServiceClient.Db.InsertAllAsync(PartnerTypeCollectioin);
+                    var value = await _moveService.GetPartnerTypeAsync(Configuration.SessionId);
+                    if (value.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        PartnerTypeCollectioin = value.PartnerTypeModel;
+                        await SQLiteServiceClient.Db.InsertAllAsync(PartnerTypeCollectioin);
+                    }
                 }
             }
             catch (Exception ex)

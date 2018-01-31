@@ -28,7 +28,7 @@ namespace KegID.Model
         public string AccountNumber { get; set; }
         public string Notes { get; set; }
         public string PrivateKey { get; set; }
-        public List<NewPartnerTag> Tags { get; set; }
+        public List<Tag> Tags { get; set; }
         public string LocationStatus { get; set; }
     }
 
@@ -47,11 +47,4 @@ namespace KegID.Model
         public long Longitude { get; set; }
         public bool Geocoded { get; set; }
     }
-
-    public class NewPartnerTag
-    {
-        public string PropertyName { get; set; }
-        public string PropertyValue { get; set; }
-    }
-
 }

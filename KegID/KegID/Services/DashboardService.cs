@@ -8,8 +8,14 @@ namespace KegID.Services
     {
         public async Task<DashboardModel> GetDeshboardDetailAsync(string sessionId)
         {
+            DashboardModel dashboardModel = new DashboardModel();
+
             string url = string.Format(Configuration.GetDashboardUrl, sessionId);
-            return await Helper.ExecuteServiceCall<DashboardModel>(url, HttpMethodType.Get, string.Empty);
+            var value = await Helper.ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
+
+            dashboardModel = Helper.DeserializeObject<DashboardModel>(value.Response);
+            dashboardModel.StatusCode = value.StatusCode;
+            return dashboardModel;
         }
     }
 }

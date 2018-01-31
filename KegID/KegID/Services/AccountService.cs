@@ -15,10 +15,16 @@ namespace KegID.Services
 
     public class AccountService : IAccountService
     {
-        public async Task<LoginModel> AuthenticateAsync(string username, string password)
+        public async Task<LoginResponseModel> AuthenticateAsync(string username, string password)
         {
+            LoginResponseModel loginResponseModel = new LoginResponseModel();
+
             string url = string.Format(Configuration.GetLoginUserUrl, username,password);
-            return await Helper.ExecuteServiceCall<LoginModel>(url, HttpMethodType.Get, string.Empty);
+            var value = await Helper.ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
+
+            loginResponseModel.LoginModel = Helper.DeserializeObject<LoginModel>(value.Response);
+            loginResponseModel.StatusCode = value.StatusCode;
+            return loginResponseModel;
         }
     }
 }

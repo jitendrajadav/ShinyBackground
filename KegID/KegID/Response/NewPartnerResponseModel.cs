@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace KegID.Model
 {
-    public class NewPartnerResponseModel
+    public class NewPartnerResponseModel : KegIDResponse
     {
         public string PartnerId { get; set; }
         public string CompanyNo { get; set; }
@@ -47,7 +47,7 @@ namespace KegID.Model
         public long OldestKeg { get; set; }
         public long AvgDays { get; set; }
         public bool HasOverdueKegs { get; set; }
-        public List<NewPartnerTag> Tags { get; set; }
+        public List<Tag> Tags { get; set; }
         public Hours BusinessHours { get; set; }
         public Hours ReceivingHours { get; set; }
         public string OwnerCompanyId { get; set; }
@@ -58,19 +58,19 @@ namespace KegID.Model
 
     public class Hours
     {
-        public DateTime MondayOpen { get; set; }
-        public DateTime MondayClose { get; set; }
-        public DateTime TuesdayOpen { get; set; }
-        public DateTime TuesdayClose { get; set; }
-        public DateTime WednesdayOpen { get; set; }
-        public DateTime WednesdayClose { get; set; }
-        public DateTime ThursdayOpen { get; set; }
-        public DateTime ThursdayClose { get; set; }
-        public DateTime FridayOpen { get; set; }
-        public DateTime FridayClose { get; set; }
-        public DateTime SaturdayOpen { get; set; }
-        public DateTime SaturdayClose { get; set; }
-        public DateTime SundayOpen { get; set; }
-        public DateTime SundayClose { get; set; }
+        public DateTime? MondayOpen { get; set; }
+        public DateTime? MondayClose { get; set; }
+        public DateTime? TuesdayOpen { get; set; }
+        public DateTime? TuesdayClose { get; set; }
+        public DateTime? WednesdayOpen { get; set; }
+        public DateTime? WednesdayClose { get; set; }
+        public DateTime? ThursdayOpen { get; set; }
+        public DateTime? ThursdayClose { get; set; }
+        public DateTime? FridayOpen { get; set; }
+        public DateTime? FridayClose { get; set; }
+        public DateTime? SaturdayOpen { get; set; }
+        public DateTime? SaturdayClose { get; set; }
+        public DateTime? SundayOpen { get; set; }
+        public DateTime? SundayClose { get; set; }
     }
 }

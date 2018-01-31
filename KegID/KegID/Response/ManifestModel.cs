@@ -4,40 +4,11 @@ using SQLite.Net.Attributes;
 
 namespace KegID.Model
 {
-
     public class DraftManifestModel
     {
         [PrimaryKey]
         public string ManifestId { get; set; }
         public string DraftManifestJson { get; set; }
-    }
-
-    public class DraftManifestModelOld
-    {
-        [PrimaryKey, AutoIncrement]
-        public int Id { get; set; }
-        public string ManifestId { get; set; }
-        public DateTime ShipDate { get; set; }
-        public long ManifestItems { get; set; }
-        public DateTime SubmittedDate { get; set; }
-        public string OriginId { get; set; }
-        public string SenderId { get; set; }
-        public string DestinationId { get; set; }
-        public string ReceiverId { get; set; }
-        public string Tags { get; set; }
-        public string GS1GSIN { get; set; }
-        public bool IsSendManifest { get; set; }
-        public DateTime EffectiveDate { get; set; }
-        public int EventTypeId { get; set; }
-        public double Latitude { get; set; }
-        public double Longitude { get; set; }
-        public long NewPallets { get; set; }
-        public string NewBatch { get; set; }
-        public long NewBatches { get; set; }
-        public string KegOrderId { get; set; }
-        public DateTime PostedDate { get; set; }
-        public string SourceKey { get; set; }
-        public long ClosedBatches { get; set; }
     }
 
     public class ManifestModel
@@ -88,9 +59,11 @@ namespace KegID.Model
     {
         public string Property { get; set; }
         public string Value { get; set; }
+        public string PropertyName { get; set; }
+        public string PropertyValue { get; set; }
     }
 
-    public class ManifestModelGet
+    public class ManifestModelGet : KegIDResponse
     {
         public string ManifestId { get; set; }
         public string TrackingNumber { get; set; }

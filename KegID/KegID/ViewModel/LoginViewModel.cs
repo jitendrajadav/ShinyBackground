@@ -4,6 +4,7 @@ using KegID.Common;
 using KegID.Model;
 using KegID.Services;
 using KegID.SQLiteClient;
+using KegID.View;
 using System;
 using System.Diagnostics;
 using Xamarin.Forms;
@@ -190,13 +191,25 @@ namespace KegID.ViewModel
                 var globalData = await SQLiteServiceClient.Db.Table<LoginModel>().FirstOrDefaultAsync();
                 if (globalData == null)
                 {
-                    Result = await _accountService.AuthenticateAsync(Username, Password);
-                    await SQLiteServiceClient.Db.InsertAsync(Result);
-                    await SQLiteServiceClient.Db.InsertAllAsync(Result.Preferences);
-                    Configuration.SessionId = Result.SessionId;
+                    var value = await _accountService.AuthenticateAsync(Username, Password);
+                    if (value.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        Result = value.LoginModel;
+                        await SQLiteServiceClient.Db.InsertAsync(Result);
+                        await SQLiteServiceClient.Db.InsertAllAsync(Result.Preferences);
+                        Configuration.SessionId = Result.SessionId;
+                        Configuration.CompanyId = Result.CompanyId;
+                    }
                 }
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new KegIDMasterPage());
-                await Application.Current.MainPage.Navigation.PushModalAsync(new MainPage());
+                if (Application.Current.MainPage.Navigation.ModalStack.Count <= 1)
+                {
+                    //await Application.Current.MainPage.Navigation.PushModalAsync(new KegIDMasterPage());
+                    await Application.Current.MainPage.Navigation.PushModalAsync(new MainPage());
+                }
+                else
+                {
+                    await Application.Current.MainPage.Navigation.PopModalAsync();
+                }
             }
             catch (Exception ex)
             {
@@ -207,6 +220,13 @@ namespace KegID.ViewModel
                 Loader.StopLoading();
                 Result = null;
             }
+        }
+
+        internal async void InvalideServiceCallAsync()
+        {
+            await SQLiteServiceClient.Db.DeleteAllAsync<LoginModel>();
+            await SQLiteServiceClient.Db.DeleteAllAsync<Preference>();
+            await Application.Current.MainPage.Navigation.PushModalAsync(new LoginView());
         }
         #endregion
     }

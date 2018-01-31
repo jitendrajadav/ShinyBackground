@@ -309,8 +309,13 @@ namespace KegID.ViewModel
                 else
                 {
                     Loader.StartLoading();
-                    model = await _moveService.GetBrandListAsync(Configuration.SessionId);
-                    await SQLiteServiceClient.Db.InsertAllAsync(model);
+                    var value = await _moveService.GetBrandListAsync(Configuration.SessionId);
+
+                    if (value.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        model = value.BrandModel;
+                        await SQLiteServiceClient.Db.InsertAllAsync(model);
+                    }
                 }
             }
             catch (Exception ex)

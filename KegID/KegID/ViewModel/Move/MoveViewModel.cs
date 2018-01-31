@@ -307,15 +307,27 @@ namespace KegID.ViewModel
 
                 ManifestModel manifestPostModel = await ManifestDraft();
                 var result = await _moveService.PostManifestAsync(manifestPostModel, Configuration.SessionId, Configuration.NewManifest);
-                SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().TrackingNumber = result.TrackingNumber;
 
-                SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ManifestTo = result.ReceiverName;
+                var manifest = await _moveService.GetManifestAsync(Configuration.SessionId, result.ManifestId);
+                if (manifest.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().TrackingNumber = manifest.TrackingNumber;
 
-                SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ShippingDate = result.ShipDate;
-                SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ItemCount = (int)result.ItemCount;
+                    SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ManifestTo = manifest.CreatorCompany.FullName + "\n" + manifest.CreatorCompany.PartnerTypeName;
 
-                Loader.StopLoading();
-                await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestDetailView());
+                    SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ShippingDate = manifest.ShipDate;
+                    SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ItemCount = manifest.ManifestItems.Count;
+                    SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().Contents = manifest.ManifestItems.FirstOrDefault().Contents;
+
+                    Loader.StopLoading();
+                    await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestDetailView());
+                }
+                else
+                {
+                    Loader.StopLoading();
+                    SimpleIoc.Default.GetInstance<LoginViewModel>().InvalideServiceCallAsync();
+                }
+                
             }
             catch (Exception ex)
             {

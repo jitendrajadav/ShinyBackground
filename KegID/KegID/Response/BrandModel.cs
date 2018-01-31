@@ -1,4 +1,5 @@
 ﻿using SQLite.Net.Attributes;
+using System.Collections.Generic;
 
 namespace KegID.Model
 {
@@ -12,5 +13,10 @@ namespace KegID.Model
         public string BrandCode { get; set; }
         public string SourceKey { get; set; }
         public long? FreshDays { get; set; }
+    }
+
+    public class BrandResponseModel : KegIDResponse
+    {
+        public IList<BrandModel> BrandModel { get; set; }
     }
 }

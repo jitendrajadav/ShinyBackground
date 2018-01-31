@@ -6,7 +6,8 @@
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=SearchPartners}">
     <ContentPage.Content>
-        <Grid>
+        <Grid
+            Margin="10,0,10,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -20,9 +21,16 @@
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="Start" 
                 Command="{Binding BackPartnersCommand}"/>
-            
+
             <Entry
-                Grid.Row="1"/>
+                Grid.Row="1"
+                Text="{Binding PartnerSearch}">
+                <Entry.Behaviors>
+                    <behaviors:EntryEventToCommandBehavior
+                        EventName="Completed"
+                      Command="{Binding PartnerSearchCommand}"/>
+                </Entry.Behaviors>
+            </Entry>
             
             <ListView
                 x:Name="lstSearchPartners"
@@ -31,7 +39,7 @@
                 SeparatorColor="Black"
                 HasUnevenRows="True"
                 CachingStrategy="RecycleElement"
-                ItemsSource="{Binding BarcodeCollection}">
+                ItemsSource="{Binding PartnerSearchCollection}">
 
                 <ListView.Behaviors>
                     <behaviors:EventToCommandBehavior
@@ -48,7 +56,12 @@
 
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <TextCell Text="{Binding .}" Detail="{Binding .}" />
+                        <ViewCell>
+                            <StackLayout>
+                                <Label TextColor="{StaticResource selectTextColor}" Text="{Binding FullName}" />
+                                <Label TextColor="{StaticResource lightGrayColor}" Text="{Binding Address}" FontSize="Micro"/>
+                            </StackLayout>
+                        </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
 

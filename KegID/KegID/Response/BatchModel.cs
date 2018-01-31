@@ -1,4 +1,6 @@
-﻿namespace KegID.Model
+﻿using System.Collections.Generic;
+
+namespace KegID.Model
 {
     public class BatchModel
     {
@@ -19,5 +21,10 @@
         public double? Abv { get; set; }
         public object SourceKey { get; set; }
         public object Tags { get; set; }
+    }
+
+    public class BatchResponseModel : KegIDResponse
+    {
+        public IList<BatchModel> BatchModel { get; set; }
     }
 }

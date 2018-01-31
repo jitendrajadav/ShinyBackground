@@ -34,7 +34,8 @@
                     BackgroundColor="Transparent"
                     HeightRequest="40"
                     TextColor="{StaticResource selectTextColor}"
-                    Text="Back"/>
+                    Text="Back"
+                    Command="{Binding BackCommand}"/>
 
                 <Label 
                     Text="Partners"
@@ -98,7 +99,14 @@
             <Entry
                 Margin="10,5,10,5"
                 Placeholder="Partner Name"
-                Grid.Row="1"/>
+                Grid.Row="1"
+                Text="{Binding PartnerName}">
+                <Entry.Behaviors>
+                    <behaviors:EntryEventToCommandBehavior
+                        EventName="TextChanged" 
+                        Command="{Binding TextChangedCommand}"/>
+                </Entry.Behaviors>
+            </Entry>
             
             <ListView
                 Margin="10,0,10,0"

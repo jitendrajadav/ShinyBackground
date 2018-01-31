@@ -35,6 +35,7 @@
                 Text="Cancel"/>
                 
             <Label
+                FontAttributes="Bold"
                 VerticalOptions="Center"
                 HorizontalOptions="Center"
                 Text="Add Partner"/>
