@@ -115,7 +115,8 @@ namespace KegID.ViewModel
                 }
 
                 _ShipAddress = value;
-                ShippingAddress = _ShipAddress.Line1 + _ShipAddress.Line2 + _ShipAddress.Line3 + _ShipAddress.City + _ShipAddress.State + _ShipAddress.PostalCode + _ShipAddress.Country;
+                string ship = _ShipAddress.Line1 + _ShipAddress.Line2 + _ShipAddress.Line3 + _ShipAddress.City + _ShipAddress.State + _ShipAddress.PostalCode + _ShipAddress.Country;
+                ShippingAddress = !string.IsNullOrEmpty(ship) ? ship : "Edit address";
                 RaisePropertyChanged(ShipAddressPropertyName);
             }
         }
@@ -150,7 +151,8 @@ namespace KegID.ViewModel
                 }
 
                 _BillAddress = value;
-                BillingAddress = _BillAddress.Line1 + _BillAddress.Line2 + _BillAddress.Line3 + _BillAddress.City + _BillAddress.State + _BillAddress.PostalCode + _BillAddress.Country; 
+                string bill = _BillAddress.Line1 + _BillAddress.Line2 + _BillAddress.Line3 + _BillAddress.City + _BillAddress.State + _BillAddress.PostalCode + _BillAddress.Country;
+                BillingAddress = !string.IsNullOrEmpty(bill) ? bill : "Edit address";
                 RaisePropertyChanged(BillAddressPropertyName);
             }
         }
@@ -428,74 +430,6 @@ namespace KegID.ViewModel
         }
 
         #endregion
-
-        //#region ParentPartnerId
-
-        ///// <summary>
-        ///// The <see cref="ParentPartnerId" /> property's name.
-        ///// </summary>
-        //public const string ParentPartnerIdPropertyName = "ParentPartnerId";
-
-        //private string _ParentPartnerId = string.Empty;
-
-        ///// <summary>
-        ///// Sets and gets the ParentPartnerId property.
-        ///// Changes to that property's value raise the PropertyChanged event. 
-        ///// </summary>
-        //public string ParentPartnerId
-        //{
-        //    get
-        //    {
-        //        return _ParentPartnerId;
-        //    }
-
-        //    set
-        //    {
-        //        if (_ParentPartnerId == value)
-        //        {
-        //            return;
-        //        }
-
-        //        _ParentPartnerId = value;
-        //        RaisePropertyChanged(ParentPartnerIdPropertyName);
-        //    }
-        //}
-
-        //#endregion
-
-        //#region PartnerId
-
-        ///// <summary>
-        ///// The <see cref="PartnerId" /> property's name.
-        ///// </summary>
-        //public const string PartnerIdPropertyName = "PartnerId";
-
-        //private string _PartnerId = string.Empty;
-
-        ///// <summary>
-        ///// Sets and gets the PartnerId property.
-        ///// Changes to that property's value raise the PropertyChanged event. 
-        ///// </summary>
-        //public string PartnerId
-        //{
-        //    get
-        //    {
-        //        return _PartnerId;
-        //    }
-
-        //    set
-        //    {
-        //        if (_PartnerId == value)
-        //        {
-        //            return;
-        //        }
-
-        //        _PartnerId = value;
-        //        RaisePropertyChanged(PartnerIdPropertyName);
-        //    }
-        //}
-
-        //#endregion
 
         #region PartnerName
 
@@ -955,31 +889,32 @@ namespace KegID.ViewModel
 
         private async void SubmitCommandRecieverAsync()
         {
-            NewPartnerRequestModel newPartnerRequestModel = new NewPartnerRequestModel();
-
-            newPartnerRequestModel.AccountNumber = AccountNumber;
-            newPartnerRequestModel.BillAddress = BillAddress;
-            newPartnerRequestModel.ContactEmail = ContactEmail;
-            newPartnerRequestModel.ContactName = ContactName;
-            newPartnerRequestModel.Fax = Fax;
-            newPartnerRequestModel.IsInternal = IsInternalOn;
-            newPartnerRequestModel.IsNotify = IsNotify;
-            newPartnerRequestModel.IsShared = IsSharedOn;
-            newPartnerRequestModel.LocationCode = LocationCode;
-            newPartnerRequestModel.LocationStatus = LocationStatus;
-            newPartnerRequestModel.Notes = Notes;
-            newPartnerRequestModel.ParentPartnerId = IsInternalOn ? Configuration.CompanyId : Uuid.GetUuId();
-            newPartnerRequestModel.PartnerId = Uuid.GetUuId();
-            newPartnerRequestModel.PartnerName = PartnerName;
-            newPartnerRequestModel.PartnerTypeCode = SelectedPartnerType.Code;
-            newPartnerRequestModel.Phone = Phone;
-            newPartnerRequestModel.PrivateKey = PrivateKey;
-            newPartnerRequestModel.ReferenceKey = ReferenceKey;
-            newPartnerRequestModel.RouteName = RouteName;
-            newPartnerRequestModel.ShipAddress = ShipAddress;
-            newPartnerRequestModel.SmsAddress = SmsAddress;
-            newPartnerRequestModel.TimeZone = "+05:30";//PTTimeZone;
-            newPartnerRequestModel.Website = "";//Website;
+            NewPartnerRequestModel newPartnerRequestModel = new NewPartnerRequestModel
+            {
+                AccountNumber = AccountNumber,
+                BillAddress = BillAddress,
+                ContactEmail = ContactEmail,
+                ContactName = ContactName,
+                Fax = Fax,
+                IsInternal = IsInternalOn,
+                IsNotify = IsNotify,
+                IsShared = IsSharedOn,
+                LocationCode = LocationCode,
+                LocationStatus = LocationStatus,
+                Notes = Notes,
+                ParentPartnerId = IsInternalOn ? Configuration.CompanyId : Uuid.GetUuId(),
+                PartnerId = Uuid.GetUuId(),
+                PartnerName = PartnerName,
+                PartnerTypeCode = SelectedPartnerType.Code,
+                Phone = Phone,
+                PrivateKey = PrivateKey,
+                ReferenceKey = ReferenceKey,
+                RouteName = RouteName,
+                ShipAddress = ShipAddress,
+                SmsAddress = SmsAddress,
+                TimeZone = "+05:30",//PTTimeZone;
+                Website = ""//Website;
+            };
 
             try
             {
@@ -987,7 +922,44 @@ namespace KegID.ViewModel
                 var result = await _moveService.PostNewPartnerAsync(newPartnerRequestModel, Configuration.SessionId, RequestType: Configuration.NewPartner);
 
                 if (result != null)
-                  await Application.Current.MainPage.Navigation.PopModalAsync();
+                {
+                    try
+                    {
+                        PartnerModel partnerModel = new PartnerModel
+                        {
+                            Address = BillingAddress,
+                            Address1 = ShippingAddress,
+                            City = newPartnerRequestModel.BillAddress != null ? newPartnerRequestModel.BillAddress.City : string.Empty,
+                            ParentPartnerId = newPartnerRequestModel.ParentPartnerId,
+                            ParentPartnerName = newPartnerRequestModel.PartnerName,
+                            PartnerId = newPartnerRequestModel.PartnerId,
+                            PartnershipIsActive = newPartnerRequestModel.IsInternal,
+                            IsInternal = newPartnerRequestModel.IsInternal,
+                            IsShared = newPartnerRequestModel.IsShared,
+                            Lat = newPartnerRequestModel.BillAddress != null ? newPartnerRequestModel.BillAddress.Latitude : default(double),
+                            LocationCode = newPartnerRequestModel.LocationCode,
+                            LocationStatus = newPartnerRequestModel.LocationStatus,
+                            Lon = newPartnerRequestModel.BillAddress != null ? newPartnerRequestModel.BillAddress.Longitude : default(double),
+                            MasterCompanyId = newPartnerRequestModel.ParentPartnerId,
+                            PartnerTypeCode = newPartnerRequestModel.PartnerTypeCode,
+                            PartnerTypeName = newPartnerRequestModel.PartnerName,
+                            PhoneNumber = newPartnerRequestModel.PartnerName,
+                            PostalCode = newPartnerRequestModel.BillAddress != null ? newPartnerRequestModel.BillAddress.PostalCode : string.Empty,
+                            SourceKey = newPartnerRequestModel.RouteName,
+                            State = newPartnerRequestModel.BillAddress != null ? newPartnerRequestModel.BillAddress.State : string.Empty
+                        };
+
+                        var parner = await SQLiteServiceClient.Db.InsertAsync(partnerModel);
+                        SimpleIoc.Default.GetInstance<PartnersViewModel>().PartnerCollection.Add(partnerModel);
+                        SimpleIoc.Default.GetInstance<PartnersViewModel>().AllPartners.Add(partnerModel);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine(ex.Message);
+                    }
+
+                    await Application.Current.MainPage.Navigation.PopModalAsync();
+                }
             }
             catch (Exception ex)
             {

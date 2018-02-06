@@ -10,6 +10,7 @@ using Xamarin.Forms;
 using System.Linq;
 using System.Collections.Generic;
 using KegID.Model;
+using System.Diagnostics;
 
 namespace KegID.ViewModel
 {
@@ -309,7 +310,18 @@ namespace KegID.ViewModel
             LoadPartnersAsync();
         }
 
-        private void TextChangedCommandRecieverAsync() => PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners.Where(x => x.FullName.ToLowerInvariant().Contains(PartnerName.ToLowerInvariant())));
+        private void TextChangedCommandRecieverAsync()
+        {
+            try
+            {
+                var result = AllPartners.Where(x => x.FullName.ToLower().Contains(PartnerName.ToLower()));
+                    PartnerCollection = new ObservableCollection<PartnerModel>(result);
+            }
+            catch (System.Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+         }
 
         #endregion
 
@@ -338,8 +350,9 @@ namespace KegID.ViewModel
                     var value = await _moveService.GetPartnersListAsync(Configuration.SessionId);
                     if (value.StatusCode == System.Net.HttpStatusCode.OK)
                     {
-                        PartnerCollection = new ObservableCollection<PartnerModel>(value.PartnerModel);
-                        await SQLiteServiceClient.Db.InsertAllAsync(PartnerCollection);
+                        AllPartners = value.PartnerModel.Where(x=>x.FullName != string.Empty).ToList();
+                        PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners);
+                        await SQLiteServiceClient.Db.InsertAllAsync(AllPartners);
                     }
                 }
             }

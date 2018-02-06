@@ -58,7 +58,7 @@
                 HorizontalOptions="Start" />
 
             <Switch
-                HorizontalOptions="End"
+                HorizontalOptions="Center"
                 Grid.Column="1"
                 Grid.Row="2"/>
 
@@ -69,7 +69,7 @@
                 HorizontalOptions="Start" />
 
             <Switch
-                HorizontalOptions="End"
+                HorizontalOptions="Center"
                 Grid.Column="1"
                 Grid.Row="3"/>
 
@@ -80,7 +80,7 @@
                 HorizontalOptions="Start" />
 
             <Entry
-                HorizontalOptions="End"
+                HorizontalOptions="FillAndExpand"
                 Grid.Column="1"
                 Grid.Row="4"/>
 
@@ -107,7 +107,7 @@
                 HorizontalOptions="Start" />
 
             <Switch
-                HorizontalOptions="End"
+                HorizontalOptions="Center"
                 Grid.Column="1"
                 Grid.Row="7"/>
 
@@ -118,7 +118,7 @@
                 HorizontalOptions="Start" />
 
             <Entry
-                HorizontalOptions="End"
+                HorizontalOptions="FillAndExpand"
                 Grid.Column="1"
                 Grid.Row="8"/>
 
@@ -129,7 +129,7 @@
                 HorizontalOptions="Start" />
 
             <Entry
-                HorizontalOptions="End"
+                HorizontalOptions="FillAndExpand"
                 Grid.Column="1"
                 Grid.Row="9"/>
 

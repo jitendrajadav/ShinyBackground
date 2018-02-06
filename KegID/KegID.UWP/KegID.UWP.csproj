@@ -125,6 +125,7 @@
     <Content Include="Assets\ic_action_edit.png" />
     <Content Include="Assets\kegbg.png" />
     <Content Include="Assets\kegidbanner.png" />
+    <Content Include="Assets\kegidicon.png" />
     <Content Include="Assets\logout.png" />
     <Content Include="Assets\more.png" />
     <Content Include="Assets\movekegs.png" />

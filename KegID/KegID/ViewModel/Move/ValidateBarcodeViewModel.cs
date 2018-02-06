@@ -103,6 +103,24 @@ namespace KegID.ViewModel
             ItemTappedCommand = new RelayCommand<Partner>((model) => ItemTappedCommandRecieverAsync(model));
         }
 
+
+        #endregion
+
+        #region Methods
+        private async void CancelCommandRecievierAsync() => await Application.Current.MainPage.Navigation.PopPopupAsync();
+
+        private async void ItemTappedCommandRecieverAsync(Partner model)
+        {
+            SimpleIoc.Default.GetInstance<ScanKegsViewModel>().BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = GetIconByPlatform.GetIcon("validationquestion.png");
+            SimpleIoc.Default.GetInstance<ScanKegsViewModel>().BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().PartnerCount = 1;
+
+            models.RemoveAt(0);
+            if (models.Count == 0)
+                await Application.Current.MainPage.Navigation.PopPopupAsync();
+            else
+                await ValidateScannedBarcode();
+        }
+
         public async void LoadBardeValue(List<Barcode> _models)
         {
             models = _models;
@@ -114,11 +132,12 @@ namespace KegID.ViewModel
             string BarcodeId = default(string);
             try
             {
-                MultipleKegsTitle = string.Format(" Multiple kgs were found with \n barcode {0}. \n Please select the correct one.", models.FirstOrDefault().Id);
                 BarcodeId = models.FirstOrDefault().Id;
                 var value = await SQLiteServiceClient.Db.Table<BarcodeModel>().Where(x => x.Barcode == BarcodeId).FirstOrDefaultAsync();
                 var validateBarcodeModel = JsonConvert.DeserializeObject<ValidateBarcodeModel>(value.BarcodeJson);
                 PartnerCollection = validateBarcodeModel.Kegs.Partners;
+
+                MultipleKegsTitle = string.Format(" Multiple kgs were found with \n barcode {0}. \n Please select the correct one.", models.FirstOrDefault().Id);
             }
             catch (Exception ex)
             {
@@ -128,21 +147,6 @@ namespace KegID.ViewModel
             {
                 BarcodeId = default(string);
             }
-        }
-
-        #endregion
-
-        #region Methods
-        private async void CancelCommandRecievierAsync() => await Application.Current.MainPage.Navigation.PopPopupAsync();
-
-        private async void ItemTappedCommandRecieverAsync(Partner model)
-        {
-            SimpleIoc.Default.GetInstance<ScanKegsViewModel>().BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = GetIconByPlatform.GetIcon("validationquestion.png");
-            models.RemoveAt(0);
-            if (models.Count == 0)
-                await Application.Current.MainPage.Navigation.PopPopupAsync();
-            else
-                await ValidateScannedBarcode();
         }
 
         #endregion

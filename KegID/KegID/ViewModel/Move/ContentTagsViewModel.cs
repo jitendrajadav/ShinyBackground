@@ -20,13 +20,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string ContentCollectionPropertyName = "ContentCollection";
 
-        private IList<ManifestModel> _ContentCollection = null;
+        private IList<CreatedManifestItem> _ContentCollection = null;
 
         /// <summary>
         /// Sets and gets the ContentCollection property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public IList<ManifestModel> ContentCollection
+        public IList<CreatedManifestItem> ContentCollection
         {
             get
             {
@@ -65,12 +65,12 @@ namespace KegID.ViewModel
         #endregion
 
         #region Methods
-        public async void LoadContentAsync(string manifestId)
+        public void LoadContentAsync(string manifestId)
         {
             try
             {
                 Loader.StartLoading();
-                ContentCollection = await SQLiteServiceClient.Db.Table<ManifestModel>().Where(x => x.ManifestId == manifestId).ToListAsync();
+                //ContentCollection = await SQLiteServiceClient.Db.Table<ManifestModel>().Where(x => x.ManifestId == manifestId).ToListAsync();
             }
             catch (Exception)
             {

@@ -21,6 +21,7 @@ namespace KegID.View
 
         private async void LoadAddTagsAsync()
         {
+            var value = Application.Current.MainPage.Navigation.ModalStack.Count;
             if (Application.Current.MainPage.Navigation.ModalStack.Count > 2)
             {
                 if (Application.Current.MainPage.Navigation.ModalStack[2].GetType() == typeof(ScanKegsView))

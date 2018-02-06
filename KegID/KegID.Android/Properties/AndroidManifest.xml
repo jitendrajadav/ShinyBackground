@@ -1,9 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" 
-          android:versionCode="1" 
-          android:versionName="1.0" 
-          package="com.companyname.KegID"
-          android:installLocation="auto">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.companyname.KegID" android:installLocation="auto">
 	<uses-sdk android:minSdkVersion="15" />
 	<uses-permission android:name="android.permission.CAMERA" />
 	<uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
@@ -11,6 +7,6 @@
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 	<uses-permission android:name="android.permission.WAKE_LOCK" />
-	<application android:label="KegID.Android" android:icon="@drawable/kegidlogo"></application>
-  <receiver android:name=".BackgroundReceiver"></receiver>
+	<application android:label="KegID.Android" android:icon="@drawable/kegidicon"></application>
+	<receiver android:name=".BackgroundReceiver"></receiver>
 </manifest>

@@ -332,21 +332,14 @@ namespace KegID.ViewModel
 
         private async void LabelItemTappedCommandRecieverAsync(Barcode model)
         {
-            if (model.Icon.Contains("/"))
+
+            if (model.PartnerCount > 1)
             {
-                if (model.Icon.Split('/').LastOrDefault() == "validationerror.png")
-                {
-                    List<Barcode> modelList = new List<Barcode>
+                List<Barcode> modelList = new List<Barcode>
                     {
                         model
                     };
-                    await NavigateToValidatePartner(modelList);
-                }
-                else
-                {
-                    IsFromScanned = true;
-                    await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView());
-                } 
+                await NavigateToValidatePartner(modelList);
             }
             else
             {
@@ -357,28 +350,13 @@ namespace KegID.ViewModel
 
         private async void IconItemTappedCommandRecieverAsync(Barcode model)
         {
-            if (model.Icon.Contains("/"))
+            if (model.PartnerCount > 1)
             {
-                if (model.Icon.Split('/').LastOrDefault() == "validationerror.png")
-                {
-                    List<Barcode> modelList = new List<Barcode>
+                List<Barcode> modelList = new List<Barcode>
                     {
                         model
                     };
-                    await NavigateToValidatePartner(modelList);
-                }
-                else
-                {
-                    await Application.Current.MainPage.Navigation.PushModalAsync(new ScanInfoView());
-                    var value = await SQLiteServiceClient.Db.Table<ValidatePartnerModel>().Where(x => x.Barcode == model.Id).ToListAsync();
-
-                    SimpleIoc.Default.GetInstance<ScanInfoViewModel>().Barcode = string.Format(" Barcode {0} ", model.Id);
-                    SimpleIoc.Default.GetInstance<ScanInfoViewModel>().Ownername = value.FirstOrDefault().FullName;
-                    SimpleIoc.Default.GetInstance<ScanInfoViewModel>().Size = value.FirstOrDefault().Size;
-                    SimpleIoc.Default.GetInstance<ScanInfoViewModel>().Contents = value.FirstOrDefault().Contents;
-                    SimpleIoc.Default.GetInstance<ScanInfoViewModel>().Batch = value.FirstOrDefault().Batch;
-                    SimpleIoc.Default.GetInstance<ScanInfoViewModel>().Location = value.FirstOrDefault().Location;
-                } 
+                await NavigateToValidatePartner(modelList);
             }
             else
             {
@@ -400,26 +378,26 @@ namespace KegID.ViewModel
             SimpleIoc.Default.GetInstance<ValidateBarcodeViewModel>().LoadBardeValue(model);
         }
 
-        private async void AddTagsCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView());
+        private async void AddTagsCommandRecieverAsync()
+        {
+            await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView());
+        }
 
         private async void DoneCommandRecieverAsync()
         {
-            if (BarcodeCollection.Count > 1)
-            {
-                await NavigateToValidatePartner(BarcodeCollection.ToList());
-                SimpleIoc.Default.GetInstance<MoveViewModel>().AddKegs = string.Format("{0} Items", BarcodeCollection.Count);
-                SimpleIoc.Default.GetInstance<MoveViewModel>().IsSaveDraftVisible = true;
-                SimpleIoc.Default.GetInstance<MoveViewModel>().IsVisibleSubmit = true;
-            }
-            else if (BarcodeCollection.Count == 1)
-            {
-                await NavigateToValidatePartner(BarcodeCollection.ToList());
-                SimpleIoc.Default.GetInstance<MoveViewModel>().AddKegs = string.Format("{0} Item", BarcodeCollection.Count);
-                SimpleIoc.Default.GetInstance<MoveViewModel>().IsSaveDraftVisible = true;
-                SimpleIoc.Default.GetInstance<MoveViewModel>().IsVisibleSubmit = true;
+            SimpleIoc.Default.GetInstance<MoveViewModel>().IsSaveDraftVisible = true;
+            SimpleIoc.Default.GetInstance<MoveViewModel>().IsVisibleSubmit = true;
 
-            }
-            await Application.Current.MainPage.Navigation.PopModalAsync();
+            if (BarcodeCollection.Count > 1)
+                SimpleIoc.Default.GetInstance<MoveViewModel>().AddKegs = string.Format("{0} Items", BarcodeCollection.Count);
+            else if (BarcodeCollection.Count == 1)
+                SimpleIoc.Default.GetInstance<MoveViewModel>().AddKegs = string.Format("{0} Item", BarcodeCollection.Count);
+
+            if (BarcodeCollection.Any(x=>x.PartnerCount > 1))
+                await NavigateToValidatePartner(BarcodeCollection.Where(x => x.PartnerCount > 1).ToList());
+            else
+                await Application.Current.MainPage.Navigation.PopModalAsync();
+
             TagsStr = default(string);
         }
 
@@ -498,6 +476,7 @@ namespace KegID.ViewModel
             Barcode barcode = new Barcode
             {
                 Id = barcodeId,
+                PartnerCount = validateBarcodeModel.Kegs.Partners.Count,
                 Icon = validateBarcodeModel.Kegs.Partners.Count > 1 ? GetIconByPlatform.GetIcon("validationerror.png") : GetIconByPlatform.GetIcon("validationquestion.png"),
             };
 

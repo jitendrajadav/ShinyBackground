@@ -6,150 +6,153 @@
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=AddPartner}">
     
     <ContentPage.Content>
-        <Grid
-            Margin="10,0,10,0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-                
-            <Button
-                HorizontalOptions="Start"
-                VerticalOptions="Center"
-                BackgroundColor="Transparent"
-                TextColor="{StaticResource selectTextColor}"
-                Command="{Binding CalcelCommand}"
-                Text="Cancel"/>
-                
-            <Label
-                FontAttributes="Bold"
-                VerticalOptions="Center"
-                HorizontalOptions="Center"
-                Text="Add Partner"/>
-                
-            <Button
-                VerticalOptions="Center"
-                Text="Submit"
-                HorizontalOptions="End"
-                BackgroundColor="Transparent"
-                TextColor="{StaticResource selectTextColor}"
-                Command="{Binding SubmitCommand}"/>
+        <ScrollView>
+            <Grid
+                Margin="10,0,10,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-            <BoxView
-                Margin="-10,0,-10,0"
-                Grid.Row="1"
-                BackgroundColor="Black"
-                HeightRequest="1"
-                VerticalOptions="Start"
-                HorizontalOptions="FillAndExpand"/>
-
-            <Entry
-                Grid.Row="2"
-                Placeholder="Company Name"
-                Text="{Binding PartnerName}"/>
-
-            <StackLayout
-                Orientation="Horizontal"
-                Grid.Row="3">
-                
-                <Label
+                <Button
+                    HorizontalOptions="Start"
                     VerticalOptions="Center"
-                    Text="Shared"/>
-
-                <Switch
-                    IsToggled="{Binding IsSharedOn}"/>
+                    BackgroundColor="Transparent"
+                    TextColor="{StaticResource selectTextColor}"
+                    Command="{Binding CalcelCommand}"
+                    Text="Cancel"/>
 
                 <Label
-                    Margin="10,0,0,0"
+                    FontAttributes="Bold"
                     VerticalOptions="Center"
-                    Text="Internal"/>
+                    HorizontalOptions="Center"
+                    Text="Add Partner"/>
 
-                <Switch
-                    IsToggled="{Binding IsInternalOn}"/>
+                <Button
+                    VerticalOptions="Center"
+                    Text="Submit"
+                    HorizontalOptions="End"
+                    BackgroundColor="Transparent"
+                    TextColor="{StaticResource selectTextColor}"
+                    Command="{Binding SubmitCommand}"/>
 
-            </StackLayout>
+                <BoxView
+                    Margin="-10,0,-10,0"
+                    Grid.Row="1"
+                    BackgroundColor="Black"
+                    HeightRequest="1"
+                    VerticalOptions="Start"
+                    HorizontalOptions="FillAndExpand"/>
 
-            <Label
-                Grid.Row="4"
-                Text="Type:"/>
-            
-            <Picker
-                Margin="60,0,0,0"
-                HorizontalOptions="Start"
-                Grid.Row="4"
-                ItemsSource="{Binding PartnerTypeCollectioin}"
-                TextColor="{StaticResource selectTextColor}"
-                ItemDisplayBinding="{Binding Name}"
-                Title="Select a type"
-                SelectedItem="{Binding SelectedPartnerType}"/>
+                <Entry
+                    Grid.Row="2"
+                    Placeholder="Company Name"
+                    Text="{Binding PartnerName}"/>
 
-            <Label
-                Grid.Row="5"
-                Text="Shipping Address:"/>
+                <StackLayout
+                    Orientation="Horizontal"
+                    Grid.Row="3">
 
-            <Button
-                BackgroundColor="Transparent"
-                Grid.Row="6"
-                HorizontalOptions="Start"
-                TextColor="{StaticResource selectTextColor}"
-                Text="{Binding ShippingAddress}"
-                Command="{Binding ShippingAddressCommand}"/>
+                    <Label
+                        VerticalOptions="Center"
+                        Text="Shared"/>
 
-            <Label
-                Grid.Row="7"
-                Text="Billing Address:"/>
+                    <Switch
+                        IsToggled="{Binding IsSharedOn}"/>
 
-            <Button
-                BackgroundColor="Transparent"
-                Grid.Row="8"
-                HorizontalOptions="Start"
-                TextColor="{StaticResource selectTextColor}"
-                Text="{Binding BillingAddress}"
-                Command="{Binding BillingAddressCommand}"/>
-            
-            <Entry
-                Grid.Row="9"
-                Text="{Binding ContactName}"
-                Placeholder="Contact Name"/>
+                    <Label
+                        Margin="10,0,0,0"
+                        VerticalOptions="Center"
+                        Text="Internal"/>
 
-            <Entry
-                Grid.Row="10"
-                Text="{Binding Phone}"
-                Placeholder="Contact phone"/>
+                    <Switch
+                        IsToggled="{Binding IsInternalOn}"/>
 
-            <Entry
-                Grid.Row="11"
-                Text="{Binding ContactEmail}"
-                Placeholder="Contact Email"/>
+                </StackLayout>
 
-            <Entry
-                Grid.Row="12"
-                Text="{Binding AccountNumber}"
-                Placeholder="Account #"/>
+                <Label
+                    Grid.Row="4"
+                    Text="Type:"/>
 
-            <Entry
-                Grid.Row="13"
-                Text="{Binding ReferenceKey}"
-                Placeholder="Reference #"/>
+                <Picker
+                    Margin="60,0,0,0"
+                    HorizontalOptions="Start"
+                    Grid.Row="4"
+                    ItemsSource="{Binding PartnerTypeCollectioin}"
+                    TextColor="{StaticResource selectTextColor}"
+                    ItemDisplayBinding="{Binding Name}"
+                    Title="Select a type"
+                    SelectedItem="{Binding SelectedPartnerType}"/>
 
-            <Entry
-                Grid.Row="14"
-                Text="{Binding Notes}"
-                Placeholder="Notes"/>
-            
-        </Grid>
+                <Label
+                    Grid.Row="5"
+                    Text="Shipping Address:"/>
+
+                <Button
+                    BackgroundColor="Transparent"
+                    Grid.Row="6"
+                    HorizontalOptions="Start"
+                    TextColor="{StaticResource selectTextColor}"
+                    Text="{Binding ShippingAddress}"
+                    Command="{Binding ShippingAddressCommand}"/>
+
+                <Label
+                    Grid.Row="7"
+                    Text="Billing Address:"/>
+
+                <Button
+                    BackgroundColor="Transparent"
+                    Grid.Row="8"
+                    HorizontalOptions="Start"
+                    TextColor="{StaticResource selectTextColor}"
+                    Text="{Binding BillingAddress}"
+                    Command="{Binding BillingAddressCommand}"/>
+
+                <Entry
+                    Grid.Row="9"
+                    Text="{Binding ContactName}"
+                    Placeholder="Contact Name"/>
+
+                <Entry
+                    Grid.Row="10"
+                    Text="{Binding Phone}"
+                    Placeholder="Contact phone"/>
+
+                <Entry
+                    Grid.Row="11"
+                    Text="{Binding ContactEmail}"
+                    Placeholder="Contact Email"/>
+
+                <Entry
+                    Grid.Row="12"
+                    Text="{Binding AccountNumber}"
+                    Placeholder="Account #"/>
+
+                <Entry
+                    Grid.Row="13"
+                    Text="{Binding ReferenceKey}"
+                    Placeholder="Reference #"/>
+
+                <Entry
+                    Grid.Row="14"
+                    Text="{Binding Notes}"
+                    Placeholder="Notes"/>
+
+            </Grid>
+
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

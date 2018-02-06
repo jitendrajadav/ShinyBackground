@@ -96,9 +96,11 @@
                 Orientation="Horizontal">
                 
                 <Label
+                    VerticalOptions="Center"
                     Text="From"/>
                 
-                <DatePicker/>
+                <DatePicker
+                    Margin="5,0,0,0"/>
             </StackLayout>
 
             <StackLayout
@@ -107,9 +109,11 @@
                 Orientation="Horizontal">
 
                 <Label
+                    VerticalOptions="Center"
                     Text="To"/>
 
-                <DatePicker/>
+                <DatePicker
+                    Margin="5,0,0,0"/>
             </StackLayout>
 
             <Button

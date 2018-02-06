@@ -73,7 +73,7 @@ namespace KegID.Model
         public object ParentPartnerName { get; set; }
         public string SourceKey { get; set; }
         public string LocationStatus { get; set; }
-        public long CompanyNo { get; set; }
+        public string CompanyNo { get; set; }
     }
 
     public class CreatedManifestItem

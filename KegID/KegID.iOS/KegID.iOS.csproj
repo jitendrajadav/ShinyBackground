@@ -266,4 +266,7 @@
   <ItemGroup>
     <BundleResource Include="Resources\more.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\kegidicon.png" />
+  </ItemGroup>
 </Project>

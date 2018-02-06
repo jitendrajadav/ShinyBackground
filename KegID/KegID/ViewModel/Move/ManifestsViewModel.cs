@@ -308,7 +308,11 @@ namespace KegID.ViewModel
 
         private async void ItemTappedCommandRecieverAsync(ManifestModel model) => await Application.Current.MainPage.Navigation.PopModalAsync();
 
-        private async void HomeCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PopModalAsync();
+        private async void HomeCommandRecieverAsync()
+        {
+            await Application.Current.MainPage.Navigation.PopModalAsync();
+            await Application.Current.MainPage.Navigation.PopModalAsync();
+        }
 
         private async void ActionSearchCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new SearchManifestsView());
 

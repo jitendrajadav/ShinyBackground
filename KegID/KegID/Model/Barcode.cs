@@ -38,5 +38,7 @@ namespace KegID.Model
         }
 
         #endregion
+
+        public int PartnerCount { get; set; }
     }
 }

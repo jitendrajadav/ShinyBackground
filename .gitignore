@@ -12,3 +12,6 @@
 /KegID/KegID.Android/bin/Debug
 /KegID/KegID.Android/obj/Debug
 /KegID/KegID.Android/obj
+/Somechanges.txt
+*.txt
+/KegID.xlsx
