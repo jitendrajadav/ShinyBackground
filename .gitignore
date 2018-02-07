@@ -15,3 +15,15 @@
 /Somechanges.txt
 *.txt
 /KegID.xlsx
+/KegID/KegID.UWP/bin/ARM/Debug
+/KegID/KegID.UWP/bin/x64/Debug/Core
+/KegID/KegID.UWP/bin/x64/Debug/Acr.UserDialogs.dll
+*.xbf
+*.dll
+/KegID/KegID.UWP/bin/x64/Debug
+/KegID.RuntimeComponent/bin/ARM/Debug
+/KegID.RuntimeComponent/bin/Debug
+/KegID.RuntimeComponent/bin/x64/Debug
+/KegID.RuntimeComponent/obj/ARM/Debug
+/KegID.RuntimeComponent/obj/x64/Debug
+/KegID.RuntimeComponent/obj/Debug

@@ -8,10 +8,6 @@
              BackgroundColor="White"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Move}">
 
-    <!--<ContentPage.ToolbarItems>
-        <ToolbarItem Text="Scan" Command="{Binding ScannedCommand}"/>
-    </ContentPage.ToolbarItems>-->
-    
     <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>

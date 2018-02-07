@@ -86,6 +86,19 @@ namespace KegID.Services
             return partnerResponseModel;
         }
 
+        public async Task<ManifestSearchModel> GetManifestSearchAsync(string sessionId, string trackingNumber,string barcode, string senderId, string destinationId, string referenceKey,string fromDate, string toDate)
+        {
+            ManifestSearchModel manifestSearchModel = new ManifestSearchModel();
+
+            string url = string.Format(Configuration.GetManifestSearchUrl, sessionId, trackingNumber, barcode, senderId, destinationId, referenceKey, fromDate, toDate);
+            var value = await Helper.ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
+
+            manifestSearchModel.ManifestSearchResponseModel = Helper.DeserializeObject<IList<ManifestSearchResponseModel>>(value.Response);
+            manifestSearchModel.StatusCode = value.StatusCode;
+
+            return manifestSearchModel;
+        }
+
         public async Task<ManifestModelGet> PostManifestAsync(ManifestModel model, string sessionId, string RequestType)
         {
             ManifestModelGet manifestModelGet = new ManifestModelGet();
@@ -111,5 +124,6 @@ namespace KegID.Services
             partnerResponseModel.StatusCode = value.StatusCode;
             return partnerResponseModel;
         }
+
     }
 }

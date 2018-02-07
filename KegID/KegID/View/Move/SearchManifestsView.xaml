@@ -100,6 +100,7 @@
                     Text="From"/>
                 
                 <DatePicker
+                    Date="{Binding FromDate}"
                     Margin="5,0,0,0"/>
             </StackLayout>
 
@@ -113,6 +114,7 @@
                     Text="To"/>
 
                 <DatePicker
+                    Date="{Binding ToDate}"
                     Margin="5,0,0,0"/>
             </StackLayout>
 

@@ -331,8 +331,17 @@ namespace KegID.ViewModel
         {
             if (model != null)
             {
-                SimpleIoc.Default.GetInstance<MoveViewModel>().Destination = model;
+                if (Application.Current.MainPage.Navigation.ModalStack[Application.Current.MainPage.Navigation.ModalStack.Count - 2].GetType() == typeof(SearchManifestsView))
+                {
+                    if (SimpleIoc.Default.GetInstance<SearchManifestsViewModel>().IsManifestDestination)
+                        SimpleIoc.Default.GetInstance<SearchManifestsViewModel>().ManifestDestination = model.FullName;
+                    else
+                        SimpleIoc.Default.GetInstance<SearchManifestsViewModel>().ManifestSender = model.FullName;
+                }
+                else if (Application.Current.MainPage.Navigation.ModalStack[Application.Current.MainPage.Navigation.ModalStack.Count-2].GetType() == typeof(MoveView))
+                    SimpleIoc.Default.GetInstance<MoveViewModel>().Destination = model;
 
+                SimpleIoc.Default.GetInstance<SearchManifestsViewModel>().IsManifestDestination = false;
                 await Application.Current.MainPage.Navigation.PopModalAsync();
             }
         }

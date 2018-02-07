@@ -38,7 +38,8 @@ namespace KegID.Services
         public const string GetManifestUrl = ServiceUrl + "Manifest/{0}?sessionId={1}";
         public const string GetPartnerTypeUrl = ServiceUrl + "PartnerType/?sessionId={0}";
         public const string GetPartnerSearchUrl = ServiceUrl + "PartnerSearch/?sessionId={0}&search={1}&internalonly={2}&includepublic={3}";
-
+        public const string GetManifestSearchUrl = ServiceUrl + "ManifestSearch/?sessionId={0}&trackingNumber={1}&kegs={2}&senderId={3}&destinationId={4}&referenceKey={5}&fromDate={6}&toDate={7}";
+        
         public const string PostManifestUrl = ServiceUrl + "Manifest/?sessionId={0}";
         public const string PostNewPartnerUrl = ServiceUrl + "Partner/?sessionId={0}";
 

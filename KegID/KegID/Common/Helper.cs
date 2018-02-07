@@ -1,12 +1,8 @@
 ﻿using KegID.Model;
 using KegID.Services;
-using KegID.SQLiteClient;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -122,11 +118,6 @@ namespace KegID.Common
                     default:
                         break;
                 }
-                //kegIDResponse.Response = JsonConvert.DeserializeObject<T>(content);
-
-                //if (!string.IsNullOrEmpty(kegIDResponse.Response))
-                //    kegIDResponse.Response = content;
-                //kegIDResponse.StatusCode = kegIDResponse.StatusCode;
             }
             catch (Exception e)
             {
@@ -142,7 +133,5 @@ namespace KegID.Common
         {
             return JsonConvert.DeserializeObject<T>(response);
         }
-
     }
-
 }

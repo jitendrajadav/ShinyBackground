@@ -228,6 +228,7 @@ namespace KegID.ViewModel
                 }
 
                 _IsSaveDraftVisible = value;
+                IsVisibleSubmit = _IsSaveDraftVisible;
                 RaisePropertyChanged(IsSaveDraftVisiblePropertyName);
             }
         }

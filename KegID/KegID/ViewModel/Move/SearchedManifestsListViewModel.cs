@@ -3,9 +3,13 @@ using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
 using KegID.Model;
+using KegID.Services;
 using KegID.SQLiteClient;
 using KegID.View;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -14,6 +18,8 @@ namespace KegID.ViewModel
     {
         #region Properties
 
+        public IMoveService _moveService { get; set; }
+
         #region SearchManifestsCollection
 
         /// <summary>
@@ -21,13 +27,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string SearchManifestsCollectionPropertyName = "SearchManifestsCollection";
 
-        private IList<ManifestModel> _SearchManifestsCollection = null;
+        private IList<ManifestSearchResponseModel> _SearchManifestsCollection = null;
 
         /// <summary>
         /// Sets and gets the SearchManifestsCollection property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public IList<ManifestModel> SearchManifestsCollection
+        public IList<ManifestSearchResponseModel> SearchManifestsCollection
         {
             get
             {
@@ -52,45 +58,60 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand<ManifestModel> ItemTappedCommand { get; set; }
+        public RelayCommand<ManifestSearchResponseModel> ItemTappedCommand { get; set; }
+        public RelayCommand SearchManifestsCommand { get; set; }
 
         #endregion
 
         #region Constructor
 
-        public SearchedManifestsListViewModel()
+        public SearchedManifestsListViewModel(IMoveService moveService)
         {
-            ItemTappedCommand = new RelayCommand<ManifestModel>((model) => ItemTappedCommandRecieverAsync(model));
-            LoadDraftManifestAsync();
+            _moveService = moveService;
+
+            ItemTappedCommand = new RelayCommand<ManifestSearchResponseModel>((model) => ItemTappedCommandRecieverAsync(model));
+            SearchManifestsCommand = new RelayCommand(SearchManifestsCommandRecieverAsync);
         }
 
         #endregion
 
         #region Methods
-        private async void LoadDraftManifestAsync()
+
+        private async void SearchManifestsCommandRecieverAsync()
+        {
+          await Application.Current.MainPage.Navigation.PopModalAsync();
+        }
+
+        private async void ItemTappedCommandRecieverAsync(ManifestSearchResponseModel model)
         {
             try
             {
                 Loader.StartLoading();
-                SearchManifestsCollection = await SQLiteServiceClient.Db.Table<ManifestModel>().ToListAsync();
+                var manifest = await _moveService.GetManifestAsync(Configuration.SessionId, model.ManifestId);
+                if (manifest.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().TrackingNumber = manifest.TrackingNumber;
+
+                    SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ManifestTo = manifest.CreatorCompany.FullName + "\n" + manifest.CreatorCompany.PartnerTypeName;
+
+                    SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ShippingDate = manifest.ShipDate;
+                    SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ItemCount = manifest.ManifestItems.Count;
+                    SimpleIoc.Default.GetInstance<ContentTagsViewModel>().ContentCollection = manifest.ManifestItems;
+
+                    SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().Contents = !string.IsNullOrEmpty(manifest.ManifestItems.FirstOrDefault().Contents) ? manifest.ManifestItems.FirstOrDefault().Contents : "No contens";
+
+                    Loader.StopLoading();
+                    await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestDetailView());
+                }
             }
-            catch (System.Exception)
+            catch (Exception ex)
             {
+                Debug.WriteLine(ex.Message);
             }
             finally
             {
                 Loader.StopLoading();
             }
-        }
-
-        private async void ItemTappedCommandRecieverAsync(ManifestModel model)
-        {
-            SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().TrackingNumber = model.ManifestId;
-            SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ManifestTo = model.DestinationName;
-            SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ShippingDate = model.ShipDate;
-            SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ItemCount = model.Tags.Count;
-
-            await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestDetailView());
         }
         #endregion
 

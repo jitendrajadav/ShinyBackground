@@ -1,6 +1,10 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Ioc;
+using KegID.Services;
 using KegID.View;
+using System;
+using System.Globalization;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -8,6 +12,7 @@ namespace KegID.ViewModel
     public class SearchManifestsViewModel : ViewModelBase
     {
         #region Properties
+        public IMoveService _moveService { get; set; }
 
         #region TrackingNumber
 
@@ -179,6 +184,77 @@ namespace KegID.ViewModel
 
         #endregion
 
+        #region FromDate
+
+        /// <summary>
+        /// The <see cref="FromDate" /> property's name.
+        /// </summary>
+        public const string FromDatePropertyName = "FromDate";
+
+        private DateTime _FromDate = DateTime.Today;
+
+        /// <summary>
+        /// Sets and gets the FromDate property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public DateTime FromDate
+        {
+            get
+            {
+                return _FromDate;
+            }
+
+            set
+            {
+                if (_FromDate == value)
+                {
+                    return;
+                }
+
+                _FromDate = value;
+                RaisePropertyChanged(FromDatePropertyName);
+            }
+        }
+
+
+        #endregion
+
+        #region ToDate
+
+        /// <summary>
+        /// The <see cref="ToDate" /> property's name.
+        /// </summary>
+        public const string ToDatePropertyName = "ToDate";
+
+        private DateTime _ToDate = DateTime.Today;
+
+        /// <summary>
+        /// Sets and gets the ToDate property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public DateTime ToDate
+        {
+            get
+            {
+                return _ToDate;
+            }
+
+            set
+            {
+                if (_ToDate == value)
+                {
+                    return;
+                }
+
+                _ToDate = value;
+                RaisePropertyChanged(ToDatePropertyName);
+            }
+        }
+
+        #endregion
+
+        public bool IsManifestDestination { get; set; }
+
         #endregion
 
         #region Commands
@@ -192,8 +268,10 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public SearchManifestsViewModel()
+        public SearchManifestsViewModel(IMoveService moveService)
         {
+            _moveService = moveService;
+
             ManifestsCommand = new RelayCommand(ManifestsCommandRecieverAsync);
             ManifestSenderCommand = new RelayCommand(ManifestSenderCommandRecieverAsync);
             ManifestDestinationCommand = new RelayCommand(ManifestDestinationCommandRecieverAsync);
@@ -203,11 +281,23 @@ namespace KegID.ViewModel
         #endregion
 
         #region Methods
-        private async void SearchCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new SearchedManifestsListView());
+        private async void SearchCommandRecieverAsync()
+        {
+            var value = await _moveService.GetManifestSearchAsync(Configuration.SessionId, TrackingNumber, Barcode, ManifestSender, ManifestDestination, Referencekey, FromDate.ToString("MM/dd/yyyy", CultureInfo.CreateSpecificCulture("en-US")), ToDate.ToString("MM/dd/yyyy", CultureInfo.CreateSpecificCulture("en-US")));
+            SimpleIoc.Default.GetInstance<SearchedManifestsListViewModel>().SearchManifestsCollection = value.ManifestSearchResponseModel;
+            await Application.Current.MainPage.Navigation.PushModalAsync(new SearchedManifestsListView());
+        }
 
-        private async void ManifestDestinationCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView());
+        private async void ManifestDestinationCommandRecieverAsync()
+        {
+            IsManifestDestination = true;
+            await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView());
+        }
 
-        private async void ManifestSenderCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView());
+        private async void ManifestSenderCommandRecieverAsync()
+        {
+            await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView());
+        }
 
         private async void ManifestsCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PopModalAsync();
 

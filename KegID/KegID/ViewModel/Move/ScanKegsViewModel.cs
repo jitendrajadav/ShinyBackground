@@ -385,9 +385,6 @@ namespace KegID.ViewModel
 
         private async void DoneCommandRecieverAsync()
         {
-            SimpleIoc.Default.GetInstance<MoveViewModel>().IsSaveDraftVisible = true;
-            SimpleIoc.Default.GetInstance<MoveViewModel>().IsVisibleSubmit = true;
-
             if (BarcodeCollection.Count > 1)
                 SimpleIoc.Default.GetInstance<MoveViewModel>().AddKegs = string.Format("{0} Items", BarcodeCollection.Count);
             else if (BarcodeCollection.Count == 1)
@@ -399,6 +396,9 @@ namespace KegID.ViewModel
                 await Application.Current.MainPage.Navigation.PopModalAsync();
 
             TagsStr = default(string);
+
+            if (!SimpleIoc.Default.GetInstance<MoveViewModel>().IsSaveDraftVisible)
+                SimpleIoc.Default.GetInstance<MoveViewModel>().IsSaveDraftVisible = true;
         }
 
         private async void BarcodeManualCommandRecieverAsync()
