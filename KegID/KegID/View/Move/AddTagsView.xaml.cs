@@ -2,6 +2,7 @@
 using KegID.Model;
 using KegID.ViewModel;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,24 +22,34 @@ namespace KegID.View
 
         private async void LoadAddTagsAsync()
         {
-            var value = Application.Current.MainPage.Navigation.ModalStack.Count;
             if (Application.Current.MainPage.Navigation.ModalStack.Count > 2)
             {
-                if (Application.Current.MainPage.Navigation.ModalStack[2].GetType() == typeof(ScanKegsView))
+                switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack.LastOrDefault().GetType().Name))
                 {
-                    if (SimpleIoc.Default.GetInstance<ScanKegsViewModel>().IsFromScanned)
-                    {
-                        await OnAddMoreTagsClickedAsync("Asset Type");
-                        await OnAddMoreTagsClickedAsync("Size");
-                        await OnAddMoreTagsClickedAsync("Contents");
-                        await OnAddMoreTagsClickedAsync("Batch");
-                    }
-                    else
-                    {
-                        await OnAddMoreTagsClickedAsync("Asset Type");
-                        await OnAddMoreTagsClickedAsync("Size");
-                    }
+                    case ViewTypeEnum.ScanKegsView:
+                        if (SimpleIoc.Default.GetInstance<ScanKegsViewModel>().IsFromScanned)
+                        {
+                            await OnAddMoreTagsClickedAsync("Asset Type");
+                            await OnAddMoreTagsClickedAsync("Size");
+                            await OnAddMoreTagsClickedAsync("Contents");
+                            await OnAddMoreTagsClickedAsync("Batch");
+                        }
+                        else
+                        {
+                            await OnAddMoreTagsClickedAsync("Asset Type");
+                            await OnAddMoreTagsClickedAsync("Size");
+                        }
+                        break;
+                    default:
+                        break;
                 }
+            }
+            else if (Application.Current.MainPage.Navigation.ModalStack.LastOrDefault().GetType().Name == ViewTypeEnum.PalletizeView.ToString())
+            {
+                await OnAddMoreTagsClickedAsync("Asset Type");
+                await OnAddMoreTagsClickedAsync("Size");
+                await OnAddMoreTagsClickedAsync("Contents");
+                await OnAddMoreTagsClickedAsync("Batch");
             }
         }
 
@@ -53,7 +64,7 @@ namespace KegID.View
                 VerticalOptions = LayoutOptions.Center,
                 Text = title
             };
-            
+
             if (!string.IsNullOrEmpty(title))
             {
                 valueEntry = new Picker()
@@ -98,7 +109,7 @@ namespace KegID.View
                 valueEntry = new Entry()
                 {
                     VerticalOptions = LayoutOptions.Center,
-                }; 
+                };
             }
 
             Button removeButton = new Button()
@@ -106,7 +117,7 @@ namespace KegID.View
                 BackgroundColor = Color.Transparent,
                 VerticalOptions = LayoutOptions.Center,
                 Text = "x",
-                TextColor = (Color)Application.Current.Resources["selectTextColor"] 
+                TextColor = (Color)Application.Current.Resources["selectTextColor"]
             };
             removeButton.Clicked += OnRemoveTagsClicked;
 
@@ -125,7 +136,7 @@ namespace KegID.View
             Entry propertyEntry = new Entry()
             {
                 VerticalOptions = LayoutOptions.Center,
-                 AutomationId = "Property"
+                AutomationId = "Property"
             };
 
             Entry valueEntry = new Entry()
@@ -176,8 +187,8 @@ namespace KegID.View
         async void SaveTagsClickedAsync(object sender, EventArgs e)
         {
             Tag tag = null;
+            List<Tag> tags = new List<Tag>();
             string tagsStr = string.Empty;
-            string tagsStrMove = string.Empty;
             try
             {
                 var children = grdTag.Children.ToList();
@@ -188,46 +199,53 @@ namespace KegID.View
                     {
                         if (child.GetType() == typeof(Label))
                             tag.Property = ((Label)child).Text;
+
                         else if (child.GetType() == typeof(DatePicker))
                             tag.Value = ((DatePicker)child).Date.ToShortDateString();
+
                         else if (child.GetType() == typeof(Picker))
                         {
-                            if (((Picker)child).SelectedItem!= null)
-                                tag.Value = ((Picker)child).SelectedItem.ToString() ;
+                            if (((Picker)child).SelectedItem != null)
+                                tag.Value = ((Picker)child).SelectedItem.ToString();
                         }
+
                         else if (child.GetType() == typeof(Entry))
                         {
                             if (!string.IsNullOrWhiteSpace(((Entry)child).Text))
                             {
                                 if (((Entry)child).AutomationId == "Property")
                                     tag.Property = ((Entry)child).Text;
-                                else if(((Entry)child).AutomationId == "Value")
+                                else if (((Entry)child).AutomationId == "Value")
                                     tag.Value = ((Entry)child).Text;
                             }
                         }
                     }
+
                     if (!string.IsNullOrEmpty(tag.Value) && !string.IsNullOrEmpty(tag.Property))
-                    {
-                        if (Application.Current.MainPage.Navigation.ModalStack[2].GetType() == typeof(ScanKegsView))
-                        {
-                            SimpleIoc.Default.GetInstance<ScanKegsViewModel>().Tags.Add(tag);
-                            SimpleIoc.Default.GetInstance<ScanKegsViewModel>().IsFromScanned = false;
-                        }
-                        else
-                            SimpleIoc.Default.GetInstance<MoveViewModel>().Tags.Add(tag);
-                    }
+                        tags.Add(tag);
                 }
-                
-                foreach (var item in SimpleIoc.Default.GetInstance<ScanKegsViewModel>().Tags)
+
+                foreach (var item in tags)
                 {
                     tagsStr = tagsStr + item.Property + item.Value + ";";
                 }
-                foreach (var item in SimpleIoc.Default.GetInstance<MoveViewModel>().Tags)
+
+                switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack[Application.Current.MainPage.Navigation.ModalStack.Count - 2].GetType().Name))
                 {
-                    tagsStrMove = tagsStrMove + item.Property + item.Value + ";";
+                    case ViewTypeEnum.ScanKegsView:
+                        SimpleIoc.Default.GetInstance<ScanKegsViewModel>().IsFromScanned = false;
+                        SimpleIoc.Default.GetInstance<ScanKegsViewModel>().Tags = tags;
+                        SimpleIoc.Default.GetInstance<ScanKegsViewModel>().TagsStr = tagsStr;
+                        break;
+                    case ViewTypeEnum.MoveView:
+                        SimpleIoc.Default.GetInstance<MoveViewModel>().Tags = tags;
+                        SimpleIoc.Default.GetInstance<MoveViewModel>().TagsStr = tagsStr;
+                        break;
+                    case ViewTypeEnum.PalletizeView:
+                        SimpleIoc.Default.GetInstance<PalletizeViewModel>().AddInfoTitle = tagsStr;
+                        break;
                 }
-                SimpleIoc.Default.GetInstance<ScanKegsViewModel>().TagsStr = tagsStr;
-                SimpleIoc.Default.GetInstance<MoveViewModel>().TagsStr = tagsStrMove;
+
                 await Application.Current.MainPage.Navigation.PopModalAsync();
             }
             catch (Exception ex)
@@ -236,9 +254,9 @@ namespace KegID.View
             }
             finally
             {
+                tags = null;
                 tag = null;
                 tagsStr = string.Empty;
-                tagsStrMove = string.Empty;
             }
         }
     }

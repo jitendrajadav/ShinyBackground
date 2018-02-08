@@ -14,6 +14,8 @@
   <ItemGroup>
     <PackageReference Include="Acr.UserDialogs" Version="7.0.1" />
     <PackageReference Include="CarouselView.FormsPlugin" Version="5.2.0" />
+    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="1.3.0" />
+    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="1.3.0" />
     <PackageReference Include="Microsoft.Net.Http" Version="2.2.29" />
     <PackageReference Include="MvvmLight" Version="5.3.0" />
     <PackageReference Include="MvvmLightLibs" Version="5.3.0" />
@@ -49,6 +51,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="View\Dashboard\InventoryView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="View\Fill\AddPalletsView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -139,5 +144,14 @@
     <EmbeddedResource Update="View\Scanner\ScannerView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Model\Request\Fill\" />
+    <Folder Include="Model\Request\Maintain\" />
+    <Folder Include="Model\Request\Palletize\" />
+    <Folder Include="Model\Response\Fill\" />
+    <Folder Include="Model\Response\Maintain\" />
+    <Folder Include="Model\Response\Palletize\" />
   </ItemGroup>
 </Project>

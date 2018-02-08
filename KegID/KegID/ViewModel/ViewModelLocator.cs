@@ -39,59 +39,15 @@ namespace KegID.ViewModel
             SimpleIoc.Default.Register<ManifestDetailViewModel>();
             SimpleIoc.Default.Register<ContentTagsViewModel>();
             SimpleIoc.Default.Register<AddPalletsViewModel>();
+            SimpleIoc.Default.Register<InventoryViewModel>();
 
         }
         #endregion
 
         #region Properties
 
-        #region Main
-
-        public MainViewModel Main
-        {
-            get
-            {
-                return SimpleIoc.Default.GetInstance<MainViewModel>();
-            }
-        }
-        #endregion
-
-        #region Login
-
-        /// <summary>
-        /// Gets the Login property.
-        /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
-            "CA1822:MarkMembersAsStatic",
-            Justification = "This non-static member is needed for data binding purposes.")]
-        public LoginViewModel Login
-        {
-            get
-            {
-                return SimpleIoc.Default.GetInstance<LoginViewModel>();
-            }
-        }
-
-        #endregion
-
-        #region KegIDMasterPage
-
-        /// <summary>
-        /// Gets the KegIDMasterPage property.
-        /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
-            "CA1822:MarkMembersAsStatic",
-            Justification = "This non-static member is needed for data binding purposes.")]
-        public KegIDMasterPageMasterViewModel KegIDMasterPage
-        {
-            get
-            {
-                return SimpleIoc.Default.GetInstance<KegIDMasterPageMasterViewModel>();
-            }
-        }
-
-        #endregion
-
+        #region Move
+       
         #region Move
 
         /// <summary>
@@ -105,114 +61,6 @@ namespace KegID.ViewModel
             get
             {
                 return SimpleIoc.Default.GetInstance<MoveViewModel>();
-            }
-        }
-
-        #endregion
-
-        #region Fill
-
-        /// <summary>
-        /// Gets the Fill property.
-        /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
-            "CA1822:MarkMembersAsStatic",
-            Justification = "This non-static member is needed for data binding purposes.")]
-        public FillViewModel Fill
-        {
-            get
-            {
-                return SimpleIoc.Default.GetInstance<FillViewModel>();
-            }
-        }
-
-        #endregion
-
-        #region Palletize
-
-        /// <summary>
-        /// Gets the Palletize property.
-        /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
-            "CA1822:MarkMembersAsStatic",
-            Justification = "This non-static member is needed for data binding purposes.")]
-        public PalletizeViewModel Palletize
-        {
-            get
-            {
-                return SimpleIoc.Default.GetInstance<PalletizeViewModel>();
-            }
-        }
-
-        #endregion
-
-        #region Maintain
-
-        /// <summary>
-        /// Gets the Maintain property.
-        /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
-            "CA1822:MarkMembersAsStatic",
-            Justification = "This non-static member is needed for data binding purposes.")]
-        public MaintainViewModel Maintain
-        {
-            get
-            {
-                return SimpleIoc.Default.GetInstance<MaintainViewModel>();
-            }
-        }
-
-        #endregion
-
-        #region Dashboard
-
-        /// <summary>
-        /// Gets the Dashboard property.
-        /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
-            "CA1822:MarkMembersAsStatic",
-            Justification = "This non-static member is needed for data binding purposes.")]
-        public DashboardViewModel Dashboard
-        {
-            get
-            {
-                return SimpleIoc.Default.GetInstance<DashboardViewModel>();
-            }
-        }
-
-        #endregion
-
-        #region Setting
-
-        /// <summary>
-        /// Gets the Setting property.
-        /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
-            "CA1822:MarkMembersAsStatic",
-            Justification = "This non-static member is needed for data binding purposes.")]
-        public SettingViewModel Setting
-        {
-            get
-            {
-                return SimpleIoc.Default.GetInstance<SettingViewModel>();
-            }
-        }
-
-        #endregion
-
-        #region WhatIsNew
-
-        /// <summary>
-        /// Gets the WhatIsNew property.
-        /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
-            "CA1822:MarkMembersAsStatic",
-            Justification = "This non-static member is needed for data binding purposes.")]
-        public WhatIsNewViewModel WhatIsNew
-        {
-            get
-            {
-                return SimpleIoc.Default.GetInstance<WhatIsNewViewModel>();
             }
         }
 
@@ -237,7 +85,7 @@ namespace KegID.ViewModel
         #endregion
 
         #region AddPartner
-       
+
         /// <summary>
         /// Gets the AddPartner property.
         /// </summary>
@@ -381,24 +229,6 @@ namespace KegID.ViewModel
 
         #endregion
 
-        #region PrinterSetting
-
-        /// <summary>
-        /// Gets the PrinterSetting property.
-        /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
-            "CA1822:MarkMembersAsStatic",
-            Justification = "This non-static member is needed for data binding purposes.")]
-        public PrinterSettingViewModel PrinterSetting
-        {
-            get
-            {
-                return SimpleIoc.Default.GetInstance<PrinterSettingViewModel>();
-            }
-        }
-
-        #endregion
-
         #region ScanInfo
 
         /// <summary>
@@ -507,6 +337,101 @@ namespace KegID.ViewModel
 
         #endregion
 
+        #endregion
+
+        #region Account
+
+        #region Main
+
+        public MainViewModel Main
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<MainViewModel>();
+            }
+        }
+        #endregion
+
+        #region Login
+
+        /// <summary>
+        /// Gets the Login property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public LoginViewModel Login
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<LoginViewModel>();
+            }
+        }
+
+        #endregion
+
+        #region KegIDMasterPage
+
+        /// <summary>
+        /// Gets the KegIDMasterPage property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public KegIDMasterPageMasterViewModel KegIDMasterPage
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<KegIDMasterPageMasterViewModel>();
+            }
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Fill
+        
+        #region Fill
+
+        /// <summary>
+        /// Gets the Fill property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public FillViewModel Fill
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<FillViewModel>();
+            }
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Palletize
+
+        #region Palletize
+
+        /// <summary>
+        /// Gets the Palletize property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public PalletizeViewModel Palletize
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<PalletizeViewModel>();
+            }
+        }
+
+        #endregion
+
         #region AddPallets
 
         /// <summary>
@@ -522,6 +447,128 @@ namespace KegID.ViewModel
                 return SimpleIoc.Default.GetInstance<AddPalletsViewModel>();
             }
         }
+
+        #endregion
+
+        #endregion
+
+        #region Maintain
+       
+        #region Maintain
+
+        /// <summary>
+        /// Gets the Maintain property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public MaintainViewModel Maintain
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<MaintainViewModel>();
+            }
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Dashboard
+
+        #region Dashboard
+
+        /// <summary>
+        /// Gets the Dashboard property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public DashboardViewModel Dashboard
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<DashboardViewModel>();
+            }
+        }
+
+        #endregion
+
+        #region Inventory
+
+        /// <summary>
+        /// Gets the Inventory property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public InventoryViewModel Inventory
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<InventoryViewModel>();
+            }
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Setting
+
+        #region Setting
+
+        /// <summary>
+        /// Gets the Setting property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public SettingViewModel Setting
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<SettingViewModel>();
+            }
+        }
+
+        #endregion
+
+        #region WhatIsNew
+
+        /// <summary>
+        /// Gets the WhatIsNew property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public WhatIsNewViewModel WhatIsNew
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<WhatIsNewViewModel>();
+            }
+        }
+
+        #endregion
+
+        #region PrinterSetting
+
+        /// <summary>
+        /// Gets the PrinterSetting property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public PrinterSettingViewModel PrinterSetting
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<PrinterSettingViewModel>();
+            }
+        }
+
+        #endregion
 
         #endregion
 

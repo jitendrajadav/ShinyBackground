@@ -3,6 +3,9 @@ using KegID.Services;
 using KegID.SQLiteClient;
 using KegID.View;
 using KegID.ViewModel;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 using Xamarin.Forms;
 
 namespace KegID
@@ -40,7 +43,10 @@ namespace KegID
 
         protected override void OnStart ()
 		{
-
+            AppCenter.Start("uwp=78996084-2974-4e93-ae0b-c8357d2b172d;" +
+                   "android=31ceef42-fd24-49d3-8e7e-21f144355dde;" +
+                   "ios=b80b8476-04cf-4fc3-b7f7-be06ba7f2213",
+                   typeof(Analytics), typeof(Crashes));
             // Handle when your app starts
             SQLiteServiceClient.Instance.CreateDbIfNotExist();
         }

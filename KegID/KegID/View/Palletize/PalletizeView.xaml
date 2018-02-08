@@ -47,83 +47,94 @@
                 </Grid.RowDefinitions>
 
                 <BoxView
-                Margin="-10,0,0,0"
-                Grid.Row="0"
-                BackgroundColor="{StaticResource bannerBGColor}"
-                WidthRequest="10"
-                VerticalOptions="FillAndExpand"
-                HorizontalOptions="FillAndExpand"/>
+                    Margin="-10,0,0,0"
+                    Grid.Row="0"
+                    BackgroundColor="{StaticResource bannerBGColor}"
+                    WidthRequest="10"
+                    VerticalOptions="FillAndExpand"
+                    HorizontalOptions="FillAndExpand"/>
 
                 <Label 
-                Margin="0,0,-10,0"
-                HeightRequest="40"
-                Text="Pallet #:-10000008500359874"
-                BackgroundColor="{StaticResource bannerBGColor}"
-                TextColor="White"
-                VerticalTextAlignment="Center"
-                VerticalOptions="CenterAndExpand"/>
+                    Margin="0,0,-10,0"
+                    HeightRequest="40"
+                    Text="Pallet #:-10000008500359874"
+                    BackgroundColor="{StaticResource bannerBGColor}"
+                    TextColor="White"
+                    VerticalTextAlignment="Center"
+                    VerticalOptions="CenterAndExpand"/>
 
                 <Label
-                Text="Stock ocation:"
-                Grid.Row="1"/>
-
-                <Picker
-                TextColor="{StaticResource selectTextColor}"
-                Margin="10,0,0,0"
-                Title="Select a location"
-                Grid.Row="2"/>
-
-                <BoxView
-                Grid.Row="3"
-                BackgroundColor="Black"
-                HeightRequest="1"
-                VerticalOptions="Start"
-                HorizontalOptions="FillAndExpand"/>
-
-                <Label
-                Text="Target location:"
-                Grid.Row="4"/>
-
-                <Picker
-                TextColor="{StaticResource selectTextColor}"
-                Margin="10,0,0,0"
-                Title="None"
-                Grid.Row="5"/>
-
-                <BoxView
-                Grid.Row="6"
-                BackgroundColor="Black"
-                HeightRequest="1"
-                VerticalOptions="Start"
-                HorizontalOptions="FillAndExpand"/>
-
-                <Label
-                Text="More Info:"
-                Grid.Row="7"/>
-
-                <Picker
-                Margin="10,0,0,0"
-                Title="Add info"
-                TextColor="{StaticResource selectTextColor}"
-                Grid.Row="8"/>
-
-                <BoxView
-                Grid.Row="9"
-                BackgroundColor="Black"
-                HeightRequest="1"
-                VerticalOptions="Start"
-                HorizontalOptions="FillAndExpand"/>
-
-                <Label
-                Text="Kegs:"
-                Grid.Row="10"/>
+                    Text="Stock ocation:"
+                    Grid.Row="1"/>
 
                 <Button
-                BackgroundColor="Transparent"
-                TextColor="{StaticResource selectTextColor}"
-                Grid.Row="11"
-                FontSize="40"
-                Text="Add kegs"/>
+                    TextColor="{StaticResource selectTextColor}"
+                    Margin="10,0,0,0"
+                    HorizontalOptions="Start"
+                    BackgroundColor="Transparent"
+                    Command="{Binding PartnerCommand}"
+                    Text="{Binding SelectLocationTitle}"
+                    Grid.Row="2"/>
+
+                <BoxView
+                    Grid.Row="3"
+                    BackgroundColor="Black"
+                    HeightRequest="1"
+                    VerticalOptions="Start"
+                    HorizontalOptions="FillAndExpand"/>
+
+                <Label
+                    Text="Target location:"
+                    Grid.Row="4"/>
+
+                <Button
+                    TextColor="{StaticResource selectTextColor}"
+                    Margin="10,0,0,0"
+                    BackgroundColor="Transparent"
+                    HorizontalOptions="Start"
+                    Text="{Binding TargetLocationTitle}"
+                    Command="{Binding TargetLocationPartnerCommand}"
+                    Grid.Row="5"/>
+
+                <BoxView
+                    Grid.Row="6"
+                    BackgroundColor="Black"
+                    HeightRequest="1"
+                    VerticalOptions="Start"
+                    HorizontalOptions="FillAndExpand"/>
+
+                <Label
+                    Text="More Info:"
+                    Grid.Row="7"/>
+
+                <Button
+                    BackgroundColor="Transparent"
+                    Margin="10,0,0,0"
+                    Text="{Binding AddInfoTitle}"
+                    HorizontalOptions="Start"
+                    Command="{Binding AddTagsCommand}"
+                    TextColor="{StaticResource selectTextColor}"
+                    Grid.Row="8"/>
+
+                <BoxView
+                    Grid.Row="9"
+                    BackgroundColor="Black"
+                    HeightRequest="1"
+                    VerticalOptions="Start"
+                    HorizontalOptions="FillAndExpand"/>
+
+                <Label
+                    Text="Kegs:"
+                    Grid.Row="10"/>
+
+                <Button
+                    BackgroundColor="Transparent"
+                    TextColor="{StaticResource selectTextColor}"
+                    Grid.Row="11"
+                    FontSize="40"
+                    HorizontalOptions="Start"
+                    Command="{Binding AddKegsCommand}"
+                    Text="Add Kegs"/>
             </Grid>
         </Grid>
     </ContentPage.Content>

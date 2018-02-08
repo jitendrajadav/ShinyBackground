@@ -27,7 +27,7 @@ namespace KegID.Services
         /// Dashboard Service Url
         /// </summary>
         public const string GetDashboardUrl = ServiceUrl + "dashboard/get?sessionId={0}";
-
+        public const string GetInventoryUrl = ServiceUrl + "Inventory/?sessionId={0}";
 
         /// <summary>
         /// Move Service Url

@@ -334,10 +334,14 @@ namespace KegID.ViewModel
         public RelayCommand PalletizeCommand { get; set; }
         public RelayCommand FillCommand { get; set; }
         public RelayCommand MoveCommand { get; set; }
+        public RelayCommand InventoryCommand { get; set; }
+        public RelayCommand PartnerCommand { get; set; }
+        public RelayCommand KegsCommand { get; set; }
 
         #endregion
 
         #region Constructor
+
         public DashboardViewModel(IDashboardService dashboardService)
         {
             _dashboardService = dashboardService;
@@ -348,13 +352,29 @@ namespace KegID.ViewModel
             PalletizeCommand = new RelayCommand(PalletizeCommandRecieverAsync);
             FillCommand = new RelayCommand(FillCommandRecieverAsync);
             MoveCommand = new RelayCommand(MoveCommandRecieverAsync);
-
+            InventoryCommand = new RelayCommand(InventoryCommandRecieverAsync);
+            PartnerCommand = new RelayCommand(PartnerCommandRecieverAsync);
+            KegsCommand = new RelayCommand(KegsCommandRecieverAsync);
             RefreshDashboardRecieverAsync();
         }
 
         #endregion
 
         #region Methods
+        private async void KegsCommandRecieverAsync()
+        {
+          await Application.Current.MainPage.Navigation.PushModalAsync(new ScanKegsView());
+        }
+
+        private async void PartnerCommandRecieverAsync()
+        {
+          await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView());
+        }
+
+        private async void InventoryCommandRecieverAsync()
+        {
+            await Application.Current.MainPage.Navigation.PushModalAsync(new InventoryView());
+        }
 
         private async void MoveCommandRecieverAsync()
         {
@@ -377,7 +397,7 @@ namespace KegID.ViewModel
 
         public async void RefreshDashboardRecieverAsync(bool refresh = false)
         {
-            DashboardModel Result = null;
+            DashboardResponseModel Result = null;
             try
             {
                 if (refresh)

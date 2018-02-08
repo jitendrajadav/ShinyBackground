@@ -54,180 +54,180 @@
                 </Grid.ColumnDefinitions>
 
                 <Switch 
-                HeightRequest="30"
-                VerticalOptions="Center"
-                Grid.Row="0"
-                Grid.Column="0"/>
+                    HeightRequest="30"
+                    VerticalOptions="Center"
+                    Grid.Row="0"
+                    Grid.Column="0"/>
 
                 <Label
-                VerticalOptions="Center"
-                Grid.Row="0"
-                Grid.Column="1"
-                Text="Bent Chime"/>
+                    VerticalOptions="Center"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Text="Bent Chime"/>
 
                 <BoxView
-                Grid.Row="1"
-                Grid.ColumnSpan="2"
-                BackgroundColor="Black"
-                HeightRequest="1"
-                VerticalOptions="Center"
-                HorizontalOptions="FillAndExpand"/>
+                    Grid.Row="1"
+                    Grid.ColumnSpan="2"
+                    BackgroundColor="Black"
+                    HeightRequest="1"
+                    VerticalOptions="Center"
+                    HorizontalOptions="FillAndExpand"/>
 
                 <Switch 
-                HeightRequest="30"
-                VerticalOptions="Center"
-                Grid.Row="2"
-                Grid.Column="0"/>
+                    HeightRequest="30"
+                    VerticalOptions="Center"
+                    Grid.Row="2"
+                    Grid.Column="0"/>
 
                 <Label
-                VerticalOptions="Center"
-                Grid.Row="2"
-                Grid.Column="1"
-                Text="Bent Neck"/>
+                    VerticalOptions="Center"
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Text="Bent Neck"/>
 
                 <BoxView
-                Grid.Row="3"
-                Grid.ColumnSpan="2"
-                BackgroundColor="Black"
-                HeightRequest="1"
-                VerticalOptions="Center"
-                HorizontalOptions="FillAndExpand"/>
+                    Grid.Row="3"
+                    Grid.ColumnSpan="2"
+                    BackgroundColor="Black"
+                    HeightRequest="1"
+                    VerticalOptions="Center"
+                    HorizontalOptions="FillAndExpand"/>
 
                 <Switch 
-                HeightRequest="30"
-                VerticalOptions="Center"
-                Grid.Row="4"
-                Grid.Column="0"/>
+                    HeightRequest="30"
+                    VerticalOptions="Center"
+                    Grid.Row="4"
+                    Grid.Column="0"/>
 
                 <Label
-                VerticalOptions="Center"
-                Grid.Row="4"
-                Grid.Column="1"
-                Text="Demaged Spear"/>
+                    VerticalOptions="Center"
+                    Grid.Row="4"
+                    Grid.Column="1"
+                    Text="Demaged Spear"/>
 
                 <BoxView
-                Grid.Row="5"
-                Grid.ColumnSpan="2"
-                BackgroundColor="Black"
-                HeightRequest="1"
-                VerticalOptions="Center"
-                HorizontalOptions="FillAndExpand"/>
+                    Grid.Row="5"
+                    Grid.ColumnSpan="2"
+                    BackgroundColor="Black"
+                    HeightRequest="1"
+                    VerticalOptions="Center"
+                    HorizontalOptions="FillAndExpand"/>
 
                 <Switch 
-                HeightRequest="30"
-                VerticalOptions="Center"
-                Grid.Row="6"
-                Grid.Column="0"/>
+                    HeightRequest="30"
+                    VerticalOptions="Center"
+                    Grid.Row="6"
+                    Grid.Column="0"/>
 
                 <Label
-                VerticalOptions="Center"
-                Grid.Row="6"
-                Grid.Column="1"
-                Text="Deep Cleaning"/>
+                    VerticalOptions="Center"
+                    Grid.Row="6"
+                    Grid.Column="1"
+                    Text="Deep Cleaning"/>
 
                 <BoxView
-                Grid.Row="7"
-                Grid.ColumnSpan="2"
-                BackgroundColor="Black"
-                HeightRequest="1"
-                VerticalOptions="Center"
-                HorizontalOptions="FillAndExpand"/>
+                    Grid.Row="7"
+                    Grid.ColumnSpan="2"
+                    BackgroundColor="Black"
+                    HeightRequest="1"
+                    VerticalOptions="Center"
+                    HorizontalOptions="FillAndExpand"/>
 
                 <Switch 
-                HeightRequest="30"
-                VerticalOptions="Center"
-                Grid.Row="8"
-                Grid.Column="0"/>
+                    HeightRequest="30"
+                    VerticalOptions="Center"
+                    Grid.Row="8"
+                    Grid.Column="0"/>
 
                 <Label
-                VerticalOptions="Center"
-                Grid.Row="8"
-                Grid.Column="1"
-                Text="Faulty Seal"/>
+                    VerticalOptions="Center"
+                    Grid.Row="8"
+                    Grid.Column="1"
+                    Text="Faulty Seal"/>
 
                 <BoxView
-                Grid.Row="9"
-                Grid.ColumnSpan="2"
-                BackgroundColor="Black"
-                HeightRequest="1"
-                VerticalOptions="Center"
-                HorizontalOptions="FillAndExpand"/>
+                    Grid.Row="9"
+                    Grid.ColumnSpan="2"
+                    BackgroundColor="Black"
+                    HeightRequest="1"
+                    VerticalOptions="Center"
+                    HorizontalOptions="FillAndExpand"/>
 
                 <Switch 
-                HeightRequest="30"
-                VerticalOptions="Center"
-                Grid.Row="10"
-                Grid.Column="0"/>
+                    HeightRequest="30"
+                    VerticalOptions="Center"
+                    Grid.Row="10"
+                    Grid.Column="0"/>
 
                 <Label
-                VerticalOptions="Center"
-                Grid.Row="10"
-                Grid.Column="1"
-                Text="Faulty Valve"/>
+                    VerticalOptions="Center"
+                    Grid.Row="10"
+                    Grid.Column="1"
+                    Text="Faulty Valve"/>
 
                 <BoxView
-                Grid.Row="11"
-                Grid.ColumnSpan="2"
-                BackgroundColor="Black"
-                HeightRequest="1"
-                VerticalOptions="Center"
-                HorizontalOptions="FillAndExpand"/>
+                    Grid.Row="11"
+                    Grid.ColumnSpan="2"
+                    BackgroundColor="Black"
+                    HeightRequest="1"
+                    VerticalOptions="Center"
+                    HorizontalOptions="FillAndExpand"/>
 
                 <Switch 
-                HeightRequest="30"
-                VerticalOptions="Center"
-                Grid.Row="12"
-                Grid.Column="0"/>
+                    HeightRequest="30"
+                    VerticalOptions="Center"
+                    Grid.Row="12"
+                    Grid.Column="0"/>
 
                 <Label
-                Grid.Row="12"
-                Grid.Column="1"
-                VerticalOptions="Center"
-                Text="Valve Inspection"/>
+                    Grid.Row="12"
+                    Grid.Column="1"
+                    VerticalOptions="Center"
+                    Text="Valve Inspection"/>
 
                 <BoxView
-                Grid.Row="13"
-                Grid.ColumnSpan="2"
-                BackgroundColor="Black"
-                HeightRequest="1"
-                VerticalOptions="Center"
-                HorizontalOptions="FillAndExpand"/>
+                    Grid.Row="13"
+                    Grid.ColumnSpan="2"
+                    BackgroundColor="Black"
+                    HeightRequest="1"
+                    VerticalOptions="Center"
+                    HorizontalOptions="FillAndExpand"/>
 
                 <Label
-                Grid.Column="0"
-                Grid.Row="14"
-                Text="Notes:"/>
+                    Grid.Column="0"
+                    Grid.Row="14"
+                    Text="Notes:"/>
 
                 <Entry
-                HeightRequest="80"
-                Grid.ColumnSpan="2"
-                Grid.Column="0"
-                Grid.Row="15"
-                Placeholder="Enter notes here"/>
+                    HeightRequest="80"
+                    Grid.ColumnSpan="2"
+                    Grid.Column="0"
+                    Grid.Row="15"
+                    Placeholder="Enter notes here"/>
 
                 <Label
-                Text="Destination:"
-                Grid.Row="16"/>
+                    Text="Destination:"
+                    Grid.Row="16"/>
 
                 <Button
-                BackgroundColor="Transparent"
-                TextColor="{StaticResource selectTextColor}"
-                Grid.Column="1"
-                Grid.Row="17"
-                HorizontalOptions="StartAndExpand"
-                Text="Select a location"/>
+                    BackgroundColor="Transparent"
+                    TextColor="{StaticResource selectTextColor}"
+                    Grid.Column="1"
+                    Grid.Row="17"
+                    HorizontalOptions="StartAndExpand"
+                    Text="Select a location"/>
 
                 <Button
-                HeightRequest="40"
-                Margin="-10,-10,-10,0"
-                BackgroundColor="Blue"
-                Grid.Column="0"
-                Grid.ColumnSpan="2"
-                Grid.Row="18"
-                VerticalOptions="EndAndExpand"
-                HorizontalOptions="FillAndExpand"
-                TextColor="White"
-                Text="Next"/>
+                    HeightRequest="40"
+                    Margin="-10,-10,-10,0"
+                    BackgroundColor="{StaticResource selectTextColor}"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Grid.Row="18"
+                    VerticalOptions="EndAndExpand"
+                    HorizontalOptions="FillAndExpand"
+                    TextColor="White"
+                    Text="Next"/>
 
             </Grid>
         </Grid>

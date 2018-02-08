@@ -5,6 +5,7 @@ namespace KegID.Services
 {
     public interface IDashboardService
     {
-        Task<DashboardModel> GetDeshboardDetailAsync(string sessionId);
+        Task<DashboardResponseModel> GetDeshboardDetailAsync(string sessionId);
+        Task<InventoryDetailModel> GetInventoryAsync(string sessionId);
     }
 }

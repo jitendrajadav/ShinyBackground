@@ -2,7 +2,7 @@
 
 namespace KegID.Model
 {
-    public class DashboardModel : KegIDResponse
+    public class DashboardResponseModel : KegIDResponse
     {
         public long ActiveKegs { get; set; }
         public long InPossession { get; set; }

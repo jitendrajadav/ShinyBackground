@@ -11,6 +11,7 @@ using System.Linq;
 using System.Collections.Generic;
 using KegID.Model;
 using System.Diagnostics;
+using System;
 
 namespace KegID.ViewModel
 {
@@ -272,7 +273,6 @@ namespace KegID.ViewModel
         public RelayCommand SearchPartnerCommand { get; set; }
         public RelayCommand AddNewPartnerCommand { get; set; }
         public RelayCommand BackCommand { get; set; }
-
         public RelayCommand TextChangedCommand { get; set; }
 
         #endregion
@@ -331,17 +331,32 @@ namespace KegID.ViewModel
         {
             if (model != null)
             {
-                if (Application.Current.MainPage.Navigation.ModalStack[Application.Current.MainPage.Navigation.ModalStack.Count - 2].GetType() == typeof(SearchManifestsView))
+                switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack[Application.Current.MainPage.Navigation.ModalStack.Count - 2].GetType().Name))
                 {
-                    if (SimpleIoc.Default.GetInstance<SearchManifestsViewModel>().IsManifestDestination)
-                        SimpleIoc.Default.GetInstance<SearchManifestsViewModel>().ManifestDestination = model.FullName;
-                    else
-                        SimpleIoc.Default.GetInstance<SearchManifestsViewModel>().ManifestSender = model.FullName;
+                    case ViewTypeEnum.SearchManifestsView:
+                        if (SimpleIoc.Default.GetInstance<SearchManifestsViewModel>().IsManifestDestination)
+                        {
+                            SimpleIoc.Default.GetInstance<SearchManifestsViewModel>().IsManifestDestination = false;
+                            SimpleIoc.Default.GetInstance<SearchManifestsViewModel>().ManifestDestination = model.FullName;
+                        }
+                        else
+                            SimpleIoc.Default.GetInstance<SearchManifestsViewModel>().ManifestSender = model.FullName;
+                        break;
+                        case ViewTypeEnum.MoveView:
+                        SimpleIoc.Default.GetInstance<MoveViewModel>().Destination = model;
+                        break;
+                    case ViewTypeEnum.PalletizeView:
+                        if (SimpleIoc.Default.GetInstance<PalletizeViewModel>().TargetLocationPartner)
+                        {
+                            SimpleIoc.Default.GetInstance<PalletizeViewModel>().TargetLocationPartner = false;
+                            SimpleIoc.Default.GetInstance<PalletizeViewModel>().TargetLocationTitle = model.FullName;
+                        }
+                        else
+                            SimpleIoc.Default.GetInstance<PalletizeViewModel>().SelectLocationTitle = model.FullName;
+                        break;
+                    default:
+                        break;
                 }
-                else if (Application.Current.MainPage.Navigation.ModalStack[Application.Current.MainPage.Navigation.ModalStack.Count-2].GetType() == typeof(MoveView))
-                    SimpleIoc.Default.GetInstance<MoveViewModel>().Destination = model;
-
-                SimpleIoc.Default.GetInstance<SearchManifestsViewModel>().IsManifestDestination = false;
                 await Application.Current.MainPage.Navigation.PopModalAsync();
             }
         }

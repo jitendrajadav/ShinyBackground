@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:KegID"
+             x:Class="KegID.View.InventoryView"
+             BackgroundColor="White"
+             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Inventory}">
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Button
+                BackgroundColor="Transparent"
+                TextColor="{StaticResource selectTextColor}"
+                HorizontalOptions="Start"
+                Text="Home"
+                Command="{Binding HomeCommand}"/>
+
+            <Label
+                HorizontalOptions="Center"
+                FontAttributes="Bold"
+                VerticalOptions="Center"
+                Text="Stock Summary"/>
+
+            <BoxView
+                Margin="-10,0,-10,0"
+                Grid.Row="1"
+                BackgroundColor="{StaticResource bannerBGColor}"
+                HeightRequest="40"
+                VerticalOptions="Start"
+                HorizontalOptions="FillAndExpand"/>
+           
+            <Label
+                Grid.Row="1"
+                HorizontalOptions="Start"
+                VerticalOptions="Center"
+                TextColor="White"
+                Margin="10,0,0,0"
+                FontAttributes="Bold"
+                Text="Stock"/>
+
+            <ListView 
+                Margin="5,0,5,0"
+                Grid.Row="2"
+                x:Name="stockInventoryListView"
+                SeparatorVisibility="Default"
+                SeparatorColor="LightGray"
+                HasUnevenRows="true"
+                ItemsSource="{Binding StockInventoryCollection}">
+
+                <ListView.Header>
+                    <Grid
+                        BackgroundColor="{StaticResource lightGrayColor}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="45*"/>
+                            <ColumnDefinition Width="35*"/>
+                            <ColumnDefinition Width="20*"/>
+                        </Grid.ColumnDefinitions>
+                      
+                        <Label
+                            Text="Brand"/>
+                        
+                        <Label
+                            Grid.Column="1"
+                            Text="Size"/>
+                        
+                        <Label
+                            Grid.Column="2"
+                            Text="Quantity"/>
+                    </Grid>
+                </ListView.Header>
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+
+                            <Grid 
+                                HorizontalOptions="FillAndExpand">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="45*"/>
+                                    <ColumnDefinition Width="35*"/>
+                                    <ColumnDefinition Width="20*"/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <Label 
+                                    Grid.Column="0"
+                                    VerticalOptions="FillAndExpand" 
+                                    VerticalTextAlignment="Center" 
+                                    Text="{Binding OwnerName}" />
+                                <Label 
+                                    Grid.Column="1"
+                                    VerticalOptions="FillAndExpand" 
+                                    VerticalTextAlignment="Center" 
+                                    Text="{Binding Size}" />
+
+                                <Label 
+                                    Grid.Column="2"
+                                    VerticalOptions="FillAndExpand" 
+                                    VerticalTextAlignment="Center"
+                                    HorizontalTextAlignment="End"
+                                    Margin="0,0,20,0"
+                                    Text="{Binding Quantity}" />
+                            </Grid>
+
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <ListView 
+                Margin="5,0,5,0"
+                Grid.Row="3"
+                x:Name="emptyInventoryListView"
+                SeparatorVisibility="Default"
+                SeparatorColor="LightGray"
+                HasUnevenRows="true"
+                ItemsSource="{Binding EnptyInventoryCollection}">
+
+                <ListView.Header>
+                    <Grid
+                        BackgroundColor="{StaticResource lightGrayColor}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="45*"/>
+                            <ColumnDefinition Width="35*"/>
+                            <ColumnDefinition Width="20*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                            Text="Brand"/>
+
+                        <Label
+                            Grid.Column="1"
+                            Text="Size"/>
+
+                        <Label
+                            Grid.Column="2"
+                            Text="Quantity"/>
+                    </Grid>
+                </ListView.Header>
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+
+                            <Grid 
+                                HorizontalOptions="FillAndExpand">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="45*"/>
+                                    <ColumnDefinition Width="35*"/>
+                                    <ColumnDefinition Width="20*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Label 
+                                    Grid.Column="0"
+                                    VerticalOptions="FillAndExpand" 
+                                    VerticalTextAlignment="Center" 
+                                    Text="{Binding OwnerName}" />
+                                <Label 
+                                    Grid.Column="1"
+                                    VerticalOptions="FillAndExpand" 
+                                    VerticalTextAlignment="Center" 
+                                    Text="{Binding Size}" />
+
+                                <Label 
+                                    Grid.Column="2"
+                                    VerticalOptions="FillAndExpand" 
+                                    VerticalTextAlignment="Center"
+                                    HorizontalTextAlignment="End"
+                                    Margin="0,0,20,0"
+                                    Text="{Binding Quantity}" />
+                            </Grid>
+
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
