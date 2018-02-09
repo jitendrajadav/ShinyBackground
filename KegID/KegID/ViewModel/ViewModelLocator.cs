@@ -40,6 +40,8 @@ namespace KegID.ViewModel
             SimpleIoc.Default.Register<ContentTagsViewModel>();
             SimpleIoc.Default.Register<AddPalletsViewModel>();
             SimpleIoc.Default.Register<InventoryViewModel>();
+            SimpleIoc.Default.Register<FillScanViewModel>();
+            SimpleIoc.Default.Register<AddBatchViewModel>();
 
         }
         #endregion
@@ -47,7 +49,7 @@ namespace KegID.ViewModel
         #region Properties
 
         #region Move
-       
+
         #region Move
 
         /// <summary>
@@ -410,6 +412,60 @@ namespace KegID.ViewModel
 
         #endregion
 
+        #region AddPallets
+
+        /// <summary>
+        /// Gets the AddPallets property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public AddPalletsViewModel AddPallets
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<AddPalletsViewModel>();
+            }
+        }
+
+        #endregion
+
+        #region FillScan
+
+        /// <summary>
+        /// Gets the FillScan property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public FillScanViewModel FillScan
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<FillScanViewModel>();
+            }
+        }
+
+        #endregion
+
+        #region AddBatch
+
+        /// <summary>
+        /// Gets the AddBatch property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public AddBatchViewModel AddBatch
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<AddBatchViewModel>();
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Palletize
@@ -427,24 +483,6 @@ namespace KegID.ViewModel
             get
             {
                 return SimpleIoc.Default.GetInstance<PalletizeViewModel>();
-            }
-        }
-
-        #endregion
-
-        #region AddPallets
-
-        /// <summary>
-        /// Gets the AddPallets property.
-        /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
-            "CA1822:MarkMembersAsStatic",
-            Justification = "This non-static member is needed for data binding purposes.")]
-        public AddPalletsViewModel AddPallets
-        {
-            get
-            {
-                return SimpleIoc.Default.GetInstance<AddPalletsViewModel>();
             }
         }
 

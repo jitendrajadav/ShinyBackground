@@ -1,6 +1,7 @@
 ﻿using System;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Ioc;
 using KegID.View;
 using Xamarin.Forms;
 
@@ -137,9 +138,27 @@ namespace KegID.ViewModel
 
         #region Methods
 
-        private async void CancelCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PopModalAsync();
+        private async void CancelCommandRecieverAsync()
+        {
+            var result = await Application.Current.MainPage.DisplayActionSheet("Cancel? \n You have like to save this manifest as a draft or delete?", null, null, "Delete manifest", "Save as draft");
+            if (result == "Delete manifest")
+            {
+                await Application.Current.MainPage.Navigation.PopModalAsync();
+            }
+        }
 
-        private async void NextCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new AddPalletsView());
+        private async void NextCommandRecieverAsync()
+        {
+            if (!BatchButtonTitle.Contains("Select batch"))
+            {
+                SimpleIoc.Default.GetInstance<AddPalletsViewModel>().AddPalletsTitle = "Filling " + SizeButtonTitle + " kegs with " + BatchButtonTitle + "\n" + DestinationTitle;
+                await Application.Current.MainPage.Navigation.PushModalAsync(new AddPalletsView());
+            }
+            else
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", "Batch is required.", "Ok");
+            }
+        }
 
         private async void DestinationCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView());
 

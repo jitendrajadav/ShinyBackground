@@ -345,6 +345,9 @@ namespace KegID.ViewModel
                         case ViewTypeEnum.MoveView:
                         SimpleIoc.Default.GetInstance<MoveViewModel>().Destination = model;
                         break;
+                    case ViewTypeEnum.FillView:
+                        SimpleIoc.Default.GetInstance<FillViewModel>().DestinationTitle = model.FullName;
+                        break;
                     case ViewTypeEnum.PalletizeView:
                         if (SimpleIoc.Default.GetInstance<PalletizeViewModel>().TargetLocationPartner)
                         {

@@ -228,7 +228,6 @@ namespace KegID.ViewModel
                 }
 
                 _IsSaveDraftVisible = value;
-                IsVisibleSubmit = _IsSaveDraftVisible;
                 RaisePropertyChanged(IsSaveDraftVisiblePropertyName);
             }
         }
@@ -263,6 +262,7 @@ namespace KegID.ViewModel
                 }
 
                 _IsVisibleSubmit = value;
+                IsSaveDraftVisible = _IsVisibleSubmit;
                 RaisePropertyChanged(IsVisibleSubmitPropertyName);
             }
         }
@@ -498,7 +498,6 @@ namespace KegID.ViewModel
             }
         }
 
-       
         private async void CancelCommandRecieverAsync()
         {
             var result = await Application.Current.MainPage.DisplayActionSheet("Cancel? \n You have like to save this manifest as a draft or delete?",null,null, "Delete manifest", "Save as draft");

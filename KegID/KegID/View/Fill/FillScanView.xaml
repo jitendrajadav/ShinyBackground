@@ -1,0 +1,233 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KegID.View.FillScanView"
+             xmlns:behaviors="clr-namespace:KegID.Behaviors"
+             xmlns:local="clr-namespace:KegID"
+             BindingContext="{Binding Source={x:Static local:App.Locator},Path=FillScan}">
+    <ContentPage.Content>
+        <Grid
+            RowSpacing="0"
+            ColumnSpacing="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="90*"/>
+                <ColumnDefinition Width="10*"/>
+            </Grid.ColumnDefinitions>
+            
+            <Button
+                Grid.ColumnSpan="2"
+                Text="Cancel"
+                BackgroundColor="Transparent"
+                VerticalOptions="Center"
+                TextColor="{StaticResource selectTextColor}"
+                HorizontalOptions="Start"
+                Command="{Binding CancelCommand}"/>
+
+            <Label
+                Grid.ColumnSpan="2"
+                VerticalOptions="Center"
+                FontAttributes="Bold"
+                HorizontalOptions="Center"
+                Text="Scan"/>
+            
+            <BoxView
+                Grid.ColumnSpan="2"
+                Margin="-10,0,-10,0"
+                Grid.Row="1"
+                HeightRequest="40"
+                BackgroundColor="{StaticResource bannerBGColor}"
+                VerticalOptions="FillAndExpand"
+                HorizontalOptions="FillAndExpand"/>
+            
+            <Label
+                Margin="10,0,0,0"
+                VerticalOptions="Center"
+                Text="{Binding Pallet,Mode=TwoWay}"
+                IsVisible="{Binding IsPalletVisible}"
+                HorizontalOptions="FillAndExpand"
+                TextColor="White"
+                Grid.Row="1"/>
+            
+            <Entry
+                Margin="10,0,0,0"
+                IsVisible="{Binding IsPalletVisible,Converter={StaticResource InvertedBooleanConverter}}"
+                VerticalOptions="Center"
+                Text="{Binding Pallet,Mode=TwoWay}"
+                HorizontalOptions="FillAndExpand"
+                Grid.Row="1"/>
+
+            <Button
+                Grid.Row="1"
+                Grid.Column="1"
+                HorizontalOptions="End"                  
+                BorderRadius="5"
+                WidthRequest="50"
+                BorderWidth="0"
+                Command="{Binding IsPalletVisibleCommand}"
+                BackgroundColor="Transparent">
+                <Button.Image>
+                    <OnPlatform x:TypeArguments="FileImageSource">
+                        <OnPlatform.iOS>
+                            <FileImageSource File="collectionslabels.png"/>
+                        </OnPlatform.iOS>
+                        <OnPlatform.Android>
+                            <FileImageSource File="collectionslabels.png"/>
+                        </OnPlatform.Android>
+                        <OnPlatform.WinPhone>
+                            <FileImageSource File="Assets/collectionslabels.png"/>
+                        </OnPlatform.WinPhone>
+                    </OnPlatform>
+                </Button.Image>
+            </Button>
+
+            <Entry
+                Margin="0,5,0,0"
+                Grid.Row="2"
+                Text="{Binding Barcode}"
+                Placeholder="Barcode"/>
+           
+            <Button
+                Margin="0,5,0,0"
+                Grid.Row="2"
+                Grid.Column="1"
+                HorizontalOptions="Center"                  
+                BorderRadius="5"
+                WidthRequest="50"
+                BorderWidth="0"
+                Command="{Binding BarcodeScanCommand}"
+                BackgroundColor="White">
+                <Button.Image>
+                    <OnPlatform x:TypeArguments="FileImageSource">
+                        <OnPlatform.iOS>
+                            <FileImageSource File="camera.png"/>
+                        </OnPlatform.iOS>
+                        <OnPlatform.Android>
+                            <FileImageSource File="camera.png"/>
+                        </OnPlatform.Android>
+                        <OnPlatform.WinPhone>
+                            <FileImageSource File="Assets/camera.png"/>
+                        </OnPlatform.WinPhone>
+                    </OnPlatform>
+                </Button.Image>
+            </Button>
+            
+            <Label
+                Grid.Row="3"
+                Grid.Column="0"
+                VerticalOptions="Center"
+                TextColor="{StaticResource lightGrayColor}"
+                LineBreakMode="TailTruncation"
+                Text="{Binding TagsStr}"/>
+
+            <Button
+                Grid.Row="3"
+                Grid.Column="1"
+                HorizontalOptions="Center"                  
+                BorderRadius="5"
+                WidthRequest="50"
+                BorderWidth="0"
+                Command="{Binding AddTagsCommand}"
+                BackgroundColor="White">
+                <Button.Image>
+                    <OnPlatform x:TypeArguments="FileImageSource">
+                        <OnPlatform.iOS>
+                            <FileImageSource File="collectionslabels.png"/>
+                        </OnPlatform.iOS>
+                        <OnPlatform.Android>
+                            <FileImageSource File="collectionslabels.png"/>
+                        </OnPlatform.Android>
+                        <OnPlatform.WinPhone>
+                            <FileImageSource File="Assets/collectionslabels.png"/>
+                        </OnPlatform.WinPhone>
+                    </OnPlatform>
+                </Button.Image>
+            </Button>
+
+            <Button
+                Grid.ColumnSpan="2"
+                Text="Print"
+                Grid.Row="4"
+                HeightRequest="40"
+                BackgroundColor="{StaticResource selectTextColor}"
+                VerticalOptions="Center"
+                TextColor="White"
+                HorizontalOptions="FillAndExpand"
+                Command="{Binding PrintCommand}"/>
+
+            <BoxView
+                Grid.ColumnSpan="2"
+                Margin="-10,0,-10,0"
+                Grid.Row="5"
+                HeightRequest="40"
+                BackgroundColor="{StaticResource bannerBGColor}"
+                VerticalOptions="FillAndExpand"
+                HorizontalOptions="FillAndExpand"/>
+
+            <Label
+                Grid.Row="5"
+                Grid.Column="0"
+                TextColor="White"
+                VerticalOptions="Center"
+                Margin="10,0,0,0"
+                Text="Scanned:"/>
+            
+            <Label
+                Grid.Row="5"
+                Grid.Column="1"
+                TextColor="White"
+                Margin="0,0,10,0"
+                VerticalOptions="Center"
+                Text="{Binding Count}"/>
+            
+            <ListView
+                Margin="10,0,10,0"
+                x:Name="lstFillScan"
+                Grid.Row="6"
+                VerticalOptions="FillAndExpand"
+                SeparatorVisibility="Default"
+                SeparatorColor="Black"
+                HasUnevenRows="True"
+                CachingStrategy="RecycleElement"
+                ItemsSource="{Binding PalletCollection}">
+
+                <ListView.Behaviors>
+                    <behaviors:EventToCommandBehavior
+                        EventName="ItemTapped" 
+                        Command="{Binding ItemTappedCommand}"
+                        Converter="{StaticResource ItemTappedConverter}"/>
+                </ListView.Behaviors>
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="90*"/>
+                                    <ColumnDefinition Width="10*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label 
+                                    Grid.Column="0"
+                                    Text="{Binding Pallets}" />
+                                <Label 
+                                    Grid.Column="1"
+                                    Text="{Binding Count}"/>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+
+            </ListView>
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

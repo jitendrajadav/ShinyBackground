@@ -75,6 +75,8 @@ namespace KegID.ViewModel
         }
 
         #endregion
+
+
         #endregion
 
         #region Commands

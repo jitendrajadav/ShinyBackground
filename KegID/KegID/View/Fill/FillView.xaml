@@ -23,6 +23,7 @@
 
             <Label
                 VerticalOptions="Center"
+                FontAttributes="Bold"
                 HorizontalOptions="Center"
                 Text="Fill Kegs"/>
 
@@ -67,6 +68,13 @@
                     BackgroundColor="Transparent"
                     Text="{Binding BatchButtonTitle}"
                     Command="{Binding BatchCommand}"/>
+              
+                <Label
+                    Grid.Row="2"
+                    HorizontalOptions="End"
+                    HorizontalTextAlignment="End"
+                    Text="(required)"
+                    TextColor="{StaticResource lightGrayColor}"/>
 
                 <BoxView
                     Grid.Row="3"

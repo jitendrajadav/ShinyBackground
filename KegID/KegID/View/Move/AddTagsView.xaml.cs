@@ -27,18 +27,26 @@ namespace KegID.View
                 switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack.LastOrDefault().GetType().Name))
                 {
                     case ViewTypeEnum.ScanKegsView:
+                    case ViewTypeEnum.FillScanView:
                         if (SimpleIoc.Default.GetInstance<ScanKegsViewModel>().IsFromScanned)
                         {
-                            await OnAddMoreTagsClickedAsync("Asset Type");
-                            await OnAddMoreTagsClickedAsync("Size");
-                            await OnAddMoreTagsClickedAsync("Contents");
-                            await OnAddMoreTagsClickedAsync("Batch");
+                            await OnAddMoreTagsClickedAsync(TagsTypeEnum.BestByDate);
+                            await OnAddMoreTagsClickedAsync(TagsTypeEnum.ProductionDate);
+                            await OnAddMoreTagsClickedAsync(TagsTypeEnum.AssetType);
+                            await OnAddMoreTagsClickedAsync(TagsTypeEnum.Size);
+                            await OnAddMoreTagsClickedAsync(TagsTypeEnum.Contents);
+                            await OnAddMoreTagsClickedAsync(TagsTypeEnum.Batch);
                         }
                         else
                         {
-                            await OnAddMoreTagsClickedAsync("Asset Type");
-                            await OnAddMoreTagsClickedAsync("Size");
+                            await OnAddMoreTagsClickedAsync(TagsTypeEnum.BestByDate);
+                            await OnAddMoreTagsClickedAsync(TagsTypeEnum.ProductionDate);
+                            await OnAddMoreTagsClickedAsync(TagsTypeEnum.AssetType);
+                            await OnAddMoreTagsClickedAsync(TagsTypeEnum.Size);
                         }
+                        break;
+                    case ViewTypeEnum.AddBatchView:
+                        OnAddTagsClicked(null, null);
                         break;
                     default:
                         break;
@@ -46,71 +54,99 @@ namespace KegID.View
             }
             else if (Application.Current.MainPage.Navigation.ModalStack.LastOrDefault().GetType().Name == ViewTypeEnum.PalletizeView.ToString())
             {
-                await OnAddMoreTagsClickedAsync("Asset Type");
-                await OnAddMoreTagsClickedAsync("Size");
-                await OnAddMoreTagsClickedAsync("Contents");
-                await OnAddMoreTagsClickedAsync("Batch");
+                await OnAddMoreTagsClickedAsync(TagsTypeEnum.Zone);
+                await OnAddMoreTagsClickedAsync(TagsTypeEnum.Area);
+                await OnAddMoreTagsClickedAsync(TagsTypeEnum.Slot);
+                await OnAddMoreTagsClickedAsync(TagsTypeEnum.SSCC);
+                await OnAddMoreTagsClickedAsync(TagsTypeEnum.Note);
+                await OnAddMoreTagsClickedAsync(TagsTypeEnum.Batch);
+                await OnAddMoreTagsClickedAsync(TagsTypeEnum.GTIN);
+                await OnAddMoreTagsClickedAsync(TagsTypeEnum.ProductionDate);
+                await OnAddMoreTagsClickedAsync(TagsTypeEnum.ExpiryDate);
+            }
+            else if (Application.Current.MainPage.Navigation.ModalStack.LastOrDefault().GetType().Name == ViewTypeEnum.MoveView.ToString())
+            {
+                await OnAddMoreTagsClickedAsync(TagsTypeEnum.BestByDate);
+                await OnAddMoreTagsClickedAsync(TagsTypeEnum.ProductionDate);
             }
         }
 
-        async Task OnAddMoreTagsClickedAsync(string title)
+        async Task OnAddMoreTagsClickedAsync(TagsTypeEnum title)
         {
-            dynamic valueEntry;
+            dynamic valueEntry= null;
 
             grdTag.RowDefinitions.Add(new RowDefinition { Height = new GridLength(0, GridUnitType.Auto) });
 
             Label nameEntry = new Label()
             {
                 VerticalOptions = LayoutOptions.Center,
-                Text = title
+                Text = title.ToString()
             };
-
-            if (!string.IsNullOrEmpty(title))
+            switch (title)
             {
-                valueEntry = new Picker()
-                {
-                    VerticalOptions = LayoutOptions.Center,
-                };
-
-                switch (title)
-                {
-                    case "Asset Type":
-                        valueEntry.Items.Add("Keg");
-                        valueEntry.Items.Add("Tap Handle");
-                        break;
-
-                    case "Size":
-                        valueEntry.Items.Add("1/2 bbl");
-                        valueEntry.Items.Add("1/4 bbl");
-                        valueEntry.Items.Add("1/6 bbl");
-                        valueEntry.Items.Add("30 L");
-                        valueEntry.Items.Add("40 L");
-                        valueEntry.Items.Add("50 L");
-                        break;
-
-                    case "Contents":
-                        var result = await SimpleIoc.Default.GetInstance<ScanKegsViewModel>().LoadBrandAsync();
-                        valueEntry.ItemsSource = result.ToList();
-                        valueEntry.ItemDisplayBinding = new Binding("BrandName"); ;
-                        break;
-
-                    case "Batch":
-                        var Batchresult = await SimpleIoc.Default.GetInstance<BatchViewModel>().LoadBatchAsync();
-                        valueEntry.ItemsSource = Batchresult.ToList();
-                        valueEntry.ItemDisplayBinding = new Binding("BrandName"); ;
-                        break;
-
-                    default:
-                        break;
-                }
+                case TagsTypeEnum.BestByDate:
+                case TagsTypeEnum.ProductionDate:
+                case TagsTypeEnum.ExpiryDate:
+                    valueEntry = new DatePicker()
+                    {
+                        VerticalOptions = LayoutOptions.Center,
+                    };
+                    break;
+                case TagsTypeEnum.AssetType:
+                case TagsTypeEnum.Size:
+                case TagsTypeEnum.Contents:
+                case TagsTypeEnum.Batch:
+                    valueEntry = new Picker()
+                    {
+                        VerticalOptions = LayoutOptions.Center,
+                    };
+                    break;
+                case TagsTypeEnum.None:
+                    break;
+                default:
+                    valueEntry = new Entry()
+                    {
+                        VerticalOptions = LayoutOptions.Center,
+                    };
+                    break;
             }
-            else
+           
+            switch (title)
             {
-                valueEntry = new Entry()
-                {
-                    VerticalOptions = LayoutOptions.Center,
-                };
+                case TagsTypeEnum.BestByDate:
+                case TagsTypeEnum.ProductionDate:
+                case TagsTypeEnum.ExpiryDate:
+                    break;
+                case TagsTypeEnum.AssetType:
+                    valueEntry.Items.Add("Keg");
+                    valueEntry.Items.Add("Tap Handle");
+                    break;
+
+                case TagsTypeEnum.Size:
+                    valueEntry.Items.Add("1/2 bbl");
+                    valueEntry.Items.Add("1/4 bbl");
+                    valueEntry.Items.Add("1/6 bbl");
+                    valueEntry.Items.Add("30 L");
+                    valueEntry.Items.Add("40 L");
+                    valueEntry.Items.Add("50 L");
+                    break;
+
+                case TagsTypeEnum.Contents:
+                    var result = await SimpleIoc.Default.GetInstance<ScanKegsViewModel>().LoadBrandAsync();
+                    valueEntry.ItemsSource = result.ToList();
+                    valueEntry.ItemDisplayBinding = new Binding("BrandName"); 
+                    break;
+
+                case TagsTypeEnum.Batch:
+                    var Batchresult = await SimpleIoc.Default.GetInstance<BatchViewModel>().LoadBatchAsync();
+                    valueEntry.ItemsSource = Batchresult.ToList();
+                    valueEntry.ItemDisplayBinding = new Binding("BrandName"); 
+                    break;
+
+                default:
+                    break;
             }
+            
 
             Button removeButton = new Button()
             {
@@ -206,7 +242,10 @@ namespace KegID.View
                         else if (child.GetType() == typeof(Picker))
                         {
                             if (((Picker)child).SelectedItem != null)
-                                tag.Value = ((Picker)child).SelectedItem.ToString();
+                                if (((Picker)child).SelectedItem.GetType() == typeof(BatchModel))
+                                    tag.Value = ((BatchModel)((Picker)child).SelectedItem).BrandName;
+                                else
+                                    tag.Value = ((Picker)child).SelectedItem.ToString();
                         }
 
                         else if (child.GetType() == typeof(Entry))
@@ -243,6 +282,12 @@ namespace KegID.View
                         break;
                     case ViewTypeEnum.PalletizeView:
                         SimpleIoc.Default.GetInstance<PalletizeViewModel>().AddInfoTitle = tagsStr;
+                        break;
+                    case ViewTypeEnum.FillScanView:
+                        SimpleIoc.Default.GetInstance<FillScanViewModel>().TagsStr = tagsStr;
+                        break;
+                    case ViewTypeEnum.AddBatchView:
+                        SimpleIoc.Default.GetInstance<AddBatchViewModel>().TagsStr = tagsStr;
                         break;
                 }
 

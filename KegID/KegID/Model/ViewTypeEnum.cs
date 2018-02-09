@@ -21,8 +21,10 @@
         AddPalletsView,
         BatchView,
         FillView,
+        FillScanView,
         SizeView,
         MaintainView,
         PalletizeView,
+        AddBatchView,
     }
 }

@@ -28,7 +28,6 @@
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
 
-            <!--Command="{Binding SaveCommand}"-->
             <Button
                 TextColor="{StaticResource selectTextColor}"
                 BackgroundColor="Transparent"
@@ -86,44 +85,6 @@
                     <ColumnDefinition Width="60*"/>
                     <ColumnDefinition Width="10*"/>
                 </Grid.ColumnDefinitions>
-
-                <Label
-                    Grid.Column="0"
-                    Grid.Row="0"
-                    Text="Best by date:"/>
-
-                <DatePicker
-                    Date="{Binding BestByDataDate}"
-                    TextColor="{StaticResource selectTextColor}"
-                    Grid.Column="1"
-                    Grid.Row="0"/>
-
-                <Button
-                    Text="x"
-                    Grid.Column="2"
-                    Grid.Row="0"
-                    TextColor="{StaticResource selectTextColor}"
-                    BackgroundColor="Transparent"
-                    Clicked="OnRemoveTagsClicked"/>
-
-                <Label
-                    Grid.Column="0"
-                    Grid.Row="1"
-                    Text="Production date:"/>
-
-                <DatePicker
-                    Date="{Binding ProductionDate}"
-                    TextColor="{StaticResource selectTextColor}"
-                    Grid.Column="1"
-                    Grid.Row="1"/>
-
-                <Button
-                    Text="x"
-                    Grid.Column="2"
-                    Grid.Row="1"
-                    TextColor="{StaticResource selectTextColor}"
-                    BackgroundColor="Transparent"
-                    Clicked="OnRemoveTagsClicked"/>
 
             </Grid>
         </Grid>

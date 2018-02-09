@@ -5,6 +5,7 @@ using KegID.Model;
 using KegID.Services;
 using KegID.SQLiteClient;
 using KegID.View;
+using Microsoft.AppCenter.Analytics;
 using System;
 using System.Diagnostics;
 using Xamarin.Forms;
@@ -179,6 +180,7 @@ namespace KegID.ViewModel
             {
                 Loader.StopLoading();
                 globalData = null;
+                Analytics.TrackEvent("Loged In");
             }
         }
 

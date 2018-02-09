@@ -397,8 +397,8 @@ namespace KegID.ViewModel
 
             TagsStr = default(string);
 
-            if (!SimpleIoc.Default.GetInstance<MoveViewModel>().IsSaveDraftVisible)
-                SimpleIoc.Default.GetInstance<MoveViewModel>().IsSaveDraftVisible = true;
+            if (!SimpleIoc.Default.GetInstance<MoveViewModel>().IsVisibleSubmit)
+                SimpleIoc.Default.GetInstance<MoveViewModel>().IsVisibleSubmit = true;
         }
 
         private async void BarcodeManualCommandRecieverAsync()
@@ -407,7 +407,7 @@ namespace KegID.ViewModel
             ManaulBarcode = string.Empty;
         }
 
-        private async void BarcodeScanCommandReciever()
+        public async void BarcodeScanCommandReciever()
         {
             // Create our custom overlay
             var customOverlay = new Grid

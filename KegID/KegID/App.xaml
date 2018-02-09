@@ -15,6 +15,7 @@
             <converter:SelectedItemEventArgsToSelectedItemConverter x:Key="SelectedItemConverter" />
             <converter:ItemTappedEventArgsToSelectedItemConverter x:Key="ItemTappedConverter" />
             <converter:StringToLast8CharacterConverter x:Key="StringToLast8CharacterConverter"/>
+            <converter:InvertedBooleanConverter x:Key="InvertedBooleanConverter"/>
             
             <Style x:Key="LabelLeftAlign" TargetType="Label">
                 <Setter Property="HorizontalTextAlignment" Value="Center" />

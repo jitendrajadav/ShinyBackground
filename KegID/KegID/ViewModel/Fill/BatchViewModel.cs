@@ -4,9 +4,11 @@ using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
 using KegID.Model;
 using KegID.Services;
+using KegID.View;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using System.Linq;
 
 namespace KegID.ViewModel
 {
@@ -73,8 +75,15 @@ namespace KegID.ViewModel
         {
             if (model != null)
             {
-                SimpleIoc.Default.GetInstance<FillViewModel>().BatchButtonTitle = model.BrandName + "-" + model.BatchCode;
-                await Application.Current.MainPage.Navigation.PopModalAsync();
+                if (model.BrandName.Contains("Add Batch"))
+                {
+                    await Application.Current.MainPage.Navigation.PushModalAsync(new AddBatchView());
+                }
+                else
+                {
+                    SimpleIoc.Default.GetInstance<FillViewModel>().BatchButtonTitle = model.BrandName + "-" + model.BatchCode;
+                    await Application.Current.MainPage.Navigation.PopModalAsync();
+                }
             }
         }
 
@@ -86,7 +95,8 @@ namespace KegID.ViewModel
                 var value = await _fillService.GetBatchListAsync(Configuration.SessionId);
                 if (value.StatusCode == System.Net.HttpStatusCode.OK)
                 {
-                    BatchCollection = value.BatchModel;
+                    value.BatchModel.Add(new BatchModel { BrandName = "Add Batch" });
+                    BatchCollection = value.BatchModel.OrderBy(x=>x.BrandName).ToList();
                 }
             }
             catch (System.Exception)
