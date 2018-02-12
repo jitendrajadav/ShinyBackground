@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="KegID.View.PartnersView"
+             x:Class="KegID.View.DashboardPartnersView"
              xmlns:local="clr-namespace:KegID"
              xmlns:extended="clr-namespace:Xamarin.Forms.Extended;assembly=Xamarin.Forms.Extended.InfiniteScrolling"
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
-             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Partners}">
+             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=DashboardPartners}">
     
     <ContentPage.Content>
         <Grid>
@@ -42,28 +42,6 @@
                     FontAttributes="Bold"
                     VerticalOptions="CenterAndExpand" 
                     HorizontalOptions="CenterAndExpand" />
-
-                <Button
-                    HorizontalOptions="Center"                  
-                    BorderRadius="5"
-                    WidthRequest="50"
-                    BorderWidth="0"
-                    Command="{Binding SearchPartnerCommand}"
-                    BackgroundColor="White" >
-                    <Button.Image>
-                        <OnPlatform x:TypeArguments="FileImageSource">
-                            <OnPlatform.iOS>
-                                <FileImageSource File="actionsearch.png"/>
-                            </OnPlatform.iOS>
-                            <OnPlatform.Android>
-                                <FileImageSource File="actionsearch.png"/>
-                            </OnPlatform.Android>
-                            <OnPlatform.WinPhone>
-                                <FileImageSource File="Assets/actionsearch.png"/>
-                            </OnPlatform.WinPhone>
-                        </OnPlatform>
-                    </Button.Image>
-                </Button>
 
                 <Button
                     HorizontalOptions="Center"                  
@@ -129,11 +107,6 @@
                         Command="{Binding ItemTappedCommand}"
                         Converter="{StaticResource ItemTappedConverter}"/>
 
-                    <behaviors:EventToCommandBehavior
-                        EventName="ItemSelected"
-                        Command="{Binding ItemSelectedCommand}"
-                        Converter="{StaticResource SelectedItemConverter}"/>
-
                 </ListView.Behaviors>
 
                 <ListView.ItemTemplate>
@@ -185,6 +158,12 @@
                     Text="Alphabetical"
                     Command="{Binding AlphabeticalCommand}"/>
                
+                <Button
+                    BackgroundColor="{Binding KegsHeldBackgroundColor}"
+                    TextColor="{Binding KegsHeldTextColor}"
+                    Text="Kegs Held"
+                    Command="{Binding KegsHeldCommand}"/>
+
             </StackLayout>
         </Grid>
     </ContentPage.Content>

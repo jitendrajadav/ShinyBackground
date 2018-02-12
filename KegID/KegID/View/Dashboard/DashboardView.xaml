@@ -225,7 +225,7 @@
                         BackgroundColor="Transparent"
                         Grid.Row="5"
                         Grid.Column="4"
-                        Command="{Binding InventoryCommand}"
+                        Command="{Binding InUsePartnerCommand}"
                         Text="{Binding InUse}"/>
 
                     <BoxView

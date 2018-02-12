@@ -5,9 +5,9 @@ using Xamarin.Forms.Xaml;
 namespace KegID.View
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class InventoryView : TabbedPage
-    {
-		public InventoryView ()
+	public partial class PartnerInfoView : ContentPage
+	{
+		public PartnerInfoView ()
 		{
 			InitializeComponent ();
 		}

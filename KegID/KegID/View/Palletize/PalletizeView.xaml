@@ -29,8 +29,8 @@
                 Text="Build Pallet"/>
 
             <Grid
-            Grid.Row="1"
-            Margin="10,0,10,0">
+                Grid.Row="1"
+                Margin="10,0,10,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -55,13 +55,67 @@
                     HorizontalOptions="FillAndExpand"/>
 
                 <Label 
+                    IsVisible="{Binding IsCameraVisible,Converter={StaticResource InvertedBooleanConverter}}"
                     Margin="0,0,-10,0"
                     HeightRequest="40"
-                    Text="Pallet #:-10000008500359874"
+                    Text="{Binding Pallet,Mode=TwoWay}"
                     BackgroundColor="{StaticResource bannerBGColor}"
                     TextColor="White"
                     VerticalTextAlignment="Center"
                     VerticalOptions="CenterAndExpand"/>
+
+                <Entry 
+                    IsVisible="{Binding IsCameraVisible}"
+                    Margin="0,0,-10,0"
+                    HeightRequest="40"
+                    Text="{Binding Pallet,Mode=TwoWay}"
+                    VerticalOptions="Center"/>
+
+                <Button
+                    IsVisible="{Binding IsCameraVisible,Converter={StaticResource InvertedBooleanConverter}}"
+                    HorizontalOptions="End"                  
+                    BorderRadius="5"
+                    WidthRequest="50"
+                    BorderWidth="0"
+                    Command="{Binding IsPalletVisibleCommand}"
+                    BackgroundColor="Transparent">
+                        <Button.Image>
+                            <OnPlatform x:TypeArguments="FileImageSource">
+                                <OnPlatform.iOS>
+                                    <FileImageSource File="collectionslabels.png"/>
+                                </OnPlatform.iOS>
+                                <OnPlatform.Android>
+                                    <FileImageSource File="collectionslabels.png"/>
+                                </OnPlatform.Android>
+                                <OnPlatform.WinPhone>
+                                    <FileImageSource File="Assets/collectionslabels.png"/>
+                                </OnPlatform.WinPhone>
+                            </OnPlatform>
+                        </Button.Image>
+                </Button>
+
+                <Button
+                    IsVisible="{Binding IsCameraVisible}"
+                    HorizontalOptions="End"                  
+                    BorderRadius="5"
+                    WidthRequest="50"
+                    BorderWidth="0"
+                    Command="{Binding BarcodeScanCommand}"
+                    BackgroundColor="Transparent">
+                        <Button.Image>
+                            <OnPlatform x:TypeArguments="FileImageSource">
+                                <OnPlatform.iOS>
+                                    <FileImageSource File="camera.png"/>
+                                </OnPlatform.iOS>
+                                <OnPlatform.Android>
+                                    <FileImageSource File="camera.png"/>
+                                </OnPlatform.Android>
+                                <OnPlatform.WinPhone>
+                                    <FileImageSource File="Assets/camera.png"/>
+                                </OnPlatform.WinPhone>
+                            </OnPlatform>
+                        </Button.Image>
+                </Button>
 
                 <Label
                     Text="Stock ocation:"

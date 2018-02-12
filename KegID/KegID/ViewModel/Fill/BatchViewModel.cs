@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using System.Linq;
+using KegID.SQLiteClient;
+using System.Diagnostics;
 
 namespace KegID.ViewModel
 {
@@ -91,17 +93,23 @@ namespace KegID.ViewModel
         {
             try
             {
-                Loader.StartLoading();
-                var value = await _fillService.GetBatchListAsync(Configuration.SessionId);
-                if (value.StatusCode == System.Net.HttpStatusCode.OK)
+                BatchCollection = await SQLiteServiceClient.Db.Table<BatchModel>().ToListAsync();
+                if (BatchCollection.Count==0)
                 {
-                    value.BatchModel.Add(new BatchModel { BrandName = "Add Batch" });
-                    BatchCollection = value.BatchModel.OrderBy(x=>x.BrandName).ToList();
+                    Loader.StartLoading();
+
+                    var value = await _fillService.GetBatchListAsync(Configuration.SessionId);
+                    if (value.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        value.BatchModel.Add(new BatchModel { BrandName = "Add Batch" });
+                        BatchCollection = value.BatchModel.OrderBy(x => x.BrandName).ToList();
+                        await SQLiteServiceClient.Db.InsertAllAsync(BatchCollection);
+                    }
                 }
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
-
+                Debug.WriteLine(ex.Message);
             }
             finally
             {

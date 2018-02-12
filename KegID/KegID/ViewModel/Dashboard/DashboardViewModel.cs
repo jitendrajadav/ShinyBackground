@@ -337,6 +337,7 @@ namespace KegID.ViewModel
         public RelayCommand InventoryCommand { get; set; }
         public RelayCommand PartnerCommand { get; set; }
         public RelayCommand KegsCommand { get; set; }
+        public RelayCommand InUsePartnerCommand { get; set; }
 
         #endregion
 
@@ -355,12 +356,19 @@ namespace KegID.ViewModel
             InventoryCommand = new RelayCommand(InventoryCommandRecieverAsync);
             PartnerCommand = new RelayCommand(PartnerCommandRecieverAsync);
             KegsCommand = new RelayCommand(KegsCommandRecieverAsync);
+            InUsePartnerCommand = new RelayCommand(InUsePartnerCommandRecieverAsync);
             RefreshDashboardRecieverAsync();
         }
 
         #endregion
 
         #region Methods
+
+        private async void InUsePartnerCommandRecieverAsync()
+        {
+            await Application.Current.MainPage.Navigation.PushModalAsync(new DashboardPartnersView());
+        }
+
         private async void KegsCommandRecieverAsync()
         {
           await Application.Current.MainPage.Navigation.PushModalAsync(new ScanKegsView());

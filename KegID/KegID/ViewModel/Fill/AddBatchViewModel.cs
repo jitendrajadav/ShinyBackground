@@ -321,7 +321,9 @@ namespace KegID.ViewModel
         #region Commands
 
         public RelayCommand AddTagsCommand { get; set; }
-
+        public RelayCommand CancelCommand { get; set; }
+        public RelayCommand DoneCommand { get; set; }
+       
         #endregion
 
         #region Constructor
@@ -329,11 +331,24 @@ namespace KegID.ViewModel
         public AddBatchViewModel()
         {
             AddTagsCommand = new RelayCommand(AddTagsCommandRecieverAsync);
+            CancelCommand = new RelayCommand(CancelCommandRecieverAsync);
+            DoneCommand = new RelayCommand(DoneCommandReciever);
         }
 
         #endregion
 
         #region Methods
+
+        private void DoneCommandReciever()
+        {
+            
+        }
+
+        private async void CancelCommandRecieverAsync()
+        {
+            await Application.Current.MainPage.Navigation.PopModalAsync();
+        }
+
         private async void AddTagsCommandRecieverAsync()
         {
            await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView());

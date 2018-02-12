@@ -26,5 +26,6 @@
         MaintainView,
         PalletizeView,
         AddBatchView,
+        MaintainScanView,
     }
 }

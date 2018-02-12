@@ -15,7 +15,7 @@ using System;
 
 namespace KegID.ViewModel
 {
-    public class PartnersViewModel : ViewModelBase
+    public class DashboardPartnersViewModel : ViewModelBase
     {
         #region Properties
 
@@ -193,6 +193,74 @@ namespace KegID.ViewModel
 
         #endregion
 
+        #region KegsHeldBackgroundColor
+
+        /// <summary>
+        /// The <see cref="KegsHeldBackgroundColor" /> property's name.
+        /// </summary>
+        public const string KegsHeldBackgroundColorPropertyName = "KegsHeldBackgroundColor";
+
+        private string _KegsHeldBackgroundColor = "Transparent";
+
+        /// <summary>
+        /// Sets and gets the KegsHeldBackgroundColor property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public string KegsHeldBackgroundColor
+        {
+            get
+            {
+                return _KegsHeldBackgroundColor;
+            }
+
+            set
+            {
+                if (_KegsHeldBackgroundColor == value)
+                {
+                    return;
+                }
+
+                _KegsHeldBackgroundColor = value;
+                RaisePropertyChanged(KegsHeldBackgroundColorPropertyName);
+            }
+        }
+
+        #endregion
+
+        #region KegsHeldTextColor
+
+        /// <summary>
+        /// The <see cref="KegsHeldTextColor" /> property's name.
+        /// </summary>
+        public const string KegsHeldTextColorPropertyName = "KegsHeldTextColor";
+
+        private string _KegsHeldTextColor = "#4E6388";
+
+        /// <summary>
+        /// Sets and gets the KegsHeldTextColor property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public string KegsHeldTextColor
+        {
+            get
+            {
+                return _KegsHeldTextColor;
+            }
+
+            set
+            {
+                if (_KegsHeldTextColor == value)
+                {
+                    return;
+                }
+
+                _KegsHeldTextColor = value;
+                RaisePropertyChanged(KegsHeldTextColorPropertyName);
+            }
+        }
+
+        #endregion
+
         #region PartnerCollection
 
         /// <summary>
@@ -270,25 +338,24 @@ namespace KegID.ViewModel
         public RelayCommand InternalCommand { get; set; }
         public RelayCommand AlphabeticalCommand { get; set; }
         public RelayCommand<PartnerModel> ItemTappedCommand { get; set; }
-        public RelayCommand SearchPartnerCommand { get; set; }
         public RelayCommand AddNewPartnerCommand { get; set; }
         public RelayCommand BackCommand { get; set; }
         public RelayCommand TextChangedCommand { get; set; }
-
+        public RelayCommand KegsHeldCommand { get; set; }
         #endregion
 
         #region Constructor
-        public PartnersViewModel(IMoveService moveService)
+        public DashboardPartnersViewModel(IMoveService moveService)
         {
             _moveService = moveService;
 
             InternalCommand = new RelayCommand(InternalCommandReciever);
             AlphabeticalCommand = new RelayCommand(AlphabeticalCommandReciever);
             ItemTappedCommand = new RelayCommand<PartnerModel>((model) => ItemTappedCommandRecieverAsync(model));
-            SearchPartnerCommand = new RelayCommand(SearchPartnerCommandRecieverAsync);
             AddNewPartnerCommand = new RelayCommand(AddNewPartnerCommandRecieverAsync);
             BackCommand = new RelayCommand(BackCommandRecieverAsync);
             TextChangedCommand = new RelayCommand(TextChangedCommandRecieverAsync);
+            KegsHeldCommand = new RelayCommand(KegsHeldCommandReciever);
 
             InternalBackgroundColor = "#4E6388";
             InternalTextColor = "White";
@@ -314,6 +381,20 @@ namespace KegID.ViewModel
 
         #region Methods
 
+        private void KegsHeldCommandReciever()
+        {
+            PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners.OrderBy(x => x.FullName));
+
+            KegsHeldBackgroundColor = "#4E6388";
+            KegsHeldTextColor = "White";
+
+            AlphabeticalBackgroundColor = "White";
+            AlphabeticalTextColor = "#4E6388";
+
+            InternalBackgroundColor = "White";
+            InternalTextColor = "#4E6388";
+        }
+
         private void TextChangedCommandRecieverAsync()
         {
             try
@@ -331,39 +412,7 @@ namespace KegID.ViewModel
         {
             if (model != null)
             {
-                switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack[Application.Current.MainPage.Navigation.ModalStack.Count - 2].GetType().Name))
-                {
-                    case ViewTypeEnum.SearchManifestsView:
-                        if (SimpleIoc.Default.GetInstance<SearchManifestsViewModel>().IsManifestDestination)
-                        {
-                            SimpleIoc.Default.GetInstance<SearchManifestsViewModel>().IsManifestDestination = false;
-                            SimpleIoc.Default.GetInstance<SearchManifestsViewModel>().ManifestDestination = model.FullName;
-                        }
-                        else
-                            SimpleIoc.Default.GetInstance<SearchManifestsViewModel>().ManifestSender = model.FullName;
-                        break;
-                        case ViewTypeEnum.MoveView:
-                        SimpleIoc.Default.GetInstance<MoveViewModel>().Destination = model;
-                        break;
-                    case ViewTypeEnum.FillView:
-                        SimpleIoc.Default.GetInstance<FillViewModel>().DestinationTitle = model.FullName;
-                        break;
-                    case ViewTypeEnum.PalletizeView:
-                        if (SimpleIoc.Default.GetInstance<PalletizeViewModel>().TargetLocationPartner)
-                        {
-                            SimpleIoc.Default.GetInstance<PalletizeViewModel>().TargetLocationPartner = false;
-                            SimpleIoc.Default.GetInstance<PalletizeViewModel>().TargetLocationTitle = model.FullName;
-                        }
-                        else
-                            SimpleIoc.Default.GetInstance<PalletizeViewModel>().SelectLocationTitle = model.FullName;
-                        break;
-                    case ViewTypeEnum.MaintainView:
-                        SimpleIoc.Default.GetInstance<MaintainViewModel>().SelectionLocationButtonTitle = model.FullName;
-                        break;
-                    default:
-                        break;
-                }
-                await Application.Current.MainPage.Navigation.PopModalAsync();
+                await Application.Current.MainPage.Navigation.PushModalAsync(new PartnerInfoView());
             }
         }
 
@@ -403,6 +452,9 @@ namespace KegID.ViewModel
 
             InternalBackgroundColor = "White";
             InternalTextColor = "#4E6388";
+
+            KegsHeldBackgroundColor = "White";
+            KegsHeldTextColor = "#4E6388";
         }
 
         private void InternalCommandReciever()
@@ -414,6 +466,9 @@ namespace KegID.ViewModel
 
             AlphabeticalBackgroundColor = "White";
             AlphabeticalTextColor = "#4E6388";
+
+            KegsHeldBackgroundColor = "White";
+            KegsHeldTextColor = "#4E6388";
         }
 
         private async void BackCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PopModalAsync();
@@ -421,11 +476,6 @@ namespace KegID.ViewModel
         private async void AddNewPartnerCommandRecieverAsync()
         {
             await Application.Current.MainPage.Navigation.PushModalAsync(new AddPartnerView());
-        }
-
-        private async void SearchPartnerCommandRecieverAsync()
-        {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new SearchPartnersView());
         }
 
         public override void Cleanup()

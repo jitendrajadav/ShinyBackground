@@ -42,6 +42,9 @@ namespace KegID.ViewModel
             SimpleIoc.Default.Register<InventoryViewModel>();
             SimpleIoc.Default.Register<FillScanViewModel>();
             SimpleIoc.Default.Register<AddBatchViewModel>();
+            SimpleIoc.Default.Register<MaintainScanViewModel>();
+            SimpleIoc.Default.Register<DashboardPartnersViewModel>();
+            SimpleIoc.Default.Register<PartnerInfoViewModel>();
 
         }
         #endregion
@@ -510,6 +513,24 @@ namespace KegID.ViewModel
 
         #endregion
 
+        #region MaintainScan
+
+        /// <summary>
+        /// Gets the MaintainScan property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public MaintainScanViewModel MaintainScan
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<MaintainScanViewModel>();
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Dashboard
@@ -545,6 +566,42 @@ namespace KegID.ViewModel
             get
             {
                 return SimpleIoc.Default.GetInstance<InventoryViewModel>();
+            }
+        }
+
+        #endregion
+
+        #region DashboardPartners
+
+        /// <summary>
+        /// Gets the DashboardPartners property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public DashboardPartnersViewModel DashboardPartners
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<DashboardPartnersViewModel>();
+            }
+        }
+
+        #endregion
+
+        #region PartnerInfo
+
+        /// <summary>
+        /// Gets the PartnerInfo property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public PartnerInfoViewModel PartnerInfo
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<PartnerInfoViewModel>();
             }
         }
 

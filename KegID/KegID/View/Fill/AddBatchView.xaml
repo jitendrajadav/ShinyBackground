@@ -22,12 +22,14 @@
                 Command="{Binding CancelCommand}"/>
 
             <Label
+                Grid.ColumnSpan="3"
                 VerticalOptions="Center"
                 FontAttributes="Bold"
                 HorizontalOptions="Center"
                 Text="Add Batch"/>
             
             <BoxView
+                Grid.ColumnSpan="3"
                 Margin="-10,0,-10,0"
                 Grid.Row="1"
                 BackgroundColor="Black"
@@ -36,11 +38,12 @@
                 HorizontalOptions="FillAndExpand"/>
 
             <ScrollView
+                Margin="10,0,10,0"
+                Grid.ColumnSpan="3"
                 Grid.Row="2">
                
                 <Grid
-                    Grid.Row="1"
-                    Margin="10,0,10,0">
+                    Grid.Row="1">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -174,19 +177,20 @@
 
                 </Grid>
                 
-                <Button
-                        HeightRequest="40"
-                        Margin="-10,0,-10,0"
-                        TextColor="White"
-                        Grid.ColumnSpan="3"
-                        BackgroundColor="{StaticResource selectTextColor}"
-                        HorizontalOptions="FillAndExpand"
-                        VerticalOptions="End"
-                        Grid.Row="4"
-                        Text="Done"
-                        Command="{Binding DoneCommand}"/>
-
             </ScrollView>
+
+            <Button
+                HeightRequest="40"
+                Margin="-10,0,-10,0"
+                TextColor="White"
+                Grid.ColumnSpan="3"
+                BackgroundColor="{StaticResource selectTextColor}"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="End"
+                Grid.Row="3"
+                Text="Done"
+                Command="{Binding DoneCommand}"/>
+
         </Grid>
     </ContentPage.Content>
 </ContentPage>

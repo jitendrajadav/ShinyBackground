@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KegID.View.PartnerInfoView"
+             xmlns:behaviors="clr-namespace:KegID.Behaviors"
+             xmlns:local="clr-namespace:KegID"
+             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=PartnerInfo}">
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Button
+                BackgroundColor="Transparent"
+                VerticalOptions="Center"
+                HorizontalOptions="Start"
+                TextColor="{StaticResource selectTextColor}"
+                Text="Partners"
+                Command="{Binding PartnersCommand}"/>
+
+            <Label 
+                HorizontalOptions="Center"
+                FontAttributes="Bold"
+                Text="Partner Info"
+                VerticalOptions="Center"/>
+
+            <Button
+                BackgroundColor="Transparent"
+                VerticalOptions="Center"
+                HorizontalOptions="End"
+                TextColor="{StaticResource selectTextColor}"
+                Text="Edit"
+                Command="{Binding EditCommand}"/>
+           
+            <BoxView
+                Margin="-10,0,-10,0"
+                Grid.Row="1"
+                HeightRequest="40"
+                BackgroundColor="{StaticResource bannerBGColor}"
+                VerticalOptions="FillAndExpand"
+                HorizontalOptions="FillAndExpand"/>
+
+            <Label 
+                Grid.Row="1"
+                HorizontalOptions="Start"
+                FontAttributes="Bold"
+                Text="{Binding Title}"
+                TextColor="White"
+                VerticalOptions="Center"/>
+            
+            <Button
+                Grid.Row="2"
+                BackgroundColor="Transparent"
+                VerticalOptions="Center"
+                HorizontalOptions="Start"
+                TextColor="{StaticResource selectTextColor}"
+                Text="{Binding Kegs,StringFormat='{0} Kegs'}"
+                Command="{Binding KegsCommand}"/>
+            
+            <Button
+                Grid.Row="2"
+                BackgroundColor="Transparent"
+                VerticalOptions="Center"
+                HorizontalOptions="End"
+                TextColor="{StaticResource selectTextColor}"
+                Text="Send Kegs"
+                Command="{Binding SendKegsCommand}"/>
+
+            <ScrollView
+                Grid.Row="3">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Button
+                        BackgroundColor="Transparent"
+                        Grid.Row="0"
+                        HorizontalOptions="StartAndExpand"
+                        Text="{Binding ShipTo}"/>
+
+                    <Button
+                        BackgroundColor="Transparent"
+                        Grid.Row="1"
+                        HorizontalOptions="Start"
+                        Text="{Binding BillTo}"/>
+
+                    <Label
+                        Margin="10,0,0,0"
+                        Grid.Row="2"
+                        Text="{Binding Contact}"/>
+
+                    <Button
+                        BackgroundColor="Transparent"
+                        Grid.Row="3"
+                        HorizontalOptions="Start"
+                        Text="{Binding Phone}"/>
+
+                    <Button
+                        BackgroundColor="Transparent"
+                        Grid.Row="4"
+                        HorizontalOptions="Start"
+                        Text="{Binding ContactEmail}"/>
+                   
+                    <Label
+                        Margin="10,0,0,0"
+                        Grid.Row="5"
+                        Text="{Binding Ref}"/>
+                    
+                    <Label
+                        Margin="10,0,0,0"
+                        Grid.Row="6"
+                        Text="{Binding Acct}"/>
+                    
+                    <Label
+                        Margin="10,0,0,0"
+                        Grid.Row="7"
+                        Text="{Binding Route}"/>
+                    
+                    <Label
+                        Margin="10,0,0,0"
+                        Grid.Row="8"
+                        Text="{Binding Notes}"/>
+                    
+                    <Label
+                        Margin="10,0,0,0"
+                        Grid.Row="9"
+                        Text="{Binding Type}"/>
+
+                </Grid>
+            </ScrollView>
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>

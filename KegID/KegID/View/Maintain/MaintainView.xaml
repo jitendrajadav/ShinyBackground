@@ -57,6 +57,7 @@
                     HeightRequest="30"
                     VerticalOptions="Center"
                     Grid.Row="0"
+                    IsToggled="{Binding BentChime}"
                     Grid.Column="0"/>
 
                 <Label
@@ -77,6 +78,7 @@
                     HeightRequest="30"
                     VerticalOptions="Center"
                     Grid.Row="2"
+                    IsToggled="{Binding BentNeck}"
                     Grid.Column="0"/>
 
                 <Label
@@ -97,13 +99,14 @@
                     HeightRequest="30"
                     VerticalOptions="Center"
                     Grid.Row="4"
+                    IsToggled="{Binding DamagedSpear}"
                     Grid.Column="0"/>
 
                 <Label
                     VerticalOptions="Center"
                     Grid.Row="4"
                     Grid.Column="1"
-                    Text="Demaged Spear"/>
+                    Text="Damaged Spear"/>
 
                 <BoxView
                     Grid.Row="5"
@@ -117,6 +120,7 @@
                     HeightRequest="30"
                     VerticalOptions="Center"
                     Grid.Row="6"
+                    IsToggled="{Binding DeepCleaning}"
                     Grid.Column="0"/>
 
                 <Label
@@ -137,6 +141,7 @@
                     HeightRequest="30"
                     VerticalOptions="Center"
                     Grid.Row="8"
+                    IsToggled="{Binding FaultySeal}"
                     Grid.Column="0"/>
 
                 <Label
@@ -157,6 +162,7 @@
                     HeightRequest="30"
                     VerticalOptions="Center"
                     Grid.Row="10"
+                    IsToggled="{Binding FaultyValve}"
                     Grid.Column="0"/>
 
                 <Label
@@ -177,6 +183,7 @@
                     HeightRequest="30"
                     VerticalOptions="Center"
                     Grid.Row="12"
+                    IsToggled="{Binding ValveInspection}"
                     Grid.Column="0"/>
 
                 <Label
@@ -202,6 +209,7 @@
                     HeightRequest="80"
                     Grid.ColumnSpan="2"
                     Grid.Column="0"
+                    Text="{Binding Notes}"
                     Grid.Row="15"
                     Placeholder="Enter notes here"/>
 
@@ -212,10 +220,12 @@
                 <Button
                     BackgroundColor="Transparent"
                     TextColor="{StaticResource selectTextColor}"
-                    Grid.Column="1"
+                    Grid.Column="0"
                     Grid.Row="17"
-                    HorizontalOptions="StartAndExpand"
-                    Text="Select a location"/>
+                    Grid.ColumnSpan="2"
+                    HorizontalOptions="Center"
+                    Command="{Binding PartnerCommand}"
+                    Text="{Binding SelectionLocationButtonTitle}"/>
 
                 <Button
                     HeightRequest="40"
@@ -227,7 +237,8 @@
                     VerticalOptions="EndAndExpand"
                     HorizontalOptions="FillAndExpand"
                     TextColor="White"
-                    Text="Next"/>
+                    Text="Next"
+                    Command="{Binding NextCommand}"/>
 
             </Grid>
         </Grid>

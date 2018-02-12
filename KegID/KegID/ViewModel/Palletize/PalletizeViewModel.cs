@@ -1,6 +1,7 @@
 ﻿using System;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Ioc;
 using KegID.View;
 using Xamarin.Forms;
 
@@ -114,6 +115,74 @@ namespace KegID.ViewModel
 
         #endregion
 
+        #region IsCameraVisible
+
+        /// <summary>
+        /// The <see cref="IsCameraVisible" /> property's name.
+        /// </summary>
+        public const string IsCameraVisiblePropertyName = "IsCameraVisible";
+
+        private bool _IsCameraVisible = false;
+
+        /// <summary>
+        /// Sets and gets the IsCameraVisible property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public bool IsCameraVisible
+        {
+            get
+            {
+                return _IsCameraVisible;
+            }
+
+            set
+            {
+                if (_IsCameraVisible == value)
+                {
+                    return;
+                }
+
+                _IsCameraVisible = value;
+                RaisePropertyChanged(IsCameraVisiblePropertyName);
+            }
+        }
+
+        #endregion
+
+        #region Pallet
+
+        /// <summary>
+        /// The <see cref="Pallet" /> property's name.
+        /// </summary>
+        public const string PalletPropertyName = "Pallet";
+
+        private string _Pallet = default(string);
+
+        /// <summary>
+        /// Sets and gets the Pallet property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public string Pallet
+        {
+            get
+            {
+                return _Pallet;
+            }
+
+            set
+            {
+                if (_Pallet == value)
+                {
+                    return;
+                }
+
+                _Pallet = value;
+                RaisePropertyChanged(PalletPropertyName);
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Commands
@@ -122,7 +191,8 @@ namespace KegID.ViewModel
         public RelayCommand AddTagsCommand { get; set; }
         public RelayCommand TargetLocationPartnerCommand { get; set; }
         public RelayCommand AddKegsCommand { get; set; }
-
+        public RelayCommand IsPalletVisibleCommand { get; set; }
+        public RelayCommand BarcodeScanCommand { get; set; }
         #endregion
 
         #region Constructor
@@ -133,6 +203,19 @@ namespace KegID.ViewModel
             AddTagsCommand = new RelayCommand(AddTagsCommandRecieverAsync);
             TargetLocationPartnerCommand = new RelayCommand(TargetLocationPartnerCommandRecieverAsync);
             AddKegsCommand = new RelayCommand(AddKegsCommandRecieverAsync);
+            IsPalletVisibleCommand = new RelayCommand(IsPalletVisibleCommandReciever);
+            BarcodeScanCommand = new RelayCommand(BarcodeScanCommandReciever);
+            Pallet = "Pallet #:-10000008500359874";
+        }
+
+        private void BarcodeScanCommandReciever()
+        {
+            SimpleIoc.Default.GetInstance<ScanKegsViewModel>().BarcodeScanCommandReciever();
+        }
+
+        private void IsPalletVisibleCommandReciever()
+        {
+            IsCameraVisible = true;
         }
 
         #endregion
