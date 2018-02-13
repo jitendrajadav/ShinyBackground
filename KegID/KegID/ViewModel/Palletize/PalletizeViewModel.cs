@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
+using KegID.Model;
+using KegID.Services;
 using KegID.View;
 using Xamarin.Forms;
 
@@ -10,6 +13,7 @@ namespace KegID.ViewModel
     public class PalletizeViewModel : ViewModelBase
     {
         #region Properties
+        public IPalletizeService _palletizeService { get; set; }
 
         public bool TargetLocationPartner { get; set; }
 
@@ -183,6 +187,107 @@ namespace KegID.ViewModel
 
         #endregion
 
+        #region AddKegs
+
+        /// <summary>
+        /// The <see cref="AddKegs" /> property's name.
+        /// </summary>
+        public const string AddKegsPropertyName = "AddKegs";
+
+        private string _AddKegs = "Add Kegs";
+
+        /// <summary>
+        /// Sets and gets the AddKegs property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public string AddKegs
+        {
+            get
+            {
+                return _AddKegs;
+            }
+
+            set
+            {
+                if (_AddKegs == value)
+                {
+                    return;
+                }
+
+                _AddKegs = value;
+                RaisePropertyChanged(AddKegsPropertyName);
+            }
+        }
+
+        #endregion
+
+        #region IsSubmitVisible
+
+        /// <summary>
+        /// The <see cref="IsSubmitVisible" /> property's name.
+        /// </summary>
+        public const string IsSubmitVisiblePropertyName = "IsSubmitVisible";
+
+        private bool _IsSubmitVisible = false;
+
+        /// <summary>
+        /// Sets and gets the IsSubmitVisible property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public bool IsSubmitVisible
+        {
+            get
+            {
+                return _IsSubmitVisible;
+            }
+
+            set
+            {
+                if (_IsSubmitVisible == value)
+                {
+                    return;
+                }
+
+                _IsSubmitVisible = value;
+                RaisePropertyChanged(IsSubmitVisiblePropertyName);
+            }
+        }
+
+        #endregion
+
+        #region Tags
+        /// <summary>
+        /// The <see cref="Tags" /> property's name.
+        /// </summary>
+        public const string TagsPropertyName = "Tags";
+
+        private List<Tag> _tags = new List<Tag>();
+
+        /// <summary>
+        /// Sets and gets the Tags property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public List<Tag> Tags
+        {
+            get
+            {
+                return _tags;
+            }
+
+            set
+            {
+                if (_tags == value)
+                {
+                    return;
+                }
+
+                _tags = value;
+                RaisePropertyChanged(TagsPropertyName);
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Commands
@@ -193,11 +298,13 @@ namespace KegID.ViewModel
         public RelayCommand AddKegsCommand { get; set; }
         public RelayCommand IsPalletVisibleCommand { get; set; }
         public RelayCommand BarcodeScanCommand { get; set; }
+        public RelayCommand SubmitCommand { get; set; }
         #endregion
 
         #region Constructor
-        public PalletizeViewModel()
+        public PalletizeViewModel(IPalletizeService palletizeService)
         {
+            _palletizeService = palletizeService;
             CancelCommand = new RelayCommand(CancelCommandRecieverAsync);
             PartnerCommand = new RelayCommand(PartnerCommandRecieverAsync);
             AddTagsCommand = new RelayCommand(AddTagsCommandRecieverAsync);
@@ -205,7 +312,31 @@ namespace KegID.ViewModel
             AddKegsCommand = new RelayCommand(AddKegsCommandRecieverAsync);
             IsPalletVisibleCommand = new RelayCommand(IsPalletVisibleCommandReciever);
             BarcodeScanCommand = new RelayCommand(BarcodeScanCommandReciever);
+            SubmitCommand = new RelayCommand(SubmitCommandRecieverAsync);
             Pallet = "Pallet #:-10000008500359874";
+        }
+
+        #endregion
+
+        #region Methods
+        private async void SubmitCommandRecieverAsync()
+        {
+            PalletItem palletItem = new PalletItem();
+            List<PalletItem> palletItemList = new List<PalletItem>();
+            PalletRequestModel palletRequestModel = new PalletRequestModel();
+            palletRequestModel.Barcode = "";
+            palletRequestModel.BarcodeFormat = "";
+            palletRequestModel.BuildDate = DateTime.Today;
+            palletRequestModel.ManifestTypeId = 000;
+            palletRequestModel.OwnerId = "";
+            palletRequestModel.PalletId = "";
+            palletRequestModel.PalletItems = palletItemList;
+            palletRequestModel.ReferenceKey = "";
+            palletRequestModel.StockLocation = "";
+            palletRequestModel.Tags = Tags;
+            palletRequestModel.TargetLocation = "";
+
+           await _palletizeService.PostPalletAsync(palletRequestModel,Configuration.SessionId,Configuration.NewPallet);
         }
 
         private void BarcodeScanCommandReciever()
@@ -217,10 +348,6 @@ namespace KegID.ViewModel
         {
             IsCameraVisible = true;
         }
-
-        #endregion
-
-        #region Methods
 
         private async void AddKegsCommandRecieverAsync()
         {

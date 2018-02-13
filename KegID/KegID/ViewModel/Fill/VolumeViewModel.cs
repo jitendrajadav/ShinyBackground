@@ -6,39 +6,39 @@ using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
-    public class SizeViewModel : ViewModelBase
+    public class VolumeViewModel : ViewModelBase
     {
         #region Properties
 
-        #region SizeCollection
+        #region VolumeCollection
 
         /// <summary>
-        /// The <see cref="SizeCollection" /> property's name.
+        /// The <see cref="VolumeCollection" /> property's name.
         /// </summary>
-        public const string SizeCollectionPropertyName = "SizeCollection";
+        public const string VolumeCollectionPropertyName = "VolumeCollection";
 
-        private IList<string> _SizeCollection = null;
+        private IList<string> _VolumeCollection = null;
 
         /// <summary>
-        /// Sets and gets the SizeCollection property.
+        /// Sets and gets the VolumeCollection property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public IList<string> SizeCollection
+        public IList<string> VolumeCollection
         {
             get
             {
-                return _SizeCollection;
+                return _VolumeCollection;
             }
 
             set
             {
-                if (_SizeCollection == value)
+                if (_VolumeCollection == value)
                 {
                     return;
                 }
 
-                _SizeCollection = value;
-                RaisePropertyChanged(SizeCollectionPropertyName);
+                _VolumeCollection = value;
+                RaisePropertyChanged(VolumeCollectionPropertyName);
             }
         }
 
@@ -49,23 +49,24 @@ namespace KegID.ViewModel
         #region Commands
 
         public RelayCommand<string> ItemTappedCommand { get; set; }
-
+        
         #endregion
 
         #region Constructor
 
-        public SizeViewModel()
+        public VolumeViewModel()
         {
-            SizeCollection = new List<string>() { "1/2 bbl", "1/4 bbl", "1/6 bbl", "40 L", "50 L" };
-            ItemTappedCommand = new RelayCommand<string>((model) => ItemTappedCommandRecieverAsync(model));
+            ItemTappedCommand = new RelayCommand<string>((model)=>ItemTappedCommandRecieverAsync(model));
+            VolumeCollection = new List<string>() { "bbl", "hl", "gal" };
         }
 
         #endregion
 
         #region Methods
+
         private async void ItemTappedCommandRecieverAsync(string model)
         {
-            SimpleIoc.Default.GetInstance<FillViewModel>().SizeButtonTitle = model;
+            SimpleIoc.Default.GetInstance<AddBatchViewModel>().VolumeChar = model;
             await Application.Current.MainPage.Navigation.PopModalAsync();
         }
 

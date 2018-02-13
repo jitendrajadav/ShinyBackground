@@ -1,19 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="KegID.View.SizeView"
-             xmlns:local="clr-namespace:KegID"
+             x:Class="KegID.View.VolumeView"
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
-             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Size}">
+             xmlns:local="clr-namespace:KegID"
+             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Volume}">
     <ContentPage.Content>
         <ListView 
                 Margin="10,0,10,0"
                 Grid.Row="2"
-                x:Name="sizeListView"
+                x:Name="volumeListView"
                 SeparatorVisibility="Default"
                 SeparatorColor="LightGray"
                 HasUnevenRows="true"
-                ItemsSource="{Binding SizeCollection}">
+                ItemsSource="{Binding VolumeCollection}">
             <ListView.Behaviors>
                 <behaviors:EventToCommandBehavior
                             EventName="ItemTapped" 

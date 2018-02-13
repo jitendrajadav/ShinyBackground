@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace KegID.Services
+﻿namespace KegID.Services
 {
     public static class Configuration
     {
@@ -11,7 +9,9 @@ namespace KegID.Services
         public static string CompanyId;
         public const string NewManifest = "NewManifest";
         public const string NewPartner = "NewPartner";
-
+        public const string NewBatch = "Batch";
+        public const string NewPallet = "NewPallet";
+        
         /// <summary>
         /// Base Url
         /// </summary>
@@ -48,5 +48,8 @@ namespace KegID.Services
         /// Fill Service Url
         /// </summary>
         public const string GetBatchUrl = ServiceUrl + "batch/?sessionId={0}";
+
+        public const string PostBatchUrl = ServiceUrl + "Batch/?sessionId={0}";
+
     }
 }

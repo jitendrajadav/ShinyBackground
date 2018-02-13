@@ -147,6 +147,40 @@ namespace KegID.ViewModel
 
         #endregion
 
+        #region IsPalletze
+
+        /// <summary>
+        /// The <see cref="IsPalletze" /> property's name.
+        /// </summary>
+        public const string IsPalletzePropertyName = "IsPalletze";
+
+        private bool _IsPalletze = true;
+
+        /// <summary>
+        /// Sets and gets the IsPalletze property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public bool IsPalletze
+        {
+            get
+            {
+                return _IsPalletze;
+            }
+
+            set
+            {
+                if (_IsPalletze == value)
+                {
+                    return;
+                }
+
+                _IsPalletze = value;
+                RaisePropertyChanged(IsPalletzePropertyName);
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Commands
@@ -156,7 +190,7 @@ namespace KegID.ViewModel
         public RelayCommand AddTagsCommand { get; set; }
         public RelayCommand PrintCommand { get; set; }
         public RelayCommand IsPalletVisibleCommand { get; set; }
-        
+        public RelayCommand SubmitCommand { get; set; }
         #endregion
 
         #region Constructor
@@ -168,13 +202,21 @@ namespace KegID.ViewModel
             AddTagsCommand = new RelayCommand(AddTagsCommandRecieverAsync);
             PrintCommand = new RelayCommand(PrintCommandReciever);
             IsPalletVisibleCommand = new RelayCommand(IsPalletVisibleCommandReciever);
+            SubmitCommand = new RelayCommand(SubmitCommandReciever);
 
-            Pallet = "Pallet# -10000000084004099351";
+            if (IsPalletze)
+                Pallet = "Pallet# -10000000084004099351";
         }
 
         #endregion
 
         #region Methods
+
+        private void SubmitCommandReciever()
+        {
+            
+        }
+
         private void IsPalletVisibleCommandReciever()
         {
             IsPalletVisible = !IsPalletVisible;

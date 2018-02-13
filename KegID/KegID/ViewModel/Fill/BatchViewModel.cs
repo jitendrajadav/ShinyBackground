@@ -11,6 +11,7 @@ using Xamarin.Forms;
 using System.Linq;
 using KegID.SQLiteClient;
 using System.Diagnostics;
+using System;
 
 namespace KegID.ViewModel
 {
@@ -66,12 +67,17 @@ namespace KegID.ViewModel
         {
             _fillService = fillService;
             ItemTappedCommand = new RelayCommand<BatchModel>((model) => ItemTappedCommandRecieverAsync(model));
-            LoadBatchAsync();
+            LoadBatch();
         }
 
         #endregion
 
         #region Methods
+
+        private async void LoadBatch()
+        {
+            await LoadBatchAsync();
+        }
 
         private async void ItemTappedCommandRecieverAsync(BatchModel model)
         {

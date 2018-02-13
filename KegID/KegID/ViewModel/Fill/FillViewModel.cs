@@ -113,6 +113,40 @@ namespace KegID.ViewModel
 
         #endregion
 
+        #region IsPalletze
+
+        /// <summary>
+        /// The <see cref="IsPalletze" /> property's name.
+        /// </summary>
+        public const string IsPalletzePropertyName = "IsPalletze";
+
+        private bool _IsPalletze = true;
+
+        /// <summary>
+        /// Sets and gets the IsPalletze property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public bool IsPalletze
+        {
+            get
+            {
+                return _IsPalletze;
+            }
+
+            set
+            {
+                if (_IsPalletze == value)
+                {
+                    return;
+                }
+
+                _IsPalletze = value;
+                RaisePropertyChanged(IsPalletzePropertyName);
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Commands
@@ -151,8 +185,17 @@ namespace KegID.ViewModel
         {
             if (!BatchButtonTitle.Contains("Select batch"))
             {
-                SimpleIoc.Default.GetInstance<AddPalletsViewModel>().AddPalletsTitle = "Filling " + SizeButtonTitle + " kegs with " + BatchButtonTitle + "\n" + DestinationTitle;
-                await Application.Current.MainPage.Navigation.PushModalAsync(new AddPalletsView());
+                if (IsPalletze)
+                {
+                    SimpleIoc.Default.GetInstance<AddPalletsViewModel>().AddPalletsTitle = "Filling " + SizeButtonTitle + " kegs with " + BatchButtonTitle + "\n" + DestinationTitle;
+                    await Application.Current.MainPage.Navigation.PushModalAsync(new AddPalletsView());
+                }
+                else
+                {
+                    SimpleIoc.Default.GetInstance<FillScanViewModel>().IsPalletze = IsPalletze;
+                    SimpleIoc.Default.GetInstance<FillScanViewModel>().Pallet = "Filling " + SizeButtonTitle + " kegs with " + BatchButtonTitle + "\n" + DestinationTitle;
+                    await Application.Current.MainPage.Navigation.PushModalAsync(new FillScanView());
+                }
             }
             else
             {

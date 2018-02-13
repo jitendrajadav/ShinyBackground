@@ -14,7 +14,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="40"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
@@ -32,6 +32,16 @@
                 TextColor="{StaticResource selectTextColor}"
                 HorizontalOptions="Start"
                 Command="{Binding CancelCommand}"/>
+
+            <Button
+                Grid.ColumnSpan="2"
+                Text="Submit"
+                IsVisible="{Binding IsPalletze,Converter={StaticResource InvertedBooleanConverter}}"
+                BackgroundColor="Transparent"
+                VerticalOptions="Center"
+                TextColor="{StaticResource selectTextColor}"
+                HorizontalOptions="End"
+                Command="{Binding SubmitCommand}"/>
 
             <Label
                 Grid.ColumnSpan="2"
@@ -73,6 +83,7 @@
                 BorderRadius="5"
                 WidthRequest="50"
                 BorderWidth="0"
+                IsVisible="{Binding IsPalletze}"
                 Command="{Binding IsPalletVisibleCommand}"
                 BackgroundColor="Transparent">
                 <Button.Image>
@@ -157,7 +168,7 @@
                 Grid.ColumnSpan="2"
                 Text="Print"
                 Grid.Row="4"
-                HeightRequest="40"
+                IsVisible="{Binding IsPalletze}"
                 BackgroundColor="{StaticResource selectTextColor}"
                 VerticalOptions="Center"
                 TextColor="White"

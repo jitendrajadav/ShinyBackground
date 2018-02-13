@@ -14,7 +14,6 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-
             <Button
                 BackgroundColor="Transparent"
                 TextColor="{StaticResource selectTextColor}"
@@ -27,6 +26,15 @@
                 VerticalOptions="Center"
                 HorizontalOptions="Center"
                 Text="Build Pallet"/>
+            
+            <Button
+                IsVisible="{Binding IsSubmitVisible}"
+                BackgroundColor="Transparent"
+                TextColor="{StaticResource selectTextColor}"
+                HorizontalOptions="End"
+                Text="Submit"
+                VerticalOptions="Center"
+                Command="{Binding SubmitCommand}"/>
 
             <Grid
                 Grid.Row="1"
@@ -188,7 +196,7 @@
                     FontSize="40"
                     HorizontalOptions="Start"
                     Command="{Binding AddKegsCommand}"
-                    Text="Add Kegs"/>
+                    Text="{Binding AddKegs}"/>
             </Grid>
         </Grid>
     </ContentPage.Content>

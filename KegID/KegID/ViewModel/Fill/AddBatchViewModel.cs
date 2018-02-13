@@ -1,7 +1,12 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Ioc;
+using KegID.Common;
+using KegID.Model;
+using KegID.Services;
 using KegID.View;
 using System;
+using System.Collections.Generic;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -119,13 +124,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string VolumeDigitPropertyName = "VolumeDigit";
 
-        private int _VolumeDigit = default(int);
+        private string _VolumeDigit = default(string);
 
         /// <summary>
         /// Sets and gets the VolumeDigit property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public int VolumeDigit
+        public string VolumeDigit
         {
             get
             {
@@ -255,13 +260,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string AlcoholContentPropertyName = "AlcoholContent";
 
-        private int _AlcoholContent = default(int);
+        private string _AlcoholContent = default(string);
 
         /// <summary>
         /// Sets and gets the AlcoholContent property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public int AlcoholContent
+        public string AlcoholContent
         {
             get
             {
@@ -316,6 +321,109 @@ namespace KegID.ViewModel
 
         #endregion
 
+        #region BrandModel
+
+        /// <summary>
+        /// The <see cref="BrandModel" /> property's name.
+        /// </summary>
+        public const string BrandModelPropertyName = "BrandModel";
+
+        private BrandModel _BrandModel = null;
+
+        /// <summary>
+        /// Sets and gets the BrandModel property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public BrandModel BrandModel
+        {
+            get
+            {
+                return _BrandModel;
+            }
+
+            set
+            {
+                if (_BrandModel == value)
+                {
+                    return;
+                }
+
+                _BrandModel = value;
+                BrandButtonTitle = _BrandModel.BrandName;
+                RaisePropertyChanged(BrandModelPropertyName);
+            }
+        }
+
+        #endregion
+
+        #region Tags
+
+        /// <summary>
+        /// The <see cref="Tags" /> property's name.
+        /// </summary>
+        public const string TagsPropertyName = "Tags";
+
+        private List<Tag> _Tags = null;
+
+        /// <summary>
+        /// Sets and gets the Tags property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public List<Tag> Tags
+        {
+            get
+            {
+                return _Tags;
+            }
+
+            set
+            {
+                if (_Tags == value)
+                {
+                    return;
+                }
+
+                _Tags = value;
+                RaisePropertyChanged(TagsPropertyName);
+            }
+        }
+
+        #endregion
+
+        #region NewBatchModel
+
+        /// <summary>
+        /// The <see cref="NewBatchModel" /> property's name.
+        /// </summary>
+        public const string NewBatchModelPropertyName = "NewBatchModel";
+
+        private BatchRequestModel _NewBatchModel = new BatchRequestModel();
+
+        /// <summary>
+        /// Sets and gets the NewBatchModel property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public BatchRequestModel NewBatchModel
+        {
+            get
+            {
+                return _NewBatchModel;
+            }
+
+            set
+            {
+                if (_NewBatchModel == value)
+                {
+                    return;
+                }
+
+                _NewBatchModel = value;
+                RaisePropertyChanged(NewBatchModelPropertyName);
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Commands
@@ -323,7 +431,9 @@ namespace KegID.ViewModel
         public RelayCommand AddTagsCommand { get; set; }
         public RelayCommand CancelCommand { get; set; }
         public RelayCommand DoneCommand { get; set; }
-       
+        public RelayCommand BrandCommand { get; set; }
+        public RelayCommand VolumeCharCommand { get; set; }
+
         #endregion
 
         #region Constructor
@@ -332,16 +442,49 @@ namespace KegID.ViewModel
         {
             AddTagsCommand = new RelayCommand(AddTagsCommandRecieverAsync);
             CancelCommand = new RelayCommand(CancelCommandRecieverAsync);
-            DoneCommand = new RelayCommand(DoneCommandReciever);
+            DoneCommand = new RelayCommand(DoneCommandRecieverAsync);
+            BrandCommand = new RelayCommand(BrandCommandRecieverAsync);
+            VolumeCharCommand = new RelayCommand(VolumeCharCommandRecieverAsync);
+        }
+
+        private async void VolumeCharCommandRecieverAsync()
+        {
+            await Application.Current.MainPage.Navigation.PushModalAsync(new VolumeView());
+        }
+
+        private async void BrandCommandRecieverAsync()
+        {
+            await Application.Current.MainPage.Navigation.PushModalAsync(new BrandView());
         }
 
         #endregion
 
         #region Methods
 
-        private void DoneCommandReciever()
+        private async void DoneCommandRecieverAsync()
         {
-            
+            NewBatchModel.Tags = Tags;
+            NewBatchModel.Abv = Convert.ToInt64(AlcoholContent);
+            NewBatchModel.BatchCode = BatchCode;
+            NewBatchModel.BatchId = Uuid.GetUuId();
+            NewBatchModel.BestBeforeDate = BestByDate;
+            NewBatchModel.BrandName = BrandButtonTitle;
+            NewBatchModel.BrewDate = BrewDate;
+            NewBatchModel.BrewedVolume = Convert.ToInt64(VolumeDigit);
+            NewBatchModel.BrewedVolumeUom = VolumeChar;
+            NewBatchModel.CompanyId = Configuration.CompanyId;
+            NewBatchModel.CompletedDate = DateTime.Today;
+            NewBatchModel.IsCompleted = true;
+            NewBatchModel.PackageDate = PackageDate;
+            NewBatchModel.PackagedVolume = 12;
+            NewBatchModel.PackagedVolumeUom = "";
+            NewBatchModel.RecipeId = Configuration.CompanyId;
+            NewBatchModel.SourceKey = "";
+
+            //var result = await _fillService.PostBatchAsync(batchRequestModel, Configuration.SessionId, Configuration.NewBatch);
+            SimpleIoc.Default.GetInstance<FillViewModel>().BatchButtonTitle = BrandButtonTitle + BatchCode;
+            await Application.Current.MainPage.Navigation.PopModalAsync();
+            await Application.Current.MainPage.Navigation.PopModalAsync();
         }
 
         private async void CancelCommandRecieverAsync()

@@ -45,6 +45,8 @@ namespace KegID.ViewModel
             SimpleIoc.Default.Register<MaintainScanViewModel>();
             SimpleIoc.Default.Register<DashboardPartnersViewModel>();
             SimpleIoc.Default.Register<PartnerInfoViewModel>();
+            SimpleIoc.Default.Register<BrandViewModel>();
+            SimpleIoc.Default.Register<VolumeViewModel>();
 
         }
         #endregion
@@ -464,6 +466,42 @@ namespace KegID.ViewModel
             get
             {
                 return SimpleIoc.Default.GetInstance<AddBatchViewModel>();
+            }
+        }
+
+        #endregion
+
+        #region Brand
+
+        /// <summary>
+        /// Gets the Brand property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public BrandViewModel Brand
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<BrandViewModel>();
+            }
+        }
+
+        #endregion
+
+        #region Volume
+
+        /// <summary>
+        /// Gets the Volume property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public VolumeViewModel Volume
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<VolumeViewModel>();
             }
         }
 

@@ -38,6 +38,9 @@ namespace KegID
             if (!SimpleIoc.Default.IsRegistered<IFillService>())
                 SimpleIoc.Default.Register<IFillService, FillService>();
 
+            if (!SimpleIoc.Default.IsRegistered<IPalletizeService>())
+                SimpleIoc.Default.Register<IPalletizeService, PalletizeService>();
+
             MainPage = new LoginView();
         }
 

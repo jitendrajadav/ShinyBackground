@@ -385,10 +385,27 @@ namespace KegID.ViewModel
 
         private async void DoneCommandRecieverAsync()
         {
-            if (BarcodeCollection.Count > 1)
-                SimpleIoc.Default.GetInstance<MoveViewModel>().AddKegs = string.Format("{0} Items", BarcodeCollection.Count);
-            else if (BarcodeCollection.Count == 1)
-                SimpleIoc.Default.GetInstance<MoveViewModel>().AddKegs = string.Format("{0} Item", BarcodeCollection.Count);
+            switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack[Application.Current.MainPage.Navigation.ModalStack.Count - 2].GetType().Name))
+            {
+                case ViewTypeEnum.MoveView:
+                    if (BarcodeCollection.Count > 1)
+                        SimpleIoc.Default.GetInstance<MoveViewModel>().AddKegs = string.Format("{0} Items", BarcodeCollection.Count);
+                    else if (BarcodeCollection.Count == 1)
+                        SimpleIoc.Default.GetInstance<MoveViewModel>().AddKegs = string.Format("{0} Item", BarcodeCollection.Count);
+                    if (!SimpleIoc.Default.GetInstance<MoveViewModel>().IsVisibleSubmit)
+                        SimpleIoc.Default.GetInstance<MoveViewModel>().IsVisibleSubmit = true;
+                    break;
+                case ViewTypeEnum.PalletizeView:
+                    if (BarcodeCollection.Count > 1)
+                        SimpleIoc.Default.GetInstance<PalletizeViewModel>().AddKegs = string.Format("{0} Items", BarcodeCollection.Count);
+                    else if (BarcodeCollection.Count == 1)
+                        SimpleIoc.Default.GetInstance<PalletizeViewModel>().AddKegs = string.Format("{0} Item", BarcodeCollection.Count);
+                    if (!SimpleIoc.Default.GetInstance<PalletizeViewModel>().IsSubmitVisible)
+                        SimpleIoc.Default.GetInstance<PalletizeViewModel>().IsSubmitVisible = true;
+                    break;
+                default:
+                    break;
+            }
 
             if (BarcodeCollection.Any(x=>x.PartnerCount > 1))
                 await NavigateToValidatePartner(BarcodeCollection.Where(x => x.PartnerCount > 1).ToList());
@@ -396,9 +413,6 @@ namespace KegID.ViewModel
                 await Application.Current.MainPage.Navigation.PopModalAsync();
 
             TagsStr = default(string);
-
-            if (!SimpleIoc.Default.GetInstance<MoveViewModel>().IsVisibleSubmit)
-                SimpleIoc.Default.GetInstance<MoveViewModel>().IsVisibleSubmit = true;
         }
 
         private async void BarcodeManualCommandRecieverAsync()

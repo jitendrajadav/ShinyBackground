@@ -103,12 +103,18 @@
                         Grid.Column="1"
                         HorizontalOptions="FillAndExpand"
                         Text="{Binding VolumeDigit}"/>
-                   
+
                     <Entry 
                         Grid.Row="3"
                         Grid.Column="2"
                         HorizontalOptions="FillAndExpand"
-                        Text="{Binding VolumeChar}"/>
+                        Text="{Binding VolumeChar}">
+                        <Entry.Behaviors>
+                            <behaviors:EntryEventToCommandBehavior
+                                EventName="Focused"
+                                Command="{Binding VolumeCharCommand}"/>
+                        </Entry.Behaviors>
+                    </Entry>
 
                     <Label
                         Grid.Row="4"

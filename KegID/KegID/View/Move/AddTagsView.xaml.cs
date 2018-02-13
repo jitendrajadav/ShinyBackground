@@ -287,6 +287,7 @@ namespace KegID.View
                         SimpleIoc.Default.GetInstance<FillScanViewModel>().TagsStr = tagsStr;
                         break;
                     case ViewTypeEnum.AddBatchView:
+                        SimpleIoc.Default.GetInstance<AddBatchViewModel>().Tags = tags;
                         SimpleIoc.Default.GetInstance<AddBatchViewModel>().TagsStr = tagsStr;
                         break;
                 }
