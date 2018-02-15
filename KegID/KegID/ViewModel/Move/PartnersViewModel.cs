@@ -343,10 +343,10 @@ namespace KegID.ViewModel
                             SimpleIoc.Default.GetInstance<SearchManifestsViewModel>().ManifestSender = model.FullName;
                         break;
                         case ViewTypeEnum.MoveView:
-                        SimpleIoc.Default.GetInstance<MoveViewModel>().Destination = model;
+                        SimpleIoc.Default.GetInstance<MoveViewModel>().PartnerModel = model;
                         break;
                     case ViewTypeEnum.FillView:
-                        SimpleIoc.Default.GetInstance<FillViewModel>().DestinationTitle = model.FullName;
+                        SimpleIoc.Default.GetInstance<FillViewModel>().PartnerModel = model;
                         break;
                     case ViewTypeEnum.PalletizeView:
                         if (SimpleIoc.Default.GetInstance<PalletizeViewModel>().TargetLocationPartner)

@@ -392,8 +392,8 @@ namespace KegID.ViewModel
                         SimpleIoc.Default.GetInstance<MoveViewModel>().AddKegs = string.Format("{0} Items", BarcodeCollection.Count);
                     else if (BarcodeCollection.Count == 1)
                         SimpleIoc.Default.GetInstance<MoveViewModel>().AddKegs = string.Format("{0} Item", BarcodeCollection.Count);
-                    if (!SimpleIoc.Default.GetInstance<MoveViewModel>().IsVisibleSubmit)
-                        SimpleIoc.Default.GetInstance<MoveViewModel>().IsVisibleSubmit = true;
+                    //if (!SimpleIoc.Default.GetInstance<MoveViewModel>().IsVisibleSubmit)
+                    //    SimpleIoc.Default.GetInstance<MoveViewModel>().IsVisibleSubmit = true;
                     break;
                 case ViewTypeEnum.PalletizeView:
                     if (BarcodeCollection.Count > 1)

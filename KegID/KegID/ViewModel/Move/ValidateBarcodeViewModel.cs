@@ -111,17 +111,43 @@ namespace KegID.ViewModel
 
         private async void ItemTappedCommandRecieverAsync(Partner model)
         {
-            SimpleIoc.Default.GetInstance<ScanKegsViewModel>().BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = GetIconByPlatform.GetIcon("validationquestion.png");
-            SimpleIoc.Default.GetInstance<ScanKegsViewModel>().BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().PartnerCount = 1;
-
+            switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack.LastOrDefault().GetType().Name))
+            {
+                case ViewTypeEnum.ScanKegsView:
+                    SimpleIoc.Default.GetInstance<ScanKegsViewModel>().BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = GetIconByPlatform.GetIcon("validationquestion.png");
+                    SimpleIoc.Default.GetInstance<ScanKegsViewModel>().BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().PartnerCount = 1;
+                    break;
+                case ViewTypeEnum.FillScanView:
+                    SimpleIoc.Default.GetInstance<FillScanViewModel>().BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = GetIconByPlatform.GetIcon("validationquestion.png");
+                    SimpleIoc.Default.GetInstance<FillScanViewModel>().BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().PartnerCount = 1;
+                    break;
+            }
             models.RemoveAt(0);
             if (models.Count == 0)
-                await Application.Current.MainPage.Navigation.PopPopupAsync();
+            {
+                switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack.LastOrDefault().GetType().Name))
+                {
+                    case ViewTypeEnum.ScanKegsView:
+                        await Application.Current.MainPage.Navigation.PopPopupAsync();
+                        break;
+                    case ViewTypeEnum.FillScanView:
+                        SimpleIoc.Default.GetInstance<AddPalletsViewModel>().PalletCollection.Add(new PalletModel() { Barcode = SimpleIoc.Default.GetInstance<FillScanViewModel>().BarcodeCollection, Count = SimpleIoc.Default.GetInstance<FillScanViewModel>().BarcodeCollection.Count(), ManifestId = SimpleIoc.Default.GetInstance<FillScanViewModel>().ManifestId });
+
+                        if (SimpleIoc.Default.GetInstance<AddPalletsViewModel>().PalletCollection.Sum(x => x.Count) > 1)
+                            SimpleIoc.Default.GetInstance<AddPalletsViewModel>().Kegs = string.Format("({0} Kegs)", SimpleIoc.Default.GetInstance<AddPalletsViewModel>().PalletCollection.Sum(x => x.Count));
+                        else
+                            SimpleIoc.Default.GetInstance<AddPalletsViewModel>().Kegs = string.Format("({0} Keg)", SimpleIoc.Default.GetInstance<AddPalletsViewModel>().PalletCollection.Sum(x => x.Count));
+
+                        await Application.Current.MainPage.Navigation.PopPopupAsync();
+                        break;
+                }
+                await Application.Current.MainPage.Navigation.PopModalAsync();
+            }
             else
                 await ValidateScannedBarcode();
         }
 
-        public async void LoadBardeValue(List<Barcode> _models)
+        public async Task LoadBardeValue(List<Barcode> _models)
         {
             models = _models;
             await ValidateScannedBarcode();

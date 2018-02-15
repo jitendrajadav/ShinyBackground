@@ -1,8 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
+using KegID.Common;
+using KegID.Model;
+using KegID.Services;
+using KegID.SQLiteClient;
 using KegID.View;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Rg.Plugins.Popup.Extensions;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -10,70 +22,71 @@ namespace KegID.ViewModel
     public class FillScanViewModel : ViewModelBase
     {
         #region Properties
+        public IMoveService _moveService { get; set; }
 
-        #region Pallet
+        #region ManifestId
 
         /// <summary>
-        /// The <see cref="Pallet" /> property's name.
+        /// The <see cref="ManifestId" /> property's name.
         /// </summary>
-        public const string PalletPropertyName = "Pallet";
+        public const string ManifestIdPropertyName = "ManifestId";
 
-        private string _Pallet = string.Empty;
+        private string _ManifestId = default(string);
 
         /// <summary>
-        /// Sets and gets the Pallet property.
+        /// Sets and gets the ManifestId property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public string Pallet
+        public string ManifestId
         {
             get
             {
-                return _Pallet;
+                return _ManifestId;
             }
 
             set
             {
-                if (_Pallet == value)
+                if (_ManifestId == value)
                 {
                     return;
                 }
 
-                _Pallet = value;
-                RaisePropertyChanged(PalletPropertyName);
+                _ManifestId = value;
+                RaisePropertyChanged(ManifestIdPropertyName);
             }
         }
 
         #endregion
 
-        #region Barcode
+        #region ManaulBarcode
 
         /// <summary>
-        /// The <see cref="Barcode" /> property's name.
+        /// The <see cref="ManaulBarcode" /> property's name.
         /// </summary>
-        public const string BarcodePropertyName = "Barcode";
+        public const string ManaulBarcodePropertyName = "ManaulBarcode";
 
-        private string _Barcode = default(string);
+        private string _ManaulBarcode = default(string);
 
         /// <summary>
-        /// Sets and gets the Barcode property.
+        /// Sets and gets the ManaulBarcode property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public string Barcode
+        public string ManaulBarcode
         {
             get
             {
-                return _Barcode;
+                return _ManaulBarcode;
             }
 
             set
             {
-                if (_Barcode == value)
+                if (_ManaulBarcode == value)
                 {
                     return;
                 }
 
-                _Barcode = value;
-                RaisePropertyChanged(BarcodePropertyName);
+                _ManaulBarcode = value;
+                RaisePropertyChanged(ManaulBarcodePropertyName);
             }
         }
 
@@ -181,6 +194,73 @@ namespace KegID.ViewModel
 
         #endregion
 
+        #region BarcodeCollection
+
+        /// <summary>
+        /// The <see cref="BarcodeCollection" /> property's name.
+        /// </summary>
+        public const string BarcodeCollectionPropertyName = "BarcodeCollection";
+
+        private ObservableCollection<Barcode> _BarcodeCollection = new ObservableCollection<Barcode>();
+
+        /// <summary>
+        /// Sets and gets the BarcodeCollection property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public ObservableCollection<Barcode> BarcodeCollection
+        {
+            get
+            {
+                return _BarcodeCollection;
+            }
+
+            set
+            {
+                if (_BarcodeCollection == value)
+                {
+                    return;
+                }
+
+                _BarcodeCollection = value;
+                RaisePropertyChanged(BarcodeCollectionPropertyName);
+            }
+        }
+
+        #endregion
+      
+        #region Tags
+        /// <summary>
+        /// The <see cref="Tags" /> property's name.
+        /// </summary>
+        public const string TagsPropertyName = "Tags";
+
+        private List<Tag> _tags = new List<Tag>();
+
+        /// <summary>
+        /// Sets and gets the Tags property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public List<Tag> Tags
+        {
+            get
+            {
+                return _tags;
+            }
+
+            set
+            {
+                if (_tags == value)
+                {
+                    return;
+                }
+
+                _tags = value;
+                RaisePropertyChanged(TagsPropertyName);
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Commands
@@ -191,26 +271,165 @@ namespace KegID.ViewModel
         public RelayCommand PrintCommand { get; set; }
         public RelayCommand IsPalletVisibleCommand { get; set; }
         public RelayCommand SubmitCommand { get; set; }
+        public RelayCommand BarcodeManualCommand { get; set; }
+        public RelayCommand<Barcode> IconItemTappedCommand { get; set; }
+        public RelayCommand<Barcode> LabelItemTappedCommand { get; set; }
+
         #endregion
 
         #region Constructor
 
-        public FillScanViewModel()
+        public FillScanViewModel(IMoveService moveService)
         {
+            _moveService = moveService;
+
             CancelCommand = new RelayCommand(CancelCommandRecieverAsync);
             BarcodeScanCommand = new RelayCommand(BarcodeScanCommandRecieverAsync);
             AddTagsCommand = new RelayCommand(AddTagsCommandRecieverAsync);
-            PrintCommand = new RelayCommand(PrintCommandReciever);
+            PrintCommand = new RelayCommand(PrintCommandRecieverAsync);
             IsPalletVisibleCommand = new RelayCommand(IsPalletVisibleCommandReciever);
             SubmitCommand = new RelayCommand(SubmitCommandReciever);
+            BarcodeManualCommand = new RelayCommand(BarcodeManualCommandRecieverAsync);
+            LabelItemTappedCommand = new RelayCommand<Barcode>((model) => LabelItemTappedCommandRecieverAsync(model));
+            IconItemTappedCommand = new RelayCommand<Barcode>((model) => IconItemTappedCommandRecieverAsync(model));
+        }
+
+        public async void GenerateManifestIdAsync(PalletModel palletModel)
+        {
+            DateTime now = DateTime.Now;
+            string barCode;
+            long prefix = 0;
+            var lastCharOfYear = now.Year.ToString().ToCharArray().LastOrDefault().ToString();
+            var dayOfYear = now.DayOfYear;
+            var secondsInDayTillNow = SecondsInDayTillNow();
+            var millisecond = now.Millisecond;
 
             if (IsPalletze)
-                Pallet = "Pallet# -10000000084004099351";
+            {
+                if (palletModel != null)
+                {
+                    ManifestId = string.Format("Pallet# -{0}", palletModel.ManifestId);
+                    BarcodeCollection = new ObservableCollection<Barcode>(palletModel.Barcode);
+                }
+                else
+                {
+                    BarcodeCollection.Clear();
+
+                    var preference = await SQLiteServiceClient.Db.Table<Preference>().Where(x => x.PreferenceName == "DashboardPreferences").ToListAsync();
+                    foreach (var item in preference)
+                    {
+                        if (item.PreferenceValue.Contains("OldestKegs"))
+                        {
+                            var preferenceValue = JsonConvert.DeserializeObject<PreferenceValueResponseModel>(item.PreferenceValue);
+                            var value = preferenceValue.SelectedWidgets.Where(x => x.Id == "OldestKegs").FirstOrDefault();
+                            prefix = value.Pos.Y;
+                        }
+                    }
+                    barCode = prefix.ToString().PadLeft(9,'0') + lastCharOfYear + dayOfYear + secondsInDayTillNow + (millisecond / 100);
+                    var test = Utils.CalculateCheckDigit("0000010008046408981");
+                    var checksumDigit = Utils.CalculateCheckDigit(barCode);
+                    ManifestId = string.Format("Pallet# -{0}", barCode + checksumDigit);
+                }
+            }
+        }
+
+        private static int SecondsInDayTillNow()
+        {
+            DateTime now = DateTime.Now;
+            int hours = 0, minutes = 0, seconds = 0, totalSeconds = 0;
+            hours = (24 - now.Hour) - 1;
+            minutes = (60 - now.Minute) - 1;
+            seconds = (60 - now.Second - 1);
+
+           return totalSeconds = seconds + (minutes * 60) + (hours * 3600);
         }
 
         #endregion
 
         #region Methods
+        private async void LabelItemTappedCommandRecieverAsync(Barcode model)
+        {
+
+            if (model.PartnerCount > 1)
+            {
+                List<Barcode> modelList = new List<Barcode>
+                    {
+                        model
+                    };
+                await NavigateToValidatePartner(modelList);
+            }
+            else
+            {
+                await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView());
+            }
+        }
+
+        private async void IconItemTappedCommandRecieverAsync(Barcode model)
+        {
+            if (model.PartnerCount > 1)
+            {
+                List<Barcode> modelList = new List<Barcode>
+                    {
+                        model
+                    };
+                await NavigateToValidatePartner(modelList);
+            }
+            else
+            {
+                await Application.Current.MainPage.Navigation.PushModalAsync(new ScanInfoView());
+                var value = await SQLiteServiceClient.Db.Table<ValidatePartnerModel>().Where(x => x.Barcode == model.Id).ToListAsync();
+
+                SimpleIoc.Default.GetInstance<ScanInfoViewModel>().Barcode = string.Format(" Barcode {0} ", model.Id);
+                SimpleIoc.Default.GetInstance<ScanInfoViewModel>().Ownername = value.FirstOrDefault().FullName;
+                SimpleIoc.Default.GetInstance<ScanInfoViewModel>().Size = value.FirstOrDefault().Size;
+                SimpleIoc.Default.GetInstance<ScanInfoViewModel>().Contents = value.FirstOrDefault().Contents;
+                SimpleIoc.Default.GetInstance<ScanInfoViewModel>().Batch = value.FirstOrDefault().Batch;
+                SimpleIoc.Default.GetInstance<ScanInfoViewModel>().Location = value.FirstOrDefault().Location;
+            }
+        }
+
+        private async Task NavigateToValidatePartner(List<Barcode> model)
+        {
+            await Application.Current.MainPage.Navigation.PushPopupAsync(new ValidateBarcodeView());
+            await SimpleIoc.Default.GetInstance<ValidateBarcodeViewModel>().LoadBardeValue(model);
+        }
+
+        private async void BarcodeManualCommandRecieverAsync()
+        {
+            await ValidateBarcodeInsertIntoLocalDB(ManaulBarcode);
+            ManaulBarcode = string.Empty;
+        }
+
+        private async Task ValidateBarcodeInsertIntoLocalDB(string barcodeId)
+        {
+            ValidateBarcodeModel validateBarcodeModel = await _moveService.GetValidateBarcodeAsync(Configuration.SessionId, barcodeId);
+
+            Barcode barcode = new Barcode
+            {
+                Id = barcodeId,
+                PartnerCount = validateBarcodeModel.Kegs.Partners.Count,
+                Icon = validateBarcodeModel.Kegs.Partners.Count > 1 ? GetIconByPlatform.GetIcon("validationerror.png") : GetIconByPlatform.GetIcon("validationquestion.png"),
+            };
+
+            BarcodeModel barcodeModel = new BarcodeModel()
+            {
+                Barcode = barcodeId,
+                BarcodeJson = JsonConvert.SerializeObject(validateBarcodeModel)
+            };
+            try
+            {
+                // The item does not exists in the database so lets insert it
+                await SQLiteServiceClient.Db.InsertAsync(barcodeModel);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+
+            var isNew = BarcodeCollection.ToList().Any(x => x.Id == barcode.Id);
+            if (!isNew)
+                BarcodeCollection.Add(barcode);
+        }
 
         private void SubmitCommandReciever()
         {
@@ -222,9 +441,18 @@ namespace KegID.ViewModel
             IsPalletVisible = !IsPalletVisible;
         }
 
-        private void PrintCommandReciever()
+        private async void PrintCommandRecieverAsync()
         {
+            await ValidateBarcode();
+        }
 
+        private async Task ValidateBarcode()
+        {
+            var result = BarcodeCollection.Where(x => x.PartnerCount > 1).ToList();
+            if (result.Count > 0)
+                await NavigateToValidatePartner(result.ToList());
+            else
+                await Application.Current.MainPage.Navigation.PopModalAsync();
         }
 
         private async void CancelCommandRecieverAsync()

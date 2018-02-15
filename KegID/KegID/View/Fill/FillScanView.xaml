@@ -62,7 +62,7 @@
             <Label
                 Margin="10,0,0,0"
                 VerticalOptions="Center"
-                Text="{Binding Pallet,Mode=TwoWay}"
+                Text="{Binding ManifestId,Mode=TwoWay}"
                 IsVisible="{Binding IsPalletVisible}"
                 HorizontalOptions="FillAndExpand"
                 TextColor="White"
@@ -104,8 +104,14 @@
             <Entry
                 Margin="0,5,0,0"
                 Grid.Row="2"
-                Text="{Binding Barcode}"
-                Placeholder="Barcode"/>
+                Text="{Binding ManaulBarcode}"
+                Placeholder="Barcode">
+                <Entry.Behaviors>
+                    <behaviors:EntryEventToCommandBehavior
+                        EventName="Completed"
+                      Command="{Binding BarcodeManualCommand}"/>
+                </Entry.Behaviors>
+            </Entry>
            
             <Button
                 Margin="0,5,0,0"
@@ -198,10 +204,10 @@
                 TextColor="White"
                 Margin="0,0,10,0"
                 VerticalOptions="Center"
-                Text="{Binding Count}"/>
+                Text="{Binding BarcodeCollection.Count}"/>
             
             <ListView
-                Margin="10,0,10,0"
+                Grid.ColumnSpan="2"
                 x:Name="lstFillScan"
                 Grid.Row="6"
                 VerticalOptions="FillAndExpand"
@@ -209,7 +215,7 @@
                 SeparatorColor="Black"
                 HasUnevenRows="True"
                 CachingStrategy="RecycleElement"
-                ItemsSource="{Binding PalletCollection}">
+                ItemsSource="{Binding BarcodeCollection}">
 
                 <ListView.Behaviors>
                     <behaviors:EventToCommandBehavior
@@ -221,17 +227,51 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Grid>
+                            <Grid 
+                                RowSpacing="0"
+                                ColumnSpacing="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="90*"/>
-                                    <ColumnDefinition Width="10*"/>
+                                    <ColumnDefinition Width="80*"/>
+                                    <ColumnDefinition Width="20*"/>
                                 </Grid.ColumnDefinitions>
+
                                 <Label 
-                                    Grid.Column="0"
-                                    Text="{Binding Pallets}" />
-                                <Label 
+                                    VerticalOptions="FillAndExpand" 
+                                    VerticalTextAlignment="Center" 
+                                    Text="{Binding Id}" >
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Path=BindingContext.LabelItemTappedCommand, 
+                                                        Source={x:Reference Name=lstFillScan}}"
+                                                         CommandParameter="{Binding}"/>
+                                    </Label.GestureRecognizers>
+                                </Label>
+
+                                <Image 
                                     Grid.Column="1"
-                                    Text="{Binding Count}"/>
+                                    Grid.RowSpan="2"
+                                    HeightRequest="30"
+                                    WidthRequest="30"
+                                    Margin="10,0,0,0"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="Center"
+                                    Source="{Binding Icon,Mode=TwoWay}">
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Path=BindingContext.IconItemTappedCommand, 
+                                                        Source={x:Reference Name=lstFillScan}}"
+                                                         CommandParameter="{Binding}"/>
+                                    </Image.GestureRecognizers>
+                                </Image>
+
+                                <Label
+                                    FontSize="11"
+                                    LineBreakMode="TailTruncation"
+                                    TextColor="{StaticResource lightGrayColor}"
+                                    Grid.Row="1"
+                                    Text="{Binding Path=BindingContext.TagsStr,Source={x:Reference Name=lstFillScan}}"/>
                             </Grid>
                         </ViewCell>
                     </DataTemplate>

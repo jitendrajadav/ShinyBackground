@@ -2,9 +2,10 @@
 using System.Collections.ObjectModel;
 using KegID.Model;
 using GalaSoft.MvvmLight.Command;
-using System;
 using Xamarin.Forms;
 using KegID.View;
+using GalaSoft.MvvmLight.Ioc;
+using KegID.Common;
 
 namespace KegID.ViewModel
 {
@@ -114,6 +115,40 @@ namespace KegID.ViewModel
 
         #endregion
 
+        #region Kegs
+
+        /// <summary>
+        /// The <see cref="Kegs" /> property's name.
+        /// </summary>
+        public const string KegsPropertyName = "Kegs";
+
+        private string _Kegs = default(string);
+
+        /// <summary>
+        /// Sets and gets the Kegs property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public string Kegs
+        {
+            get
+            {
+                return _Kegs;
+            }
+
+            set
+            {
+                if (_Kegs == value)
+                {
+                    return;
+                }
+
+                _Kegs = value;
+                RaisePropertyChanged(KegsPropertyName);
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Commands
@@ -121,7 +156,7 @@ namespace KegID.ViewModel
         public RelayCommand SubmitCommand { get; set; }
         public RelayCommand FillScanCommand { get; set; }
         public RelayCommand FillKegsCommand { get; set; }
-        
+        public RelayCommand<PalletModel> ItemTappedCommand { get; set; }
 
         #endregion
 
@@ -129,9 +164,16 @@ namespace KegID.ViewModel
 
         public AddPalletsViewModel()
         {
-            SubmitCommand = new RelayCommand(SubmitCommandReciever);
+            SubmitCommand = new RelayCommand(SubmitCommandRecieverAsync);
             FillScanCommand = new RelayCommand(FillScanCommandRecieverAsync);
             FillKegsCommand = new RelayCommand(FillKegsCommandRecieverAsync);
+            ItemTappedCommand = new RelayCommand<PalletModel>((model) => ItemTappedCommandRecieverAsync(model));
+        }
+
+        private async void ItemTappedCommandRecieverAsync(PalletModel model)
+        {
+            SimpleIoc.Default.GetInstance<FillScanViewModel>().GenerateManifestIdAsync(model);
+            await Application.Current.MainPage.Navigation.PushModalAsync(new FillScanView());
         }
 
         #endregion
@@ -143,13 +185,20 @@ namespace KegID.ViewModel
             await Application.Current.MainPage.Navigation.PopModalAsync();
         }
 
-        private void SubmitCommandReciever()
+        private async void SubmitCommandRecieverAsync()
         {
+            var manifest = await ManifestManager.GetManifestDraft(EventTypeEnum.FILL_MANIFEST, SimpleIoc.Default.GetInstance<FillScanViewModel>().ManifestId, SimpleIoc.Default.GetInstance<FillScanViewModel>().BarcodeCollection, SimpleIoc.Default.GetInstance<FillScanViewModel>().Tags, SimpleIoc.Default.GetInstance<FillViewModel>().PartnerModel);
 
+            var result = await Application.Current.MainPage.DisplayAlert("Close batch", "Mark this batch as completed?", "Yes","No");
+            if (result)
+            {
+
+            }
         }
         private async void FillScanCommandRecieverAsync()
         {
-          await Application.Current.MainPage.Navigation.PushModalAsync(new FillScanView());
+            SimpleIoc.Default.GetInstance<FillScanViewModel>().GenerateManifestIdAsync(null);
+            await Application.Current.MainPage.Navigation.PushModalAsync(new FillScanView());
         }
 
         #endregion

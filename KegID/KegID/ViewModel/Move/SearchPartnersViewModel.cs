@@ -174,7 +174,7 @@ namespace KegID.ViewModel
         {
             if (model != null)
             {
-                SimpleIoc.Default.GetInstance<MoveViewModel>().Destination = model;
+                SimpleIoc.Default.GetInstance<MoveViewModel>().PartnerModel = model;
                 await Application.Current.MainPage.Navigation.PopModalAsync();
                 await Application.Current.MainPage.Navigation.PopModalAsync();
             }

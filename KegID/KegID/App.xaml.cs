@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight.Ioc;
+using KegID.Common;
 using KegID.Services;
 using KegID.SQLiteClient;
 using KegID.View;
@@ -52,6 +53,7 @@ namespace KegID
                    typeof(Analytics), typeof(Crashes));
             // Handle when your app starts
             SQLiteServiceClient.Instance.CreateDbIfNotExist();
+            Geolocation.GetGPS();
         }
 
         protected override void OnSleep ()

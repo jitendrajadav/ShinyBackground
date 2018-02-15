@@ -7,12 +7,8 @@ using KegID.Services;
 using KegID.SQLiteClient;
 using KegID.View;
 using Newtonsoft.Json;
-using Plugin.Geolocator;
-using Plugin.Geolocator.Abstractions;
-using Plugin.Permissions.Abstractions;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,10 +18,6 @@ namespace KegID.ViewModel
 {
     public class MoveViewModel : ViewModelBase
     {
-        int count;
-        bool tracking;
-        Position savedPosition;
-        public ObservableCollection<Position> Positions { get; } = new ObservableCollection<Position>();
 
         #region Properties
 
@@ -65,35 +57,35 @@ namespace KegID.ViewModel
 
         #endregion
 
-        #region Destination
+        #region PartnerModel
 
         /// <summary>
-        /// The <see cref="Destination" /> property's name.
+        /// The <see cref="PartnerModel" /> property's name.
         /// </summary>
-        public const string DestinationPropertyName = "Destination";
+        public const string PartnerModelPropertyName = "PartnerModel";
 
-        private PartnerModel _destination =  new PartnerModel();
+        private PartnerModel _PartnerModel = new PartnerModel();
 
         /// <summary>
-        /// Sets and gets the Destination property.
+        /// Sets and gets the PartnerModel property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public PartnerModel Destination
+        public PartnerModel PartnerModel
         {
             get
             {
-                return _destination;
+                return _PartnerModel;
             }
 
             set
             {
-                if (_destination == value)
+                if (_PartnerModel == value)
                 {
                     return;
                 }
 
-                _destination = value;
-                RaisePropertyChanged(DestinationPropertyName);
+                _PartnerModel = value;
+                RaisePropertyChanged(PartnerModelPropertyName);
             }
         }
 
@@ -194,6 +186,7 @@ namespace KegID.ViewModel
                 }
 
                 _AddKegs = value;
+                IsSubmitVisible = _AddKegs.Contains("Item") ? true : false;
                 RaisePropertyChanged(AddKegsPropertyName);
             }
         }
@@ -234,36 +227,35 @@ namespace KegID.ViewModel
 
         #endregion
 
-        #region IsVisibleSubmit
+        #region IsSubmitVisible
 
         /// <summary>
-        /// The <see cref="IsVisibleSubmit" /> property's name.
+        /// The <see cref="IsSubmitVisible" /> property's name.
         /// </summary>
-        public const string IsVisibleSubmitPropertyName = "IsVisibleSubmit";
+        public const string IsSubmitVisiblePropertyName = "IsSubmitVisible";
 
-        private bool _IsVisibleSubmit = false;
+        private bool _IsSubmitVisible = false;
 
         /// <summary>
-        /// Sets and gets the IsVisibleSubmit property.
+        /// Sets and gets the IsSubmitVisible property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public bool IsVisibleSubmit
+        public bool IsSubmitVisible
         {
             get
             {
-                return _IsVisibleSubmit;
+                return _IsSubmitVisible;
             }
 
             set
             {
-                if (_IsVisibleSubmit == value)
+                if (_IsSubmitVisible == value)
                 {
                     return;
                 }
 
-                _IsVisibleSubmit = value;
-                IsSaveDraftVisible = _IsVisibleSubmit;
-                RaisePropertyChanged(IsVisibleSubmitPropertyName);
+                _IsSubmitVisible = value;
+                RaisePropertyChanged(IsSubmitVisiblePropertyName);
             }
         }
 
@@ -293,8 +285,7 @@ namespace KegID.ViewModel
             SaveDraftCommand = new RelayCommand(SaveDraftCommandRecieverAsync);
             CancelCommand = new RelayCommand(CancelCommandRecieverAsync);
             SubmitCommand = new RelayCommand(SubmitCommandRecieverAsync);
-            Destination.FullName = "Select a location";
-            GetGPS();
+            PartnerModel.FullName = "Select a location";
         }
 
         #endregion
@@ -306,7 +297,8 @@ namespace KegID.ViewModel
             {
                 Loader.StartLoading();
 
-                ManifestModel manifestPostModel = await ManifestDraft();
+                ManifestModel manifestPostModel = await ManifestManager.GetManifestDraft(EventTypeEnum.MOVE_MANIFEST, ManifestId, SimpleIoc.Default.GetInstance<ScanKegsViewModel>().BarcodeCollection, SimpleIoc.Default.GetInstance<ScanKegsViewModel>().Tags, PartnerModel, SimpleIoc.Default.GetInstance<ScanKegsViewModel>().SelectedBrand.BrandName);
+                
                 if (manifestPostModel != null)
                 {
 
@@ -354,76 +346,106 @@ namespace KegID.ViewModel
             }
         }
 
-        private async Task<ManifestModel> ManifestDraft()
-        {
-            try
-            {
-                ManifestModel manifestModel = null;
-                ValidateBarcodeModel validateBarcodeModel = null;
-                List<ManifestItem> manifestItemlst = new List<ManifestItem>();
-                ManifestItem manifestItem = null;
-                var globalData = await SQLiteServiceClient.Db.Table<LoginModel>().FirstOrDefaultAsync();
+        //public async Task<ManifestModel> GetManifestDraft(EventTypeEnum eventTypeEnum)
+        //{
+        //    try
+        //    {
+        //        ManifestModel manifestModel = null;
+        //        ValidateBarcodeModel validateBarcodeModel = null;
+        //        List<ManifestItem> manifestItemlst = new List<ManifestItem>();
+        //        ManifestItem manifestItem = null;
+        //        IList<Barcode> barcodeCollection = null;
+        //        IList<Tag> tags = null;
+        //        string contents = string.Empty;
+        //        PartnerModel partnerModel = null;
 
-                foreach (var item in SimpleIoc.Default.GetInstance<ScanKegsViewModel>().BarcodeCollection)
-                {
-                    string barcodeId = item.Id;
-                    var barcodeResult = await SQLiteServiceClient.Db.Table<BarcodeModel>().Where(x => x.Barcode == barcodeId).FirstOrDefaultAsync();
-                    validateBarcodeModel = JsonConvert.DeserializeObject<ValidateBarcodeModel>(barcodeResult.BarcodeJson);
+        //        switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack.LastOrDefault().GetType().Name))
+        //        {
+        //            case ViewTypeEnum.ScanKegsView:
+        //                barcodeCollection = SimpleIoc.Default.GetInstance<ScanKegsViewModel>().BarcodeCollection;
+        //                tags = SimpleIoc.Default.GetInstance<ScanKegsViewModel>().Tags;
+        //                contents = SimpleIoc.Default.GetInstance<ScanKegsViewModel>().SelectedBrand.BrandName;
+        //                partnerModel = PartnerModel;
+        //                break;
+        //            case ViewTypeEnum.AddPalletsView:
+        //                barcodeCollection = SimpleIoc.Default.GetInstance<FillScanViewModel>().BarcodeCollection;
+        //                tags = SimpleIoc.Default.GetInstance<FillScanViewModel>().Tags;
+        //                partnerModel = SimpleIoc.Default.GetInstance<FillViewModel>().PartnerModel;
+        //                break;
+        //        }
 
-                    manifestItem = new ManifestItem()
-                    {
-                        Barcode = barcodeResult.Barcode,
-                        ScanDate = DateTime.Today,
-                        ValidationStatus = 2,
-                        KegId = validateBarcodeModel.Kegs.Partners.FirstOrDefault().Kegs.FirstOrDefault().KegId,
-                        Tags = SimpleIoc.Default.GetInstance<ScanKegsViewModel>().Tags,
-                        KegStatus = new List<KegStatus>()
-                        {
-                            new KegStatus()
-                            {
-                                KegId= validateBarcodeModel.Kegs.Partners.FirstOrDefault().Kegs.FirstOrDefault().KegId,
-                                Barcode=barcodeResult.Barcode,
-                                AltBarcode=validateBarcodeModel.Kegs.Partners.FirstOrDefault().Kegs.FirstOrDefault().AltBarcode,
-                                Contents =SimpleIoc.Default.GetInstance<ScanKegsViewModel>().SelectedBrand.BrandName,
-                                Batch =validateBarcodeModel.Kegs.Partners.FirstOrDefault().Kegs.FirstOrDefault().Batch.ToString(),
-                                Size = SimpleIoc.Default.GetInstance<ScanKegsViewModel>().Tags.Any(x=>x.Property == "Size") ? SimpleIoc.Default.GetInstance<ScanKegsViewModel>().Tags.Where(x=>x.Property == "Size").Select(x=>x.Value).FirstOrDefault():string.Empty,
-                                Alert = validateBarcodeModel.Kegs.Partners.FirstOrDefault().Kegs.FirstOrDefault().Alert,
-                                Location = validateBarcodeModel.Kegs.Locations.FirstOrDefault(),
-                                OwnerName = Destination.FullName,
-                            }
-                        },
-                    };
-                    manifestItemlst.Add(manifestItem);
-                    barcodeId = string.Empty;
-                }
+        //        foreach (var item in barcodeCollection)
+        //        {
+        //            string barcodeId = item.Id;
+        //            var barcodeResult = await SQLiteServiceClient.Db.Table<BarcodeModel>().Where(x => x.Barcode == barcodeId).FirstOrDefaultAsync();
+        //            validateBarcodeModel = JsonConvert.DeserializeObject<ValidateBarcodeModel>(barcodeResult.BarcodeJson);
 
-                manifestModel = new ManifestModel()
-                {
-                    ManifestId = ManifestId,
-                    EventTypeId = (long)EventTypeEnum.MOVE_MANIFEST,
-                    Latitude = (long)savedPosition.Latitude,
-                    Longitude = (long)savedPosition.Longitude,
-                    SubmittedDate = DateTime.Today,
-                    ShipDate = DateTime.Today,
+        //            manifestItem = new ManifestItem()
+        //            {
+        //                Barcode = barcodeResult.Barcode,
+        //                ScanDate = DateTime.Today,
+        //                ValidationStatus = 2,
+        //                KegId = validateBarcodeModel.Kegs.Partners.FirstOrDefault().Kegs.FirstOrDefault().KegId,
+        //                Tags = tags.ToList(),
+        //                KegStatus = new List<KegStatus>()
+        //                {
+        //                    new KegStatus()
+        //                    {
+        //                        KegId= validateBarcodeModel.Kegs.Partners.FirstOrDefault().Kegs.FirstOrDefault().KegId,
+        //                        Barcode=barcodeResult.Barcode,
+        //                        AltBarcode=validateBarcodeModel.Kegs.Partners.FirstOrDefault().Kegs.FirstOrDefault().AltBarcode,
+        //                        Contents = contents,
+        //                        Batch =validateBarcodeModel.Kegs.Partners.FirstOrDefault().Kegs.FirstOrDefault().Batch.ToString(),
+        //                        Size = tags.Any(x=>x.Property == "Size") ? tags.Where(x=>x.Property == "Size").Select(x=>x.Value).FirstOrDefault():string.Empty,
+        //                        Alert = validateBarcodeModel.Kegs.Partners.FirstOrDefault().Kegs.FirstOrDefault().Alert,
+        //                        Location = validateBarcodeModel.Kegs.Locations.FirstOrDefault(),
+        //                        OwnerName = partnerModel.FullName,
+        //                    }
+        //                },
+        //            };
+        //            manifestItemlst.Add(manifestItem);
+        //            barcodeId = string.Empty;
+        //        }
 
-                    SenderId = globalData.CompanyId,
-                    ReceiverId = Destination.PartnerId,
-                    DestinationName = Destination.FullName,
-                    DestinationTypeCode = Destination.LocationCode,
+        //        var tempManifestId = string.Empty;
 
-                    ManifestItems = manifestItemlst,
-                    NewPallets = new List<string>(),
-                    Tags = Tags
-                };
+        //        switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack.LastOrDefault().GetType().Name))
+        //        {
+        //            case ViewTypeEnum.ScanKegsView:
+        //                tempManifestId = ManifestId;
+        //                break;
+        //            case ViewTypeEnum.AddPalletsView:
+        //                tempManifestId = SimpleIoc.Default.GetInstance<FillScanViewModel>().ManifestId;
+        //                break;
+        //        }
 
-                return manifestModel;
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-                return null;
-            }
-        }
+        //        manifestModel = new ManifestModel()
+        //        {
+        //            ManifestId = tempManifestId,
+        //            EventTypeId = (long)eventTypeEnum,
+        //            Latitude = (long)Geolocation.savedPosition.Latitude,
+        //            Longitude = (long)Geolocation.savedPosition.Longitude,
+        //            SubmittedDate = DateTime.Today,
+        //            ShipDate = DateTime.Today,
+
+        //            SenderId = Configuration.CompanyId,
+        //            ReceiverId = partnerModel.PartnerId,
+        //            DestinationName = partnerModel.FullName,
+        //            DestinationTypeCode = partnerModel.LocationCode,
+
+        //            ManifestItems = manifestItemlst,
+        //            NewPallets = new List<string>(),
+        //            Tags = tags.ToList()
+        //        };
+
+        //        return manifestModel;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Debug.WriteLine(ex.Message);
+        //        return null;
+        //    }
+        //}
 
         private async void SaveDraftCommandRecieverAsync()
         {
@@ -461,7 +483,7 @@ namespace KegID.ViewModel
                 //await SQLiteServiceClient.Db.InsertAsync(manifestModel); 
                 #endregion
 
-                ManifestModel manifestPostModel = await ManifestDraft();
+                ManifestModel manifestPostModel = await ManifestManager.GetManifestDraft(EventTypeEnum.MOVE_MANIFEST, ManifestId, SimpleIoc.Default.GetInstance<ScanKegsViewModel>().BarcodeCollection, SimpleIoc.Default.GetInstance<ScanKegsViewModel>().Tags, PartnerModel, SimpleIoc.Default.GetInstance<ScanKegsViewModel>().SelectedBrand.BrandName);
                 DraftManifestModel draftManifestModel = new DraftManifestModel()
                 {
                     ManifestId = ManifestId,
@@ -513,184 +535,13 @@ namespace KegID.ViewModel
 
         private async void ScanKegsCommadRecieverAsync()
         {
-            if (!string.IsNullOrEmpty(Destination.PartnerId))
+            if (!string.IsNullOrEmpty(PartnerModel.PartnerId))
                 await Application.Current.MainPage.Navigation.PushModalAsync(new ScanKegsView());
             else
                 await Application.Current.MainPage.DisplayAlert("Error", "Please select a destination first.", "Ok");
         }
 
         #region Location Services
-        private async void LastCached(object sender, EventArgs e)
-        {
-            try
-            {
-                var hasPermission = await Utils.CheckPermissions(Permission.Location);
-                if (!hasPermission)
-                    return;
-
-
-                var locator = CrossGeolocator.Current;
-                locator.DesiredAccuracy = 500;
-                //LabelCached.Text = "Getting gps...";
-
-                var position = await locator.GetLastKnownLocationAsync();
-
-                if (position == null)
-                {
-                    await Application.Current.MainPage.DisplayAlert("Alert", "null cached location :(", "Ok");
-                    return;
-                }
-
-                savedPosition = position;
-                var value = string.Format("Time: {0} \nLat: {1} \nLong: {2} \nAltitude: {3} \nAltitude Accuracy: {4} \nAccuracy: {5} \nHeading: {6} \nSpeed: {7}",
-                    position.Timestamp, position.Latitude, position.Longitude,
-                    position.Altitude, position.AltitudeAccuracy, position.Accuracy, position.Heading, position.Speed);
-
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-                await Application.Current.MainPage.DisplayAlert("Uh oh", "Something went wrong, but don't worry we captured for analysis! Thanks.", "OK");
-            }
-            finally
-            {
-            }
-        }
-
-        private async void GetGPS()
-        {
-            try
-            {
-                var hasPermission = await Utils.CheckPermissions(Permission.Location);
-                if (!hasPermission)
-                    return;
-
-                var locator = CrossGeolocator.Current;
-                locator.DesiredAccuracy = 500;
-                //labelGPS.Text = "Getting gps...";
-
-                var position = await locator.GetPositionAsync(TimeSpan.FromSeconds(15), null, true);
-
-                if (position == null)
-                {
-                    await Application.Current.MainPage.DisplayAlert("Alert", "null gps :(", "cancel");
-                    return;
-                }
-                savedPosition = position;
-                var valu = string.Format("Time: {0} \nLat: {1} \nLong: {2} \nAltitude: {3} \nAltitude Accuracy: {4} \nAccuracy: {5} \nHeading: {6} \nSpeed: {7}",
-                    position.Timestamp, position.Latitude, position.Longitude,
-                    position.Altitude, position.AltitudeAccuracy, position.Accuracy, position.Heading, position.Speed);
-
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-                await Application.Current.MainPage.DisplayAlert("Uh oh", "Something went wrong, but don't worry we captured for analysis! Thanks.", "OK");
-            }
-            finally
-            {
-                ButtonAddressForPosition();
-            }
-        }
-
-        private async void ButtonAddressForPosition()
-        {
-            try
-            {
-                if (savedPosition == null)
-                    return;
-
-                var hasPermission = await Utils.CheckPermissions(Permission.Location);
-                if (!hasPermission)
-                    return;
-
-                var locator = CrossGeolocator.Current;
-
-                var address = await locator.GetAddressesForPositionAsync(savedPosition, "RJHqIE53Onrqons5CNOx~FrDr3XhjDTyEXEjng-CRoA~Aj69MhNManYUKxo6QcwZ0wmXBtyva0zwuHB04rFYAPf7qqGJ5cHb03RCDw1jIW8l");
-                if (address == null || address.Count() == 0)
-                {
-                    await Application.Current.MainPage.DisplayAlert("Alert", "Unable to find address", "Ok");
-                }
-
-                var a = address.FirstOrDefault();
-                var value = $"Address: Thoroughfare = {a.Thoroughfare}\nLocality = {a.Locality}\nCountryCode = {a.CountryCode}\nCountryName = {a.CountryName}\nPostalCode = {a.PostalCode}\nSubLocality = {a.SubLocality}\nSubThoroughfare = {a.SubThoroughfare}";
-
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-                await Application.Current.MainPage.DisplayAlert("Uh oh", "Something went wrong, but don't worry we captured for analysis! Thanks.", "OK");
-            }
-            finally
-            {
-            }
-        }
-
-        private async void ButtonTrack_Clicked(object sender, EventArgs e)
-        {
-            try
-            {
-                var hasPermission = await Utils.CheckPermissions(Permission.Location);
-                if (!hasPermission)
-                    return;
-
-                if (tracking)
-                {
-                    CrossGeolocator.Current.PositionChanged -= CrossGeolocator_Current_PositionChanged;
-                    CrossGeolocator.Current.PositionError -= CrossGeolocator_Current_PositionError;
-                }
-                else
-                {
-                    CrossGeolocator.Current.PositionChanged += CrossGeolocator_Current_PositionChanged;
-                    CrossGeolocator.Current.PositionError += CrossGeolocator_Current_PositionError;
-                }
-
-                if (CrossGeolocator.Current.IsListening)
-                {
-                    await CrossGeolocator.Current.StopListeningAsync();
-                    //labelGPSTrack.Text = "Stopped tracking";
-                    //ButtonTrack.Text = "Start Tracking";
-                    tracking = false;
-                    count = 0;
-                }
-                else
-                {
-                    Positions.Clear();
-                    if (await CrossGeolocator.Current.StartListeningAsync(TimeSpan.FromSeconds(10), 10, true, null))
-                    {
-                        //labelGPSTrack.Text = "Started tracking";
-                        //ButtonTrack.Text = "Stop Tracking";
-                        tracking = true;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-                await Application.Current.MainPage.DisplayAlert("Uh oh", "Something went wrong, but don't worry we captured for analysis! Thanks.", "OK");
-            }
-        }
-
-        private void CrossGeolocator_Current_PositionError(object sender, PositionErrorEventArgs e)
-        {
-            var str = "Location error: " + e.Error.ToString();
-        }
-
-        void CrossGeolocator_Current_PositionChanged(object sender, PositionEventArgs e)
-        {
-
-            Device.BeginInvokeOnMainThread(() =>
-            {
-                var position = e.Position;
-                Positions.Add(position);
-                count++;
-                var upate = $"{count} updates";
-                var latinfo = string.Format("Time: {0} \nLat: {1} \nLong: {2} \nAltitude: {3} \nAltitude Accuracy: {4} \nAccuracy: {5} \nHeading: {6} \nSpeed: {7}",
-                    position.Timestamp, position.Latitude, position.Longitude,
-                    position.Altitude, position.AltitudeAccuracy, position.Accuracy, position.Heading, position.Speed);
-
-            });
-        }
 
         #endregion
 

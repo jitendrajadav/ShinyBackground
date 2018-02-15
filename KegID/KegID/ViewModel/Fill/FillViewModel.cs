@@ -1,7 +1,7 @@
-﻿using System;
-using GalaSoft.MvvmLight;
+﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
+using KegID.Model;
 using KegID.View;
 using Xamarin.Forms;
 
@@ -113,6 +113,41 @@ namespace KegID.ViewModel
 
         #endregion
 
+        #region PartnerModel
+
+        /// <summary>
+        /// The <see cref="PartnerModel" /> property's name.
+        /// </summary>
+        public const string PartnerModelPropertyName = "PartnerModel";
+
+        private PartnerModel _PartnerModel = new PartnerModel();
+
+        /// <summary>
+        /// Sets and gets the PartnerModel property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public PartnerModel PartnerModel
+        {
+            get
+            {
+                return _PartnerModel;
+            }
+
+            set
+            {
+                if (_PartnerModel == value)
+                {
+                    return;
+                }
+
+                _PartnerModel = value;
+                DestinationTitle = _PartnerModel.FullName;
+                RaisePropertyChanged(PartnerModelPropertyName);
+            }
+        }
+
+        #endregion
+
         #region IsPalletze
 
         /// <summary>
@@ -193,7 +228,7 @@ namespace KegID.ViewModel
                 else
                 {
                     SimpleIoc.Default.GetInstance<FillScanViewModel>().IsPalletze = IsPalletze;
-                    SimpleIoc.Default.GetInstance<FillScanViewModel>().Pallet = "Filling " + SizeButtonTitle + " kegs with " + BatchButtonTitle + "\n" + DestinationTitle;
+                    SimpleIoc.Default.GetInstance<FillScanViewModel>().ManifestId = "Filling " + SizeButtonTitle + " kegs with " + BatchButtonTitle + "\n" + DestinationTitle;
                     await Application.Current.MainPage.Navigation.PushModalAsync(new FillScanView());
                 }
             }

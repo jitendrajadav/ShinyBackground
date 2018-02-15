@@ -27,14 +27,20 @@
                 HorizontalOptions="Center"
                 FontAttributes="Bold"
                 Text="Create Manifest"/>
-            
+
+            <!--IsVisible="{Binding IsSubmitVisible}"-->
+
             <Button
                 BackgroundColor="Transparent"
                 TextColor="{StaticResource selectTextColor}"
                 HorizontalOptions="End"
-                Text="Submit"
-                IsVisible="{Binding IsVisibleSubmit}"
-                Command="{Binding SubmitCommand}"/>
+                Text="Submit">
+                <Button.Behaviors>
+                    <behaviors:ButtonEventToCommandBehavior
+                    EventName="Clicked"
+                    Command="{Binding SubmitCommand}"/>
+                </Button.Behaviors>
+            </Button>
 
             <Grid
                 Grid.Row="1"
@@ -78,7 +84,7 @@
                 TextColor="{StaticResource selectTextColor}"
                 Margin="10,0,0,0"
                 HorizontalOptions="Start"
-                Text="{Binding Path=Destination.FullName}"
+                Text="{Binding Path=PartnerModel.FullName}"
                 Grid.Row="2"
                 Command="{Binding SelectLocationCommand}"/>
                 

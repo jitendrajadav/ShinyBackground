@@ -42,13 +42,28 @@
                 VerticalOptions="FillAndExpand"
                 HorizontalOptions="FillAndExpand"/>
 
-            <Label
+
+            <StackLayout
                 Grid.Row="2"
-                VerticalOptions="Center"
-                TextColor="White"
-                Margin="10,0,0,0"
-                VerticalTextAlignment="Center"
-                Text="{Binding PalletCollection.Count, StringFormat='Pallets: {0}'}"/>
+                Orientation="Horizontal"
+                HorizontalOptions="Start"
+                VerticalOptions="Center">
+               
+                <Label
+                    TextColor="White"
+                    Margin="10,0,0,0"
+                    FontAttributes="Bold"
+                    VerticalTextAlignment="Center"
+                    Text="{Binding PalletCollection.Count, StringFormat='Pallets: {0}'}"/>
+                
+                <Label
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    HorizontalOptions="Center"
+                    VerticalTextAlignment="Center"
+                    Text="{Binding Kegs}"/>
+
+            </StackLayout>
 
             <Button
                 Grid.Row="2"
@@ -63,7 +78,6 @@
                 Command="{Binding FillScanCommand}"/>
 
             <ListView
-                Margin="10,0,10,0"
                 x:Name="lstPallets"
                 Grid.Row="3"
                 VerticalOptions="FillAndExpand"
@@ -88,11 +102,16 @@
                                     <ColumnDefinition Width="90*"/>
                                     <ColumnDefinition Width="10*"/>
                                 </Grid.ColumnDefinitions>
+                                
                                 <Label 
                                     Grid.Column="0"
-                                    Text="{Binding Pallets}" />
+                                    Margin="10,0,0,0"
+                                    Text="{Binding ManifestId}"/>
+                                
                                 <Label 
                                     Grid.Column="1"
+                                    Margin="0,0,10,0"
+                                    HorizontalTextAlignment="End"
                                     Text="{Binding Count}"/>
                             </Grid>
                         </ViewCell>
