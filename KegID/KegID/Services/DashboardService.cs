@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using KegID.Common;
 using KegID.Model;
+using Newtonsoft.Json;
+using static KegID.Common.Helper;
 
 namespace KegID.Services
 {
@@ -12,9 +13,17 @@ namespace KegID.Services
             DashboardResponseModel dashboardModel = new DashboardResponseModel();
 
             string url = string.Format(Configuration.GetDashboardUrl, sessionId);
-            var value = await Helper.ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
+            var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
-            dashboardModel = Helper.DeserializeObject<DashboardResponseModel>(value.Response);
+            var settings = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                MissingMemberHandling = MissingMemberHandling.Ignore,
+                DefaultValueHandling = DefaultValueHandling.Include,
+                Converters = new List<JsonConverter> { new CustomIntConverter() }
+            };
+
+            dashboardModel = DeserializeObject<DashboardResponseModel>(value.Response, settings);
             dashboardModel.StatusCode = value.StatusCode;
             return dashboardModel;
         }
@@ -24,9 +33,17 @@ namespace KegID.Services
             InventoryDetailModel inventoryDetailModel = new InventoryDetailModel();
 
             string url = string.Format(Configuration.GetInventoryUrl, sessionId);
-            var value = await Helper.ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
+            var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
-            inventoryDetailModel.InventoryResponseModel = Helper.DeserializeObject<IList<InventoryResponseModel>>(value.Response);
+            var settings = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                MissingMemberHandling = MissingMemberHandling.Ignore,
+                DefaultValueHandling = DefaultValueHandling.Include,
+                Converters = new List<JsonConverter> { new CustomIntConverter() }
+            };
+
+            inventoryDetailModel.InventoryResponseModel = DeserializeObject<IList<InventoryResponseModel>>(value.Response, settings);
             inventoryDetailModel.StatusCode = value.StatusCode;
             return inventoryDetailModel;
         }

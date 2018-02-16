@@ -325,16 +325,7 @@ namespace KegID.ViewModel
             List<PalletItem> palletItemList = new List<PalletItem>();
             PalletRequestModel palletRequestModel = new PalletRequestModel();
             palletRequestModel.Barcode = "";
-            palletRequestModel.BarcodeFormat = "";
-            palletRequestModel.BuildDate = DateTime.Today;
-            palletRequestModel.ManifestTypeId = 000;
-            palletRequestModel.OwnerId = "";
-            palletRequestModel.PalletId = "";
-            palletRequestModel.PalletItems = palletItemList;
-            palletRequestModel.ReferenceKey = "";
-            palletRequestModel.StockLocation = "";
-            palletRequestModel.Tags = Tags;
-            palletRequestModel.TargetLocation = "";
+
 
            await _palletizeService.PostPalletAsync(palletRequestModel,Configuration.SessionId,Configuration.NewPallet);
         }

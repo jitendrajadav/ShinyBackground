@@ -1,33 +1,40 @@
-﻿using System;
+﻿using SQLite.Net.Attributes;
+using System;
 using System.Collections.Generic;
 
 namespace KegID.Model
 {
-    public class ManifestRequestModel
-    {
-        public string ManifestId { get; set; }
-        public DateTime ShipDate { get; set; }
-        public List<TItem> ManifestItems { get; set; }
-        public DateTime SubmittedDate { get; set; }
-        public string OriginId { get; set; }
-        public string SenderId { get; set; }
-        public string DestinationId { get; set; }
-        public string ReceiverId { get; set; }
-        public List<Tag> Tags { get; set; }
-        public string Gs1Gsin { get; set; }
-        public bool IsSendManifest { get; set; }
-        public DateTime EffectiveDate { get; set; }
-        public long EventTypeId { get; set; }
-        public long Latitude { get; set; }
-        public long Longitude { get; set; }
-        public List<NewPallet> NewPallets { get; set; }
-        public NewBatch NewBatch { get; set; }
-        public List<NewBatch> NewBatches { get; set; }
-        public string KegOrderId { get; set; }
-        public DateTime PostedDate { get; set; }
-        public string SourceKey { get; set; }
-        public List<string> ClosedBatches { get; set; }
-    }
+    //public class ManifestRequestModel
+    //{
+    //    [PrimaryKey]
+    //    public string ManifestId { get; set; }
+    //    public DateTime ShipDate { get; set; }
+    //    [Ignore]
+    //    public List<TItem> ManifestItems { get; set; }
+    //    public DateTime SubmittedDate { get; set; }
+    //    public string OriginId { get; set; }
+    //    public string SenderId { get; set; }
+    //    public string DestinationId { get; set; }
+    //    public string ReceiverId { get; set; }
+    //    public List<Tag> Tags { get; set; }
+    //    public string Gs1Gsin { get; set; }
+    //    public bool IsSendManifest { get; set; }
+    //    public DateTime EffectiveDate { get; set; }
+    //    public long EventTypeId { get; set; }
+    //    public long Latitude { get; set; }
+    //    public long Longitude { get; set; }
+    //    [Ignore]
+    //    public List<NewPallet> NewPallets { get; set; }
+    //    [Ignore]
+    //    public NewBatch NewBatch { get; set; }
+    //    [Ignore]
+    //    public List<NewBatch> NewBatches { get; set; }
+    //    public string KegOrderId { get; set; }
+    //    public DateTime PostedDate { get; set; }
+    //    public string SourceKey { get; set; }
+    //    [Ignore]
+    //    public List<string> ClosedBatches { get; set; }
+    //}
 
     public class TItem
     {

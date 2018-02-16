@@ -50,6 +50,8 @@
         public const string GetBatchUrl = ServiceUrl + "batch/?sessionId={0}";
 
         public const string PostBatchUrl = ServiceUrl + "Batch/?sessionId={0}";
+        public const string PostPalletUrl = ServiceUrl + "Pallet/?sessionId={0}";
+        
 
     }
 }

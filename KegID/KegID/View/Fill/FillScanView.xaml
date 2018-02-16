@@ -62,7 +62,7 @@
             <Label
                 Margin="10,0,0,0"
                 VerticalOptions="Center"
-                Text="{Binding ManifestId,Mode=TwoWay}"
+                Text="{Binding ManifestId, StringFormat='Pallet# -{0}'}"
                 IsVisible="{Binding IsPalletVisible}"
                 HorizontalOptions="FillAndExpand"
                 TextColor="White"

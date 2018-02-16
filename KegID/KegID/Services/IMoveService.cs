@@ -14,6 +14,8 @@ namespace KegID.Services
         Task<ManifestSearchModel> GetManifestSearchAsync(string sessionId, string trackingNumber,string barcode, string senderId, string destinationId,string referenceKey,string fromDate, string toDate);
 
         Task<ManifestModelGet> PostManifestAsync(ManifestModel model, string sessionId,string RequestType);
+        //Task<ManifestModelGet> PostManifestAsync(ManifestRequestModel model, string sessionId, string RequestType);
+
         Task<NewPartnerResponseModel> PostNewPartnerAsync(NewPartnerRequestModel model, string sessionId, string RequestType);
     }
 }

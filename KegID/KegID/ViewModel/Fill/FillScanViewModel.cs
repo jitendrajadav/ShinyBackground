@@ -13,7 +13,6 @@ using KegID.Services;
 using KegID.SQLiteClient;
 using KegID.View;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Rg.Plugins.Popup.Extensions;
 using Xamarin.Forms;
 
@@ -308,7 +307,7 @@ namespace KegID.ViewModel
             {
                 if (palletModel != null)
                 {
-                    ManifestId = string.Format("Pallet# -{0}", palletModel.ManifestId);
+                    ManifestId = palletModel.ManifestId;
                     BarcodeCollection = new ObservableCollection<Barcode>(palletModel.Barcode);
                 }
                 else
@@ -328,7 +327,7 @@ namespace KegID.ViewModel
                     barCode = prefix.ToString().PadLeft(9,'0') + lastCharOfYear + dayOfYear + secondsInDayTillNow + (millisecond / 100);
                     var test = Utils.CalculateCheckDigit("0000010008046408981");
                     var checksumDigit = Utils.CalculateCheckDigit(barCode);
-                    ManifestId = string.Format("Pallet# -{0}", barCode + checksumDigit);
+                    ManifestId = barCode + checksumDigit;
                 }
             }
         }

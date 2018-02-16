@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using KegID.Common;
 using KegID.Model;
 using Newtonsoft.Json;
+using static KegID.Common.Helper;
 
 namespace KegID.Services
 {
@@ -13,9 +14,17 @@ namespace KegID.Services
             BrandResponseModel brandResponseModel = new BrandResponseModel();
 
             string url = string.Format(Configuration.GetBrandUrl, sessionId);
-            var value = await Helper.ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
+            var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
-            brandResponseModel.BrandModel = Helper.DeserializeObject<IList<BrandModel>>(value.Response);
+            var settings = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                MissingMemberHandling = MissingMemberHandling.Ignore,
+                DefaultValueHandling = DefaultValueHandling.Include,
+                Converters = new List<JsonConverter> { new CustomIntConverter() }
+            };
+
+            brandResponseModel.BrandModel = DeserializeObject<IList<BrandModel>>(value.Response, settings);
             brandResponseModel.StatusCode = value.StatusCode;
 
             return brandResponseModel;
@@ -26,9 +35,17 @@ namespace KegID.Services
             ManifestResponseModel manifestResponseModel = new ManifestResponseModel();
 
             string url = string.Format(Configuration.GetManifestUrl, manifestId, sessionId);
-            var value = await Helper.ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
+            var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
-            manifestResponseModel = !string.IsNullOrEmpty(value.Response) ? Helper.DeserializeObject<ManifestResponseModel>(value.Response) : manifestResponseModel;
+            var settings = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                MissingMemberHandling = MissingMemberHandling.Ignore,
+                DefaultValueHandling = DefaultValueHandling.Include,
+                Converters = new List<JsonConverter> { new CustomIntConverter() }
+            };
+
+            manifestResponseModel = !string.IsNullOrEmpty(value.Response) ? DeserializeObject<ManifestResponseModel>(value.Response, settings) : manifestResponseModel;
             manifestResponseModel.StatusCode = value.StatusCode;
 
             return manifestResponseModel;
@@ -41,7 +58,15 @@ namespace KegID.Services
             string url = string.Format(Configuration.GetPartnerUrl, sessionId);
             var value = await Helper.ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
-            partnerResponseModel.PartnerModel = Helper.DeserializeObject<IList<PartnerModel>>(value.Response);
+            var settings = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                MissingMemberHandling = MissingMemberHandling.Ignore,
+                DefaultValueHandling = DefaultValueHandling.Include,
+                Converters = new List<JsonConverter> { new CustomIntConverter() }
+            };
+
+            partnerResponseModel.PartnerModel = DeserializeObject<IList<PartnerModel>>(value.Response, settings);
             partnerResponseModel.StatusCode = value.StatusCode;
 
             return partnerResponseModel;
@@ -52,9 +77,17 @@ namespace KegID.Services
             PartnerTypeResponseModel partnerTypeResponseModel = new PartnerTypeResponseModel();
 
             string url = string.Format(Configuration.GetPartnerTypeUrl, sessionId);
-            var value = await Helper.ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
+            var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
-            partnerTypeResponseModel.PartnerTypeModel = Helper.DeserializeObject<IList<PartnerTypeModel>>(value.Response);
+            var settings = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                MissingMemberHandling = MissingMemberHandling.Ignore,
+                DefaultValueHandling = DefaultValueHandling.Include,
+                Converters = new List<JsonConverter> { new CustomIntConverter() }
+            };
+
+            partnerTypeResponseModel.PartnerTypeModel = DeserializeObject<IList<PartnerTypeModel>>(value.Response, settings);
             partnerTypeResponseModel.StatusCode = value.StatusCode;
 
             return partnerTypeResponseModel;
@@ -65,9 +98,17 @@ namespace KegID.Services
             ValidateBarcodeModel validateBarcodeModel = new ValidateBarcodeModel();
 
             string url = string.Format(Configuration.GetValidateBarcodeUrl, barcode, sessionId);
-            var value = await Helper.ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
+            var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
-            validateBarcodeModel = Helper.DeserializeObject<ValidateBarcodeModel>(value.Response);
+            var settings = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                MissingMemberHandling = MissingMemberHandling.Ignore,
+                DefaultValueHandling = DefaultValueHandling.Include,
+                Converters = new List<JsonConverter> { new CustomIntConverter() }
+            };
+
+            validateBarcodeModel = DeserializeObject<ValidateBarcodeModel>(value.Response,settings);
             validateBarcodeModel.StatusCode = value.StatusCode;
 
             return validateBarcodeModel;
@@ -78,9 +119,17 @@ namespace KegID.Services
             PartnerResponseModel partnerResponseModel = new PartnerResponseModel();
 
             string url = string.Format(Configuration.GetPartnerSearchUrl, sessionId, search, internalonly, includepublic);
-            var value = await Helper.ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
+            var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
-            partnerResponseModel.PartnerModel = Helper.DeserializeObject<IList<PartnerModel>>(value.Response);
+            var settings = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                MissingMemberHandling = MissingMemberHandling.Ignore,
+                DefaultValueHandling = DefaultValueHandling.Include,
+                Converters = new List<JsonConverter> { new CustomIntConverter() }
+            };
+
+            partnerResponseModel.PartnerModel = DeserializeObject<IList<PartnerModel>>(value.Response, settings);
             partnerResponseModel.StatusCode = value.StatusCode;
 
             return partnerResponseModel;
@@ -91,9 +140,17 @@ namespace KegID.Services
             ManifestSearchModel manifestSearchModel = new ManifestSearchModel();
 
             string url = string.Format(Configuration.GetManifestSearchUrl, sessionId, trackingNumber, barcode, senderId, destinationId, referenceKey, fromDate, toDate);
-            var value = await Helper.ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
+            var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
-            manifestSearchModel.ManifestSearchResponseModel = Helper.DeserializeObject<IList<ManifestSearchResponseModel>>(value.Response);
+            var settings = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                MissingMemberHandling = MissingMemberHandling.Ignore,
+                DefaultValueHandling = DefaultValueHandling.Include,
+                Converters = new List<JsonConverter> { new CustomIntConverter() }
+            };
+
+            manifestSearchModel.ManifestSearchResponseModel = DeserializeObject<IList<ManifestSearchResponseModel>>(value.Response, settings);
             manifestSearchModel.StatusCode = value.StatusCode;
 
             return manifestSearchModel;
@@ -105,12 +162,33 @@ namespace KegID.Services
 
             string url = string.Format(Configuration.PostManifestUrl, sessionId);
             string content = JsonConvert.SerializeObject(model);
-            var value = await Helper.ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Send, content, RequestType: RequestType);
+            var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Send, content, RequestType: RequestType);
 
-            manifestModelGet = Helper.DeserializeObject<ManifestModelGet>(value.Response);
+            var settings = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                MissingMemberHandling = MissingMemberHandling.Ignore,
+                DefaultValueHandling = DefaultValueHandling.Include,
+                Converters = new List<JsonConverter> { new CustomIntConverter() }
+            };
+
+            manifestModelGet = DeserializeObject<ManifestModelGet>(value.Response, settings);
             manifestModelGet.StatusCode = value.StatusCode;
             return manifestModelGet;
         }
+
+        //public async Task<ManifestModelGet> PostManifestAsync(ManifestRequestModel model, string sessionId, string RequestType)
+        //{
+        //    ManifestModelGet manifestModelGet = new ManifestModelGet();
+
+        //    string url = string.Format(Configuration.PostManifestUrl, sessionId);
+        //    string content = JsonConvert.SerializeObject(model);
+        //    var value = await Helper.ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Send, content, RequestType: RequestType);
+
+        //    manifestModelGet = Helper.DeserializeObject<ManifestModelGet>(value.Response);
+        //    manifestModelGet.StatusCode = value.StatusCode;
+        //    return manifestModelGet;
+        //}
 
         public async Task<NewPartnerResponseModel> PostNewPartnerAsync(NewPartnerRequestModel model, string sessionId, string RequestType)
         {
@@ -119,8 +197,17 @@ namespace KegID.Services
             string url = string.Format(Configuration.PostNewPartnerUrl, sessionId);
             string content = JsonConvert.SerializeObject(model);
 
-            var value = await Helper.ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Send, content, RequestType: RequestType);
-            partnerResponseModel = Helper.DeserializeObject<NewPartnerResponseModel>(value.Response);
+            var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Send, content, RequestType: RequestType);
+
+            var settings = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                MissingMemberHandling = MissingMemberHandling.Ignore,
+                DefaultValueHandling = DefaultValueHandling.Include,
+                Converters = new List<JsonConverter> { new CustomIntConverter() }
+            };
+
+            partnerResponseModel = DeserializeObject<NewPartnerResponseModel>(value.Response, settings);
             partnerResponseModel.StatusCode = value.StatusCode;
             return partnerResponseModel;
         }

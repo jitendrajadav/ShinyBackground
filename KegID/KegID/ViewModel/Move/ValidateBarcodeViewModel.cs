@@ -88,6 +88,7 @@ namespace KegID.ViewModel
         #endregion
 
         public List<Barcode> models { get; set; }
+
         #endregion
 
         #region Commands
@@ -149,6 +150,8 @@ namespace KegID.ViewModel
 
         public async Task LoadBardeValue(List<Barcode> _models)
         {
+            //List<T> list = (List<T>)Activator.CreateInstance(typeof(List<T>));
+
             models = _models;
             await ValidateScannedBarcode();
         }

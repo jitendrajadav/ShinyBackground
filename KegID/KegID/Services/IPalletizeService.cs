@@ -5,6 +5,6 @@ namespace KegID.Services
 {
     public interface IPalletizeService
     {
-        Task<object> PostPalletAsync(PalletRequestModel model, string sessionId, string RequestType);
+        Task<PalletResponseModel> PostPalletAsync(PalletRequestModel model, string sessionId, string RequestType);
     }
 }

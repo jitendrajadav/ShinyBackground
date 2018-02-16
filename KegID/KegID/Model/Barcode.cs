@@ -1,9 +1,11 @@
 ﻿using GalaSoft.MvvmLight;
+using System;
 
 namespace KegID.Model
 {
     public class Barcode : ViewModelBase
     {
+
         public string Id { get; internal set; }
 
         #region Icon
@@ -40,5 +42,13 @@ namespace KegID.Model
         #endregion
 
         public int PartnerCount { get; set; }
+
+        public string PalletId { get; set; }
+        public DateTime ScanDate { get; set; }
+        public long ValidationStatus { get; set; }
+        public DateTime DateScanned { get; set; }
+        public string Contents { get; set; }
+        public bool IsActive { get; set; }
+        public string RemovedManifest { get; set; }
     }
 }

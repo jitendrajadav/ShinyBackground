@@ -1,6 +1,7 @@
 ﻿using KegID.Model;
 using KegID.Services;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Diagnostics;
 using System.Net.Http;
@@ -129,9 +130,36 @@ namespace KegID.Common
 
         #endregion
 
-        public static T DeserializeObject<T>(string response)
+        public static T DeserializeObject<T>(string response, JsonSerializerSettings setting)
         {
-            return JsonConvert.DeserializeObject<T>(response);
+            return JsonConvert.DeserializeObject<T>(response, setting);
         }
+
+        public class CustomIntConverter : JsonConverter
+        {
+            public override bool CanConvert(Type objectType) => (objectType == typeof(int));
+
+            public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+            {
+                JValue jsonValue = serializer.Deserialize<JValue>(reader);
+
+                if (jsonValue.Type == JTokenType.Float)
+                {
+                    return (int)Math.Round(jsonValue.Value<double>());
+                }
+                else if (jsonValue.Type == JTokenType.Integer)
+                {
+                    return jsonValue.Value<int>();
+                }
+
+                throw new FormatException();
+            }
+
+            public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
     }
 }
