@@ -4,14 +4,13 @@ using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
 using KegID.Model;
 using KegID.Services;
-using KegID.View;
+using KegID.Views;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using System.Linq;
 using KegID.SQLiteClient;
 using System.Diagnostics;
-using System;
 
 namespace KegID.ViewModel
 {
@@ -89,6 +88,7 @@ namespace KegID.ViewModel
                 }
                 else
                 {
+                    SimpleIoc.Default.GetInstance<FillViewModel>().NewBatchModel = model;
                     SimpleIoc.Default.GetInstance<FillViewModel>().BatchButtonTitle = model.BrandName + "-" + model.BatchCode;
                     await Application.Current.MainPage.Navigation.PopModalAsync();
                 }

@@ -4,7 +4,7 @@ using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
 using KegID.Model;
 using KegID.Services;
-using KegID.View;
+using KegID.Views;
 using Rg.Plugins.Popup.Extensions;
 using System;
 using System.Diagnostics;

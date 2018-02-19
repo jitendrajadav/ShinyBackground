@@ -11,7 +11,7 @@ using KegID.Common;
 using KegID.Model;
 using KegID.Services;
 using KegID.SQLiteClient;
-using KegID.View;
+using KegID.Views;
 using Newtonsoft.Json;
 using Rg.Plugins.Popup.Extensions;
 using Xamarin.Forms;

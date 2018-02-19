@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KegID.Views.SearchPartnersView"
+             xmlns:local="clr-namespace:KegID"
+             xmlns:behaviors="clr-namespace:KegID.Behaviors"
+             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=SearchPartners}">
+    <ContentPage.Content>
+        <Grid
+            Margin="10,0,10,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+            <Button 
+                BackgroundColor="Transparent"
+                TextColor="{StaticResource selectTextColor}"
+                Text="{Binding BackPartners}"
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="Start" 
+                Command="{Binding BackPartnersCommand}"/>
+
+            <Entry
+                Grid.Row="1"
+                Text="{Binding PartnerSearch}">
+                <Entry.Behaviors>
+                    <behaviors:EntryEventToCommandBehavior
+                        EventName="Completed"
+                      Command="{Binding PartnerSearchCommand}"/>
+                </Entry.Behaviors>
+            </Entry>
+            
+            <ListView
+                x:Name="lstSearchPartners"
+                Grid.Row="2"
+                SeparatorVisibility="Default"
+                SeparatorColor="Black"
+                HasUnevenRows="True"
+                CachingStrategy="RecycleElement"
+                ItemsSource="{Binding PartnerSearchCollection}">
+
+                <ListView.Behaviors>
+                    <behaviors:EventToCommandBehavior
+                        EventName="ItemTapped" 
+                        Command="{Binding ItemTappedCommand}"
+                        Converter="{StaticResource ItemTappedConverter}"/>
+
+                    <behaviors:EventToCommandBehavior
+                        EventName="ItemSelected"
+                        Command="{Binding ItemSelectedCommand}"
+                        Converter="{StaticResource SelectedItemConverter}"/>
+
+                </ListView.Behaviors>
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout>
+                                <Label TextColor="{StaticResource selectTextColor}" Text="{Binding FullName}" />
+                                <Label TextColor="{StaticResource lightGrayColor}" Text="{Binding Address}" FontSize="Micro"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+
+            </ListView>
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<popup:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KegID.Views.SettingView"
+             xmlns:local="clr-namespace:KegID"
+             Title="Setting"
+             xmlns:popup="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Setting}">
+
+    <StackLayout 
+        VerticalOptions="Center"
+        HorizontalOptions="FillAndExpand"
+        Padding="20, 50, 20, 300">
+       
+        <StackLayout 
+            BackgroundColor="White">
+
+            <Button
+                BackgroundColor="Transparent"
+                TextColor="{StaticResource selectTextColor}"
+                Text="Refresh"
+                Command="{Binding RefreshSettingCommand}"/>
+
+            <BoxView
+                BackgroundColor="LightGray"
+                HeightRequest="1"
+                VerticalOptions="Start"
+                HorizontalOptions="FillAndExpand"/>
+
+            <Button
+                BackgroundColor="Transparent"
+                TextColor="{StaticResource selectTextColor}"
+                Text="Printer Settings"
+                Command="{Binding PrinterSettingCommand}"/>
+
+            <BoxView
+                BackgroundColor="LightGray"
+                HeightRequest="1"
+                VerticalOptions="Start"
+                HorizontalOptions="FillAndExpand"/>
+
+            <Button
+                BackgroundColor="Transparent"
+                TextColor="{StaticResource selectTextColor}"
+                Text="What's New"
+                Command="{Binding WhatsNewCommand}"/>
+
+            <BoxView
+                BackgroundColor="LightGray"
+                HeightRequest="1"
+                VerticalOptions="Start"
+                HorizontalOptions="FillAndExpand"/>
+
+            <Button
+                BackgroundColor="Transparent"
+                TextColor="{StaticResource selectTextColor}"
+                Text="Support"
+                Command="{Binding SupportCommand}"/>
+
+            <BoxView
+                BackgroundColor="LightGray"
+                HeightRequest="1"
+                VerticalOptions="Start"
+                HorizontalOptions="FillAndExpand"/>
+
+            <Button
+                BackgroundColor="Transparent"
+                TextColor="{StaticResource selectTextColor}"
+                Text="Log Out"
+                Command="{Binding LogOutSettingCommand}"/>
+        </StackLayout>
+    </StackLayout>
+</popup:PopupPage>

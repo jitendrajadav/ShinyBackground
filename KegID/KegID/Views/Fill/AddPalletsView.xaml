@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KegID.Views.AddPalletsView"
+             xmlns:local="clr-namespace:KegID"
+             xmlns:behaviors="clr-namespace:KegID.Behaviors"
+             BindingContext="{Binding Source={x:Static local:App.Locator},Path=AddPallets}">
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Button
+                TextColor="{StaticResource selectTextColor}"
+                Text="Fill Kegs"
+                BackgroundColor="Transparent"
+                HorizontalOptions="Start"
+                VerticalOptions="Center"
+                Command="{Binding FillKegsCommand}"/>
+
+            <Label
+                Text="Add pallets"
+                VerticalOptions="Center"
+                FontAttributes="Bold"
+                HorizontalOptions="Center"/>
+
+            <Label
+                Grid.Row="1"
+                Margin="10,0,10,0"
+                Text="{Binding AddPalletsTitle}"/>
+
+            <BoxView
+                Margin="-10,0,-10,0"
+                Grid.Row="2"
+                HeightRequest="40"
+                BackgroundColor="{StaticResource bannerBGColor}"
+                VerticalOptions="FillAndExpand"
+                HorizontalOptions="FillAndExpand"/>
+
+
+            <StackLayout
+                Grid.Row="2"
+                Orientation="Horizontal"
+                HorizontalOptions="Start"
+                VerticalOptions="Center">
+               
+                <Label
+                    TextColor="White"
+                    Margin="10,0,0,0"
+                    FontAttributes="Bold"
+                    VerticalTextAlignment="Center"
+                    Text="{Binding PalletCollection.Count, StringFormat='Pallets: {0}'}"/>
+                
+                <Label
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    HorizontalOptions="Center"
+                    VerticalTextAlignment="Center"
+                    Text="{Binding Kegs}"/>
+
+            </StackLayout>
+
+            <Button
+                Grid.Row="2"
+                VerticalOptions="Start"
+                TextColor="White"
+                FontSize="Large"
+                BackgroundColor="Transparent"
+                Margin="0,0,10,0"
+                FontAttributes="Bold"
+                HorizontalOptions="End"
+                Text="+"
+                Command="{Binding FillScanCommand}"/>
+
+            <ListView
+                x:Name="lstPallets"
+                Grid.Row="3"
+                VerticalOptions="FillAndExpand"
+                SeparatorVisibility="Default"
+                SeparatorColor="Black"
+                HasUnevenRows="True"
+                CachingStrategy="RecycleElement"
+                ItemsSource="{Binding PalletCollection}">
+
+                <ListView.Behaviors>
+                    <behaviors:EventToCommandBehavior
+                        EventName="ItemTapped" 
+                        Command="{Binding ItemTappedCommand}"
+                        Converter="{StaticResource ItemTappedConverter}"/>
+                </ListView.Behaviors>
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="90*"/>
+                                    <ColumnDefinition Width="10*"/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <Label 
+                                    Grid.Column="0"
+                                    Margin="10,0,0,0"
+                                    Text="{Binding ManifestId}"/>
+                                
+                                <Label 
+                                    Grid.Column="1"
+                                    Margin="0,0,10,0"
+                                    HorizontalTextAlignment="End"
+                                    Text="{Binding Count}"/>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+
+            </ListView>
+            
+            <Button
+                HeightRequest="40"
+                Margin="-10,0,-10,0"
+                TextColor="White"
+                BackgroundColor="{StaticResource selectTextColor}"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="End"
+                Grid.Row="4"
+                Text="Submit"
+                Command="{Binding SubmitCommand}"/>
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

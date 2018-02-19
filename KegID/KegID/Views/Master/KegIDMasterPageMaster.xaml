@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KegID.Views.KegIDMasterPageMaster"
+             xmlns:local="clr-namespace:KegID"
+             Title="Master"
+             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=KegIDMasterPage}">
+
+    <Grid>
+        <!--<Image
+            HorizontalOptions="CenterAndExpand"
+            VerticalOptions="StartAndExpand">
+            <Image.Source>
+                <OnPlatform x:TypeArguments="ImageSource">
+                    <OnPlatform.iOS>
+                        <FileImageSource File="kegbg.png"/>
+                    </OnPlatform.iOS>
+                    <OnPlatform.Android>
+                        <FileImageSource File="kegbg.png"/>
+                    </OnPlatform.Android>
+                    <OnPlatform.WinPhone>
+                        <FileImageSource File="Assets/kegbg.png"/>
+                    </OnPlatform.WinPhone>
+                </OnPlatform>
+            </Image.Source>
+        </Image>-->
+
+        <ListView 
+            x:Name="MenuItemsListView"
+            SeparatorVisibility="Default"
+            SeparatorColor="LightGray"
+            HasUnevenRows="true"
+            ItemsSource="{Binding MenuItems}">
+      
+        <ListView.Header>
+            <Image
+                Grid.Column="1"
+                Grid.Row="1">
+                <Image.Source>
+                    <OnPlatform x:TypeArguments="ImageSource">
+                        <OnPlatform.iOS>
+                                <FileImageSource File="kegidlogo.png"/>
+                        </OnPlatform.iOS>
+                        <OnPlatform.Android>
+                                <FileImageSource File="kegidlogo.png"/>
+                        </OnPlatform.Android>
+                        <OnPlatform.WinPhone>
+                                <FileImageSource File="Assets/kegidlogo.png"/>
+                        </OnPlatform.WinPhone>
+                    </OnPlatform>
+                </Image.Source>
+            </Image>
+        </ListView.Header>
+     
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <ViewCell>
+        
+                    <StackLayout 
+                        Orientation="Horizontal"
+                        Padding="15,10" 
+                        HorizontalOptions="FillAndExpand">
+
+                        <Image 
+                            WidthRequest="30"
+                            HeightRequest="30"
+                            Source="{Binding MenuIcon}"/>
+                        
+                        <Label VerticalOptions="FillAndExpand" 
+                            VerticalTextAlignment="Center" 
+                            Text="{Binding Title}" 
+                            FontSize="24"/>
+            
+                    </StackLayout>
+                    
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
+        
+    </Grid>
+
+</ContentPage>

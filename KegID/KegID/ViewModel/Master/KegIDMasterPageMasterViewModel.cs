@@ -1,6 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using KegID.Model;
-using KegID.View;
+using KegID.Views;
 using System.Collections.ObjectModel;
 
 namespace KegID.ViewModel

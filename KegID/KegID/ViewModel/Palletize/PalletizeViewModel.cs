@@ -5,7 +5,7 @@ using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using KegID.Model;
 using KegID.Services;
-using KegID.View;
+using KegID.Views;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel

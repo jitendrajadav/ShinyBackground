@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KegID.Views.PartnersView"
+             xmlns:local="clr-namespace:KegID"
+             xmlns:extended="clr-namespace:Xamarin.Forms.Extended;assembly=Xamarin.Forms.Extended.InfiniteScrolling"
+             xmlns:behaviors="clr-namespace:KegID.Behaviors"
+             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Partners}">
+    
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <ActivityIndicator 
+                WidthRequest="32" 
+                HeightRequest="32" 
+                IsRunning="True"
+                Grid.RowSpan="4"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                IsVisible="{Binding IsWorking}" />
+
+            <StackLayout
+                VerticalOptions="Start"
+                HeightRequest="40"
+                Orientation="Horizontal">
+
+                <Button
+                    BackgroundColor="Transparent"
+                    HeightRequest="40"
+                    TextColor="{StaticResource selectTextColor}"
+                    Text="Back"
+                    Command="{Binding BackCommand}"/>
+
+                <Label 
+                    Text="Partners"
+                    FontAttributes="Bold"
+                    VerticalOptions="CenterAndExpand" 
+                    HorizontalOptions="CenterAndExpand" />
+
+                <Button
+                    HorizontalOptions="Center"                  
+                    BorderRadius="5"
+                    WidthRequest="50"
+                    BorderWidth="0"
+                    Command="{Binding SearchPartnerCommand}"
+                    BackgroundColor="White" >
+                    <Button.Image>
+                        <OnPlatform x:TypeArguments="FileImageSource">
+                            <OnPlatform.iOS>
+                                <FileImageSource File="actionsearch.png"/>
+                            </OnPlatform.iOS>
+                            <OnPlatform.Android>
+                                <FileImageSource File="actionsearch.png"/>
+                            </OnPlatform.Android>
+                            <OnPlatform.WinPhone>
+                                <FileImageSource File="Assets/actionsearch.png"/>
+                            </OnPlatform.WinPhone>
+                        </OnPlatform>
+                    </Button.Image>
+                </Button>
+
+                <Button
+                    HorizontalOptions="Center"                  
+                    BorderRadius="5"
+                    WidthRequest="50"
+                    BorderWidth="0"
+                    Command="{Binding AddNewPartnerCommand}"
+                    BackgroundColor="White" >
+                    <Button.Image>
+                        <OnPlatform x:TypeArguments="FileImageSource">
+                            <OnPlatform.iOS>
+                                <FileImageSource File="contentnew.png"/>
+                            </OnPlatform.iOS>
+                            <OnPlatform.Android>
+                                <FileImageSource File="contentnew.png"/>
+                            </OnPlatform.Android>
+                            <OnPlatform.WinPhone>
+                                <FileImageSource File="Assets/contentnew.png"/>
+                            </OnPlatform.WinPhone>
+                        </OnPlatform>
+                    </Button.Image>
+                </Button>
+
+            </StackLayout>
+
+            <BoxView
+                Margin="-10,0,-10,0"
+                Grid.Row="1"
+                BackgroundColor="{StaticResource bannerBGColor}"
+                VerticalOptions="FillAndExpand"
+                HorizontalOptions="FillAndExpand"/>
+
+            <Entry
+                Margin="10,5,10,5"
+                Placeholder="Partner Name"
+                Grid.Row="1"
+                Text="{Binding PartnerName}">
+                <Entry.Behaviors>
+                    <behaviors:EntryEventToCommandBehavior
+                        EventName="TextChanged" 
+                        Command="{Binding TextChangedCommand}"/>
+                </Entry.Behaviors>
+            </Entry>
+            
+            <ListView
+                Margin="10,0,10,0"
+                x:Name="lstPartners"
+                Grid.Row="2"
+                VerticalOptions="FillAndExpand"
+                SeparatorVisibility="Default"
+                SeparatorColor="Black"
+                HasUnevenRows="True"
+                CachingStrategy="RecycleElement"
+                ItemsSource="{Binding PartnerCollection}">
+
+                <ListView.Behaviors>
+                    
+                    <!--<extended:InfiniteScrollBehavior 
+                        IsLoadingMore="{Binding IsWorking}" />-->
+
+                    <behaviors:EventToCommandBehavior
+                        EventName="ItemTapped" 
+                        Command="{Binding ItemTappedCommand}"
+                        Converter="{StaticResource ItemTappedConverter}"/>
+
+                </ListView.Behaviors>
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout>
+                                <Label TextColor="{StaticResource selectTextColor}" Text="{Binding FullName}" />
+                                <Label TextColor="{StaticResource lightGrayColor}" Text="{Binding Address}" FontSize="Micro"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                
+                <!-- the "loading..." view -->
+                <ListView.Footer>
+                    <Grid Padding="6"
+                          IsVisible="{Binding IsWorking}">
+                        <!-- set the footer to have a zero height when invisible -->
+                        <Grid.Triggers>
+                            <Trigger TargetType="Grid" Property="IsVisible" Value="False">
+                                <Setter Property="HeightRequest" Value="0" />
+                            </Trigger>
+                        </Grid.Triggers>
+                        <!-- the loading content -->
+                        <Label Text="Loading..." 
+                               VerticalOptions="Center" 
+                               HorizontalOptions="Center" />
+                    </Grid>
+                </ListView.Footer>
+
+            </ListView>
+
+            <StackLayout
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                Grid.Row="3"
+                Spacing="0"
+                Orientation="Horizontal">
+                
+                <Button
+                    BackgroundColor="{Binding InternalBackgroundColor}"
+                    TextColor="{Binding InternalTextColor}"
+                    Text="Internal"
+                    Command="{Binding InternalCommand}"/>
+                
+                <Button
+                    BackgroundColor="{Binding AlphabeticalBackgroundColor}"
+                    TextColor="{Binding AlphabeticalTextColor}"
+                    Text="Alphabetical"
+                    Command="{Binding AlphabeticalCommand}"/>
+               
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

@@ -4,7 +4,7 @@ using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
 using KegID.Model;
 using KegID.Services;
-using KegID.View;
+using KegID.Views;
 using System;
 using System.Collections.Generic;
 using Xamarin.Forms;
@@ -397,13 +397,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string NewBatchModelPropertyName = "NewBatchModel";
 
-        private BatchRequestModel _NewBatchModel = new BatchRequestModel();
+        private BatchModel _NewBatchModel = new BatchModel();
 
         /// <summary>
         /// Sets and gets the NewBatchModel property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public BatchRequestModel NewBatchModel
+        public BatchModel NewBatchModel
         {
             get
             {
@@ -482,7 +482,7 @@ namespace KegID.ViewModel
             NewBatchModel.SourceKey = "";
 
             //var result = await _fillService.PostBatchAsync(batchRequestModel, Configuration.SessionId, Configuration.NewBatch);
-            SimpleIoc.Default.GetInstance<FillViewModel>().BatchButtonTitle = BrandButtonTitle + BatchCode;
+            SimpleIoc.Default.GetInstance<FillViewModel>().NewBatchModel.BrandName = BrandButtonTitle + BatchCode;
             await Application.Current.MainPage.Navigation.PopModalAsync();
             await Application.Current.MainPage.Navigation.PopModalAsync();
         }

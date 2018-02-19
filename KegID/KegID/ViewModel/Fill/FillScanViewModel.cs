@@ -11,7 +11,7 @@ using KegID.Common;
 using KegID.Model;
 using KegID.Services;
 using KegID.SQLiteClient;
-using KegID.View;
+using KegID.Views;
 using Newtonsoft.Json;
 using Rg.Plugins.Popup.Extensions;
 using Xamarin.Forms;
@@ -325,7 +325,6 @@ namespace KegID.ViewModel
                         }
                     }
                     barCode = prefix.ToString().PadLeft(9,'0') + lastCharOfYear + dayOfYear + secondsInDayTillNow + (millisecond / 100);
-                    var test = Utils.CalculateCheckDigit("0000010008046408981");
                     var checksumDigit = Utils.CalculateCheckDigit(barCode);
                     ManifestId = barCode + checksumDigit;
                 }
@@ -451,7 +450,11 @@ namespace KegID.ViewModel
             if (result.Count > 0)
                 await NavigateToValidatePartner(result.ToList());
             else
+            {
+
+
                 await Application.Current.MainPage.Navigation.PopModalAsync();
+            }
         }
 
         private async void CancelCommandRecieverAsync()

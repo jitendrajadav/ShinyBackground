@@ -2,7 +2,7 @@
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using KegID.Model;
-using KegID.View;
+using KegID.Views;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -10,6 +10,40 @@ namespace KegID.ViewModel
     public class FillViewModel : ViewModelBase
     {
         #region Properties
+
+        #region NewBatchModel
+
+        /// <summary>
+        /// The <see cref="NewBatchModel" /> property's name.
+        /// </summary>
+        public const string NewBatchModelPropertyName = "NewBatchModel";
+
+        private BatchModel _NewBatchModel = new BatchModel();
+
+        /// <summary>
+        /// Sets and gets the NewBatchModel property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public BatchModel NewBatchModel
+        {
+            get
+            {
+                return _NewBatchModel;
+            }
+
+            set
+            {
+                if (_NewBatchModel == value)
+                {
+                    return;
+                }
+
+                _NewBatchModel = value;
+                RaisePropertyChanged(NewBatchModelPropertyName);
+            }
+        }
+
+        #endregion
 
         #region BatchButtonTitle
 

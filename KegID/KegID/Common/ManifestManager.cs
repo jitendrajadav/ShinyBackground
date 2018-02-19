@@ -12,7 +12,8 @@ namespace KegID.Common
 {
     public static class  ManifestManager
     {
-        public static async Task<ManifestModel> GetManifestDraft(EventTypeEnum eventTypeEnum, string manifestId, IList<Barcode> barcodeCollection, List<Tag> tags, PartnerModel partnerModel, string contents = "")
+        public static async Task<ManifestModel> GetManifestDraft(EventTypeEnum eventTypeEnum, string manifestId, IList<Barcode> barcodeCollection, 
+            List<Tag> tags, PartnerModel partnerModel, List<NewPallet> newPallets, List<string> closedBatches, long validationStatus, string contents = "")
         {
             try
             {
@@ -31,7 +32,7 @@ namespace KegID.Common
                     {
                         Barcode = barcodeResult.Barcode,
                         ScanDate = DateTime.Today,
-                        ValidationStatus = 2,
+                        ValidationStatus = validationStatus,
                         KegId = validateBarcodeModel.Kegs.Partners.FirstOrDefault().Kegs.FirstOrDefault().KegId,
                         Tags = tags,
                         KegStatus = new List<KegStatus>()
@@ -69,8 +70,9 @@ namespace KegID.Common
                     //DestinationTypeCode = partnerModel.LocationCode,
 
                     ManifestItems = manifestItemlst,
-                    NewPallets = new List<string>(),
-                    Tags = tags.ToList()
+                    NewPallets = newPallets,
+                    Tags = tags.ToList(),
+                    ClosedBatches = closedBatches
                 };
 
                 return manifestModel;

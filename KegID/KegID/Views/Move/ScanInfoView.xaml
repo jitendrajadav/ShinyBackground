@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KegID.Views.ScanInfoView"
+             xmlns:local="clr-namespace:KegID"
+             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=ScanInfo}">
+    <ContentPage.Content>
+        <Grid
+            Margin="10,0,10,0">
+            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="30*"/>
+                <ColumnDefinition Width="70*"/>
+            </Grid.ColumnDefinitions>
+            
+            <Label 
+                Grid.ColumnSpan="2"
+                Text="Scan info"
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="CenterAndExpand" />
+            
+            <Button
+                HorizontalOptions="End"
+                VerticalOptions="Center"
+                Grid.ColumnSpan="2"
+                Text="Done"
+                BackgroundColor="Transparent"
+                TextColor="{StaticResource selectTextColor}"
+                Command="{Binding DoneCommand}"/>
+
+            <BoxView
+                Margin="-10,0,-10,0"
+                Grid.Row="1"
+                Grid.ColumnSpan="2"
+                BackgroundColor="{StaticResource bannerBGColor}"
+                VerticalOptions="FillAndExpand"
+                HorizontalOptions="FillAndExpand"/>
+            
+            <Label
+                VerticalOptions="Center"
+                Grid.Row="1"
+                TextColor="White"
+                Text="{Binding Barcode}"/>
+
+            <Label
+                VerticalOptions="Center"
+                Grid.Row="2"
+                Text="Alt barcode:"/>
+
+            <Label
+                VerticalOptions="Center"
+                Grid.Row="3"
+                Text="Owner:"/>
+
+            <Label
+                VerticalOptions="Center"
+                Grid.Row="3"
+                Grid.Column="1"
+                Text="{Binding Ownername}"/>
+
+            <Label
+                VerticalOptions="Center"
+                Grid.Row="4"
+                Text="Size:"/>
+
+            <Label
+                VerticalOptions="Center"
+                Grid.Row="4"
+                Grid.Column="1"
+                Text="{Binding Size}"/>
+
+            <Label
+                VerticalOptions="Center"
+                Grid.Row="5"
+                Text="Contents:"/>
+
+            <Label
+                VerticalOptions="Center"
+                Grid.Row="5"
+                Grid.Column="1"
+                Text="{Binding Contents}"/>
+
+            <Label
+                VerticalOptions="Center"
+                Grid.Row="6"
+                Text="Batch:"/>
+
+            <Label
+                VerticalOptions="Center"
+                Grid.Row="6"
+                Grid.Column="1"
+                Text="{Binding Batch}"/>
+
+            <Label
+                VerticalOptions="Center"
+                Grid.Row="7"
+                Text="Location:"/>
+
+            <Label
+                VerticalOptions="Center"
+                Grid.Row="7"
+                Grid.Column="1"
+                Text="{Binding Location}"/>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

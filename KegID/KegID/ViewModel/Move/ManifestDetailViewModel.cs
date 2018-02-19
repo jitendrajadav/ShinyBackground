@@ -1,7 +1,7 @@
 ﻿using System;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using KegID.View;
+using KegID.Views;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel

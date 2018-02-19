@@ -4,7 +4,7 @@ using KegID.Common;
 using KegID.Model;
 using KegID.Services;
 using KegID.SQLiteClient;
-using KegID.View;
+using KegID.Views;
 using Microsoft.AppCenter.Analytics;
 using System;
 using System.Diagnostics;

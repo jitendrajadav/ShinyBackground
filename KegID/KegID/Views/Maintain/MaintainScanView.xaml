@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KegID.Views.MaintainScanView"
+             xmlns:local="clr-namespace:KegID"
+             xmlns:behaviors="clr-namespace:KegID.Behaviors"
+             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=MaintainScan}">
+   
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="65*"/>
+                <ColumnDefinition Width="15*"/>
+                <ColumnDefinition Width="20*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button
+                BackgroundColor="Transparent"
+                VerticalOptions="Center"
+                HorizontalOptions="Start"
+                TextColor="{StaticResource selectTextColor}"
+                Text="Back"
+                Command="{Binding BackCommand}"/>
+
+            <Label 
+                HorizontalOptions="Center"
+                FontAttributes="Bold"
+                Text="Scan"
+                Grid.ColumnSpan="3"
+                VerticalOptions="Center"/>
+
+            <BoxView
+                Margin="-10,0,-10,0"
+                Grid.Row="1"
+                Grid.ColumnSpan="3"
+                BackgroundColor="{StaticResource lightGrayColor}"
+                HeightRequest="1"
+                VerticalOptions="Start"
+                HorizontalOptions="FillAndExpand"/>
+
+            <Entry
+                Margin="10,0,0,0"
+                Grid.ColumnSpan="2"
+                Grid.Row="2"
+                Text="{Binding ManaulBarcode,Mode=TwoWay}"
+                Placeholder="Barcode">
+                <Entry.Behaviors>
+                    <behaviors:EntryEventToCommandBehavior
+                        EventName="Completed"
+                      Command="{Binding BarcodeManualCommand}"/>
+                </Entry.Behaviors>
+            </Entry>
+
+            <Button
+                Grid.Row="2"
+                Grid.Column="2"
+                HorizontalOptions="Center"                  
+                BorderRadius="5"
+                WidthRequest="50"
+                BorderWidth="0"
+                Command="{Binding BarcodeScanCommand}"
+                BackgroundColor="White">
+                <Button.Image>
+                    <OnPlatform x:TypeArguments="FileImageSource">
+                        <OnPlatform.iOS>
+                            <FileImageSource File="camera.png"/>
+                        </OnPlatform.iOS>
+                        <OnPlatform.Android>
+                            <FileImageSource File="camera.png"/>
+                        </OnPlatform.Android>
+                        <OnPlatform.WinPhone>
+                            <FileImageSource File="Assets/camera.png"/>
+                        </OnPlatform.WinPhone>
+                    </OnPlatform>
+                </Button.Image>
+            </Button>
+            
+            <BoxView
+                Margin="-10,0,-10,0"
+                Grid.Row="5"
+                Grid.ColumnSpan="3"
+                BackgroundColor="{StaticResource bannerBGColor}"
+                VerticalOptions="FillAndExpand"
+                HorizontalOptions="FillAndExpand"/>
+
+            <Label
+                HorizontalOptions="Start"
+                TextColor="White"
+                Grid.Column="0"
+                Grid.Row="5"
+                Margin="15,0,0,0"
+                VerticalOptions="Center"
+                Grid.ColumnSpan="2"
+                Text="Scanned:"/>
+
+            <Label
+                Grid.Column="2"
+                Grid.Row="5"
+                TextColor="White"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                Text="{Binding BarcodeCollection.Count}"/>
+          
+            <Button
+                HeightRequest="40"
+                Margin="-10,-5,-10,0"
+                BackgroundColor="{StaticResource selectTextColor}"
+                Grid.Column="0"
+                Grid.ColumnSpan="3"
+                Grid.Row="6"
+                VerticalOptions="EndAndExpand"
+                HorizontalOptions="FillAndExpand"
+                TextColor="White"
+                Text="Submit"
+                Command="{Binding SubmitCommand}"/>
+
+            <ListView
+                Margin="10,0,10,0"
+                x:Name="lstBarcode"
+                Grid.Row="7"
+                Grid.ColumnSpan="3"
+                SeparatorVisibility="Default"
+                SeparatorColor="Black"
+                HasUnevenRows="True"
+                CachingStrategy="RecycleElement"
+                ItemsSource="{Binding BarcodeCollection}">
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid 
+                                RowSpacing="0"
+                                ColumnSpacing="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80*"/>
+                                    <ColumnDefinition Width="20*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Label 
+                                    VerticalOptions="FillAndExpand" 
+                                    VerticalTextAlignment="Center" 
+                                    Text="{Binding Id}" >
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Path=BindingContext.LabelItemTappedCommand, 
+                                                        Source={x:Reference Name=lstBarcode}}"
+                                                         CommandParameter="{Binding}"/>
+                                    </Label.GestureRecognizers>
+                                </Label>
+
+                                <Image 
+                                    Grid.Column="1"
+                                    Grid.RowSpan="2"
+                                    HeightRequest="30"
+                                    WidthRequest="30"
+                                    Margin="10,0,0,0"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="Center"
+                                    Source="{Binding Icon,Mode=TwoWay}">
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Path=BindingContext.IconItemTappedCommand, 
+                                                        Source={x:Reference Name=lstBarcode}}"
+                                                         CommandParameter="{Binding}"/>
+                                    </Image.GestureRecognizers>
+                                </Image>
+
+                                <Label
+                                    FontSize="11"
+                                    LineBreakMode="TailTruncation"
+                                    TextColor="{StaticResource lightGrayColor}"
+                                    Grid.Row="1"
+                                    Text="{Binding Path=BindingContext.TagsStr,Source={x:Reference Name=lstBarcode}}"/>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

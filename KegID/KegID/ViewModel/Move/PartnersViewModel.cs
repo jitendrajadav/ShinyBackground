@@ -5,7 +5,7 @@ using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
 using KegID.Services;
 using KegID.SQLiteClient;
-using KegID.View;
+using KegID.Views;
 using Xamarin.Forms;
 using System.Linq;
 using System.Collections.Generic;

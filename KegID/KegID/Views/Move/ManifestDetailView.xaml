@@ -1,0 +1,225 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:KegID"
+             x:Class="KegID.Views.ManifestDetailView"
+             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=ManifestDetail}">
+    <ContentPage.Content>
+        <Grid
+            Margin="10,0,10,0">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+            <Button
+                BackgroundColor="Transparent"
+                TextColor="{StaticResource selectTextColor}"
+                VerticalOptions="Center"
+                HorizontalOptions="Start"
+                Text="Manifests"
+                Command="{Binding ManifestsCommand}"/>
+
+            <Label 
+                Text="Manifest"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" />
+
+            <Button
+                HorizontalOptions="End"                  
+                BorderRadius="5"
+                WidthRequest="50"
+                BorderWidth="0"
+                Command="{Binding ShareCommand}"
+                BackgroundColor="LightGray" >
+                <Button.Image>
+                    <OnPlatform x:TypeArguments="FileImageSource">
+                        <OnPlatform.iOS>
+                            <FileImageSource File="actionshare.png"/>
+                        </OnPlatform.iOS>
+                        <OnPlatform.Android>
+                            <FileImageSource File="actionshare.png"/>
+                        </OnPlatform.Android>
+                        <OnPlatform.WinPhone>
+                            <FileImageSource File="Assets/actionshare.png"/>
+                        </OnPlatform.WinPhone>
+                    </OnPlatform>
+                </Button.Image>
+            </Button>
+
+            <BoxView
+                Margin="-10,0,-10,0"
+                Grid.Row="1"
+                BackgroundColor="{StaticResource bannerBGColor}"
+                VerticalOptions="FillAndExpand"
+                HorizontalOptions="FillAndExpand"/>
+
+            <Label 
+                Grid.Row="1"
+                TextColor="White"
+                Text="{Binding TrackingNumber,StringFormat='Tracking #: {0}'}"
+                VerticalOptions="Center" 
+                HorizontalOptions="Start" />
+
+            <Label 
+                Grid.Row="2"
+                Text="To:"
+                VerticalOptions="Center" 
+                HorizontalOptions="Start" />
+            
+            <Label 
+                Grid.Row="3"
+                Text="{Binding ManifestTo}"
+                VerticalOptions="Center" 
+                HorizontalOptions="Start" />
+
+            <Label 
+                Grid.Row="4"
+                Text="Shipping date:"
+                VerticalOptions="Center" 
+                HorizontalOptions="Start" />
+
+            <Label 
+                Grid.Row="5"
+                Text="{Binding ShippingDate,StringFormat='{0:dd/MM/yy}'}"
+                VerticalOptions="Center" 
+                HorizontalOptions="Start" />
+
+            <Grid
+                x:Name="grdContent"
+                Margin="0,30,0,0"
+                RowSpacing="0,0,0,0"
+                ColumnSpacing="0,0,0,0"
+                Grid.Row="6">
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.GridTappedCommand, 
+                                                        Source={x:Reference Name=grdContent}}"
+                                                         CommandParameter="{Binding}"/>
+                </Grid.GestureRecognizers>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="88*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="9*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <BoxView
+                    Grid.Row="0"
+                    Grid.ColumnSpan="5"
+                    BackgroundColor="Black"
+                    HeightRequest="1"
+                    VerticalOptions="Start"
+                    HorizontalOptions="FillAndExpand"/>
+
+                <BoxView
+                    Grid.Row="0"
+                    Grid.RowSpan="7"
+                    BackgroundColor="Black"
+                    WidthRequest="1"
+                    VerticalOptions="FillAndExpand"
+                    HorizontalOptions="Start"/>
+
+                <BoxView
+                    Grid.Row="6"
+                    Grid.ColumnSpan="5"
+                    BackgroundColor="Black"
+                    HeightRequest="1"
+                    VerticalOptions="End"
+                    HorizontalOptions="FillAndExpand"/>
+
+                <BoxView
+                    Grid.Row="0"
+                    Grid.Column="4"
+                    Grid.RowSpan="7"
+                    BackgroundColor="Black"
+                    WidthRequest="1"
+                    VerticalOptions="FillAndExpand"
+                    HorizontalOptions="End"/>
+
+                <Label
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    Grid.ColumnSpan="3"
+                    BackgroundColor="LightGray"
+                    HorizontalOptions="FillAndExpand"
+                    HorizontalTextAlignment="Center"
+                    VerticalTextAlignment="Center"
+                    VerticalOptions="FillAndExpand"
+                    Text="{Binding Contents}"/>
+
+                <BoxView
+                    Grid.Row="3"
+                    Grid.Column="2"
+                    Grid.RowSpan="3"
+                    BackgroundColor="Black"
+                    WidthRequest="1"
+                    VerticalOptions="FillAndExpand"
+                    HorizontalOptions="End"/>
+
+                <BoxView
+                    Grid.Row="2"
+                    Grid.ColumnSpan="4"
+                    BackgroundColor="Black"
+                    HeightRequest="1"
+                    VerticalOptions="Start"
+                    HorizontalOptions="FillAndExpand"/>
+
+                <Label
+                    Grid.Column="1"
+                    Grid.Row="3"
+                    Margin="5,0,0,0"
+                    Text="No size"/>
+
+                <Label
+                    Margin="0,0,5,0"
+                    HorizontalOptions="End"
+                    TextColor="{StaticResource selectTextColor}"
+                    Grid.Row="3"
+                    Grid.Column="3"
+                    Text="{Binding ItemCount}"/>
+
+                <BoxView
+                    Grid.Row="4"
+                    Grid.ColumnSpan="4"
+                    BackgroundColor="Black"
+                    HeightRequest="1"
+                    VerticalOptions="Start"
+                    HorizontalOptions="FillAndExpand"/>
+
+                <Label
+                    Margin="5,0,0,0"
+                    Grid.Column="1"
+                    Grid.Row="5"
+                    FontAttributes="Bold"
+                    Text="Total"/>
+
+                <Label
+                    Margin="0,0,5,0"
+                    HorizontalOptions="End"
+                    TextColor="{StaticResource selectTextColor}"
+                    Grid.Row="5"
+                    Grid.Column="3"
+                    Text="{Binding ItemCount}"/>
+
+            </Grid>
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

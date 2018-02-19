@@ -27,9 +27,14 @@ namespace KegID.Model
         [Ignore]
         public List<ManifestItem> ManifestItems { get; set; }
         [Ignore]
-        public List<string> NewPallets { get; set; }
+        public List<NewPallet> NewPallets { get; set; }
         [Ignore]
         public List<Tag> Tags { get; set; }
+        [Ignore]
+        public List<string> ClosedBatches { get; set; }
+        [Ignore]
+        public List<NewBatch> NewBatches { get; set; }
+
     }
 
     public class ManifestItem

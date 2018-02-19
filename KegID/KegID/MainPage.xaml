@@ -4,7 +4,7 @@
              xmlns:local="clr-namespace:KegID"
              x:Class="KegID.MainPage"
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
-             xmlns:views="clr-namespace:KegID.View"
+             xmlns:views="clr-namespace:KegID.Views"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Main}">
 
     <CarouselPage.Children>

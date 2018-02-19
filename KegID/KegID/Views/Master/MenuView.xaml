@@ -1,0 +1,401 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             BackgroundImage="{Binding BgImage}"
+             x:Class="KegID.Views.MenuView"
+             xmlns:local="clr-namespace:KegID"
+             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Dashboard}">
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <StackLayout
+                Grid.Row="0"
+                BackgroundColor="White">
+
+                <Image 
+                    HeightRequest="50">
+                    <Image.Source>
+                        <OnPlatform x:TypeArguments="ImageSource">
+                            <OnPlatform.iOS>
+                                <FileImageSource File="kegidbanner.png"/>
+                            </OnPlatform.iOS>
+                            <OnPlatform.Android>
+                                <FileImageSource File="kegidbanner.png"/>
+                            </OnPlatform.Android>
+                            <OnPlatform.WinPhone>
+                                <FileImageSource File="Assets/kegidbanner.png"/>
+                            </OnPlatform.WinPhone>
+                        </OnPlatform>
+                    </Image.Source>
+                </Image>
+
+            </StackLayout>
+            
+            <Grid
+                x:Name="grdMove"
+                Margin="10,0,10,10"
+                Grid.Row="1">
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.MoveCommand, 
+                                                        Source={x:Reference Name=grdMove}}"
+                                                         CommandParameter="{Binding}"/>
+                </Grid.GestureRecognizers>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="20*"/>
+                    <ColumnDefinition Width="88*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <BoxView
+                    Grid.Row="0"
+                    Grid.ColumnSpan="4"
+                    BackgroundColor="White"
+                    HeightRequest="1"
+                    VerticalOptions="Start"
+                    HorizontalOptions="FillAndExpand"/>
+
+                <BoxView
+                    Grid.Row="0"
+                    Grid.RowSpan="3"
+                    BackgroundColor="White"
+                    WidthRequest="1"
+                    VerticalOptions="FillAndExpand"
+                    HorizontalOptions="Start"/>
+
+                <BoxView
+                    Grid.Row="2"
+                    Grid.ColumnSpan="4"
+                    BackgroundColor="White"
+                    HeightRequest="1"
+                    VerticalOptions="End"
+                    HorizontalOptions="FillAndExpand"/>
+
+                <BoxView
+                    Grid.Row="0"
+                    Grid.Column="3"
+                    Grid.RowSpan="3"
+                    BackgroundColor="White"
+                    WidthRequest="1"
+                    VerticalOptions="FillAndExpand"
+                    HorizontalOptions="End"/>
+
+                <Image 
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    HeightRequest="50" 
+                    WidthRequest="40">
+                    <Image.Source>
+                        <OnPlatform x:TypeArguments="ImageSource">
+                            <OnPlatform.iOS>
+                                <FileImageSource File="movekegs.png"/>
+                            </OnPlatform.iOS>
+                            <OnPlatform.Android>
+                                <FileImageSource File="movekegs.png"/>
+                            </OnPlatform.Android>
+                            <OnPlatform.WinPhone>
+                                <FileImageSource File="Assets/movekegs.png"/>
+                            </OnPlatform.WinPhone>
+                        </OnPlatform>
+                    </Image.Source>
+                </Image>
+
+                <Label 
+                    Grid.Column="2"
+                    Grid.Row="1"
+                    Text="Move"
+                    TextColor="White"
+                    FontSize="Large"
+                    VerticalOptions="CenterAndExpand" 
+                    HorizontalOptions="Start" />
+                
+            </Grid>
+            
+            <Grid
+                x:Name="grdFill"
+                Margin="10,0,10,10"
+                Grid.Row="2">
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.FillCommand, 
+                                                        Source={x:Reference Name=grdFill}}"
+                                                         CommandParameter="{Binding}"/>
+                </Grid.GestureRecognizers>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="20*"/>
+                    <ColumnDefinition Width="88*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <BoxView
+                    Grid.Row="0"
+                    Grid.ColumnSpan="4"
+                    BackgroundColor="White"
+                    HeightRequest="1"
+                    VerticalOptions="Start"
+                    HorizontalOptions="FillAndExpand"/>
+
+                <BoxView
+                    Grid.Row="0"
+                    Grid.RowSpan="3"
+                    BackgroundColor="White"
+                    WidthRequest="1"
+                    VerticalOptions="FillAndExpand"
+                    HorizontalOptions="Start"/>
+
+                <BoxView
+                    Grid.Row="2"
+                    Grid.ColumnSpan="4"
+                    BackgroundColor="White"
+                    HeightRequest="1"
+                    VerticalOptions="End"
+                    HorizontalOptions="FillAndExpand"/>
+
+                <BoxView
+                    Grid.Row="0"
+                    Grid.Column="3"
+                    Grid.RowSpan="3"
+                    BackgroundColor="White"
+                    WidthRequest="1"
+                    VerticalOptions="FillAndExpand"
+                    HorizontalOptions="End"/>
+
+                <Image 
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    HeightRequest="50" 
+                    WidthRequest="40">
+                    <Image.Source>
+                        <OnPlatform x:TypeArguments="ImageSource">
+                            <OnPlatform.iOS>
+                                <FileImageSource File="fillkegs.png"/>
+                            </OnPlatform.iOS>
+                            <OnPlatform.Android>
+                                <FileImageSource File="fillkegs.png"/>
+                            </OnPlatform.Android>
+                            <OnPlatform.WinPhone>
+                                <FileImageSource File="Assets/fillkegs.png"/>
+                            </OnPlatform.WinPhone>
+                        </OnPlatform>
+                    </Image.Source>
+                </Image>
+
+                <Label 
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Text="Fill"
+                    TextColor="White"
+                    FontSize="Large"
+                    VerticalOptions="CenterAndExpand" 
+                    HorizontalOptions="Start" />
+            </Grid>
+            
+            <Grid
+                x:Name="grdPalletize"
+                Margin="10,0,10,10"
+                Grid.Row="3">
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.PalletizeCommand, 
+                                                        Source={x:Reference Name=grdPalletize}}"
+                                                         CommandParameter="{Binding}"/>
+                </Grid.GestureRecognizers>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="20*"/>
+                    <ColumnDefinition Width="88*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <BoxView
+                    Grid.Row="0"
+                    Grid.ColumnSpan="4"
+                    BackgroundColor="White"
+                    HeightRequest="1"
+                    VerticalOptions="Start"
+                    HorizontalOptions="FillAndExpand"/>
+
+                <BoxView
+                    Grid.Row="0"
+                    Grid.RowSpan="3"
+                    BackgroundColor="White"
+                    WidthRequest="1"
+                    VerticalOptions="FillAndExpand"
+                    HorizontalOptions="Start"/>
+
+                <BoxView
+                    Grid.Row="2"
+                    Grid.ColumnSpan="4"
+                    BackgroundColor="White"
+                    HeightRequest="1"
+                    VerticalOptions="End"
+                    HorizontalOptions="FillAndExpand"/>
+
+                <BoxView
+                    Grid.Row="0"
+                    Grid.Column="3"
+                    Grid.RowSpan="3"
+                    BackgroundColor="White"
+                    WidthRequest="1"
+                    VerticalOptions="FillAndExpand"
+                    HorizontalOptions="End"/>
+
+                <Image 
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    HeightRequest="50"
+                    WidthRequest="40">
+                    <Image.Source>
+                        <OnPlatform x:TypeArguments="ImageSource">
+                            <OnPlatform.iOS>
+                                <FileImageSource File="pallet.png"/>
+                            </OnPlatform.iOS>
+                            <OnPlatform.Android>
+                                <FileImageSource File="pallet.png"/>
+                            </OnPlatform.Android>
+                            <OnPlatform.WinPhone>
+                                <FileImageSource File="Assets/pallet.png"/>
+                            </OnPlatform.WinPhone>
+                        </OnPlatform>
+                    </Image.Source>
+                </Image>
+
+                <Label 
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Text="Palletize"
+                    TextColor="White"
+                    FontSize="Large"
+                    VerticalOptions="CenterAndExpand" 
+                    HorizontalOptions="Start" />
+            </Grid>
+            
+            <Grid
+                x:Name="grdMaintain"
+                Margin="10,0,10,10"
+                Grid.Row="4">
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.MaintainCommand, 
+                                                        Source={x:Reference Name=grdMaintain}}"
+                                                         CommandParameter="{Binding}"/>
+                </Grid.GestureRecognizers>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="20*"/>
+                    <ColumnDefinition Width="88*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <BoxView
+                    Grid.Row="0"
+                    Grid.ColumnSpan="4"
+                    BackgroundColor="White"
+                    HeightRequest="1"
+                    VerticalOptions="Start"
+                    HorizontalOptions="FillAndExpand"/>
+
+                <BoxView
+                    Grid.Row="0"
+                    Grid.RowSpan="3"
+                    BackgroundColor="White"
+                    WidthRequest="1"
+                    VerticalOptions="FillAndExpand"
+                    HorizontalOptions="Start"/>
+
+                <BoxView
+                    Grid.Row="2"
+                    Grid.ColumnSpan="4"
+                    BackgroundColor="White"
+                    HeightRequest="1"
+                    VerticalOptions="End"
+                    HorizontalOptions="FillAndExpand"/>
+
+                <BoxView
+                    Grid.Row="0"
+                    Grid.Column="3"
+                    Grid.RowSpan="3"
+                    BackgroundColor="White"
+                    WidthRequest="1"
+                    VerticalOptions="FillAndExpand"
+                    HorizontalOptions="End"/>
+
+                <Image 
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    HeightRequest="50" 
+                    WidthRequest="40">
+                    <Image.Source>
+                        <OnPlatform x:TypeArguments="ImageSource">
+                            <OnPlatform.iOS>
+                                <FileImageSource File="repair.png"/>
+                            </OnPlatform.iOS>
+                            <OnPlatform.Android>
+                                <FileImageSource File="repair.png"/>
+                            </OnPlatform.Android>
+                            <OnPlatform.WinPhone>
+                                <FileImageSource File="Assets/repair.png"/>
+                            </OnPlatform.WinPhone>
+                        </OnPlatform>
+                    </Image.Source>
+                </Image>
+
+                <Label 
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Text="Maintain"
+                    TextColor="White"
+                    FontSize="Large"
+                    VerticalOptions="CenterAndExpand" 
+                    HorizontalOptions="Start" />
+            </Grid>
+            
+            <Label
+                Grid.Row="5"
+                HeightRequest="35"
+                TextColor="White"
+                VerticalTextAlignment="Center"
+                HorizontalOptions="FillAndExpand"
+                HorizontalTextAlignment="Center"
+                BackgroundColor="Red"
+                VerticalOptions="End"
+                IsVisible="{Binding IsVisibleDraftmaniFestsLabel}"
+                Text="{Binding DraftmaniFests,StringFormat='{0} draft manifests'}"/>
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KegID.Views.ManifestsView"
+             xmlns:local="clr-namespace:KegID"
+             xmlns:behaviors="clr-namespace:KegID.Behaviors"
+             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Manifests}">
+    <ContentPage.Content>
+        
+        <Grid
+            ColumnSpacing="0"
+            RowSpacing="0"
+            Margin="10,0,10,0">
+            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Button
+                BackgroundColor="Transparent"
+                TextColor="{StaticResource selectTextColor}"
+                Text="Home"
+                VerticalOptions="Center" 
+                HorizontalOptions="Start"
+                Command="{Binding HomeCommand}"/>
+
+            <Label 
+                Text="Manifests"
+                FontAttributes="Bold"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" />
+
+            <Button
+                HorizontalOptions="End"  
+                VerticalOptions="Center"
+                BorderRadius="5"
+                WidthRequest="50"
+                BorderWidth="0"
+                Command="{Binding ActionSearchCommand}"
+                BackgroundColor="White" >
+                <Button.Image>
+                    <OnPlatform x:TypeArguments="FileImageSource">
+                        <OnPlatform.iOS>
+                            <FileImageSource File="actionsearch.png"/>
+                        </OnPlatform.iOS>
+                        <OnPlatform.Android>
+                            <FileImageSource File="actionsearch.png"/>
+                        </OnPlatform.Android>
+                        <OnPlatform.WinPhone>
+                            <FileImageSource File="Assets/actionsearch.png"/>
+                        </OnPlatform.WinPhone>
+                    </OnPlatform>
+                </Button.Image>
+            </Button>
+            
+            <BoxView
+                Margin="-10,0,-10,0"
+                Grid.Row="1"
+                BackgroundColor="{StaticResource lightGrayColor}"
+                HeightRequest="1"
+                VerticalOptions="Start"
+                HorizontalOptions="FillAndExpand"/>
+
+            <StackLayout
+                Spacing="0"
+                Padding="0"
+                Margin="0"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                Grid.Row="2"
+                Orientation="Horizontal">
+                
+                <Button
+                    TextColor="{Binding QueuedTextColor}"
+                    BackgroundColor="{Binding QueuedBackgroundColor}"
+                    Command="{Binding QueuedCommand}"
+                    Text="Queued"/>
+
+                <Button
+                    TextColor="{Binding DraftTextColor}"
+                    BackgroundColor="{Binding DraftBackgroundColor}"
+                    Command="{Binding DraftCommand}"
+                    Text="Draft"/>
+                
+                <Button
+                    TextColor="{Binding RecentTextColor}"
+                    BackgroundColor="{Binding RecentBackgroundColor}"
+                    Command="{Binding RecentCommand}"
+                    Text="Recent"/>
+
+            </StackLayout>
+            
+            <ListView
+                x:Name="lstManifest"
+                Grid.Row="3"
+                SeparatorVisibility="Default"
+                SeparatorColor="Black"
+                HasUnevenRows="True"
+                CachingStrategy="RecycleElement"
+                ItemsSource="{Binding ManifestCollection}">
+
+                <ListView.Behaviors>
+                    <behaviors:EventToCommandBehavior
+                        EventName="ItemTapped" 
+                        Command="{Binding ItemTappedCommand}"
+                        Converter="{StaticResource ItemTappedConverter}"/>
+
+                    <behaviors:EventToCommandBehavior
+                        EventName="ItemSelected"
+                        Command="{Binding ItemSelectedCommand}"
+                        Converter="{StaticResource SelectedItemConverter}"/>
+
+                </ListView.Behaviors>
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="70*"/>
+                                    <ColumnDefinition Width="30*"/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <Label
+                                    TextColor="{StaticResource selectTextColor}"
+                                    LineBreakMode="TailTruncation"
+                                    Text="{Binding DestinationName}"/>
+
+                                <Label
+                                    TextColor="{StaticResource selectTextColor}"
+                                    Grid.Row="1"
+                                    Text="{Binding ShipDate, StringFormat='{0:dd/MM/yy}'}"/>
+
+                                <Label
+                                    TextColor="{StaticResource selectTextColor}"
+                                    HorizontalOptions="End"
+                                    Grid.Column="1"
+                                    Text="{Binding ManifestId, StringFormat='# {0}',Converter={StaticResource StringToLast8CharacterConverter}}"/>
+
+                                <Label
+                                    TextColor="{StaticResource selectTextColor}"
+                                    HorizontalOptions="End"
+                                    Grid.Column="1"
+                                    Grid.Row="1"
+                                    Text="{Binding Path=ManifestCollection.Count, StringFormat='{0} Items'}"/>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+
+            </ListView>
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

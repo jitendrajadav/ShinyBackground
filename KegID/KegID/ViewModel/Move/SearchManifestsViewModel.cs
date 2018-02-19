@@ -2,7 +2,7 @@
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using KegID.Services;
-using KegID.View;
+using KegID.Views;
 using System;
 using System.Globalization;
 using Xamarin.Forms;

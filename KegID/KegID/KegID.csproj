@@ -19,10 +19,11 @@
     <PackageReference Include="Microsoft.AppCenter.Crashes" Version="1.4.0" />
     <PackageReference Include="Microsoft.AppCenter.Distribute" Version="1.4.0" />
     <PackageReference Include="Microsoft.AppCenter.Push" Version="1.4.0" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.4.1" />
     <PackageReference Include="Microsoft.Net.Http" Version="2.2.29" />
     <PackageReference Include="MvvmLight" Version="5.4.1" />
     <PackageReference Include="MvvmLightLibs" Version="5.4.1" />
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.1" />
     <PackageReference Include="Plugin.Permissions" Version="2.2.1" />
     <PackageReference Include="Rg.Plugins.Popup" Version="1.0.4" />
     <PackageReference Include="sqlite-net-pcl" Version="1.4.118" />
@@ -30,7 +31,7 @@
     <PackageReference Include="SQLite.Net.Async-PCL" Version="3.1.1" />
     <PackageReference Include="Xam.Plugin.Geolocator" Version="4.2.0" />
     <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.3.4" />
-    <PackageReference Include="Xamarin.Forms" Version="2.5.0.122203" />
+    <PackageReference Include="Xamarin.Forms" Version="2.5.0.280555" />
     <PackageReference Include="ZXing.Net.Mobile" Version="2.3.2" />
     <PackageReference Include="ZXing.Net.Mobile.Forms" Version="2.3.2" />
   </ItemGroup>
@@ -42,130 +43,130 @@
     <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="MainPage.xaml.cs">
       <DependentUpon>*.xaml</DependentUpon>
     </Compile>
-    <Compile Update="View\Dashboard\DashboardPartnersView.xaml.cs">
+    <Compile Update="Views\Dashboard\DashboardPartnersView.xaml.cs">
       <DependentUpon>DashboardPartnersView.xaml</DependentUpon>
     </Compile>
-    <Compile Update="View\Maintain\MaintainScanView.xaml.cs">
+    <Compile Update="Views\Maintain\MaintainScanView.xaml.cs">
       <DependentUpon>MaintainScanView.xaml</DependentUpon>
     </Compile>
-    <Compile Update="View\Move\ContentTagsView.xaml.cs">
+    <Compile Update="Views\Move\ContentTagsView.xaml.cs">
       <DependentUpon>ContentTagsView.xaml</DependentUpon>
     </Compile>
-    <Compile Update="View\Setting\WhatIsNewView.xaml.cs">
+    <Compile Update="Views\Setting\WhatIsNewView.xaml.cs">
       <DependentUpon>WhatIsNewView.xaml</DependentUpon>
     </Compile>
-    <Compile Update="View\Scanner\ScannerView.xaml.cs">
+    <Compile Update="Views\Scanner\ScannerView.xaml.cs">
       <DependentUpon>ScannerView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="View\Dashboard\InventoryView.xaml">
+    <EmbeddedResource Update="Views\Dashboard\InventoryView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="View\Dashboard\PartnerInfoView.xaml">
+    <EmbeddedResource Update="Views\Dashboard\PartnerInfoView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="View\Fill\AddBatchView.xaml">
+    <EmbeddedResource Update="Views\Fill\AddBatchView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="View\Fill\AddPalletsView.xaml">
+    <EmbeddedResource Update="Views\Fill\AddPalletsView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="View\Fill\BrandView.xaml">
+    <EmbeddedResource Update="Views\Fill\BrandView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="View\Fill\FillScanView.xaml">
+    <EmbeddedResource Update="Views\Fill\FillScanView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="View\Fill\VolumeView.xaml">
+    <EmbeddedResource Update="Views\Fill\VolumeView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="View\Master\LandingView.xaml">
+    <EmbeddedResource Update="Views\Master\LandingView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="View\Master\MenuView.xaml">
+    <EmbeddedResource Update="Views\Master\MenuView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="View\Move\AddPartnerView.xaml">
+    <EmbeddedResource Update="Views\Move\AddPartnerView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="View\Move\ContentTagsView.xaml">
+    <EmbeddedResource Update="Views\Move\ContentTagsView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="View\Move\EditAddressView.xaml">
+    <EmbeddedResource Update="Views\Move\EditAddressView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="View\Move\ManifestDetailView.xaml">
+    <EmbeddedResource Update="Views\Move\ManifestDetailView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="View\Move\ManifestsView.xaml">
+    <EmbeddedResource Update="Views\Move\ManifestsView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="View\Move\PartnersView.xaml">
+    <EmbeddedResource Update="Views\Move\PartnersView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="View\Move\ScanInfoView.xaml">
+    <EmbeddedResource Update="Views\Move\ScanInfoView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="View\Move\SearchedManifestsListView.xaml">
+    <EmbeddedResource Update="Views\Move\SearchedManifestsListView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="View\Move\SearchManifestsView.xaml">
+    <EmbeddedResource Update="Views\Move\SearchManifestsView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="View\Move\SearchPartnersView.xaml">
+    <EmbeddedResource Update="Views\Move\SearchPartnersView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="View\Dashboard\DashboardView.xaml">
+    <EmbeddedResource Update="Views\Dashboard\DashboardView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="View\Fill\BatchView.xaml">
+    <EmbeddedResource Update="Views\Fill\BatchView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="View\Fill\FillView.xaml">
+    <EmbeddedResource Update="Views\Fill\FillView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="View\Fill\SizeView.xaml">
+    <EmbeddedResource Update="Views\Fill\SizeView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="View\Master\KegIDMasterPage.xaml">
+    <EmbeddedResource Update="Views\Master\KegIDMasterPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="View\Master\KegIDMasterPageMaster.xaml">
+    <EmbeddedResource Update="Views\Master\KegIDMasterPageMaster.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="View\LoginView.xaml">
+    <EmbeddedResource Update="Views\LoginView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="View\Maintain\MaintainView.xaml">
+    <EmbeddedResource Update="Views\Maintain\MaintainView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="View\Move\AddTagsView.xaml">
+    <EmbeddedResource Update="Views\Move\AddTagsView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="View\Move\MoveView.xaml">
+    <EmbeddedResource Update="Views\Move\MoveView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="View\Move\ScanKegsView.xaml">
+    <EmbeddedResource Update="Views\Move\ScanKegsView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="View\Move\ValidateBarcodeView.xaml">
+    <EmbeddedResource Update="Views\Move\ValidateBarcodeView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="View\Palletize\PalletizeView.xaml">
+    <EmbeddedResource Update="Views\Palletize\PalletizeView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="View\Setting\PrinterSettingView.xaml">
+    <EmbeddedResource Update="Views\Setting\PrinterSettingView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="View\Setting\SettingView.xaml">
+    <EmbeddedResource Update="Views\Setting\SettingView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="View\Setting\WhatIsNewView.xaml">
+    <EmbeddedResource Update="Views\Setting\WhatIsNewView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="View\Scanner\ScannerView.xaml">
+    <EmbeddedResource Update="Views\Scanner\ScannerView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

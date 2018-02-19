@@ -5,7 +5,7 @@ using KegID.Common;
 using KegID.Model;
 using KegID.Services;
 using KegID.SQLiteClient;
-using KegID.View;
+using KegID.Views;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -296,7 +296,7 @@ namespace KegID.ViewModel
             {
                 Loader.StartLoading();
 
-                ManifestModel manifestPostModel = await ManifestManager.GetManifestDraft(EventTypeEnum.MOVE_MANIFEST, ManifestId, SimpleIoc.Default.GetInstance<ScanKegsViewModel>().BarcodeCollection, SimpleIoc.Default.GetInstance<ScanKegsViewModel>().Tags, PartnerModel, SimpleIoc.Default.GetInstance<ScanKegsViewModel>().SelectedBrand.BrandName);
+                ManifestModel manifestPostModel = await ManifestManager.GetManifestDraft(EventTypeEnum.MOVE_MANIFEST, ManifestId, SimpleIoc.Default.GetInstance<ScanKegsViewModel>().BarcodeCollection, SimpleIoc.Default.GetInstance<ScanKegsViewModel>().Tags, PartnerModel, new List<NewPallet>(),new List<string>(), 2 ,SimpleIoc.Default.GetInstance<ScanKegsViewModel>().SelectedBrand.BrandName);
                 
                 if (manifestPostModel != null)
                 {
@@ -482,7 +482,7 @@ namespace KegID.ViewModel
                 //await SQLiteServiceClient.Db.InsertAsync(manifestModel); 
                 #endregion
 
-                ManifestModel manifestPostModel = await ManifestManager.GetManifestDraft(EventTypeEnum.MOVE_MANIFEST, ManifestId, SimpleIoc.Default.GetInstance<ScanKegsViewModel>().BarcodeCollection, SimpleIoc.Default.GetInstance<ScanKegsViewModel>().Tags, PartnerModel, SimpleIoc.Default.GetInstance<ScanKegsViewModel>().SelectedBrand.BrandName);
+                ManifestModel manifestPostModel = await ManifestManager.GetManifestDraft(EventTypeEnum.MOVE_MANIFEST, ManifestId, SimpleIoc.Default.GetInstance<ScanKegsViewModel>().BarcodeCollection, SimpleIoc.Default.GetInstance<ScanKegsViewModel>().Tags, PartnerModel,new List<NewPallet>(),new List<string>() ,2, SimpleIoc.Default.GetInstance<ScanKegsViewModel>().SelectedBrand.BrandName);
                 DraftManifestModel draftManifestModel = new DraftManifestModel()
                 {
                     ManifestId = ManifestId,

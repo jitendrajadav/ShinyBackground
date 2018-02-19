@@ -16,13 +16,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string WhatsNewItemsSourcePropertyName = "WhatsNewItemsSource";
 
-        private ObservableCollection<Xamarin.Forms.View> _WhatsNewItemsSource = null;
+        private ObservableCollection<View> _WhatsNewItemsSource = null;
 
         /// <summary>
         /// Sets and gets the WhatsNewItemsSource property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public ObservableCollection<Xamarin.Forms.View> WhatsNewItemsSource
+        public ObservableCollection<View> WhatsNewItemsSource
         {
             get
             {

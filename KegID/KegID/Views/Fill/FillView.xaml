@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KegID.Views.FillView"
+             xmlns:behaviors="clr-namespace:KegID.Behaviors"
+             xmlns:local="clr-namespace:KegID"
+             Title="Fill Kegs"
+             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Fill}">
+    <ContentPage.Content>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Button
+                BackgroundColor="Transparent"
+                TextColor="{StaticResource selectTextColor}"
+                HorizontalOptions="Start"
+                Text="Cancel"
+                Command="{Binding CancelCommand}"/>
+
+            <Label
+                VerticalOptions="Center"
+                FontAttributes="Bold"
+                HorizontalOptions="Center"
+                Text="Fill Kegs"/>
+
+            <Grid
+                Grid.Row="1"
+                Margin="10,0,10,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <BoxView
+                    Margin="-10,0,-10,0"
+                    Grid.Row="0"
+                    BackgroundColor="Black"
+                    HeightRequest="1"
+                    VerticalOptions="Start"
+                    HorizontalOptions="FillAndExpand"/>
+
+                <Label 
+                    Text="Batch:"
+                    Grid.Column="0"
+                    Grid.Row="1"/>
+
+                <Button
+                    HorizontalOptions="Start"
+                    Margin="10,0,0,0"
+                    Grid.Row="2"
+                    TextColor="{StaticResource selectTextColor}"
+                    BackgroundColor="Transparent"
+                    Text="{Binding BatchButtonTitle}"
+                    Command="{Binding BatchCommand}"/>
+
+
+                <Label
+                    Grid.Row="2"
+                    HorizontalOptions="End"
+                    HorizontalTextAlignment="End"
+                    Text="(required)"
+                    TextColor="{StaticResource lightGrayColor}"/>
+
+                <BoxView
+                    Grid.Row="3"
+                    BackgroundColor="Black"
+                    HeightRequest="1"
+                    VerticalOptions="Center"
+                    HorizontalOptions="FillAndExpand"/>
+
+                <Label 
+                    Text="Size:"
+                    Grid.Row="4"/>
+
+                <Button
+                    BackgroundColor="Transparent"
+                    HorizontalOptions="Start"
+                    Margin="10,0,0,0"
+                    Grid.Row="5"
+                    TextColor="{StaticResource selectTextColor}"
+                    Text="{Binding SizeButtonTitle}"
+                    Command="{Binding SizeCommand}"/>
+
+                <BoxView
+                    Grid.Row="6"
+                    BackgroundColor="Black"
+                    HeightRequest="1"
+                    VerticalOptions="Center"
+                    HorizontalOptions="FillAndExpand"/>
+
+                <Label 
+                    Text="Destination:"
+                    Grid.Row="7"/>
+
+                <Button
+                    Margin="10,0,0,0"
+                    Grid.Row="8"
+                    HorizontalOptions="Start"
+                    TextColor="{StaticResource selectTextColor}"
+                    BackgroundColor="Transparent"
+                    Text="{Binding DestinationTitle}"
+                    Command="{Binding DestinationCommand}"/>
+
+                <BoxView
+                    Grid.Row="9"
+                    BackgroundColor="Black"
+                    HeightRequest="1"
+                    VerticalOptions="Center"
+                    HorizontalOptions="FillAndExpand"/>
+
+                <Label 
+                    Text="Palletize:"
+                    Grid.Row="10"/>
+
+                <Switch
+                    IsToggled="{Binding IsPalletze}"
+                    Margin="10,0,0,0"
+                    Grid.Row="11"/>
+
+                <BoxView
+                    Grid.Row="12"
+                    BackgroundColor="Black"
+                    HeightRequest="1"
+                    VerticalOptions="Center"
+                    HorizontalOptions="FillAndExpand"/>
+
+                <Button
+                    HeightRequest="40"
+                    Margin="-10,0,-10,0"
+                    TextColor="White"
+                    BackgroundColor="{StaticResource selectTextColor}"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="End"
+                    Grid.Row="13"
+                    Text="Next"
+                    Command="{Binding NextCommand}"/>
+
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

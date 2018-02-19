@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KegID.Views.ContentTagsView"
+             xmlns:local="clr-namespace:KegID"
+             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=ContentTags}">
+    <ContentPage.Content>
+        <StackLayout>
+            
+            <Button 
+                BackgroundColor="Transparent"
+                TextColor="{StaticResource selectTextColor}"
+                Text="Manifest"
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="Start" 
+                Command="{Binding ManifestCommand}"/>
+            
+            <ListView
+                Margin="10,0,10,0"
+                x:Name="lstContent"
+                SeparatorVisibility="Default"
+                SeparatorColor="Black"
+                HasUnevenRows="True"
+                CachingStrategy="RecycleElement"
+                ItemsSource="{Binding ContentCollection}">
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextCell Text="{Binding Barcode}"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+
+            </ListView>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
