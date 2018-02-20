@@ -171,7 +171,7 @@
       <Version>1.0.4</Version>
     </PackageReference>
     <PackageReference Include="sqlite-net-pcl">
-      <Version>1.4.118</Version>
+      <Version>1.5.166-beta</Version>
     </PackageReference>
     <PackageReference Include="SQLite.Net-PCL">
       <Version>3.1.1</Version>

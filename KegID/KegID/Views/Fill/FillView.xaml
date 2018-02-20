@@ -130,6 +130,8 @@
 
                 <Switch
                     IsToggled="{Binding IsPalletze}"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Start"
                     Margin="10,0,0,0"
                     Grid.Row="11"/>
 
@@ -141,12 +143,12 @@
                     HorizontalOptions="FillAndExpand"/>
 
                 <Button
-                    HeightRequest="40"
+                    HeightRequest="50"
                     Margin="-10,0,-10,0"
                     TextColor="White"
                     BackgroundColor="{StaticResource selectTextColor}"
                     HorizontalOptions="FillAndExpand"
-                    VerticalOptions="End"
+                    VerticalOptions="EndAndExpand"
                     Grid.Row="13"
                     Text="Next"
                     Command="{Binding NextCommand}"/>

@@ -91,11 +91,13 @@
                                     Grid.Column="0"
                                     VerticalOptions="FillAndExpand" 
                                     VerticalTextAlignment="Center" 
+                                    FontSize="{StaticResource TitleFont}"
                                     Text="{Binding OwnerName}" />
                                 <Label 
                                     Grid.Column="1"
                                     VerticalOptions="FillAndExpand" 
                                     VerticalTextAlignment="Center" 
+                                    FontSize="{StaticResource TitleFont}"
                                     Text="{Binding Size}" />
 
                                 <Label 
@@ -103,6 +105,7 @@
                                     VerticalOptions="FillAndExpand" 
                                     VerticalTextAlignment="Center"
                                     HorizontalTextAlignment="Center"
+                                    FontSize="{StaticResource TitleFont}"
                                     Text="{Binding Quantity}" />
                             </Grid>
 
@@ -198,11 +201,13 @@
                                     Grid.Column="0"
                                     VerticalOptions="FillAndExpand" 
                                     VerticalTextAlignment="Center" 
+                                    FontSize="{StaticResource TitleFont}"
                                     Text="{Binding OwnerName}" />
                                 <Label 
                                     Grid.Column="1"
                                     VerticalOptions="FillAndExpand" 
                                     VerticalTextAlignment="Center" 
+                                    FontSize="{StaticResource TitleFont}"
                                     Text="{Binding Size}" />
 
                                 <Label 
@@ -210,6 +215,7 @@
                                     VerticalOptions="FillAndExpand" 
                                     VerticalTextAlignment="Center"
                                     HorizontalTextAlignment="Center"
+                                    FontSize="{StaticResource TitleFont}"
                                     Text="{Binding Quantity}" />
                             </Grid>
 

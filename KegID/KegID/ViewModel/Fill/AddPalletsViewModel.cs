@@ -171,7 +171,7 @@ namespace KegID.ViewModel
 
         public AddPalletsViewModel(IPalletizeService palletizeService, IMoveService moveService)
         {
-            _palletizeService =  palletizeService;
+            _palletizeService = palletizeService;
             _moveService = moveService;
 
             SubmitCommand = new RelayCommand(SubmitCommandRecieverAsync);
@@ -199,45 +199,14 @@ namespace KegID.ViewModel
         {
             var barCodeCollection = SimpleIoc.Default.GetInstance<FillScanViewModel>().BarcodeCollection;
 
-            if (barCodeCollection.Count==0)
+            if (barCodeCollection.Count == 0)
             {
-                 await Application.Current.MainPage.DisplayAlert("Error", "Error: Please add some scans.", "Ok");
+                await Application.Current.MainPage.DisplayAlert("Error", "Error: Please add some scans.", "Ok");
                 return;
             }
 
-            #region Creating New Pallete 
-            //List<PalletItem> palletItems = new List<PalletItem>();
-            //PalletItem pallet = null;
 
-            //foreach (var item in barCodeCollection)
-            //{
-            //    pallet = new PalletItem
-            //    {
-            //        Barcode = item.Id,
-            //        ScanDate = DateTime.Now,
-            //        Tags = SimpleIoc.Default.GetInstance<FillScanViewModel>().Tags,
-            //        ValidationStatus = 4
-            //    };
-
-            //    palletItems.Add(pallet);
-            //}
-
-            //PalletRequestModel palletRequestModel = new PalletRequestModel
-            //{
-            //    Barcode = SimpleIoc.Default.GetInstance<FillScanViewModel>().ManifestId.Split('-').LastOrDefault(),
-            //    BuildDate = DateTime.Now,
-            //    OwnerId = Configuration.CompanyId,
-            //    PalletId = Uuid.GetUuId(),
-            //    PalletItems = palletItems,
-            //    ReferenceKey = "",
-            //    StockLocation = SimpleIoc.Default.GetInstance<FillViewModel>().PartnerModel.PartnerId,
-            //    StockLocationId = SimpleIoc.Default.GetInstance<FillViewModel>().PartnerModel.PartnerId,
-            //    StockLocationName = SimpleIoc.Default.GetInstance<FillViewModel>().PartnerModel.FullName,
-            //    Tags = SimpleIoc.Default.GetInstance<FillScanViewModel>().Tags
-            //};
-            //var value = await _palletizeService.PostPalletAsync(palletRequestModel, Configuration.SessionId, Configuration.NewPallet); 
-            #endregion
-
+            List<string> closedBatches = new List<string>();
             List<NewPallet> newPallets = new List<NewPallet>();
             NewPallet newPallet = null;
             List<TItem> palletItems = new List<TItem>();
@@ -273,58 +242,57 @@ namespace KegID.ViewModel
                 newPallet.OwnerId = Configuration.CompanyId;
                 newPallet.PalletId = Uuid.GetUuId();
                 newPallet.PalletItems = palletItems;
-                newPallet.ReferenceKey= "";
+                newPallet.ReferenceKey = "";
                 newPallet.Tags = SimpleIoc.Default.GetInstance<FillScanViewModel>().Tags;
                 //newPallet.TargetLocation = "";
 
                 newPallets.Add(newPallet);
             }
+
             var alertResult = await Application.Current.MainPage.DisplayAlert("Close batch", "Mark this batch as completed?", "Yes", "No");
 
-
             if (alertResult)
-            {
-                ManifestModel manifestModel = await ManifestManager.GetManifestDraft(EventTypeEnum.FILL_MANIFEST, SimpleIoc.Default.GetInstance<FillScanViewModel>().ManifestId,
+                closedBatches = PalletCollection.Select(x => x.ManifestId).ToList();
+
+            ManifestModel manifestModel = await ManifestManager.GetManifestDraft(EventTypeEnum.FILL_MANIFEST, SimpleIoc.Default.GetInstance<FillScanViewModel>().ManifestId,
                     SimpleIoc.Default.GetInstance<FillScanViewModel>().BarcodeCollection, SimpleIoc.Default.GetInstance<FillScanViewModel>().Tags,
-                    SimpleIoc.Default.GetInstance<FillViewModel>().PartnerModel, newPallets, new List<string>(),4);
+                    SimpleIoc.Default.GetInstance<FillViewModel>().PartnerModel, newPallets, closedBatches, 4);
 
-                if (manifestModel != null)
+            if (manifestModel != null)
+            {
+                try
                 {
-                    try
+                    var manifestResult = await _moveService.PostManifestAsync(manifestModel, Configuration.SessionId, Configuration.NewManifest);
+
+                    var manifest = await _moveService.GetManifestAsync(Configuration.SessionId, manifestResult.ManifestId);
+                    if (manifest.StatusCode == System.Net.HttpStatusCode.OK)
                     {
-                        var manifestResult = await _moveService.PostManifestAsync(manifestModel, Configuration.SessionId, Configuration.NewManifest);
+                        SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().TrackingNumber = manifest.TrackingNumber;
 
-                        var manifest = await _moveService.GetManifestAsync(Configuration.SessionId, manifestResult.ManifestId);
-                        if (manifest.StatusCode == System.Net.HttpStatusCode.OK)
-                        {
-                            SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().TrackingNumber = manifest.TrackingNumber;
+                        SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ManifestTo = manifest.CreatorCompany.FullName + "\n" + manifest.CreatorCompany.PartnerTypeName;
 
-                            SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ManifestTo = manifest.CreatorCompany.FullName + "\n" + manifest.CreatorCompany.PartnerTypeName;
+                        SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ShippingDate = manifest.ShipDate;
+                        SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ItemCount = manifest.ManifestItems.Count;
+                        SimpleIoc.Default.GetInstance<ContentTagsViewModel>().ContentCollection = manifest.ManifestItems.Select(x=>x.Barcode).ToList();
 
-                            SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ShippingDate = manifest.ShipDate;
-                            SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ItemCount = manifest.ManifestItems.Count;
-                            SimpleIoc.Default.GetInstance<ContentTagsViewModel>().ContentCollection = manifest.ManifestItems;
+                        SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().Contents = !string.IsNullOrEmpty(manifest.ManifestItems.FirstOrDefault().Contents) ? manifest.ManifestItems.FirstOrDefault().Contents : "No contens";
 
-                            SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().Contents = !string.IsNullOrEmpty(manifest.ManifestItems.FirstOrDefault().Contents) ? manifest.ManifestItems.FirstOrDefault().Contents : "No contens";
-
-                            Loader.StopLoading();
-                            await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestDetailView());
-                        }
-                        else
-                        {
-                            Loader.StopLoading();
-                            SimpleIoc.Default.GetInstance<LoginViewModel>().InvalideServiceCallAsync();
-                        }
+                        Loader.StopLoading();
+                        await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestDetailView());
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        Debug.WriteLine(ex.Message);
+                        Loader.StopLoading();
+                        SimpleIoc.Default.GetInstance<LoginViewModel>().InvalideServiceCallAsync();
                     }
                 }
-                else
-                    await Application.Current.MainPage.DisplayAlert("Alert", "Something goes wrong please check again", "Ok");
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
             }
-
+            else
+                await Application.Current.MainPage.DisplayAlert("Alert", "Something goes wrong please check again", "Ok");
         }
 
         private async void FillScanCommandRecieverAsync()

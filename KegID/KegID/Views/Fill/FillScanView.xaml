@@ -72,7 +72,7 @@
                 Margin="10,0,0,0"
                 IsVisible="{Binding IsPalletVisible,Converter={StaticResource InvertedBooleanConverter}}"
                 VerticalOptions="Center"
-                Text="{Binding Pallet,Mode=TwoWay}"
+                Text="{Binding ManifestId,Mode=TwoWay}"
                 HorizontalOptions="FillAndExpand"
                 Grid.Row="1"/>
 
@@ -242,7 +242,8 @@
                                 <Label 
                                     VerticalOptions="FillAndExpand" 
                                     VerticalTextAlignment="Center" 
-                                    Text="{Binding Id}" >
+                                    Text="{Binding Id}"
+                                    FontSize="{StaticResource TitleFont}">
                                     <Label.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding Path=BindingContext.LabelItemTappedCommand, 
                                                         Source={x:Reference Name=lstFillScan}}"
@@ -267,10 +268,10 @@
                                 </Image>
 
                                 <Label
-                                    FontSize="11"
                                     LineBreakMode="TailTruncation"
                                     TextColor="{StaticResource lightGrayColor}"
                                     Grid.Row="1"
+                                    FontSize="{StaticResource DetailFont}"
                                     Text="{Binding Path=BindingContext.TagsStr,Source={x:Reference Name=lstFillScan}}"/>
                             </Grid>
                         </ViewCell>

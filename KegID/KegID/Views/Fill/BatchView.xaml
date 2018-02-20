@@ -21,18 +21,12 @@
                     EventName="ItemTapped" 
                     Command="{Binding ItemTappedCommand}"
                     Converter="{StaticResource ItemTappedConverter}"/>
-
-                <behaviors:EventToCommandBehavior
-                      EventName="ItemSelected"
-                      Command="{Binding ItemSelectedCommand}"
-                      Converter="{StaticResource SelectedItemConverter}"/>
-
             </ListView.Behaviors>
 
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <Grid>
+                        <Grid HeightRequest="40">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="Auto"/>
@@ -42,18 +36,21 @@
                             <Label 
                                 VerticalOptions="FillAndExpand" 
                                 VerticalTextAlignment="Center" 
+                                FontSize="{StaticResource TitleFont}"
                                 Text="{Binding BrandName}" />
                             
                             <Label 
                                 Grid.Column="1"
                                 VerticalOptions="FillAndExpand" 
                                 VerticalTextAlignment="Center" 
+                                FontSize="{StaticResource TitleFont}"
                                 Text=" - " />
                             
                             <Label 
                                 Grid.Column="2"
                                 VerticalOptions="FillAndExpand" 
                                 VerticalTextAlignment="Center" 
+                                FontSize="{StaticResource TitleFont}"
                                 Text="{Binding BatchCode}" />
                         </Grid>
                     </ViewCell>

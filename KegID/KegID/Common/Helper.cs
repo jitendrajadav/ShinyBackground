@@ -132,7 +132,16 @@ namespace KegID.Common
 
         public static T DeserializeObject<T>(string response, JsonSerializerSettings setting)
         {
-            return JsonConvert.DeserializeObject<T>(response, setting);
+            T type = default(T);
+            try
+            {
+                return JsonConvert.DeserializeObject<T>(response, setting);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return type;
+            }
         }
 
         public class CustomIntConverter : JsonConverter

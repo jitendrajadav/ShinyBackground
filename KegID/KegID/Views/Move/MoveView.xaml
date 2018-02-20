@@ -28,19 +28,15 @@
                 FontAttributes="Bold"
                 Text="Create Manifest"/>
 
-            <!--IsVisible="{Binding IsSubmitVisible}"-->
+            <!---->
 
             <Button
                 BackgroundColor="Transparent"
                 TextColor="{StaticResource selectTextColor}"
                 HorizontalOptions="End"
-                Text="Submit">
-                <Button.Behaviors>
-                    <behaviors:ButtonEventToCommandBehavior
-                    EventName="Clicked"
-                    Command="{Binding SubmitCommand}"/>
-                </Button.Behaviors>
-            </Button>
+                Text="Submit"
+                Command="{Binding SubmitCommand}"
+                IsVisible="{Binding IsSubmitVisible}"/>
 
             <Grid
                 Grid.Row="1"
@@ -144,13 +140,13 @@
                 HorizontalOptions="FillAndExpand"/>
 
             <Button
-                IsVisible="{Binding IsSaveDraftVisible}"
                 BackgroundColor="Transparent"
                 TextColor="{StaticResource selectTextColor}"
                 HorizontalOptions="End"
                 Text="Save draft"
                 Grid.Row="10"
-                Command="{Binding SaveDraftCommand}"/>
+                Command="{Binding SaveDraftCommand}"
+                IsVisible="{Binding IsSaveDraftVisible}"/>
         </Grid>
         </Grid>
     </ContentPage.Content>

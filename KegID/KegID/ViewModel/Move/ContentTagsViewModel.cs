@@ -20,13 +20,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string ContentCollectionPropertyName = "ContentCollection";
 
-        private IList<CreatedManifestItem> _ContentCollection = null;
+        private IList<string> _ContentCollection = null;
 
         /// <summary>
         /// Sets and gets the ContentCollection property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public IList<CreatedManifestItem> ContentCollection
+        public IList<string> ContentCollection
         {
             get
             {

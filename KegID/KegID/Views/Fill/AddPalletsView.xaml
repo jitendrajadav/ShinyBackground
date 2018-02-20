@@ -106,11 +106,13 @@
                                 <Label 
                                     Grid.Column="0"
                                     Margin="10,0,0,0"
+                                    FontSize="{StaticResource TitleFont}"
                                     Text="{Binding ManifestId}"/>
                                 
                                 <Label 
                                     Grid.Column="1"
                                     Margin="0,0,10,0"
+                                    FontSize="{StaticResource TitleFont}"
                                     HorizontalTextAlignment="End"
                                     Text="{Binding Count}"/>
                             </Grid>

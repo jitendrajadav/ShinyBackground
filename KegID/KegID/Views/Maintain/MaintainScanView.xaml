@@ -154,7 +154,8 @@
                                 <Label 
                                     VerticalOptions="FillAndExpand" 
                                     VerticalTextAlignment="Center" 
-                                    Text="{Binding Id}" >
+                                    Text="{Binding Id}" 
+                                    FontSize="{StaticResource TitleFont}">
                                     <Label.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding Path=BindingContext.LabelItemTappedCommand, 
                                                         Source={x:Reference Name=lstBarcode}}"
@@ -179,10 +180,10 @@
                                 </Image>
 
                                 <Label
-                                    FontSize="11"
                                     LineBreakMode="TailTruncation"
                                     TextColor="{StaticResource lightGrayColor}"
                                     Grid.Row="1"
+                                    FontSize="{StaticResource DetailFont}"
                                     Text="{Binding Path=BindingContext.TagsStr,Source={x:Reference Name=lstBarcode}}"/>
                             </Grid>
                         </ViewCell>

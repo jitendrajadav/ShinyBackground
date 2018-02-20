@@ -128,15 +128,25 @@
                         EventName="ItemTapped" 
                         Command="{Binding ItemTappedCommand}"
                         Converter="{StaticResource ItemTappedConverter}"/>
-
                 </ListView.Behaviors>
 
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
                             <StackLayout>
-                                <Label TextColor="{StaticResource selectTextColor}" Text="{Binding FullName}" />
-                                <Label TextColor="{StaticResource lightGrayColor}" Text="{Binding Address}" FontSize="Micro"/>
+                                <Label 
+                                    TextColor="{StaticResource selectTextColor}" 
+                                    Text="{Binding FullName}"
+                                    FontSize="{StaticResource TitleFont}"/>
+                                <Label 
+                                    TextColor="{StaticResource lightGrayColor}" 
+                                    Text="{Binding Address}" 
+                                    FontSize="{StaticResource DetailFont}"
+                                    LineBreakMode="TailTruncation"/>
+                                <Label 
+                                    TextColor="{StaticResource lightGrayColor}" 
+                                    Text="{Binding PartnerTypeName}" 
+                                    FontSize="{StaticResource DetailFont}"/>
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>

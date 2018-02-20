@@ -107,12 +107,6 @@
                         EventName="ItemTapped" 
                         Command="{Binding ItemTappedCommand}"
                         Converter="{StaticResource ItemTappedConverter}"/>
-
-                    <behaviors:EventToCommandBehavior
-                        EventName="ItemSelected"
-                        Command="{Binding ItemSelectedCommand}"
-                        Converter="{StaticResource SelectedItemConverter}"/>
-
                 </ListView.Behaviors>
 
                 <ListView.ItemTemplate>
@@ -129,22 +123,26 @@
                                 </Grid.ColumnDefinitions>
                                 
                                 <Label
+                                    FontSize="{StaticResource TitleFont}"
                                     TextColor="{StaticResource selectTextColor}"
                                     LineBreakMode="TailTruncation"
                                     Text="{Binding DestinationName}"/>
 
                                 <Label
+                                    FontSize="{StaticResource TitleFont}"
                                     TextColor="{StaticResource selectTextColor}"
                                     Grid.Row="1"
                                     Text="{Binding ShipDate, StringFormat='{0:dd/MM/yy}'}"/>
 
                                 <Label
+                                    FontSize="{StaticResource TitleFont}"
                                     TextColor="{StaticResource selectTextColor}"
                                     HorizontalOptions="End"
                                     Grid.Column="1"
                                     Text="{Binding ManifestId, StringFormat='# {0}',Converter={StaticResource StringToLast8CharacterConverter}}"/>
 
                                 <Label
+                                    FontSize="{StaticResource TitleFont}"
                                     TextColor="{StaticResource selectTextColor}"
                                     HorizontalOptions="End"
                                     Grid.Column="1"

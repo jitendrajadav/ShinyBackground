@@ -107,6 +107,7 @@ namespace KegID.ViewModel
         #region Constructor
         public MaintainScanViewModel(IMoveService moveService)
         {
+            _moveService = moveService;
             SubmitCommand = new RelayCommand(SubmitCommandRecieverAsync);
             BackCommand = new RelayCommand(BackCommandRecieverAsync);
             BarcodeScanCommand = new RelayCommand(BarcodeScanCommandReciever);
@@ -218,13 +219,15 @@ namespace KegID.ViewModel
             {
                 Loader.StartLoading();
 
-                ManifestModel manifestPostModel = null;
-                if (manifestPostModel != null)
-                {
+                ManifestModel manifestModel = await ManifestManager.GetManifestDraft(EventTypeEnum.REPAIR_MANIFEST, Uuid.GetUuId(),
+                                                BarcodeCollection,new List<Tag>(),
+                                                SimpleIoc.Default.GetInstance<MaintainViewModel>().PartnerModel, new List<NewPallet>(), new List<string>(), 6);
 
+                if (manifestModel != null)
+                {
                     try
                     {
-                        var result = await _moveService.PostManifestAsync(manifestPostModel, Configuration.SessionId, Configuration.NewManifest);
+                        var result = await _moveService.PostManifestAsync(manifestModel, Configuration.SessionId, Configuration.NewManifest);
 
                         var manifest = await _moveService.GetManifestAsync(Configuration.SessionId, result.ManifestId);
                         if (manifest.StatusCode == System.Net.HttpStatusCode.OK)
@@ -235,7 +238,7 @@ namespace KegID.ViewModel
 
                             SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ShippingDate = manifest.ShipDate;
                             SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ItemCount = manifest.ManifestItems.Count;
-                            SimpleIoc.Default.GetInstance<ContentTagsViewModel>().ContentCollection = manifest.ManifestItems;
+                            SimpleIoc.Default.GetInstance<ContentTagsViewModel>().ContentCollection = manifest.ManifestItems.Select(x=>x.Barcode).ToList();
 
                             SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().Contents = !string.IsNullOrEmpty(manifest.ManifestItems.FirstOrDefault().Contents) ? manifest.ManifestItems.FirstOrDefault().Contents : "No contens";
 

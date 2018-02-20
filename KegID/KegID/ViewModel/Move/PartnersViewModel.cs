@@ -30,6 +30,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string IsWorkingPropertyName = "IsWorking";
 
+
         private bool _IsWorking = false;
 
         /// <summary>
@@ -347,18 +348,19 @@ namespace KegID.ViewModel
                         break;
                     case ViewTypeEnum.FillView:
                         SimpleIoc.Default.GetInstance<FillViewModel>().PartnerModel = model;
+                        PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners);
                         break;
                     case ViewTypeEnum.PalletizeView:
                         if (SimpleIoc.Default.GetInstance<PalletizeViewModel>().TargetLocationPartner)
                         {
                             SimpleIoc.Default.GetInstance<PalletizeViewModel>().TargetLocationPartner = false;
-                            SimpleIoc.Default.GetInstance<PalletizeViewModel>().TargetLocationTitle = model.FullName;
+                            SimpleIoc.Default.GetInstance<PalletizeViewModel>().TargetLocation = model;
                         }
                         else
-                            SimpleIoc.Default.GetInstance<PalletizeViewModel>().SelectLocationTitle = model.FullName;
+                            SimpleIoc.Default.GetInstance<PalletizeViewModel>().StockLocation = model;
                         break;
                     case ViewTypeEnum.MaintainView:
-                        SimpleIoc.Default.GetInstance<MaintainViewModel>().SelectionLocationButtonTitle = model.FullName;
+                        SimpleIoc.Default.GetInstance<MaintainViewModel>().PartnerModel = model;
                         break;
                     default:
                         break;
@@ -370,6 +372,7 @@ namespace KegID.ViewModel
         private async void LoadPartnersAsync()
         {
             AllPartners = await SQLiteServiceClient.Db.Table<PartnerModel>().ToListAsync();
+
             try
             {
                 if (AllPartners.Count > 0)
@@ -381,19 +384,37 @@ namespace KegID.ViewModel
                     if (value.StatusCode == System.Net.HttpStatusCode.OK)
                     {
                         AllPartners = value.PartnerModel.Where(x=>x.FullName != string.Empty).ToList();
-                        PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners);
+                        if ((Application.Current.MainPage.Navigation.ModalStack[Application.Current.MainPage.Navigation.ModalStack.Count - 2].GetType().Name) == ViewTypeEnum.FillView.ToString())
+                            SetFillViewFilter();
+                        else
+                            PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners);
                         await SQLiteServiceClient.Db.InsertAllAsync(AllPartners);
                     }
                 }
             }
-            catch (System.Exception)
+            catch (Exception ex)
             {
+                Debug.WriteLine(ex.Message);
             }
             finally
             {
                 Loader.StopLoading();
             }
-        } 
+        }
+
+        internal void SetFillViewFilter()
+        {
+            try
+            {
+                if (AllPartners != null)
+                    PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners.Where(x => x.PartnerTypeName == "Brewer - Stock").ToList());
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
+
         private void AlphabeticalCommandReciever()
         {
             PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners.OrderBy(x => x.FullName));

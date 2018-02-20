@@ -225,7 +225,7 @@
                     Grid.ColumnSpan="2"
                     HorizontalOptions="Center"
                     Command="{Binding PartnerCommand}"
-                    Text="{Binding SelectionLocationButtonTitle}"/>
+                    Text="{Binding Path=PartnerModel.FullName}"/>
 
                 <Button
                     HeightRequest="40"

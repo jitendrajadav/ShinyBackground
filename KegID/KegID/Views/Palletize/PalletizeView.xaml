@@ -28,17 +28,16 @@
                 Text="Build Pallet"/>
             
             <Button
-                IsVisible="{Binding IsSubmitVisible}"
                 BackgroundColor="Transparent"
                 TextColor="{StaticResource selectTextColor}"
                 HorizontalOptions="End"
                 Text="Submit"
                 VerticalOptions="Center"
-                Command="{Binding SubmitCommand}"/>
+                Command="{Binding SubmitCommand}"
+                IsVisible="{Binding IsSubmitVisible}"/>
 
             <Grid
-                Grid.Row="1"
-                Margin="10,0,10,0">
+                Grid.Row="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -55,28 +54,26 @@
                 </Grid.RowDefinitions>
 
                 <BoxView
-                    Margin="-10,0,0,0"
                     Grid.Row="0"
                     BackgroundColor="{StaticResource bannerBGColor}"
-                    WidthRequest="10"
                     VerticalOptions="FillAndExpand"
                     HorizontalOptions="FillAndExpand"/>
 
                 <Label 
+                    Margin="10,0,10,0"
                     IsVisible="{Binding IsCameraVisible,Converter={StaticResource InvertedBooleanConverter}}"
-                    Margin="0,0,-10,0"
                     HeightRequest="40"
-                    Text="{Binding Pallet,Mode=TwoWay}"
+                    Text="{Binding ManifestId, StringFormat='Pallet# -{0}'}"
                     BackgroundColor="{StaticResource bannerBGColor}"
                     TextColor="White"
                     VerticalTextAlignment="Center"
                     VerticalOptions="CenterAndExpand"/>
 
                 <Entry 
+                    Margin="10,0,10,0"
                     IsVisible="{Binding IsCameraVisible}"
-                    Margin="0,0,-10,0"
                     HeightRequest="40"
-                    Text="{Binding Pallet,Mode=TwoWay}"
+                    Text="{Binding ManifestId,Mode=TwoWay}"
                     VerticalOptions="Center"/>
 
                 <Button
@@ -85,6 +82,7 @@
                     BorderRadius="5"
                     WidthRequest="50"
                     BorderWidth="0"
+                    VerticalOptions="FillAndExpand"
                     Command="{Binding IsPalletVisibleCommand}"
                     BackgroundColor="Transparent">
                         <Button.Image>
@@ -108,6 +106,7 @@
                     BorderRadius="5"
                     WidthRequest="50"
                     BorderWidth="0"
+                    VerticalOptions="FillAndExpand"
                     Command="{Binding BarcodeScanCommand}"
                     BackgroundColor="Transparent">
                         <Button.Image>
@@ -126,6 +125,7 @@
                 </Button>
 
                 <Label
+                    Margin="10,0,0,0"
                     Text="Stock ocation:"
                     Grid.Row="1"/>
 
@@ -135,7 +135,7 @@
                     HorizontalOptions="Start"
                     BackgroundColor="Transparent"
                     Command="{Binding PartnerCommand}"
-                    Text="{Binding SelectLocationTitle}"
+                    Text="{Binding Path=StockLocation.FullName}"
                     Grid.Row="2"/>
 
                 <BoxView
@@ -146,6 +146,7 @@
                     HorizontalOptions="FillAndExpand"/>
 
                 <Label
+                    Margin="10,0,0,0"
                     Text="Target location:"
                     Grid.Row="4"/>
 
@@ -154,7 +155,7 @@
                     Margin="10,0,0,0"
                     BackgroundColor="Transparent"
                     HorizontalOptions="Start"
-                    Text="{Binding TargetLocationTitle}"
+                    Text="{Binding Path=TargetLocation.FullName}"
                     Command="{Binding TargetLocationPartnerCommand}"
                     Grid.Row="5"/>
 
@@ -166,6 +167,7 @@
                     HorizontalOptions="FillAndExpand"/>
 
                 <Label
+                    Margin="10,0,0,0"
                     Text="More Info:"
                     Grid.Row="7"/>
 
@@ -186,6 +188,7 @@
                     HorizontalOptions="FillAndExpand"/>
 
                 <Label
+                    Margin="10,0,0,0"
                     Text="Kegs:"
                     Grid.Row="10"/>
 

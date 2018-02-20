@@ -38,7 +38,7 @@
 
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <TextCell Text="{Binding FullName}"/>
+                        <TextCell Height="40" Text="{Binding FullName}"/>
                     </DataTemplate>
                 </ListView.ItemTemplate>
 

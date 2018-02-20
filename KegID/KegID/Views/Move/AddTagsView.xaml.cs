@@ -99,6 +99,7 @@ namespace KegID.Views
                     valueEntry = new Picker()
                     {
                         VerticalOptions = LayoutOptions.Center,
+                        Title = "Select "+ title.ToString()
                     };
                     break;
                 case TagsTypeEnum.None:

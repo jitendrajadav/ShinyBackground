@@ -47,6 +47,7 @@ namespace KegID.ViewModel
             SimpleIoc.Default.Register<PartnerInfoViewModel>();
             SimpleIoc.Default.Register<BrandViewModel>();
             SimpleIoc.Default.Register<VolumeViewModel>();
+            SimpleIoc.Default.Register<PalletizeDetailViewModel>();
 
         }
         #endregion
@@ -529,10 +530,28 @@ namespace KegID.ViewModel
 
         #endregion
 
+        #region PalletizeDetail
+
+        /// <summary>
+        /// Gets the PalletizeDetail property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public PalletizeDetailViewModel PalletizeDetail
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<PalletizeDetailViewModel>();
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Maintain
-       
+
         #region Maintain
 
         /// <summary>

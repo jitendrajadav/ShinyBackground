@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using KegID.Model;
 using KegID.Views;
 using Xamarin.Forms;
 
@@ -9,35 +10,35 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        #region SelectionLocationButtonTitle
+        #region PartnerModel
 
         /// <summary>
-        /// The <see cref="SelectionLocationButtonTitle" /> property's name.
+        /// The <see cref="PartnerModel" /> property's name.
         /// </summary>
-        public const string SelectionLocationButtonTitlePropertyName = "SelectionLocationButtonTitle";
+        public const string PartnerModelPropertyName = "PartnerModel";
 
-        private string _SelectionLocationButtonTitle = "Select a location";
+        private PartnerModel _PartnerModel = new PartnerModel();
 
         /// <summary>
-        /// Sets and gets the SelectionLocationButtonTitle property.
+        /// Sets and gets the PartnerModel property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public string SelectionLocationButtonTitle
+        public PartnerModel PartnerModel
         {
             get
             {
-                return _SelectionLocationButtonTitle;
+                return _PartnerModel;
             }
 
             set
             {
-                if (_SelectionLocationButtonTitle == value)
+                if (_PartnerModel == value)
                 {
                     return;
                 }
 
-                _SelectionLocationButtonTitle = value;
-                RaisePropertyChanged(SelectionLocationButtonTitlePropertyName);
+                _PartnerModel = value;
+                RaisePropertyChanged(PartnerModelPropertyName);
             }
         }
 
@@ -330,6 +331,7 @@ namespace KegID.ViewModel
             HomeCommand = new RelayCommand(HomeCommandRecieverAsync);
             PartnerCommand = new RelayCommand(PartnerCommandRecieverAsync);
             NextCommand = new RelayCommand(NextCommandRecieverAsync);
+            PartnerModel.FullName = "Select a location";
         }
 
         #endregion

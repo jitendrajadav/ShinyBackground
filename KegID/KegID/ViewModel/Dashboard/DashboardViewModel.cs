@@ -399,7 +399,11 @@ namespace KegID.ViewModel
 
         private async void FillCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new FillView());
 
-        private async void PalletizeCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new PalletizeView());
+        private async void PalletizeCommandRecieverAsync()
+        {
+            SimpleIoc.Default.GetInstance<PalletizeViewModel>().GenerateManifestIdAsync(null);
+            await Application.Current.MainPage.Navigation.PushModalAsync(new PalletizeView());
+        }
 
         private async void MaintainCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new MaintainView());
 

@@ -46,20 +46,24 @@
                         EventName="ItemTapped" 
                         Command="{Binding ItemTappedCommand}"
                         Converter="{StaticResource ItemTappedConverter}"/>
-
-                    <behaviors:EventToCommandBehavior
-                        EventName="ItemSelected"
-                        Command="{Binding ItemSelectedCommand}"
-                        Converter="{StaticResource SelectedItemConverter}"/>
-
                 </ListView.Behaviors>
 
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
                             <StackLayout>
-                                <Label TextColor="{StaticResource selectTextColor}" Text="{Binding FullName}" />
-                                <Label TextColor="{StaticResource lightGrayColor}" Text="{Binding Address}" FontSize="Micro"/>
+                                <Label 
+                                    TextColor="{StaticResource selectTextColor}" 
+                                    Text="{Binding FullName}"
+                                    FontSize="{StaticResource TitleFont}"/>
+                                <Label 
+                                    TextColor="{StaticResource lightGrayColor}"
+                                    Text="{Binding Address}" 
+                                    FontSize="{StaticResource DetailFont}"/>
+                                <Label 
+                                    TextColor="{StaticResource lightGrayColor}" 
+                                    Text="{Binding PartnerTypeName}" 
+                                    FontSize="{StaticResource DetailFont}"/>
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>

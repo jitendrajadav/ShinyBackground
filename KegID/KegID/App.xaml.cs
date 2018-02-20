@@ -47,6 +47,7 @@ namespace KegID
 
         protected override void OnStart ()
 		{
+            AppCenter.LogLevel = LogLevel.Verbose;
             AppCenter.Start("uwp=0404c586-124c-4b55-8848-910689b6881b;" +
                    "android=31ceef42-fd24-49d3-8e7e-21f144355dde;" +
                    "ios=b80b8476-04cf-4fc3-b7f7-be06ba7f2213",

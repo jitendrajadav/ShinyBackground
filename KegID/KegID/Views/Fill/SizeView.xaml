@@ -22,7 +22,7 @@
             </ListView.Behaviors>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextCell Text="{Binding}"/>
+                    <TextCell Height="40" Text="{Binding}"/>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
