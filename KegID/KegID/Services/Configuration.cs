@@ -11,7 +11,8 @@
         public const string NewPartner = "NewPartner";
         public const string NewBatch = "Batch";
         public const string NewPallet = "NewPallet";
-        
+        public const string PostedMaintenanceDone = "PostedMaintenanceDone";
+
         /// <summary>
         /// Base Url
         /// </summary>
@@ -51,7 +52,14 @@
 
         public const string PostBatchUrl = ServiceUrl + "Batch/?sessionId={0}";
         public const string PostPalletUrl = ServiceUrl + "Pallet/?sessionId={0}";
-        
+
+
+        /// <summary>
+        /// Maintain Service Url
+        /// </summary>
+        public const string GetMaintenanceTypeUrl = ServiceUrl + "MaintenanceType/?sessionId={0}";
+
+        public const string PostMaintenanceDoneUrl = ServiceUrl + "MaintenanceDone/?sessionId={0}";
 
     }
 }

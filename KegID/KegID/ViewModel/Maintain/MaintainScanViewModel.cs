@@ -22,6 +22,9 @@ namespace KegID.ViewModel
     {
         #region Properties
         public IMoveService _moveService { get; set; }
+        public IMaintainService _maintainService { get; set; }
+
+        public IList<MaintainTypeReponseModel> MaintainTypeReponseModel { get; set; }
 
         #region ManaulBarcode
 
@@ -105,20 +108,44 @@ namespace KegID.ViewModel
         #endregion
 
         #region Constructor
-        public MaintainScanViewModel(IMoveService moveService)
+        public MaintainScanViewModel(IMoveService moveService, IMaintainService maintainService)
         {
             _moveService = moveService;
+            _maintainService = maintainService;
+
             SubmitCommand = new RelayCommand(SubmitCommandRecieverAsync);
             BackCommand = new RelayCommand(BackCommandRecieverAsync);
             BarcodeScanCommand = new RelayCommand(BarcodeScanCommandReciever);
             BarcodeManualCommand = new RelayCommand(BarcodeManualCommandRecieverAsync);
             LabelItemTappedCommand = new RelayCommand<Barcode>((model) => LabelItemTappedCommandRecieverAsync(model));
             IconItemTappedCommand = new RelayCommand<Barcode>((model) => IconItemTappedCommandRecieverAsync(model));
+
+            LoadMaintenanceTypeAsync();
         }
 
         #endregion
 
         #region Methods
+        private async void LoadMaintenanceTypeAsync()
+        {
+            MaintainTypeReponseModel = await SQLiteServiceClient.Db.Table<MaintainTypeReponseModel>().ToListAsync();
+
+            if (MaintainTypeReponseModel.Count == 0)
+            {
+                var model = await _maintainService.GetMaintainTypeAsync(Configuration.SessionId);
+                try
+                {
+                    // The item does not exists in the database so lets insert it
+                    await SQLiteServiceClient.Db.InsertAllAsync(model.MaintainTypeReponseModel);
+                    MaintainTypeReponseModel = model.MaintainTypeReponseModel;
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
+            }
+        }
+
         private async void LabelItemTappedCommandRecieverAsync(Barcode model)
         {
 
@@ -132,7 +159,6 @@ namespace KegID.ViewModel
             }
             else
             {
-                //IsFromScanned = true;
                 await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView());
             }
         }
@@ -172,6 +198,7 @@ namespace KegID.ViewModel
             await ValidateBarcodeInsertIntoLocalDB(ManaulBarcode);
             ManaulBarcode = string.Empty;
         }
+
         private async Task ValidateBarcodeInsertIntoLocalDB(string barcodeId)
         {
             ValidateBarcodeModel validateBarcodeModel = await _moveService.GetValidateBarcodeAsync(Configuration.SessionId, barcodeId);
@@ -215,49 +242,116 @@ namespace KegID.ViewModel
 
         private async void SubmitCommandRecieverAsync()
         {
+            #region Old Code for Manifest Creation
+            //try
+            //{
+            //    Loader.StartLoading();
+
+            //    ManifestModel manifestModel = await ManifestManager.GetManifestDraft(EventTypeEnum.REPAIR_MANIFEST, Uuid.GetUuId(),
+            //                                    BarcodeCollection,new List<Tag>(),
+            //                                    SimpleIoc.Default.GetInstance<MaintainViewModel>().PartnerModel, new List<NewPallet>(), new List<string>(), 6);
+
+            //    if (manifestModel != null)
+            //    {
+            //        try
+            //        {
+            //            var result = await _moveService.PostManifestAsync(manifestModel, Configuration.SessionId, Configuration.NewManifest);
+
+            //            var manifest = await _moveService.GetManifestAsync(Configuration.SessionId, result.ManifestId);
+            //            if (manifest.StatusCode == System.Net.HttpStatusCode.OK)
+            //            {
+            //                SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().TrackingNumber = manifest.TrackingNumber;
+
+            //                SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ManifestTo = manifest.CreatorCompany.FullName + "\n" + manifest.CreatorCompany.PartnerTypeName;
+
+            //                SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ShippingDate = manifest.ShipDate;
+            //                SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ItemCount = manifest.ManifestItems.Count;
+            //                SimpleIoc.Default.GetInstance<ContentTagsViewModel>().ContentCollection = manifest.ManifestItems.Select(x=>x.Barcode).ToList();
+
+            //                SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().Contents = !string.IsNullOrEmpty(manifest.ManifestItems.FirstOrDefault().Contents) ? manifest.ManifestItems.FirstOrDefault().Contents : "No contens";
+
+            //                Loader.StopLoading();
+            //                await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestDetailView());
+            //            }
+            //            else
+            //            {
+            //                Loader.StopLoading();
+            //                SimpleIoc.Default.GetInstance<LoginViewModel>().InvalideServiceCallAsync();
+            //            }
+            //        }
+            //        catch (Exception ex)
+            //        {
+            //            Debug.WriteLine(ex.Message);
+            //        }
+            //    }
+            //    else
+            //        await Application.Current.MainPage.DisplayAlert("Alert", "Something goes wrong please check again", "Ok");
+            //}
+            //catch (Exception ex)
+            //{
+            //    Debug.WriteLine(ex.Message);
+            //}
+            //finally
+            //{
+            //    Loader.StopLoading();
+            //} 
+            #endregion
+
             try
             {
                 Loader.StartLoading();
 
-                ManifestModel manifestModel = await ManifestManager.GetManifestDraft(EventTypeEnum.REPAIR_MANIFEST, Uuid.GetUuId(),
-                                                BarcodeCollection,new List<Tag>(),
-                                                SimpleIoc.Default.GetInstance<MaintainViewModel>().PartnerModel, new List<NewPallet>(), new List<string>(), 6);
+                List<MaintainKeg> kegs = new List<MaintainKeg>();
+                MaintainKeg keg = null;
 
-                if (manifestModel != null)
+                foreach (var item in BarcodeCollection)
                 {
-                    try
-                    {
-                        var result = await _moveService.PostManifestAsync(manifestModel, Configuration.SessionId, Configuration.NewManifest);
+                    keg = new MaintainKeg();
+                    keg.Barcode = item.Id;
+                    keg.BatchId = Uuid.GetUuId();
+                    keg.Contents = "";
+                    keg.HeldOnPalletId = Uuid.GetUuId();
+                    keg.KegId = Uuid.GetUuId();
+                    keg.Message = SimpleIoc.Default.GetInstance<MaintainViewModel>().Notes;
+                    keg.PalletId = Uuid.GetUuId();
+                    keg.ScanDate = DateTimeOffset.Now;
+                    keg.SkuId = Uuid.GetUuId();
+                    keg.Tags = new List<KegTag>();
 
-                        var manifest = await _moveService.GetManifestAsync(Configuration.SessionId, result.ManifestId);
-                        if (manifest.StatusCode == System.Net.HttpStatusCode.OK)
-                        {
-                            SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().TrackingNumber = manifest.TrackingNumber;
+                    kegs.Add(keg);
+                }
 
-                            SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ManifestTo = manifest.CreatorCompany.FullName + "\n" + manifest.CreatorCompany.PartnerTypeName;
+                MaintenanceDoneRequestModel maintenanceDoneRequestModel = new MaintenanceDoneRequestModel();
+                maintenanceDoneRequestModel.ActionsPerformed = MaintainTypeReponseModel.Select(x=>x.Id).ToList();
+                maintenanceDoneRequestModel.DatePerformed = DateTimeOffset.Now;
+                maintenanceDoneRequestModel.Kegs = kegs;
+                maintenanceDoneRequestModel.LocationId = SimpleIoc.Default.GetInstance<MaintainViewModel>().PartnerModel.PartnerId;
+                maintenanceDoneRequestModel.MaintenancePostingId = Uuid.GetUuId();
+                maintenanceDoneRequestModel.Operator = "Bent Neck";
+                maintenanceDoneRequestModel.SourceKey = "";
+                maintenanceDoneRequestModel.SubmittedDate = DateTimeOffset.Now;
+                maintenanceDoneRequestModel.Tags = new List<MaintenanceDoneRequestModelTag>();
 
-                            SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ShippingDate = manifest.ShipDate;
-                            SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ItemCount = manifest.ManifestItems.Count;
-                            SimpleIoc.Default.GetInstance<ContentTagsViewModel>().ContentCollection = manifest.ManifestItems.Select(x=>x.Barcode).ToList();
+                KegIDResponse kegIDResponse = await _maintainService.PostMaintenanceDoneAsync(maintenanceDoneRequestModel, Configuration.SessionId, Configuration.PostedMaintenanceDone);
+                if (kegIDResponse.StatusCode == System.Net.HttpStatusCode.NoContent)
+                {
+                    SimpleIoc.Default.GetInstance<MaintainDetailViewModel>().TrackingNo = Uuid.GetUuId();
 
-                            SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().Contents = !string.IsNullOrEmpty(manifest.ManifestItems.FirstOrDefault().Contents) ? manifest.ManifestItems.FirstOrDefault().Contents : "No contens";
+                    SimpleIoc.Default.GetInstance<MaintainDetailViewModel>().StockLocation = SimpleIoc.Default.GetInstance<MaintainViewModel>().PartnerModel.FullName + "\n" + SimpleIoc.Default.GetInstance<MaintainViewModel>().PartnerModel.PartnerTypeName;
+                    SimpleIoc.Default.GetInstance<MaintainDetailViewModel>().MaintenanceCollection = SimpleIoc.Default.GetInstance<MaintainViewModel>().MaintenancePerformedCollection;
+                    SimpleIoc.Default.GetInstance<MaintainDetailViewModel>().ItemCount = BarcodeCollection.Count;
+                    SimpleIoc.Default.GetInstance<ContentTagsViewModel>().ContentCollection = BarcodeCollection.Select(x => x.Id).ToList();
 
-                            Loader.StopLoading();
-                            await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestDetailView());
-                        }
-                        else
-                        {
-                            Loader.StopLoading();
-                            SimpleIoc.Default.GetInstance<LoginViewModel>().InvalideServiceCallAsync();
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Debug.WriteLine(ex.Message);
-                    }
+                    SimpleIoc.Default.GetInstance<MaintainDetailViewModel>().Contents = string.Empty;
+
+                    Loader.StopLoading();
+                    await Application.Current.MainPage.Navigation.PushModalAsync(new MaintainDetailView());
                 }
                 else
-                    await Application.Current.MainPage.DisplayAlert("Alert", "Something goes wrong please check again", "Ok");
+                {
+                    Loader.StopLoading();
+                    //SimpleIoc.Default.GetInstance<LoginViewModel>().InvalideServiceCallAsync();
+                }
             }
             catch (Exception ex)
             {
@@ -267,6 +361,7 @@ namespace KegID.ViewModel
             {
                 Loader.StopLoading();
             }
+
 
         }
 

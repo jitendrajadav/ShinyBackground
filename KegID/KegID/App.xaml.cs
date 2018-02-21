@@ -27,6 +27,7 @@ namespace KegID
 		{
 			InitializeComponent();
 
+            #region Services Register
             if (!SimpleIoc.Default.IsRegistered<IAccountService>())
                 SimpleIoc.Default.Register<IAccountService, AccountService>();
 
@@ -41,6 +42,11 @@ namespace KegID
 
             if (!SimpleIoc.Default.IsRegistered<IPalletizeService>())
                 SimpleIoc.Default.Register<IPalletizeService, PalletizeService>();
+
+            if (!SimpleIoc.Default.IsRegistered<IMaintainService>())
+                SimpleIoc.Default.Register<IMaintainService, MaintainService>();
+
+            #endregion
 
             MainPage = new LoginView();
         }

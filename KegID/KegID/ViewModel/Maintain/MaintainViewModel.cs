@@ -2,6 +2,7 @@
 using GalaSoft.MvvmLight.Command;
 using KegID.Model;
 using KegID.Views;
+using System.Collections.Generic;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -9,6 +10,8 @@ namespace KegID.ViewModel
     public class MaintainViewModel : ViewModelBase
     {
         #region Properties
+
+        public IList<string> MaintenancePerformedCollection { get; set; }
 
         #region PartnerModel
 
@@ -72,6 +75,10 @@ namespace KegID.ViewModel
                 }
 
                 _BentChime = value;
+                if (_BentChime)
+                    MaintenancePerformedCollection.Add("Bent Chime");
+                else
+                    MaintenancePerformedCollection.Remove("Bent Chime");
                 RaisePropertyChanged(BentChimePropertyName);
             }
         }
@@ -106,6 +113,10 @@ namespace KegID.ViewModel
                 }
 
                 _BentNeck = value;
+                if (_BentNeck)
+                    MaintenancePerformedCollection.Add("Bent Neck");
+                else
+                    MaintenancePerformedCollection.Remove("Bent Neck");
                 RaisePropertyChanged(BentNeckPropertyName);
             }
         }
@@ -140,6 +151,10 @@ namespace KegID.ViewModel
                 }
 
                 _DamagedSpear = value;
+                if (_DamagedSpear)
+                    MaintenancePerformedCollection.Add("Damaged Spear");
+                else
+                    MaintenancePerformedCollection.Remove("Damaged Spear");
                 RaisePropertyChanged(DamagedSpearPropertyName);
             }
         }
@@ -174,6 +189,10 @@ namespace KegID.ViewModel
                 }
 
                 _DeepCleaning = value;
+                if (_DeepCleaning)
+                    MaintenancePerformedCollection.Add("Deep Cleaning");
+                else
+                    MaintenancePerformedCollection.Remove("Deep Cleaning");
                 RaisePropertyChanged(DeepCleaningPropertyName);
             }
         }
@@ -208,6 +227,10 @@ namespace KegID.ViewModel
                 }
 
                 _FaultySeal = value;
+                if (_FaultySeal)
+                    MaintenancePerformedCollection.Add("Faulty Seal");
+                else
+                    MaintenancePerformedCollection.Remove("Faulty Seal");
                 RaisePropertyChanged(FaultySealPropertyName);
             }
         }
@@ -242,6 +265,10 @@ namespace KegID.ViewModel
                 }
 
                 _FaultyValve = value;
+                if (_FaultyValve)
+                    MaintenancePerformedCollection.Add("Faulty Valve");
+                else
+                    MaintenancePerformedCollection.Remove("Faulty Valve");
                 RaisePropertyChanged(FaultyValvePropertyName);
             }
         }
@@ -276,6 +303,10 @@ namespace KegID.ViewModel
                 }
 
                 _ValveInspection = value;
+                if (_ValveInspection)
+                    MaintenancePerformedCollection.Add("Valve Inspection");
+                else
+                    MaintenancePerformedCollection.Remove("Valve Inspection");
                 RaisePropertyChanged(ValveInspectionPropertyName);
             }
         }
@@ -289,7 +320,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string NotesPropertyName = "Notes";
 
-        private string _Notes = default(string);
+        private string _Notes = string.Empty;
 
         /// <summary>
         /// Sets and gets the Notes property.
@@ -332,6 +363,7 @@ namespace KegID.ViewModel
             PartnerCommand = new RelayCommand(PartnerCommandRecieverAsync);
             NextCommand = new RelayCommand(NextCommandRecieverAsync);
             PartnerModel.FullName = "Select a location";
+            MaintenancePerformedCollection = new List<string>();
         }
 
         #endregion

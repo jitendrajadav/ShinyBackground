@@ -12,42 +12,57 @@ namespace KegID.ViewModel
         {
             SimpleIoc.Default.Register(() => SimpleIoc.Default);
 
-            SimpleIoc.Default.Register<MainViewModel>();
-            SimpleIoc.Default.Register<LoginViewModel>();
-            SimpleIoc.Default.Register<KegIDMasterPageMasterViewModel>();
+            #region Move
             SimpleIoc.Default.Register<MoveViewModel>();
-            SimpleIoc.Default.Register<FillViewModel>();
-            SimpleIoc.Default.Register<PalletizeViewModel>();
-            SimpleIoc.Default.Register<MaintainViewModel>();
-            SimpleIoc.Default.Register<DashboardViewModel>();
-            SimpleIoc.Default.Register<SettingViewModel>();
-            SimpleIoc.Default.Register<WhatIsNewViewModel>();
+            SimpleIoc.Default.Register<ScanInfoViewModel>();
+            SimpleIoc.Default.Register<ManifestsViewModel>();
+            SimpleIoc.Default.Register<SearchManifestsViewModel>();
+            SimpleIoc.Default.Register<SearchedManifestsListViewModel>();
+            SimpleIoc.Default.Register<ManifestDetailViewModel>();
+            SimpleIoc.Default.Register<BatchViewModel>();
+            SimpleIoc.Default.Register<SizeViewModel>();
+            SimpleIoc.Default.Register<ContentTagsViewModel>();
+            SimpleIoc.Default.Register<ValidateBarcodeViewModel>();
             SimpleIoc.Default.Register<PartnersViewModel>();
             SimpleIoc.Default.Register<AddPartnerViewModel>();
             SimpleIoc.Default.Register<EditAddressViewModel>();
             SimpleIoc.Default.Register<SearchPartnersViewModel>();
             SimpleIoc.Default.Register<AddTagsViewModel>();
             SimpleIoc.Default.Register<ScanKegsViewModel>();
-            SimpleIoc.Default.Register<BatchViewModel>();
-            SimpleIoc.Default.Register<SizeViewModel>();
-            SimpleIoc.Default.Register<ValidateBarcodeViewModel>();
-            SimpleIoc.Default.Register<PrinterSettingViewModel>();
-            SimpleIoc.Default.Register<ScanInfoViewModel>();
-            SimpleIoc.Default.Register<ManifestsViewModel>();
-            SimpleIoc.Default.Register<SearchManifestsViewModel>();
-            SimpleIoc.Default.Register<SearchedManifestsListViewModel>();
-            SimpleIoc.Default.Register<ManifestDetailViewModel>();
-            SimpleIoc.Default.Register<ContentTagsViewModel>();
-            SimpleIoc.Default.Register<AddPalletsViewModel>();
-            SimpleIoc.Default.Register<InventoryViewModel>();
-            SimpleIoc.Default.Register<FillScanViewModel>();
-            SimpleIoc.Default.Register<AddBatchViewModel>();
-            SimpleIoc.Default.Register<MaintainScanViewModel>();
+            #endregion
+
+            #region Account
+            SimpleIoc.Default.Register<MainViewModel>();
+            SimpleIoc.Default.Register<LoginViewModel>();
+            SimpleIoc.Default.Register<KegIDMasterPageMasterViewModel>();
             SimpleIoc.Default.Register<DashboardPartnersViewModel>();
+            SimpleIoc.Default.Register<InventoryViewModel>();
+            SimpleIoc.Default.Register<PrinterSettingViewModel>();
+            SimpleIoc.Default.Register<DashboardViewModel>();
+            SimpleIoc.Default.Register<SettingViewModel>();
+            SimpleIoc.Default.Register<WhatIsNewViewModel>();
             SimpleIoc.Default.Register<PartnerInfoViewModel>();
+            #endregion
+
+            #region Fill
+            SimpleIoc.Default.Register<FillViewModel>();
+            SimpleIoc.Default.Register<FillScanViewModel>();
+            SimpleIoc.Default.Register<AddPalletsViewModel>();
             SimpleIoc.Default.Register<BrandViewModel>();
             SimpleIoc.Default.Register<VolumeViewModel>();
+            SimpleIoc.Default.Register<AddBatchViewModel>();
+            #endregion
+
+            #region Palletize
+            SimpleIoc.Default.Register<PalletizeViewModel>();
             SimpleIoc.Default.Register<PalletizeDetailViewModel>();
+            #endregion
+
+            #region Maintain
+            SimpleIoc.Default.Register<MaintainViewModel>();
+            SimpleIoc.Default.Register<MaintainScanViewModel>();
+            SimpleIoc.Default.Register<MaintainDetailViewModel>();
+            #endregion
 
         }
         #endregion
@@ -583,6 +598,24 @@ namespace KegID.ViewModel
             get
             {
                 return SimpleIoc.Default.GetInstance<MaintainScanViewModel>();
+            }
+        }
+
+        #endregion
+
+        #region MaintainDetail
+
+        /// <summary>
+        /// Gets the MaintainDetail property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public MaintainDetailViewModel MaintainDetail
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<MaintainDetailViewModel>();
             }
         }
 

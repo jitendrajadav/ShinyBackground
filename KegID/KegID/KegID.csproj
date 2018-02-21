@@ -49,6 +49,9 @@
     <Compile Update="Views\Maintain\MaintainScanView.xaml.cs">
       <DependentUpon>MaintainScanView.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\Maintain\MaintainDetailView.xaml.cs">
+      <DependentUpon>MaintainDetailView.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\Move\ContentTagsView.xaml.cs">
       <DependentUpon>ContentTagsView.xaml</DependentUpon>
     </Compile>
@@ -175,8 +178,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Model\Request\Maintain\" />
     <Folder Include="Model\Response\Fill\" />
-    <Folder Include="Model\Response\Maintain\" />
   </ItemGroup>
 </Project>
