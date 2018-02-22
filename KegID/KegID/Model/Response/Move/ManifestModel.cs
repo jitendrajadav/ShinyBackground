@@ -22,8 +22,8 @@ namespace KegID.Model
         public DateTime ShipDate { get; set; }
         public string SenderId { get; set; }
         public string ReceiverId { get; set; }
-        public string DestinationName { get; set; }
-        public string DestinationTypeCode { get; set; }
+        //public string DestinationName { get; set; }
+        //public string DestinationTypeCode { get; set; }
         [Ignore]
         public List<ManifestItem> ManifestItems { get; set; }
         [Ignore]

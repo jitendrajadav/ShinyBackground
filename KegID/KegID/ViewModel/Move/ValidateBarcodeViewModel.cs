@@ -122,6 +122,10 @@ namespace KegID.ViewModel
                     SimpleIoc.Default.GetInstance<FillScanViewModel>().BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = GetIconByPlatform.GetIcon("validationquestion.png");
                     SimpleIoc.Default.GetInstance<FillScanViewModel>().BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().PartnerCount = 1;
                     break;
+                case ViewTypeEnum.MaintainScanView:
+                    SimpleIoc.Default.GetInstance<MaintainScanViewModel>().BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = GetIconByPlatform.GetIcon("validationquestion.png");
+                    SimpleIoc.Default.GetInstance<MaintainScanViewModel>().BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().PartnerCount = 1;
+                    break;
             }
             models.RemoveAt(0);
             if (models.Count == 0)
@@ -130,6 +134,7 @@ namespace KegID.ViewModel
                 {
                     case ViewTypeEnum.ScanKegsView:
                         await Application.Current.MainPage.Navigation.PopPopupAsync();
+                        await Application.Current.MainPage.Navigation.PopModalAsync();
                         break;
                     case ViewTypeEnum.FillScanView:
                         SimpleIoc.Default.GetInstance<AddPalletsViewModel>().PalletCollection.Add(new PalletModel() { Barcode = SimpleIoc.Default.GetInstance<FillScanViewModel>().BarcodeCollection, Count = SimpleIoc.Default.GetInstance<FillScanViewModel>().BarcodeCollection.Count(), ManifestId = SimpleIoc.Default.GetInstance<FillScanViewModel>().ManifestId });
@@ -140,9 +145,13 @@ namespace KegID.ViewModel
                             SimpleIoc.Default.GetInstance<AddPalletsViewModel>().Kegs = string.Format("({0} Keg)", SimpleIoc.Default.GetInstance<AddPalletsViewModel>().PalletCollection.Sum(x => x.Count));
 
                         await Application.Current.MainPage.Navigation.PopPopupAsync();
+                        await Application.Current.MainPage.Navigation.PopModalAsync();
+                        break;
+                    case ViewTypeEnum.MaintainScanView:
+                        await Application.Current.MainPage.Navigation.PopPopupAsync();
+                        SimpleIoc.Default.GetInstance<MaintainScanViewModel>().SubmitCommandRecieverAsync();
                         break;
                 }
-                await Application.Current.MainPage.Navigation.PopModalAsync();
             }
             else
                 await ValidateScannedBarcode();

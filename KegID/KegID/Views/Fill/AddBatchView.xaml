@@ -110,7 +110,7 @@
                         HorizontalOptions="FillAndExpand"
                         Text="{Binding VolumeChar}">
                         <Entry.Behaviors>
-                            <behaviors:EntryEventToCommandBehavior
+                            <behaviors:EventToCommandBehavior
                                 EventName="Focused"
                                 Command="{Binding VolumeCharCommand}"/>
                         </Entry.Behaviors>

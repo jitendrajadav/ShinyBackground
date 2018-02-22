@@ -108,7 +108,7 @@ namespace KegID.Services
                 Converters = new List<JsonConverter> { new CustomIntConverter() }
             };
 
-            validateBarcodeModel = DeserializeObject<ValidateBarcodeModel>(value.Response,settings);
+            validateBarcodeModel = value.Response!= null? DeserializeObject<ValidateBarcodeModel>(value.Response,settings) : new ValidateBarcodeModel();
             validateBarcodeModel.StatusCode = value.StatusCode;
 
             return validateBarcodeModel;
@@ -172,7 +172,7 @@ namespace KegID.Services
                 Converters = new List<JsonConverter> { new CustomIntConverter() }
             };
 
-            manifestModelGet = DeserializeObject<ManifestModelGet>(value.Response, settings);
+            manifestModelGet = value.Response != null? DeserializeObject<ManifestModelGet>(value.Response, settings) : new ManifestModelGet();
             manifestModelGet.StatusCode = value.StatusCode;
             return manifestModelGet;
         }

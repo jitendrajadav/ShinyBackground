@@ -392,8 +392,8 @@ namespace KegID.ViewModel
                         SimpleIoc.Default.GetInstance<MoveViewModel>().AddKegs = string.Format("{0} Items", BarcodeCollection.Count);
                     else if (BarcodeCollection.Count == 1)
                         SimpleIoc.Default.GetInstance<MoveViewModel>().AddKegs = string.Format("{0} Item", BarcodeCollection.Count);
-                    //if (!SimpleIoc.Default.GetInstance<MoveViewModel>().IsVisibleSubmit)
-                    //    SimpleIoc.Default.GetInstance<MoveViewModel>().IsVisibleSubmit = true;
+                    if (!SimpleIoc.Default.GetInstance<MoveViewModel>().IsSubmitVisible)
+                        SimpleIoc.Default.GetInstance<MoveViewModel>().IsSubmitVisible = true;
                     break;
                 case ViewTypeEnum.PalletizeView:
                     if (BarcodeCollection.Count > 1)
@@ -457,9 +457,18 @@ namespace KegID.ViewModel
                 TextColor = Color.Blue
             };
             done.Clicked += async delegate
-             {
-                 await Application.Current.MainPage.Navigation.PopModalAsync();
-             };
+            {
+                switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack[Application.Current.MainPage.Navigation.ModalStack.Count - 2].GetType().Name))
+                {
+                    case ViewTypeEnum.FillScanView:
+                        SimpleIoc.Default.GetInstance<FillScanViewModel>().BarcodeCollection = BarcodeCollection;
+                        break;
+                    case ViewTypeEnum.MaintainScanView:
+                        SimpleIoc.Default.GetInstance<MaintainScanViewModel>().BarcodeCollection = BarcodeCollection;
+                        break;
+                }
+                await Application.Current.MainPage.Navigation.PopModalAsync();
+            };
 
             customOverlay.Children.Add(torch, 0, 0);
             customOverlay.Children.Add(title, 0, 1);
@@ -512,6 +521,12 @@ namespace KegID.ViewModel
             var isNew = BarcodeCollection.ToList().Any(x => x.Id == barcode.Id);
             if (!isNew)
                 BarcodeCollection.Add(barcode);
+        }
+
+        public override void Cleanup()
+        {
+            BarcodeCollection.Clear();
+            base.Cleanup();
         }
 
         #endregion

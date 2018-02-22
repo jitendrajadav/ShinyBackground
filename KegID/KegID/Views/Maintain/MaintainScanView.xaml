@@ -56,7 +56,7 @@
                 Text="{Binding ManaulBarcode,Mode=TwoWay}"
                 Placeholder="Barcode">
                 <Entry.Behaviors>
-                    <behaviors:EntryEventToCommandBehavior
+                    <behaviors:EventToCommandBehavior
                         EventName="Completed"
                       Command="{Binding BarcodeManualCommand}"/>
                 </Entry.Behaviors>

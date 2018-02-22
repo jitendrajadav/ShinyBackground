@@ -13,7 +13,7 @@ namespace KegID.Common
     public static class  ManifestManager
     {
         public static async Task<ManifestModel> GetManifestDraft(EventTypeEnum eventTypeEnum, string manifestId, IList<Barcode> barcodeCollection, 
-            List<Tag> tags, PartnerModel partnerModel, List<NewPallet> newPallets, List<string> closedBatches, long validationStatus, string contents = "")
+            List<Tag> tags, PartnerModel partnerModel, List<NewPallet> newPallets, List<NewBatch> batches, List<string> closedBatches, long validationStatus, string contents = "")
         {
             try
             {
@@ -71,6 +71,7 @@ namespace KegID.Common
 
                     ManifestItems = manifestItemlst,
                     NewPallets = newPallets,
+                    NewBatches = batches,
                     Tags = tags.ToList(),
                     ClosedBatches = closedBatches
                 };

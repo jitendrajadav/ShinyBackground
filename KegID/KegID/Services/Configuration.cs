@@ -13,10 +13,13 @@
         public const string NewPallet = "NewPallet";
         public const string PostedMaintenanceDone = "PostedMaintenanceDone";
 
+        public const string StageAPIUrl = "https://stageapi.kegid.com/api/";
+        public const string TestAPIUrl = "https://testapi.kegid.com/api/";
+
         /// <summary>
         /// Base Url
         /// </summary>
-        public const string ServiceUrl = "https://testapi.kegid.com/api/";
+        public const string ServiceUrl = StageAPIUrl;
 
         /// <summary>
         /// Login Service Url

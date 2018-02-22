@@ -1,4 +1,6 @@
 ﻿
+using GalaSoft.MvvmLight.Ioc;
+using KegID.ViewModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -11,5 +13,12 @@ namespace KegID.Views
 		{
 			InitializeComponent ();
 		}
-	}
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            //ViewModelLocator.Cleanup();
+            SimpleIoc.Default.GetInstance<ScanKegsViewModel>().Cleanup();
+        }
+    }
 }

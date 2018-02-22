@@ -763,6 +763,7 @@ namespace KegID.ViewModel
         {
             // TODO Clear the ViewModels
         }
+
     }
 
 }

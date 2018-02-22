@@ -197,6 +197,7 @@ namespace KegID.ViewModel
 
         private async void SubmitCommandRecieverAsync()
         {
+            
             var barCodeCollection = SimpleIoc.Default.GetInstance<FillScanViewModel>().BarcodeCollection;
 
             if (barCodeCollection.Count == 0)
@@ -204,7 +205,6 @@ namespace KegID.ViewModel
                 await Application.Current.MainPage.DisplayAlert("Error", "Error: Please add some scans.", "Ok");
                 return;
             }
-
 
             List<string> closedBatches = new List<string>();
             List<NewPallet> newPallets = new List<NewPallet>();
@@ -254,9 +254,11 @@ namespace KegID.ViewModel
             if (alertResult)
                 closedBatches = PalletCollection.Select(x => x.ManifestId).ToList();
 
+            Loader.StartLoading();
+
             ManifestModel manifestModel = await ManifestManager.GetManifestDraft(EventTypeEnum.FILL_MANIFEST, SimpleIoc.Default.GetInstance<FillScanViewModel>().ManifestId,
                     SimpleIoc.Default.GetInstance<FillScanViewModel>().BarcodeCollection, SimpleIoc.Default.GetInstance<FillScanViewModel>().Tags,
-                    SimpleIoc.Default.GetInstance<FillViewModel>().PartnerModel, newPallets, closedBatches, 4);
+                    SimpleIoc.Default.GetInstance<FillViewModel>().PartnerModel, newPallets,new List<NewBatch>(), closedBatches, 4);
 
             if (manifestModel != null)
             {
@@ -264,31 +266,37 @@ namespace KegID.ViewModel
                 {
                     var manifestResult = await _moveService.PostManifestAsync(manifestModel, Configuration.SessionId, Configuration.NewManifest);
 
-                    var manifest = await _moveService.GetManifestAsync(Configuration.SessionId, manifestResult.ManifestId);
-                    if (manifest.StatusCode == System.Net.HttpStatusCode.OK)
+                    if (manifestResult.Response != null)
                     {
-                        SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().TrackingNumber = manifest.TrackingNumber;
+                        var manifest = await _moveService.GetManifestAsync(Configuration.SessionId, manifestResult.ManifestId);
+                        if (manifest.StatusCode == System.Net.HttpStatusCode.OK)
+                        {
+                            SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().TrackingNumber = manifest.TrackingNumber;
 
-                        SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ManifestTo = manifest.CreatorCompany.FullName + "\n" + manifest.CreatorCompany.PartnerTypeName;
+                            SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ManifestTo = manifest.CreatorCompany.FullName + "\n" + manifest.CreatorCompany.PartnerTypeName;
 
-                        SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ShippingDate = manifest.ShipDate;
-                        SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ItemCount = manifest.ManifestItems.Count;
-                        SimpleIoc.Default.GetInstance<ContentTagsViewModel>().ContentCollection = manifest.ManifestItems.Select(x=>x.Barcode).ToList();
+                            SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ShippingDate = manifest.ShipDate;
+                            SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ItemCount = manifest.ManifestItems.Count;
+                            SimpleIoc.Default.GetInstance<ContentTagsViewModel>().ContentCollection = manifest.ManifestItems.Select(x => x.Barcode).ToList();
 
-                        SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().Contents = !string.IsNullOrEmpty(manifest.ManifestItems.FirstOrDefault().Contents) ? manifest.ManifestItems.FirstOrDefault().Contents : "No contens";
+                            SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().Contents = !string.IsNullOrEmpty(manifest.ManifestItems.FirstOrDefault().Contents) ? manifest.ManifestItems.FirstOrDefault().Contents : "No contens";
 
-                        Loader.StopLoading();
-                        await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestDetailView());
-                    }
-                    else
-                    {
-                        Loader.StopLoading();
-                        SimpleIoc.Default.GetInstance<LoginViewModel>().InvalideServiceCallAsync();
+                            Loader.StopLoading();
+                            await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestDetailView());
+                        }
+                        else
+                        {
+                            SimpleIoc.Default.GetInstance<LoginViewModel>().InvalideServiceCallAsync();
+                        } 
                     }
                 }
                 catch (Exception ex)
                 {
                     Debug.WriteLine(ex.Message);
+                }
+                finally
+                {
+                    Loader.StopLoading();
                 }
             }
             else

@@ -140,7 +140,7 @@
                     ItemsSource="{Binding MaintenanceCollection}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <TextCell Height="40" Text="{Binding}"/>
+                            <TextCell Text="{Binding}"/>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>

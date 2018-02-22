@@ -240,7 +240,7 @@ namespace KegID.ViewModel
            await Application.Current.MainPage.Navigation.PopModalAsync();
         }
 
-        private async void SubmitCommandRecieverAsync()
+        public async void SubmitCommandRecieverAsync()
         {
             #region Old Code for Manifest Creation
             //try
@@ -297,72 +297,79 @@ namespace KegID.ViewModel
             //} 
             #endregion
 
-            try
+            var result = BarcodeCollection.Where(x => x.PartnerCount > 1).ToList();
+            if (result.Count > 0)
+                await NavigateToValidatePartner(result.ToList());
+            else
             {
-                Loader.StartLoading();
-
-                List<MaintainKeg> kegs = new List<MaintainKeg>();
-                MaintainKeg keg = null;
-
-                foreach (var item in BarcodeCollection)
+                try
                 {
-                    keg = new MaintainKeg();
-                    keg.Barcode = item.Id;
-                    keg.BatchId = Uuid.GetUuId();
-                    keg.Contents = "";
-                    keg.HeldOnPalletId = Uuid.GetUuId();
-                    keg.KegId = Uuid.GetUuId();
-                    keg.Message = SimpleIoc.Default.GetInstance<MaintainViewModel>().Notes;
-                    keg.PalletId = Uuid.GetUuId();
-                    keg.ScanDate = DateTimeOffset.Now;
-                    keg.SkuId = Uuid.GetUuId();
-                    keg.Tags = new List<KegTag>();
+                    Loader.StartLoading();
 
-                    kegs.Add(keg);
+                    List<MaintainKeg> kegs = new List<MaintainKeg>();
+                    MaintainKeg keg = null;
+
+                    foreach (var item in BarcodeCollection)
+                    {
+                        keg = new MaintainKeg();
+                        keg.Barcode = item.Id;
+                        //keg.BatchId = Uuid.GetUuId();
+                        //keg.Contents = "";
+                        //keg.HeldOnPalletId = Uuid.GetUuId();
+                        //keg.KegId = Uuid.GetUuId();
+                        //keg.Message = SimpleIoc.Default.GetInstance<MaintainViewModel>().Notes;
+                        //keg.PalletId = Uuid.GetUuId();
+                        keg.ScanDate = DateTimeOffset.Now;
+                        //keg.SkuId = Uuid.GetUuId();
+                        keg.Tags = new List<KegTag>();
+                        keg.ValidationStatus = 4;
+                        kegs.Add(keg);
+                    }
+
+                    MaintenanceDoneModel model = new MaintenanceDoneModel();
+                    model.MaintenanceDoneRequestModel = new MaintenanceDoneRequestModel();
+                    model.MaintenanceDoneRequestModel.ActionsPerformed = SimpleIoc.Default.GetInstance<MaintainViewModel>().MaintenancePerformed.ToList();
+                    model.MaintenanceDoneRequestModel.DatePerformed = DateTimeOffset.Now;
+                    model.MaintenanceDoneRequestModel.Kegs = kegs;
+                    model.MaintenanceDoneRequestModel.LocationId = SimpleIoc.Default.GetInstance<MaintainViewModel>().PartnerModel.PartnerId;
+                    model.MaintenanceDoneRequestModel.MaintenancePostingId = Uuid.GetUuId();
+                    //model.MaintenanceDoneRequestModel.Operator = "Bent Neck";
+                    //model.MaintenanceDoneRequestModel.SourceKey = "";
+                    //model.MaintenanceDoneRequestModel.SubmittedDate = DateTimeOffset.Now;
+                    model.MaintenanceDoneRequestModel.Latitude = (long)Geolocation.savedPosition.Latitude;
+                    model.MaintenanceDoneRequestModel.Longitude = (long)Geolocation.savedPosition.Longitude;
+                    model.MaintenanceDoneRequestModel.Tags = new List<MaintenanceDoneRequestModelTag>();
+
+                    KegIDResponse kegIDResponse = await _maintainService.PostMaintenanceDoneAsync(model.MaintenanceDoneRequestModel, Configuration.SessionId, Configuration.PostedMaintenanceDone);
+                    if (kegIDResponse.StatusCode == System.Net.HttpStatusCode.NoContent)
+                    {
+                        SimpleIoc.Default.GetInstance<MaintainDetailViewModel>().TrackingNo = Uuid.GetUuId();
+
+                        SimpleIoc.Default.GetInstance<MaintainDetailViewModel>().StockLocation = SimpleIoc.Default.GetInstance<MaintainViewModel>().PartnerModel.FullName + "\n" + SimpleIoc.Default.GetInstance<MaintainViewModel>().PartnerModel.PartnerTypeName;
+                        SimpleIoc.Default.GetInstance<MaintainDetailViewModel>().MaintenanceCollection = SimpleIoc.Default.GetInstance<MaintainViewModel>().MaintenancePerformedCollection;
+                        SimpleIoc.Default.GetInstance<MaintainDetailViewModel>().ItemCount = BarcodeCollection.Count;
+                        SimpleIoc.Default.GetInstance<ContentTagsViewModel>().ContentCollection = BarcodeCollection.Select(x => x.Id).ToList();
+
+                        SimpleIoc.Default.GetInstance<MaintainDetailViewModel>().Contents = string.Empty;
+
+                        Loader.StopLoading();
+                        await Application.Current.MainPage.Navigation.PushModalAsync(new MaintainDetailView());
+                    }
+                    else
+                    {
+                        Loader.StopLoading();
+                        //SimpleIoc.Default.GetInstance<LoginViewModel>().InvalideServiceCallAsync();
+                    }
                 }
-
-                MaintenanceDoneRequestModel maintenanceDoneRequestModel = new MaintenanceDoneRequestModel();
-                maintenanceDoneRequestModel.ActionsPerformed = MaintainTypeReponseModel.Select(x=>x.Id).ToList();
-                maintenanceDoneRequestModel.DatePerformed = DateTimeOffset.Now;
-                maintenanceDoneRequestModel.Kegs = kegs;
-                maintenanceDoneRequestModel.LocationId = SimpleIoc.Default.GetInstance<MaintainViewModel>().PartnerModel.PartnerId;
-                maintenanceDoneRequestModel.MaintenancePostingId = Uuid.GetUuId();
-                maintenanceDoneRequestModel.Operator = "Bent Neck";
-                maintenanceDoneRequestModel.SourceKey = "";
-                maintenanceDoneRequestModel.SubmittedDate = DateTimeOffset.Now;
-                maintenanceDoneRequestModel.Tags = new List<MaintenanceDoneRequestModelTag>();
-
-                KegIDResponse kegIDResponse = await _maintainService.PostMaintenanceDoneAsync(maintenanceDoneRequestModel, Configuration.SessionId, Configuration.PostedMaintenanceDone);
-                if (kegIDResponse.StatusCode == System.Net.HttpStatusCode.NoContent)
+                catch (Exception ex)
                 {
-                    SimpleIoc.Default.GetInstance<MaintainDetailViewModel>().TrackingNo = Uuid.GetUuId();
-
-                    SimpleIoc.Default.GetInstance<MaintainDetailViewModel>().StockLocation = SimpleIoc.Default.GetInstance<MaintainViewModel>().PartnerModel.FullName + "\n" + SimpleIoc.Default.GetInstance<MaintainViewModel>().PartnerModel.PartnerTypeName;
-                    SimpleIoc.Default.GetInstance<MaintainDetailViewModel>().MaintenanceCollection = SimpleIoc.Default.GetInstance<MaintainViewModel>().MaintenancePerformedCollection;
-                    SimpleIoc.Default.GetInstance<MaintainDetailViewModel>().ItemCount = BarcodeCollection.Count;
-                    SimpleIoc.Default.GetInstance<ContentTagsViewModel>().ContentCollection = BarcodeCollection.Select(x => x.Id).ToList();
-
-                    SimpleIoc.Default.GetInstance<MaintainDetailViewModel>().Contents = string.Empty;
-
+                    Debug.WriteLine(ex.Message);
+                }
+                finally
+                {
                     Loader.StopLoading();
-                    await Application.Current.MainPage.Navigation.PushModalAsync(new MaintainDetailView());
-                }
-                else
-                {
-                    Loader.StopLoading();
-                    //SimpleIoc.Default.GetInstance<LoginViewModel>().InvalideServiceCallAsync();
                 }
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
-            finally
-            {
-                Loader.StopLoading();
-            }
-
-
         }
 
         #endregion

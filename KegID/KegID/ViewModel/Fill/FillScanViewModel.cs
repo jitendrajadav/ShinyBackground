@@ -451,9 +451,27 @@ namespace KegID.ViewModel
                 await NavigateToValidatePartner(result.ToList());
             else
             {
+                if (!SimpleIoc.Default.GetInstance<AddPalletsViewModel>().PalletCollection.Any(x => x.ManifestId == ManifestId))
+                {
+                    SimpleIoc.Default.GetInstance<AddPalletsViewModel>().PalletCollection.Add(new PalletModel() { Barcode = BarcodeCollection, Count = BarcodeCollection.Count(), ManifestId = ManifestId });
 
+                    if (SimpleIoc.Default.GetInstance<AddPalletsViewModel>().PalletCollection.Sum(x => x.Count) > 1)
+                        SimpleIoc.Default.GetInstance<AddPalletsViewModel>().Kegs = string.Format("({0} Kegs)", SimpleIoc.Default.GetInstance<AddPalletsViewModel>().PalletCollection.Sum(x => x.Count));
+                    else
+                        SimpleIoc.Default.GetInstance<AddPalletsViewModel>().Kegs = string.Format("({0} Keg)", SimpleIoc.Default.GetInstance<AddPalletsViewModel>().PalletCollection.Sum(x => x.Count));
+                }
+                else
+                {
+                    SimpleIoc.Default.GetInstance<AddPalletsViewModel>().PalletCollection.Where(x => x.ManifestId == ManifestId).FirstOrDefault().Barcode = BarcodeCollection;
+                    SimpleIoc.Default.GetInstance<AddPalletsViewModel>().PalletCollection.Where(x => x.ManifestId == ManifestId).FirstOrDefault().Count = BarcodeCollection.Count;
 
+                    if (SimpleIoc.Default.GetInstance<AddPalletsViewModel>().PalletCollection.Sum(x => x.Count) > 1)
+                        SimpleIoc.Default.GetInstance<AddPalletsViewModel>().Kegs = string.Format("({0} Kegs)", SimpleIoc.Default.GetInstance<AddPalletsViewModel>().PalletCollection.Sum(x => x.Count));
+                    else
+                        SimpleIoc.Default.GetInstance<AddPalletsViewModel>().Kegs = string.Format("({0} Keg)", SimpleIoc.Default.GetInstance<AddPalletsViewModel>().PalletCollection.Sum(x => x.Count));
+                }
                 await Application.Current.MainPage.Navigation.PopModalAsync();
+
             }
         }
 

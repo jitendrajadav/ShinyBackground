@@ -67,7 +67,7 @@
                 Grid.ColumnSpan="2"
                 Placeholder="Manifest sender">
                 <Entry.Behaviors>
-                    <behaviors:EntryEventToCommandBehavior
+                    <behaviors:EventToCommandBehavior
                         EventName="Focused"
                       Command="{Binding ManifestSenderCommand}"/>
                 </Entry.Behaviors>
@@ -79,7 +79,7 @@
                 Grid.ColumnSpan="2"
                 Placeholder="Manifest destination">
                 <Entry.Behaviors>
-                    <behaviors:EntryEventToCommandBehavior
+                    <behaviors:EventToCommandBehavior
                         EventName="Focused"
                       Command="{Binding ManifestDestinationCommand}"/>
                 </Entry.Behaviors>
