@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KegID.Views.PartnerInfoMapView"
+             xmlns:local="clr-namespace:KegID"
+             xmlns:controls="clr-namespace:KegID.Controls"
+             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=PartnerInfoMap}">
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Button
+                BackgroundColor="Transparent"
+                VerticalOptions="Center"
+                HorizontalOptions="Start"
+                TextColor="{StaticResource selectTextColor}"
+                Text="Partner Info"
+                Command="{Binding PartnerInfoCommand}"/>
+
+            <controls:CustomMap 
+                Grid.Row="1"
+                    x:Name="Map"
+                    CustomPins="{Binding CustomPins}"/>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

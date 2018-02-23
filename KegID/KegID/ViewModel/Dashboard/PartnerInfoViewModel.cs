@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight;
+﻿using System;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using KegID.Views;
 using Xamarin.Forms;
@@ -421,9 +422,10 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand PartnersCommand { get; set; }
-        public RelayCommand EditCommand { get; set; }
-        public RelayCommand KegsCommand { get; set; }
+        public RelayCommand PartnersCommand { get; }
+        public RelayCommand EditCommand { get; }
+        public RelayCommand KegsCommand { get; }
+        public RelayCommand ShipToCommand { get; }
         #endregion
 
         #region Constructor
@@ -433,6 +435,12 @@ namespace KegID.ViewModel
             PartnersCommand = new RelayCommand(PartnersCommandRecieverAsync);
             EditCommand = new RelayCommand(EditCommandRecieverAsync);
             KegsCommand = new RelayCommand(KegsCommandReciever);
+            ShipToCommand = new RelayCommand(ShipToCommandRecieverAsync);
+        }
+
+        private async void ShipToCommandRecieverAsync()
+        {
+            await Application.Current.MainPage.Navigation.PushModalAsync(new PartnerInfoMapView());
         }
 
         #endregion

@@ -42,6 +42,7 @@ namespace KegID.ViewModel
             SimpleIoc.Default.Register<SettingViewModel>();
             SimpleIoc.Default.Register<WhatIsNewViewModel>();
             SimpleIoc.Default.Register<PartnerInfoViewModel>();
+            SimpleIoc.Default.Register<PartnerInfoMapViewModel>();
             #endregion
 
             #region Fill
@@ -692,6 +693,24 @@ namespace KegID.ViewModel
             get
             {
                 return SimpleIoc.Default.GetInstance<PartnerInfoViewModel>();
+            }
+        }
+
+        #endregion
+
+        #region PartnerInfoMap
+
+        /// <summary>
+        /// Gets the PartnerInfoMap property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public PartnerInfoMapViewModel PartnerInfoMap
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<PartnerInfoMapViewModel>();
             }
         }
 

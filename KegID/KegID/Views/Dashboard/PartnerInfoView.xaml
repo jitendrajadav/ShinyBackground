@@ -90,7 +90,8 @@
                         BackgroundColor="Transparent"
                         Grid.Row="0"
                         HorizontalOptions="StartAndExpand"
-                        Text="{Binding ShipTo}"/>
+                        Text="{Binding ShipTo}"
+                        Command="{Binding ShipToCommand}"/>
 
                     <Button
                         BackgroundColor="Transparent"

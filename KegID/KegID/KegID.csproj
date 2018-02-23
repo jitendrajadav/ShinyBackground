@@ -30,8 +30,10 @@
     <PackageReference Include="SQLite.Net-PCL" Version="3.1.1" />
     <PackageReference Include="SQLite.Net.Async-PCL" Version="3.1.1" />
     <PackageReference Include="Xam.Plugin.Geolocator" Version="4.2.0" />
+    <PackageReference Include="Xam.Plugins.Settings" Version="3.1.1" />
     <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.3.4" />
     <PackageReference Include="Xamarin.Forms" Version="2.5.0.280555" />
+    <PackageReference Include="Xamarin.Forms.Maps" Version="2.5.0.280555" />
     <PackageReference Include="ZXing.Net.Mobile" Version="2.3.2" />
     <PackageReference Include="ZXing.Net.Mobile.Forms" Version="2.3.2" />
   </ItemGroup>
@@ -68,6 +70,9 @@
 
   <ItemGroup>
     <EmbeddedResource Update="Views\Dashboard\InventoryView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Dashboard\PartnerInfoMapView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Dashboard\PartnerInfoView.xaml">

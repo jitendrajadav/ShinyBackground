@@ -27,6 +27,8 @@ namespace KegID.iOS
             CarouselViewRenderer.Init();
             CachedImageRenderer.Init();
             ZXing.Net.Mobile.Forms.iOS.Platform.Init();
+            Xamarin.FormsMaps.Init();
+
             DependencyService.Register<OpenAppService>();
             UIApplication.SharedApplication.SetMinimumBackgroundFetchInterval(UIApplication.BackgroundFetchIntervalMinimum);
 

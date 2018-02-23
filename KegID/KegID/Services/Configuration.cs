@@ -19,7 +19,7 @@
         /// <summary>
         /// Base Url
         /// </summary>
-        public const string ServiceUrl = StageAPIUrl;
+        public const string ServiceUrl = TestAPIUrl;
 
         /// <summary>
         /// Login Service Url

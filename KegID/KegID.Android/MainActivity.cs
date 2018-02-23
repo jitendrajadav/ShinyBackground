@@ -22,11 +22,12 @@ namespace KegID.Droid
 
             base.OnCreate(bundle);
             Xamarin.Forms.DependencyService.Register<OpenAppService>();
-            global::Xamarin.Forms.Forms.Init(this, bundle);
+            Xamarin.Forms.Forms.Init(this, bundle);
             UserDialogs.Init(this);
             CarouselViewRenderer.Init();
             CachedImageRenderer.Init(true);
             ZXing.Net.Mobile.Forms.Android.Platform.Init();
+            Xamarin.FormsMaps.Init(this, bundle);
 
             LoadApplication(new App());
 

@@ -3,6 +3,7 @@ using Windows.ApplicationModel.Background;
 using Windows.UI.Xaml;
 using Xamarin.Forms;
 using System;
+using KegID.Common;
 
 namespace KegID.UWP
 {
@@ -11,6 +12,7 @@ namespace KegID.UWP
         public MainPage()
         {
             InitializeComponent();
+            Xamarin.FormsMaps.Init(AppSettings.BingMapsApiKey);
 
             LoadApplication(new KegID.App());
 
