@@ -45,6 +45,9 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />
+    <Reference Include="XamarinDataManLibrary">
+      <HintPath>C:\Users\jj\Downloads\CMB_SDK_Xamarin_v2.0.0\Forms\XamarinFormsDataMan\XamarinFormsDataMan.Android\XamarinDataManLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Acr.UserDialogs">
@@ -134,6 +137,7 @@
     <Compile Include="PeriodicService.cs" />
     <Compile Include="Renderers\CustomButtonRenderer.cs" />
     <Compile Include="Renderers\CustomMapRenderer.cs" />
+    <Compile Include="Renderers\ScannerView.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

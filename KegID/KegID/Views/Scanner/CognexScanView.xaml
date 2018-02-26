@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KegID.Views.CognexScanView">
+    <ContentPage.Content>
+        <Grid x:Name="gridMain" VerticalOptions="Fill" HorizontalOptions="Fill" BackgroundColor="#333333">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="50" />
+            </Grid.RowDefinitions>
+            <Grid x:Name="gridContainer" VerticalOptions="Fill" HorizontalOptions="Fill">
+                <Grid x:Name="gridCamera">
+                </Grid>
+                <StackLayout x:Name="slResultContainer" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Orientation="Vertical">
+                    <ScrollView x:Name="scrollViewResult" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Orientation="Vertical">
+                    </ScrollView>
+                </StackLayout>
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

@@ -90,13 +90,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string BrewDatePropertyName = "BrewDate";
 
-        private DateTime _BrewDate = DateTime.Today;
+        private string _BrewDate = string.Empty;
 
         /// <summary>
         /// Sets and gets the BrewDate property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public DateTime BrewDate
+        public string BrewDate
         {
             get
             {
@@ -226,13 +226,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string BestByDatePropertyName = "BestByDate";
 
-        private DateTime _BestByDate = DateTime.Today;
+        private string _BestByDate = string.Empty;
 
         /// <summary>
         /// Sets and gets the BestByDate property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public DateTime BestByDate
+        public string BestByDate
         {
             get
             {
@@ -473,9 +473,9 @@ namespace KegID.ViewModel
             NewBatchModel.BrewedVolume = Convert.ToInt64(VolumeDigit);
             NewBatchModel.BrewedVolumeUom = VolumeChar;
             NewBatchModel.CompanyId = Configuration.CompanyId;
-            NewBatchModel.CompletedDate = DateTime.Today;
+            NewBatchModel.CompletedDate = DateTime.Today.ToString();
             NewBatchModel.IsCompleted = true;
-            NewBatchModel.PackageDate = PackageDate;
+            NewBatchModel.PackageDate = PackageDate.ToString();
             NewBatchModel.PackagedVolume = 12;
             NewBatchModel.PackagedVolumeUom = "";
             NewBatchModel.RecipeId = Configuration.CompanyId;

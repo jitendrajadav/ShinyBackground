@@ -329,15 +329,15 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand MoreCommand { get; set; }
-        public RelayCommand MaintainCommand { get; set; }
-        public RelayCommand PalletizeCommand { get; set; }
-        public RelayCommand FillCommand { get; set; }
-        public RelayCommand MoveCommand { get; set; }
-        public RelayCommand InventoryCommand { get; set; }
-        public RelayCommand PartnerCommand { get; set; }
-        public RelayCommand KegsCommand { get; set; }
-        public RelayCommand InUsePartnerCommand { get; set; }
+        public RelayCommand MoreCommand { get;}
+        public RelayCommand MaintainCommand { get; }
+        public RelayCommand PalletizeCommand { get; }
+        public RelayCommand FillCommand { get; }
+        public RelayCommand MoveCommand { get; }
+        public RelayCommand InventoryCommand { get; }
+        public RelayCommand PartnerCommand { get; }
+        public RelayCommand KegsCommand { get; }
+        public RelayCommand InUsePartnerCommand { get; }
 
         #endregion
 

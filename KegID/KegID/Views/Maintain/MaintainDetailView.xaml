@@ -138,15 +138,25 @@
                     SeparatorVisibility="Default"
                     SeparatorColor="LightGray"
                     HasUnevenRows="true"
-                    HeightRequest="200"
                     HorizontalOptions="FillAndExpand"
-                    WidthRequest="330"
                     ItemsSource="{Binding MaintenanceCollection}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <TextCell Text="{Binding}"/>
                         </DataTemplate>
                     </ListView.ItemTemplate>
+                    <ListView.HeightRequest>
+                        <OnPlatform x:TypeArguments="x:Double">
+                            <On Platform="Android">200</On>
+                            <On Platform="Android">200</On>
+                        </OnPlatform>
+                    </ListView.HeightRequest>
+                    <ListView.WidthRequest>
+                        <OnPlatform x:TypeArguments="x:Double">
+                            <On Platform="Android">330</On>
+                            <On Platform="Android">330</On>
+                        </OnPlatform>
+                    </ListView.WidthRequest>
                 </ListView>
             </Grid>
 

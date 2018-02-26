@@ -256,7 +256,7 @@ namespace KegID.ViewModel
 
             Loader.StartLoading();
 
-            ManifestModel manifestModel = await ManifestManager.GetManifestDraft(EventTypeEnum.FILL_MANIFEST, SimpleIoc.Default.GetInstance<FillScanViewModel>().ManifestId,
+            ManifestModel manifestModel = await ManifestManager.GetManifestDraft(EventTypeEnum.FILL_MANIFEST, Uuid.GetUuId(),
                     SimpleIoc.Default.GetInstance<FillScanViewModel>().BarcodeCollection, SimpleIoc.Default.GetInstance<FillScanViewModel>().Tags,
                     SimpleIoc.Default.GetInstance<FillViewModel>().PartnerModel, newPallets,new List<NewBatch>(), closedBatches, 4);
 
@@ -266,7 +266,7 @@ namespace KegID.ViewModel
                 {
                     var manifestResult = await _moveService.PostManifestAsync(manifestModel, Configuration.SessionId, Configuration.NewManifest);
 
-                    if (manifestResult.Response != null)
+                    if (manifestResult != null)
                     {
                         var manifest = await _moveService.GetManifestAsync(Configuration.SessionId, manifestResult.ManifestId);
                         if (manifest.StatusCode == System.Net.HttpStatusCode.OK)

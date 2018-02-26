@@ -13,6 +13,6 @@ namespace KegID.Model
         public long OldKegs { get; set; }
         public long InactiveKegs { get; set; }
         public double TurnsPerYear { get; set; }
-        public DateTime GeneratedAt { get; set; }
+        public string GeneratedAt { get; set; }
     }
 }

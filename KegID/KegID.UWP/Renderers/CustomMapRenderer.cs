@@ -35,7 +35,7 @@ namespace KegID.UWP.Renderers
         {
             base.OnElementPropertyChanged(sender, e);
 
-            var windowsMapView = Control;
+            var windowsMapView = (MapControl)Control;
             _customMap = (CustomMap)sender;
 
             if (e.PropertyName.Equals("CustomPins"))

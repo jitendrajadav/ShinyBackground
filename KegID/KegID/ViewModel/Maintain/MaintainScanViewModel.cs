@@ -98,12 +98,12 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand SubmitCommand { get; set; }
-        public RelayCommand BackCommand { get; set; }
-        public RelayCommand BarcodeScanCommand { get; set; }
-        public RelayCommand BarcodeManualCommand { get; set; }
-        public RelayCommand<Barcode> IconItemTappedCommand { get; set; }
-        public RelayCommand<Barcode> LabelItemTappedCommand { get; set; }
+        public RelayCommand SubmitCommand { get;}
+        public RelayCommand BackCommand { get;}
+        public RelayCommand BarcodeScanCommand { get;}
+        public RelayCommand BarcodeManualCommand { get;}
+        public RelayCommand<Barcode> IconItemTappedCommand { get;}
+        public RelayCommand<Barcode> LabelItemTappedCommand { get;}
 
         #endregion
 
@@ -329,7 +329,7 @@ namespace KegID.ViewModel
                     MaintenanceDoneModel model = new MaintenanceDoneModel();
                     model.MaintenanceDoneRequestModel = new MaintenanceDoneRequestModel();
                     model.MaintenanceDoneRequestModel.ActionsPerformed = SimpleIoc.Default.GetInstance<MaintainViewModel>().MaintenancePerformed.ToList();
-                    model.MaintenanceDoneRequestModel.DatePerformed = DateTimeOffset.Now;
+                    model.MaintenanceDoneRequestModel.DatePerformed = DateTimeOffset.Now.AddDays(-2);
                     model.MaintenanceDoneRequestModel.Kegs = kegs;
                     model.MaintenanceDoneRequestModel.LocationId = SimpleIoc.Default.GetInstance<MaintainViewModel>().PartnerModel.PartnerId;
                     model.MaintenanceDoneRequestModel.MaintenancePostingId = Uuid.GetUuId();

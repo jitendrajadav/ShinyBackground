@@ -5,27 +5,27 @@ namespace KegID.Model
 {
     public class ManifestResponseModel : KegIDResponse
     {
-        public DateTime ReceivedDate { get; set; }
+        public string ReceivedDate { get; set; }
         public CreatorCompany CreatorCompany { get; set; }
         public object CreatorUser { get; set; }
         public object SenderUser { get; set; }
         public object SenderUserLocation { get; set; }
         public object ReceiverUser { get; set; }
         public object ReceiverUserLocation { get; set; }
-        public DateTime SenderCreatedDate { get; set; }
-        public DateTime SenderSubmittedDate { get; set; }
-        public DateTime ReceiverCreatedDate { get; set; }
-        public DateTime ReceiverSubmittedDate { get; set; }
+        public string SenderCreatedDate { get; set; }
+        public string SenderSubmittedDate { get; set; }
+        public string ReceiverCreatedDate { get; set; }
+        public string ReceiverSubmittedDate { get; set; }
         public string ManifestId { get; set; }
         public string TrackingNumber { get; set; }
         public string EventType { get; set; }
-        public DateTime ShipDate { get; set; }
-        public DateTime ManifestDate { get; set; }
+        public string ShipDate { get; set; }
+        public string ManifestDate { get; set; }
         public List<CreatedManifestItem> ManifestItems { get; set; }
         public List<object> ManualCountQuantities { get; set; }
         public ManifestUser ManifestUser { get; set; }
         public ManifestUserLocation ManifestUserLocation { get; set; }
-        public DateTime SubmittedDate { get; set; }
+        public string SubmittedDate { get; set; }
         public CreatorCompany SenderPartner { get; set; }
         public Address SenderShipAddress { get; set; }
         public Address SenderBillAddress { get; set; }

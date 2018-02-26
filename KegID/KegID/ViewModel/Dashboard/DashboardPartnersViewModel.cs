@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using KegID.Model;
 using System.Diagnostics;
 using System;
+using System.Threading.Tasks;
 
 namespace KegID.ViewModel
 {
@@ -356,8 +357,10 @@ namespace KegID.ViewModel
             TextChangedCommand = new RelayCommand(TextChangedCommandRecieverAsync);
             KegsHeldCommand = new RelayCommand(KegsHeldCommandReciever);
 
-            InternalBackgroundColor = "#4E6388";
-            InternalTextColor = "White";
+            //InternalBackgroundColor = "#4E6388";
+            //InternalTextColor = "White";
+            KegsHeldBackgroundColor = "#4E6388";
+            KegsHeldTextColor = "White";
 
             #region Old Code
             //PartnerCollection = new InfiniteScrollCollection<PartnerModel>
@@ -373,7 +376,12 @@ namespace KegID.ViewModel
             //};
             #endregion
 
-            LoadPartnersAsync();
+            LoadPartners();
+        }
+
+        private async void LoadPartners()
+        {
+            await LoadPartnersAsync(); 
         }
 
         #endregion
@@ -415,7 +423,7 @@ namespace KegID.ViewModel
             }
         }
 
-        private async void LoadPartnersAsync()
+        private async Task LoadPartnersAsync()
         {
             AllPartners = await SQLiteServiceClient.Db.Table<PartnerModel>().ToListAsync();
             try
@@ -434,12 +442,14 @@ namespace KegID.ViewModel
                     }
                 }
             }
-            catch (System.Exception)
+            catch (Exception ex)
             {
+                Debug.WriteLine(ex.Message);
             }
             finally
             {
                 Loader.StopLoading();
+                KegsHeldCommandReciever();
             }
         } 
         private void AlphabeticalCommandReciever()

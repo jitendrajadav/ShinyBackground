@@ -22,7 +22,7 @@ namespace KegID.Common
 
         // Maps
         private const string DefaultBingMapsApiKey = "YOUR_BINGMAPS_API_KEY";
-        public const string DefaultFallbackMapsLocation = "19 72";
+        public const string DefaultFallbackMapsLocation = "19.125896 -72.0235896";
 
         // Bots
         private const string DefaultSkypeBotId = "YOUR_SKYPE_BOT_ID";

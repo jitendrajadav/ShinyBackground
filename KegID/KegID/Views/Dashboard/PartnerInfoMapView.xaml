@@ -20,10 +20,14 @@
                 Text="Partner Info"
                 Command="{Binding PartnerInfoCommand}"/>
 
-            <controls:CustomMap 
+            <!--<controls:CustomMap 
                 Grid.Row="1"
-                    x:Name="Map"
-                    CustomPins="{Binding CustomPins}"/>
+                    x:Name="MapControl"
+                CustomPins="{Binding CustomPins,Mode=TwoWay}"
+                   />-->
+            <Grid 
+                Grid.Row="1"
+                x:Name="MapControl"/>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

@@ -101,6 +101,7 @@
     <Compile Include="AppDelegate.cs" />
     <Compile Include="Renderers\CustomButtonRenderer.cs" />
     <Compile Include="Renderers\CustomMapRenderer.cs" />
+    <Compile Include="Renderers\ScannerView.cs" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist">
       <SubType>Designer</SubType>
@@ -130,6 +131,9 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
+    <Reference Include="XamarinDataManLibrary">
+      <HintPath>C:\Users\jj\Downloads\CMB_SDK_Xamarin_v2.0.0\Forms\XamarinFormsDataMan\XamarinFormsDataMan.iOS\XamarinDataManLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Acr.UserDialogs">

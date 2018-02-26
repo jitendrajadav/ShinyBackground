@@ -21,7 +21,7 @@ namespace KegID.Model
         public string TimeZone { get; set; }
         public string PalletBarcodePrefix { get; set; }
         public bool IsNotify { get; set; }
-        public DateTime SessionExpires { get; set; }
+        public string SessionExpires { get; set; }
         [Ignore]
         public List<Preference> Preferences { get; set; }
         public string DataInfo { get; set; }
