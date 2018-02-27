@@ -12,9 +12,9 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand CancelCommand { get; set; }
+        public RelayCommand CancelCommand { get; }
 
-        public RelayCommand SaveCommand { get; set; }
+        public RelayCommand SaveCommand { get; }
 
         #endregion
 

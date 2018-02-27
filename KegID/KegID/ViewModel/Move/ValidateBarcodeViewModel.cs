@@ -92,9 +92,9 @@ namespace KegID.ViewModel
         #endregion
 
         #region Commands
-        public RelayCommand CancelCommand { get; set; }
+        public RelayCommand CancelCommand { get; }
 
-        public RelayCommand<Partner> ItemTappedCommand { get; set; }
+        public RelayCommand<Partner> ItemTappedCommand { get; }
         #endregion
 
         #region Constructor

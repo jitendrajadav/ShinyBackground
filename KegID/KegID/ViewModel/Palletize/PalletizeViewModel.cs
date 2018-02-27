@@ -297,14 +297,14 @@ namespace KegID.ViewModel
         #endregion
 
         #region Commands
-        public RelayCommand CancelCommand { get; set; }
-        public RelayCommand PartnerCommand { get; set; }
-        public RelayCommand AddTagsCommand { get; set; }
-        public RelayCommand TargetLocationPartnerCommand { get; set; }
-        public RelayCommand AddKegsCommand { get; set; }
-        public RelayCommand IsPalletVisibleCommand { get; set; }
-        public RelayCommand BarcodeScanCommand { get; set; }
-        public RelayCommand SubmitCommand { get; set; }
+        public RelayCommand CancelCommand { get; }
+        public RelayCommand PartnerCommand { get; }
+        public RelayCommand AddTagsCommand { get; }
+        public RelayCommand TargetLocationPartnerCommand { get; }
+        public RelayCommand AddKegsCommand { get; }
+        public RelayCommand IsPalletVisibleCommand { get; }
+        public RelayCommand BarcodeScanCommand { get; }
+        public RelayCommand SubmitCommand { get; }
         #endregion
 
         #region Constructor

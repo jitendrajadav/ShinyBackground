@@ -219,11 +219,11 @@ namespace KegID.ViewModel
         #endregion
 
         #region Commands
-        public RelayCommand BatchCommand { get; set; }
-        public RelayCommand SizeCommand { get; set; }
-        public RelayCommand DestinationCommand { get; set; }
-        public RelayCommand NextCommand { get; set; }
-        public RelayCommand CancelCommand { get; set; }
+        public RelayCommand BatchCommand { get; }
+        public RelayCommand SizeCommand { get;}
+        public RelayCommand DestinationCommand { get; }
+        public RelayCommand NextCommand { get; }
+        public RelayCommand CancelCommand { get; }
 
         #endregion
 

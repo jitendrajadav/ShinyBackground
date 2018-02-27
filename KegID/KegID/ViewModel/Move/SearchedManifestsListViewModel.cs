@@ -57,8 +57,8 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand<ManifestSearchResponseModel> ItemTappedCommand { get; set; }
-        public RelayCommand SearchManifestsCommand { get; set; }
+        public RelayCommand<ManifestSearchResponseModel> ItemTappedCommand { get; }
+        public RelayCommand SearchManifestsCommand { get; }
 
         #endregion
 

@@ -844,10 +844,10 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand CalcelCommand { get; set; }
-        public RelayCommand SubmitCommand { get; set; }
-        public RelayCommand ShippingAddressCommand { get; set; }
-        public RelayCommand BillingAddressCommand { get; set; }
+        public RelayCommand CalcelCommand { get; }
+        public RelayCommand SubmitCommand { get;}
+        public RelayCommand ShippingAddressCommand { get; }
+        public RelayCommand BillingAddressCommand { get;}
 
         #endregion
 

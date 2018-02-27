@@ -259,10 +259,10 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand ManifestsCommand { get; set; }
-        public RelayCommand ManifestSenderCommand { get; set; }
-        public RelayCommand ManifestDestinationCommand { get; set; }
-        public RelayCommand SearchCommand { get; set; }
+        public RelayCommand ManifestsCommand { get; }
+        public RelayCommand ManifestSenderCommand { get; }
+        public RelayCommand ManifestDestinationCommand { get; }
+        public RelayCommand SearchCommand { get; }
 
         #endregion
 

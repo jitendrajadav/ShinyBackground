@@ -341,8 +341,8 @@ namespace KegID.ViewModel
                     model.MaintenanceDoneRequestModel.Tags = new List<MaintenanceDoneRequestModelTag>();
 
                     KegIDResponse kegIDResponse = await _maintainService.PostMaintenanceDoneAsync(model.MaintenanceDoneRequestModel, Configuration.SessionId, Configuration.PostedMaintenanceDone);
-                    //kegIDResponse.StatusCode == System.Net.HttpStatusCode.NoContent
-                    if (true)
+
+                    if (kegIDResponse.StatusCode == System.Net.HttpStatusCode.NoContent)
                     {
                         SimpleIoc.Default.GetInstance<MaintainDetailViewModel>().TrackingNo = Uuid.GetUuId();
 

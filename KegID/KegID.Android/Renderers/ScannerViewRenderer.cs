@@ -7,14 +7,16 @@ using Android.Widget;
 using Com.Cognex.Dataman.Sdk;
 using Com.Cognex.Mobile.Barcode.Sdk;
 using Java.Lang;
+using KegID;
+using KegID.Droid.Renderers;
 using KegID.Views;
 using Xamarin.Forms.Platform.Android;
 using static Com.Cognex.Mobile.Barcode.Sdk.ReaderDevice;
 
-[assembly: Xamarin.Forms.ExportRenderer(typeof(CameraPreview), typeof(ScannerView))]
+[assembly: Xamarin.Forms.ExportRenderer(typeof(CameraPreview), typeof(ScannerViewRenderer))]
 namespace KegID.Droid.Renderers
 {
-    public class ScannerView : ViewRenderer<CameraPreview, RelativeLayout>, IOnConnectionCompletedListener, IReaderDeviceListener
+    public class ScannerViewRenderer : ViewRenderer<CameraPreview, RelativeLayout>, IOnConnectionCompletedListener, IReaderDeviceListener
     {
         private Xamarin.Forms.Label tvConnectionStatus, tvSymbology, tvCode;
         private Xamarin.Forms.Button btnScan;
@@ -45,7 +47,7 @@ namespace KegID.Droid.Renderers
         public static bool fragmentActive = false;
 
 
-        public ScannerView(Context context) : base(context)
+        public ScannerViewRenderer(Context context) : base(context)
         {
 
         }
@@ -85,7 +87,7 @@ namespace KegID.Droid.Renderers
             btnScan.IsEnabled = false;
             btnScan.Clicked += (sender, ev) =>
             {
-                if (ScannerView.readerDevice != null)
+                if (ScannerViewRenderer.readerDevice != null)
                 {
                     if (!isScanning)
                     {
@@ -93,13 +95,13 @@ namespace KegID.Droid.Renderers
                         tvCode.Text = "";
                         tvConnectionStatus.IsVisible = false;
 
-                        ScannerView.readerDevice.StartScanning();
+                        ScannerViewRenderer.readerDevice.StartScanning();
                         isScanning = true;
                         btnScan.Text = "STOP SCANNING";
                     }
                     else
                     {
-                        ScannerView.readerDevice.StopScanning();
+                        ScannerViewRenderer.readerDevice.StopScanning();
                         isScanning = false;
                         btnScan.Text = "START SCANNING";
                     }
@@ -137,19 +139,19 @@ namespace KegID.Droid.Renderers
 
         private void initDevice()
         {
-            if (!ScannerView.isDevicePicked)
+            if (!ScannerViewRenderer.isDevicePicked)
             {
-                if (!ScannerView.dialogAppeared)
+                if (!ScannerViewRenderer.dialogAppeared)
                     pickDevice(false);
                 return;
             }
 
-            switch (ScannerView.param_deviceType)
+            switch (ScannerViewRenderer.param_deviceType)
             {
 
                 default:
                 case DeviceType.MX_1000:
-                    ScannerView.readerDevice = ReaderDevice.GetMXDevice(mContext);
+                    ScannerViewRenderer.readerDevice = ReaderDevice.GetMXDevice(mContext);
                     if (!listeningForUSB)
                     {
                         listeningForUSB = true;
@@ -158,14 +160,14 @@ namespace KegID.Droid.Renderers
                     break;
 
                 case DeviceType.MOBILE_DEVICE:
-                    ScannerView.readerDevice = ReaderDevice.GetPhoneCameraDevice(mContext, CameraMode.NoAimer, PreviewOption.Defaults, rlMainContainer);
+                    ScannerViewRenderer.readerDevice = ReaderDevice.GetPhoneCameraDevice(mContext, CameraMode.NoAimer, PreviewOption.Defaults, rlMainContainer);
                     selectedDevice = "Mobile Camera";
                     break;
             }
 
-            ScannerView.readerDevice.SetReaderDeviceListener(this);
-            ScannerView.readerDevice.EnableImage(true);
-            ScannerView.readerDevice.Connect(this);
+            ScannerViewRenderer.readerDevice.SetReaderDeviceListener(this);
+            ScannerViewRenderer.readerDevice.EnableImage(true);
+            ScannerViewRenderer.readerDevice.Connect(this);
         }
 
         private void pickDevice(bool cancelable)
@@ -177,10 +179,10 @@ namespace KegID.Droid.Renderers
                 listeningForUSB = false;
             }
 
-            if (ScannerView.readerDevice != null)
+            if (ScannerViewRenderer.readerDevice != null)
             {
-                ScannerView.readerDevice.Disconnect();
-                ScannerView.readerDevice = null;
+                ScannerViewRenderer.readerDevice.Disconnect();
+                ScannerViewRenderer.readerDevice = null;
             }
 
             AlertDialog.Builder devicePickerBuilder = new AlertDialog.Builder(mContext);
@@ -200,9 +202,9 @@ namespace KegID.Droid.Renderers
 
             devicePickerBuilder.SetAdapter(arrayAdapter, (sender, e) =>
             {
-                ScannerView.param_deviceType = (e.Which == 0 ? DeviceType.MX_1000 : DeviceType.MOBILE_DEVICE);
-                ScannerView.isDevicePicked = true;
-                ScannerView.dialogAppeared = false;
+                ScannerViewRenderer.param_deviceType = (e.Which == 0 ? DeviceType.MX_1000 : DeviceType.MOBILE_DEVICE);
+                ScannerViewRenderer.isDevicePicked = true;
+                ScannerViewRenderer.dialogAppeared = false;
                 initDevice();
             });
 
@@ -211,7 +213,7 @@ namespace KegID.Droid.Renderers
             devicePicker.SetCanceledOnTouchOutside(false);
             devicePicker.Show();
 
-            ScannerView.dialogAppeared = true;
+            ScannerViewRenderer.dialogAppeared = true;
         }
 
         // USB Listener, no need for conditional code
@@ -267,12 +269,12 @@ namespace KegID.Droid.Renderers
         {
             if (reader.GetAvailability() == Availability.Available)
             {
-                ScannerView.readerDevice.Connect(this);
+                ScannerViewRenderer.readerDevice.Connect(this);
             }
             else
             {
                 // DISCONNECTED USB DEVICE
-                ScannerView.readerDevice.Disconnect();
+                ScannerViewRenderer.readerDevice.Disconnect();
                 readerDisconnected();
             }
         }
@@ -312,14 +314,14 @@ namespace KegID.Droid.Renderers
             tvConnectionStatus.IsVisible = true;
 
             //example setSymbologyEnabled
-            ScannerView.readerDevice.SetSymbologyEnabled(Symbology.C128, true, null);
-            ScannerView.readerDevice.SetSymbologyEnabled(Symbology.Datamatrix, true, null);
-            ScannerView.readerDevice.SetSymbologyEnabled(Symbology.UpcEan, true, null);
-            ScannerView.readerDevice.SetSymbologyEnabled(Symbology.Qr, true, null);
+            ScannerViewRenderer.readerDevice.SetSymbologyEnabled(Symbology.C128, true, null);
+            ScannerViewRenderer.readerDevice.SetSymbologyEnabled(Symbology.Datamatrix, true, null);
+            ScannerViewRenderer.readerDevice.SetSymbologyEnabled(Symbology.UpcEan, true, null);
+            ScannerViewRenderer.readerDevice.SetSymbologyEnabled(Symbology.Qr, true, null);
 
             //example sendCommand
-            ScannerView.readerDevice.DataManSystem.SendCommand("SET SYMBOL.MICROPDF417 ON");
-            ScannerView.readerDevice.DataManSystem.SendCommand("SET IMAGE.SIZE 0");
+            ScannerViewRenderer.readerDevice.DataManSystem.SendCommand("SET SYMBOL.MICROPDF417 ON");
+            ScannerViewRenderer.readerDevice.DataManSystem.SendCommand("SET IMAGE.SIZE 0");
         }
 
         private Symbology symbologyFromString(string symbol)

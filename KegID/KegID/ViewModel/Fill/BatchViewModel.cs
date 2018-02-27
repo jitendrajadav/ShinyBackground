@@ -56,7 +56,7 @@ namespace KegID.ViewModel
         #endregion
 
         #region Commands
-        public RelayCommand<BatchModel> ItemTappedCommand { get; set; }
+        public RelayCommand<BatchModel> ItemTappedCommand { get;}
 
         #endregion
 

@@ -270,12 +270,12 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand DoneCommand { get; set; }
-        public RelayCommand BarcodeScanCommand { get; set; }
-        public RelayCommand BarcodeManualCommand { get; set; }
-        public RelayCommand AddTagsCommand { get; set; }
-        public RelayCommand<Barcode> IconItemTappedCommand { get; set; }
-        public RelayCommand<Barcode> LabelItemTappedCommand { get; set; }
+        public RelayCommand DoneCommand { get; }
+        public RelayCommand BarcodeScanCommand { get; }
+        public RelayCommand BarcodeManualCommand { get; }
+        public RelayCommand AddTagsCommand { get; }
+        public RelayCommand<Barcode> IconItemTappedCommand { get; }
+        public RelayCommand<Barcode> LabelItemTappedCommand { get; }
 
         #endregion
 

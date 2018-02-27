@@ -137,7 +137,7 @@
     <Compile Include="PeriodicService.cs" />
     <Compile Include="Renderers\CustomButtonRenderer.cs" />
     <Compile Include="Renderers\CustomMapRenderer.cs" />
-    <Compile Include="Renderers\ScannerView.cs" />
+    <Compile Include="Renderers\ScannerViewRenderer.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

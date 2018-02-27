@@ -48,7 +48,7 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand<string> ItemTappedCommand { get; set; }
+        public RelayCommand<string> ItemTappedCommand { get;}
 
         #endregion
 

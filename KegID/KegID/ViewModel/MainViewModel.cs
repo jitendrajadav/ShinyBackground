@@ -150,11 +150,11 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand GotoDetailPage { get; set; }
+        public RelayCommand GotoDetailPage { get; }
 
-        public RelayCommand<Barcode> ItemSelectedCommand { get; set; }
+        public RelayCommand<Barcode> ItemSelectedCommand { get; }
 
-        public RelayCommand<Barcode> ItemTappedCommand { get; set; }
+        public RelayCommand<Barcode> ItemTappedCommand { get; }
 
         #endregion
 

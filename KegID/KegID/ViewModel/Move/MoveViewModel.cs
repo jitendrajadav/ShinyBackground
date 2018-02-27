@@ -264,12 +264,12 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand SelectLocationCommand { get; set; }
-        public RelayCommand MoreInfoCommand { get; set; }
-        public RelayCommand ScanKegsCommad { get; set; }
-        public RelayCommand SaveDraftCommand { get; set; }
-        public RelayCommand CancelCommand { get; set; }
-        public RelayCommand SubmitCommand { get; set; }
+        public RelayCommand SelectLocationCommand { get; }
+        public RelayCommand MoreInfoCommand { get; }
+        public RelayCommand ScanKegsCommad { get;}
+        public RelayCommand SaveDraftCommand { get; }
+        public RelayCommand CancelCommand { get; }
+        public RelayCommand SubmitCommand { get; }
 
         #endregion
 

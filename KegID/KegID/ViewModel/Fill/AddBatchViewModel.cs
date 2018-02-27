@@ -428,11 +428,11 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand AddTagsCommand { get; set; }
-        public RelayCommand CancelCommand { get; set; }
-        public RelayCommand DoneCommand { get; set; }
-        public RelayCommand BrandCommand { get; set; }
-        public RelayCommand VolumeCharCommand { get; set; }
+        public RelayCommand AddTagsCommand { get;}
+        public RelayCommand CancelCommand { get; }
+        public RelayCommand DoneCommand { get;}
+        public RelayCommand BrandCommand { get; }
+        public RelayCommand VolumeCharCommand { get; }
 
         #endregion
 

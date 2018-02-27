@@ -88,7 +88,7 @@ namespace KegID.ViewModel
         #endregion
 
         #region Commands
-        public RelayCommand HomeCommand { get; set; }
+        public RelayCommand HomeCommand { get; }
 
         #endregion
 

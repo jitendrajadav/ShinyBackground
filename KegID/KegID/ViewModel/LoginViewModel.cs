@@ -125,8 +125,8 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand LoginCommand { get; set; }
-        public RelayCommand KegIDCommand { get; set; }
+        public RelayCommand LoginCommand { get; }
+        public RelayCommand KegIDCommand { get; }
 
         #endregion
 
@@ -169,7 +169,8 @@ namespace KegID.ViewModel
                     Configuration.SessionId = globalData.SessionId;
                     Configuration.CompanyId = globalData.CompanyId;
                     //await Application.Current.MainPage.Navigation.PushModalAsync(new KegIDMasterPage());
-                    await Application.Current.MainPage.Navigation.PushModalAsync(new MainPage());
+                    //await Application.Current.MainPage.Navigation.PushModalAsync(new MainPage());
+                    await Application.Current.MainPage.Navigation.PushModalAsync(new CognexScanView());
                 }
             }
             catch (Exception ex)

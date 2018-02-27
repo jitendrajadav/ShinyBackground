@@ -49,7 +49,7 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand<BrandModel> ItemTappedCommand { get; set; }
+        public RelayCommand<BrandModel> ItemTappedCommand { get; }
 
         #endregion
 

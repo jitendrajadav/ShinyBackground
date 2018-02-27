@@ -287,7 +287,7 @@ namespace KegID.ViewModel
         #region Commands
         public RelayCommand BackCommand { get; }
 
-        public RelayCommand DoneCommand { get; set; }
+        public RelayCommand DoneCommand { get; }
        
         #endregion
 

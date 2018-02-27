@@ -252,9 +252,9 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand HomeCommand { get; set; }
-        public RelayCommand ShareCommand { get; set; }
-        public RelayCommand GridTappedCommand { get; set; }
+        public RelayCommand HomeCommand { get; }
+        public RelayCommand ShareCommand { get; }
+        public RelayCommand GridTappedCommand { get; }
 
         #endregion
 

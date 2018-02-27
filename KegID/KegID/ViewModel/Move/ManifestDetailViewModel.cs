@@ -1,5 +1,4 @@
-﻿using System;
-using GalaSoft.MvvmLight;
+﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using KegID.Views;
 using Xamarin.Forms;
@@ -184,9 +183,9 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand ManifestsCommand { get; set; }
-        public RelayCommand ShareCommand { get; set; }
-        public RelayCommand GridTappedCommand { get; set; }
+        public RelayCommand ManifestsCommand { get;}
+        public RelayCommand ShareCommand { get; }
+        public RelayCommand GridTappedCommand { get; }
 
         #endregion
 

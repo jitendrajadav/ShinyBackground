@@ -19,11 +19,11 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand PrinterSettingCommand { get; set; }
-        public RelayCommand WhatsNewCommand { get; set; }
-        public RelayCommand SupportCommand { get; set; }
-        public RelayCommand LogOutSettingCommand { get; set; }
-        public RelayCommand RefreshSettingCommand { get; set; }
+        public RelayCommand PrinterSettingCommand { get; }
+        public RelayCommand WhatsNewCommand { get; }
+        public RelayCommand SupportCommand { get; }
+        public RelayCommand LogOutSettingCommand { get; }
+        public RelayCommand RefreshSettingCommand { get; }
 
         #endregion
 

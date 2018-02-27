@@ -1,6 +1,6 @@
 ﻿using Xamarin.Forms;
 
-namespace KegID.Views
+namespace KegID
 {
     public class CameraPreview : View
     {

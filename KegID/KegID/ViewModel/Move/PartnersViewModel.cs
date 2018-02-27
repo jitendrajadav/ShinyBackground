@@ -268,13 +268,13 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand InternalCommand { get; set; }
-        public RelayCommand AlphabeticalCommand { get; set; }
-        public RelayCommand<PartnerModel> ItemTappedCommand { get; set; }
-        public RelayCommand SearchPartnerCommand { get; set; }
-        public RelayCommand AddNewPartnerCommand { get; set; }
-        public RelayCommand BackCommand { get; set; }
-        public RelayCommand TextChangedCommand { get; set; }
+        public RelayCommand InternalCommand { get; }
+        public RelayCommand AlphabeticalCommand { get; }
+        public RelayCommand<PartnerModel> ItemTappedCommand { get; }
+        public RelayCommand SearchPartnerCommand { get; }
+        public RelayCommand AddNewPartnerCommand { get; }
+        public RelayCommand BackCommand { get; }
+        public RelayCommand TextChangedCommand { get; }
 
         #endregion
 

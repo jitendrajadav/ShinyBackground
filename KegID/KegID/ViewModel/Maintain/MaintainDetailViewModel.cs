@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using KegID.Views;
@@ -185,8 +184,8 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand HomeCommand { get; set; }
-        public RelayCommand GridTappedCommand { get; set; }
+        public RelayCommand HomeCommand { get; }
+        public RelayCommand GridTappedCommand { get; }
 
         #endregion
 

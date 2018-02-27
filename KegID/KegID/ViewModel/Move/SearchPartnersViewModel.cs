@@ -123,9 +123,9 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand BackPartnersCommand { get; set; }
-        public RelayCommand PartnerSearchCommand { get; set; }
-        public RelayCommand<PartnerModel> ItemTappedCommand { get; set; }
+        public RelayCommand BackPartnersCommand { get; }
+        public RelayCommand PartnerSearchCommand { get; }
+        public RelayCommand<PartnerModel> ItemTappedCommand { get; }
 
         #endregion
 

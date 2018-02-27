@@ -6,7 +6,6 @@
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=MaintainDetail}">
     <ContentPage.Content>
         <Grid
-            HorizontalOptions="Center"
             Margin="10,0,10,0">
 
             <Grid.RowDefinitions>
@@ -62,7 +61,6 @@
             <Grid
                 x:Name="maintenancePerformed"
                 RowSpacing="0,0,0,0"
-                HorizontalOptions="Center"
                 ColumnSpacing="0,0,0,0"
                 Grid.Row="4">
                 <Grid.RowDefinitions>
@@ -75,7 +73,7 @@
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
@@ -131,7 +129,7 @@
                     VerticalOptions="Start"
                     HorizontalOptions="FillAndExpand"/>
 
-                <ListView 
+                <!--<ListView 
                     Grid.Row="3"
                     Grid.Column="1"
                     x:Name="maintenanceperformedListView"
@@ -157,7 +155,14 @@
                             <On Platform="Android">330</On>
                         </OnPlatform>
                     </ListView.WidthRequest>
-                </ListView>
+                </ListView>-->
+
+                <StackLayout
+                    Grid.Row="3"
+                    HorizontalOptions="FillAndExpand"
+                    x:Name="maintenancePerformedStack"
+                    Grid.Column="1"/>
+
             </Grid>
 
             <Grid

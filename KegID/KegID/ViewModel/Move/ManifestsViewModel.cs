@@ -259,12 +259,12 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand HomeCommand { get; set; }
-        public RelayCommand ActionSearchCommand { get; set; }
-        public RelayCommand QueuedCommand { get; set; }
-        public RelayCommand DraftCommand { get; set; }
-        public RelayCommand RecentCommand { get; set; }
-        public RelayCommand<ManifestModel> ItemTappedCommand { get; set; }
+        public RelayCommand HomeCommand { get; }
+        public RelayCommand ActionSearchCommand { get; }
+        public RelayCommand QueuedCommand { get; }
+        public RelayCommand DraftCommand { get; }
+        public RelayCommand RecentCommand { get; }
+        public RelayCommand<ManifestModel> ItemTappedCommand { get; }
 
         #endregion
 

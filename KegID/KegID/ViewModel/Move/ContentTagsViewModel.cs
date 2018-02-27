@@ -1,8 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using KegID.Common;
-using KegID.Model;
-using KegID.SQLiteClient;
 using System;
 using System.Collections.Generic;
 using Xamarin.Forms;
@@ -51,7 +49,7 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand ManifestCommand { get; set; }
+        public RelayCommand ManifestCommand { get; }
 
         #endregion
 

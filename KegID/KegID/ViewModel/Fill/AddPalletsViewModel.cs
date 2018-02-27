@@ -160,10 +160,10 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand SubmitCommand { get; set; }
-        public RelayCommand FillScanCommand { get; set; }
-        public RelayCommand FillKegsCommand { get; set; }
-        public RelayCommand<PalletModel> ItemTappedCommand { get; set; }
+        public RelayCommand SubmitCommand { get; }
+        public RelayCommand FillScanCommand { get; }
+        public RelayCommand FillKegsCommand { get; }
+        public RelayCommand<PalletModel> ItemTappedCommand { get; }
 
         #endregion
 

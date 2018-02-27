@@ -393,9 +393,9 @@ namespace KegID.ViewModel
         #endregion
 
         #region Commands
-        public RelayCommand HomeCommand { get; set; }
-        public RelayCommand NextCommand { get; set; }
-        public RelayCommand PartnerCommand { get; set; }
+        public RelayCommand HomeCommand { get; }
+        public RelayCommand NextCommand { get; }
+        public RelayCommand PartnerCommand { get; }
 
         #endregion
 
