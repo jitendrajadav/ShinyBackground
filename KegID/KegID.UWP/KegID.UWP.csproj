@@ -99,6 +99,7 @@
     </Compile>
     <Compile Include="DependencyServices\BackgroundService.cs" />
     <Compile Include="DependencyServices\OpenAppService.cs" />
+    <Compile Include="DependencyServices\PhoneDialerUWP.cs" />
     <Compile Include="DependencyServices\UWPCloseApplication.cs" />
     <Compile Include="DependencyServices\UWPSQLiteService.cs" />
     <Compile Include="DependencyServices\UWPUniqueIdentifier.cs" />
@@ -274,9 +275,18 @@
     <SDKReference Include="SQLite.UWP.2015, Version=3.22.0">
       <Name>SQLite for Universal Windows Platform %28SQLite.UWP.2015, Version=3.22.0%29</Name>
     </SDKReference>
+    <SDKReference Include="WindowsDesktop, Version=10.0.16299.0">
+      <Name>Windows Desktop Extensions for the UWP</Name>
+    </SDKReference>
+    <SDKReference Include="WindowsMobile, Version=10.0.16299.0">
+      <Name>Windows Mobile Extensions for the UWP</Name>
+    </SDKReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="KegID.UWP_TemporaryKey.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

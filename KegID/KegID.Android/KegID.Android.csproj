@@ -132,6 +132,7 @@
     <Compile Include="DependencyServices\AndroidUniqueIdentifier.cs" />
     <Compile Include="DependencyServices\BackgroundService.cs" />
     <Compile Include="DependencyServices\OpenAppService.cs" />
+    <Compile Include="DependencyServices\PhoneDialerAndroid.cs" />
     <Compile Include="DependencyServices\SQLiteAndroid.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="PeriodicService.cs" />

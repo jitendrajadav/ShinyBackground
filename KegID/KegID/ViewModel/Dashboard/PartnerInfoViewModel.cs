@@ -1,6 +1,8 @@
 ﻿using System;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using KegID.Common;
+using KegID.DependencyServices;
 using KegID.Views;
 using Xamarin.Forms;
 
@@ -9,6 +11,8 @@ namespace KegID.ViewModel
     public class PartnerInfoViewModel : ViewModelBase
     {
         #region Properties
+
+        string translatedNumber;
 
         #region Title
 
@@ -449,7 +453,36 @@ namespace KegID.ViewModel
 
         private void KegsCommandReciever()
         {
+            
+        }
 
+        void OnTranslate(object sender, EventArgs e)
+        {
+            translatedNumber = PhoneTranslator.ToNumber(Phone);
+            if (!string.IsNullOrWhiteSpace(translatedNumber))
+            {
+                //callButton.IsEnabled = true;
+                //callButton.Text = "Call " + translatedNumber;
+            }
+            else
+            {
+                //callButton.IsEnabled = false;
+                //callButton.Text = "Call";
+            }
+        }
+        async void OnCall(object sender, EventArgs e)
+        {
+            if (await Application.Current.MainPage.DisplayAlert(
+                "Dial a Number",
+                "Would you like to call " + translatedNumber + "?",
+                "Cancel",
+                "Call"))
+            {
+                // TODO: dial the phone
+                var dialer = DependencyService.Get<IDialer>();
+                if (dialer != null)
+                    await dialer.DialAsync(translatedNumber);
+            }
         }
 
         private async void EditCommandRecieverAsync()

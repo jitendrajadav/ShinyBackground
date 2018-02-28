@@ -169,8 +169,8 @@ namespace KegID.ViewModel
                     Configuration.SessionId = globalData.SessionId;
                     Configuration.CompanyId = globalData.CompanyId;
                     //await Application.Current.MainPage.Navigation.PushModalAsync(new KegIDMasterPage());
-                    //await Application.Current.MainPage.Navigation.PushModalAsync(new MainPage());
-                    await Application.Current.MainPage.Navigation.PushModalAsync(new CognexScanView());
+                    await Application.Current.MainPage.Navigation.PushModalAsync(new MainPage());
+                    //await Application.Current.MainPage.Navigation.PushModalAsync(new CognexScanView());
                 }
             }
             catch (Exception ex)

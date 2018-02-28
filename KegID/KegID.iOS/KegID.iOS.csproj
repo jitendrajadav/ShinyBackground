@@ -96,12 +96,13 @@
     <Compile Include="DependencyServices\BackgroundService.cs" />
     <Compile Include="DependencyServices\IOSUniqueIdentifier.cs" />
     <Compile Include="DependencyServices\OpenAppService.cs" />
+    <Compile Include="DependencyServices\PhoneDialerIOS.cs" />
     <Compile Include="DependencyServices\SQLiteiOS.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <Compile Include="Renderers\CustomButtonRenderer.cs" />
     <Compile Include="Renderers\CustomMapRenderer.cs" />
-    <Compile Include="Renderers\ScannerView.cs" />
+    <Compile Include="Renderers\ScannerViewRenderer.cs" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist">
       <SubType>Designer</SubType>

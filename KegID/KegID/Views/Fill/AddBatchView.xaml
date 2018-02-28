@@ -102,6 +102,7 @@
                         Grid.Row="3"
                         Grid.Column="1"
                         HorizontalOptions="FillAndExpand"
+                        Keyboard="Numeric"
                         Text="{Binding VolumeDigit}"/>
 
                     <Entry 

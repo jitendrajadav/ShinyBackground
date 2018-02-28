@@ -1,16 +1,18 @@
 ﻿using CMBSDK;
 using CoreFoundation;
 using Foundation;
+using KegID;
+using KegID.iOS.Renderers;
 using KegID.Views;
 using System;
 using System.Xml;
 using UIKit;
 using Xamarin.Forms.Platform.iOS;
 
-[assembly: Xamarin.Forms.ExportRenderer(typeof(CameraPreview), typeof(ScannerView))]
+[assembly: Xamarin.Forms.ExportRenderer(typeof(CameraPreview), typeof(ScannerViewRenderer))]
 namespace KegID.iOS.Renderers
 {
-    public class ScannerView : ViewRenderer<CameraPreview, UIImageView>, ICMBReaderDeviceDelegate
+    public class ScannerViewRenderer : ViewRenderer<CameraPreview, UIImageView>, ICMBReaderDeviceDelegate
     {
         CMBReaderDevice readerDevice;
         public bool isScanning = false;

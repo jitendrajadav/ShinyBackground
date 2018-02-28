@@ -5,7 +5,7 @@ using Xamarin.Forms;
 [assembly: Dependency(typeof(BackgroundService))]
 namespace KegID.UWP.DependencyServices
 {
-    public class BackgroundService : IBackgroundService
+    class BackgroundService : IBackgroundService
     {
         public void Start()
         {
