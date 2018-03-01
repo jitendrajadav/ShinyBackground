@@ -35,6 +35,9 @@ namespace KegID.ViewModel
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<LoginViewModel>();
             SimpleIoc.Default.Register<KegIDMasterPageMasterViewModel>();
+            #endregion
+
+            #region Dashboard
             SimpleIoc.Default.Register<DashboardPartnersViewModel>();
             SimpleIoc.Default.Register<InventoryViewModel>();
             SimpleIoc.Default.Register<PrinterSettingViewModel>();
@@ -43,6 +46,7 @@ namespace KegID.ViewModel
             SimpleIoc.Default.Register<WhatIsNewViewModel>();
             SimpleIoc.Default.Register<PartnerInfoViewModel>();
             SimpleIoc.Default.Register<PartnerInfoMapViewModel>();
+            SimpleIoc.Default.Register<KegsViewModel>();
             #endregion
 
             #region Fill
@@ -711,6 +715,24 @@ namespace KegID.ViewModel
             get
             {
                 return SimpleIoc.Default.GetInstance<PartnerInfoMapViewModel>();
+            }
+        }
+
+        #endregion
+
+        #region Kegs
+
+        /// <summary>
+        /// Gets the Kegs property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public KegsViewModel Kegs
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<KegsViewModel>();
             }
         }
 

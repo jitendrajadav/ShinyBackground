@@ -19,7 +19,7 @@
         /// <summary>
         /// Base Url
         /// </summary>
-        public const string ServiceUrl = TestAPIUrl;
+        public const string ServiceUrl = StageAPIUrl;
 
         /// <summary>
         /// Login Service Url
@@ -32,11 +32,15 @@
         /// </summary>
         public const string GetDashboardUrl = ServiceUrl + "dashboard/get?sessionId={0}";
         public const string GetInventoryUrl = ServiceUrl + "Inventory/?sessionId={0}";
-
+        public const string GetKegPossessionByPartnerIdUrl = ServiceUrl + "KegPossession/?sessionId={0}&partnerid={1}";
+        public const string GetPartnerInfoByPartnerIdUrl = ServiceUrl + "Partner/?sessionId={0}&id={1}";
+        public const string GetKegStatusByKegIdUrl = ServiceUrl + "Keg/{0}?sessionId={1}";
+        public const string GetKegMaintenanceHistoryByKegIdUrl = ServiceUrl + "KegMaintenanceHistory/{0}?sessionId={1}";
+        
         /// <summary>
         /// Move Service Url
         /// </summary>
-        public const string GetPartnerUrl = ServiceUrl + "Partner/?sessionId={0}";
+        public const string GetPartnerBySesssionIdUrl = ServiceUrl + "Partner/?sessionId={0}";
         public const string GetValidateBarcodeUrl = ServiceUrl + "validation/?barcode={0}&sessionId={1}";
         public const string GetBrandUrl = ServiceUrl + "brand/?sessionId={0}";
         public const string GetManifestUrl = ServiceUrl + "Manifest/{0}?sessionId={1}";

@@ -40,6 +40,7 @@
         PrinterSettingView,
         SettingView,
         WhatIsNewView,
-        LoginView
+        LoginView,
+        KegsView
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using KegID.DependencyServices;
 using KegID.UWP.DependencyServices;
 using Windows.ApplicationModel.Calls;
@@ -28,16 +29,17 @@ namespace KegID.UWP.DependencyServices
             }
             else
             {
-                var dialog = new MessageDialog("No line found to place the call");
-                await dialog.ShowAsync();
+                // Create the message dialog and set its content
+                var messageDialog = new MessageDialog("No line found to place the call");
+                await messageDialog.ShowAsync();
+                // Show the message dialog
                 dialled = false;
             }
         }
-
         async Task<PhoneLine> GetDefaultPhoneLineAsync()
         {
-            var phoneCallStore = await PhoneCallManager.RequestStoreAsync();
-            var lineId = phoneCallStore.GetDefaultLineAsync();
+            PhoneCallStore phoneCallStore = await PhoneCallManager.RequestStoreAsync();
+            Guid lineId = await phoneCallStore.GetDefaultLineAsync();
             return await PhoneLine.FromIdAsync(lineId);
         }
     }

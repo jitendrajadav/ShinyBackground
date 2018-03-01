@@ -1,8 +1,11 @@
 ﻿using System;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
 using KegID.DependencyServices;
+using KegID.Model;
+using KegID.Services;
 using KegID.Views;
 using Xamarin.Forms;
 
@@ -11,144 +14,145 @@ namespace KegID.ViewModel
     public class PartnerInfoViewModel : ViewModelBase
     {
         #region Properties
+        public IDashboardService _dashboardService { get; set; }
 
         string translatedNumber;
 
-        #region Title
+        //#region Title
+
+        ///// <summary>
+        ///// The <see cref="Title" /> property's name.
+        ///// </summary>
+        //public const string TitlePropertyName = "Title";
+
+        //private string _Title = default(string);
+
+        ///// <summary>
+        ///// Sets and gets the Title property.
+        ///// Changes to that property's value raise the PropertyChanged event. 
+        ///// </summary>
+        //public string Title
+        //{
+        //    get
+        //    {
+        //        return _Title;
+        //    }
+
+        //    set
+        //    {
+        //        if (_Title == value)
+        //        {
+        //            return;
+        //        }
+
+        //        _Title = value;
+        //        RaisePropertyChanged(TitlePropertyName);
+        //    }
+        //}
+
+        //#endregion
+
+        #region KegsHeld
 
         /// <summary>
-        /// The <see cref="Title" /> property's name.
+        /// The <see cref="KegsHeld" /> property's name.
         /// </summary>
-        public const string TitlePropertyName = "Title";
+        public const string KegsHeldPropertyName = "KegsHeld";
 
-        private string _Title = default(string);
+        private string _KegsHeld = string.Empty;
 
         /// <summary>
-        /// Sets and gets the Title property.
+        /// Sets and gets the KegsHeld property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public string Title
+        public string KegsHeld
         {
             get
             {
-                return _Title;
+                return _KegsHeld;
             }
 
             set
             {
-                if (_Title == value)
+                if (_KegsHeld == value)
                 {
                     return;
                 }
 
-                _Title = value;
-                RaisePropertyChanged(TitlePropertyName);
+                _KegsHeld = value;
+                RaisePropertyChanged(KegsHeldPropertyName);
             }
         }
 
         #endregion
 
-        #region Kegs
+        //#region ShipTo
 
-        /// <summary>
-        /// The <see cref="Kegs" /> property's name.
-        /// </summary>
-        public const string KegsPropertyName = "Kegs";
+        ///// <summary>
+        ///// The <see cref="ShipTo" /> property's name.
+        ///// </summary>
+        //public const string ShipToPropertyName = "ShipTo";
 
-        private string _Kegs = "0";
+        //private string _ShipTo = "Ship To";
 
-        /// <summary>
-        /// Sets and gets the Kegs property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string Kegs
-        {
-            get
-            {
-                return _Kegs;
-            }
+        ///// <summary>
+        ///// Sets and gets the ShipTo property.
+        ///// Changes to that property's value raise the PropertyChanged event. 
+        ///// </summary>
+        //public string ShipTo
+        //{
+        //    get
+        //    {
+        //        return _ShipTo;
+        //    }
 
-            set
-            {
-                if (_Kegs == value)
-                {
-                    return;
-                }
+        //    set
+        //    {
+        //        if (_ShipTo == value)
+        //        {
+        //            return;
+        //        }
 
-                _Kegs = value;
-                RaisePropertyChanged(KegsPropertyName);
-            }
-        }
+        //        _ShipTo = value;
+        //        RaisePropertyChanged(ShipToPropertyName);
+        //    }
+        //}
 
-        #endregion
+        //#endregion
 
-        #region ShipTo
+        //#region BillTo
 
-        /// <summary>
-        /// The <see cref="ShipTo" /> property's name.
-        /// </summary>
-        public const string ShipToPropertyName = "ShipTo";
+        ///// <summary>
+        ///// The <see cref="BillTo" /> property's name.
+        ///// </summary>
+        //public const string BillToPropertyName = "BillTo";
 
-        private string _ShipTo = "Ship To";
+        //private string _BillTo = "Bill To";
 
-        /// <summary>
-        /// Sets and gets the ShipTo property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string ShipTo
-        {
-            get
-            {
-                return _ShipTo;
-            }
+        ///// <summary>
+        ///// Sets and gets the BillTo property.
+        ///// Changes to that property's value raise the PropertyChanged event. 
+        ///// </summary>
+        //public string BillTo
+        //{
+        //    get
+        //    {
+        //        return _BillTo;
+        //    }
 
-            set
-            {
-                if (_ShipTo == value)
-                {
-                    return;
-                }
+        //    set
+        //    {
+        //        if (_BillTo == value)
+        //        {
+        //            return;
+        //        }
 
-                _ShipTo = value;
-                RaisePropertyChanged(ShipToPropertyName);
-            }
-        }
+        //        _BillTo = value;
+        //        RaisePropertyChanged(BillToPropertyName);
+        //    }
+        //}
 
-        #endregion
-
-        #region BillTo
-
-        /// <summary>
-        /// The <see cref="BillTo" /> property's name.
-        /// </summary>
-        public const string BillToPropertyName = "BillTo";
-
-        private string _BillTo = "Bill To";
-
-        /// <summary>
-        /// Sets and gets the BillTo property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string BillTo
-        {
-            get
-            {
-                return _BillTo;
-            }
-
-            set
-            {
-                if (_BillTo == value)
-                {
-                    return;
-                }
-
-                _BillTo = value;
-                RaisePropertyChanged(BillToPropertyName);
-            }
-        }
-
-        #endregion
+        //#endregion
 
         #region Contact
 
@@ -184,39 +188,39 @@ namespace KegID.ViewModel
 
         #endregion
 
-        #region Phone
+        //#region Phone
 
-        /// <summary>
-        /// The <see cref="Phone" /> property's name.
-        /// </summary>
-        public const string PhonePropertyName = "Phone";
+        ///// <summary>
+        ///// The <see cref="Phone" /> property's name.
+        ///// </summary>
+        //public const string PhonePropertyName = "Phone";
 
-        private string _Phone = "Phone";
+        //private string _Phone = "Phone";
 
-        /// <summary>
-        /// Sets and gets the Phone property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string Phone
-        {
-            get
-            {
-                return _Phone;
-            }
+        ///// <summary>
+        ///// Sets and gets the Phone property.
+        ///// Changes to that property's value raise the PropertyChanged event. 
+        ///// </summary>
+        //public string Phone
+        //{
+        //    get
+        //    {
+        //        return _Phone;
+        //    }
 
-            set
-            {
-                if (_Phone == value)
-                {
-                    return;
-                }
+        //    set
+        //    {
+        //        if (_Phone == value)
+        //        {
+        //            return;
+        //        }
 
-                _Phone = value;
-                RaisePropertyChanged(PhonePropertyName);
-            }
-        }
+        //        _Phone = value;
+        //        RaisePropertyChanged(PhonePropertyName);
+        //    }
+        //}
 
-        #endregion
+        //#endregion
 
         #region ContactEmail
 
@@ -388,37 +392,72 @@ namespace KegID.ViewModel
 
         #endregion
 
-        #region Type
+        //#region Type
+
+        ///// <summary>
+        ///// The <see cref="Type" /> property's name.
+        ///// </summary>
+        //public const string TypePropertyName = "Type";
+
+        //private string _Type = "Type";
+
+        ///// <summary>
+        ///// Sets and gets the Type property.
+        ///// Changes to that property's value raise the PropertyChanged event. 
+        ///// </summary>
+        //public string Type
+        //{
+        //    get
+        //    {
+        //        return _Type;
+        //    }
+
+        //    set
+        //    {
+        //        if (_Type == value)
+        //        {
+        //            return;
+        //        }
+
+        //        _Type = value;
+        //        RaisePropertyChanged(TypePropertyName);
+        //    }
+        //}
+
+        //#endregion
+
+        #region PartnerModel
 
         /// <summary>
-        /// The <see cref="Type" /> property's name.
+        /// The <see cref="PartnerModel" /> property's name.
         /// </summary>
-        public const string TypePropertyName = "Type";
+        public const string PartnerModelPropertyName = "PartnerModel";
 
-        private string _Type = "Type";
+        private PartnerModel _PartnerModel = null;
 
         /// <summary>
-        /// Sets and gets the Type property.
+        /// Sets and gets the PartnerModel property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public string Type
+        public PartnerModel PartnerModel
         {
             get
             {
-                return _Type;
+                return _PartnerModel;
             }
 
             set
             {
-                if (_Type == value)
+                if (_PartnerModel == value)
                 {
                     return;
                 }
 
-                _Type = value;
-                RaisePropertyChanged(TypePropertyName);
+                _PartnerModel = value;
+                RaisePropertyChanged(PartnerModelPropertyName);
             }
         }
+
 
         #endregion
 
@@ -430,16 +469,28 @@ namespace KegID.ViewModel
         public RelayCommand EditCommand { get; }
         public RelayCommand KegsCommand { get; }
         public RelayCommand ShipToCommand { get; }
+
         #endregion
 
         #region Constructor
 
-        public PartnerInfoViewModel()
+        public PartnerInfoViewModel(IDashboardService dashboardService)
         {
+            _dashboardService = dashboardService;
             PartnersCommand = new RelayCommand(PartnersCommandRecieverAsync);
             EditCommand = new RelayCommand(EditCommandRecieverAsync);
-            KegsCommand = new RelayCommand(KegsCommandReciever);
+            KegsCommand = new RelayCommand(KegsCommandRecieverAsync);
             ShipToCommand = new RelayCommand(ShipToCommandRecieverAsync);
+            LoadPartnerInfoAsync();
+        }
+
+        private async void LoadPartnerInfoAsync()
+        {
+            var value = await _dashboardService.GetPartnerInfoAsync(Configuration.SessionId, SimpleIoc.Default.GetInstance<DashboardPartnersViewModel>().PartnerId);
+            KegsHeld = value.KegsHeld.ToString();
+            Notes = value.Notes;
+            Ref = value.ReferenceKey;
+            ContactEmail = value.ContactEmail;
         }
 
         private async void ShipToCommandRecieverAsync()
@@ -451,14 +502,14 @@ namespace KegID.ViewModel
 
         #region Methods
 
-        private void KegsCommandReciever()
+        private async void KegsCommandRecieverAsync()
         {
-            
+            await Application.Current.MainPage.Navigation.PushModalAsync(new KegsView());
         }
 
         void OnTranslate(object sender, EventArgs e)
         {
-            translatedNumber = PhoneTranslator.ToNumber(Phone);
+            translatedNumber = PhoneTranslator.ToNumber(PartnerModel.PhoneNumber);
             if (!string.IsNullOrWhiteSpace(translatedNumber))
             {
                 //callButton.IsEnabled = true;

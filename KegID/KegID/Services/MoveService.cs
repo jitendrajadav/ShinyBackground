@@ -55,7 +55,7 @@ namespace KegID.Services
         {
             PartnerResponseModel partnerResponseModel = new PartnerResponseModel();
 
-            string url = string.Format(Configuration.GetPartnerUrl, sessionId);
+            string url = string.Format(Configuration.GetPartnerBySesssionIdUrl, sessionId);
             var value = await Helper.ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
             var settings = new JsonSerializerSettings

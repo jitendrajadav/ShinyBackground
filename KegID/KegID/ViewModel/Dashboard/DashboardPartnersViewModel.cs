@@ -12,6 +12,7 @@ using KegID.Model;
 using System.Diagnostics;
 using System;
 using System.Threading.Tasks;
+using GalaSoft.MvvmLight.Ioc;
 
 namespace KegID.ViewModel
 {
@@ -22,6 +23,8 @@ namespace KegID.ViewModel
         public IMoveService _moveService { get; set; }
 
         private const int PageSize = 20;
+
+        public string PartnerId { get; set; }
 
         #region IsWorking
 
@@ -419,6 +422,8 @@ namespace KegID.ViewModel
         {
             if (model != null)
             {
+                PartnerId = model.PartnerId;
+                SimpleIoc.Default.GetInstance<PartnerInfoViewModel>().PartnerModel = model;
                 await Application.Current.MainPage.Navigation.PushModalAsync(new PartnerInfoView());
             }
         }

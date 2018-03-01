@@ -74,17 +74,18 @@
                 VerticalOptions="FillAndExpand"
                 HorizontalOptions="FillAndExpand"/>
 
-            <Entry
+            <SearchBar
                 Margin="10,5,10,5"
+                x:Name="SearchBar"
                 Placeholder="Partner Name"
                 Grid.Row="1"
-                Text="{Binding PartnerName}">
-                <Entry.Behaviors>
-                    <behaviors:EventToCommandBehavior
-                        EventName="TextChanged" 
-                        Command="{Binding TextChangedCommand}"/>
-                </Entry.Behaviors>
-            </Entry>
+                Text="{Binding PartnerName}"
+                SearchCommand="{Binding TextChangedCommand}" 
+                SearchCommandParameter="{Binding Text, Source={x:Reference SearchBar}}">
+                <SearchBar.Behaviors>
+                    <behaviors:TextChangedBehavior />
+                </SearchBar.Behaviors>
+            </SearchBar>
             
             <ListView
                 Margin="10,0,10,0"

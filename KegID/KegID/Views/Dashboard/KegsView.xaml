@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KegID.Views.KegsView"
+             xmlns:behaviors="clr-namespace:KegID.Behaviors"
+             xmlns:local="clr-namespace:KegID"
+             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Kegs}">
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Button
+                HorizontalOptions="Start"
+                BackgroundColor="Transparent"
+                HeightRequest="40"
+                TextColor="{StaticResource selectTextColor}"
+                Text="Partner Info"
+                Command="{Binding PartnerInfoCommand}"/>
+
+            <Label 
+                Text="Kegs"
+                FontAttributes="Bold"
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="CenterAndExpand" />
+
+            <BoxView
+                Margin="-10,0,-10,0"
+                Grid.Row="1"
+                BackgroundColor="{StaticResource bannerBGColor}"
+                VerticalOptions="FillAndExpand"
+                HorizontalOptions="FillAndExpand"/>
+
+            <Label 
+                Text="{Binding KegsTitle}"
+                FontAttributes="Bold"
+                Grid.Row="1"
+                TextColor="White"
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="CenterAndExpand" />
+
+            <ListView
+                Margin="10,0,10,0"
+                x:Name="lstBarcode"
+                Grid.Row="2"
+                VerticalOptions="FillAndExpand"
+                SeparatorVisibility="Default"
+                SeparatorColor="Black"
+                HasUnevenRows="True"
+                CachingStrategy="RecycleElement"
+                ItemsSource="{Binding KegPossessionCollection}">
+
+                <ListView.Behaviors>
+
+                    <behaviors:EventToCommandBehavior
+                        EventName="ItemTapped" 
+                        Command="{Binding ItemTappedCommand}"
+                        Converter="{StaticResource ItemTappedConverter}"/>
+
+                </ListView.Behaviors>
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <Label 
+                                    TextColor="{StaticResource selectTextColor}"
+                                    Text="{Binding Barcode}"
+                                    FontSize="{StaticResource TitleFont}"/>
+                                <Label 
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    TextColor="{StaticResource selectTextColor}" 
+                                    Text="{Binding PossessorName}" 
+                                    FontSize="{StaticResource TitleFont}"/>
+                                <Label 
+                                    Margin="0,0,10,0"
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    HorizontalOptions="End"
+                                    TextColor="{StaticResource selectTextColor}" 
+                                    Text="{Binding TypeName}" 
+                                    FontSize="{StaticResource TitleFont}"/>
+                                <Label 
+                                    Margin="0,0,10,0"
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    HorizontalOptions="End"
+                                    TextColor="{StaticResource selectTextColor}" 
+                                    Text="{Binding HeldDays,StringFormat='{0} days'}" 
+                                    FontSize="{StaticResource TitleFont}"/>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+
+            </ListView>
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
