@@ -4,5 +4,6 @@
     <TargetiOSDevice />
     <SelectedDevice>Simulator</SelectedDevice>
     <ProjectView>ProjectFiles</ProjectView>
+    <DefaultDevice>iPhone 8 iOS 11.2</DefaultDevice>
   </PropertyGroup>
 </Project>
