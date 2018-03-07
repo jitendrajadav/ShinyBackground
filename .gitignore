@@ -28,3 +28,7 @@
 /KegID.RuntimeComponent/obj/x64/Debug
 /KegID.RuntimeComponent/obj/Debug
 /KegID/KegID.iOS/bin
+/KegID.RuntimeComponent/obj/ARM/Release
+/KegID.RuntimeComponent/obj/Release
+/KegID.RuntimeComponent/obj/x86/Release
+/KegID.RuntimeComponent/obj/x64/Release/KegID.RuntimeComponent.csproj.CoreCompileInputs.cache

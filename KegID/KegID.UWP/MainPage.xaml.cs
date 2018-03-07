@@ -16,10 +16,10 @@ namespace KegID.UWP
 
             LoadApplication(new KegID.App());
 
-            if (IsRegistered())
-                Deregister();
+            //if (IsRegistered())
+            //    Deregister();
 
-            Loaded += MainPage_Loaded;
+            //Loaded += MainPage_Loaded;
 
         }
 

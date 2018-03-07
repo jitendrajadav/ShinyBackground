@@ -259,10 +259,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\KegID.RuntimeComponent\KegID.RuntimeComponent.csproj">
-      <Project>{143f7822-25a6-4a90-978f-62e7a66bc45b}</Project>
-      <Name>KegID.RuntimeComponent</Name>
-    </ProjectReference>
     <ProjectReference Include="..\KegID\KegID.csproj">
       <Project>{204D7576-CD8E-461A-A68C-AA584BE90D47}</Project>
       <Name>KegID</Name>
