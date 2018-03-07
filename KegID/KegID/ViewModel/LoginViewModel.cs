@@ -137,8 +137,8 @@ namespace KegID.ViewModel
             KegIDCommand = new RelayCommand(KegIDCommandReciever);
             _accountService = accountService;
 
-            Username = "test@kegid.com";
-            Password = "beer2keg";
+            //Username = "test@kegid.com";
+            //Password = "beer2keg";
             BgImage = GetIconByPlatform.GetIcon("kegbg.png");
             LoginCommandReciever();
         }
@@ -169,7 +169,7 @@ namespace KegID.ViewModel
                     Configuration.SessionId = globalData.SessionId;
                     Configuration.CompanyId = globalData.CompanyId;
                     //await Application.Current.MainPage.Navigation.PushModalAsync(new KegIDMasterPage());
-                    await Application.Current.MainPage.Navigation.PushModalAsync(new MainPage());
+                    await Application.Current.MainPage.Navigation.PushAsync(new MainPage());
                     //await Application.Current.MainPage.Navigation.PushModalAsync(new CognexScanView());
                 }
             }
@@ -207,7 +207,7 @@ namespace KegID.ViewModel
                 if (Application.Current.MainPage.Navigation.ModalStack.Count <= 1)
                 {
                     //await Application.Current.MainPage.Navigation.PushModalAsync(new KegIDMasterPage());
-                    await Application.Current.MainPage.Navigation.PushModalAsync(new MainPage());
+                    await Application.Current.MainPage.Navigation.PushAsync(new MainPage());
                 }
                 else
                 {

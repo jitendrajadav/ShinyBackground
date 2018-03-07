@@ -17,6 +17,7 @@
             </Grid.RowDefinitions>
 
             <StackLayout
+                IsVisible="False"
                 Grid.Row="0"
                 BackgroundColor="White">
 

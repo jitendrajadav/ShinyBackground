@@ -13,6 +13,7 @@
         Padding="20, 50, 20, 300">
        
         <StackLayout 
+            Spacing="0"
             BackgroundColor="White">
 
             <Button

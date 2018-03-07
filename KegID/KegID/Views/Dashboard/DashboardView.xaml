@@ -5,7 +5,7 @@
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
              xmlns:local="clr-namespace:KegID"
              Title="Dashboard"
-             BackgroundColor="White"
+             BackgroundColor="#FFFFFF"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Dashboard}">
 
     <!--<ContentPage.ToolbarItems>
@@ -57,7 +57,7 @@
                     BorderWidth="0"
                     Grid.Column="1"
                     Command="{Binding MoreCommand}"
-                    BackgroundColor="White" >
+                    BackgroundColor="Transparent" >
                     <Button.Image>
                         <OnPlatform x:TypeArguments="FileImageSource">
                             <OnPlatform.iOS>

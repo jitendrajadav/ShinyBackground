@@ -387,7 +387,7 @@ namespace KegID.ViewModel
         private async void MoveCommandRecieverAsync()
         {
             SimpleIoc.Default.GetInstance<MoveViewModel>().ManifestId = Uuid.GetUuId();
-            await Application.Current.MainPage.Navigation.PushModalAsync(new MoveView());
+            await Application.Current.MainPage.Navigation.PushAsync(new MoveView());
 
             CheckDraftmaniFests();
         }
