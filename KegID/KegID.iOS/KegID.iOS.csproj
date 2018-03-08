@@ -135,7 +135,7 @@
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
     <Reference Include="XamarinDataManLibrary">
-      <HintPath>C:\Users\jj\Downloads\CMB_SDK_Xamarin_v2.0.0\Forms\XamarinFormsDataMan\XamarinFormsDataMan.iOS\XamarinDataManLibrary.dll</HintPath>
+      <HintPath>.\XamarinDataManLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

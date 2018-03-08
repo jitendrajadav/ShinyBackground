@@ -15,7 +15,7 @@
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
-    <AndroidUseLatestPlatformSdk>false</AndroidUseLatestPlatformSdk>
+    <AndroidUseLatestPlatformSdk>true</AndroidUseLatestPlatformSdk>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
   </PropertyGroup>
@@ -49,7 +49,7 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />
     <Reference Include="XamarinDataManLibrary">
-      <HintPath>C:\Users\jj\Downloads\CMB_SDK_Xamarin_v2.0.0\Forms\XamarinFormsDataMan\XamarinFormsDataMan.Android\XamarinDataManLibrary.dll</HintPath>
+      <HintPath>.\XamarinDataManLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
