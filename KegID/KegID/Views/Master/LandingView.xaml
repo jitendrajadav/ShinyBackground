@@ -5,7 +5,11 @@
             xmlns:views="clr-namespace:KegID.Views">
 
     <CarouselPage.Children>
-        <NavigationPage>
+        <views:MenuView />
+        <views:DashboardView />
+        <!--For Navigation User will check later-->
+        
+        <!--<NavigationPage>
             <NavigationPage.Icon>
                 <OnPlatform x:TypeArguments="FileImageSource">
                     <On Platform="iOS" Value="tab_feed.png"/>
@@ -15,7 +19,8 @@
                 <views:MenuView />
             </x:Arguments>
         </NavigationPage>
-        <views:DashboardView />
+        <views:DashboardView />-->
+
     </CarouselPage.Children>
 
 </CarouselPage>

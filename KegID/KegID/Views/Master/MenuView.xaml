@@ -17,11 +17,11 @@
             </Grid.RowDefinitions>
 
             <StackLayout
-                IsVisible="False"
                 Grid.Row="0"
-                BackgroundColor="White">
+                BackgroundColor="#FFFFFF">
 
                 <Image 
+                    Grid.Column="0"
                     HeightRequest="50">
                     <Image.Source>
                         <OnPlatform x:TypeArguments="ImageSource">

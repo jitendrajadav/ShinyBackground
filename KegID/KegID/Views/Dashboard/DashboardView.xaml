@@ -18,9 +18,10 @@
     
     <ContentPage.Content>
         
-        <Grid>
+        <Grid
+            RowSpacing="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="50"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition/>
                 <RowDefinition/>
@@ -34,6 +35,7 @@
                     <ColumnDefinition Width="50"/>
                 </Grid.ColumnDefinitions>
                 <Image 
+                    VerticalOptions="Center"
                     Grid.Column="0"
                     HeightRequest="50">
                     <Image.Source>
@@ -55,6 +57,7 @@
                     HorizontalOptions="Center"                  
                     BorderRadius="5"
                     BorderWidth="0"
+                    VerticalOptions="Center"
                     Grid.Column="1"
                     Command="{Binding MoreCommand}"
                     BackgroundColor="Transparent" >
@@ -175,12 +178,21 @@
                         VerticalOptions="FillAndExpand"
                         HorizontalOptions="Start"/>
 
-                    <Button
+                    <Label
+                        x:Name="lblInventory"
                         Grid.Row="1"
                         Grid.Column="4"
+                        Margin="0,5,2,5"
                         BackgroundColor="Transparent"
-                        Command="{Binding InventoryCommand}"
-                        Text="{Binding Stock}"/>
+                        HorizontalOptions="End"
+                        TextColor="#4E6388"
+                        Text="{Binding Stock}">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Path=BindingContext.InventoryCommand, 
+                                                        Source={x:Reference Name=lblInventory}}"
+                                                         CommandParameter="{Binding}"/>
+                        </Label.GestureRecognizers>
+                    </Label>
 
                     <BoxView
                         Grid.Row="2"
@@ -198,12 +210,21 @@
                         VerticalOptions="FillAndExpand"
                         Text="Empties"/>
 
-                    <Button
+                    <Label
+                        x:Name="lblEmpty"
                         BackgroundColor="Transparent"
                         Grid.Row="3"
+                        Margin="0,5,2,5"
                         Grid.Column="4"
-                        Command="{Binding InventoryCommand}"
-                        Text="{Binding Empty}"/>
+                        HorizontalOptions="End"
+                        TextColor="#4E6388"
+                        Text="{Binding Empty}">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Path=BindingContext.InventoryCommand, 
+                                                        Source={x:Reference Name=lblEmpty}}"
+                                                         CommandParameter="{Binding}"/>
+                        </Label.GestureRecognizers>
+                    </Label>
 
                     <BoxView
                         Grid.Row="4"
@@ -221,12 +242,21 @@
                         VerticalOptions="FillAndExpand"
                         Text="In Use"/>
 
-                    <Button
+                    <Label
+                        x:Name="lblInUse"
                         BackgroundColor="Transparent"
                         Grid.Row="5"
                         Grid.Column="4"
-                        Command="{Binding InUsePartnerCommand}"
-                        Text="{Binding InUse}"/>
+                        Margin="0,5,2,5"
+                        HorizontalOptions="End"
+                        TextColor="#4E6388"
+                        Text="{Binding InUse}">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Path=BindingContext.InUsePartnerCommand, 
+                                                        Source={x:Reference Name=lblInUse}}"
+                                                         CommandParameter="{Binding}"/>
+                        </Label.GestureRecognizers>
+                    </Label>
 
                     <BoxView
                         Grid.Row="6"
@@ -248,7 +278,11 @@
                         BackgroundColor="Transparent"
                         Grid.Row="7"
                         Grid.Column="4"
-                        HorizontalTextAlignment="Center"
+                        Margin="0,5,2,5"
+                        VerticalOptions="Center"
+                        HorizontalOptions="End"
+                        HorizontalTextAlignment="End"
+                        TextColor="#4E6388"
                         Text="{Binding Total}"/>
 
                 </Grid>
@@ -329,6 +363,9 @@
                         Style="{StaticResource LabelLeftAlign}"
                         Grid.Row="3"
                         Grid.Column="1"
+                        Margin="0,5,0,5"
+                        HorizontalOptions="Center"
+                        HorizontalTextAlignment="Center"
                         Text="{Binding AverageCycle}"/>
 
                     <BoxView
@@ -359,7 +396,9 @@
                     <Label
                         Style="{StaticResource LabelLeftAlign}"
                         Grid.Row="7"
+                        Margin="0,5,0,5"
                         Grid.Column="1"
+                        HorizontalTextAlignment="Center"
                         Text="{Binding Atriskegs}"/>
 
                 </Grid>

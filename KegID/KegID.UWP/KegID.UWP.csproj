@@ -116,35 +116,6 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\actionaccept.png" />
-    <Content Include="Assets\actionsearch.png" />
-    <Content Include="Assets\actionshare.png" />
-    <Content Include="Assets\camera.png" />
-    <Content Include="Assets\collectionslabels.png" />
-    <Content Include="Assets\contentedit.png" />
-    <Content Include="Assets\contentnew.png" />
-    <Content Include="Assets\fillkegs.png" />
-    <Content Include="Assets\ic_action_edit.png" />
-    <Content Include="Assets\kegbg.png" />
-    <Content Include="Assets\kegidbanner.png" />
-    <Content Include="Assets\kegidicon.png" />
-    <Content Include="Assets\logout.png" />
-    <Content Include="Assets\more.png" />
-    <Content Include="Assets\movekegs.png" />
-    <Content Include="Assets\kegidlogo.png" />
-    <Content Include="Assets\manifests.png" />
-    <Content Include="Assets\menurefresh.png" />
-    <Content Include="Assets\navigationback.png" />
-    <Content Include="Assets\new0.png" />
-    <Content Include="Assets\new1.png" />
-    <Content Include="Assets\new2.png" />
-    <Content Include="Assets\pallet.png" />
-    <Content Include="Assets\partners.png" />
-    <Content Include="Assets\pushpin.png" />
-    <Content Include="Assets\repair.png" />
-    <Content Include="Assets\setting.png" />
-    <Content Include="Assets\validationerror.png" />
-    <Content Include="Assets\validationquestion.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-100.png" />
     <Content Include="Assets\LockScreenLogo.scale-125.png" />

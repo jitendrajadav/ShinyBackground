@@ -49,11 +49,14 @@ namespace KegID
 
             #endregion
 
-            MainPage = new NavigationPage(new LoginView())
-            {
-                //BarBackgroundColor = Color.White,
-                //BackgroundImage = GetIconByPlatform.GetIcon("kegidbanner.png"),
-            };
+            MainPage = new LoginView();
+            
+
+            // for Nagivation use will check later...
+            //MainPage = new NavigationPage(new LoginView())
+            //{
+            //    BarBackgroundColor = Color.White,
+            //};
         }
 
         protected override void OnStart ()
