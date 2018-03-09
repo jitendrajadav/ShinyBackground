@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using KegID.Common;
 using KegID.Model;
 using Newtonsoft.Json;
 using static KegID.Common.Helper;
@@ -56,7 +55,7 @@ namespace KegID.Services
             PartnerResponseModel partnerResponseModel = new PartnerResponseModel();
 
             string url = string.Format(Configuration.GetPartnerBySesssionIdUrl, sessionId);
-            var value = await Helper.ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
+            var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
             var settings = new JsonSerializerSettings
             {

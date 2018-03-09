@@ -25,6 +25,8 @@
             <Label
                 VerticalOptions="Center"
                 HorizontalOptions="Center"
+                FontSize="Medium"
+                TextColor="Black"
                 FontAttributes="Bold"
                 Text="Create Manifest"/>
 
@@ -39,10 +41,12 @@
                 IsVisible="{Binding IsSubmitVisible}"/>
 
             <Grid
+                RowSpacing="0"
+                ColumnSpacing="0"
                 Grid.Row="1"
                 Margin="10,0,10,0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="50"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -88,6 +92,7 @@
                     Grid.Row="2"
                     HorizontalOptions="End"
                     HorizontalTextAlignment="End"
+                    VerticalOptions="Center"
                     Text="(required)"
                     TextColor="{StaticResource lightGrayColor}"/>
 

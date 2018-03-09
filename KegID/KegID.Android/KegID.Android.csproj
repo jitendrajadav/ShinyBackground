@@ -176,5 +176,205 @@
       <Name>KegID</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\KegID\Assets\actionaccept.png">
+      <Link>Resources\drawable\actionaccept.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\KegID\Assets\actionsearch.png">
+      <Link>Resources\drawable\actionsearch.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\KegID\Assets\actionshare.png">
+      <Link>Resources\drawable\actionshare.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\KegID\Assets\add.png">
+      <Link>Resources\drawable\add.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\KegID\Assets\camera.png">
+      <Link>Resources\drawable\camera.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\KegID\Assets\check.png">
+      <Link>Resources\drawable\check.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\KegID\Assets\collectionslabels.png">
+      <Link>Resources\drawable\collectionslabels.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\KegID\Assets\disallow.png">
+      <Link>Resources\drawable\disallow.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\KegID\Assets\exit.png">
+      <Link>Resources\drawable\exit.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\KegID\Assets\fillkegs.png">
+      <Link>Resources\drawable\fillkegs.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\KegID\Assets\invalidtools.png">
+      <Link>Resources\drawable\invalidtools.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\KegID\Assets\kegbg.png">
+      <Link>Resources\drawable\kegbg.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\KegID\Assets\kegflatfilledartboard.png">
+      <Link>Resources\drawable\kegflatfilledartboard.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\KegID\Assets\keghalostraight.png">
+      <Link>Resources\drawable\keghalostraight.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\KegID\Assets\keghalostraightwhite.png">
+      <Link>Resources\drawable\keghalostraightwhite.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\KegID\Assets\kegidbanner.png">
+      <Link>Resources\drawable\kegidbanner.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\KegID\Assets\kegidicon.png">
+      <Link>Resources\drawable\kegidicon.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\KegID\Assets\kegidlogo.png">
+      <Link>Resources\drawable\kegidlogo.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\KegID\Assets\logout.png">
+      <Link>Resources\drawable\logout.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\KegID\Assets\manifests.png">
+      <Link>Resources\drawable\manifests.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\KegID\Assets\manifestsfilledartboard.png">
+      <Link>Resources\drawable\manifestsfilledartboard.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\KegID\Assets\menurefresh.png">
+      <Link>Resources\drawable\menurefresh.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\KegID\Assets\more.png">
+      <Link>Resources\drawable\more.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\KegID\Assets\movekegs.png">
+      <Link>Resources\drawable\movekegs.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\KegID\Assets\navigationback.png">
+      <Link>Resources\drawable\navigationback.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\KegID\Assets\new0.png">
+      <Link>Resources\drawable\new0.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\KegID\Assets\new1.png">
+      <Link>Resources\drawable\new1.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\KegID\Assets\new2.png">
+      <Link>Resources\drawable\new2.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\KegID\Assets\pallet.png">
+      <Link>Resources\drawable\pallet.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\KegID\Assets\palletsmall.png">
+      <Link>Resources\drawable\palletsmall.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\KegID\Assets\palletsquarefilledartboard.png">
+      <Link>Resources\drawable\palletsquarefilledartboard.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\KegID\Assets\partners.png">
+      <Link>Resources\drawable\partners.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\KegID\Assets\pencil.png">
+      <Link>Resources\drawable\pencil.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\KegID\Assets\pushpin.png">
+      <Link>Resources\drawable\pushpin.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\KegID\Assets\question.png">
+      <Link>Resources\drawable\question.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\KegID\Assets\repair.png">
+      <Link>Resources\drawable\repair.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\KegID\Assets\setting.png">
+      <Link>Resources\drawable\setting.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\KegID\Assets\validationerror.png">
+      <Link>Resources\drawable\validationerror.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\KegID\Assets\validationquestion.png">
+      <Link>Resources\drawable\validationquestion.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\KegID\Assets\warn.png">
+      <Link>Resources\drawable\warn.png</Link>
+    </AndroidResource>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>
