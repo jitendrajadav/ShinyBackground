@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:KegID"
              x:Class="KegID.Views.ManifestDetailView"
+             BackgroundColor="#FFFFFF"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=ManifestDetail}">
     <ContentPage.Content>
         <Grid
@@ -23,22 +24,21 @@
                 TextColor="{StaticResource selectTextColor}"
                 VerticalOptions="Center"
                 HorizontalOptions="Start"
-                Text="Manifests"
+                Text="Home"
                 Command="{Binding ManifestsCommand}"/>
 
             <Label 
+                TextColor="Black"
+                FontSize="Large"
                 Text="Manifest"
                 VerticalOptions="Center" 
                 HorizontalOptions="Center" />
 
-            <Button
-                HorizontalOptions="End"                  
-                BorderRadius="5"
-                WidthRequest="50"
-                BorderWidth="0"
-                Command="{Binding ShareCommand}"
-                BackgroundColor="LightGray" >
-                <Button.Image>
+            <Image
+                HeightRequest="35"
+                x:Name="imgShare"
+                HorizontalOptions="End">
+                <Image.Source>
                     <OnPlatform x:TypeArguments="FileImageSource">
                         <OnPlatform.iOS>
                             <FileImageSource File="actionshare.png"/>
@@ -50,8 +50,14 @@
                             <FileImageSource File="Assets/actionshare.png"/>
                         </OnPlatform.WinPhone>
                     </OnPlatform>
-                </Button.Image>
-            </Button>
+                </Image.Source>
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.ShareCommand, 
+                                                        Source={x:Reference Name=imgShare}}"
+                                                         CommandParameter="{Binding}"/>
+
+                </Image.GestureRecognizers>
+            </Image>
 
             <BoxView
                 Margin="-10,0,-10,0"
@@ -65,16 +71,20 @@
                 TextColor="White"
                 Text="{Binding TrackingNumber,StringFormat='Tracking #: {0}'}"
                 VerticalOptions="Center" 
+                FontSize="Large"
                 HorizontalOptions="Start" />
 
             <Label 
                 Grid.Row="2"
+                FontSize="Medium"
                 Text="To:"
                 VerticalOptions="Center" 
                 HorizontalOptions="Start" />
             
             <Label 
                 Grid.Row="3"
+                Margin="10,0,0,0"
+                FontSize="Medium"
                 Text="{Binding ManifestTo}"
                 VerticalOptions="Center" 
                 HorizontalOptions="Start" />
@@ -83,17 +93,20 @@
                 Grid.Row="4"
                 Text="Shipping date:"
                 VerticalOptions="Center" 
+                FontSize="Medium"
                 HorizontalOptions="Start" />
 
             <Label 
+                Margin="10,0,0,0"
                 Grid.Row="5"
+                FontSize="Medium"
                 Text="{Binding ShippingDate,StringFormat='{0:dd/MM/yy}'}"
                 VerticalOptions="Center" 
                 HorizontalOptions="Start" />
 
             <Grid
                 x:Name="grdContent"
-                Margin="0,30,0,0"
+                Margin="10,30,10,0"
                 RowSpacing="0,0,0,0"
                 ColumnSpacing="0,0,0,0"
                 Grid.Row="6">
@@ -157,6 +170,9 @@
                     Grid.Column="1"
                     Grid.Row="1"
                     Grid.ColumnSpan="3"
+                    FontSize="Medium"
+                    TextColor="Black"
+                    FontAttributes="Bold"
                     BackgroundColor="LightGray"
                     HorizontalOptions="FillAndExpand"
                     HorizontalTextAlignment="Center"

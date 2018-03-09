@@ -116,6 +116,129 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\KegID\Assets\actionaccept.png">
+      <Link>Assets\actionaccept.png</Link>
+    </Content>
+    <Content Include="..\KegID\Assets\actionsearch.png">
+      <Link>Assets\actionsearch.png</Link>
+    </Content>
+    <Content Include="..\KegID\Assets\actionshare.png">
+      <Link>Assets\actionshare.png</Link>
+    </Content>
+    <Content Include="..\KegID\Assets\add.png">
+      <Link>Assets\add.png</Link>
+    </Content>
+    <Content Include="..\KegID\Assets\camera.png">
+      <Link>Assets\camera.png</Link>
+    </Content>
+    <Content Include="..\KegID\Assets\check.png">
+      <Link>Assets\check.png</Link>
+    </Content>
+    <Content Include="..\KegID\Assets\collectionslabels.png">
+      <Link>Assets\collectionslabels.png</Link>
+    </Content>
+    <Content Include="..\KegID\Assets\disallow.png">
+      <Link>Assets\disallow.png</Link>
+    </Content>
+    <Content Include="..\KegID\Assets\exit.png">
+      <Link>Assets\exit.png</Link>
+    </Content>
+    <Content Include="..\KegID\Assets\fillkegs.png">
+      <Link>Assets\fillkegs.png</Link>
+    </Content>
+    <Content Include="..\KegID\Assets\invalidtools.png">
+      <Link>Assets\invalidtools.png</Link>
+    </Content>
+    <Content Include="..\KegID\Assets\kegbg.png">
+      <Link>Assets\kegbg.png</Link>
+    </Content>
+    <Content Include="..\KegID\Assets\kegflatfilledartboard.png">
+      <Link>Assets\kegflatfilledartboard.png</Link>
+    </Content>
+    <Content Include="..\KegID\Assets\keghalostraight.png">
+      <Link>Assets\keghalostraight.png</Link>
+    </Content>
+    <Content Include="..\KegID\Assets\keghalostraightwhite.png">
+      <Link>Assets\keghalostraightwhite.png</Link>
+    </Content>
+    <Content Include="..\KegID\Assets\kegidbanner.png">
+      <Link>Assets\kegidbanner.png</Link>
+    </Content>
+    <Content Include="..\KegID\Assets\kegidicon.png">
+      <Link>Assets\kegidicon.png</Link>
+    </Content>
+    <Content Include="..\KegID\Assets\kegidlogo.png">
+      <Link>Assets\kegidlogo.png</Link>
+    </Content>
+    <Content Include="..\KegID\Assets\logout.png">
+      <Link>Assets\logout.png</Link>
+    </Content>
+    <Content Include="..\KegID\Assets\manifests.png">
+      <Link>Assets\manifests.png</Link>
+    </Content>
+    <Content Include="..\KegID\Assets\manifestsfilledartboard.png">
+      <Link>Assets\manifestsfilledartboard.png</Link>
+    </Content>
+    <Content Include="..\KegID\Assets\menurefresh.png">
+      <Link>Assets\menurefresh.png</Link>
+    </Content>
+    <Content Include="..\KegID\Assets\more.png">
+      <Link>Assets\more.png</Link>
+    </Content>
+    <Content Include="..\KegID\Assets\movekegs.png">
+      <Link>Assets\movekegs.png</Link>
+    </Content>
+    <Content Include="..\KegID\Assets\navigationback.png">
+      <Link>Assets\navigationback.png</Link>
+    </Content>
+    <Content Include="..\KegID\Assets\new0.png">
+      <Link>Assets\new0.png</Link>
+    </Content>
+    <Content Include="..\KegID\Assets\new1.png">
+      <Link>Assets\new1.png</Link>
+    </Content>
+    <Content Include="..\KegID\Assets\new2.png">
+      <Link>Assets\new2.png</Link>
+    </Content>
+    <Content Include="..\KegID\Assets\pallet.png">
+      <Link>Assets\pallet.png</Link>
+    </Content>
+    <Content Include="..\KegID\Assets\palletsmall.png">
+      <Link>Assets\palletsmall.png</Link>
+    </Content>
+    <Content Include="..\KegID\Assets\palletsquarefilledArtboard.png">
+      <Link>Assets\palletsquarefilledArtboard.png</Link>
+    </Content>
+    <Content Include="..\KegID\Assets\partners.png">
+      <Link>Assets\partners.png</Link>
+    </Content>
+    <Content Include="..\KegID\Assets\pencil.png">
+      <Link>Assets\pencil.png</Link>
+    </Content>
+    <Content Include="..\KegID\Assets\pushpin.png">
+      <Link>Assets\pushpin.png</Link>
+    </Content>
+    <Content Include="..\KegID\Assets\question.png">
+      <Link>Assets\question.png</Link>
+    </Content>
+    <Content Include="..\KegID\Assets\repair.png">
+      <Link>Assets\repair.png</Link>
+    </Content>
+    <Content Include="..\KegID\Assets\setting.png">
+      <Link>Assets\setting.png</Link>
+    </Content>
+    <Content Include="..\KegID\Assets\tags.png">
+      <Link>Assets\tags.png</Link>
+    </Content>
+    <Content Include="..\KegID\Assets\validationerror.png">
+      <Link>Assets\validationerror.png</Link>
+    </Content>
+    <Content Include="..\KegID\Assets\validationquestion.png">
+      <Link>Assets\validationquestion.png</Link>
+    </Content>
+    <Content Include="..\KegID\Assets\warn.png">
+      <Link>Assets\warn.png</Link>
+    </Content>
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-100.png" />
     <Content Include="Assets\LockScreenLogo.scale-125.png" />

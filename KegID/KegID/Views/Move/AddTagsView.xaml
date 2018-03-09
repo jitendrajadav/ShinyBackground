@@ -4,6 +4,7 @@
              x:Class="KegID.Views.AddTagsView"
              xmlns:local="clr-namespace:KegID"
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
+             BackgroundColor="#FFFFFF"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=AddTags}">
     
     <ContentPage.Content>
@@ -25,6 +26,8 @@
                 Grid.Column="1"
                 Text="Add tags"
                 FontAttributes="Bold"
+                FontSize="Large"
+                TextColor="Black"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
 
@@ -46,8 +49,10 @@
                 HorizontalOptions="FillAndExpand"/>
 
             <Label
+                Margin="10,0,0,0"
                 VerticalOptions="Center"
                 Text="Name"
+                FontSize="Large"
                 HorizontalOptions="Center"
                 TextColor="White"
                 Grid.Row="1"/>
@@ -56,6 +61,7 @@
                 VerticalOptions="Center"
                 HorizontalOptions="Center"
                 Text="Value"
+                FontSize="Large"
                 TextColor="White"
                 Grid.Row="1"
                 Grid.Column="1"/>
@@ -67,6 +73,7 @@
                 TextColor="White"
                 Grid.Row="1"
                 Grid.Column="2"
+                FontSize="Large"
                 Clicked="OnAddTagsClicked"/>
 
             <Grid

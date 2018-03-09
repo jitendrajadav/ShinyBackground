@@ -214,4 +214,209 @@
       <Name>KegID</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\KegID\Assets\actionaccept.png">
+      <Link>Resources\actionaccept.png</Link>
+    </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\KegID\Assets\actionsearch.png">
+      <Link>Resources\actionsearch.png</Link>
+    </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\KegID\Assets\actionshare.png">
+      <Link>Resources\actionshare.png</Link>
+    </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\KegID\Assets\add.png">
+      <Link>Resources\add.png</Link>
+    </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\KegID\Assets\camera.png">
+      <Link>Resources\camera.png</Link>
+    </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\KegID\Assets\check.png">
+      <Link>Resources\check.png</Link>
+    </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\KegID\Assets\collectionslabels.png">
+      <Link>Resources\collectionslabels.png</Link>
+    </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\KegID\Assets\disallow.png">
+      <Link>Resources\disallow.png</Link>
+    </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\KegID\Assets\exit.png">
+      <Link>Resources\exit.png</Link>
+    </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\KegID\Assets\fillkegs.png">
+      <Link>Resources\fillkegs.png</Link>
+    </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\KegID\Assets\invalidtools.png">
+      <Link>Resources\invalidtools.png</Link>
+    </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\KegID\Assets\kegbg.png">
+      <Link>Resources\kegbg.png</Link>
+    </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\KegID\Assets\kegflatfilledartboard.png">
+      <Link>Resources\kegflatfilledartboard.png</Link>
+    </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\KegID\Assets\keghalostraight.png">
+      <Link>Resources\keghalostraight.png</Link>
+    </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\KegID\Assets\keghalostraightwhite.png">
+      <Link>Resources\keghalostraightwhite.png</Link>
+    </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\KegID\Assets\kegidbanner.png">
+      <Link>Resources\kegidbanner.png</Link>
+    </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\KegID\Assets\kegidicon.png">
+      <Link>Resources\kegidicon.png</Link>
+    </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\KegID\Assets\kegidlogo.png">
+      <Link>Resources\kegidlogo.png</Link>
+    </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\KegID\Assets\logout.png">
+      <Link>Resources\logout.png</Link>
+    </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\KegID\Assets\manifests.png">
+      <Link>Resources\manifests.png</Link>
+    </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\KegID\Assets\manifestsfilledartboard.png">
+      <Link>Resources\manifestsfilledartboard.png</Link>
+    </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\KegID\Assets\menurefresh.png">
+      <Link>Resources\menurefresh.png</Link>
+    </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\KegID\Assets\more.png">
+      <Link>Resources\more.png</Link>
+    </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\KegID\Assets\movekegs.png">
+      <Link>Resources\movekegs.png</Link>
+    </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\KegID\Assets\navigationback.png">
+      <Link>Resources\navigationback.png</Link>
+    </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\KegID\Assets\new0.png">
+      <Link>Resources\new0.png</Link>
+    </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\KegID\Assets\new1.png">
+      <Link>Resources\new1.png</Link>
+    </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\KegID\Assets\new2.png">
+      <Link>Resources\new2.png</Link>
+    </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\KegID\Assets\pallet.png">
+      <Link>Resources\pallet.png</Link>
+    </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\KegID\Assets\palletsmall.png">
+      <Link>Resources\palletsmall.png</Link>
+    </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\KegID\Assets\palletsquarefilledArtboard.png">
+      <Link>Resources\palletsquarefilledArtboard.png</Link>
+    </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\KegID\Assets\partners.png">
+      <Link>Resources\partners.png</Link>
+    </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\KegID\Assets\pencil.png">
+      <Link>Resources\pencil.png</Link>
+    </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\KegID\Assets\pushpin.png">
+      <Link>Resources\pushpin.png</Link>
+    </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\KegID\Assets\question.png">
+      <Link>Resources\question.png</Link>
+    </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\KegID\Assets\repair.png">
+      <Link>Resources\repair.png</Link>
+    </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\KegID\Assets\setting.png">
+      <Link>Resources\setting.png</Link>
+    </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\KegID\Assets\validationerror.png">
+      <Link>Resources\validationerror.png</Link>
+    </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\KegID\Assets\validationquestion.png">
+      <Link>Resources\validationquestion.png</Link>
+    </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\KegID\Assets\warn.png">
+      <Link>Resources\warn.png</Link>
+    </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\KegID\Assets\tags.png">
+      <Link>Resources\tags.png</Link>
+    </BundleResource>
+  </ItemGroup>
 </Project>

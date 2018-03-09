@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="KegID.Views.AddPartnerView"
              xmlns:local="clr-namespace:KegID"
+             BackgroundColor="#FFFFFF"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=AddPartner}">
     
     <ContentPage.Content>
@@ -38,6 +39,8 @@
                 <Label
                     FontAttributes="Bold"
                     VerticalOptions="Center"
+                    FontSize="Medium"
+                    TextColor="Black"
                     HorizontalOptions="Center"
                     Text="Add Partner"/>
 
@@ -52,7 +55,7 @@
                 <BoxView
                     Margin="-10,0,-10,0"
                     Grid.Row="1"
-                    BackgroundColor="Black"
+                    BackgroundColor="{StaticResource lightGrayPlaceholderColor}"
                     HeightRequest="1"
                     VerticalOptions="Start"
                     HorizontalOptions="FillAndExpand"/>
@@ -60,6 +63,7 @@
                 <Entry
                     Grid.Row="2"
                     Placeholder="Company Name"
+                    PlaceholderColor="{StaticResource lightGrayPlaceholderColor}"
                     Text="{Binding PartnerName}"/>
 
                 <StackLayout
@@ -124,31 +128,37 @@
                 <Entry
                     Grid.Row="9"
                     Text="{Binding ContactName}"
+                    PlaceholderColor="{StaticResource lightGrayPlaceholderColor}"
                     Placeholder="Contact Name"/>
 
                 <Entry
                     Grid.Row="10"
                     Text="{Binding Phone}"
+                    PlaceholderColor="{StaticResource lightGrayPlaceholderColor}"
                     Placeholder="Contact phone"/>
 
                 <Entry
                     Grid.Row="11"
                     Text="{Binding ContactEmail}"
+                    PlaceholderColor="{StaticResource lightGrayPlaceholderColor}"
                     Placeholder="Contact Email"/>
 
                 <Entry
                     Grid.Row="12"
                     Text="{Binding AccountNumber}"
+                    PlaceholderColor="{StaticResource lightGrayPlaceholderColor}"
                     Placeholder="Account #"/>
 
                 <Entry
                     Grid.Row="13"
                     Text="{Binding ReferenceKey}"
+                    PlaceholderColor="{StaticResource lightGrayPlaceholderColor}"
                     Placeholder="Reference #"/>
 
                 <Entry
                     Grid.Row="14"
                     Text="{Binding Notes}"
+                    PlaceholderColor="{StaticResource lightGrayPlaceholderColor}"
                     Placeholder="Notes"/>
 
             </Grid>

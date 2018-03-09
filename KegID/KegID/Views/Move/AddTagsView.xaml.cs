@@ -73,15 +73,42 @@ namespace KegID.Views
 
         async Task OnAddMoreTagsClickedAsync(TagsTypeEnum title)
         {
-            dynamic valueEntry= null;
+            dynamic valueEntry = null;
 
             grdTag.RowDefinitions.Add(new RowDefinition { Height = new GridLength(0, GridUnitType.Auto) });
 
             Label nameEntry = new Label()
             {
                 VerticalOptions = LayoutOptions.Center,
-                Text = title.ToString()
             };
+            string customeTitle = string.Empty;
+
+            switch (title)
+            {
+                case TagsTypeEnum.BestByDate:
+                    customeTitle = "Best By Date";
+                    break;
+                case TagsTypeEnum.ProductionDate:
+                    customeTitle = "Production Date";
+                    break;
+                case TagsTypeEnum.ExpiryDate:
+                    customeTitle = "Expiry Date";
+                    break;
+                case TagsTypeEnum.AssetType:
+                    customeTitle = "Asset Type";
+                    break;
+                case TagsTypeEnum.Size:
+                    customeTitle = "Size";
+                    break;
+                case TagsTypeEnum.Contents:
+                    customeTitle = "Contents";
+                    break;
+                case TagsTypeEnum.Batch:
+                    customeTitle = "Batch";
+                    break;
+            }
+            nameEntry.Text = customeTitle;
+
             switch (title)
             {
                 case TagsTypeEnum.BestByDate:
@@ -99,7 +126,7 @@ namespace KegID.Views
                     valueEntry = new Picker()
                     {
                         VerticalOptions = LayoutOptions.Center,
-                        Title = "Select "+ title.ToString()
+                        Title = "Select " + customeTitle
                     };
                     break;
                 case TagsTypeEnum.None:
@@ -111,7 +138,7 @@ namespace KegID.Views
                     };
                     break;
             }
-           
+
             switch (title)
             {
                 case TagsTypeEnum.BestByDate:
@@ -135,19 +162,18 @@ namespace KegID.Views
                 case TagsTypeEnum.Contents:
                     var result = await SimpleIoc.Default.GetInstance<ScanKegsViewModel>().LoadBrandAsync();
                     valueEntry.ItemsSource = result.ToList();
-                    valueEntry.ItemDisplayBinding = new Binding("BrandName"); 
+                    valueEntry.ItemDisplayBinding = new Binding("BrandName");
                     break;
 
                 case TagsTypeEnum.Batch:
                     var Batchresult = await SimpleIoc.Default.GetInstance<BatchViewModel>().LoadBatchAsync();
                     valueEntry.ItemsSource = Batchresult.ToList();
-                    valueEntry.ItemDisplayBinding = new Binding("BrandName"); 
+                    valueEntry.ItemDisplayBinding = new Binding("BrandName");
                     break;
 
                 default:
                     break;
             }
-            
 
             Button removeButton = new Button()
             {
