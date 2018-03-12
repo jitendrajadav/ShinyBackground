@@ -4,6 +4,7 @@
              x:Class="KegID.Views.PartnerInfoMapView"
              xmlns:local="clr-namespace:KegID"
              xmlns:controls="clr-namespace:KegID.Controls"
+             BackgroundColor="#FFFFFF"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=PartnerInfoMap}">
     <ContentPage.Content>
         <Grid>

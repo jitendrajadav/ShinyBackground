@@ -5,10 +5,13 @@
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
              xmlns:local="clr-namespace:KegID"
              Title="Fill Kegs"
+             BackgroundColor="#FFFFFF"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Fill}">
     <ContentPage.Content>
 
-        <Grid>
+        <Grid
+            RowSpacing="0"
+            ColumnSpacing="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
@@ -24,10 +27,14 @@
             <Label
                 VerticalOptions="Center"
                 FontAttributes="Bold"
+                FontSize="Large"
+                TextColor="Black"
                 HorizontalOptions="Center"
                 Text="Fill Kegs"/>
 
             <Grid
+                ColumnSpacing="0"
+                RowSpacing="0"
                 Grid.Row="1"
                 Margin="10,0,10,0">
                 <Grid.RowDefinitions>
@@ -50,13 +57,14 @@
                 <BoxView
                     Margin="-10,0,-10,0"
                     Grid.Row="0"
-                    BackgroundColor="Black"
+                    BackgroundColor="{StaticResource lightGrayPlaceholderColor}"
                     HeightRequest="1"
                     VerticalOptions="Start"
                     HorizontalOptions="FillAndExpand"/>
 
                 <Label 
                     Text="Batch:"
+                    TextColor="Black"
                     Grid.Column="0"
                     Grid.Row="1"/>
 
@@ -75,17 +83,19 @@
                     HorizontalOptions="End"
                     HorizontalTextAlignment="End"
                     Text="(required)"
+                    VerticalTextAlignment="Center"
                     TextColor="{StaticResource lightGrayColor}"/>
 
                 <BoxView
                     Grid.Row="3"
-                    BackgroundColor="Black"
+                    BackgroundColor="{StaticResource lightGrayPlaceholderColor}"
                     HeightRequest="1"
                     VerticalOptions="Center"
                     HorizontalOptions="FillAndExpand"/>
 
                 <Label 
                     Text="Size:"
+                    TextColor="Black"
                     Grid.Row="4"/>
 
                 <Button
@@ -99,13 +109,14 @@
 
                 <BoxView
                     Grid.Row="6"
-                    BackgroundColor="Black"
+                    BackgroundColor="{StaticResource lightGrayPlaceholderColor}"
                     HeightRequest="1"
                     VerticalOptions="Center"
                     HorizontalOptions="FillAndExpand"/>
 
                 <Label 
                     Text="Destination:"
+                    TextColor="Black"
                     Grid.Row="7"/>
 
                 <Button
@@ -119,13 +130,14 @@
 
                 <BoxView
                     Grid.Row="9"
-                    BackgroundColor="Black"
+                    BackgroundColor="{StaticResource lightGrayPlaceholderColor}"
                     HeightRequest="1"
                     VerticalOptions="Center"
                     HorizontalOptions="FillAndExpand"/>
 
                 <Label 
                     Text="Palletize:"
+                    TextColor="Black"
                     Grid.Row="10"/>
 
                 <Switch
@@ -137,15 +149,15 @@
 
                 <BoxView
                     Grid.Row="12"
-                    BackgroundColor="Black"
+                    BackgroundColor="{StaticResource lightGrayPlaceholderColor}"
                     HeightRequest="1"
                     VerticalOptions="Center"
                     HorizontalOptions="FillAndExpand"/>
 
                 <Button
-                    HeightRequest="50"
-                    Margin="-10,0,-10,0"
+                    Margin="-15,0,-15,-5"
                     TextColor="White"
+                    HeightRequest="60"
                     BackgroundColor="{StaticResource selectTextColor}"
                     HorizontalOptions="FillAndExpand"
                     VerticalOptions="EndAndExpand"

@@ -6,6 +6,7 @@
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
              xmlns:views="clr-namespace:KegID.Views"
                NavigationPage.HasBackButton="False"
+               BackgroundColor="#FFFFFF"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Main}">
 
     <CarouselPage.Children>

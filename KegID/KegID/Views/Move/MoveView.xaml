@@ -5,7 +5,7 @@
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
              xmlns:local="clr-namespace:KegID"
              Title="Create Manifest"
-             BackgroundColor="White"
+             BackgroundColor="#FFFFFF"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Move}">
 
     <ContentPage.Content>

@@ -5,10 +5,13 @@
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
              xmlns:local="clr-namespace:KegID"
              Title="Build Pallet"
+             BackgroundColor="#FFFFFF"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Palletize}">
     
     <ContentPage.Content>
-        <Grid>
+        <Grid
+            ColumnSpacing="0"
+            RowSpacing="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
@@ -23,6 +26,8 @@
                 Command="{Binding CancelCommand}"/>
 
             <Label
+                TextColor="Black"
+                FontSize="Large"
                 VerticalOptions="Center"
                 HorizontalOptions="Center"
                 Text="Build Pallet"/>
@@ -37,6 +42,8 @@
                 IsVisible="{Binding IsSubmitVisible}"/>
 
             <Grid
+                RowSpacing="0"
+                ColumnSpacing="0"
                 Grid.Row="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -66,6 +73,7 @@
                     Text="{Binding ManifestId, StringFormat='Pallet# -{0}'}"
                     BackgroundColor="{StaticResource bannerBGColor}"
                     TextColor="White"
+                    FontSize="Medium"
                     VerticalTextAlignment="Center"
                     VerticalOptions="CenterAndExpand"/>
 
@@ -125,6 +133,8 @@
                 </Button>
 
                 <Label
+                    TextColor="Black"
+                    FontSize="Medium"
                     Margin="10,0,0,0"
                     Text="Stock ocation:"
                     Grid.Row="1"/>
@@ -146,6 +156,8 @@
                     HorizontalOptions="FillAndExpand"/>
 
                 <Label
+                    TextColor="Black"
+                    FontSize="Medium"
                     Margin="10,0,0,0"
                     Text="Target location:"
                     Grid.Row="4"/>
@@ -167,6 +179,8 @@
                     HorizontalOptions="FillAndExpand"/>
 
                 <Label
+                    TextColor="Black"
+                    FontSize="Medium"
                     Margin="10,0,0,0"
                     Text="More Info:"
                     Grid.Row="7"/>
@@ -188,6 +202,8 @@
                     HorizontalOptions="FillAndExpand"/>
 
                 <Label
+                    TextColor="Black"
+                    FontSize="Medium"
                     Margin="10,0,0,0"
                     Text="Kegs:"
                     Grid.Row="10"/>

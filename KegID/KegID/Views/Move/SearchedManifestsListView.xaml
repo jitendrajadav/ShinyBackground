@@ -4,6 +4,7 @@
              x:Class="KegID.Views.SearchedManifestsListView"
              xmlns:local="clr-namespace:KegID"
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
+             BackgroundColor="#FFFFFF"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=SearchedManifestsList}">
     <ContentPage.Content>
         <Grid

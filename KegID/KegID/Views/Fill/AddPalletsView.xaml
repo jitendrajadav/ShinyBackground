@@ -4,6 +4,7 @@
              x:Class="KegID.Views.AddPalletsView"
              xmlns:local="clr-namespace:KegID"
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
+             BackgroundColor="#FFFFFF"
              BindingContext="{Binding Source={x:Static local:App.Locator},Path=AddPallets}">
     <ContentPage.Content>
         <Grid>
@@ -24,13 +25,16 @@
                 Command="{Binding FillKegsCommand}"/>
 
             <Label
+                TextColor="Black"
+                FontSize="Large"
                 Text="Add pallets"
                 VerticalOptions="Center"
-                FontAttributes="Bold"
                 HorizontalOptions="Center"/>
 
             <Label
                 Grid.Row="1"
+                FontSize="Default"
+                TextColor="Black"
                 Margin="10,0,10,0"
                 Text="{Binding AddPalletsTitle}"/>
 
@@ -42,7 +46,6 @@
                 VerticalOptions="FillAndExpand"
                 HorizontalOptions="FillAndExpand"/>
 
-
             <StackLayout
                 Grid.Row="2"
                 Orientation="Horizontal"
@@ -52,13 +55,13 @@
                 <Label
                     TextColor="White"
                     Margin="10,0,0,0"
-                    FontAttributes="Bold"
+                    FontSize="Large"
                     VerticalTextAlignment="Center"
                     Text="{Binding PalletCollection.Count, StringFormat='Pallets: {0}'}"/>
                 
                 <Label
-                    TextColor="White"
-                    FontAttributes="Bold"
+                    TextColor="#B7EB35"
+                    FontSize="Large"
                     HorizontalOptions="Center"
                     VerticalTextAlignment="Center"
                     Text="{Binding Kegs}"/>
@@ -67,15 +70,16 @@
 
             <Button
                 Grid.Row="2"
-                VerticalOptions="Start"
-                TextColor="White"
-                FontSize="Large"
+                x:Name="imgAdd"
                 BackgroundColor="Transparent"
-                Margin="0,0,10,0"
-                FontAttributes="Bold"
-                HorizontalOptions="End"
+                HorizontalOptions="End"   
                 Text="+"
-                Command="{Binding FillScanCommand}"/>
+                TextColor="White"
+                FontSize="50"
+                BorderWidth="0"
+                Margin="-10,-15,-10,-10"
+                Command="{Binding FillScanCommand}"
+                VerticalOptions="Center"/>
 
             <ListView
                 x:Name="lstPallets"
@@ -97,22 +101,27 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Grid>
+                            <Grid
+                                HeightRequest="50"
+                                VerticalOptions="Center">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="90*"/>
                                     <ColumnDefinition Width="10*"/>
                                 </Grid.ColumnDefinitions>
                                 
                                 <Label 
+                                    VerticalOptions="Center"
                                     Grid.Column="0"
                                     Margin="10,0,0,0"
-                                    FontSize="{StaticResource TitleFont}"
+                                    FontSize="Medium"
+                                    TextColor="Black"
                                     Text="{Binding ManifestId}"/>
                                 
                                 <Label 
                                     Grid.Column="1"
                                     Margin="0,0,10,0"
-                                    FontSize="{StaticResource TitleFont}"
+                                    FontSize="Medium"
+                                    VerticalOptions="Center"
                                     HorizontalTextAlignment="End"
                                     Text="{Binding Count}"/>
                             </Grid>
@@ -123,12 +132,12 @@
             </ListView>
             
             <Button
-                HeightRequest="40"
-                Margin="-10,0,-10,0"
+                HeightRequest="60"
+                Margin="-15,0,-15,-5"
                 TextColor="White"
                 BackgroundColor="{StaticResource selectTextColor}"
                 HorizontalOptions="FillAndExpand"
-                VerticalOptions="End"
+                VerticalOptions="EndAndExpand"
                 Grid.Row="4"
                 Text="Submit"
                 Command="{Binding SubmitCommand}"/>

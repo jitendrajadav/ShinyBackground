@@ -8,6 +8,7 @@ using Android.Runtime;
 using CarouselView.FormsPlugin.Android;
 using FFImageLoading.Forms.Droid;
 using KegID.Droid.DependencyServices;
+using Plugin.CrossPlatformTintedImage.Android;
 using Plugin.Permissions;
 
 namespace KegID.Droid
@@ -28,7 +29,7 @@ namespace KegID.Droid
             CachedImageRenderer.Init(true);
             ZXing.Net.Mobile.Forms.Android.Platform.Init();
             Xamarin.FormsMaps.Init(this, bundle);
-
+            TintedImageRenderer.Init();
             LoadApplication(new App());
 
             var alarmIntent = new Intent(this, typeof(BackgroundReceiver));

@@ -4,6 +4,7 @@
              x:Class="KegID.Views.BrandView"
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
              xmlns:local="clr-namespace:KegID"
+             BackgroundColor="#FFFFFF"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Brand}">
     <ContentPage.Content>
         <ListView 
@@ -23,7 +24,15 @@
             </ListView.Behaviors>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextCell Text="{Binding BrandName}"/>
+                    <ViewCell>
+                        <StackLayout>
+                            <Label
+                                FontSize="Medium"
+                                VerticalOptions="Center"
+                                TextColor="Black"
+                                Text="{Binding BrandName}"/>
+                        </StackLayout>
+                    </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

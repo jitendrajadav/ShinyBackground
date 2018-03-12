@@ -1,5 +1,6 @@
 ﻿using CarouselView.FormsPlugin.UWP;
 using FFImageLoading.Forms.WinUWP;
+using Plugin.CrossPlatformTintedImage.UWP;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -50,6 +51,7 @@ namespace KegID.UWP
                 assembliesToInclude.Add(typeof(CarouselViewRenderer).GetTypeInfo().Assembly);
                 Xamarin.Forms.Forms.Init(e, assembliesToInclude);
 
+                TintedImageRenderer.Init();
                 CachedImageRenderer.Init();
                 ZXing.Net.Mobile.Forms.WindowsUniversal.ZXingScannerViewRenderer.Init();
 

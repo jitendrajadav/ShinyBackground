@@ -5,6 +5,8 @@
              xmlns:local="clr-namespace:KegID"
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
              BackgroundColor="#FFFFFF"
+             xmlns:effects="clr-namespace:KegID.Extensions"
+             xmlns:controls="clr-namespace:Plugin.CrossPlatformTintedImage.Abstractions;assembly=Plugin.CrossPlatformTintedImage.Abstractions"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=ScanKegs}">
    
     <ContentPage.Content>
@@ -67,6 +69,59 @@
                 </Entry.Behaviors>
             </Entry>
 
+            <!--<ffimageloading:CachedImage 
+                x:Name="imgCamera"
+                Grid.Row="2"
+                HeightRequest="30"
+                Grid.Column="2"
+                HorizontalOptions="Center" 
+                VerticalOptions="Center"
+                LoadingPlaceholder="loading.png" 
+                ErrorPlaceholder="error.png" 
+                DownsampleToViewSize="true"
+                Aspect="AspectFit">
+                <ffimageloading:CachedImage.Source>
+                    <OnPlatform x:TypeArguments="FileImageSource">
+                        <OnPlatform.iOS>
+                            <FileImageSource File="camera.png"/>
+                        </OnPlatform.iOS>
+                        <OnPlatform.Android>
+                            <FileImageSource File="camera.png"/>
+                        </OnPlatform.Android>
+                        <OnPlatform.WinPhone>
+                            <FileImageSource File="Assets/camera.png"/>
+                        </OnPlatform.WinPhone>
+                    </OnPlatform>
+                </ffimageloading:CachedImage.Source>
+                <ffimageloading:CachedImage.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.BarcodeScanCommand, 
+                                                        Source={x:Reference Name=imgCamera}}"
+                                                         CommandParameter="{Binding}"/>
+                </ffimageloading:CachedImage.GestureRecognizers>
+            </ffimageloading:CachedImage>-->
+            <!--<controls:TintedImage 
+                x:Name="imgCamera"
+                Grid.Row="2"
+                HeightRequest="30"
+                Grid.Column="2"
+                HorizontalOptions="Center"
+                TintColor="Blue"
+                Source="camera.png">
+                <controls:TintedImage.Source>
+                    <OnPlatform x:TypeArguments="FileImageSource">
+                        <OnPlatform.iOS>
+                            <FileImageSource File="camera.png"/>
+                        </OnPlatform.iOS>
+                        <OnPlatform.Android>
+                            <FileImageSource File="camera.png"/>
+                        </OnPlatform.Android>
+                        <OnPlatform.WinPhone>
+                            <FileImageSource File="Assets/camera.png"/>
+                        </OnPlatform.WinPhone>
+                    </OnPlatform>
+                </controls:TintedImage.Source>
+            </controls:TintedImage>-->
+
             <Image
                 x:Name="imgCamera"
                 Grid.Row="2"
@@ -91,6 +146,9 @@
                                                         Source={x:Reference Name=imgCamera}}"
                                                          CommandParameter="{Binding}"/>
                 </Image.GestureRecognizers>
+                <Image.Effects>
+                    <effects:TintImageEffect TintColor="Blue"/>
+                </Image.Effects>
             </Image>
             
             <Picker

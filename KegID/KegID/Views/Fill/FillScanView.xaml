@@ -4,6 +4,7 @@
              x:Class="KegID.Views.FillScanView"
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
              xmlns:local="clr-namespace:KegID"
+             BackgroundColor="#FFFFFF"
              BindingContext="{Binding Source={x:Static local:App.Locator},Path=FillScan}">
     <ContentPage.Content>
         <Grid
@@ -20,8 +21,8 @@
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="90*"/>
-                <ColumnDefinition Width="10*"/>
+                <ColumnDefinition Width="85*"/>
+                <ColumnDefinition Width="15*"/>
             </Grid.ColumnDefinitions>
             
             <Button
@@ -46,9 +47,10 @@
             <Label
                 Grid.ColumnSpan="2"
                 VerticalOptions="Center"
-                FontAttributes="Bold"
                 HorizontalOptions="Center"
-                Text="Scan"/>
+                Text="Scan"
+                FontSize="Large"
+                TextColor="Black"/>
             
             <BoxView
                 Grid.ColumnSpan="2"
@@ -62,6 +64,7 @@
             <Label
                 Margin="10,0,0,0"
                 VerticalOptions="Center"
+                FontSize="Medium"
                 Text="{Binding ManifestId, StringFormat='Pallet# -{0}'}"
                 IsVisible="{Binding IsPalletVisible}"
                 HorizontalOptions="FillAndExpand"
@@ -112,18 +115,15 @@
                       Command="{Binding BarcodeManualCommand}"/>
                 </Entry.Behaviors>
             </Entry>
-           
-            <Button
-                Margin="0,5,0,0"
+
+            <Image
+                x:Name="imgCamera"
                 Grid.Row="2"
+                HeightRequest="30"
+                Margin="0,0,10,0"
                 Grid.Column="1"
-                HorizontalOptions="Center"                  
-                BorderRadius="5"
-                WidthRequest="50"
-                BorderWidth="0"
-                Command="{Binding BarcodeScanCommand}"
-                BackgroundColor="White">
-                <Button.Image>
+                HorizontalOptions="End">
+                <Image.Source>
                     <OnPlatform x:TypeArguments="FileImageSource">
                         <OnPlatform.iOS>
                             <FileImageSource File="camera.png"/>
@@ -135,9 +135,14 @@
                             <FileImageSource File="Assets/camera.png"/>
                         </OnPlatform.WinPhone>
                     </OnPlatform>
-                </Button.Image>
-            </Button>
-            
+                </Image.Source>
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.BarcodeScanCommand, 
+                                                        Source={x:Reference Name=imgCamera}}"
+                                                         CommandParameter="{Binding}"/>
+                </Image.GestureRecognizers>
+            </Image>
+
             <Label
                 Grid.Row="3"
                 Grid.Column="0"
@@ -146,29 +151,32 @@
                 LineBreakMode="TailTruncation"
                 Text="{Binding TagsStr}"/>
 
-            <Button
+            <Image
+                x:Name="imgTags"
                 Grid.Row="3"
                 Grid.Column="1"
-                HorizontalOptions="Center"                  
-                BorderRadius="5"
-                WidthRequest="50"
-                BorderWidth="0"
-                Command="{Binding AddTagsCommand}"
-                BackgroundColor="White">
-                <Button.Image>
+                Margin="0,0,10,0"
+                HeightRequest="40"
+                HorizontalOptions="Center">
+                <Image.Source>
                     <OnPlatform x:TypeArguments="FileImageSource">
                         <OnPlatform.iOS>
-                            <FileImageSource File="collectionslabels.png"/>
+                            <FileImageSource File="tags.png"/>
                         </OnPlatform.iOS>
                         <OnPlatform.Android>
-                            <FileImageSource File="collectionslabels.png"/>
+                            <FileImageSource File="tags.png"/>
                         </OnPlatform.Android>
                         <OnPlatform.WinPhone>
-                            <FileImageSource File="Assets/collectionslabels.png"/>
+                            <FileImageSource File="Assets/tags.png"/>
                         </OnPlatform.WinPhone>
                     </OnPlatform>
-                </Button.Image>
-            </Button>
+                </Image.Source>
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.AddTagsCommand, 
+                                                        Source={x:Reference Name=imgTags}}"
+                                                         CommandParameter="{Binding}"/>
+                </Image.GestureRecognizers>
+            </Image>
 
             <Button
                 Grid.ColumnSpan="2"
@@ -196,13 +204,15 @@
                 TextColor="White"
                 VerticalOptions="Center"
                 Margin="10,0,0,0"
+                FontSize="Large"
                 Text="Scanned:"/>
             
             <Label
                 Grid.Row="5"
                 Grid.Column="1"
-                TextColor="White"
+                TextColor="#B7EB35"
                 Margin="0,0,10,0"
+                FontSize="Large"
                 VerticalOptions="Center"
                 Text="{Binding BarcodeCollection.Count}"/>
             
@@ -228,7 +238,9 @@
                     <DataTemplate>
                         <ViewCell>
                             <Grid 
+                                VerticalOptions="Center"
                                 RowSpacing="0"
+                                Margin="10,0,10,0"
                                 ColumnSpacing="0">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*"/>
@@ -240,10 +252,11 @@
                                 </Grid.ColumnDefinitions>
 
                                 <Label 
-                                    VerticalOptions="FillAndExpand" 
+                                    VerticalOptions="Center" 
                                     VerticalTextAlignment="Center" 
                                     Text="{Binding Id}"
-                                    FontSize="{StaticResource TitleFont}">
+                                    TextColor="Black"
+                                    FontSize="Medium">
                                     <Label.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding Path=BindingContext.LabelItemTappedCommand, 
                                                         Source={x:Reference Name=lstFillScan}}"
@@ -277,7 +290,6 @@
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
-
             </ListView>
 
         </Grid>

@@ -4,6 +4,7 @@
              x:Class="KegID.Views.KegIDMasterPageMaster"
              xmlns:local="clr-namespace:KegID"
              Title="Master"
+             BackgroundColor="#FFFFFF"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=KegIDMasterPage}">
 
     <Grid>

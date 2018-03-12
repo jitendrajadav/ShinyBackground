@@ -5,6 +5,7 @@
              xmlns:local="clr-namespace:KegID"
              xmlns:popup="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
+                 BackgroundColor="#FFFFFF"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=ValidateBarcode}">
 
     <StackLayout 

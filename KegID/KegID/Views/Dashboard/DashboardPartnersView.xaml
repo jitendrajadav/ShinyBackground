@@ -5,6 +5,7 @@
              xmlns:local="clr-namespace:KegID"
              xmlns:extended="clr-namespace:Xamarin.Forms.Extended;assembly=Xamarin.Forms.Extended.InfiniteScrolling"
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
+             BackgroundColor="#FFFFFF"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=DashboardPartners}">
     
     <ContentPage.Content>

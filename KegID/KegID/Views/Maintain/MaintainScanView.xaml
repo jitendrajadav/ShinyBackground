@@ -4,10 +4,13 @@
              x:Class="KegID.Views.MaintainScanView"
              xmlns:local="clr-namespace:KegID"
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
+             BackgroundColor="#FFFFFF"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=MaintainScan}">
    
     <ContentPage.Content>
-        <Grid>
+        <Grid
+            RowSpacing="0"
+            ColumnSpacing="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -35,8 +38,9 @@
 
             <Label 
                 HorizontalOptions="Center"
-                FontAttributes="Bold"
                 Text="Scan"
+                TextColor="Black"
+                FontSize="Large"
                 Grid.ColumnSpan="3"
                 VerticalOptions="Center"/>
 
@@ -62,16 +66,14 @@
                 </Entry.Behaviors>
             </Entry>
 
-            <Button
+            <Image
+                x:Name="imgCamera"
                 Grid.Row="2"
+                HeightRequest="30"
+                Margin="0,0,10,0"
                 Grid.Column="2"
-                HorizontalOptions="Center"                  
-                BorderRadius="5"
-                WidthRequest="50"
-                BorderWidth="0"
-                Command="{Binding BarcodeScanCommand}"
-                BackgroundColor="White">
-                <Button.Image>
+                HorizontalOptions="End">
+                <Image.Source>
                     <OnPlatform x:TypeArguments="FileImageSource">
                         <OnPlatform.iOS>
                             <FileImageSource File="camera.png"/>
@@ -83,8 +85,13 @@
                             <FileImageSource File="Assets/camera.png"/>
                         </OnPlatform.WinPhone>
                     </OnPlatform>
-                </Button.Image>
-            </Button>
+                </Image.Source>
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.BarcodeScanCommand, 
+                                                        Source={x:Reference Name=imgCamera}}"
+                                                         CommandParameter="{Binding}"/>
+                </Image.GestureRecognizers>
+            </Image>
             
             <BoxView
                 Margin="-10,0,-10,0"
@@ -100,6 +107,7 @@
                 Grid.Column="0"
                 Grid.Row="5"
                 Margin="15,0,0,0"
+                FontSize="Large"
                 VerticalOptions="Center"
                 Grid.ColumnSpan="2"
                 Text="Scanned:"/>
@@ -107,13 +115,14 @@
             <Label
                 Grid.Column="2"
                 Grid.Row="5"
-                TextColor="White"
+                TextColor="#B7EB35"
+                FontSize="Large"
                 HorizontalOptions="Center"
                 VerticalOptions="Center"
                 Text="{Binding BarcodeCollection.Count}"/>
           
             <Button
-                HeightRequest="40"
+                HeightRequest="60"
                 Margin="-10,-5,-10,0"
                 BackgroundColor="{StaticResource selectTextColor}"
                 Grid.Column="0"
@@ -155,7 +164,8 @@
                                     VerticalOptions="FillAndExpand" 
                                     VerticalTextAlignment="Center" 
                                     Text="{Binding Id}" 
-                                    FontSize="{StaticResource TitleFont}">
+                                    TextColor="Black"
+                                    FontSize="Medium">
                                     <Label.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding Path=BindingContext.LabelItemTappedCommand, 
                                                         Source={x:Reference Name=lstBarcode}}"

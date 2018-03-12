@@ -4,6 +4,7 @@
              x:Class="KegID.Views.BatchView"
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
              xmlns:local="clr-namespace:KegID"
+             BackgroundColor="#FFFFFF"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Batch}">
     <ContentPage.Content>
         
@@ -36,11 +37,13 @@
                             <Label 
                                 VerticalOptions="FillAndExpand" 
                                 VerticalTextAlignment="Center" 
+                                TextColor="Black"
                                 FontSize="{StaticResource TitleFont}"
                                 Text="{Binding BrandName}" />
                             
                             <Label 
                                 Grid.Column="1"
+                                TextColor="Black"
                                 VerticalOptions="FillAndExpand" 
                                 VerticalTextAlignment="Center" 
                                 FontSize="{StaticResource TitleFont}"
@@ -50,6 +53,7 @@
                                 Grid.Column="2"
                                 VerticalOptions="FillAndExpand" 
                                 VerticalTextAlignment="Center" 
+                                TextColor="Black"
                                 FontSize="{StaticResource TitleFont}"
                                 Text="{Binding BatchCode}" />
                         </Grid>

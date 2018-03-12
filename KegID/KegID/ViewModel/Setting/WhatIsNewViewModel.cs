@@ -50,15 +50,12 @@ namespace KegID.ViewModel
         #endregion
 
         #region Constructor
-        public WhatIsNewViewModel()
-        {
-            WhatsNewItemsSource = new ObservableCollection<Xamarin.Forms.View>()
+        public WhatIsNewViewModel() => WhatsNewItemsSource = new ObservableCollection<View>()
             {
                 new CachedImage() { Source = "new0.png", DownsampleToViewSize = false, Aspect = Aspect.Fill },
                 new CachedImage() { Source = "new1.png", DownsampleToViewSize = false, Aspect = Aspect.Fill },
-                new CachedImage() { Source = "new2.png", DownsampleToViewSize = false, Aspect = Aspect.Fill }
+                new CachedImage() { Source = "new2.png", DownsampleToViewSize = false, Aspect = Aspect.AspectFit }
             };
-        }
 
         #endregion
 

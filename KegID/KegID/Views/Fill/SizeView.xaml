@@ -4,6 +4,7 @@
              x:Class="KegID.Views.SizeView"
              xmlns:local="clr-namespace:KegID"
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
+             BackgroundColor="#FFFFFF"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Size}">
     <ContentPage.Content>
         <ListView 
@@ -22,7 +23,18 @@
             </ListView.Behaviors>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextCell Height="40" Text="{Binding}"/>
+                    <ViewCell>
+                        <StackLayout>
+                            <Label
+                                HeightRequest="50"
+                                Margin="10,0,0,0"
+                                FontSize="Medium"
+                                VerticalTextAlignment="Center"
+                                VerticalOptions="Center"
+                                TextColor="Black"
+                                Text="{Binding}"/>
+                        </StackLayout>
+                    </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

@@ -5,6 +5,7 @@
              xmlns:local="clr-namespace:KegID"
              Title="Setting"
              xmlns:popup="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+                 BackgroundColor="#FFFFFF"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Setting}">
 
     <StackLayout 

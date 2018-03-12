@@ -4,9 +4,12 @@
              x:Class="KegID.Views.AddBatchView"
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
              xmlns:local="clr-namespace:KegID"
+             BackgroundColor="#FFFFFF"
              BindingContext="{Binding Source={x:Static local:App.Locator},Path=AddBatch}">
     <ContentPage.Content>
-        <Grid>
+        <Grid
+            ColumnSpacing="0"
+            RowSpacing="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -25,6 +28,8 @@
                 Grid.ColumnSpan="3"
                 VerticalOptions="Center"
                 FontAttributes="Bold"
+                TextColor="Black"
+                FontSize="Large"
                 HorizontalOptions="Center"
                 Text="Add Batch"/>
             
@@ -32,7 +37,7 @@
                 Grid.ColumnSpan="3"
                 Margin="-10,0,-10,0"
                 Grid.Row="1"
-                BackgroundColor="Black"
+                BackgroundColor="{StaticResource lightGrayPlaceholderColor}"
                 HeightRequest="1"
                 VerticalOptions="Start"
                 HorizontalOptions="FillAndExpand"/>
@@ -43,6 +48,8 @@
                 Grid.Row="2">
                
                 <Grid
+                    ColumnSpacing="0"
+                    RowSpacing="0"
                     Grid.Row="1">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -72,6 +79,7 @@
 
                     <Label
                         Grid.Row="1"
+                        TextColor="Black"
                         HorizontalOptions="Start"
                         Text="Batch code"/>
 
@@ -84,6 +92,7 @@
 
                     <Label
                         Grid.Row="2"
+                        TextColor="Black"
                         HorizontalOptions="Start"
                         Text="Brew date"/>
 
@@ -95,6 +104,7 @@
 
                     <Label
                         Grid.Row="3"
+                        TextColor="Black"
                         HorizontalOptions="Start"
                         Text="Volume"/>
 
@@ -119,6 +129,7 @@
 
                     <Label
                         Grid.Row="4"
+                        TextColor="Black"
                         HorizontalOptions="Start"
                         Text="Package date"/>
 
@@ -130,6 +141,7 @@
 
                     <Label
                         Grid.Row="5"
+                        TextColor="Black"
                         HorizontalOptions="Start"
                         Text="Best by date"/>
 
@@ -141,6 +153,7 @@
 
                     <Label
                         Grid.Row="6"
+                        TextColor="Black"
                         HorizontalOptions="Start"
                         Text="Alcohol content"/>
 
@@ -152,48 +165,51 @@
                         Text="{Binding AlcoholContent}"/>
                    
                     <Label
+                        TextColor="Black"
                         HorizontalOptions="Start"
                         Grid.Column="0"
                         Grid.ColumnSpan="2"
                         Text="{Binding TagsStr}"
                         Grid.Row="7"/>
 
-                    <Button
+                    <Image
+                        x:Name="imgTags"
                         Grid.Row="7"
                         Grid.Column="2"
-                        HorizontalOptions="End"                  
-                        BorderRadius="5"
-                        WidthRequest="50"
-                        BorderWidth="0"
-                        Command="{Binding AddTagsCommand}"
-                        BackgroundColor="White">
-                        <Button.Image>
+                        HeightRequest="40"
+                        HorizontalOptions="End">
+                        <Image.Source>
                             <OnPlatform x:TypeArguments="FileImageSource">
                                 <OnPlatform.iOS>
-                                    <FileImageSource File="collectionslabels.png"/>
+                                    <FileImageSource File="tags.png"/>
                                 </OnPlatform.iOS>
                                 <OnPlatform.Android>
-                                    <FileImageSource File="collectionslabels.png"/>
+                                    <FileImageSource File="tags.png"/>
                                 </OnPlatform.Android>
                                 <OnPlatform.WinPhone>
-                                    <FileImageSource File="Assets/collectionslabels.png"/>
+                                    <FileImageSource File="Assets/tags.png"/>
                                 </OnPlatform.WinPhone>
                             </OnPlatform>
-                        </Button.Image>
-                    </Button>
+                        </Image.Source>
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Path=BindingContext.AddTagsCommand, 
+                                                        Source={x:Reference Name=imgTags}}"
+                                                         CommandParameter="{Binding}"/>
+                        </Image.GestureRecognizers>
+                    </Image>
 
                 </Grid>
                 
             </ScrollView>
 
             <Button
-                HeightRequest="40"
-                Margin="-10,0,-10,0"
+                Margin="-10,0,-10,-5"
                 TextColor="White"
                 Grid.ColumnSpan="3"
+                HeightRequest="60"
                 BackgroundColor="{StaticResource selectTextColor}"
                 HorizontalOptions="FillAndExpand"
-                VerticalOptions="End"
+                VerticalOptions="EndAndExpand"
                 Grid.Row="3"
                 Text="Done"
                 Command="{Binding DoneCommand}"/>

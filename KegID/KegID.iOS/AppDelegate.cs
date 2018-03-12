@@ -2,6 +2,7 @@
 using FFImageLoading.Forms.Touch;
 using Foundation;
 using KegID.iOS.DependencyServices;
+using Plugin.CrossPlatformTintedImage.iOS;
 using System;
 using UIKit;
 using Xamarin.Forms;
@@ -29,6 +30,7 @@ namespace KegID.iOS
             ZXing.Net.Mobile.Forms.iOS.Platform.Init();
             Xamarin.FormsMaps.Init();
 
+            TintedImageRenderer.Init();
             DependencyService.Register<OpenAppService>();
             UIApplication.SharedApplication.SetMinimumBackgroundFetchInterval(UIApplication.BackgroundFetchIntervalMinimum);
 
