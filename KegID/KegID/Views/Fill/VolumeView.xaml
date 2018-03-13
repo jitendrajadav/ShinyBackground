@@ -12,7 +12,7 @@
                 Grid.Row="2"
                 x:Name="volumeListView"
                 SeparatorVisibility="Default"
-                SeparatorColor="LightGray"
+                SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
                 HasUnevenRows="true"
                 ItemsSource="{Binding VolumeCollection}">
             <ListView.Behaviors>

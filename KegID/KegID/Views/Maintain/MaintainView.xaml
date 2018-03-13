@@ -24,7 +24,6 @@
                 Command="{Binding HomeCommand}"/>
 
             <Grid
-                RowSpacing="0"
                 Grid.Row="1"
                 ColumnSpacing="0"
                 Margin="10,10,10,0">
@@ -74,7 +73,7 @@
                 <BoxView
                     Grid.Row="1"
                     Grid.ColumnSpan="2"
-                    BackgroundColor="Black"
+                    BackgroundColor="{StaticResource lightGrayColor}"
                     HeightRequest="1"
                     VerticalOptions="Center"
                     HorizontalOptions="FillAndExpand"/>
@@ -97,7 +96,7 @@
                 <BoxView
                     Grid.Row="3"
                     Grid.ColumnSpan="2"
-                    BackgroundColor="Black"
+                    BackgroundColor="{StaticResource lightGrayColor}"
                     HeightRequest="1"
                     VerticalOptions="Center"
                     HorizontalOptions="FillAndExpand"/>
@@ -120,7 +119,7 @@
                 <BoxView
                     Grid.Row="5"
                     Grid.ColumnSpan="2"
-                    BackgroundColor="Black"
+                    BackgroundColor="{StaticResource lightGrayColor}"
                     HeightRequest="1"
                     VerticalOptions="Center"
                     HorizontalOptions="FillAndExpand"/>
@@ -143,7 +142,7 @@
                 <BoxView
                     Grid.Row="7"
                     Grid.ColumnSpan="2"
-                    BackgroundColor="Black"
+                    BackgroundColor="{StaticResource lightGrayColor}"
                     HeightRequest="1"
                     VerticalOptions="Center"
                     HorizontalOptions="FillAndExpand"/>
@@ -166,7 +165,7 @@
                 <BoxView
                     Grid.Row="9"
                     Grid.ColumnSpan="2"
-                    BackgroundColor="Black"
+                    BackgroundColor="{StaticResource lightGrayColor}"
                     HeightRequest="1"
                     VerticalOptions="Center"
                     HorizontalOptions="FillAndExpand"/>
@@ -189,7 +188,7 @@
                 <BoxView
                     Grid.Row="11"
                     Grid.ColumnSpan="2"
-                    BackgroundColor="Black"
+                    BackgroundColor="{StaticResource lightGrayColor}"
                     HeightRequest="1"
                     VerticalOptions="Center"
                     HorizontalOptions="FillAndExpand"/>
@@ -212,7 +211,7 @@
                 <BoxView
                     Grid.Row="13"
                     Grid.ColumnSpan="2"
-                    BackgroundColor="Black"
+                    BackgroundColor="{StaticResource lightGrayColor}"
                     HeightRequest="1"
                     VerticalOptions="Center"
                     HorizontalOptions="FillAndExpand"/>
@@ -225,6 +224,7 @@
                     Text="Notes:"/>
 
                 <Entry
+                    Margin="0,-10,0,-10"
                     HeightRequest="80"
                     Grid.ColumnSpan="2"
                     Grid.Column="0"
@@ -235,6 +235,7 @@
                 <Label
                     Text="Destination:"
                     TextColor="Black"
+                    Grid.ColumnSpan="2"
                     FontSize="Medium"
                     Grid.Row="16"/>
 

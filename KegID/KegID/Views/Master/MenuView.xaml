@@ -117,11 +117,12 @@
                 </Image>
 
                 <Label 
+                    Margin="10,0,0,0"
                     Grid.Column="2"
                     Grid.Row="1"
                     Text="Move"
                     TextColor="White"
-                    FontSize="Large"
+                    FontSize="40"
                     VerticalOptions="CenterAndExpand" 
                     HorizontalOptions="Start" />
                 
@@ -204,11 +205,12 @@
                 </Image>
 
                 <Label 
+                    Margin="10,0,0,0"
                     Grid.Row="1"
                     Grid.Column="2"
                     Text="Fill"
                     TextColor="White"
-                    FontSize="Large"
+                    FontSize="40"
                     VerticalOptions="CenterAndExpand" 
                     HorizontalOptions="Start" />
             </Grid>
@@ -290,11 +292,12 @@
                 </Image>
 
                 <Label 
+                    Margin="10,0,0,0"
                     Grid.Row="1"
                     Grid.Column="2"
                     Text="Palletize"
                     TextColor="White"
-                    FontSize="Large"
+                    FontSize="40"
                     VerticalOptions="CenterAndExpand" 
                     HorizontalOptions="Start" />
             </Grid>
@@ -376,11 +379,12 @@
                 </Image>
 
                 <Label 
+                    Margin="10,0,0,0"
                     Grid.Row="1"
                     Grid.Column="2"
                     Text="Maintain"
                     TextColor="White"
-                    FontSize="Large"
+                    FontSize="40"
                     VerticalOptions="CenterAndExpand" 
                     HorizontalOptions="Start" />
             </Grid>

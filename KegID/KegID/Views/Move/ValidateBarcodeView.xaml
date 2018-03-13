@@ -24,7 +24,7 @@
                     x:Name="lstValidateBarcode"
                     Grid.Row="1"
                     SeparatorVisibility="Default"
-                    SeparatorColor="Black"
+                    SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
                     HasUnevenRows="True"
                     CachingStrategy="RecycleElement"
                     ItemsSource="{Binding PartnerCollection}">

@@ -294,11 +294,12 @@ namespace KegID.ViewModel
             LoadBrand();
         }
 
-        public async void LoadBrand() => BrandCollection = await LoadBrandAsync();
-
         #endregion
 
         #region Methods
+
+        public async void LoadBrand() => BrandCollection = await LoadBrandAsync();
+
         public async Task<IList<BrandModel>> LoadBrandAsync()
         {
             IList<BrandModel> model = await SQLiteServiceClient.Db.Table<BrandModel>().ToListAsync();

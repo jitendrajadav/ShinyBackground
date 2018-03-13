@@ -1,11 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<popup:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="KegID.Views.SettingView"
              xmlns:local="clr-namespace:KegID"
              Title="Setting"
-             xmlns:popup="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
-                 BackgroundColor="#FFFFFF"
+             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Setting}">
 
     <StackLayout 
@@ -17,11 +16,24 @@
             Spacing="0"
             BackgroundColor="White">
 
-            <Button
+            <Label
+                Margin="20,0,0,0"
+                HeightRequest="50"
+                VerticalOptions="CenterAndExpand"
+                VerticalTextAlignment="Center"
+                x:Name="lblRefresh"
+                HorizontalOptions="StartAndExpand"
+                HorizontalTextAlignment="Start"
                 BackgroundColor="Transparent"
                 TextColor="{StaticResource selectTextColor}"
                 Text="Refresh"
-                Command="{Binding RefreshSettingCommand}"/>
+                FontSize="Medium">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.RefreshSettingCommand, 
+                                                        Source={x:Reference Name=lblRefresh}}"
+                                                         CommandParameter="{Binding}"/>
+                </Label.GestureRecognizers>
+            </Label>
 
             <BoxView
                 BackgroundColor="LightGray"
@@ -29,11 +41,24 @@
                 VerticalOptions="Start"
                 HorizontalOptions="FillAndExpand"/>
 
-            <Button
+            <Label
+                Margin="20,0,0,0"
+                HeightRequest="50"
+                x:Name="lblPrinterSettings"
                 BackgroundColor="Transparent"
+                FontSize="Medium"
+                HorizontalOptions="StartAndExpand"
+                HorizontalTextAlignment="Start"
+                VerticalOptions="CenterAndExpand"
+                VerticalTextAlignment="Center"
                 TextColor="{StaticResource selectTextColor}"
-                Text="Printer Settings"
-                Command="{Binding PrinterSettingCommand}"/>
+                Text="Printer Settings">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.PrinterSettingCommand, 
+                                                        Source={x:Reference Name=lblPrinterSettings}}"
+                                                         CommandParameter="{Binding}"/>
+                </Label.GestureRecognizers>
+            </Label>
 
             <BoxView
                 BackgroundColor="LightGray"
@@ -41,11 +66,24 @@
                 VerticalOptions="Start"
                 HorizontalOptions="FillAndExpand"/>
 
-            <Button
+            <Label
+                Margin="20,0,0,0"
+                HeightRequest="50"
+                x:Name="lblWhatsNew"
                 BackgroundColor="Transparent"
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="StartAndExpand"
+                HorizontalTextAlignment="Start"
+                VerticalTextAlignment="Center"
                 TextColor="{StaticResource selectTextColor}"
                 Text="What's New"
-                Command="{Binding WhatsNewCommand}"/>
+                FontSize="Medium">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.WhatsNewCommand, 
+                                                        Source={x:Reference Name=lblWhatsNew}}"
+                                                         CommandParameter="{Binding}"/>
+                </Label.GestureRecognizers>
+            </Label>
 
             <BoxView
                 BackgroundColor="LightGray"
@@ -53,11 +91,24 @@
                 VerticalOptions="Start"
                 HorizontalOptions="FillAndExpand"/>
 
-            <Button
+            <Label
+                Margin="20,0,0,0"
+                HeightRequest="50"
+                x:Name="lblSupport"
+                VerticalOptions="CenterAndExpand"
+                VerticalTextAlignment="Center"
+                HorizontalOptions="StartAndExpand"
+                HorizontalTextAlignment="Start"
                 BackgroundColor="Transparent"
                 TextColor="{StaticResource selectTextColor}"
                 Text="Support"
-                Command="{Binding SupportCommand}"/>
+                FontSize="Medium">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.SupportCommand, 
+                                                        Source={x:Reference Name=lblSupport}}"
+                                                         CommandParameter="{Binding}"/>
+                </Label.GestureRecognizers>
+            </Label>
 
             <BoxView
                 BackgroundColor="LightGray"
@@ -65,11 +116,24 @@
                 VerticalOptions="Start"
                 HorizontalOptions="FillAndExpand"/>
 
-            <Button
+            <Label
+                Margin="20,0,0,0"
+                HeightRequest="50"
+                x:Name="lblLogOut"
+                VerticalOptions="CenterAndExpand"
+                VerticalTextAlignment="Center"
+                HorizontalOptions="StartAndExpand"
+                HorizontalTextAlignment="Start"
                 BackgroundColor="Transparent"
                 TextColor="{StaticResource selectTextColor}"
                 Text="Log Out"
-                Command="{Binding LogOutSettingCommand}"/>
+                FontSize="Medium">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.LogOutSettingCommand, 
+                                                        Source={x:Reference Name=lblLogOut}}"
+                                                         CommandParameter="{Binding}"/>
+                </Label.GestureRecognizers>
+            </Label>
         </StackLayout>
     </StackLayout>
-</popup:PopupPage>
+</pages:PopupPage>

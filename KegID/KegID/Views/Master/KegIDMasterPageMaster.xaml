@@ -29,7 +29,7 @@
         <ListView 
             x:Name="MenuItemsListView"
             SeparatorVisibility="Default"
-            SeparatorColor="LightGray"
+            SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
             HasUnevenRows="true"
             ItemsSource="{Binding MenuItems}">
       

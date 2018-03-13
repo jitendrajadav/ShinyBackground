@@ -11,6 +11,7 @@ using Xamarin.Forms;
 using System.Linq;
 using KegID.SQLiteClient;
 using System.Diagnostics;
+using System;
 
 namespace KegID.ViewModel
 {
@@ -57,7 +58,7 @@ namespace KegID.ViewModel
 
         #region Commands
         public RelayCommand<BatchModel> ItemTappedCommand { get;}
-
+        public RelayCommand AddBatchCommand { get; }
         #endregion
 
         #region Constructor
@@ -66,6 +67,7 @@ namespace KegID.ViewModel
         {
             _fillService = fillService;
             ItemTappedCommand = new RelayCommand<BatchModel>((model) => ItemTappedCommandRecieverAsync(model));
+            AddBatchCommand = new RelayCommand(AddBatchCommandRecieverAsync);
             LoadBatch();
         }
 
@@ -78,20 +80,18 @@ namespace KegID.ViewModel
             await LoadBatchAsync();
         }
 
+        private async void AddBatchCommandRecieverAsync()
+        {
+            await Application.Current.MainPage.Navigation.PushModalAsync(new AddBatchView());
+        }
+
         private async void ItemTappedCommandRecieverAsync(BatchModel model)
         {
             if (model != null)
             {
-                if (model.BrandName.Contains("Add Batch"))
-                {
-                    await Application.Current.MainPage.Navigation.PushModalAsync(new AddBatchView());
-                }
-                else
-                {
-                    SimpleIoc.Default.GetInstance<FillViewModel>().NewBatchModel = model;
-                    SimpleIoc.Default.GetInstance<FillViewModel>().BatchButtonTitle = model.BrandName + "-" + model.BatchCode;
-                    await Application.Current.MainPage.Navigation.PopModalAsync();
-                }
+                SimpleIoc.Default.GetInstance<FillViewModel>().NewBatchModel = model;
+                SimpleIoc.Default.GetInstance<FillViewModel>().BatchButtonTitle = model.BrandName + "-" + model.BatchCode;
+                await Application.Current.MainPage.Navigation.PopModalAsync();
             }
         }
 
@@ -107,13 +107,12 @@ namespace KegID.ViewModel
                     var value = await _fillService.GetBatchListAsync(Configuration.SessionId);
                     if (value.StatusCode == System.Net.HttpStatusCode.OK)
                     {
-                        value.BatchModel.Add(new BatchModel { BrandName = "Add Batch" });
-                        BatchCollection = value.BatchModel.OrderBy(x => x.BrandName).ToList();
+                        BatchCollection = value.BatchModel.Where(p=>p.BrandName!= string.Empty).OrderBy(x => x.BrandName).ToList();
                         await SQLiteServiceClient.Db.InsertAllAsync(BatchCollection);
                     }
                 }
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
             }

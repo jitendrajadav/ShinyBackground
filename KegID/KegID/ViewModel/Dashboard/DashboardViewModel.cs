@@ -436,8 +436,11 @@ namespace KegID.ViewModel
             }
         }
 
-        private async void MoreCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushPopupAsync(new SettingView());
-        
+        private async void MoreCommandRecieverAsync()
+        {
+            await Application.Current.MainPage.Navigation.PushPopupAsync(new SettingView());
+        }
+
         #endregion
     }
 }

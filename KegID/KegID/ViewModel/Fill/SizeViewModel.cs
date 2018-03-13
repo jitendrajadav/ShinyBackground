@@ -56,7 +56,7 @@ namespace KegID.ViewModel
 
         public SizeViewModel()
         {
-            SizeCollection = new List<string>() { "1/2 bbl", "1/4 bbl", "1/6 bbl", "40 L", "50 L" };
+            SizeCollection = new List<string>() { "1/2 bbl", "1/4 bbl", "1/6 bbl", "30 L", "40 L", "50 L" };
             ItemTappedCommand = new RelayCommand<string>((model) => ItemTappedCommandRecieverAsync(model));
         }
 

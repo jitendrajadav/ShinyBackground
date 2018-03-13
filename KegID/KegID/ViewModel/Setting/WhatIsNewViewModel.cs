@@ -54,7 +54,7 @@ namespace KegID.ViewModel
             {
                 new CachedImage() { Source = "new0.png", DownsampleToViewSize = false, Aspect = Aspect.Fill },
                 new CachedImage() { Source = "new1.png", DownsampleToViewSize = false, Aspect = Aspect.Fill },
-                new CachedImage() { Source = "new2.png", DownsampleToViewSize = false, Aspect = Aspect.AspectFit }
+                new CachedImage() { Source = "new2.png", DownsampleToViewSize = false, Aspect = Aspect.Fill }
             };
 
         #endregion

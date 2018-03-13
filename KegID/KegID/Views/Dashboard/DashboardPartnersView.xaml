@@ -94,7 +94,7 @@
                 Grid.Row="2"
                 VerticalOptions="FillAndExpand"
                 SeparatorVisibility="Default"
-                SeparatorColor="Black"
+                SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
                 HasUnevenRows="True"
                 CachingStrategy="RecycleElement"
                 ItemsSource="{Binding PartnerCollection}">

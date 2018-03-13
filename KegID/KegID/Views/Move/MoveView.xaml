@@ -25,68 +25,81 @@
             <Label
                 VerticalOptions="Center"
                 HorizontalOptions="Center"
-                FontSize="Medium"
+                FontSize="Large"
                 TextColor="Black"
-                FontAttributes="Bold"
                 Text="Create Manifest"/>
 
-            <!---->
-
-            <Button
+            <Label
+                x:Name="lblSubmit"
                 BackgroundColor="Transparent"
                 TextColor="{StaticResource selectTextColor}"
                 HorizontalOptions="End"
                 Text="Submit"
-                Command="{Binding SubmitCommand}"
-                IsVisible="{Binding IsSubmitVisible}"/>
+                VerticalOptions="Center"
+                Margin="0,0,10,0"
+                FontSize="Medium"
+                IsVisible="{Binding IsSubmitVisible}">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.SubmitCommand, 
+                                                        Source={x:Reference Name=lblSubmit}}"
+                                                         CommandParameter="{Binding}"/>
+                </Label.GestureRecognizers>
+            </Label>
 
             <Grid
-                RowSpacing="0"
-                ColumnSpacing="0"
                 Grid.Row="1"
                 Margin="10,0,10,0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="50"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-            <BoxView
-                Margin="-10,0,-10,0"
-                Grid.Row="0"
-                BackgroundColor="{StaticResource bannerBGColor}"
-                WidthRequest="10"
-                VerticalOptions="FillAndExpand"
-                HorizontalOptions="FillAndExpand"/>
+                <BoxView
+                    Margin="-10,0,-10,0"
+                    Grid.Row="0"
+                    BackgroundColor="{StaticResource bannerBGColor}"
+                    WidthRequest="10"
+                    VerticalOptions="FillAndExpand"
+                    HorizontalOptions="FillAndExpand"/>
             
-            <Label 
-                Margin="0,0,-10,0"
-                HeightRequest="40"
-                Text="{Binding ManifestId, StringFormat=' Manifest #: {0}', Converter={StaticResource StringToLast8CharacterConverter}}"
-                TextColor="White"
-                FontSize="22"
-                VerticalTextAlignment="Center"
-                VerticalOptions="CenterAndExpand"/>
+                <Label 
+                    Margin="0,0,-10,0"
+                    HeightRequest="40"
+                    Text="{Binding ManifestId, StringFormat=' Manifest #: {0}', Converter={StaticResource StringToLast8CharacterConverter}}"
+                    TextColor="White"
+                    FontSize="22"
+                    VerticalTextAlignment="Center"
+                    VerticalOptions="CenterAndExpand"/>
 
-            <Label
-                Text="Destination:"
-                Grid.Row="1"/>
+                <Label
+                    TextColor="Black"
+                    FontSize="Medium"
+                    Text="Destination:"
+                    Grid.Row="1"/>
 
-            <Button
-                BackgroundColor="Transparent"
-                TextColor="{StaticResource selectTextColor}"
-                Margin="10,0,0,0"
-                HorizontalOptions="Start"
-                Text="{Binding Path=PartnerModel.FullName}"
-                Grid.Row="2"
-                Command="{Binding SelectLocationCommand}"/>
+                <Label
+                    x:Name="lblDestination"
+                    BackgroundColor="Transparent"
+                    TextColor="{StaticResource selectTextColor}"
+                    Margin="10,0,0,0"
+                    HorizontalOptions="Start"
+                    Text="{Binding Path=PartnerModel.FullName}"
+                    Grid.Row="2"
+                    FontSize="Medium">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Path=BindingContext.SelectLocationCommand, 
+                                                        Source={x:Reference Name=lblDestination}}"
+                                                         CommandParameter="{Binding}"/>
+                    </Label.GestureRecognizers>
+                </Label>
                 
                 <Label
                     Grid.Row="2"
@@ -104,55 +117,79 @@
                     HorizontalOptions="FillAndExpand"/>
 
                 <Label
+                    TextColor="Black"
+                    FontSize="Medium"
                     Text="More Info:"
                     Grid.Row="4"/>
 
-            <Button
-                BackgroundColor="Transparent"
-                TextColor="{StaticResource selectTextColor}"
-                HorizontalOptions="Start"
-                Margin="10,0,0,0"
-                Text="{Binding TagsStr}"
-                Grid.Row="5"
-                Command="{Binding MoreInfoCommand}"/>
+                <Label
+                    x:Name="lblTagsStr"
+                    BackgroundColor="Transparent"
+                    TextColor="{StaticResource selectTextColor}"
+                    HorizontalOptions="Start"
+                    Margin="10,0,0,0"
+                    FontSize="Medium"
+                    Text="{Binding TagsStr}"
+                    Grid.Row="5">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Path=BindingContext.MoreInfoCommand, 
+                                                        Source={x:Reference Name=lblTagsStr}}"
+                                                         CommandParameter="{Binding}"/>
+                    </Label.GestureRecognizers>
+                </Label>
 
-            <BoxView
-                Grid.Row="6"
-                BackgroundColor="{StaticResource lightGrayColor}"
-                HeightRequest="1"
-                VerticalOptions="Start"
-                HorizontalOptions="FillAndExpand"/>
+                <BoxView
+                    Grid.Row="6"
+                    BackgroundColor="{StaticResource lightGrayColor}"
+                    HeightRequest="1"
+                    VerticalOptions="Start"
+                    HorizontalOptions="FillAndExpand"/>
 
-            <Label
-                Text="Kegs:"
-                Grid.Row="7"/>
+                <Label
+                    TextColor="Black"
+                    FontSize="Medium"
+                    Text="Kegs:"
+                    Grid.Row="7"/>
 
-            <Button
-                Margin="10,0,0,0"
-                Text="{Binding AddKegs}"
-                HorizontalOptions="Start"
-                BackgroundColor="Transparent"
-                TextColor="{StaticResource selectTextColor}"
-                FontSize="32"
-                Grid.Row="8"
-                Command="{Binding ScanKegsCommad}"/>
+                <Label
+                    x:Name="lblAddKegs"
+                    Margin="10,0,0,0"
+                    Text="{Binding AddKegs}"
+                    HorizontalOptions="Start"
+                    TextColor="{StaticResource selectTextColor}"
+                    FontSize="40"
+                    FontAttributes="None"
+                    Grid.Row="8">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Path=BindingContext.ScanKegsCommad, 
+                                                        Source={x:Reference Name=lblAddKegs}}"
+                                                         CommandParameter="{Binding}"/>
+                    </Label.GestureRecognizers>
+                </Label>
 
-            <BoxView
-                Grid.Row="9"
-                BackgroundColor="{StaticResource lightGrayColor}"
-                HeightRequest="3"
-                VerticalOptions="Start"
-                HorizontalOptions="FillAndExpand"/>
+                <BoxView
+                    Grid.Row="9"
+                    BackgroundColor="{StaticResource lightGrayColor}"
+                    HeightRequest="3"
+                    VerticalOptions="Start"
+                    HorizontalOptions="FillAndExpand"/>
 
-            <Button
-                BackgroundColor="Transparent"
-                TextColor="{StaticResource selectTextColor}"
-                HorizontalOptions="End"
-                Text="Save draft"
-                Grid.Row="10"
-                Command="{Binding SaveDraftCommand}"
-                IsVisible="{Binding IsSaveDraftVisible}"/>
-        </Grid>
+                <Label
+                    x:Name="lblSaveDraft"
+                    BackgroundColor="Transparent"
+                    TextColor="{StaticResource selectTextColor}"
+                    HorizontalOptions="End"
+                    Text="Save draft"
+                    Grid.Row="10"
+                    FontSize="Medium"
+                    IsVisible="{Binding IsSaveDraftVisible}">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Path=BindingContext.SaveDraftCommand, 
+                                                        Source={x:Reference Name=lblSaveDraft}}"
+                                                         CommandParameter="{Binding}"/>
+                    </Label.GestureRecognizers>
+                </Label>
+            </Grid>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

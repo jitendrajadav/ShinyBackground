@@ -12,7 +12,7 @@
                 Grid.Row="2"
                 x:Name="brandListView"
                 SeparatorVisibility="Default"
-                SeparatorColor="LightGray"
+                SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
                 HasUnevenRows="true"
                 ItemsSource="{Binding BrandCollection}">
             <ListView.Behaviors>
@@ -27,7 +27,8 @@
                     <ViewCell>
                         <StackLayout>
                             <Label
-                                FontSize="Medium"
+                                Margin="10"
+                                FontSize="{StaticResource TitleFont}"
                                 VerticalOptions="Center"
                                 TextColor="Black"
                                 Text="{Binding BrandName}"/>

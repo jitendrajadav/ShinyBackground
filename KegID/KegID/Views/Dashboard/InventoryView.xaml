@@ -49,7 +49,7 @@
                 Grid.Row="2"
                 x:Name="stockInventoryListView"
                 SeparatorVisibility="Default"
-                SeparatorColor="LightGray"
+                SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
                 HasUnevenRows="true"
                 ItemsSource="{Binding StockInventoryCollection}">
 
@@ -159,7 +159,7 @@
                 Grid.Row="2"
                 x:Name="emptyInventoryListView"
                 SeparatorVisibility="Default"
-                SeparatorColor="LightGray"
+                SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
                 HasUnevenRows="true"
                 ItemsSource="{Binding EnptyInventoryCollection}">
 

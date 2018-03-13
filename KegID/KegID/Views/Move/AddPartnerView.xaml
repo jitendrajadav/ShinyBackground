@@ -71,6 +71,7 @@
                     Grid.Row="3">
 
                     <Label
+                        FontSize="Medium"
                         VerticalOptions="Center"
                         Text="Shared"/>
 
@@ -78,6 +79,7 @@
                         IsToggled="{Binding IsSharedOn}"/>
 
                     <Label
+                        FontSize="Medium"
                         Margin="10,0,0,0"
                         VerticalOptions="Center"
                         Text="Internal"/>
@@ -88,6 +90,7 @@
                 </StackLayout>
 
                 <Label
+                    FontSize="Medium"
                     Grid.Row="4"
                     Text="Type:"/>
 
@@ -102,28 +105,46 @@
                     SelectedItem="{Binding SelectedPartnerType}"/>
 
                 <Label
+                    FontSize="Medium"
                     Grid.Row="5"
                     Text="Shipping Address:"/>
 
-                <Button
+                <Label
+                    Margin="10"
+                    x:Name="lblShipigAddress"
                     BackgroundColor="Transparent"
                     Grid.Row="6"
+                    FontSize="Medium"
                     HorizontalOptions="Start"
                     TextColor="{StaticResource selectTextColor}"
-                    Text="{Binding ShippingAddress}"
-                    Command="{Binding ShippingAddressCommand}"/>
+                    Text="{Binding ShippingAddress}">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Path=BindingContext.ShippingAddressCommand, 
+                                                        Source={x:Reference Name=lblShipigAddress}}"
+                                                         CommandParameter="{Binding}"/>
+                    </Label.GestureRecognizers>
+                </Label>
 
                 <Label
+                    FontSize="Medium"
                     Grid.Row="7"
                     Text="Billing Address:"/>
 
-                <Button
+                <Label
+                    Margin="10"
+                    x:Name="lblBillingAddress"
                     BackgroundColor="Transparent"
                     Grid.Row="8"
                     HorizontalOptions="Start"
+                    FontSize="Medium"
                     TextColor="{StaticResource selectTextColor}"
-                    Text="{Binding BillingAddress}"
-                    Command="{Binding BillingAddressCommand}"/>
+                    Text="{Binding BillingAddress}">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Path=BindingContext.BillingAddressCommand, 
+                                                        Source={x:Reference Name=lblBillingAddress}}"
+                                                         CommandParameter="{Binding}"/>
+                    </Label.GestureRecognizers>
+                </Label>
 
                 <Entry
                     Grid.Row="9"

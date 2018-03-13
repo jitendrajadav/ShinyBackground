@@ -62,6 +62,7 @@
 
                 <BoxView
                     Grid.Row="0"
+                    HeightRequest="50"
                     BackgroundColor="{StaticResource bannerBGColor}"
                     VerticalOptions="FillAndExpand"
                     HorizontalOptions="FillAndExpand"/>
@@ -84,29 +85,33 @@
                     Text="{Binding ManifestId,Mode=TwoWay}"
                     VerticalOptions="Center"/>
 
-                <Button
+                <Image
+                    x:Name="imgPencil"
                     IsVisible="{Binding IsCameraVisible,Converter={StaticResource InvertedBooleanConverter}}"
                     HorizontalOptions="End"                  
-                    BorderRadius="5"
-                    WidthRequest="50"
-                    BorderWidth="0"
-                    VerticalOptions="FillAndExpand"
-                    Command="{Binding IsPalletVisibleCommand}"
+                    HeightRequest="30"
+                    VerticalOptions="Center"
+                    Margin="0,0,10,0"
                     BackgroundColor="Transparent">
-                        <Button.Image>
-                            <OnPlatform x:TypeArguments="FileImageSource">
-                                <OnPlatform.iOS>
-                                    <FileImageSource File="collectionslabels.png"/>
-                                </OnPlatform.iOS>
-                                <OnPlatform.Android>
-                                    <FileImageSource File="collectionslabels.png"/>
-                                </OnPlatform.Android>
-                                <OnPlatform.WinPhone>
-                                    <FileImageSource File="Assets/collectionslabels.png"/>
-                                </OnPlatform.WinPhone>
-                            </OnPlatform>
-                        </Button.Image>
-                </Button>
+                    <Image.Source>
+                        <OnPlatform x:TypeArguments="FileImageSource">
+                            <OnPlatform.iOS>
+                                <FileImageSource File="pencil.png"/>
+                            </OnPlatform.iOS>
+                            <OnPlatform.Android>
+                                <FileImageSource File="pencil.png"/>
+                            </OnPlatform.Android>
+                            <OnPlatform.WinPhone>
+                                <FileImageSource File="Assets/pencil.png"/>
+                            </OnPlatform.WinPhone>
+                        </OnPlatform>
+                    </Image.Source>
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Path=BindingContext.IsPalletVisibleCommand, 
+                                                        Source={x:Reference Name=imgPencil}}"
+                                                         CommandParameter="{Binding}"/>
+                    </Image.GestureRecognizers>
+                </Image>
 
                 <Button
                     IsVisible="{Binding IsCameraVisible}"
@@ -139,18 +144,27 @@
                     Text="Stock ocation:"
                     Grid.Row="1"/>
 
-                <Button
+                <Label
+                    x:Name="lblPartner"
                     TextColor="{StaticResource selectTextColor}"
-                    Margin="10,0,0,0"
+                    Margin="20,10,10,10"
                     HorizontalOptions="Start"
                     BackgroundColor="Transparent"
-                    Command="{Binding PartnerCommand}"
+                    VerticalOptions="Center"
+                    FontSize="Medium"
                     Text="{Binding Path=StockLocation.FullName}"
-                    Grid.Row="2"/>
+                    Grid.Row="2">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Path=BindingContext.PartnerCommand, 
+                                                        Source={x:Reference Name=lblPartner}}"
+                                                         CommandParameter="{Binding}"/>
+                    </Label.GestureRecognizers>
+                </Label>
 
                 <BoxView
+                    Margin="10,0,10,0"
                     Grid.Row="3"
-                    BackgroundColor="Black"
+                    BackgroundColor="{StaticResource lightGrayColor}"
                     HeightRequest="1"
                     VerticalOptions="Start"
                     HorizontalOptions="FillAndExpand"/>
@@ -162,18 +176,26 @@
                     Text="Target location:"
                     Grid.Row="4"/>
 
-                <Button
+                <Label
+                    x:Name="lblTargeLocation"
                     TextColor="{StaticResource selectTextColor}"
-                    Margin="10,0,0,0"
+                    Margin="20,10,10,10"
                     BackgroundColor="Transparent"
+                    FontSize="Medium"
                     HorizontalOptions="Start"
                     Text="{Binding Path=TargetLocation.FullName}"
-                    Command="{Binding TargetLocationPartnerCommand}"
-                    Grid.Row="5"/>
+                    Grid.Row="5">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Path=BindingContext.TargetLocationPartnerCommand, 
+                                                        Source={x:Reference Name=lblTargeLocation}}"
+                                                         CommandParameter="{Binding}"/>
+                    </Label.GestureRecognizers>
+                </Label>
 
                 <BoxView
+                    Margin="10,0,10,0"
                     Grid.Row="6"
-                    BackgroundColor="Black"
+                    BackgroundColor="{StaticResource lightGrayColor}"
                     HeightRequest="1"
                     VerticalOptions="Start"
                     HorizontalOptions="FillAndExpand"/>
@@ -185,18 +207,26 @@
                     Text="More Info:"
                     Grid.Row="7"/>
 
-                <Button
+                <Label
+                    x:Name="lblTags"
                     BackgroundColor="Transparent"
-                    Margin="10,0,0,0"
+                    Margin="20,10,10,10"
                     Text="{Binding AddInfoTitle}"
                     HorizontalOptions="Start"
-                    Command="{Binding AddTagsCommand}"
+                    FontSize="Medium"
                     TextColor="{StaticResource selectTextColor}"
-                    Grid.Row="8"/>
+                    Grid.Row="8">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Path=BindingContext.AddTagsCommand, 
+                                                        Source={x:Reference Name=lblTags}}"
+                                                         CommandParameter="{Binding}"/>
+                    </Label.GestureRecognizers>
+                </Label>
 
                 <BoxView
+                    Margin="10,0,10,0"
                     Grid.Row="9"
-                    BackgroundColor="Black"
+                    BackgroundColor="{StaticResource lightGrayColor}"
                     HeightRequest="1"
                     VerticalOptions="Start"
                     HorizontalOptions="FillAndExpand"/>
@@ -208,14 +238,21 @@
                     Text="Kegs:"
                     Grid.Row="10"/>
 
-                <Button
+                <Label
+                    Margin="20,0,0,0"
+                    x:Name="lblAddKegs"
                     BackgroundColor="Transparent"
                     TextColor="{StaticResource selectTextColor}"
                     Grid.Row="11"
                     FontSize="40"
                     HorizontalOptions="Start"
-                    Command="{Binding AddKegsCommand}"
-                    Text="{Binding AddKegs}"/>
+                    Text="{Binding AddKegs}">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Path=BindingContext.AddKegsCommand, 
+                                                        Source={x:Reference Name=lblAddKegs}}"
+                                                         CommandParameter="{Binding}"/>
+                    </Label.GestureRecognizers>
+                </Label>
             </Grid>
         </Grid>
     </ContentPage.Content>

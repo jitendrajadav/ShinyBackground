@@ -14,7 +14,7 @@
             RowSpacing="0"
             ColumnSpacing="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="50"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -39,13 +39,23 @@
                 TextColor="Black"
                 VerticalOptions="CenterAndExpand"/>
 
-            <Button
+            <Label
+                x:Name="lblDone"
                 Grid.ColumnSpan="3"
                 BackgroundColor="Transparent"
                 TextColor="{StaticResource selectTextColor}"
                 HorizontalOptions="End"
                 Text="Done"
-                Command="{Binding DoneCommand}"/>
+                Margin="0,0,10,0"
+                FontAttributes="Bold"
+                VerticalOptions="Center"
+                FontSize="Medium">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.DoneCommand, 
+                                                        Source={x:Reference Name=lblDone}}"
+                                                         CommandParameter="{Binding}"/>
+                </Label.GestureRecognizers>
+            </Label>
 
             <BoxView
                 Margin="-10,0,-10,0"
@@ -146,9 +156,9 @@
                                                         Source={x:Reference Name=imgCamera}}"
                                                          CommandParameter="{Binding}"/>
                 </Image.GestureRecognizers>
-                <Image.Effects>
+                <!--<Image.Effects>
                     <effects:TintImageEffect TintColor="Blue"/>
-                </Image.Effects>
+                </Image.Effects>-->
             </Image>
             
             <Picker
@@ -199,7 +209,6 @@
                 Grid.Column="0"
                 Grid.ColumnSpan="3"
                 Margin="10,0,0,0"
-                TextColor="Black"
                 LineBreakMode="TailTruncation"
                 Text="{Binding TagsStr}"/>
 
@@ -216,7 +225,7 @@
                 TextColor="White"
                 Grid.Column="0"
                 Grid.Row="5"
-                FontSize="Large"
+                FontSize="30"
                 Margin="15,0,0,0"
                 VerticalOptions="Center"
                 Grid.ColumnSpan="2"
@@ -225,8 +234,8 @@
             <Label
                 Grid.Column="2"
                 Grid.Row="5"
-                FontSize="26"
-                TextColor="#9EC870"
+                FontSize="30"
+                TextColor="{StaticResource scanCounterColor}"
                 HorizontalOptions="Center"
                 VerticalOptions="Center"
                 Text="{Binding BarcodeCollection.Count}"/>
@@ -237,7 +246,7 @@
                 Grid.Row="6"
                 Grid.ColumnSpan="3"
                 SeparatorVisibility="Default"
-                SeparatorColor="Black"
+                SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
                 HasUnevenRows="True"
                 CachingStrategy="RecycleElement"
                 ItemsSource="{Binding BarcodeCollection}">

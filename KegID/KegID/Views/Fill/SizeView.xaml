@@ -12,7 +12,7 @@
                 Grid.Row="2"
                 x:Name="sizeListView"
                 SeparatorVisibility="Default"
-                SeparatorColor="LightGray"
+                SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
                 HasUnevenRows="true"
                 ItemsSource="{Binding SizeCollection}">
             <ListView.Behaviors>

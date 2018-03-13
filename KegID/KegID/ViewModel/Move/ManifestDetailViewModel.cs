@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using KegID.Views;
+using System;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -84,13 +85,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string ShippingDatePropertyName = "ShippingDate";
 
-        private string _ShippingDate = string.Empty;
+        private DateTime _ShippingDate = DateTime.Today;
 
         /// <summary>
         /// Sets and gets the ShippingDate property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public string ShippingDate
+        public DateTime ShippingDate
         {
             get
             {

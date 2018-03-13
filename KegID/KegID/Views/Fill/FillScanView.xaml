@@ -56,7 +56,7 @@
                 Grid.ColumnSpan="2"
                 Margin="-10,0,-10,0"
                 Grid.Row="1"
-                HeightRequest="40"
+                HeightRequest="50"
                 BackgroundColor="{StaticResource bannerBGColor}"
                 VerticalOptions="FillAndExpand"
                 HorizontalOptions="FillAndExpand"/>
@@ -79,30 +79,35 @@
                 HorizontalOptions="FillAndExpand"
                 Grid.Row="1"/>
 
-            <Button
+            <Image
+                x:Name="imgPencil"
                 Grid.Row="1"
                 Grid.Column="1"
-                HorizontalOptions="End"                  
-                BorderRadius="5"
-                WidthRequest="50"
-                BorderWidth="0"
+                HorizontalOptions="End"    
+                Margin="0,0,10,0"
+                HeightRequest="30"
+                VerticalOptions="Center"
                 IsVisible="{Binding IsPalletze}"
-                Command="{Binding IsPalletVisibleCommand}"
                 BackgroundColor="Transparent">
-                <Button.Image>
+                <Image.Source>
                     <OnPlatform x:TypeArguments="FileImageSource">
                         <OnPlatform.iOS>
-                            <FileImageSource File="collectionslabels.png"/>
+                            <FileImageSource File="pencil.png"/>
                         </OnPlatform.iOS>
                         <OnPlatform.Android>
-                            <FileImageSource File="collectionslabels.png"/>
+                            <FileImageSource File="pencil.png"/>
                         </OnPlatform.Android>
                         <OnPlatform.WinPhone>
-                            <FileImageSource File="Assets/collectionslabels.png"/>
+                            <FileImageSource File="Assets/pencil.png"/>
                         </OnPlatform.WinPhone>
                     </OnPlatform>
-                </Button.Image>
-            </Button>
+                </Image.Source>
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.IsPalletVisibleCommand, 
+                                                        Source={x:Reference Name=imgPencil}}"
+                                                         CommandParameter="{Binding}"/>
+                </Image.GestureRecognizers>
+            </Image>
 
             <Entry
                 Margin="0,5,0,0"
@@ -182,6 +187,7 @@
                 Grid.ColumnSpan="2"
                 Text="Print"
                 Grid.Row="4"
+                HeightRequest="60"
                 IsVisible="{Binding IsPalletze}"
                 BackgroundColor="{StaticResource selectTextColor}"
                 VerticalOptions="Center"
@@ -193,7 +199,7 @@
                 Grid.ColumnSpan="2"
                 Margin="-10,0,-10,0"
                 Grid.Row="5"
-                HeightRequest="40"
+                HeightRequest="50"
                 BackgroundColor="{StaticResource bannerBGColor}"
                 VerticalOptions="FillAndExpand"
                 HorizontalOptions="FillAndExpand"/>
@@ -213,6 +219,7 @@
                 TextColor="#B7EB35"
                 Margin="0,0,10,0"
                 FontSize="Large"
+                FontAttributes="Bold"
                 VerticalOptions="Center"
                 Text="{Binding BarcodeCollection.Count}"/>
             
@@ -222,7 +229,7 @@
                 Grid.Row="6"
                 VerticalOptions="FillAndExpand"
                 SeparatorVisibility="Default"
-                SeparatorColor="Black"
+                SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
                 HasUnevenRows="True"
                 CachingStrategy="RecycleElement"
                 ItemsSource="{Binding BarcodeCollection}">

@@ -108,6 +108,9 @@ namespace KegID.Views
                     break;
             }
             nameEntry.Text = customeTitle;
+            nameEntry.TextColor = Color.Black;
+            nameEntry.FontSize = 18;
+            nameEntry.LineBreakMode = LineBreakMode.TailTruncation;
 
             switch (title)
             {

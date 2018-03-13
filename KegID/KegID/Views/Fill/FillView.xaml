@@ -10,7 +10,6 @@
     <ContentPage.Content>
 
         <Grid
-            RowSpacing="0"
             ColumnSpacing="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -34,7 +33,6 @@
 
             <Grid
                 ColumnSpacing="0"
-                RowSpacing="0"
                 Grid.Row="1"
                 Margin="10,0,10,0">
                 <Grid.RowDefinitions>
@@ -66,23 +64,31 @@
                     Text="Batch:"
                     TextColor="Black"
                     Grid.Column="0"
+                    FontSize="Medium"
                     Grid.Row="1"/>
 
-                <Button
+                <Label
+                    x:Name="lblBatch"
                     HorizontalOptions="Start"
                     Margin="10,0,0,0"
                     Grid.Row="2"
+                    VerticalOptions="Center"
+                    FontSize="Medium"
                     TextColor="{StaticResource selectTextColor}"
-                    BackgroundColor="Transparent"
-                    Text="{Binding BatchButtonTitle}"
-                    Command="{Binding BatchCommand}"/>
-
+                    Text="{Binding BatchButtonTitle}">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Path=BindingContext.BatchCommand, 
+                                                        Source={x:Reference Name=lblBatch}}"
+                                                         CommandParameter="{Binding}"/>
+                    </Label.GestureRecognizers>
+                </Label>
 
                 <Label
                     Grid.Row="2"
                     HorizontalOptions="End"
                     HorizontalTextAlignment="End"
                     Text="(required)"
+                    FontSize="18"
                     VerticalTextAlignment="Center"
                     TextColor="{StaticResource lightGrayColor}"/>
 
@@ -95,17 +101,26 @@
 
                 <Label 
                     Text="Size:"
+                    FontSize="Medium"
                     TextColor="Black"
                     Grid.Row="4"/>
 
-                <Button
+                <Label
+                    x:Name="lblSize"
                     BackgroundColor="Transparent"
                     HorizontalOptions="Start"
                     Margin="10,0,0,0"
                     Grid.Row="5"
+                    VerticalOptions="Center"
+                    FontSize="Medium"
                     TextColor="{StaticResource selectTextColor}"
-                    Text="{Binding SizeButtonTitle}"
-                    Command="{Binding SizeCommand}"/>
+                    Text="{Binding SizeButtonTitle}">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Path=BindingContext.SizeCommand, 
+                                                        Source={x:Reference Name=lblSize}}"
+                                                         CommandParameter="{Binding}"/>
+                    </Label.GestureRecognizers>
+                </Label>
 
                 <BoxView
                     Grid.Row="6"
@@ -117,16 +132,25 @@
                 <Label 
                     Text="Destination:"
                     TextColor="Black"
+                    FontSize="Medium"
                     Grid.Row="7"/>
 
-                <Button
+                <Label
+                    x:Name="lblDestination"
                     Margin="10,0,0,0"
                     Grid.Row="8"
+                    FontSize="Medium"
+                    VerticalOptions="Center"
                     HorizontalOptions="Start"
                     TextColor="{StaticResource selectTextColor}"
                     BackgroundColor="Transparent"
-                    Text="{Binding DestinationTitle}"
-                    Command="{Binding DestinationCommand}"/>
+                    Text="{Binding DestinationTitle}">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Path=BindingContext.DestinationCommand, 
+                                                        Source={x:Reference Name=lblDestination}}"
+                                                         CommandParameter="{Binding}"/>
+                    </Label.GestureRecognizers>
+                </Label>
 
                 <BoxView
                     Grid.Row="9"
@@ -138,6 +162,7 @@
                 <Label 
                     Text="Palletize:"
                     TextColor="Black"
+                    FontSize="Medium"
                     Grid.Row="10"/>
 
                 <Switch

@@ -111,7 +111,7 @@
                 Grid.Row="1"
                 Placeholder="Partner Name"
                 BackgroundColor="White"
-                PlaceholderColor="#D2D0DE"
+                PlaceholderColor="{StaticResource lightGrayColor}"
                 Text="{Binding PartnerName}"
                 SearchCommand="{Binding TextChangedCommand}" 
                 SearchCommandParameter="{Binding Text, Source={x:Reference SearchBar}}">
@@ -126,7 +126,7 @@
                 Grid.Row="2"
                 VerticalOptions="FillAndExpand"
                 SeparatorVisibility="Default"
-                SeparatorColor="Black"
+                SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
                 HasUnevenRows="True"
                 CachingStrategy="RecycleElement"
                 ItemsSource="{Binding PartnerCollection}">
@@ -145,12 +145,16 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <StackLayout>
+                            <StackLayout
+                                Spacing="0">
                                 <Label 
+                                    FontAttributes="Bold"
                                     TextColor="{StaticResource selectTextColor}" 
                                     Text="{Binding FullName}"
+                                    LineBreakMode="TailTruncation"
                                     FontSize="{StaticResource TitleFont}"/>
                                 <Label 
+                                    Margin="0,5,0,0"
                                     TextColor="{StaticResource lightGrayColor}" 
                                     Text="{Binding Address}" 
                                     FontSize="{StaticResource DetailFont}"

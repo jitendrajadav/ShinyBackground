@@ -7,59 +7,81 @@
              BackgroundColor="#FFFFFF"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Batch}">
     <ContentPage.Content>
-        
-        <ListView
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Label
+                Margin="10"
+                x:Name="lblAddBatch"
+                TextColor="{StaticResource selectTextColor}"
+                FontSize="Medium"
+                VerticalOptions="Center"
+                Text="Add Batch">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.AddBatchCommand, 
+                                                        Source={x:Reference Name=lblAddBatch}}"
+                                                         CommandParameter="{Binding}"/>
+                </Label.GestureRecognizers>
+            </Label>
+            
+            <ListView
+                Grid.Row="1"
                 Margin="10,0,10,0"
                 x:Name="lstBatch"
                 SeparatorVisibility="Default"
-                SeparatorColor="Black"
+                SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
                 HasUnevenRows="True"
                 CachingStrategy="RecycleElement"
                 ItemsSource="{Binding BatchCollection}">
 
-            <ListView.Behaviors>
-                <behaviors:EventToCommandBehavior
+                <ListView.Behaviors>
+                    <behaviors:EventToCommandBehavior
                     EventName="ItemTapped" 
                     Command="{Binding ItemTappedCommand}"
                     Converter="{StaticResource ItemTappedConverter}"/>
-            </ListView.Behaviors>
+                </ListView.Behaviors>
 
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <Grid HeightRequest="40">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid HeightRequest="40">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
 
-                            <Label 
-                                VerticalOptions="FillAndExpand" 
-                                VerticalTextAlignment="Center" 
-                                TextColor="Black"
-                                FontSize="{StaticResource TitleFont}"
-                                Text="{Binding BrandName}" />
-                            
-                            <Label 
-                                Grid.Column="1"
-                                TextColor="Black"
-                                VerticalOptions="FillAndExpand" 
-                                VerticalTextAlignment="Center" 
-                                FontSize="{StaticResource TitleFont}"
-                                Text=" - " />
-                            
-                            <Label 
-                                Grid.Column="2"
-                                VerticalOptions="FillAndExpand" 
-                                VerticalTextAlignment="Center" 
-                                TextColor="Black"
-                                FontSize="{StaticResource TitleFont}"
-                                Text="{Binding BatchCode}" />
-                        </Grid>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+                                <Label 
+                                    VerticalOptions="FillAndExpand" 
+                                    VerticalTextAlignment="Center" 
+                                    TextColor="Black"
+                                    FontSize="{StaticResource TitleFont}"
+                                    Text="{Binding BrandName}" />
+
+                                <Label 
+                                    Grid.Column="1"
+                                    TextColor="Black"
+                                    VerticalOptions="FillAndExpand" 
+                                    VerticalTextAlignment="Center" 
+                                    FontSize="{StaticResource TitleFont}"
+                                    Text=" - " />
+
+                                <Label 
+                                    Grid.Column="2"
+                                    VerticalOptions="FillAndExpand" 
+                                    VerticalTextAlignment="Center" 
+                                    TextColor="Black"
+                                    FontSize="{StaticResource TitleFont}"
+                                    Text="{Binding BatchCode}" />
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

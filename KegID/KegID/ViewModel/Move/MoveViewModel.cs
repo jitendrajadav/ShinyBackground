@@ -312,7 +312,7 @@ namespace KegID.ViewModel
 
                             SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ManifestTo = manifest.CreatorCompany.FullName + "\n" + manifest.CreatorCompany.PartnerTypeName;
 
-                            SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ShippingDate = manifest.ShipDate;
+                            SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ShippingDate =  Convert.ToDateTime(manifest.ShipDate);
                             SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ItemCount = manifest.ManifestItems.Count;
                             SimpleIoc.Default.GetInstance<ContentTagsViewModel>().ContentCollection = manifest.ManifestItems.Select(x=>x.Barcode).ToList();
                             

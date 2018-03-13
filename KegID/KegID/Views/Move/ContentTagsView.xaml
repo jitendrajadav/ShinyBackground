@@ -20,7 +20,7 @@
                 Margin="10,0,10,0"
                 x:Name="lstContent"
                 SeparatorVisibility="Default"
-                SeparatorColor="Black"
+                SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
                 HasUnevenRows="True"
                 CachingStrategy="RecycleElement"
                 ItemsSource="{Binding ContentCollection}">

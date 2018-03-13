@@ -98,7 +98,7 @@
                 x:Name="lstManifest"
                 Grid.Row="3"
                 SeparatorVisibility="Default"
-                SeparatorColor="Black"
+                SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
                 HasUnevenRows="True"
                 CachingStrategy="RecycleElement"
                 ItemsSource="{Binding ManifestCollection}">

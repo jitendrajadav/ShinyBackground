@@ -15,7 +15,7 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-
+            
             <Button
                 TextColor="{StaticResource selectTextColor}"
                 Text="Fill Kegs"
@@ -30,12 +30,20 @@
                 Text="Add pallets"
                 VerticalOptions="Center"
                 HorizontalOptions="Center"/>
+          
+            <BoxView
+                Grid.Row="0"
+                BackgroundColor="{StaticResource lightGrayPlaceholderColor}"
+                HeightRequest="1"
+                VerticalOptions="End"
+                HorizontalOptions="FillAndExpand"/>
 
             <Label
                 Grid.Row="1"
-                FontSize="Default"
                 TextColor="Black"
-                Margin="10,0,10,0"
+                FontSize="Medium"
+                Margin="10,0,10,30"
+                VerticalOptions="Center"
                 Text="{Binding AddPalletsTitle}"/>
 
             <BoxView
@@ -86,7 +94,7 @@
                 Grid.Row="3"
                 VerticalOptions="FillAndExpand"
                 SeparatorVisibility="Default"
-                SeparatorColor="Black"
+                SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
                 HasUnevenRows="True"
                 CachingStrategy="RecycleElement"
                 ItemsSource="{Binding PalletCollection}">
