@@ -7,9 +7,12 @@
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=AddPartner}">
     
     <ContentPage.Content>
+        
         <ScrollView>
+          
             <Grid
                 Margin="10,0,10,0">
+                
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -28,29 +31,39 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <Button
+                <Label
+                    x:Name="lblCancel"
                     HorizontalOptions="Start"
-                    VerticalOptions="Center"
-                    BackgroundColor="Transparent"
+                    Style="{StaticResource LabelTitleStyle}"
                     TextColor="{StaticResource selectTextColor}"
-                    Command="{Binding CalcelCommand}"
-                    Text="Cancel"/>
+                    Margin="10"
+                    Text="Cancel">
+                    
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Path=BindingContext.CalcelCommand, 
+                                                        Source={x:Reference Name=lblCancel}}"
+                                                         CommandParameter="{Binding}"/>
+                    </Label.GestureRecognizers>
+                </Label>
 
                 <Label
-                    FontAttributes="Bold"
-                    VerticalOptions="Center"
-                    FontSize="Medium"
+                    Style="{StaticResource LabelTitleStyle}"
                     TextColor="Black"
                     HorizontalOptions="Center"
                     Text="Add Partner"/>
 
-                <Button
-                    VerticalOptions="Center"
+                <Label
+                    x:Name="lblSubmit"
                     Text="Submit"
                     HorizontalOptions="End"
-                    BackgroundColor="Transparent"
-                    TextColor="{StaticResource selectTextColor}"
-                    Command="{Binding SubmitCommand}"/>
+                    Style="{StaticResource LabelTitleStyle}"
+                    TextColor="{StaticResource selectTextColor}">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Path=BindingContext.SubmitCommand, 
+                                                        Source={x:Reference Name=lblSubmit}}"
+                                                         CommandParameter="{Binding}"/>
+                    </Label.GestureRecognizers>
+                </Label>
 
                 <BoxView
                     Margin="-10,0,-10,0"
@@ -118,6 +131,7 @@
                     HorizontalOptions="Start"
                     TextColor="{StaticResource selectTextColor}"
                     Text="{Binding ShippingAddress}">
+                    
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding Path=BindingContext.ShippingAddressCommand, 
                                                         Source={x:Reference Name=lblShipigAddress}}"
@@ -139,6 +153,7 @@
                     FontSize="Medium"
                     TextColor="{StaticResource selectTextColor}"
                     Text="{Binding BillingAddress}">
+                    
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding Path=BindingContext.BillingAddressCommand, 
                                                         Source={x:Reference Name=lblBillingAddress}}"

@@ -6,7 +6,9 @@
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
              BackgroundColor="#FFFFFF"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Size}">
+    
     <ContentPage.Content>
+        
         <ListView 
                 Margin="10,0,10,0"
                 Grid.Row="2"
@@ -15,28 +17,34 @@
                 SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
                 HasUnevenRows="true"
                 ItemsSource="{Binding SizeCollection}">
+            
             <ListView.Behaviors>
                 <behaviors:EventToCommandBehavior
                             EventName="ItemTapped" 
                             Command="{Binding ItemTappedCommand}"
                             Converter="{StaticResource ItemTappedConverter}"/>
             </ListView.Behaviors>
+            
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
+                        
                         <StackLayout>
                             <Label
                                 HeightRequest="50"
                                 Margin="10,0,0,0"
-                                FontSize="Medium"
+                                FontSize="{StaticResource ListViewTitleFont}"
                                 VerticalTextAlignment="Center"
                                 VerticalOptions="Center"
                                 TextColor="Black"
                                 Text="{Binding}"/>
                         </StackLayout>
+                        
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        
     </ContentPage.Content>
+    
 </ContentPage>

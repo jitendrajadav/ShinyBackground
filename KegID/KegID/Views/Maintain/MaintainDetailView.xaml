@@ -5,7 +5,9 @@
              x:Class="KegID.Views.MaintainDetailView"
              BackgroundColor="#FFFFFF"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=MaintainDetail}">
+    
     <ContentPage.Content>
+        
         <Grid
             Margin="10,0,10,0">
 
@@ -17,14 +19,21 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            
-            <Button
-                BackgroundColor="Transparent"
+
+            <Label
+                x:Name="lblHome"
                 TextColor="{StaticResource selectTextColor}"
-                VerticalOptions="Center"
+                Style="{StaticResource LabelTitleStyle}"
                 HorizontalOptions="Start"
                 Text="Home"
-                Command="{Binding HomeCommand}"/>
+                Margin="10">
+                
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.HomeCommand, 
+                                                        Source={x:Reference Name=lblHome}}"
+                                                         CommandParameter="{Binding}"/>
+                </Label.GestureRecognizers>
+            </Label>
 
             <Label 
                 Text="Maintenance"
@@ -64,6 +73,7 @@
                 RowSpacing="0,0,0,0"
                 ColumnSpacing="0,0,0,0"
                 Grid.Row="4">
+                
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -130,34 +140,6 @@
                     VerticalOptions="Start"
                     HorizontalOptions="FillAndExpand"/>
 
-                <!--<ListView 
-                    Grid.Row="3"
-                    Grid.Column="1"
-                    x:Name="maintenanceperformedListView"
-                    SeparatorVisibility="Default"
-                    SeparatorColor="LightGray"
-                    HasUnevenRows="true"
-                    HorizontalOptions="FillAndExpand"
-                    ItemsSource="{Binding MaintenanceCollection}">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <TextCell Text="{Binding}"/>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                    <ListView.HeightRequest>
-                        <OnPlatform x:TypeArguments="x:Double">
-                            <On Platform="Android">200</On>
-                            <On Platform="Android">200</On>
-                        </OnPlatform>
-                    </ListView.HeightRequest>
-                    <ListView.WidthRequest>
-                        <OnPlatform x:TypeArguments="x:Double">
-                            <On Platform="Android">330</On>
-                            <On Platform="Android">330</On>
-                        </OnPlatform>
-                    </ListView.WidthRequest>
-                </ListView>-->
-
                 <StackLayout
                     Grid.Row="3"
                     HorizontalOptions="FillAndExpand"
@@ -172,11 +154,13 @@
                 RowSpacing="0,0,0,0"
                 ColumnSpacing="0,0,0,0"
                 Grid.Row="5">
+                
                 <Grid.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding Path=BindingContext.GridTappedCommand, 
                                                         Source={x:Reference Name=grdContent}}"
                                                          CommandParameter="{Binding}"/>
                 </Grid.GestureRecognizers>
+                
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>

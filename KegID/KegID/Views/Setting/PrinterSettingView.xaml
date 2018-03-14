@@ -5,12 +5,14 @@
              xmlns:local="clr-namespace:KegID"
              BackgroundColor="#FFFFFF"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=PrinterSetting}">
+   
     <ContentPage.Content>
         
         <Grid
             ColumnSpacing="0"
             RowSpacing="0"
             Margin="10,0,10,0">
+            
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -29,21 +31,37 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            
-            <Button
-                BackgroundColor="Transparent"
+
+            <Label
+                x:Name="lblCancel"
+                Style="{StaticResource LabelTitleStyle}"
                 TextColor="{StaticResource selectTextColor}"
                 HorizontalOptions="Start"
                 Text="Cancel"
-                Command="{Binding CancelCommand}"/>
+                Margin="10">
+               
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.CancelCommand, 
+                                                        Source={x:Reference Name=lblCancel}}"
+                                                         CommandParameter="{Binding}"/>
+                </Label.GestureRecognizers>
+            </Label>
 
-            <Button
+            <Label
+                x:Name="lblSave"
                 Grid.Column="1"
                 BackgroundColor="Transparent"
                 TextColor="{StaticResource selectTextColor}"
                 HorizontalOptions="End"
                 Text="Save"
-                Command="{Binding SaveCommand}"/>
+                VerticalOptions="Center"
+                FontSize="{StaticResource AppBarButtonFontSize}">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.SaveCommand, 
+                                                        Source={x:Reference Name=lblSave}}"
+                                                         CommandParameter="{Binding}"/>
+                </Label.GestureRecognizers>
+            </Label>
 
             <BoxView
                 Margin="-10,0,-10,0"
@@ -101,7 +119,6 @@
                 HeightRequest="1"
                 VerticalOptions="Start"
                 HorizontalOptions="FillAndExpand"/>
-
             
             <Label 
                 Grid.Row="6"
@@ -150,14 +167,16 @@
                 Grid.Column="1"
                 Grid.Row="9"/>
 
-            <Button
+            <Label
                 BackgroundColor="Transparent"
                 TextColor="{StaticResource selectTextColor}"
                 VerticalOptions="Center"
                 HorizontalOptions="Center"
                 Grid.ColumnSpan="2"
                 Grid.Row="10"
-                Text="Test printer"/>
+                Text="Test printer">
+                
+            </Label>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

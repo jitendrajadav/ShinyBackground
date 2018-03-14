@@ -8321,6 +8321,12 @@ namespace KegID.Droid
 			// aapt resource value: 0x7f0b000c
 			public const int Widget_MediaRouter_MediaRouteButton = 2131427340;
 			
+			// aapt resource value: 0x7f0b0197
+			public const int mybutton = 2131427735;
+			
+			// aapt resource value: 0x7f0b0198
+			public const int mybutton_text = 2131427736;
+			
 			static Style()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();

@@ -5,18 +5,32 @@
              xmlns:local="clr-namespace:KegID"
              BackgroundColor="#FFFFFF"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=ContentTags}">
+   
     <ContentPage.Content>
-        <StackLayout>
-            
-            <Button 
-                BackgroundColor="Transparent"
+       
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Label 
+                x:Name="lblManifest"
+                Style="{StaticResource LabelTitleStyle}"
                 TextColor="{StaticResource selectTextColor}"
                 Text="Manifest"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="Start" 
-                Command="{Binding ManifestCommand}"/>
+                Margin="10"
+                HorizontalOptions="Start">
+                
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.ManifestCommand, 
+                                                        Source={x:Reference Name=lblManifest}}"
+                                                         CommandParameter="{Binding}"/>
+                </Label.GestureRecognizers>
+            </Label>
             
             <ListView
+                Grid.Row="1"
                 Margin="10,0,10,0"
                 x:Name="lstContent"
                 SeparatorVisibility="Default"
@@ -33,6 +47,6 @@
 
             </ListView>
 
-        </StackLayout>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

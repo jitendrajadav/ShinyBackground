@@ -13,13 +13,19 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Button
-                BackgroundColor="Transparent"
-                VerticalOptions="Center"
+            <Label
+                x:Name="lblPartnerInfo"
+                Style="{StaticResource LabelTitleStyle}"
                 HorizontalOptions="Start"
                 TextColor="{StaticResource selectTextColor}"
                 Text="Partner Info"
-                Command="{Binding PartnerInfoCommand}"/>
+                Margin="10">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.PartnerInfoCommand, 
+                                                        Source={x:Reference Name=lblPartnerInfo}}"
+                                                         CommandParameter="{Binding}"/>
+                </Label.GestureRecognizers>
+            </Label>
 
             <!--<controls:CustomMap 
                 Grid.Row="1"

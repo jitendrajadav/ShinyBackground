@@ -6,6 +6,7 @@
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
              BackgroundColor="#FFFFFF"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Manifests}">
+   
     <ContentPage.Content>
         
         <Grid
@@ -20,13 +21,20 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Button
-                BackgroundColor="Transparent"
+            <Label
+                x:Name="lblHome"
+                Style="{StaticResource LabelTitleStyle}"
                 TextColor="{StaticResource selectTextColor}"
                 Text="Home"
-                VerticalOptions="Center" 
-                HorizontalOptions="Start"
-                Command="{Binding HomeCommand}"/>
+                Margin="10"
+                HorizontalOptions="Start">
+              
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.HomeCommand, 
+                                                        Source={x:Reference Name=lblHome}}"
+                                                         CommandParameter="{Binding}"/>
+                </Label.GestureRecognizers>
+            </Label>
 
             <Label 
                 Text="Manifests"
@@ -41,7 +49,8 @@
                 WidthRequest="50"
                 BorderWidth="0"
                 Command="{Binding ActionSearchCommand}"
-                BackgroundColor="White" >
+                BackgroundColor="Transparent" >
+               
                 <Button.Image>
                     <OnPlatform x:TypeArguments="FileImageSource">
                         <OnPlatform.iOS>
@@ -113,42 +122,44 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
+                            
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
+                                
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="70*"/>
-                                    <ColumnDefinition Width="30*"/>
+                                    <ColumnDefinition Width="65*"/>
+                                    <ColumnDefinition Width="35*"/>
                                 </Grid.ColumnDefinitions>
                                 
                                 <Label
-                                    FontSize="{StaticResource TitleFont}"
+                                    FontSize="{StaticResource ListViewTitleFont}"
                                     TextColor="{StaticResource selectTextColor}"
                                     LineBreakMode="TailTruncation"
-                                    Text="{Binding DestinationName}"/>
+                                    Text="{Binding OwnerName}"/>
 
                                 <Label
-                                    FontSize="{StaticResource TitleFont}"
+                                    FontSize="{StaticResource ListViewTitleFont}"
                                     TextColor="{StaticResource selectTextColor}"
                                     Grid.Row="1"
                                     Text="{Binding ShipDate, StringFormat='{0:dd/MM/yy}'}"/>
 
                                 <Label
-                                    FontSize="{StaticResource TitleFont}"
+                                    FontSize="{StaticResource ListViewTitleFont}"
                                     TextColor="{StaticResource selectTextColor}"
                                     HorizontalOptions="End"
                                     Grid.Column="1"
                                     Text="{Binding ManifestId, StringFormat='# {0}',Converter={StaticResource StringToLast8CharacterConverter}}"/>
 
                                 <Label
-                                    FontSize="{StaticResource TitleFont}"
+                                    FontSize="{StaticResource ListViewTitleFont}"
                                     TextColor="{StaticResource selectTextColor}"
                                     HorizontalOptions="End"
                                     Grid.Column="1"
                                     Grid.Row="1"
-                                    Text="{Binding Path=ManifestCollection.Count, StringFormat='{0} Items'}"/>
+                                    Text="{Binding ManifestItemsCount,StringFormat='{0} Items'}"/>
                             </Grid>
                         </ViewCell>
                     </DataTemplate>

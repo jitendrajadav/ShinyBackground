@@ -8,6 +8,7 @@
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=AddTags}">
     
     <ContentPage.Content>
+        
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -25,10 +26,9 @@
             <Label 
                 Grid.Column="1"
                 Text="Add tags"
-                FontAttributes="Bold"
-                FontSize="Large"
+                Style="{StaticResource LabelTitleStyle}"
                 TextColor="Black"
-                VerticalOptions="CenterAndExpand" 
+                Margin="0,10,0,10"
                 HorizontalOptions="CenterAndExpand" />
 
             <Button
@@ -38,6 +38,7 @@
                 VerticalOptions="Center"
                 HorizontalOptions="Center"
                 Text="Save"
+                FontSize="Medium"
                 Clicked="SaveTagsClickedAsync"/>
 
             <BoxView
@@ -52,7 +53,7 @@
                 Margin="10,0,0,0"
                 VerticalOptions="Center"
                 Text="Name"
-                FontSize="Large"
+                FontSize="{StaticResource AppBarButtonFontSize}"
                 HorizontalOptions="Center"
                 TextColor="White"
                 Grid.Row="1"/>
@@ -61,7 +62,7 @@
                 VerticalOptions="Center"
                 HorizontalOptions="Center"
                 Text="Value"
-                FontSize="Large"
+                FontSize="{StaticResource AppBarButtonFontSize}"
                 TextColor="White"
                 Grid.Row="1"
                 Grid.Column="1"/>
@@ -73,7 +74,7 @@
                 TextColor="White"
                 Grid.Row="1"
                 Grid.Column="2"
-                FontSize="Large"
+                FontSize="{StaticResource AppBarButtonFontSize}"
                 Clicked="OnAddTagsClicked"/>
 
             <Grid

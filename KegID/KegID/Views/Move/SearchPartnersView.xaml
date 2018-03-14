@@ -6,26 +6,37 @@
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
              BackgroundColor="#FFFFFF"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=SearchPartners}">
+    
     <ContentPage.Content>
+       
         <Grid
             Margin="10,0,10,0">
+           
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            
-            <Button 
-                BackgroundColor="Transparent"
+
+            <Label 
+                x:Name="lblBackPartners"
+                Style="{StaticResource LabelTitleStyle}"
                 TextColor="{StaticResource selectTextColor}"
                 Text="{Binding BackPartners}"
-                VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="Start" 
-                Command="{Binding BackPartnersCommand}"/>
+                Margin="10">
+               
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.BackPartnersCommand, 
+                                                        Source={x:Reference Name=lblBackPartners}}"
+                                                         CommandParameter="{Binding}"/>
+                </Label.GestureRecognizers>
+            </Label>
 
             <Entry
                 Grid.Row="1"
                 Text="{Binding PartnerSearch}">
+               
                 <Entry.Behaviors>
                     <behaviors:EventToCommandBehavior
                         EventName="Completed"
@@ -52,19 +63,23 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
+                            
                             <StackLayout>
+                               
                                 <Label 
                                     TextColor="{StaticResource selectTextColor}" 
                                     Text="{Binding FullName}"
-                                    FontSize="{StaticResource TitleFont}"/>
+                                    FontSize="{StaticResource ListViewTitleFont}"/>
+                              
                                 <Label 
                                     TextColor="{StaticResource lightGrayColor}"
                                     Text="{Binding Address}" 
-                                    FontSize="{StaticResource DetailFont}"/>
+                                    FontSize="{StaticResource ListViewDetailFont}"/>
+                               
                                 <Label 
                                     TextColor="{StaticResource lightGrayColor}" 
                                     Text="{Binding PartnerTypeName}" 
-                                    FontSize="{StaticResource DetailFont}"/>
+                                    FontSize="{StaticResource ListViewDetailFont}"/>
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>

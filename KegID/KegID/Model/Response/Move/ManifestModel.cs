@@ -13,7 +13,6 @@ namespace KegID.Model
 
     public class ManifestModel
     {
-        [PrimaryKey]
         public string ManifestId { get; set; }
         public long EventTypeId { get; set; }
         public long Latitude { get; set; }
@@ -22,17 +21,12 @@ namespace KegID.Model
         public DateTime ShipDate { get; set; }
         public string SenderId { get; set; }
         public string ReceiverId { get; set; }
-        //public string DestinationName { get; set; }
-        //public string DestinationTypeCode { get; set; }
-        [Ignore]
+        public string OwnerName { get; set; }
+        public int ManifestItemsCount { get; set; }
         public List<ManifestItem> ManifestItems { get; set; }
-        [Ignore]
         public List<NewPallet> NewPallets { get; set; }
-        [Ignore]
         public List<Tag> Tags { get; set; }
-        [Ignore]
         public List<string> ClosedBatches { get; set; }
-        [Ignore]
         public List<NewBatch> NewBatches { get; set; }
 
     }

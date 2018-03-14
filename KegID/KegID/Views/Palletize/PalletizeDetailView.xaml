@@ -5,7 +5,9 @@
              x:Class="KegID.Views.PalletizeDetailView"
              BackgroundColor="#FFFFFF"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=PalletizeDetail}">
+    
     <ContentPage.Content>
+      
         <Grid
             Margin="10,0,10,0">
 
@@ -24,14 +26,21 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            
-            <Button
-                BackgroundColor="Transparent"
+
+            <Label
+                x:Name="lblHome"
+                Style="{StaticResource LabelTitleStyle}"
                 TextColor="{StaticResource selectTextColor}"
-                VerticalOptions="Center"
                 HorizontalOptions="Start"
                 Text="Home"
-                Command="{Binding HomeCommand}"/>
+                Margin="10">
+              
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.HomeCommand, 
+                                                        Source={x:Reference Name=lblHome}}"
+                                                         CommandParameter="{Binding}"/>
+                </Label.GestureRecognizers>
+            </Label>
 
             <Label 
                 Text="Pallet Details"
@@ -46,6 +55,7 @@
                 BorderWidth="0"
                 Command="{Binding ShareCommand}"
                 BackgroundColor="LightGray" >
+               
                 <Button.Image>
                     <OnPlatform x:TypeArguments="FileImageSource">
                         <OnPlatform.iOS>
@@ -147,11 +157,13 @@
                 RowSpacing="0,0,0,0"
                 ColumnSpacing="0,0,0,0"
                 Grid.Row="12">
+              
                 <Grid.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding Path=BindingContext.GridTappedCommand, 
                                                         Source={x:Reference Name=grdContent}}"
                                                          CommandParameter="{Binding}"/>
                 </Grid.GestureRecognizers>
+              
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>

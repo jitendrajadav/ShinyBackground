@@ -7,6 +7,7 @@
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=EditAddress}">
     
     <ContentPage.Content>
+        
         <Grid
             Margin="10,0,10,0">
             <Grid.RowDefinitions>
@@ -24,13 +25,20 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <Button
+            <Label
+                x:Name="lblBack"
                 HorizontalOptions="Start"
-                VerticalOptions="Center"
+                Style="{StaticResource LabelTitleStyle}"
                 TextColor="{StaticResource selectTextColor}"
-                BackgroundColor="Transparent"
-                Command="{Binding BackCommand}"
-                Text="Back"/>
+                Margin="10"
+                Text="Back">
+                
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.BackCommand, 
+                                                        Source={x:Reference Name=lblBack}}"
+                                                         CommandParameter="{Binding}"/>
+                </Label.GestureRecognizers>
+            </Label>
 
             <Label
                 HorizontalOptions="Center"

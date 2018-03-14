@@ -5,7 +5,9 @@
              xmlns:local="clr-namespace:KegID"
              BackgroundColor="#FFFFFF"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=ScanInfo}">
+   
     <ContentPage.Content>
+        
         <Grid
             Margin="10,0,10,0">
             
@@ -30,15 +32,23 @@
                 Text="Scan info"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
-            
-            <Button
+
+            <Label
+                x:Name="lblDone"
                 HorizontalOptions="End"
                 VerticalOptions="Center"
                 Grid.ColumnSpan="2"
                 Text="Done"
-                BackgroundColor="Transparent"
-                TextColor="{StaticResource selectTextColor}"
-                Command="{Binding DoneCommand}"/>
+                Margin="10"
+                Style="{StaticResource LabelTitleStyle}"
+                TextColor="{StaticResource selectTextColor}">
+                
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.DoneCommand, 
+                                                        Source={x:Reference Name=lblDone}}"
+                                                         CommandParameter="{Binding}"/>
+                </Label.GestureRecognizers>
+            </Label>
 
             <BoxView
                 Margin="-10,0,-10,0"

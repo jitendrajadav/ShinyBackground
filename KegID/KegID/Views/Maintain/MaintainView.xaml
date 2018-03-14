@@ -9,19 +9,29 @@
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Maintain}">
     
     <ContentPage.Content>
+       
         <Grid
             RowSpacing="0">
+            
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Button
-                BackgroundColor="Transparent"
+            <Label
+                x:Name="lblHome"
+                Style="{StaticResource LabelTitleStyle}"
                 TextColor="{StaticResource selectTextColor}"
                 HorizontalOptions="Start"
                 Text="Home"
-                Command="{Binding HomeCommand}"/>
+                Margin="10">
+                
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.HomeCommand, 
+                                                        Source={x:Reference Name=lblHome}}"
+                                                         CommandParameter="{Binding}"/>
+                </Label.GestureRecognizers>
+            </Label>
 
             <Grid
                 Grid.Row="1"

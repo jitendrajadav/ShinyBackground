@@ -14,12 +14,19 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Button
-                BackgroundColor="Transparent"
+            <Label
+                x:Name="lblHome"
+                Style="{StaticResource LabelTitleStyle}"
                 TextColor="{StaticResource selectTextColor}"
                 HorizontalOptions="Start"
                 Text="Home"
-                Command="{Binding HomeCommand}"/>
+                Margin="10">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.HomeCommand, 
+                                                        Source={x:Reference Name=lblHome}}"
+                                                         CommandParameter="{Binding}"/>
+                </Label.GestureRecognizers>
+            </Label>
 
             <Label
                 HorizontalOptions="Center"
@@ -91,13 +98,13 @@
                                     Grid.Column="0"
                                     VerticalOptions="FillAndExpand" 
                                     VerticalTextAlignment="Center" 
-                                    FontSize="{StaticResource TitleFont}"
+                                    FontSize="{StaticResource ListViewTitleFont}"
                                     Text="{Binding OwnerName}" />
                                 <Label 
                                     Grid.Column="1"
                                     VerticalOptions="FillAndExpand" 
                                     VerticalTextAlignment="Center" 
-                                    FontSize="{StaticResource TitleFont}"
+                                    FontSize="{StaticResource ListViewTitleFont}"
                                     Text="{Binding Size}" />
 
                                 <Label 
@@ -105,7 +112,7 @@
                                     VerticalOptions="FillAndExpand" 
                                     VerticalTextAlignment="Center"
                                     HorizontalTextAlignment="Center"
-                                    FontSize="{StaticResource TitleFont}"
+                                    FontSize="{StaticResource ListViewTitleFont}"
                                     Text="{Binding Quantity}" />
                             </Grid>
 
@@ -201,13 +208,13 @@
                                     Grid.Column="0"
                                     VerticalOptions="FillAndExpand" 
                                     VerticalTextAlignment="Center" 
-                                    FontSize="{StaticResource TitleFont}"
+                                    FontSize="{StaticResource ListViewTitleFont}"
                                     Text="{Binding OwnerName}" />
                                 <Label 
                                     Grid.Column="1"
                                     VerticalOptions="FillAndExpand" 
                                     VerticalTextAlignment="Center" 
-                                    FontSize="{StaticResource TitleFont}"
+                                    FontSize="{StaticResource ListViewTitleFont}"
                                     Text="{Binding Size}" />
 
                                 <Label 
@@ -215,7 +222,7 @@
                                     VerticalOptions="FillAndExpand" 
                                     VerticalTextAlignment="Center"
                                     HorizontalTextAlignment="Center"
-                                    FontSize="{StaticResource TitleFont}"
+                                    FontSize="{StaticResource ListViewTitleFont}"
                                     Text="{Binding Quantity}" />
                             </Grid>
 

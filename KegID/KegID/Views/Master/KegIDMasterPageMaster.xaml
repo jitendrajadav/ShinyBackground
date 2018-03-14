@@ -6,26 +6,8 @@
              Title="Master"
              BackgroundColor="#FFFFFF"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=KegIDMasterPage}">
-
     <Grid>
-        <!--<Image
-            HorizontalOptions="CenterAndExpand"
-            VerticalOptions="StartAndExpand">
-            <Image.Source>
-                <OnPlatform x:TypeArguments="ImageSource">
-                    <OnPlatform.iOS>
-                        <FileImageSource File="kegbg.png"/>
-                    </OnPlatform.iOS>
-                    <OnPlatform.Android>
-                        <FileImageSource File="kegbg.png"/>
-                    </OnPlatform.Android>
-                    <OnPlatform.WinPhone>
-                        <FileImageSource File="Assets/kegbg.png"/>
-                    </OnPlatform.WinPhone>
-                </OnPlatform>
-            </Image.Source>
-        </Image>-->
-
+        
         <ListView 
             x:Name="MenuItemsListView"
             SeparatorVisibility="Default"
@@ -34,9 +16,11 @@
             ItemsSource="{Binding MenuItems}">
       
         <ListView.Header>
+            
             <Image
                 Grid.Column="1"
                 Grid.Row="1">
+                
                 <Image.Source>
                     <OnPlatform x:TypeArguments="ImageSource">
                         <OnPlatform.iOS>
@@ -50,7 +34,9 @@
                         </OnPlatform.WinPhone>
                     </OnPlatform>
                 </Image.Source>
+            
             </Image>
+            
         </ListView.Header>
      
         <ListView.ItemTemplate>
@@ -77,6 +63,7 @@
                 </ViewCell>
             </DataTemplate>
         </ListView.ItemTemplate>
+            
     </ListView>
         
     </Grid>

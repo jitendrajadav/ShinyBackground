@@ -14,13 +14,20 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Button
+            <Label
+                x:Name="lblPartnerInfo"
                 HorizontalOptions="Start"
-                BackgroundColor="Transparent"
+                Style="{StaticResource LabelTitleStyle}"
                 HeightRequest="40"
                 TextColor="{StaticResource selectTextColor}"
                 Text="Partner Info"
-                Command="{Binding PartnerInfoCommand}"/>
+                Margin="10">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.PartnerInfoCommand, 
+                                                        Source={x:Reference Name=lblPartnerInfo}}"
+                                                         CommandParameter="{Binding}"/>
+                </Label.GestureRecognizers>
+            </Label>
 
             <Label 
                 Text="Kegs"
@@ -79,13 +86,13 @@
                                 <Label 
                                     TextColor="{StaticResource selectTextColor}"
                                     Text="{Binding Barcode}"
-                                    FontSize="{StaticResource TitleFont}"/>
+                                    FontSize="{StaticResource ListViewTitleFont}"/>
                                 <Label 
                                     Grid.Row="1"
                                     Grid.Column="0"
                                     TextColor="{StaticResource selectTextColor}" 
                                     Text="{Binding PossessorName}" 
-                                    FontSize="{StaticResource TitleFont}"/>
+                                    FontSize="{StaticResource ListViewTitleFont}"/>
                                 <Label 
                                     Margin="0,0,10,0"
                                     Grid.Row="0"
@@ -93,7 +100,7 @@
                                     HorizontalOptions="End"
                                     TextColor="{StaticResource selectTextColor}" 
                                     Text="{Binding TypeName}" 
-                                    FontSize="{StaticResource TitleFont}"/>
+                                    FontSize="{StaticResource ListViewTitleFont}"/>
                                 <Label 
                                     Margin="0,0,10,0"
                                     Grid.Row="1"
@@ -101,7 +108,7 @@
                                     HorizontalOptions="End"
                                     TextColor="{StaticResource selectTextColor}" 
                                     Text="{Binding HeldDays,StringFormat='{0} days'}" 
-                                    FontSize="{StaticResource TitleFont}"/>
+                                    FontSize="{StaticResource ListViewTitleFont}"/>
                             </Grid>
                         </ViewCell>
                     </DataTemplate>

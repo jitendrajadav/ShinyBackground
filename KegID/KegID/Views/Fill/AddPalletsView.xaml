@@ -6,8 +6,11 @@
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
              BackgroundColor="#FFFFFF"
              BindingContext="{Binding Source={x:Static local:App.Locator},Path=AddPallets}">
+    
     <ContentPage.Content>
+       
         <Grid>
+            
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -15,18 +18,24 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            
-            <Button
+
+            <Label
+                x:Name="lblFillKegs"
                 TextColor="{StaticResource selectTextColor}"
                 Text="Fill Kegs"
-                BackgroundColor="Transparent"
+                Style="{StaticResource LabelTitleStyle}"
                 HorizontalOptions="Start"
-                VerticalOptions="Center"
-                Command="{Binding FillKegsCommand}"/>
+                Margin="10">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.FillKegsCommand, 
+                                                        Source={x:Reference Name=lblFillKegs}}"
+                                                         CommandParameter="{Binding}"/>
+                </Label.GestureRecognizers>
+            </Label>
 
             <Label
                 TextColor="Black"
-                FontSize="Large"
+                FontSize="{StaticResource AppBarButtonFontSize}"
                 Text="Add pallets"
                 VerticalOptions="Center"
                 HorizontalOptions="Center"/>
@@ -63,13 +72,13 @@
                 <Label
                     TextColor="White"
                     Margin="10,0,0,0"
-                    FontSize="Large"
+                    FontSize="{StaticResource AppBarButtonFontSize}"
                     VerticalTextAlignment="Center"
                     Text="{Binding PalletCollection.Count, StringFormat='Pallets: {0}'}"/>
                 
                 <Label
                     TextColor="#B7EB35"
-                    FontSize="Large"
+                    FontSize="{StaticResource AppBarButtonFontSize}"
                     HorizontalOptions="Center"
                     VerticalTextAlignment="Center"
                     Text="{Binding Kegs}"/>
@@ -121,14 +130,14 @@
                                     VerticalOptions="Center"
                                     Grid.Column="0"
                                     Margin="10,0,0,0"
-                                    FontSize="Medium"
+                                    FontSize="{StaticResource ListViewTitleFont}"
                                     TextColor="Black"
                                     Text="{Binding ManifestId}"/>
                                 
                                 <Label 
                                     Grid.Column="1"
                                     Margin="0,0,10,0"
-                                    FontSize="Medium"
+                                    FontSize="{StaticResource ListViewTitleFont}"
                                     VerticalOptions="Center"
                                     HorizontalTextAlignment="End"
                                     Text="{Binding Count}"/>
@@ -138,8 +147,9 @@
                 </ListView.ItemTemplate>
 
             </ListView>
-            
-            <Button
+
+            <Label
+                x:Name="lblSubmit"
                 HeightRequest="60"
                 Margin="-15,0,-15,-5"
                 TextColor="White"
@@ -148,7 +158,14 @@
                 VerticalOptions="EndAndExpand"
                 Grid.Row="4"
                 Text="Submit"
-                Command="{Binding SubmitCommand}"/>
+                VerticalTextAlignment="Center"
+                FontSize="{StaticResource AppBarButtonFontSize}">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.SubmitCommand, 
+                                                        Source={x:Reference Name=lblSubmit}}"
+                                                         CommandParameter="{Binding}"/>
+                </Label.GestureRecognizers>
+            </Label>
 
         </Grid>
     </ContentPage.Content>

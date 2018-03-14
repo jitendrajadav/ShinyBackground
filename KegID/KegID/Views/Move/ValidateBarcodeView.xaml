@@ -1,12 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<popup:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="KegID.Views.ValidateBarcodeView"
-             xmlns:local="clr-namespace:KegID"
-             xmlns:popup="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
-             xmlns:behaviors="clr-namespace:KegID.Behaviors"
-                 BackgroundColor="#FFFFFF"
-             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=ValidateBarcode}">
+<popup:PopupPage 
+            xmlns="http://xamarin.com/schemas/2014/forms"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            x:Class="KegID.Views.ValidateBarcodeView"
+            xmlns:local="clr-namespace:KegID"
+            xmlns:popup="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+            xmlns:behaviors="clr-namespace:KegID.Behaviors"
+            BackgroundColor="#FFFFFF"
+            BindingContext="{Binding Source={x:Static local:App.Locator}, Path=ValidateBarcode}">
 
     <StackLayout 
         VerticalOptions="Center" 
@@ -45,11 +46,21 @@
 
             </ListView>
         </StackLayout>
-        
-        <Button 
+
+        <Label
+            x:Name="lblCancel"
             BackgroundColor="Blue"
             Text="Close" 
             TextColor="White"
-            Command="{Binding CancelCommand}"/>
+            FontSize="{StaticResource AppBarButtonFontSize}">
+            
+            <Label.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding Path=BindingContext.CancelCommand, 
+                                                        Source={x:Reference Name=lblCancel}}"
+                                                         CommandParameter="{Binding}"/>
+            </Label.GestureRecognizers>
+        </Label>
+        
     </StackLayout>
+    
 </popup:PopupPage>

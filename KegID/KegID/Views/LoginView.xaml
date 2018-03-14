@@ -4,38 +4,27 @@
              x:Class="KegID.Views.LoginView"
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
              xmlns:local="clr-namespace:KegID"
-              BackgroundColor="#FFFFFF"
+             BackgroundColor="#FFFFFF"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Login}">
-    <!--BackgroundImage="{Binding BgImage}"-->
 
     <ContentPage.Content>
+        
         <Grid 
             Margin="20">
+           
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
-                <!--<RowDefinition Height="Auto"/>-->
             </Grid.RowDefinitions>
             
-            <!--<Grid.ColumnDefinitions>
-                <ColumnDefinition Width="30*"/>
-                <ColumnDefinition Width="70*"/>
-            </Grid.ColumnDefinitions>-->
-            
-            <!--<Label
-                VerticalOptions="Center"
-                HorizontalTextAlignment="End"
-                TextColor="White"
-                Text="Username"/>-->
-
-            <!--Grid.Column="1"-->
             <Image
                 Margin="40"
                 HorizontalOptions="Center"
                 VerticalOptions="Center"
-               BackgroundColor="Transparent">
+                BackgroundColor="Transparent">
+               
                 <Image.Source>
                     <OnPlatform x:TypeArguments="ImageSource">
                         <OnPlatform.iOS>
@@ -55,15 +44,6 @@
                 Grid.Row="1"
                 Placeholder="Username"
                 Text="{Binding Username}"/>
-            
-            <!--<Label
-                VerticalOptions="Center"
-                HorizontalTextAlignment="End"
-                Grid.Row="1"
-                TextColor="White"
-                Text="Password"/>-->
-          
-            <!--Grid.Column="1"-->
 
             <Entry
                 IsPassword="True"
@@ -71,50 +51,27 @@
                 Placeholder="Password"
                 Text="{Binding Password}"/>
 
-            <!--Grid.Column="1"-->
-            <Button
+            <Label
+                x:Name="lblLogin"
                 BackgroundColor="{StaticResource selectTextColor}"
                 Grid.Row="3"
                 Text="Log in"
                 TextColor="White"
-                HeightRequest="{StaticResource ButtonHeight}"
-                Command="{Binding LoginCommand}"/>
+                VerticalOptions="Center"
+                VerticalTextAlignment="Center"
+                HeightRequest="{StaticResource AppBarButtonHeight}"
+                HorizontalTextAlignment="Center"
+                FontSize="{StaticResource AppBarButtonFontSize}">
+               
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.LoginCommand, 
+                                                        Source={x:Reference Name=lblLogin}}"
+                                                         CommandParameter="{Binding}"/>
+                </Label.GestureRecognizers>
+            </Label>
 
-            <!--Grid.ColumnSpan="2"-->
-            <!--<Grid
-                IsVisible="False"
-                HorizontalOptions="Center"
-                Margin="0,80,0,0"
-                VerticalOptions="CenterAndExpand"
-                Grid.Row="4">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <Label
-                    Grid.Row="0"
-                    TextColor="White"
-                    Text="https://www.kegid.com/">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding KegIDCommand}" />
-                    </Label.GestureRecognizers>
-                </Label>
-                
-                <BoxView
-                    Grid.Row="1"
-                    BackgroundColor="White"
-                    HeightRequest="1"
-                    VerticalOptions="Start"
-                    HorizontalOptions="FillAndExpand"/>
-                
-                <Label
-                    Grid.Row="2"
-                     HorizontalOptions="Center"
-                    TextColor="White"
-                    Text="v4.0">
-                </Label>
-            </Grid>-->
         </Grid>
+        
     </ContentPage.Content>
+    
 </ContentPage>

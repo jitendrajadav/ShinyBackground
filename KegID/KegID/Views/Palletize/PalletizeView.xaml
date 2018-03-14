@@ -9,25 +9,34 @@
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Palletize}">
     
     <ContentPage.Content>
+        
         <Grid
             ColumnSpacing="0"
             RowSpacing="0">
+          
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Button
-                BackgroundColor="Transparent"
+            <Label
+                x:Name="lblCancel"
+                Style="{StaticResource LabelTitleStyle}"
                 TextColor="{StaticResource selectTextColor}"
                 HorizontalOptions="Start"
                 Text="Cancel"
-                VerticalOptions="Center"
-                Command="{Binding CancelCommand}"/>
+                Margin="10">
+             
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.CancelCommand, 
+                                                        Source={x:Reference Name=lblCancel}}"
+                                                         CommandParameter="{Binding}"/>
+                </Label.GestureRecognizers>
+            </Label>
 
             <Label
                 TextColor="Black"
-                FontSize="Large"
+                FontSize="{StaticResource AppBarButtonFontSize}"
                 VerticalOptions="Center"
                 HorizontalOptions="Center"
                 Text="Build Pallet"/>
@@ -45,6 +54,7 @@
                 RowSpacing="0"
                 ColumnSpacing="0"
                 Grid.Row="1">
+               
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -93,6 +103,7 @@
                     VerticalOptions="Center"
                     Margin="0,0,10,0"
                     BackgroundColor="Transparent">
+                  
                     <Image.Source>
                         <OnPlatform x:TypeArguments="FileImageSource">
                             <OnPlatform.iOS>
@@ -106,6 +117,7 @@
                             </OnPlatform.WinPhone>
                         </OnPlatform>
                     </Image.Source>
+                  
                     <Image.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding Path=BindingContext.IsPalletVisibleCommand, 
                                                         Source={x:Reference Name=imgPencil}}"
@@ -122,19 +134,20 @@
                     VerticalOptions="FillAndExpand"
                     Command="{Binding BarcodeScanCommand}"
                     BackgroundColor="Transparent">
-                        <Button.Image>
-                            <OnPlatform x:TypeArguments="FileImageSource">
-                                <OnPlatform.iOS>
-                                    <FileImageSource File="camera.png"/>
-                                </OnPlatform.iOS>
-                                <OnPlatform.Android>
-                                    <FileImageSource File="camera.png"/>
-                                </OnPlatform.Android>
-                                <OnPlatform.WinPhone>
-                                    <FileImageSource File="Assets/camera.png"/>
-                                </OnPlatform.WinPhone>
-                            </OnPlatform>
-                        </Button.Image>
+                       
+                    <Button.Image>
+                        <OnPlatform x:TypeArguments="FileImageSource">
+                            <OnPlatform.iOS>
+                                <FileImageSource File="camera.png"/>
+                            </OnPlatform.iOS>
+                            <OnPlatform.Android>
+                                <FileImageSource File="camera.png"/>
+                            </OnPlatform.Android>
+                            <OnPlatform.WinPhone>
+                                <FileImageSource File="Assets/camera.png"/>
+                            </OnPlatform.WinPhone>
+                        </OnPlatform>
+                    </Button.Image>
                 </Button>
 
                 <Label
@@ -154,6 +167,7 @@
                     FontSize="Medium"
                     Text="{Binding Path=StockLocation.FullName}"
                     Grid.Row="2">
+                    
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding Path=BindingContext.PartnerCommand, 
                                                         Source={x:Reference Name=lblPartner}}"
@@ -185,6 +199,7 @@
                     HorizontalOptions="Start"
                     Text="{Binding Path=TargetLocation.FullName}"
                     Grid.Row="5">
+                   
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding Path=BindingContext.TargetLocationPartnerCommand, 
                                                         Source={x:Reference Name=lblTargeLocation}}"
@@ -216,6 +231,7 @@
                     FontSize="Medium"
                     TextColor="{StaticResource selectTextColor}"
                     Grid.Row="8">
+                 
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding Path=BindingContext.AddTagsCommand, 
                                                         Source={x:Reference Name=lblTags}}"
@@ -247,13 +263,18 @@
                     FontSize="40"
                     HorizontalOptions="Start"
                     Text="{Binding AddKegs}">
+                  
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding Path=BindingContext.AddKegsCommand, 
                                                         Source={x:Reference Name=lblAddKegs}}"
                                                          CommandParameter="{Binding}"/>
                     </Label.GestureRecognizers>
                 </Label>
+                
             </Grid>
+            
         </Grid>
+        
     </ContentPage.Content>
+    
 </ContentPage>

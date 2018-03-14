@@ -6,7 +6,9 @@
              xmlns:local="clr-namespace:KegID"
              BackgroundColor="#FFFFFF"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=PartnerInfo}">
+   
     <ContentPage.Content>
+        
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -15,13 +17,19 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Button
-                BackgroundColor="Transparent"
-                VerticalOptions="Center"
+            <Label
+                x:Name="lblPartners"
+                Style="{StaticResource LabelTitleStyle}"
                 HorizontalOptions="Start"
                 TextColor="{StaticResource selectTextColor}"
                 Text="Partners"
-                Command="{Binding PartnersCommand}"/>
+                Margin="10">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.PartnersCommand, 
+                                                        Source={x:Reference Name=lblPartners}}"
+                                                         CommandParameter="{Binding}"/>
+                </Label.GestureRecognizers>
+            </Label>
 
             <Label 
                 HorizontalOptions="Center"

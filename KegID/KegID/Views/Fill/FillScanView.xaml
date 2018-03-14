@@ -6,10 +6,13 @@
              xmlns:local="clr-namespace:KegID"
              BackgroundColor="#FFFFFF"
              BindingContext="{Binding Source={x:Static local:App.Locator},Path=FillScan}">
+    
     <ContentPage.Content>
+        
         <Grid
             RowSpacing="0"
             ColumnSpacing="0">
+           
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -24,17 +27,24 @@
                 <ColumnDefinition Width="85*"/>
                 <ColumnDefinition Width="15*"/>
             </Grid.ColumnDefinitions>
-            
-            <Button
+
+            <Label
+                x:Name="lblCancel"
                 Grid.ColumnSpan="2"
                 Text="Cancel"
-                BackgroundColor="Transparent"
-                VerticalOptions="Center"
+                Style="{StaticResource LabelTitleStyle}"
                 TextColor="{StaticResource selectTextColor}"
                 HorizontalOptions="Start"
-                Command="{Binding CancelCommand}"/>
+                Margin="10">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.CancelCommand, 
+                                                        Source={x:Reference Name=lblCancel}}"
+                                                         CommandParameter="{Binding}"/>
+                </Label.GestureRecognizers>
+            </Label>
 
-            <Button
+            <Label
+                x:Name="lblSubmit"
                 Grid.ColumnSpan="2"
                 Text="Submit"
                 IsVisible="{Binding IsPalletze,Converter={StaticResource InvertedBooleanConverter}}"
@@ -42,14 +52,20 @@
                 VerticalOptions="Center"
                 TextColor="{StaticResource selectTextColor}"
                 HorizontalOptions="End"
-                Command="{Binding SubmitCommand}"/>
+                FontSize="{StaticResource AppBarButtonFontSize}">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.SubmitCommand, 
+                                                        Source={x:Reference Name=lblSubmit}}"
+                                                         CommandParameter="{Binding}"/>
+                </Label.GestureRecognizers>
+            </Label>
 
             <Label
                 Grid.ColumnSpan="2"
                 VerticalOptions="Center"
                 HorizontalOptions="Center"
                 Text="Scan"
-                FontSize="Large"
+                FontSize="{StaticResource AppBarButtonFontSize}"
                 TextColor="Black"/>
             
             <BoxView
@@ -210,7 +226,7 @@
                 TextColor="White"
                 VerticalOptions="Center"
                 Margin="10,0,0,0"
-                FontSize="Large"
+                FontSize="{StaticResource AppBarButtonFontSize}"
                 Text="Scanned:"/>
             
             <Label
@@ -218,7 +234,7 @@
                 Grid.Column="1"
                 TextColor="#B7EB35"
                 Margin="0,0,10,0"
-                FontSize="Large"
+                FontSize="{StaticResource AppBarButtonFontSize}"
                 FontAttributes="Bold"
                 VerticalOptions="Center"
                 Text="{Binding BarcodeCollection.Count}"/>
@@ -263,7 +279,7 @@
                                     VerticalTextAlignment="Center" 
                                     Text="{Binding Id}"
                                     TextColor="Black"
-                                    FontSize="Medium">
+                                    FontSize="{StaticResource ListViewTitleFont}">
                                     <Label.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding Path=BindingContext.LabelItemTappedCommand, 
                                                         Source={x:Reference Name=lstFillScan}}"
@@ -291,7 +307,7 @@
                                     LineBreakMode="TailTruncation"
                                     TextColor="{StaticResource lightGrayColor}"
                                     Grid.Row="1"
-                                    FontSize="{StaticResource DetailFont}"
+                                    FontSize="{StaticResource ListViewDetailFont}"
                                     Text="{Binding Path=BindingContext.TagsStr,Source={x:Reference Name=lstFillScan}}"/>
                             </Grid>
                         </ViewCell>

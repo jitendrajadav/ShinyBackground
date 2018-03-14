@@ -6,7 +6,9 @@
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
              BackgroundColor="#FFFFFF"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=SearchManifests}">
+   
     <ContentPage.Content>
+        
         <Grid
             Margin="10,0,10,0">
             
@@ -26,14 +28,22 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-           
-            <Button
-                BackgroundColor="Transparent"
+
+            <Label
+                x:Name="lblManifest"
+                Style="{StaticResource LabelTitleStyle}"
                 TextColor="{StaticResource selectTextColor}"
                 Grid.ColumnSpan="2"
                 HorizontalOptions="Start"
                 Text="Manifests"
-                Command="{Binding ManifestsCommand}"/>
+                Margin="10">
+              
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.ManifestsCommand, 
+                                                        Source={x:Reference Name=lblManifest}}"
+                                                         CommandParameter="{Binding}"/>
+                </Label.GestureRecognizers>
+            </Label>
 
             <Label 
                 Grid.ColumnSpan="2"
@@ -67,6 +77,7 @@
                 Grid.Row="4"
                 Grid.ColumnSpan="2"
                 Placeholder="Manifest sender">
+                
                 <Entry.Behaviors>
                     <behaviors:EventToCommandBehavior
                         EventName="Focused"
@@ -79,6 +90,7 @@
                 Grid.Row="5"
                 Grid.ColumnSpan="2"
                 Placeholder="Manifest destination">
+                
                 <Entry.Behaviors>
                     <behaviors:EventToCommandBehavior
                         EventName="Focused"
@@ -119,14 +131,22 @@
                     Margin="5,0,0,0"/>
             </StackLayout>
 
-            <Button
+            <Label
+                x:Name="lblSearch"
                 BackgroundColor="Transparent"
                 TextColor="{StaticResource selectTextColor}"
                 Grid.Column="1"
                 Grid.Row="8"
                 HorizontalOptions="End"
                 Text="Search"
-                Command="{Binding SearchCommand}"/>
+                VerticalOptions="Center"
+                FontSize="{StaticResource AppBarButtonFontSize}">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.SearchCommand, 
+                                                        Source={x:Reference Name=lblSearch}}"
+                                                         CommandParameter="{Binding}"/>
+                </Label.GestureRecognizers>
+            </Label>
             
         </Grid>
     </ContentPage.Content>

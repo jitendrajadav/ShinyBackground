@@ -17,17 +17,14 @@
             BackgroundColor="White">
 
             <Label
-                Margin="20,0,0,0"
+                Margin="20,10,10,10"
                 HeightRequest="50"
-                VerticalOptions="CenterAndExpand"
-                VerticalTextAlignment="Center"
+                Style="{StaticResource LabelTitleStyle}"
                 x:Name="lblRefresh"
                 HorizontalOptions="StartAndExpand"
-                HorizontalTextAlignment="Start"
-                BackgroundColor="Transparent"
                 TextColor="{StaticResource selectTextColor}"
-                Text="Refresh"
-                FontSize="Medium">
+                Text="Refresh">
+                
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding Path=BindingContext.RefreshSettingCommand, 
                                                         Source={x:Reference Name=lblRefresh}}"
@@ -53,6 +50,7 @@
                 VerticalTextAlignment="Center"
                 TextColor="{StaticResource selectTextColor}"
                 Text="Printer Settings">
+               
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding Path=BindingContext.PrinterSettingCommand, 
                                                         Source={x:Reference Name=lblPrinterSettings}}"
@@ -78,6 +76,7 @@
                 TextColor="{StaticResource selectTextColor}"
                 Text="What's New"
                 FontSize="Medium">
+                
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding Path=BindingContext.WhatsNewCommand, 
                                                         Source={x:Reference Name=lblWhatsNew}}"
@@ -103,6 +102,7 @@
                 TextColor="{StaticResource selectTextColor}"
                 Text="Support"
                 FontSize="Medium">
+                
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding Path=BindingContext.SupportCommand, 
                                                         Source={x:Reference Name=lblSupport}}"
@@ -128,12 +128,16 @@
                 TextColor="{StaticResource selectTextColor}"
                 Text="Log Out"
                 FontSize="Medium">
+                
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding Path=BindingContext.LogOutSettingCommand, 
                                                         Source={x:Reference Name=lblLogOut}}"
                                                          CommandParameter="{Binding}"/>
                 </Label.GestureRecognizers>
             </Label>
+            
         </StackLayout>
+        
     </StackLayout>
+    
 </pages:PopupPage>

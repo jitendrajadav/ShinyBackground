@@ -28,28 +28,34 @@
 
             <StackLayout
                 VerticalOptions="Start"
-                HeightRequest="40"
+                HeightRequest="50"
                 Orientation="Horizontal">
 
-                <Button
-                    BackgroundColor="Transparent"
-                    HeightRequest="40"
+                <Label
+                    x:Name="lblBack"
+                    Style="{StaticResource LabelTitleStyle}"
                     TextColor="{StaticResource selectTextColor}"
                     Text="Back"
-                    Command="{Binding BackCommand}"/>
+                    Margin="10">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Path=BindingContext.BackCommand, 
+                                                        Source={x:Reference Name=lblBack}}"
+                                                         CommandParameter="{Binding}"/>
+                    </Label.GestureRecognizers>
+                </Label>
 
                 <Label 
                     Text="Partners"
                     FontAttributes="Bold"
-                    FontSize="Medium"
+                    Style="{StaticResource LabelTitleStyle}"
                     TextColor="Black"
-                    VerticalOptions="CenterAndExpand" 
                     HorizontalOptions="CenterAndExpand" />
 
                 <Image
                     x:Name="imgSearch"
                     HorizontalOptions="Center"                  
                     VerticalOptions="Center">
+                    
                     <Image.Source>
                         <OnPlatform x:TypeArguments="FileImageSource">
                             <OnPlatform.iOS>
@@ -63,6 +69,7 @@
                             </OnPlatform.WinPhone>
                         </OnPlatform>
                     </Image.Source>
+                   
                     <Image.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding Path=BindingContext.SearchPartnerCommand, 
                                                         Source={x:Reference Name=imgSearch}}"
@@ -75,6 +82,7 @@
                     x:Name="imgAdd"
                     HorizontalOptions="Center"                  
                     VerticalOptions="Center">
+                    
                     <Image.Source>
                         <OnPlatform x:TypeArguments="FileImageSource">
                             <OnPlatform.iOS>
@@ -88,6 +96,7 @@
                             </OnPlatform.WinPhone>
                         </OnPlatform>
                     </Image.Source>
+                   
                     <Image.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding Path=BindingContext.AddNewPartnerCommand, 
                                                         Source={x:Reference Name=imgAdd}}"
@@ -115,6 +124,7 @@
                 Text="{Binding PartnerName}"
                 SearchCommand="{Binding TextChangedCommand}" 
                 SearchCommandParameter="{Binding Text, Source={x:Reference SearchBar}}">
+               
                 <SearchBar.Behaviors>
                     <behaviors:TextChangedBehavior />
                 </SearchBar.Behaviors>
@@ -132,10 +142,6 @@
                 ItemsSource="{Binding PartnerCollection}">
 
                 <ListView.Behaviors>
-                    
-                    <!--<extended:InfiniteScrollBehavior 
-                        IsLoadingMore="{Binding IsWorking}" />-->
-
                     <behaviors:EventToCommandBehavior
                         EventName="ItemTapped" 
                         Command="{Binding ItemTappedCommand}"
@@ -152,17 +158,17 @@
                                     TextColor="{StaticResource selectTextColor}" 
                                     Text="{Binding FullName}"
                                     LineBreakMode="TailTruncation"
-                                    FontSize="{StaticResource TitleFont}"/>
+                                    FontSize="{StaticResource ListViewTitleFont}"/>
                                 <Label 
                                     Margin="0,5,0,0"
                                     TextColor="{StaticResource lightGrayColor}" 
                                     Text="{Binding Address}" 
-                                    FontSize="{StaticResource DetailFont}"
+                                    FontSize="{StaticResource ListViewDetailFont}"
                                     LineBreakMode="TailTruncation"/>
                                 <Label 
                                     TextColor="{StaticResource lightGrayColor}" 
                                     Text="{Binding PartnerTypeName}" 
-                                    FontSize="{StaticResource DetailFont}"/>
+                                    FontSize="{StaticResource ListViewDetailFont}"/>
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>

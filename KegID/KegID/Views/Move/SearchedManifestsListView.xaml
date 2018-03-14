@@ -6,22 +6,32 @@
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
              BackgroundColor="#FFFFFF"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=SearchedManifestsList}">
+  
     <ContentPage.Content>
+       
         <Grid
             Margin="10,0,10,0">
+           
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            
-            <Button
-                BackgroundColor="Transparent"
+
+            <Label
+                x:Name="lblSearchManifest"
+                Style="{StaticResource LabelTitleStyle}"
                 TextColor="{StaticResource selectTextColor}"
                 HorizontalOptions="Start"
-                VerticalOptions="Center"
-                Command="{Binding SearchManifestsCommand}"
-                Text="Search Manifests"/>
+                Margin="10"
+                Text="Search Manifests">
+              
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.SearchManifestsCommand, 
+                                                        Source={x:Reference Name=lblSearchManifest}}"
+                                                         CommandParameter="{Binding}"/>
+                </Label.GestureRecognizers>
+            </Label>
 
             <Label Text="Manifests"
                 VerticalOptions="Center" 
@@ -55,37 +65,40 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
+                           
                             <Grid>
+                               
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
+                               
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="70*"/>
                                     <ColumnDefinition Width="30*"/>
                                 </Grid.ColumnDefinitions>
 
                                 <Label
-                                    FontSize="{StaticResource TitleFont}"
+                                    FontSize="{StaticResource ListViewTitleFont}"
                                     TextColor="{StaticResource selectTextColor}"
                                     LineBreakMode="TailTruncation"
                                     Text="{Binding ReceiverName}"/>
 
                                 <Label
-                                    FontSize="{StaticResource TitleFont}"
+                                    FontSize="{StaticResource ListViewTitleFont}"
                                     TextColor="{StaticResource selectTextColor}"
                                     Grid.Row="1"
                                     Text="{Binding ShipDate, StringFormat='{0:dd/MM/yy}'}"/>
 
                                 <Label
-                                    FontSize="{StaticResource TitleFont}"
+                                    FontSize="{StaticResource ListViewTitleFont}"
                                     TextColor="{StaticResource selectTextColor}"
                                     HorizontalOptions="End"
                                     Grid.Column="1"
                                     Text="{Binding ManifestId, StringFormat='# {0}', Converter={StaticResource StringToLast8CharacterConverter}}"/>
 
                                 <Label
-                                    FontSize="{StaticResource TitleFont}"
+                                    FontSize="{StaticResource ListViewTitleFont}"
                                     TextColor="{StaticResource selectTextColor}"
                                     HorizontalOptions="End"
                                     Grid.Column="1"

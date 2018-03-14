@@ -17,19 +17,26 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <Button
-                BackgroundColor="Transparent"
+            <Label
+                x:Name="lblCancel"
+                Style="{StaticResource LabelTitleStyle}"
                 TextColor="{StaticResource selectTextColor}"
                 HorizontalOptions="Start"
                 Text="Cancel"
-                Command="{Binding CancelCommand}"/>
+                Margin="10">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.CancelCommand, 
+                                                        Source={x:Reference Name=lblCancel}}"
+                                                         CommandParameter="{Binding}"/>
+                </Label.GestureRecognizers>
+            </Label>
 
             <Label
                 Grid.ColumnSpan="3"
                 VerticalOptions="Center"
                 FontAttributes="Bold"
                 TextColor="Black"
-                FontSize="Large"
+                FontSize="{StaticResource AppBarButtonFontSize}"
                 HorizontalOptions="Center"
                 Text="Add Batch"/>
             
@@ -217,17 +224,24 @@
                 
             </ScrollView>
 
-            <Button
+            <Label
+                x:Name="lblDone"
                 Margin="-10,0,-10,-5"
                 TextColor="White"
                 Grid.ColumnSpan="3"
                 HeightRequest="60"
                 BackgroundColor="{StaticResource selectTextColor}"
                 HorizontalOptions="FillAndExpand"
-                VerticalOptions="EndAndExpand"
                 Grid.Row="3"
                 Text="Done"
-                Command="{Binding DoneCommand}"/>
+                VerticalOptions="Center"
+                FontSize="{StaticResource AppBarButtonFontSize}">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.DoneCommand, 
+                                                        Source={x:Reference Name=lblDone}}"
+                                                         CommandParameter="{Binding}"/>
+                </Label.GestureRecognizers>
+            </Label>
 
         </Grid>
     </ContentPage.Content>

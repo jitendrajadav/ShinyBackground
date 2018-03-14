@@ -10,9 +10,11 @@
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=ScanKegs}">
    
     <ContentPage.Content>
+        
         <Grid
             RowSpacing="0"
             ColumnSpacing="0">
+           
             <Grid.RowDefinitions>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="Auto"/>
@@ -35,9 +37,9 @@
                 HorizontalOptions="Center"
                 HorizontalTextAlignment="Center"
                 Text="Scan Kegs"
-                FontSize="Large"
+                Style="{StaticResource LabelTitleStyle}"
                 TextColor="Black"
-                VerticalOptions="CenterAndExpand"/>
+                Margin="10"/>
 
             <Label
                 x:Name="lblDone"
@@ -50,6 +52,7 @@
                 FontAttributes="Bold"
                 VerticalOptions="Center"
                 FontSize="Medium">
+                
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding Path=BindingContext.DoneCommand, 
                                                         Source={x:Reference Name=lblDone}}"
@@ -72,6 +75,7 @@
                 Grid.Row="2"
                 Text="{Binding ManaulBarcode,Mode=TwoWay}"
                 Placeholder="Barcode">
+               
                 <Entry.Behaviors>
                     <behaviors:EventToCommandBehavior
                         EventName="Completed"
@@ -109,6 +113,7 @@
                                                          CommandParameter="{Binding}"/>
                 </ffimageloading:CachedImage.GestureRecognizers>
             </ffimageloading:CachedImage>-->
+          
             <!--<controls:TintedImage 
                 x:Name="imgCamera"
                 Grid.Row="2"
@@ -138,6 +143,7 @@
                 HeightRequest="30"
                 Grid.Column="2"
                 HorizontalOptions="Center">
+               
                 <Image.Source>
                     <OnPlatform x:TypeArguments="FileImageSource">
                         <OnPlatform.iOS>
@@ -151,11 +157,13 @@
                         </OnPlatform.WinPhone>
                     </OnPlatform>
                 </Image.Source>
+               
                 <Image.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding Path=BindingContext.BarcodeScanCommand, 
                                                         Source={x:Reference Name=imgCamera}}"
                                                          CommandParameter="{Binding}"/>
                 </Image.GestureRecognizers>
+               
                 <!--<Image.Effects>
                     <effects:TintImageEffect TintColor="Blue"/>
                 </Image.Effects>-->
@@ -184,6 +192,7 @@
                 Grid.Column="2"
                 HeightRequest="40"
                 HorizontalOptions="Center">
+               
                 <Image.Source>
                     <OnPlatform x:TypeArguments="FileImageSource">
                         <OnPlatform.iOS>
@@ -197,6 +206,7 @@
                         </OnPlatform.WinPhone>
                     </OnPlatform>
                 </Image.Source>
+               
                 <Image.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding Path=BindingContext.AddTagsCommand, 
                                                         Source={x:Reference Name=imgTags}}"
@@ -254,13 +264,16 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
+                           
                             <Grid 
                                 RowSpacing="0"
                                 ColumnSpacing="0">
+                               
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*"/>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
+                               
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="80*"/>
                                     <ColumnDefinition Width="20*"/>
@@ -272,7 +285,8 @@
                                     VerticalTextAlignment="Center" 
                                     Text="{Binding Id}"
                                     TextColor="Black"
-                                    FontSize="{StaticResource TitleFont}">
+                                    FontSize="{StaticResource ListViewTitleFont}">
+                                   
                                     <Label.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding Path=BindingContext.LabelItemTappedCommand, 
                                                         Source={x:Reference Name=lstBarcode}}"
@@ -289,6 +303,7 @@
                                     VerticalOptions="Center"
                                     HorizontalOptions="Center"
                                     Source="{Binding Icon,Mode=TwoWay}">
+                                  
                                     <Image.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding Path=BindingContext.IconItemTappedCommand, 
                                                         Source={x:Reference Name=lstBarcode}}"
@@ -301,7 +316,7 @@
                                     LineBreakMode="TailTruncation"
                                     TextColor="{StaticResource lightGrayColor}"
                                     Grid.Row="1"
-                                    FontSize="{StaticResource DetailFont}"
+                                    FontSize="{StaticResource ListViewDetailFont}"
                                     Text="{Binding Path=BindingContext.TagsStr,Source={x:Reference Name=lstBarcode}}"/>
                             </Grid>
                         </ViewCell>

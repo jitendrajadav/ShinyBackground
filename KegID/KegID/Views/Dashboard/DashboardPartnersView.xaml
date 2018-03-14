@@ -31,12 +31,19 @@
                 HeightRequest="40"
                 Orientation="Horizontal">
 
-                <Button
-                    BackgroundColor="Transparent"
+                <Label
+                    x:Name="lblBack"
+                    Style="{StaticResource LabelTitleStyle}"
                     HeightRequest="40"
                     TextColor="{StaticResource selectTextColor}"
                     Text="Back"
-                    Command="{Binding BackCommand}"/>
+                    Margin="10">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Path=BindingContext.BackCommand, 
+                                                        Source={x:Reference Name=lblBack}}"
+                                                         CommandParameter="{Binding}"/>
+                    </Label.GestureRecognizers>
+                </Label>
 
                 <Label 
                     Text="Partners"
@@ -118,15 +125,15 @@
                                 <Label 
                                     TextColor="{StaticResource selectTextColor}"
                                     Text="{Binding FullName}"
-                                    FontSize="{StaticResource TitleFont}"/>
+                                    FontSize="{StaticResource ListViewTitleFont}"/>
                                 <Label 
                                     TextColor="{StaticResource lightGrayColor}" 
                                     Text="{Binding Address}" 
-                                    FontSize="{StaticResource DetailFont}"/>
+                                    FontSize="{StaticResource ListViewDetailFont}"/>
                                 <Label 
                                     TextColor="{StaticResource lightGrayColor}" 
                                     Text="{Binding PartnerTypeName}" 
-                                    FontSize="{StaticResource DetailFont}"/>
+                                    FontSize="{StaticResource ListViewDetailFont}"/>
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>

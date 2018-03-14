@@ -6,7 +6,9 @@
              xmlns:local="clr-namespace:KegID"
              BackgroundColor="#FFFFFF"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Volume}">
+    
     <ContentPage.Content>
+        
         <ListView 
                 Margin="10,0,10,0"
                 Grid.Row="2"
@@ -15,17 +17,21 @@
                 SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
                 HasUnevenRows="true"
                 ItemsSource="{Binding VolumeCollection}">
+           
             <ListView.Behaviors>
                 <behaviors:EventToCommandBehavior
                             EventName="ItemTapped" 
                             Command="{Binding ItemTappedCommand}"
                             Converter="{StaticResource ItemTappedConverter}"/>
             </ListView.Behaviors>
+            
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextCell Height="40" Text="{Binding}"/>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        
     </ContentPage.Content>
+    
 </ContentPage>

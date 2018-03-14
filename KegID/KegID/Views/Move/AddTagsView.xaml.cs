@@ -74,6 +74,7 @@ namespace KegID.Views
         async Task OnAddMoreTagsClickedAsync(TagsTypeEnum title)
         {
             dynamic valueEntry = null;
+            string customeTitle = string.Empty;
 
             grdTag.RowDefinitions.Add(new RowDefinition { Height = new GridLength(0, GridUnitType.Auto) });
 
@@ -81,7 +82,8 @@ namespace KegID.Views
             {
                 VerticalOptions = LayoutOptions.Center,
             };
-            string customeTitle = string.Empty;
+
+            customeTitle = title.ToString();
 
             switch (title)
             {

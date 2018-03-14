@@ -7,6 +7,7 @@ using KegID.Model;
 using KegID.Services;
 using KegID.SQLiteClient;
 using KegID.Views;
+using Newtonsoft.Json;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -24,7 +25,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string ManifestCollectionPropertyName = "ManifestCollection";
 
-        private ObservableCollection<ManifestModel> _ManifestCollection = null;
+        private ObservableCollection<ManifestModel> _ManifestCollection = new ObservableCollection<ManifestModel>();
 
         /// <summary>
         /// Sets and gets the ManifestCollection property.
@@ -294,8 +295,14 @@ namespace KegID.ViewModel
                 Loader.StartLoading();
                 //var manifest = await _moveService.GetManifestListAsync(Configuration.SessionId);
                 //ManifestCollection = new ObservableCollection<ManifestModelGet>(manifest);
-                ManifestCollection = new ObservableCollection<ManifestModel>(await SQLiteServiceClient.Db.Table<ManifestModel>().ToListAsync());
-                var value = ManifestCollection.FirstOrDefault().ManifestItems.Count;
+                var collection = await SQLiteServiceClient.Db.Table<DraftManifestModel>().ToListAsync();
+                foreach (var item in collection)
+                {
+                    ManifestModel manifest = JsonConvert.DeserializeObject<ManifestModel>(item.DraftManifestJson);
+                    manifest.ManifestItemsCount = manifest.ManifestItems.Count;
+                    manifest.OwnerName = manifest.ManifestItems.FirstOrDefault().KegStatus.FirstOrDefault().OwnerName;
+                    ManifestCollection.Add(manifest);
+                }
             }
             catch (System.Exception)
             {

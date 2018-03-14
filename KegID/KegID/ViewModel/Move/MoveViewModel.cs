@@ -482,7 +482,8 @@ namespace KegID.ViewModel
                 //await SQLiteServiceClient.Db.InsertAsync(manifestModel); 
                 #endregion
 
-                ManifestModel manifestPostModel = await ManifestManager.GetManifestDraft(EventTypeEnum.MOVE_MANIFEST, ManifestId, SimpleIoc.Default.GetInstance<ScanKegsViewModel>().BarcodeCollection, SimpleIoc.Default.GetInstance<ScanKegsViewModel>().Tags, PartnerModel,new List<NewPallet>(), new List<NewBatch>(), new List<string>() ,2, SimpleIoc.Default.GetInstance<ScanKegsViewModel>().SelectedBrand.BrandName);
+                ManifestModel manifestPostModel =
+                    await ManifestManager.GetManifestDraft(EventTypeEnum.MOVE_MANIFEST, ManifestId, SimpleIoc.Default.GetInstance<ScanKegsViewModel>().BarcodeCollection, SimpleIoc.Default.GetInstance<ScanKegsViewModel>().Tags, PartnerModel, new List<NewPallet>(), new List<NewBatch>(), new List<string>(), 2, SimpleIoc.Default.GetInstance<ScanKegsViewModel>().SelectedBrand.BrandName);
                 DraftManifestModel draftManifestModel = new DraftManifestModel()
                 {
                     ManifestId = ManifestId,
@@ -497,14 +498,14 @@ namespace KegID.ViewModel
                 {
                     Debug.WriteLine(ex.Message);
                 }
-                try
-                {
-                    await SQLiteServiceClient.Db.InsertAsync(manifestPostModel);
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.Message);
-                }
+                //try
+                //{
+                //    await SQLiteServiceClient.Db.InsertAsync(manifestPostModel);
+                //}
+                //catch (Exception ex)
+                //{
+                //    Debug.WriteLine(ex.Message);
+                //}
 
                 Loader.StopLoading();
                 await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestsView());

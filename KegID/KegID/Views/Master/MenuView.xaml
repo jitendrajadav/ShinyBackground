@@ -5,7 +5,9 @@
              x:Class="KegID.Views.MenuView"
              xmlns:local="clr-namespace:KegID"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Dashboard}">
+    
     <ContentPage.Content>
+       
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -132,6 +134,7 @@
                 x:Name="grdFill"
                 Margin="10,0,10,10"
                 Grid.Row="2">
+                
                 <Grid.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding Path=BindingContext.FillCommand, 
                                                         Source={x:Reference Name=grdFill}}"
