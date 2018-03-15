@@ -25,6 +25,11 @@
             <converter:StringToLast8CharacterConverter x:Key="StringToLast8CharacterConverter"/>
             <converter:InvertedBooleanConverter x:Key="InvertedBooleanConverter"/>
 
+            <Style x:Key="ButtonTitleStyle" TargetType="Button">
+                <Setter Property="VerticalOptions" Value="Center"/>
+                <Setter Property="FontSize" Value="{StaticResource AppBarButtonFontSize}"/>
+            </Style>
+           
             <Style x:Key="LabelTitleStyle" TargetType="Label">
                 <Setter Property="VerticalOptions" Value="Center"/>
                 <Setter Property="FontSize" Value="{StaticResource AppBarButtonFontSize}"/>

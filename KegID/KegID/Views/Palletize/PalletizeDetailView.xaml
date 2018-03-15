@@ -44,19 +44,16 @@
 
             <Label 
                 Text="Pallet Details"
-                FontAttributes="Bold"
-                VerticalOptions="Center" 
+                Style="{StaticResource LabelTitleStyle}" 
+                TextColor="Black"
                 HorizontalOptions="Center" />
 
-            <Button
-                HorizontalOptions="End"                  
-                BorderRadius="5"
-                WidthRequest="50"
-                BorderWidth="0"
-                Command="{Binding ShareCommand}"
-                BackgroundColor="LightGray" >
-               
-                <Button.Image>
+            <Image
+                HeightRequest="35"
+                x:Name="imgShare"
+                HorizontalOptions="End">
+
+                <Image.Source>
                     <OnPlatform x:TypeArguments="FileImageSource">
                         <OnPlatform.iOS>
                             <FileImageSource File="actionshare.png"/>
@@ -68,8 +65,15 @@
                             <FileImageSource File="Assets/actionshare.png"/>
                         </OnPlatform.WinPhone>
                     </OnPlatform>
-                </Button.Image>
-            </Button>
+                </Image.Source>
+
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.ShareCommand, 
+                                                        Source={x:Reference Name=imgShare}}"
+                                                         CommandParameter="{Binding}"/>
+
+                </Image.GestureRecognizers>
+            </Image>
 
             <BoxView
                 Margin="-10,0,-10,0"
@@ -82,73 +86,83 @@
                 Grid.Row="1"
                 TextColor="White"
                 Text="{Binding ManifestId,StringFormat='Pallet #: {0}',Converter={StaticResource StringToLast8CharacterConverter}}"
-                VerticalOptions="Center" 
+                Style="{StaticResource LabelTitleStyle}"
                 HorizontalOptions="Start" />
 
             <Label 
                 Grid.Row="2"
                 Text="Created at:"
-                VerticalOptions="Center" 
+                TextColor="Black"
+                Style="{StaticResource LabelTitleStyle}"
                 HorizontalOptions="Start" />
             
             <Label 
                 Margin="10,0,0,0"
                 Grid.Row="3"
+                TextColor="Black"
                 Text="{Binding StockLocation}"
-                VerticalOptions="Center" 
+                Style="{StaticResource LabelTitleStyle}"
                 HorizontalOptions="Start" />
 
             <Label 
                 Grid.Row="4"
                 Text="Location:"
-                VerticalOptions="Center" 
+                TextColor="Black"
+                Style="{StaticResource LabelTitleStyle}"
                 HorizontalOptions="Start" />
 
             <Label 
                 Margin="10,0,0,0"
                 Grid.Row="5"
+                TextColor="Black"
                 Text="{Binding StockLocation}"
-                VerticalOptions="Center" 
+                Style="{StaticResource LabelTitleStyle}" 
                 HorizontalOptions="Start" />
 
             <Label 
                 Margin="10,0,0,0"
                 Grid.Row="6"
+                TextColor="Black"
                 Text="{Binding PartnerTypeName}"
-                VerticalOptions="Center" 
+                Style="{StaticResource LabelTitleStyle}" 
                 HorizontalOptions="Start" />
 
             <Label 
                 Margin="10,0,0,0"
                 Grid.Row="7"
+                TextColor="Black"
                 Text="{Binding ShippingDate,StringFormat='{0:dd/MM/yy}'}"
-                VerticalOptions="Center" 
+                Style="{StaticResource LabelTitleStyle}"
                 HorizontalOptions="Start" />
 
             <Label 
                 Grid.Row="8"
                 Text="SSCC:"
-                VerticalOptions="Center" 
+                TextColor="Black"
+                Style="{StaticResource LabelTitleStyle}" 
                 HorizontalOptions="Start" />
 
             <Label 
                 Margin="10,0,0,0"
                 Grid.Row="9"
+                TextColor="Black"
                 Text="{Binding ManifestId}"
-                VerticalOptions="Center" 
+                Style="{StaticResource LabelTitleStyle}" 
                 HorizontalOptions="Start" />
             
             <Label 
                 Grid.Row="10"
                 Text="Target location:"
-                VerticalOptions="Center" 
+                TextColor="Black"
+                Style="{StaticResource LabelTitleStyle}"
                 HorizontalOptions="Start" />
 
             <Label 
                 Margin="10,0,0,0"
                 Grid.Row="11"
+                TextColor="Black"
                 Text="{Binding TargetLocation}"
-                VerticalOptions="Center" 
+                Style="{StaticResource LabelTitleStyle}" 
                 HorizontalOptions="Start" />
 
             <Grid
@@ -223,8 +237,9 @@
                     BackgroundColor="LightGray"
                     HorizontalOptions="FillAndExpand"
                     HorizontalTextAlignment="Center"
-                    VerticalTextAlignment="Center"
+                    Style="{StaticResource LabelTitleStyle}"
                     VerticalOptions="FillAndExpand"
+                    TextColor="Black"
                     Text="Brand"/>
 
                 <Label
@@ -234,7 +249,8 @@
                     HorizontalOptions="FillAndExpand"
                     HorizontalTextAlignment="Center"
                     VerticalTextAlignment="Center"
-                    VerticalOptions="FillAndExpand"
+                    Style="{StaticResource LabelTitleStyle}"
+                    TextColor="Black"
                     Text="Size"/>
 
                 <Label
@@ -244,7 +260,8 @@
                     HorizontalOptions="FillAndExpand"
                     HorizontalTextAlignment="Center"
                     VerticalTextAlignment="Center"
-                    VerticalOptions="FillAndExpand"
+                    Style="{StaticResource LabelTitleStyle}"
+                    TextColor="Black"
                     Text="Quantity"/>
 
                 <BoxView
@@ -259,6 +276,8 @@
                     Grid.Column="1"
                     Grid.Row="3"
                     Margin="5,0,0,0"
+                    TextColor="Black"
+                    Style="{StaticResource LabelTitleStyle}"
                     Text="Barcode Blonde"/>
 
                 <BoxView
@@ -274,7 +293,9 @@
                     Grid.Column="3"
                     Grid.Row="3"
                     Margin="5,0,0,0"
-                    Text="1/4 bbl"/>
+                    Style="{StaticResource LabelTitleStyle}"
+                    TextColor="Black"
+                    Text="1/2 bbl"/>
 
                 <BoxView
                     Grid.Row="1"
@@ -291,6 +312,7 @@
                     TextColor="{StaticResource selectTextColor}"
                     Grid.Row="3"
                     Grid.Column="5"
+                    Style="{StaticResource LabelTitleStyle}"
                     Text="{Binding ItemCount}"/>
 
                 <BoxView
@@ -305,6 +327,8 @@
                     Margin="5,0,0,0"
                     Grid.Column="1"
                     Grid.Row="5"
+                    Style="{StaticResource LabelTitleStyle}"
+                    TextColor="Black"
                     FontAttributes="Bold"
                     Text="Total"/>
 
@@ -314,6 +338,7 @@
                     TextColor="{StaticResource selectTextColor}"
                     Grid.Row="5"
                     Grid.Column="5"
+                    Style="{StaticResource LabelTitleStyle}"
                     Text="{Binding ItemCount}"/>
 
             </Grid>

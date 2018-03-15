@@ -206,9 +206,8 @@
                 HeightRequest="60"
                 IsVisible="{Binding IsPalletze}"
                 BackgroundColor="{StaticResource selectTextColor}"
-                VerticalOptions="Center"
                 TextColor="White"
-                HorizontalOptions="FillAndExpand"
+                Style="{StaticResource ButtonTitleStyle}"
                 Command="{Binding PrintCommand}"/>
 
             <BoxView

@@ -18,18 +18,26 @@
 
             <Label
                 Margin="10"
-                HeightRequest="60"
+                HeightRequest="50"
                 x:Name="lblAddBatch"
                 TextColor="{StaticResource selectTextColor}"
                 Style="{StaticResource LabelTitleStyle}"
-                Text="Add Batch">
+                Text="Add Batch"
+                VerticalTextAlignment="Center">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding Path=BindingContext.AddBatchCommand, 
                                                         Source={x:Reference Name=lblAddBatch}}"
                                                          CommandParameter="{Binding}"/>
                 </Label.GestureRecognizers>
             </Label>
-            
+
+            <BoxView
+                Margin="-10,0,-10,0"
+                BackgroundColor="{StaticResource lightGrayPlaceholderColor}"
+                HeightRequest="1"
+                VerticalOptions="End"
+                HorizontalOptions="FillAndExpand"/>
+
             <ListView
                 Grid.Row="1"
                 Margin="10,0,10,0"

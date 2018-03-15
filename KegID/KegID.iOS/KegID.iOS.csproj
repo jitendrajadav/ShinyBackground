@@ -213,12 +213,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\KegID\KegID.csproj">
-      <Project>{204D7576-CD8E-461A-A68C-AA584BE90D47}</Project>
-      <Name>KegID</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BundleResource Include="..\KegID\Assets\actionaccept.png">
       <Link>Resources\actionaccept.png</Link>
     </BundleResource>
@@ -422,5 +416,11 @@
     <BundleResource Include="..\KegID\Assets\tags.png">
       <Link>Resources\tags.png</Link>
     </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\KegID\KegID.csproj">
+      <Project>{d5c32361-0b30-4fa3-bce6-49d790cfee42}</Project>
+      <Name>KegID</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

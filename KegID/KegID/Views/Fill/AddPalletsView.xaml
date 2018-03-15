@@ -74,10 +74,12 @@
                     Margin="10,0,0,0"
                     FontSize="{StaticResource AppBarButtonFontSize}"
                     VerticalTextAlignment="Center"
+                    FontAttributes="Bold"
                     Text="{Binding PalletCollection.Count, StringFormat='Pallets: {0}'}"/>
                 
                 <Label
                     TextColor="#B7EB35"
+                    FontAttributes="Bold"
                     FontSize="{StaticResource AppBarButtonFontSize}"
                     HorizontalOptions="Center"
                     VerticalTextAlignment="Center"
@@ -156,6 +158,7 @@
                 BackgroundColor="{StaticResource selectTextColor}"
                 HorizontalOptions="FillAndExpand"
                 VerticalOptions="EndAndExpand"
+                HorizontalTextAlignment="Center"
                 Grid.Row="4"
                 Text="Submit"
                 VerticalTextAlignment="Center"

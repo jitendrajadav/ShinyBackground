@@ -37,8 +37,8 @@
 
             <Label 
                 Text="Maintenance"
-                FontAttributes="Bold"
-                VerticalOptions="Center" 
+                
+                Style="{StaticResource LabelTitleStyle}"
                 HorizontalOptions="Center" />
 
             <BoxView
@@ -51,21 +51,23 @@
             <Label 
                 Grid.Row="1"
                 TextColor="White"
+                Style="{StaticResource LabelTitleStyle}"
                 Text="{Binding TrackingNo,StringFormat='Tracking #: {0}',Converter={StaticResource StringToLast8CharacterConverter}}"
-                VerticalOptions="Center" 
                 HorizontalOptions="Start" />
 
             <Label 
                 Grid.Row="2"
                 Text="To:"
-                VerticalOptions="Center" 
+                Style="{StaticResource LabelTitleStyle}"
+                TextColor="Black"
                 HorizontalOptions="Start" />
             
             <Label 
                 Margin="10,0,0,0"
                 Grid.Row="3"
                 Text="{Binding StockLocation}"
-                VerticalOptions="Center" 
+                Style="{StaticResource LabelTitleStyle}"
+                TextColor="Black"
                 HorizontalOptions="Start" />
             
             <Grid
@@ -128,7 +130,7 @@
                     HorizontalOptions="FillAndExpand"
                     HorizontalTextAlignment="Center"
                     VerticalTextAlignment="Center"
-                    VerticalOptions="FillAndExpand"
+                    Style="{StaticResource LabelTitleStyle}"
                     Text="Maintenance performed"/>
               
                 <BoxView
@@ -142,6 +144,7 @@
 
                 <StackLayout
                     Grid.Row="3"
+                    Margin="10"
                     HorizontalOptions="FillAndExpand"
                     x:Name="maintenancePerformedStack"
                     Grid.Column="1"/>
@@ -173,9 +176,9 @@
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="80*"/>
+                    <ColumnDefinition Width="70*"/>
                     <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="20*"/>
+                    <ColumnDefinition Width="30*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
@@ -220,6 +223,7 @@
                     HorizontalTextAlignment="Center"
                     VerticalTextAlignment="Center"
                     VerticalOptions="FillAndExpand"
+                    Style="{StaticResource LabelTitleStyle}"
                     Text="Size"/>
 
                 <Label
@@ -230,6 +234,7 @@
                     HorizontalTextAlignment="Center"
                     VerticalTextAlignment="Center"
                     VerticalOptions="FillAndExpand"
+                    Style="{StaticResource LabelTitleStyle}"
                     Text="Quantity"/>
 
                 <BoxView
@@ -243,6 +248,8 @@
                 <Label
                     Grid.Column="1"
                     Grid.Row="3"
+                    Style="{StaticResource LabelTitleStyle}"
+                    TextColor="Black"
                     Margin="5,0,0,0"
                     Text="--"/>
 
@@ -260,6 +267,7 @@
                     Grid.Row="3"
                     Margin="0,0,5,0"
                     HorizontalOptions="End"
+                    Style="{StaticResource LabelTitleStyle}"
                     TextColor="{StaticResource selectTextColor}"
                     Text="{Binding ItemCount}"/>
 
@@ -275,6 +283,8 @@
                     Margin="5,0,0,0"
                     Grid.Column="1"
                     Grid.Row="5"
+                    Style="{StaticResource LabelTitleStyle}"
+                    TextColor="Black"
                     FontAttributes="Bold"
                     Text="Total"/>
 
@@ -284,6 +294,7 @@
                     TextColor="{StaticResource selectTextColor}"
                     Grid.Row="5"
                     Grid.Column="3"
+                    Style="{StaticResource LabelTitleStyle}"
                     Text="{Binding ItemCount}"/>
 
             </Grid>

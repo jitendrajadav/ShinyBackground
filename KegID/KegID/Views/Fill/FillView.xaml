@@ -195,6 +195,7 @@
                     HeightRequest="60"
                     BackgroundColor="{StaticResource selectTextColor}"
                     HorizontalOptions="FillAndExpand"
+                    HorizontalTextAlignment="Center"
                     VerticalOptions="EndAndExpand"
                     Grid.Row="13"
                     Text="Next"

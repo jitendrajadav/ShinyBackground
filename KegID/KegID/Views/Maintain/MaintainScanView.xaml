@@ -141,7 +141,7 @@
                 Grid.Column="0"
                 Grid.ColumnSpan="3"
                 Grid.Row="6"
-                VerticalOptions="EndAndExpand"
+                Style="{StaticResource ButtonTitleStyle}"
                 HorizontalOptions="FillAndExpand"
                 TextColor="White"
                 Text="Submit"

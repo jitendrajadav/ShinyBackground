@@ -6,7 +6,9 @@
              xmlns:local="clr-namespace:KegID"
              BackgroundColor="#FFFFFF"
              BindingContext="{Binding Source={x:Static local:App.Locator},Path=AddBatch}">
+   
     <ContentPage.Content>
+       
         <Grid
             ColumnSpacing="0"
             RowSpacing="0">
@@ -33,10 +35,8 @@
 
             <Label
                 Grid.ColumnSpan="3"
-                VerticalOptions="Center"
-                FontAttributes="Bold"
+                Style="{StaticResource LabelTitleStyle}"
                 TextColor="Black"
-                FontSize="{StaticResource AppBarButtonFontSize}"
                 HorizontalOptions="Center"
                 Text="Add Batch"/>
             
@@ -232,9 +232,11 @@
                 HeightRequest="60"
                 BackgroundColor="{StaticResource selectTextColor}"
                 HorizontalOptions="FillAndExpand"
+                HorizontalTextAlignment="Center"
                 Grid.Row="3"
                 Text="Done"
                 VerticalOptions="Center"
+                VerticalTextAlignment="Center"
                 FontSize="{StaticResource AppBarButtonFontSize}">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding Path=BindingContext.DoneCommand, 
