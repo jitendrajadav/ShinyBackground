@@ -23,8 +23,7 @@
                 Style="{StaticResource LabelTitleStyle}"
                 TextColor="{StaticResource selectTextColor}"
                 Text="{Binding BackPartners}"
-                HorizontalOptions="Start" 
-                Margin="10">
+                HorizontalOptions="Start">
                
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding Path=BindingContext.BackPartnersCommand, 

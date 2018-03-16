@@ -26,7 +26,6 @@
                 Style="{StaticResource LabelTitleStyle}"
                 TextColor="{StaticResource selectTextColor}"
                 Text="Home"
-                Margin="10"
                 HorizontalOptions="Start">
               
                 <Label.GestureRecognizers>

@@ -36,7 +36,6 @@
                     HorizontalOptions="Start"
                     Style="{StaticResource LabelTitleStyle}"
                     TextColor="{StaticResource selectTextColor}"
-                    Margin="10"
                     Text="Cancel">
                     
                     <Label.GestureRecognizers>

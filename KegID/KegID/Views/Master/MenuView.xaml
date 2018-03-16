@@ -25,6 +25,12 @@
                 <Image 
                     Grid.Column="0"
                     HeightRequest="50">
+                    <Image.Margin>
+                        <OnPlatform x:TypeArguments="Thickness">
+                            <On Platform="iOS" Value="0,22,0,0" />
+                            <On Platform="Android, WinPhone, Windows" Value="0,0,0,0" />
+                        </OnPlatform>
+                    </Image.Margin>
                     <Image.Source>
                         <OnPlatform x:TypeArguments="ImageSource">
                             <OnPlatform.iOS>

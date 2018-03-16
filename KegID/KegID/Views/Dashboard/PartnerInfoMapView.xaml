@@ -6,7 +6,9 @@
              xmlns:controls="clr-namespace:KegID.Controls"
              BackgroundColor="#FFFFFF"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=PartnerInfoMap}">
+   
     <ContentPage.Content>
+      
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -18,8 +20,7 @@
                 Style="{StaticResource LabelTitleStyle}"
                 HorizontalOptions="Start"
                 TextColor="{StaticResource selectTextColor}"
-                Text="Partner Info"
-                Margin="10">
+                Text="Partner Info">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding Path=BindingContext.PartnerInfoCommand, 
                                                         Source={x:Reference Name=lblPartnerInfo}}"

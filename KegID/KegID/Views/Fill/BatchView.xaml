@@ -17,7 +17,6 @@
             </Grid.RowDefinitions>
 
             <Label
-                Margin="10"
                 HeightRequest="50"
                 x:Name="lblAddBatch"
                 TextColor="{StaticResource selectTextColor}"

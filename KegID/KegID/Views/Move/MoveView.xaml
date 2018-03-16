@@ -17,7 +17,6 @@
             </Grid.RowDefinitions>
 
             <Label
-                Margin="10"
                 x:Name="lblCancel"
                 TextColor="{StaticResource selectTextColor}"
                 HorizontalOptions="Start"
@@ -43,7 +42,6 @@
                 TextColor="{StaticResource selectTextColor}"
                 HorizontalOptions="End"
                 Text="Submit"
-                Margin="0,0,10,0"
                 IsVisible="{Binding IsSubmitVisible}">
                
                 <Label.GestureRecognizers>

@@ -10,8 +10,15 @@
     <ContentPage.Content>
        
         <Grid>
-            
+            <Grid.RowSpacing>
+                <OnPlatform x:TypeArguments="x:Double">
+                    <On Platform="iOS" Value="5" />
+                    <On Platform="Android, WinPhone, Windows" Value="0" />
+                </OnPlatform>
+            </Grid.RowSpacing>
+
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -24,8 +31,7 @@
                 TextColor="{StaticResource selectTextColor}"
                 Text="Fill Kegs"
                 Style="{StaticResource LabelTitleStyle}"
-                HorizontalOptions="Start"
-                Margin="10">
+                HorizontalOptions="Start">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding Path=BindingContext.FillKegsCommand, 
                                                         Source={x:Reference Name=lblFillKegs}}"
@@ -35,20 +41,20 @@
 
             <Label
                 TextColor="Black"
-                FontSize="{StaticResource AppBarButtonFontSize}"
+                Style="{StaticResource LabelTitleStyle}"
                 Text="Add pallets"
-                VerticalOptions="Center"
                 HorizontalOptions="Center"/>
           
             <BoxView
-                Grid.Row="0"
+                Grid.Row="1"
+                Margin="0,0,0,10"
                 BackgroundColor="{StaticResource lightGrayPlaceholderColor}"
                 HeightRequest="1"
                 VerticalOptions="End"
                 HorizontalOptions="FillAndExpand"/>
 
             <Label
-                Grid.Row="1"
+                Grid.Row="2"
                 TextColor="Black"
                 FontSize="Medium"
                 Margin="10,0,10,30"
@@ -57,14 +63,14 @@
 
             <BoxView
                 Margin="-10,0,-10,0"
-                Grid.Row="2"
+                Grid.Row="3"
                 HeightRequest="40"
                 BackgroundColor="{StaticResource bannerBGColor}"
                 VerticalOptions="FillAndExpand"
                 HorizontalOptions="FillAndExpand"/>
 
             <StackLayout
-                Grid.Row="2"
+                Grid.Row="3"
                 Orientation="Horizontal"
                 HorizontalOptions="Start"
                 VerticalOptions="Center">
@@ -88,7 +94,7 @@
             </StackLayout>
 
             <Button
-                Grid.Row="2"
+                Grid.Row="3"
                 x:Name="imgAdd"
                 BackgroundColor="Transparent"
                 HorizontalOptions="End"   
@@ -96,13 +102,13 @@
                 TextColor="White"
                 FontSize="50"
                 BorderWidth="0"
-                Margin="-10,-15,-10,-10"
+                Margin="0,0,10,0"
                 Command="{Binding FillScanCommand}"
                 VerticalOptions="Center"/>
 
             <ListView
                 x:Name="lstPallets"
-                Grid.Row="3"
+                Grid.Row="4"
                 VerticalOptions="FillAndExpand"
                 SeparatorVisibility="Default"
                 SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
@@ -159,7 +165,7 @@
                 HorizontalOptions="FillAndExpand"
                 VerticalOptions="EndAndExpand"
                 HorizontalTextAlignment="Center"
-                Grid.Row="4"
+                Grid.Row="5"
                 Text="Submit"
                 VerticalTextAlignment="Center"
                 FontSize="{StaticResource AppBarButtonFontSize}">

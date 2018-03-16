@@ -25,7 +25,6 @@
                 x:Name="lblHome"
                 Style="{StaticResource LabelTitleStyle}"
                 TextColor="{StaticResource selectTextColor}"
-                Margin="10"
                 HorizontalOptions="Start"
                 Text="Home">
                

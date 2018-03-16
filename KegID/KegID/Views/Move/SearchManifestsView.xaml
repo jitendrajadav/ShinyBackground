@@ -35,8 +35,7 @@
                 TextColor="{StaticResource selectTextColor}"
                 Grid.ColumnSpan="2"
                 HorizontalOptions="Start"
-                Text="Manifests"
-                Margin="10">
+                Text="Manifests">
               
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding Path=BindingContext.ManifestsCommand, 

@@ -21,7 +21,7 @@
         <Grid
             RowSpacing="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="50"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition/>
                 <RowDefinition/>
@@ -39,6 +39,12 @@
                     VerticalOptions="Center"
                     Grid.Column="0"
                     HeightRequest="50">
+                    <Image.Margin>
+                        <OnPlatform x:TypeArguments="Thickness">
+                            <On Platform="iOS" Value="0,22,0,0" />
+                            <On Platform="Android, WinPhone, Windows" Value="0,0,0,0" />
+                        </OnPlatform>
+                    </Image.Margin>
                     <Image.Source>
                         <OnPlatform x:TypeArguments="ImageSource">
                             <OnPlatform.iOS>
@@ -54,15 +60,14 @@
                     </Image.Source>
                 </Image>
 
-                <Button
+                <Image
+                    x:Name="imgMore"
                     HorizontalOptions="Center"                  
-                    BorderRadius="5"
-                    BorderWidth="0"
                     VerticalOptions="Center"
                     Grid.Column="1"
-                    Command="{Binding MoreCommand}"
+                    HeightRequest="30"
                     BackgroundColor="Transparent" >
-                    <Button.Image>
+                    <Image.Source>
                         <OnPlatform x:TypeArguments="FileImageSource">
                             <OnPlatform.iOS>
                                 <FileImageSource File="more.png"/>
@@ -74,13 +79,18 @@
                                 <FileImageSource File="Assets/more.png"/>
                             </OnPlatform.WinPhone>
                         </OnPlatform>
-                    </Button.Image>
-                </Button>
+                    </Image.Source>
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Path=BindingContext.MoreCommand, 
+                                                        Source={x:Reference Name=imgMore}}"
+                                                         CommandParameter="{Binding}"/>
+                    </Image.GestureRecognizers>
+                </Image>
 
             </Grid>
           
             <BoxView
-                Margin="-10,0,-10,0"
+                Margin="0,0,-10,0"
                 Grid.Row="1"
                 BackgroundColor="{StaticResource lightGrayPlaceholderColor}"
                 HeightRequest="1"

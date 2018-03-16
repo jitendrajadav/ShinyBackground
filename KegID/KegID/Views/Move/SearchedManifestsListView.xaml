@@ -23,7 +23,6 @@
                 Style="{StaticResource LabelTitleStyle}"
                 TextColor="{StaticResource selectTextColor}"
                 HorizontalOptions="Start"
-                Margin="10"
                 Text="Search Manifests">
               
                 <Label.GestureRecognizers>

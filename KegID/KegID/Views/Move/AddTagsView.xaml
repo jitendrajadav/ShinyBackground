@@ -28,14 +28,13 @@
                 Text="Add tags"
                 Style="{StaticResource LabelTitleStyle}"
                 TextColor="Black"
-                Margin="0,10,0,10"
                 HorizontalOptions="CenterAndExpand" />
 
             <Button
                 TextColor="{StaticResource selectTextColor}"
                 BackgroundColor="Transparent"
                 Grid.Column="2"
-                VerticalOptions="Center"
+                Style="{StaticResource ButtonTitleStyle}"
                 HorizontalOptions="Center"
                 Text="Save"
                 FontSize="Medium"

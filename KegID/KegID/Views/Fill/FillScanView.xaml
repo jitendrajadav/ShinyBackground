@@ -10,9 +10,14 @@
     <ContentPage.Content>
         
         <Grid
-            RowSpacing="0"
             ColumnSpacing="0">
-           
+            <Grid.RowSpacing>
+                <OnPlatform x:TypeArguments="x:Double">
+                    <On Platform="iOS" Value="10" />
+                    <On Platform="Android, WinPhone, Windows" Value="0,0,0,0" />
+                </OnPlatform>
+            </Grid.RowSpacing>
+
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -34,8 +39,7 @@
                 Text="Cancel"
                 Style="{StaticResource LabelTitleStyle}"
                 TextColor="{StaticResource selectTextColor}"
-                HorizontalOptions="Start"
-                Margin="10">
+                HorizontalOptions="Start">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding Path=BindingContext.CancelCommand, 
                                                         Source={x:Reference Name=lblCancel}}"
@@ -49,7 +53,7 @@
                 Text="Submit"
                 IsVisible="{Binding IsPalletze,Converter={StaticResource InvertedBooleanConverter}}"
                 BackgroundColor="Transparent"
-                VerticalOptions="Center"
+                Style="{StaticResource LabelTitleStyle}"
                 TextColor="{StaticResource selectTextColor}"
                 HorizontalOptions="End"
                 FontSize="{StaticResource AppBarButtonFontSize}">
@@ -62,10 +66,9 @@
 
             <Label
                 Grid.ColumnSpan="2"
-                VerticalOptions="Center"
+                Style="{StaticResource LabelTitleStyle}"
                 HorizontalOptions="Center"
                 Text="Scan"
-                FontSize="{StaticResource AppBarButtonFontSize}"
                 TextColor="Black"/>
             
             <BoxView
@@ -101,6 +104,7 @@
                 Grid.Column="1"
                 HorizontalOptions="End"    
                 Margin="0,0,10,0"
+                WidthRequest="30"
                 HeightRequest="30"
                 VerticalOptions="Center"
                 IsVisible="{Binding IsPalletze}"
@@ -126,7 +130,7 @@
             </Image>
 
             <Entry
-                Margin="0,5,0,0"
+                Margin="0,0,0,0"
                 Grid.Row="2"
                 Text="{Binding ManaulBarcode}"
                 Placeholder="Barcode">
@@ -141,6 +145,7 @@
                 x:Name="imgCamera"
                 Grid.Row="2"
                 HeightRequest="30"
+                WidthRequest="30"
                 Margin="0,0,10,0"
                 Grid.Column="1"
                 HorizontalOptions="End">
@@ -177,8 +182,9 @@
                 Grid.Row="3"
                 Grid.Column="1"
                 Margin="0,0,10,0"
-                HeightRequest="40"
-                HorizontalOptions="Center">
+                HeightRequest="30"
+                WidthRequest="30"
+                HorizontalOptions="End">
                 <Image.Source>
                     <OnPlatform x:TypeArguments="FileImageSource">
                         <OnPlatform.iOS>
@@ -203,12 +209,21 @@
                 Grid.ColumnSpan="2"
                 Text="Print"
                 Grid.Row="4"
-                HeightRequest="60"
                 IsVisible="{Binding IsPalletze}"
                 BackgroundColor="{StaticResource selectTextColor}"
                 TextColor="White"
+                BorderRadius="0"
+                BorderWidth="0"
                 Style="{StaticResource ButtonTitleStyle}"
-                Command="{Binding PrintCommand}"/>
+                Command="{Binding PrintCommand}">
+                <Button.HeightRequest>
+                    <OnPlatform x:TypeArguments="x:Double">
+                        <On Platform="iOS, WinPhone, Windows" Value="50" />
+                        <On Platform="Android" Value="60" />
+                    </OnPlatform>
+                </Button.HeightRequest>
+
+            </Button>
 
             <BoxView
                 Grid.ColumnSpan="2"

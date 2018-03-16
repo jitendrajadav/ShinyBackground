@@ -24,8 +24,7 @@
                 Style="{StaticResource LabelTitleStyle}"
                 TextColor="{StaticResource selectTextColor}"
                 HorizontalOptions="Start"
-                Text="Cancel"
-                Margin="10">
+                Text="Cancel">
              
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding Path=BindingContext.CancelCommand, 
@@ -36,7 +35,7 @@
 
             <Label
                 TextColor="Black"
-                FontSize="{StaticResource AppBarButtonFontSize}"
+                Style="{StaticResource LabelTitleStyle}"
                 VerticalOptions="Center"
                 HorizontalOptions="Center"
                 Text="Build Pallet"/>
@@ -46,8 +45,7 @@
                 TextColor="{StaticResource selectTextColor}"
                 HorizontalOptions="End"
                 Text="Submit"
-                FontSize="{StaticResource AppBarButtonFontSize}"
-                VerticalOptions="Center"
+                Style="{StaticResource ButtonTitleStyle}"
                 Command="{Binding SubmitCommand}"
                 IsVisible="{Binding IsSubmitVisible}"/>
 

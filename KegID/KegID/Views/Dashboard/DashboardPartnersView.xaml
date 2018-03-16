@@ -6,9 +6,11 @@
              xmlns:extended="clr-namespace:Xamarin.Forms.Extended;assembly=Xamarin.Forms.Extended.InfiniteScrolling"
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
              BackgroundColor="#FFFFFF"
+             xmlns:controls="clr-namespace:Plugin.CrossPlatformTintedImage.Abstractions;assembly=Plugin.CrossPlatformTintedImage.Abstractions"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=DashboardPartners}">
     
     <ContentPage.Content>
+        
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -24,56 +26,58 @@
                 Grid.RowSpan="4"
                 VerticalOptions="Center"
                 HorizontalOptions="Center"
-                IsVisible="{Binding IsWorking}" />
+                IsVisible="{Binding IsWorking}"/>
 
-            <StackLayout
-                VerticalOptions="Start"
+            <Label
+                x:Name="lblBack"
+                Style="{StaticResource LabelTitleStyle}"
                 HeightRequest="40"
-                Orientation="Horizontal">
+                TextColor="{StaticResource selectTextColor}"
+                Text="Back"
+                VerticalTextAlignment="Center">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.BackCommand, 
+                                                    Source={x:Reference Name=lblBack}}"
+                                                        CommandParameter="{Binding}"/>
+                </Label.GestureRecognizers>
+            </Label>
 
-                <Label
-                    x:Name="lblBack"
-                    Style="{StaticResource LabelTitleStyle}"
-                    HeightRequest="40"
-                    TextColor="{StaticResource selectTextColor}"
-                    Text="Back"
-                    Margin="10">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding Path=BindingContext.BackCommand, 
-                                                        Source={x:Reference Name=lblBack}}"
-                                                         CommandParameter="{Binding}"/>
-                    </Label.GestureRecognizers>
-                </Label>
+            <Label 
+                Text="Partners"
+                TextColor="Black"
+                Style="{StaticResource LabelTitleStyle}"
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="Center" />
 
-                <Label 
-                    Text="Partners"
-                    FontAttributes="Bold"
-                    VerticalOptions="CenterAndExpand" 
-                    HorizontalOptions="CenterAndExpand" />
+            <Image
+                x:Name="imgAdd"
+                Margin="0,0,10,0"
+                HeightRequest="30"
+                WidthRequest="30"
+                HorizontalOptions="End"                  
+                VerticalOptions="Center">
 
-                <Button
-                    HorizontalOptions="Center"                  
-                    BorderRadius="5"
-                    WidthRequest="50"
-                    BorderWidth="0"
-                    Command="{Binding AddNewPartnerCommand}"
-                    BackgroundColor="White" >
-                    <Button.Image>
-                        <OnPlatform x:TypeArguments="FileImageSource">
-                            <OnPlatform.iOS>
-                                <FileImageSource File="contentnew.png"/>
-                            </OnPlatform.iOS>
-                            <OnPlatform.Android>
-                                <FileImageSource File="contentnew.png"/>
-                            </OnPlatform.Android>
-                            <OnPlatform.WinPhone>
-                                <FileImageSource File="Assets/contentnew.png"/>
-                            </OnPlatform.WinPhone>
-                        </OnPlatform>
-                    </Button.Image>
-                </Button>
+                <Image.Source>
+                    <OnPlatform x:TypeArguments="FileImageSource">
+                        <OnPlatform.iOS>
+                            <FileImageSource File="add.png"/>
+                        </OnPlatform.iOS>
+                        <OnPlatform.Android>
+                            <FileImageSource File="add.png"/>
+                        </OnPlatform.Android>
+                        <OnPlatform.WinPhone>
+                            <FileImageSource File="Assets/add.png"/>
+                        </OnPlatform.WinPhone>
+                    </OnPlatform>
+                </Image.Source>
 
-            </StackLayout>
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.AddNewPartnerCommand, 
+                                                    Source={x:Reference Name=imgAdd}}"
+                                                        CommandParameter="{Binding}"/>
+
+                </Image.GestureRecognizers>
+            </Image>
 
             <BoxView
                 Margin="-10,0,-10,0"
@@ -90,6 +94,14 @@
                 Text="{Binding PartnerName}"
                 SearchCommand="{Binding TextChangedCommand}" 
                 SearchCommandParameter="{Binding Text, Source={x:Reference SearchBar}}">
+              
+                <SearchBar.HeightRequest>
+                    <OnPlatform x:TypeArguments="x:Double">
+                        <On Platform="iOS" Value="40" />
+                        <On Platform="Android, WinPhone, Windows" Value="40" />
+                    </OnPlatform>
+                </SearchBar.HeightRequest>
+
                 <SearchBar.Behaviors>
                     <behaviors:TextChangedBehavior />
                 </SearchBar.Behaviors>

@@ -22,8 +22,7 @@
                 Style="{StaticResource LabelTitleStyle}"
                 HorizontalOptions="Start"
                 TextColor="{StaticResource selectTextColor}"
-                Text="Partners"
-                Margin="10">
+                Text="Partners">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding Path=BindingContext.PartnersCommand, 
                                                         Source={x:Reference Name=lblPartners}}"

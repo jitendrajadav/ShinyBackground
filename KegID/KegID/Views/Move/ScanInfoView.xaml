@@ -39,7 +39,6 @@
                 VerticalOptions="Center"
                 Grid.ColumnSpan="2"
                 Text="Done"
-                Margin="10"
                 Style="{StaticResource LabelTitleStyle}"
                 TextColor="{StaticResource selectTextColor}">
                 

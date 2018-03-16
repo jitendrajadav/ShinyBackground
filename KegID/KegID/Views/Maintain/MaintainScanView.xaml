@@ -10,9 +10,14 @@
     <ContentPage.Content>
         
         <Grid
-            RowSpacing="0"
             ColumnSpacing="0">
-            
+            <Grid.RowSpacing>
+                <OnPlatform x:TypeArguments="x:Double">
+                    <On Platform="iOS" Value="5" />
+                    <On Platform="Android, WinPhone, Windows" Value="0" />
+                </OnPlatform>
+            </Grid.RowSpacing>
+
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -35,8 +40,7 @@
                 Style="{StaticResource LabelTitleStyle}"
                 HorizontalOptions="Start"
                 TextColor="{StaticResource selectTextColor}"
-                Text="Back"
-                Margin="10">
+                Text="Back">
                 
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding Path=BindingContext.BackCommand, 
@@ -49,9 +53,8 @@
                 HorizontalOptions="Center"
                 Text="Scan"
                 TextColor="Black"
-                FontSize="{StaticResource AppBarButtonFontSize}"
-                Grid.ColumnSpan="3"
-                VerticalOptions="Center"/>
+                Style="{StaticResource LabelTitleStyle}"
+                Grid.ColumnSpan="3"/>
 
             <BoxView
                 Margin="-10,0,-10,0"
@@ -81,6 +84,7 @@
                 x:Name="imgCamera"
                 Grid.Row="2"
                 HeightRequest="30"
+                WidthRequest="30"
                 Margin="0,0,10,0"
                 Grid.Column="2"
                 HorizontalOptions="End">
@@ -109,6 +113,7 @@
             <BoxView
                 Margin="-10,0,-10,0"
                 Grid.Row="5"
+                HeightRequest="50"
                 Grid.ColumnSpan="3"
                 BackgroundColor="{StaticResource bannerBGColor}"
                 VerticalOptions="FillAndExpand"
@@ -133,10 +138,9 @@
                 HorizontalOptions="Center"
                 VerticalOptions="Center"
                 Text="{Binding BarcodeCollection.Count}"/>
-          
+
             <Button
-                HeightRequest="60"
-                Margin="-10,-5,-10,0"
+                Margin="-10,0,-10,0"
                 BackgroundColor="{StaticResource selectTextColor}"
                 Grid.Column="0"
                 Grid.ColumnSpan="3"
@@ -145,7 +149,14 @@
                 HorizontalOptions="FillAndExpand"
                 TextColor="White"
                 Text="Submit"
-                Command="{Binding SubmitCommand}"/>
+                Command="{Binding SubmitCommand}">
+                <Button.HeightRequest>
+                    <OnPlatform x:TypeArguments="x:Double">
+                        <On Platform="iOS, WinPhone, Windows" Value="50" />
+                        <On Platform="Android" Value="60" />
+                    </OnPlatform>
+                </Button.HeightRequest>
+            </Button>
 
             <ListView
                 Margin="10,0,10,0"

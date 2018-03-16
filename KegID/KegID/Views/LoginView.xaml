@@ -52,6 +52,7 @@
                 Text="{Binding Password}"/>
 
             <Label
+                Margin="0,20,0,0"
                 x:Name="lblLogin"
                 BackgroundColor="{StaticResource selectTextColor}"
                 Grid.Row="3"

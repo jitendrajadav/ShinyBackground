@@ -19,8 +19,7 @@
                 Style="{StaticResource LabelTitleStyle}"
                 TextColor="{StaticResource selectTextColor}"
                 HorizontalOptions="Start"
-                Text="Home"
-                Margin="10">
+                Text="Home">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding Path=BindingContext.HomeCommand, 
                                                         Source={x:Reference Name=lblHome}}"

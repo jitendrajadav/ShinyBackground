@@ -17,11 +17,12 @@
             BackgroundColor="White">
 
             <Label
-                Margin="20,10,10,10"
+                Margin="20,0,10,0"
                 HeightRequest="50"
                 Style="{StaticResource LabelTitleStyle}"
                 x:Name="lblRefresh"
                 HorizontalOptions="StartAndExpand"
+                VerticalTextAlignment="Center"
                 TextColor="{StaticResource selectTextColor}"
                 Text="Refresh">
                 

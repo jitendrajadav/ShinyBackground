@@ -13,6 +13,7 @@
 
             <OnPlatform x:Key="AppBarButtonFontSize" x:TypeArguments="x:Double" iOS="20" Android="20" WinPhone="20"/>
             <OnPlatform x:Key="AppBarButtonHeight" x:TypeArguments="x:Double" iOS="50" Android="60" WinPhone="50"/>
+            <OnPlatform x:Key="AppBarButtonMargin" x:TypeArguments="Thickness" iOS="10,22,10,10" Android="10" WinPhone="10"/>
 
             <Color x:Key="bannerBGColor">#4E6388</Color>
             <Color x:Key="selectTextColor">#007AFF</Color>
@@ -28,11 +29,13 @@
             <Style x:Key="ButtonTitleStyle" TargetType="Button">
                 <Setter Property="VerticalOptions" Value="Center"/>
                 <Setter Property="FontSize" Value="{StaticResource AppBarButtonFontSize}"/>
+                <Setter Property="Margin" Value="{StaticResource AppBarButtonMargin}"/>
             </Style>
            
             <Style x:Key="LabelTitleStyle" TargetType="Label">
                 <Setter Property="VerticalOptions" Value="Center"/>
                 <Setter Property="FontSize" Value="{StaticResource AppBarButtonFontSize}"/>
+                <Setter Property="Margin" Value="{StaticResource AppBarButtonMargin}"/>
             </Style>
 
             <Style x:Key="LabelLeftAlign" TargetType="Label">

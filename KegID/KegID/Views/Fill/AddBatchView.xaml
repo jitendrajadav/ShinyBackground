@@ -9,9 +9,14 @@
    
     <ContentPage.Content>
        
-        <Grid
-            ColumnSpacing="0"
-            RowSpacing="0">
+        <Grid>
+            <Grid.RowSpacing>
+                <OnPlatform x:TypeArguments="x:Double">
+                    <On Platform="iOS" Value="5" />
+                    <On Platform="Android, WinPhone, Windows" Value="0" />
+                </OnPlatform>
+            </Grid.RowSpacing>
+            
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -24,8 +29,7 @@
                 Style="{StaticResource LabelTitleStyle}"
                 TextColor="{StaticResource selectTextColor}"
                 HorizontalOptions="Start"
-                Text="Cancel"
-                Margin="10">
+                Text="Cancel">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding Path=BindingContext.CancelCommand, 
                                                         Source={x:Reference Name=lblCancel}}"
@@ -42,7 +46,7 @@
             
             <BoxView
                 Grid.ColumnSpan="3"
-                Margin="-10,0,-10,0"
+                Margin="0,0,0,10"
                 Grid.Row="1"
                 BackgroundColor="{StaticResource lightGrayPlaceholderColor}"
                 HeightRequest="1"
@@ -56,8 +60,14 @@
                
                 <Grid
                     ColumnSpacing="0"
-                    RowSpacing="0"
                     Grid.Row="1">
+                    <Grid.RowSpacing>
+                        <OnPlatform x:TypeArguments="x:Double">
+                            <On Platform="iOS" Value="10" />
+                            <On Platform="Android, WinPhone, Windows" Value="0" />
+                        </OnPlatform>
+                    </Grid.RowSpacing>
+
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -195,6 +205,7 @@
                         Grid.Row="7"/>
 
                     <Image
+                        Margin="0,5,5,0"
                         x:Name="imgTags"
                         Grid.Row="7"
                         Grid.Column="2"

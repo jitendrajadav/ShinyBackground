@@ -37,8 +37,7 @@
                 Style="{StaticResource LabelTitleStyle}"
                 TextColor="{StaticResource selectTextColor}"
                 HorizontalOptions="Start"
-                Text="Cancel"
-                Margin="10">
+                Text="Cancel">
                
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding Path=BindingContext.CancelCommand, 

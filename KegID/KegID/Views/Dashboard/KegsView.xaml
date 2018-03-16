@@ -6,7 +6,9 @@
              xmlns:local="clr-namespace:KegID"
              BackgroundColor="#FFFFFF"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Kegs}">
+    
     <ContentPage.Content>
+        
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -20,8 +22,7 @@
                 Style="{StaticResource LabelTitleStyle}"
                 HeightRequest="40"
                 TextColor="{StaticResource selectTextColor}"
-                Text="Partner Info"
-                Margin="10">
+                Text="Partner Info">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding Path=BindingContext.PartnerInfoCommand, 
                                                         Source={x:Reference Name=lblPartnerInfo}}"
@@ -31,9 +32,10 @@
 
             <Label 
                 Text="Kegs"
-                FontAttributes="Bold"
+                Style="{StaticResource LabelTitleStyle}"
+                TextColor="Black"
                 VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+                HorizontalOptions="CenterAndExpand"/>
 
             <BoxView
                 Margin="-10,0,-10,0"
@@ -46,6 +48,7 @@
                 Text="{Binding KegsTitle}"
                 FontAttributes="Bold"
                 Grid.Row="1"
+                Style="{StaticResource LabelTitleStyle}"
                 TextColor="White"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
