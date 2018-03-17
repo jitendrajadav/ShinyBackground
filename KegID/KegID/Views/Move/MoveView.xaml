@@ -54,7 +54,13 @@
             <Grid
                 Grid.Row="1"
                 Margin="10,0,10,0">
-               
+                <Grid.RowSpacing>
+                    <OnPlatform x:TypeArguments="x:Double">
+                        <On Platform="iOS" Value="5" />
+                        <On Platform="Android, WinPhone, Windows" Value="0" />
+                    </OnPlatform>
+                </Grid.RowSpacing>
+
                 <Grid.RowDefinitions>
                     <RowDefinition Height="50"/>
                     <RowDefinition Height="Auto"/>

@@ -11,7 +11,7 @@ using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
-    public class PartnerInfoViewModel : ViewModelBase
+    public class PartnerInfoViewModel : BaseViewModel
     {
         #region Properties
         public IDashboardService _dashboardService { get; set; }

@@ -4,7 +4,7 @@ using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
-    public class PrinterSettingViewModel : ViewModelBase
+    public class PrinterSettingViewModel : BaseViewModel
     {
         #region Properties
 

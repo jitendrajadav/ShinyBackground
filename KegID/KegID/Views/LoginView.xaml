@@ -56,7 +56,7 @@
                 x:Name="lblLogin"
                 BackgroundColor="{StaticResource selectTextColor}"
                 Grid.Row="3"
-                Text="Log in"
+                Text="{Binding Resources[app_name]}"
                 TextColor="White"
                 VerticalOptions="Center"
                 VerticalTextAlignment="Center"

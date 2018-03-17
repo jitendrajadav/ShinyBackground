@@ -5,7 +5,7 @@ using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
-    public class ScanInfoViewModel  : ViewModelBase
+    public class ScanInfoViewModel  : BaseViewModel
     {
         #region Properties
 

@@ -6,7 +6,7 @@ using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
-    public class PalletizeDetailViewModel : ViewModelBase
+    public class PalletizeDetailViewModel : BaseViewModel
     {
         #region Properties
 

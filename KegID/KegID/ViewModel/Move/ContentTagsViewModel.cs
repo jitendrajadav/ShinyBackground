@@ -7,7 +7,7 @@ using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
-    public class ContentTagsViewModel : ViewModelBase
+    public class ContentTagsViewModel : BaseViewModel
     {
         #region Properties
 

@@ -18,7 +18,7 @@ using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
-    public class FillScanViewModel : ViewModelBase
+    public class FillScanViewModel : BaseViewModel
     {
         #region Properties
         public IMoveService _moveService { get; set; }

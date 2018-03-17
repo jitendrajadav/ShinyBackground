@@ -14,6 +14,8 @@ namespace KegID
 {
     public partial class App : Application
 	{
+        public static string CurrentLanguage = "EN";
+
         private static ViewModelLocator _locator;
 
         public static ViewModelLocator Locator

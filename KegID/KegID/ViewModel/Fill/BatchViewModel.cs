@@ -15,7 +15,7 @@ using System;
 
 namespace KegID.ViewModel
 {
-    public class BatchViewModel : ViewModelBase
+    public class BatchViewModel : BaseViewModel
     {
         #region Properties
         public IFillService _fillService { get; set; }

@@ -11,9 +11,14 @@
     <ContentPage.Content>
         
         <Grid
-            ColumnSpacing="0"
-            RowSpacing="0">
-          
+            ColumnSpacing="0">
+            <Grid.RowSpacing>
+                <OnPlatform x:TypeArguments="x:Double">
+                    <On Platform="iOS" Value="5" />
+                    <On Platform="Android, WinPhone, Windows" Value="0" />
+                </OnPlatform>
+            </Grid.RowSpacing>
+
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
@@ -50,10 +55,15 @@
                 IsVisible="{Binding IsSubmitVisible}"/>
 
             <Grid
-                RowSpacing="0"
                 ColumnSpacing="0"
                 Grid.Row="1">
-               
+                <Grid.RowSpacing>
+                    <OnPlatform x:TypeArguments="x:Double">
+                        <On Platform="iOS" Value="5" />
+                        <On Platform="Android, WinPhone, Windows" Value="0" />
+                    </OnPlatform>
+                </Grid.RowSpacing>
+
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -83,7 +93,7 @@
                     Text="{Binding ManifestId, StringFormat='Pallet# -{0}'}"
                     BackgroundColor="{StaticResource bannerBGColor}"
                     TextColor="White"
-                    FontSize="Medium"
+                    FontSize="{StaticResource AppBarButtonFontSize}"
                     VerticalTextAlignment="Center"
                     VerticalOptions="CenterAndExpand"/>
 
@@ -104,8 +114,10 @@
                     BackgroundColor="Transparent">
                   
                     <Image.Source>
-                        <OnPlatform x:TypeArguments="FileImageSource">
-                            <OnPlatform.iOS>
+                        <OnPlatform x:TypeArguments="ImageSource">
+                            <On Platform="iOS, Android" Value="pencil.png" />
+                            <On Platform="UWP" Value="Assets/pencil.png" />
+                            <!--<OnPlatform.iOS>
                                 <FileImageSource File="pencil.png"/>
                             </OnPlatform.iOS>
                             <OnPlatform.Android>
@@ -113,7 +125,7 @@
                             </OnPlatform.Android>
                             <OnPlatform.WinPhone>
                                 <FileImageSource File="Assets/pencil.png"/>
-                            </OnPlatform.WinPhone>
+                            </OnPlatform.WinPhone>-->
                         </OnPlatform>
                     </Image.Source>
                   
@@ -151,7 +163,7 @@
 
                 <Label
                     TextColor="Black"
-                    FontSize="Medium"
+                    FontSize="{StaticResource AppBarButtonFontSize}"
                     Margin="10,0,0,0"
                     Text="Stock ocation:"
                     Grid.Row="1"/>
@@ -163,7 +175,7 @@
                     HorizontalOptions="Start"
                     BackgroundColor="Transparent"
                     VerticalOptions="Center"
-                    FontSize="Medium"
+                    FontSize="{StaticResource AppBarButtonFontSize}"
                     Text="{Binding Path=StockLocation.FullName}"
                     Grid.Row="2">
                     
@@ -184,7 +196,7 @@
 
                 <Label
                     TextColor="Black"
-                    FontSize="Medium"
+                    FontSize="{StaticResource AppBarButtonFontSize}"
                     Margin="10,0,0,0"
                     Text="Target location:"
                     Grid.Row="4"/>
@@ -194,7 +206,7 @@
                     TextColor="{StaticResource selectTextColor}"
                     Margin="20,10,10,10"
                     BackgroundColor="Transparent"
-                    FontSize="Medium"
+                    FontSize="{StaticResource AppBarButtonFontSize}"
                     HorizontalOptions="Start"
                     Text="{Binding Path=TargetLocation.FullName}"
                     Grid.Row="5">
@@ -216,7 +228,7 @@
 
                 <Label
                     TextColor="Black"
-                    FontSize="Medium"
+                    FontSize="{StaticResource AppBarButtonFontSize}"
                     Margin="10,0,0,0"
                     Text="More Info:"
                     Grid.Row="7"/>
@@ -227,7 +239,7 @@
                     Margin="20,10,10,10"
                     Text="{Binding AddInfoTitle}"
                     HorizontalOptions="Start"
-                    FontSize="Medium"
+                    FontSize="{StaticResource AppBarButtonFontSize}"
                     TextColor="{StaticResource selectTextColor}"
                     Grid.Row="8">
                  
@@ -248,7 +260,7 @@
 
                 <Label
                     TextColor="Black"
-                    FontSize="Medium"
+                    FontSize="{StaticResource AppBarButtonFontSize}"
                     Margin="10,0,0,0"
                     Text="Kegs:"
                     Grid.Row="10"/>

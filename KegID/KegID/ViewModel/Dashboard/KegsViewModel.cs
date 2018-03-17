@@ -10,7 +10,7 @@ using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
-    public class KegsViewModel : ViewModelBase
+    public class KegsViewModel : BaseViewModel
     {
         #region Properties
         public IDashboardService _dashboardService { get; set; }

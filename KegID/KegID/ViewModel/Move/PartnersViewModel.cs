@@ -15,7 +15,7 @@ using System;
 
 namespace KegID.ViewModel
 {
-    public class PartnersViewModel : ViewModelBase
+    public class PartnersViewModel : BaseViewModel
     {
         #region Properties
 

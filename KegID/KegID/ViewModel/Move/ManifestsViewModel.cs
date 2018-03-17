@@ -12,7 +12,7 @@ using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
-    public class ManifestsViewModel : ViewModelBase
+    public class ManifestsViewModel : BaseViewModel
     {
         #region Properties
 

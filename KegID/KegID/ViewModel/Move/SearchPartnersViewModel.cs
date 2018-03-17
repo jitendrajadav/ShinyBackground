@@ -11,7 +11,7 @@ using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
-    public class SearchPartnersViewModel : ViewModelBase
+    public class SearchPartnersViewModel : BaseViewModel
     {
         #region Properties
 

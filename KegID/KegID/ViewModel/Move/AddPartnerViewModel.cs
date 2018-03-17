@@ -13,7 +13,7 @@ using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
-    public class AddPartnerViewModel : ViewModelBase
+    public class AddPartnerViewModel : BaseViewModel
     {
         #region Properties
 

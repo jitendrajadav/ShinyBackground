@@ -6,7 +6,7 @@ using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
-    public class ManifestDetailViewModel : ViewModelBase
+    public class ManifestDetailViewModel : BaseViewModel
     {
         #region Properties
 

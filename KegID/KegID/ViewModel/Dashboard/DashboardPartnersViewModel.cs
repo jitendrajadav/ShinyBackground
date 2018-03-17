@@ -16,7 +16,7 @@ using GalaSoft.MvvmLight.Ioc;
 
 namespace KegID.ViewModel
 {
-    public class DashboardPartnersViewModel : ViewModelBase
+    public class DashboardPartnersViewModel : BaseViewModel
     {
         #region Properties
 

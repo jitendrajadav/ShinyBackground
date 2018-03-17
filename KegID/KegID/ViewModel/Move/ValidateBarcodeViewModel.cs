@@ -15,7 +15,7 @@ using System.Diagnostics;
 
 namespace KegID.ViewModel
 {
-    public class ValidateBarcodeViewModel : ViewModelBase
+    public class ValidateBarcodeViewModel : BaseViewModel
     {
         #region Properties
 

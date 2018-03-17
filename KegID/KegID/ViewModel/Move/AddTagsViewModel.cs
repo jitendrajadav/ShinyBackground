@@ -4,7 +4,7 @@ using System;
 
 namespace KegID.ViewModel
 {
-    public class AddTagsViewModel : ViewModelBase
+    public class AddTagsViewModel : BaseViewModel
     {
         #region Properties
 

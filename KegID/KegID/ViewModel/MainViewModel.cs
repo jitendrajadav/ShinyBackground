@@ -6,7 +6,7 @@ using System.Collections.ObjectModel;
 
 namespace KegID.ViewModel
 {
-    public class MainViewModel : ViewModelBase
+    public class MainViewModel : BaseViewModel
     {
         #region Properties
 

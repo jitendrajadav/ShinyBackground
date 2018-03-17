@@ -9,7 +9,7 @@ using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
-    public class SearchManifestsViewModel : ViewModelBase
+    public class SearchManifestsViewModel : BaseViewModel
     {
         #region Properties
         public IMoveService _moveService { get; set; }

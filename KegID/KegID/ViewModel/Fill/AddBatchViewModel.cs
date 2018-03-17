@@ -11,7 +11,7 @@ using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
-    public class AddBatchViewModel : ViewModelBase
+    public class AddBatchViewModel : BaseViewModel
     {
         #region Properties
 

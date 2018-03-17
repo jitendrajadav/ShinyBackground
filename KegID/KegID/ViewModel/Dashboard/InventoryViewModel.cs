@@ -11,7 +11,7 @@ using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
-    public class InventoryViewModel : ViewModelBase
+    public class InventoryViewModel : BaseViewModel
     {
 
         #region Properties

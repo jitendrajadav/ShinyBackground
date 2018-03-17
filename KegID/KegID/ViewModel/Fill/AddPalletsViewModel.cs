@@ -14,7 +14,7 @@ using System.Diagnostics;
 
 namespace KegID.ViewModel
 {
-    public class AddPalletsViewModel : ViewModelBase
+    public class AddPalletsViewModel : BaseViewModel
     {
         #region Properties
         public IPalletizeService _palletizeService { get; set; }

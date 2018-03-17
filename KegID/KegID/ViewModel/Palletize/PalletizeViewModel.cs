@@ -15,7 +15,7 @@ using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
-    public class PalletizeViewModel : ViewModelBase
+    public class PalletizeViewModel : BaseViewModel
     {
         #region Properties
         public IPalletizeService _palletizeService { get; set; }

@@ -19,7 +19,7 @@ using Newtonsoft.Json;
 
 namespace KegID.ViewModel
 {
-    public class ScanKegsViewModel : ViewModelBase
+    public class ScanKegsViewModel : BaseViewModel
     {
         ZXingScannerPage scanPage;
 

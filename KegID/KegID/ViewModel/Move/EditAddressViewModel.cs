@@ -6,7 +6,7 @@ using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
-    public class EditAddressViewModel : ViewModelBase
+    public class EditAddressViewModel : BaseViewModel
     {
         #region Properties
 

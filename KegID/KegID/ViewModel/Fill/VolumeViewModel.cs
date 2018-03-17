@@ -6,7 +6,7 @@ using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
-    public class VolumeViewModel : ViewModelBase
+    public class VolumeViewModel : BaseViewModel
     {
         #region Properties
 

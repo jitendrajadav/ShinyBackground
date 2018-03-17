@@ -15,7 +15,7 @@ using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
-    public class MoveViewModel : ViewModelBase
+    public class MoveViewModel : BaseViewModel
     {
         #region Properties
 
