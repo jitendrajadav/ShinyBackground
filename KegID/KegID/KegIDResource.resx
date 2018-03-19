@@ -126,4 +126,1420 @@
   <data name="bulk_update_success" xml:space="preserve">
     <value>Bulk Update Success.</value>
   </data>
+  <data name="button_add_alert" xml:space="preserve">
+    <value>Add Alert</value>
+  </data>
+  <data name="button_build_pallet" xml:space="preserve">
+    <value>Palletize</value>
+  </data>
+  <data name="button_dismiss" xml:space="preserve">
+    <value>Dismiss</value>
+  </data>
+  <data name="button_done" xml:space="preserve">
+    <value>Done</value>
+  </data>
+  <data name="button_kegs" xml:space="preserve">
+    <value>Kegs</value>
+  </data>
+  <data name="button_login" xml:space="preserve">
+    <value>Log In</value>
+  </data>
+  <data name="button_manifests" xml:space="preserve">
+    <value>Manifests</value>
+  </data>
+  <data name="button_move_kegs" xml:space="preserve">
+    <value>Move</value>
+  </data>
+  <data name="button_next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="button_no" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="button_pallets" xml:space="preserve">
+    <value>Pallets</value>
+  </data>
+  <data name="button_partners" xml:space="preserve">
+    <value>Partners</value>
+  </data>
+  <data name="button_remove_alert" xml:space="preserve">
+    <value>Remove Alert</value>
+  </data>
+  <data name="button_save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="button_save_partner" xml:space="preserve">
+    <value>Save Partner</value>
+  </data>
+  <data name="button_search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="button_submit_manifest" xml:space="preserve">
+    <value>Send Manifest</value>
+  </data>
+  <data name="button_yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="content_list_add_new" xml:space="preserve">
+    <value>&amp;lt;&amp;lt; add new &amp;gt;&amp;gt;</value>
+  </data>
+  <data name="content_list_empty" xml:space="preserve">
+    <value>Empty</value>
+  </data>
+  <data name="content_list_select_content" xml:space="preserve">
+    <value>--Select contents--</value>
+  </data>
+  <data name="deleted_error" xml:space="preserve">
+    <value>Unable to delete.</value>
+  </data>
+  <data name="deleted_successfully" xml:space="preserve">
+    <value>Deleted successfully.</value>
+  </data>
+  <data name="delete_btn_str" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="dialog_addcontents_message" xml:space="preserve">
+    <value />
+  </data>
+  <data name="dialog_addcontents_title" xml:space="preserve">
+    <value>Add a Brand</value>
+  </data>
+  <data name="dialog_cancel_message" xml:space="preserve">
+    <value>You are about to leave this page</value>
+  </data>
+  <data name="dialog_cancel_negative" xml:space="preserve">
+    <value>Stay here</value>
+  </data>
+  <data name="dialog_cancel_notnow" xml:space="preserve">
+    <value>Not now</value>
+  </data>
+  <data name="dialog_cancel_positive" xml:space="preserve">
+    <value>Leave</value>
+  </data>
+  <data name="dialog_cancel_title" xml:space="preserve">
+    <value />
+  </data>
+  <data name="dialog_close_batch" xml:space="preserve">
+    <value>Mark this batch as completed?</value>
+  </data>
+  <data name="dialog_close_batch_title" xml:space="preserve">
+    <value>Close batch</value>
+  </data>
+  <data name="dialog_delete_manifest" xml:space="preserve">
+    <value>Delete Manifest</value>
+  </data>
+  <data name="dialog_delete_manifest_message" xml:space="preserve">
+    <value>Are you sure to remove selected Manifest?</value>
+  </data>
+  <data name="dialog_invalid_scans" xml:space="preserve">
+    <value>Invalid scans</value>
+  </data>
+  <data name="dialog_loading" xml:space="preserve">
+    <value>loading\u2026</value>
+  </data>
+  <data name="dialog_multiple_matches" xml:space="preserve">
+    <value>Multiple Matches</value>
+  </data>
+  <data name="dialog_print_message" xml:space="preserve">
+    <value>Cannot connect to printer.</value>
+  </data>
+  <data name="dialog_print_negative" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="dialog_print_positive" xml:space="preserve">
+    <value>Setup</value>
+  </data>
+  <data name="dialog_selectcontents_title" xml:space="preserve">
+    <value>Select a Brand</value>
+  </data>
+  <data name="done" xml:space="preserve">
+    <value>Done</value>
+  </data>
+  <data name="empty" xml:space="preserve">
+    <value />
+  </data>
+  <data name="error_bad_response" xml:space="preserve">
+    <value>Bad Response received from server</value>
+  </data>
+  <data name="error_date_past" xml:space="preserve">
+    <value>You have selected a date in the past.  Continue with this date?</value>
+  </data>
+  <data name="error_invalid_date" xml:space="preserve">
+    <value>Ship date is past.  Use anyways?</value>
+  </data>
+  <data name="error_not_connected" xml:space="preserve">
+    <value>Not connected</value>
+  </data>
+  <data name="error_no_scans" xml:space="preserve">
+    <value>No scans added</value>
+  </data>
+  <data name="error_print" xml:space="preserve">
+    <value>Error while printing pallet. Please try again.</value>
+  </data>
+  <data name="error_unauthorized" xml:space="preserve">
+    <value>Unauthorized</value>
+  </data>
+  <data name="extra_print_html" xml:space="preserve">
+    <value>com.anotherroundapps.apps.kegid.extras.printhtml</value>
+  </data>
+  <data name="extra_print_url" xml:space="preserve">
+    <value>com.anotherroundapps.apps.kegid.extras.printurl</value>
+  </data>
+  <data name="extra_tag_values" xml:space="preserve">
+    <value>tag_values</value>
+  </data>
+  <data name="extra_title" xml:space="preserve">
+    <value>title</value>
+  </data>
+  <data name="format_geo_lat_lon" xml:space="preserve">
+    <value>geo:%1$f,%2$f</value>
+  </data>
+  <data name="format_geo_query_address" xml:space="preserve">
+    <value>%1$s</value>
+  </data>
+  <data name="format_geo_query_address_label" xml:space="preserve">
+    <value>%1$s(%2$s)</value>
+  </data>
+  <data name="format_geo_query_lat_lon" xml:space="preserve">
+    <value>%1$f,%2$f</value>
+  </data>
+  <data name="format_geo_query_lat_lon_label" xml:space="preserve">
+    <value>%1$f,%2$f(%3$s)</value>
+  </data>
+  <data name="format_header_choose" xml:space="preserve">
+    <value>Multiple results for \'%s\'</value>
+  </data>
+  <data name="format_items_held" xml:space="preserve">
+    <value>%1$d %2$s held (Oldest: %3$d d)</value>
+  </data>
+  <data name="format_title_manifest" xml:space="preserve">
+    <value>Manifest # %1$s</value>
+  </data>
+  <data name="format_title_pallet" xml:space="preserve">
+    <value>Pallet # %1$s</value>
+  </data>
+  <data name="format_total_pallets" xml:space="preserve">
+    <value>Pallets: %1$d</value>
+  </data>
+  <data name="action_settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="button_fill_kegs" xml:space="preserve">
+    <value>Fill</value>
+  </data>
+  <data name="button_maintain_kegs" xml:space="preserve">
+    <value>Maintain</value>
+  </data>
+  <data name="error_location_disabled" xml:space="preserve">
+    <value>Location Services are disabled</value>
+  </data>
+  <data name="error_location_unavailable" xml:space="preserve">
+    <value>Location Services are unavailable</value>
+  </data>
+  <data name="format_filling_pallets" xml:space="preserve">
+    <value>Filling %1$s kegs with %2$s</value>
+  </data>
+  <data name="header_scanned_items" xml:space="preserve">
+    <value>Scanned Kegs</value>
+  </data>
+  <data name="hello_world" xml:space="preserve">
+    <value>Hello world!</value>
+  </data>
+  <data name="hint_addbrand" xml:space="preserve">
+    <value>Select a brand or add new</value>
+  </data>
+  <data name="hint_anywhere" xml:space="preserve">
+    <value>-- anywhere --</value>
+  </data>
+  <data name="hint_batchnum" xml:space="preserve">
+    <value>Batch #</value>
+  </data>
+  <data name="hint_contents" xml:space="preserve">
+    <value>Brand</value>
+  </data>
+  <data name="hint_empty_list" xml:space="preserve">
+    <value>No results found</value>
+  </data>
+  <data name="hint_filter" xml:space="preserve">
+    <value>filter</value>
+  </data>
+  <data name="hint_fromdate" xml:space="preserve">
+    <value>From date</value>
+  </data>
+  <data name="hint_no_tags_set" xml:space="preserve">
+    <value>-- none set--</value>
+  </data>
+  <data name="hint_ordernum" xml:space="preserve">
+    <value>order, shipment #</value>
+  </data>
+  <data name="hint_password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="hint_scan" xml:space="preserve">
+    <value>barcode</value>
+  </data>
+  <data name="hint_scan_pallet" xml:space="preserve">
+    <value>Scan pallet barcode</value>
+  </data>
+  <data name="hint_search_item" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="hint_search_partner" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="hint_select_batch" xml:space="preserve">
+    <value>\u2013select batch\u2013</value>
+  </data>
+  <data name="hint_select_brand" xml:space="preserve">
+    <value>\u2013select brand\u2013</value>
+  </data>
+  <data name="hint_select_date" xml:space="preserve">
+    <value>\u2013select ship date\u2013</value>
+  </data>
+  <data name="hint_select_generic_date" xml:space="preserve">
+    <value>\u2013select date\u2013</value>
+  </data>
+  <data name="hint_select_location" xml:space="preserve">
+    <value>\u2013select location\u2013</value>
+  </data>
+  <data name="hint_select_operator" xml:space="preserve">
+    <value>\u2013set operator\u2013</value>
+  </data>
+  <data name="hint_select_size" xml:space="preserve">
+    <value>\u2013select size\u2013</value>
+  </data>
+  <data name="hint_select_tags" xml:space="preserve">
+    <value>\u2013add info\u2013</value>
+  </data>
+  <data name="hint_sku" xml:space="preserve">
+    <value>Select SKU</value>
+  </data>
+  <data name="hint_todate" xml:space="preserve">
+    <value>To date</value>
+  </data>
+  <data name="hint_trackingnum" xml:space="preserve">
+    <value>Tracking #</value>
+  </data>
+  <data name="hint_username" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="images_content" xml:space="preserve">
+    <value />
+  </data>
+  <data name="invalid_barcode" xml:space="preserve">
+    <value>Invalid date</value>
+  </data>
+  <data name="invalid_date" xml:space="preserve">
+    <value>Ship Date</value>
+  </data>
+  <data name="invalid_session" xml:space="preserve">
+    <value>Invalid session. Application needs restart.</value>
+  </data>
+  <data name="keg" xml:space="preserve">
+    <value>Keg</value>
+  </data>
+  <data name="kegs" xml:space="preserve">
+    <value>Kegs</value>
+  </data>
+  <data name="label_accountnum" xml:space="preserve">
+    <value>Account #</value>
+  </data>
+  <data name="label_address_bill" xml:space="preserve">
+    <value>Bill Address</value>
+  </data>
+  <data name="label_address_city" xml:space="preserve">
+    <value>City</value>
+  </data>
+  <data name="label_address_country" xml:space="preserve">
+    <value>Country</value>
+  </data>
+  <data name="label_address_line1" xml:space="preserve">
+    <value>Address Line 1</value>
+  </data>
+  <data name="label_address_line2" xml:space="preserve">
+    <value>Address Line 2</value>
+  </data>
+  <data name="label_address_line3" xml:space="preserve">
+    <value>Address Line 3</value>
+  </data>
+  <data name="label_address_line4" xml:space="preserve">
+    <value>Address Line 4</value>
+  </data>
+  <data name="label_address_line5" xml:space="preserve">
+    <value>Address Line 5</value>
+  </data>
+  <data name="label_address_postal" xml:space="preserve">
+    <value>Postal Code</value>
+  </data>
+  <data name="label_address_ship" xml:space="preserve">
+    <value>Ship Address</value>
+  </data>
+  <data name="label_address_state" xml:space="preserve">
+    <value>State</value>
+  </data>
+  <data name="label_add_scans" xml:space="preserve">
+    <value>Add Kegs\u2026</value>
+  </data>
+  <data name="label_alcohol_content" xml:space="preserve">
+    <value>Alcohol Content</value>
+  </data>
+  <data name="label_altbarcode" xml:space="preserve">
+    <value>Alernate Barcode</value>
+  </data>
+  <data name="label_apply_tags" xml:space="preserve">
+    <value>Apply Tags</value>
+  </data>
+  <data name="label_asset_type" xml:space="preserve">
+    <value>Asset Type</value>
+  </data>
+  <data name="label_asset_volume" xml:space="preserve">
+    <value>Volume</value>
+  </data>
+  <data name="label_average_cycle" xml:space="preserve">
+    <value>Avg Cycle Time</value>
+  </data>
+  <data name="label_barcode" xml:space="preserve">
+    <value>Barcode</value>
+  </data>
+  <data name="label_batch" xml:space="preserve">
+    <value>Batch</value>
+  </data>
+  <data name="label_batch_code" xml:space="preserve">
+    <value>Batch Code</value>
+  </data>
+  <data name="label_bestby_date" xml:space="preserve">
+    <value>Best by Date</value>
+  </data>
+  <data name="label_brand" xml:space="preserve">
+    <value>Brand</value>
+  </data>
+  <data name="label_brew_date" xml:space="preserve">
+    <value>Brew Date</value>
+  </data>
+  <data name="label_builddate" xml:space="preserve">
+    <value>Build Date</value>
+  </data>
+  <data name="label_build_location" xml:space="preserve">
+    <value>Build Location</value>
+  </data>
+  <data name="label_choose_a_date" xml:space="preserve">
+    <value>choose a date</value>
+  </data>
+  <data name="label_contact_name" xml:space="preserve">
+    <value>Contact Name</value>
+  </data>
+  <data name="label_contents" xml:space="preserve">
+    <value>Brand</value>
+  </data>
+  <data name="label_currentlocation" xml:space="preserve">
+    <value>Current Location</value>
+  </data>
+  <data name="label_days_in_possession" xml:space="preserve">
+    <value>Days held:</value>
+  </data>
+  <data name="label_destination" xml:space="preserve">
+    <value>Destination</value>
+  </data>
+  <data name="label_effectivedate" xml:space="preserve">
+    <value>Effective Date</value>
+  </data>
+  <data name="label_email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="label_empties" xml:space="preserve">
+    <value>Empties</value>
+  </data>
+  <data name="label_fax" xml:space="preserve">
+    <value>Fax</value>
+  </data>
+  <data name="label_find_a_keg" xml:space="preserve">
+    <value>Find a Keg</value>
+  </data>
+  <data name="label_firstname" xml:space="preserve">
+    <value>First Name</value>
+  </data>
+  <data name="label_from_date" xml:space="preserve">
+    <value>From date</value>
+  </data>
+  <data name="label_history" xml:space="preserve">
+    <value>History</value>
+  </data>
+  <data name="label_internal" xml:space="preserve">
+    <value>Internal</value>
+  </data>
+  <data name="label_inuse" xml:space="preserve">
+    <value>In Use</value>
+  </data>
+  <data name="label_in_possession" xml:space="preserve">
+    <value>In Possession:</value>
+  </data>
+  <data name="label_in_use" xml:space="preserve">
+    <value>In Use:</value>
+  </data>
+  <data name="label_ispartner" xml:space="preserve">
+    <value>Partner</value>
+  </data>
+  <data name="label_kegs" xml:space="preserve">
+    <value>Kegs</value>
+  </data>
+  <data name="label_keg_id" xml:space="preserve">
+    <value>Keg ID</value>
+  </data>
+  <data name="label_lastname" xml:space="preserve">
+    <value>Last Name</value>
+  </data>
+  <data name="label_location" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="label_locationcode" xml:space="preserve">
+    <value>Location Code</value>
+  </data>
+  <data name="label_locationname" xml:space="preserve">
+    <value>Location Name</value>
+  </data>
+  <data name="label_maintenance_actions" xml:space="preserve">
+    <value>Maintenance to be done on Kegs</value>
+  </data>
+  <data name="label_maintenance_alerts" xml:space="preserve">
+    <value>Maintenance Alerts (%1$d)</value>
+  </data>
+  <data name="label_maintenance_message" xml:space="preserve">
+    <value>This keg needs the following maintenance items performed:\n</value>
+  </data>
+  <data name="label_maintenance_warning" xml:space="preserve">
+    <value>One of more of the items require maintenance actions. Please check and continue</value>
+  </data>
+  <data name="label_manifest_num" xml:space="preserve">
+    <value>Tracking #</value>
+  </data>
+  <data name="label_more_info" xml:space="preserve">
+    <value>More Info</value>
+  </data>
+  <data name="label_next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="label_notes" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="label_operator" xml:space="preserve">
+    <value>Operator</value>
+  </data>
+  <data name="label_ordernum" xml:space="preserve">
+    <value>Order #</value>
+  </data>
+  <data name="label_origin" xml:space="preserve">
+    <value>Origin</value>
+  </data>
+  <data name="label_overdue" xml:space="preserve">
+    <value>At Risk kegs</value>
+  </data>
+  <data name="label_overdue_format" xml:space="preserve">
+    <value>Overdue Kegs %1$s</value>
+  </data>
+  <data name="label_owner" xml:space="preserve">
+    <value>Owner</value>
+  </data>
+  <data name="label_packaged_date" xml:space="preserve">
+    <value>Packaged Date</value>
+  </data>
+  <data name="label_pallet" xml:space="preserve">
+    <value>Pallet</value>
+  </data>
+  <data name="label_palletize" xml:space="preserve">
+    <value>Palletize?</value>
+  </data>
+  <data name="label_pallet_id" xml:space="preserve">
+    <value>Pallet ID</value>
+  </data>
+  <data name="label_pallet_num" xml:space="preserve">
+    <value>Pallet # / SSCC</value>
+  </data>
+  <data name="label_partner" xml:space="preserve">
+    <value>Partner</value>
+  </data>
+  <data name="label_partner_type" xml:space="preserve">
+    <value>Partner Type</value>
+  </data>
+  <data name="label_phone" xml:space="preserve">
+    <value>Phone</value>
+  </data>
+  <data name="label_planned_volume" xml:space="preserve">
+    <value>Planned Volume</value>
+  </data>
+  <data name="label_qty" xml:space="preserve">
+    <value>Qty</value>
+  </data>
+  <data name="label_quantity" xml:space="preserve">
+    <value>Quantity</value>
+  </data>
+  <data name="label_referencekey" xml:space="preserve">
+    <value>Ref Key</value>
+  </data>
+  <data name="label_route" xml:space="preserve">
+    <value>Route</value>
+  </data>
+  <data name="label_settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="label_share_partner" xml:space="preserve">
+    <value>List in KegID partner directory</value>
+  </data>
+  <data name="label_shipdate" xml:space="preserve">
+    <value>Ship Date</value>
+  </data>
+  <data name="label_shipon" xml:space="preserve">
+    <value>Ship On</value>
+  </data>
+  <data name="label_size" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="label_sku" xml:space="preserve">
+    <value>SKU</value>
+  </data>
+  <data name="label_smsaddress" xml:space="preserve">
+    <value>SMS Address</value>
+  </data>
+  <data name="label_stock" xml:space="preserve">
+    <value>Stock</value>
+  </data>
+  <data name="label_stocklocation" xml:space="preserve">
+    <value>Stock Location</value>
+  </data>
+  <data name="label_tags" xml:space="preserve">
+    <value>Stock Location</value>
+  </data>
+  <data name="label_targetlocation" xml:space="preserve">
+    <value>Ultimate Destination</value>
+  </data>
+  <data name="label_timezone" xml:space="preserve">
+    <value>Time Zone</value>
+  </data>
+  <data name="label_total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="label_total_kegs" xml:space="preserve">
+    <value>Total Kegs:</value>
+  </data>
+  <data name="label_to_date" xml:space="preserve">
+    <value>To date</value>
+  </data>
+  <data name="label_trackingnum" xml:space="preserve">
+    <value>Tracking #</value>
+  </data>
+  <data name="label_use_scan_date" xml:space="preserve">
+    <value>use scan date</value>
+  </data>
+  <data name="label_warning" xml:space="preserve">
+    <value>Warning</value>
+  </data>
+  <data name="label_website" xml:space="preserve">
+    <value>Website</value>
+  </data>
+  <data name="label_with_keg" xml:space="preserve">
+    <value>With Keg</value>
+  </data>
+  <data name="logout_validation_message" xml:space="preserve">
+    <value>There are queued or draft items, if you logout they will be discarded and data will be lost.</value>
+  </data>
+  <data name="manifest_item_sync_genrl_str" xml:space="preserve">
+    <value>Error uploading Manifest. Retry?</value>
+  </data>
+  <data name="menu_action_add_partner" xml:space="preserve">
+    <value>Add partner</value>
+  </data>
+  <data name="menu_action_bluetooth_settings" xml:space="preserve">
+    <value>Bluetooth</value>
+  </data>
+  <data name="menu_action_bulk_update" xml:space="preserve">
+    <value>Bulk Update</value>
+  </data>
+  <data name="menu_action_camera_scan" xml:space="preserve">
+    <value>Use Camera</value>
+  </data>
+  <data name="menu_action_done" xml:space="preserve">
+    <value>Done</value>
+  </data>
+  <data name="menu_action_forgot_password" xml:space="preserve">
+    <value>Forgot PW</value>
+  </data>
+  <data name="menu_action_get_location" xml:space="preserve">
+    <value>Get current location</value>
+  </data>
+  <data name="menu_action_logout" xml:space="preserve">
+    <value>Log Out</value>
+  </data>
+  <data name="menu_action_map" xml:space="preserve">
+    <value>Map</value>
+  </data>
+  <data name="menu_action_movekegs" xml:space="preserve">
+    <value>Send Kegs</value>
+  </data>
+  <data name="menu_action_move_keg" xml:space="preserve">
+    <value>Move Keg</value>
+  </data>
+  <data name="menu_action_move_pallet" xml:space="preserve">
+    <value>Move Pallet</value>
+  </data>
+  <data name="menu_action_new_batch" xml:space="preserve">
+    <value>New Batch</value>
+  </data>
+  <data name="menu_action_new_keg" xml:space="preserve">
+    <value>Add a Keg</value>
+  </data>
+  <data name="menu_action_new_manifest" xml:space="preserve">
+    <value>New Manifest</value>
+  </data>
+  <data name="menu_action_new_pallet" xml:space="preserve">
+    <value>Pallet Builder</value>
+  </data>
+  <data name="menu_action_new_partner" xml:space="preserve">
+    <value>New Partner</value>
+  </data>
+  <data name="menu_action_pick" xml:space="preserve">
+    <value>Pick</value>
+  </data>
+  <data name="menu_action_print" xml:space="preserve">
+    <value>Print</value>
+  </data>
+  <data name="menu_action_print_cloud" xml:space="preserve">
+    <value>Cloud Print</value>
+  </data>
+  <data name="menu_action_print_framework" xml:space="preserve">
+    <value>Local Printer</value>
+  </data>
+  <data name="menu_action_print_printershare" xml:space="preserve">
+    <value>PrinterShare</value>
+  </data>
+  <data name="menu_action_print_share" xml:space="preserve">
+    <value>Share...</value>
+  </data>
+  <data name="menu_action_print_zebra" xml:space="preserve">
+    <value>Zebra Label</value>
+  </data>
+  <data name="menu_action_refresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="menu_action_remove_partner" xml:space="preserve">
+    <value>Remove partner</value>
+  </data>
+  <data name="menu_action_save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="menu_action_save_draft" xml:space="preserve">
+    <value>Save Draft</value>
+  </data>
+  <data name="menu_action_scan" xml:space="preserve">
+    <value>Scan</value>
+  </data>
+  <data name="menu_action_search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="menu_action_settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="menu_action_set_tags" xml:space="preserve">
+    <value>Set Tags</value>
+  </data>
+  <data name="menu_action_share" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="menu_action_sort" xml:space="preserve">
+    <value>Sort</value>
+  </data>
+  <data name="menu_action_sort_barcode" xml:space="preserve">
+    <value>Barcode</value>
+  </data>
+  <data name="menu_action_sort_internal" xml:space="preserve">
+    <value>Internal</value>
+  </data>
+  <data name="menu_action_sort_kegs" xml:space="preserve">
+    <value>Kegs Held</value>
+  </data>
+  <data name="menu_action_sort_name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="menu_action_sort_oldest" xml:space="preserve">
+    <value>Oldest</value>
+  </data>
+  <data name="menu_action_sort_scandate" xml:space="preserve">
+    <value>Scan Time</value>
+  </data>
+  <data name="menu_action_sort_status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="menu_action_submit" xml:space="preserve">
+    <value>Submit</value>
+  </data>
+  <data name="menu_action_support" xml:space="preserve">
+    <value>Support</value>
+  </data>
+  <data name="menu_action_update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="menu_action_website" xml:space="preserve">
+    <value>KegID Web</value>
+  </data>
+  <data name="menu_action_whatsnew" xml:space="preserve">
+    <value>Whats new</value>
+  </data>
+  <data name="message_maintenance_update_error" xml:space="preserve">
+    <value>There was an error adding this alert.Please try again later.</value>
+  </data>
+  <data name="message_partner_added" xml:space="preserve">
+    <value>Partner added.</value>
+  </data>
+  <data name="message_partner_removed" xml:space="preserve">
+    <value>Partner removed.</value>
+  </data>
+  <data name="no_results" xml:space="preserve">
+    <value>No Results</value>
+  </data>
+  <data name="no_result_found" xml:space="preserve">
+    <value>No results found</value>
+  </data>
+  <data name="pallete_item_sync_genrl_str" xml:space="preserve">
+    <value>Error uploading Pallet. Retry?</value>
+  </data>
+  <data name="possession_list_held_days_days_text" xml:space="preserve">
+    <value>\u0020days</value>
+  </data>
+  <data name="possession_list_held_days_day_text" xml:space="preserve">
+    <value>\u0020day</value>
+  </data>
+  <data name="pref_app_info" xml:space="preserve">
+    <value>KegID Info</value>
+  </data>
+  <data name="pref_app_version" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="pref_auto_print" xml:space="preserve">
+    <value>Auto Print</value>
+  </data>
+  <data name="pref_auto_print_manifest" xml:space="preserve">
+    <value>Automatically print manifest</value>
+  </data>
+  <data name="pref_auto_print_manifest_summary" xml:space="preserve">
+    <value />
+  </data>
+  <data name="pref_auto_print_pallet" xml:space="preserve">
+    <value>Automatically print pallet</value>
+  </data>
+  <data name="pref_auto_print_pallet_summary" xml:space="preserve">
+    <value />
+  </data>
+  <data name="pref_close_batch" xml:space="preserve">
+    <value>CLOSE_BATCH</value>
+  </data>
+  <data name="pref_companyid" xml:space="preserve">
+    <value>com.arapps.kegid.preference.companyid</value>
+  </data>
+  <data name="pref_companyname" xml:space="preserve">
+    <value>com.arapps.kegid.preference.companyname</value>
+  </data>
+  <data name="pref_firstname" xml:space="preserve">
+    <value>com.arapps.kegid.preference.firstname</value>
+  </data>
+  <data name="pref_fullname" xml:space="preserve">
+    <value>com.arapps.kegid.preference.fullname</value>
+  </data>
+  <data name="pref_gs1_prefix" xml:space="preserve">
+    <value>com.arapps.kegid.preference.gs1prefix</value>
+  </data>
+  <data name="pref_ipaddress" xml:space="preserve">
+    <value>IP Address</value>
+  </data>
+  <data name="pref_keg_last_refresh" xml:space="preserve">
+    <value>KEG_LAST_REFRESH</value>
+  </data>
+  <data name="pref_keg_refresh" xml:space="preserve">
+    <value>KEG_REFRESH</value>
+  </data>
+  <data name="pref_lastname" xml:space="preserve">
+    <value>com.arapps.kegid.preference.lastname</value>
+  </data>
+  <data name="pref_ordernum_required" xml:space="preserve">
+    <value>OrderNumRequired</value>
+  </data>
+  <data name="pref_origin_required" xml:space="preserve">
+    <value>OriginRequired</value>
+  </data>
+  <data name="pref_pallet_last_refresh" xml:space="preserve">
+    <value>PALLET_LAST_REFRESH</value>
+  </data>
+  <data name="pref_pallet_refresh" xml:space="preserve">
+    <value>PALLET_REFRESH</value>
+  </data>
+  <data name="pref_port" xml:space="preserve">
+    <value>Port</value>
+  </data>
+  <data name="pref_printer_name" xml:space="preserve">
+    <value>Printer Name</value>
+  </data>
+  <data name="pref_print_method_key" xml:space="preserve">
+    <value>PRINT_METHOD</value>
+  </data>
+  <data name="pref_print_settings" xml:space="preserve">
+    <value>Print Settings</value>
+  </data>
+  <data name="pref_print_via" xml:space="preserve">
+    <value>Print Via</value>
+  </data>
+  <data name="pref_print_via_bluetooth" xml:space="preserve">
+    <value>Bluetooth</value>
+  </data>
+  <data name="pref_print_via_system_dialog" xml:space="preserve">
+    <value>System Dialog (intent launcher, share)</value>
+  </data>
+  <data name="pref_print_via_wifi" xml:space="preserve">
+    <value>Wifi</value>
+  </data>
+  <data name="pref_scan_camera_batch" xml:space="preserve">
+    <value>Batch scan</value>
+  </data>
+  <data name="pref_scan_camera_batch_summary_off" xml:space="preserve">
+    <value>Use single scan mode for camera scans</value>
+  </data>
+  <data name="pref_scan_camera_batch_summary_on" xml:space="preserve">
+    <value>Use batch mode for camera scans</value>
+  </data>
+  <data name="pref_scan_settings" xml:space="preserve">
+    <value>Scan Settings</value>
+  </data>
+  <data name="pref_select_bluetooth_device" xml:space="preserve">
+    <value>Selects from list of bluetooth devices</value>
+  </data>
+  <data name="pref_send_report" xml:space="preserve">
+    <value>Send crash reports</value>
+  </data>
+  <data name="pref_send_report_summary" xml:space="preserve">
+    <value>Helps to fix bugs</value>
+  </data>
+  <data name="pref_sessionexpires" xml:space="preserve">
+    <value>com.arapps.kegid.preference.sessionexpires</value>
+  </data>
+  <data name="pref_sessionid" xml:space="preserve">
+    <value>com.arapps.kegid.preference.sessionid</value>
+  </data>
+  <data name="pref_setup_bluetooth" xml:space="preserve">
+    <value>Setup Bluetooth</value>
+  </data>
+  <data name="pref_sync_frequency" xml:space="preserve">
+    <value>Sync frequency</value>
+  </data>
+  <data name="pref_sync_frequency_summary" xml:space="preserve">
+    <value>Set the sync frequency</value>
+  </data>
+  <data name="pref_template" xml:space="preserve">
+    <value>Template</value>
+  </data>
+  <data name="pref_template_manifest" xml:space="preserve">
+    <value>Manifest</value>
+  </data>
+  <data name="pref_template_manifest_summary" xml:space="preserve">
+    <value>Summary for Manifest</value>
+  </data>
+  <data name="pref_template_pallet" xml:space="preserve">
+    <value>Pallet</value>
+  </data>
+  <data name="pref_template_pallet_summary" xml:space="preserve">
+    <value>Summary for Manifest</value>
+  </data>
+  <data name="pref_test_connection" xml:space="preserve">
+    <value>Test Connection</value>
+  </data>
+  <data name="pref_userid" xml:space="preserve">
+    <value>com.arapps.kegid.preference.userid</value>
+  </data>
+  <data name="pref_userinfo" xml:space="preserve">
+    <value>com.arapps.kegid.preference.userinfo</value>
+  </data>
+  <data name="pref_username" xml:space="preserve">
+    <value>com.arapps.kegid.preference.username</value>
+  </data>
+  <data name="pref_user_name" xml:space="preserve">
+    <value>Set username</value>
+  </data>
+  <data name="pref_user_name_summary" xml:space="preserve">
+    <value>Set your username</value>
+  </data>
+  <data name="pref_user_profile" xml:space="preserve">
+    <value>User Profile</value>
+  </data>
+  <data name="pref_validate_barcode" xml:space="preserve">
+    <value>Validate Barcode</value>
+  </data>
+  <data name="pref_validation_method" xml:space="preserve">
+    <value>VALIDATION_METHOD</value>
+  </data>
+  <data name="pref_validation_method_title" xml:space="preserve">
+    <value>Validation Method</value>
+  </data>
+  <data name="pref_validation_settings" xml:space="preserve">
+    <value>Validation Settings</value>
+  </data>
+  <data name="preview_accountnum" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_address" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_address_city" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_address_country" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_address_line1" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_address_line2" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_address_postal" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_address_state" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_altbarcode" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_barcode" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_brewer" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_companyname" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_contactname" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_contents" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_cycledays" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_date" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_distributorname" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_email" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_emptiesname" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_firstname" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_iteminfo" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_kegbarcode" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_lastname" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_locationcode" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_manifest_title" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_moreinfo" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_notes" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_numbers" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_numkegs" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_onhand" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_ownername" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_palletbarcode" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_palletid" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_palletinfo" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_pallet_title" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_partnername" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_partnertypename" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_phone" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_possessioninfo" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_referencekey" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_retailname" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_route" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_scansummary" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_sizename" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_stockname" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_stock_empty" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_stock_full" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_tagheader" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_tagname" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_tags" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_tagvalue" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_timezone" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_trackingnum" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_typename" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_volumename" xml:space="preserve">
+    <value />
+  </data>
+  <data name="preview_website" xml:space="preserve">
+    <value />
+  </data>
+  <data name="prompt_action_scans_continue" xml:space="preserve">
+    <value>Continue with current scans</value>
+  </data>
+  <data name="prompt_action_scans_remove_unverified" xml:space="preserve">
+    <value>Remove unverified scans</value>
+  </data>
+  <data name="prompt_action_scans_stay" xml:space="preserve">
+    <value>Stay here</value>
+  </data>
+  <data name="prompt_billing_addr" xml:space="preserve">
+    <value>Please enter Billing address.</value>
+  </data>
+  <data name="prompt_city" xml:space="preserve">
+    <value>Please enter city.</value>
+  </data>
+  <data name="prompt_destination_addr" xml:space="preserve">
+    <value>Please select destination.</value>
+  </data>
+  <data name="prompt_first_name" xml:space="preserve">
+    <value>Please enter first name.</value>
+  </data>
+  <data name="prompt_ip_address" xml:space="preserve">
+    <value>Please set printer ip address.</value>
+  </data>
+  <data name="prompt_last_Name" xml:space="preserve">
+    <value>Please enter last name.</value>
+  </data>
+  <data name="prompt_line1" xml:space="preserve">
+    <value>Please enter address line 1.</value>
+  </data>
+  <data name="prompt_login_password" xml:space="preserve">
+    <value>Please enter password.</value>
+  </data>
+  <data name="prompt_login_username" xml:space="preserve">
+    <value>Please enter username.</value>
+  </data>
+  <data name="prompt_partner_code" xml:space="preserve">
+    <value>Please select partner type.</value>
+  </data>
+  <data name="prompt_partner_name" xml:space="preserve">
+    <value>Please enter location name.</value>
+  </data>
+  <data name="prompt_port" xml:space="preserve">
+    <value>Please set printer port.</value>
+  </data>
+  <data name="prompt_postal_code" xml:space="preserve">
+    <value>Please enter postal code.</value>
+  </data>
+  <data name="prompt_search" xml:space="preserve">
+    <value>Please enter search text.</value>
+  </data>
+  <data name="prompt_shipping_addr" xml:space="preserve">
+    <value>Please enter shipping address.</value>
+  </data>
+  <data name="prompt_state" xml:space="preserve">
+    <value>Please enter state.</value>
+  </data>
+  <data name="prompt_time_zone" xml:space="preserve">
+    <value>Please select time zone.</value>
+  </data>
+  <data name="prompt_validate_barcode" xml:space="preserve">
+    <value>Please remove all invalid barcodes.</value>
+  </data>
+  <data name="prompt_validation_ambiguous_multiple" xml:space="preserve">
+    <value>%d of your scanned barcodes have more than one owner.  Please select the correct owner for each barcode.</value>
+  </data>
+  <data name="prompt_validation_ambiguous_one_format" xml:space="preserve">
+    <value>One of your scanned barcodes has more than one owner.  Please select the correct owner for each barcode.</value>
+  </data>
+  <data name="prompt_validation_multiple" xml:space="preserve">
+    <value>Some scans matched multiple kegs.\nClick the yellow icon(s) to choose from the results</value>
+  </data>
+  <data name="prompt_validation_nomatch_multiple" xml:space="preserve">
+    <value>You have multiple scans where no matching keg could be found</value>
+  </data>
+  <data name="prompt_validation_nomatch_one_format" xml:space="preserve">
+    <value>No keg with a barcode of %s could be found</value>
+  </data>
+  <data name="prompt_validation_prevent" xml:space="preserve">
+    <value>Some scans were not validated.\nYou must remove any invalid scans</value>
+  </data>
+  <data name="refine_search" xml:space="preserve">
+    <value>Refine Search</value>
+  </data>
+  <data name="refresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="retry_btn_str" xml:space="preserve">
+    <value>Retry</value>
+  </data>
+  <data name="same_as_ship_address" xml:space="preserve">
+    <value>Same as Ship Address</value>
+  </data>
+  <data name="save_draft_failed" xml:space="preserve">
+    <value>Saving draft failed</value>
+  </data>
+  <data name="save_draft_sucess" xml:space="preserve">
+    <value>Draft saved</value>
+  </data>
+  <data name="scan_camera_problem_dialog_message" xml:space="preserve">
+    <value>The camera has a problem. You probably need to restart the device.</value>
+  </data>
+  <data name="scan_camera_problem_dialog_title" xml:space="preserve">
+    <value>Sorry</value>
+  </data>
+  <data name="tag_batch" xml:space="preserve">
+    <value>Batch</value>
+  </data>
+  <data name="tag_operator" xml:space="preserve">
+    <value>Operator</value>
+  </data>
+  <data name="tag_ordernum" xml:space="preserve">
+    <value>Order #</value>
+  </data>
+  <data name="tag_size" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="tag_sku" xml:space="preserve">
+    <value>SKU</value>
+  </data>
+  <data name="test_sessionid" xml:space="preserve">
+    <value>CF688777-2DC7-41CB-950A-8A18865DE6B8</value>
+  </data>
+  <data name="title_activity_fill_manifest" xml:space="preserve">
+    <value>Fill Kegs</value>
+  </data>
+  <data name="title_activity_print" xml:space="preserve">
+    <value>Print</value>
+  </data>
+  <data name="title_activity_print_framework" xml:space="preserve">
+    <value>PrintFrameworkActivity</value>
+  </data>
+  <data name="title_address_bill" xml:space="preserve">
+    <value>Bill Address</value>
+  </data>
+  <data name="title_address_ship" xml:space="preserve">
+    <value>Ship Address</value>
+  </data>
+  <data name="title_batch_add" xml:space="preserve">
+    <value>Add Batch</value>
+  </data>
+  <data name="title_batch_list" xml:space="preserve">
+    <value>Batches</value>
+  </data>
+  <data name="title_bulk_update" xml:space="preserve">
+    <value>Bulk Update</value>
+  </data>
+  <data name="title_choose_keg" xml:space="preserve">
+    <value>Choose Keg</value>
+  </data>
+  <data name="title_choose_manifest" xml:space="preserve">
+    <value>Choose Manifest</value>
+  </data>
+  <data name="title_choose_pallet" xml:space="preserve">
+    <value>Choose Pallet</value>
+  </data>
+  <data name="title_dashboard" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
+  <data name="title_empties" xml:space="preserve">
+    <value>Empties</value>
+  </data>
+  <data name="title_inventory" xml:space="preserve">
+    <value>Inventory</value>
+  </data>
+  <data name="title_keg_history" xml:space="preserve">
+    <value>Keg History</value>
+  </data>
+  <data name="title_keg_info" xml:space="preserve">
+    <value>Keg Info</value>
+  </data>
+  <data name="title_keg_search" xml:space="preserve">
+    <value>Keg Search</value>
+  </data>
+  <data name="title_keg_update" xml:space="preserve">
+    <value>Keg Update</value>
+  </data>
+  <data name="title_maintainenance_add" xml:space="preserve">
+    <value>Add Maintenance Task</value>
+  </data>
+  <data name="title_maintainenance_remove" xml:space="preserve">
+    <value>Remove Maintenance Task</value>
+  </data>
+  <data name="title_maintain_kegs" xml:space="preserve">
+    <value>Maintain Kegs</value>
+  </data>
+  <data name="title_manifest_builder" xml:space="preserve">
+    <value>Move Kegs</value>
+  </data>
+  <data name="title_manifest_info" xml:space="preserve">
+    <value>Manifest Info</value>
+  </data>
+  <data name="title_manifest_items" xml:space="preserve">
+    <value>Manifest Items</value>
+  </data>
+  <data name="title_manifest_list" xml:space="preserve">
+    <value>Manifests</value>
+  </data>
+  <data name="title_manifest_queued" xml:space="preserve">
+    <value>Manifest Queued</value>
+  </data>
+  <data name="title_manifest_search" xml:space="preserve">
+    <value>Find a Manifest</value>
+  </data>
+  <data name="title_manifest_submitted" xml:space="preserve">
+    <value>Manifest Submitted</value>
+  </data>
+  <data name="title_more_info" xml:space="preserve">
+    <value>More Info</value>
+  </data>
+  <data name="title_pallet_add" xml:space="preserve">
+    <value>Add Pallets</value>
+  </data>
+  <data name="title_pallet_builder" xml:space="preserve">
+    <value>Pallet Builder</value>
+  </data>
+  <data name="title_pallet_info" xml:space="preserve">
+    <value>Pallet Info</value>
+  </data>
+  <data name="title_pallet_items" xml:space="preserve">
+    <value>Pallet Items</value>
+  </data>
+  <data name="title_pallet_list" xml:space="preserve">
+    <value>Pallets</value>
+  </data>
+  <data name="title_pallet_queued" xml:space="preserve">
+    <value>Pallet Queued</value>
+  </data>
+  <data name="title_pallet_search" xml:space="preserve">
+    <value>Pallet Search</value>
+  </data>
+  <data name="title_pallet_submitted" xml:space="preserve">
+    <value>Pallet Submitted</value>
+  </data>
+  <data name="title_partner_info" xml:space="preserve">
+    <value>Partner Info</value>
+  </data>
+  <data name="title_partner_list" xml:space="preserve">
+    <value>Partners</value>
+  </data>
+  <data name="title_partner_search" xml:space="preserve">
+    <value>Partner Search</value>
+  </data>
+  <data name="title_partner_select" xml:space="preserve">
+    <value>Partners</value>
+  </data>
+  <data name="title_partner_update" xml:space="preserve">
+    <value>Partner Update</value>
+  </data>
+  <data name="title_possession" xml:space="preserve">
+    <value>Possession</value>
+  </data>
+  <data name="title_possession_list" xml:space="preserve">
+    <value>Kegs Held</value>
+  </data>
+  <data name="title_possessor_list" xml:space="preserve">
+    <value>Partners</value>
+  </data>
+  <data name="title_refine_search" xml:space="preserve">
+    <value>Refine Search</value>
+  </data>
+  <data name="title_scan_info_keg" xml:space="preserve">
+    <value>Scan Info - Keg</value>
+  </data>
+  <data name="title_scan_info_manifest" xml:space="preserve">
+    <value>Scan Info - Manifest</value>
+  </data>
+  <data name="title_scan_info_pallet" xml:space="preserve">
+    <value>Scan Info - Pallet</value>
+  </data>
+  <data name="title_scan_items" xml:space="preserve">
+    <value>Scan Kegs</value>
+  </data>
+  <data name="title_searching" xml:space="preserve">
+    <value>Searching&amp;#8230;</value>
+  </data>
+  <data name="title_stock" xml:space="preserve">
+    <value>Stock</value>
+  </data>
+  <data name="url_api_root_prod" xml:space="preserve">
+    <value>https://api.kegid.com</value>
+  </data>
+  <data name="url_api_root_test" xml:space="preserve">
+    <value>https://testapi.kegid.com</value>
+  </data>
+  <data name="url_kegid_home" xml:space="preserve">
+    <value>https://www.kegid.com</value>
+  </data>
+  <data name="url_resetpw" xml:space="preserve">
+    <value>https://www.kegid.com/resetpw.aspx</value>
+  </data>
+  <data name="www_kegid_com" xml:space="preserve">
+    <value>www.kegid.com</value>
+  </data>
+  <data name="zero" xml:space="preserve">
+    <value>0</value>
+  </data>
 </root>

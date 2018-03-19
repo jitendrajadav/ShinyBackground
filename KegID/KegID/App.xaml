@@ -12,9 +12,13 @@
             <x:Double x:Key="ListViewDetailFont">14</x:Double>
 
             <OnPlatform x:Key="AppBarButtonFontSize" x:TypeArguments="x:Double" iOS="20" Android="20" WinPhone="20"/>
-            <OnPlatform x:Key="AppBarButtonHeight" x:TypeArguments="x:Double" iOS="50" Android="60" WinPhone="50"/>
-            <OnPlatform x:Key="AppBarButtonMargin" x:TypeArguments="Thickness" iOS="10,22,10,10" Android="10" WinPhone="10"/>
+            <OnPlatform x:Key="BottomAppBarButtonHeight" x:TypeArguments="x:Double" iOS="50" Android="70" WinPhone="40"/>
+            <OnPlatform x:Key="TopAppBarButtonHeight" x:TypeArguments="x:Double" iOS="50" Android="60" WinPhone="40"/>
 
+            <OnPlatform x:Key="EntryHeight" x:TypeArguments="x:Double" iOS="50" Android="60" WinPhone="40"/>
+            <OnPlatform x:Key="AppBarButtonMargin" x:TypeArguments="Thickness" iOS="10,30,10,10" Android="10" WinPhone="10"/>
+            <OnPlatform x:Key="GirdRowSpacing" x:TypeArguments="x:Double" iOS="0" Android="0" WinPhone="0"/>
+            
             <Color x:Key="bannerBGColor">#4E6388</Color>
             <Color x:Key="selectTextColor">#007AFF</Color>
             <Color x:Key="lightGrayColor">#aaaaaa</Color>
@@ -26,12 +30,25 @@
             <converter:StringToLast8CharacterConverter x:Key="StringToLast8CharacterConverter"/>
             <converter:InvertedBooleanConverter x:Key="InvertedBooleanConverter"/>
 
-            <Style x:Key="ButtonTitleStyle" TargetType="Button">
+            <Style x:Key="BottomButtonTitleStyle" TargetType="Button">
                 <Setter Property="VerticalOptions" Value="Center"/>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                <Setter Property="TextColor" Value="White"/>
+                <Setter Property="BackgroundColor" Value="{StaticResource selectTextColor}"/>
                 <Setter Property="FontSize" Value="{StaticResource AppBarButtonFontSize}"/>
                 <Setter Property="Margin" Value="{StaticResource AppBarButtonMargin}"/>
+                <Setter Property="HeightRequest" Value="{StaticResource BottomAppBarButtonHeight}"/>
             </Style>
-           
+
+            <Style x:Key="TopButtonTitleStyle" TargetType="Button">
+                <Setter Property="VerticalOptions" Value="Center"/>
+                <Setter Property="TextColor" Value="{StaticResource selectTextColor}"/>
+                <Setter Property="BackgroundColor" Value="Transparent"/>
+                <Setter Property="FontSize" Value="{StaticResource AppBarButtonFontSize}"/>
+                <Setter Property="Margin" Value="{StaticResource AppBarButtonMargin}"/>
+                <!--<Setter Property="HeightRequest" Value="{StaticResource BottomAppBarButtonHeight}"/>-->
+            </Style>
+
             <Style x:Key="LabelTitleStyle" TargetType="Label">
                 <Setter Property="VerticalOptions" Value="Center"/>
                 <Setter Property="FontSize" Value="{StaticResource AppBarButtonFontSize}"/>

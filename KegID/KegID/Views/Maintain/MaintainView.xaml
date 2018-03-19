@@ -96,6 +96,7 @@
                     HeightRequest="30"
                     VerticalOptions="Center"
                     Grid.Row="2"
+                    BackgroundColor="White"
                     IsToggled="{Binding BentNeck}"
                     Grid.Column="0"/>
 

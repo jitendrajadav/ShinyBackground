@@ -56,7 +56,7 @@
                 Margin="10,0,10,0">
                 <Grid.RowSpacing>
                     <OnPlatform x:TypeArguments="x:Double">
-                        <On Platform="iOS" Value="5" />
+                        <On Platform="iOS" Value="10" />
                         <On Platform="Android, WinPhone, Windows" Value="0" />
                     </OnPlatform>
                 </Grid.RowSpacing>
@@ -84,16 +84,16 @@
             
                 <Label 
                     Margin="0,0,-10,0"
-                    HeightRequest="40"
+                    HeightRequest="50"
                     Text="{Binding ManifestId, StringFormat=' Manifest #: {0}', Converter={StaticResource StringToLast8CharacterConverter}}"
                     TextColor="White"
-                    FontSize="22"
+                    FontSize="{StaticResource AppBarButtonFontSize}"
                     VerticalTextAlignment="Center"
                     VerticalOptions="CenterAndExpand"/>
 
                 <Label
                     TextColor="Black"
-                    FontSize="Medium"
+                    FontSize="{StaticResource AppBarButtonFontSize}"
                     Text="Destination:"
                     Grid.Row="1"/>
 
@@ -105,7 +105,7 @@
                     HorizontalOptions="Start"
                     Text="{Binding Path=PartnerModel.FullName}"
                     Grid.Row="2"
-                    FontSize="Medium">
+                    FontSize="{StaticResource AppBarButtonFontSize}">
                    
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding Path=BindingContext.SelectLocationCommand, 
@@ -131,7 +131,7 @@
 
                 <Label
                     TextColor="Black"
-                    FontSize="Medium"
+                    FontSize="{StaticResource AppBarButtonFontSize}"
                     Text="More Info:"
                     Grid.Row="4"/>
 
@@ -141,7 +141,7 @@
                     TextColor="{StaticResource selectTextColor}"
                     HorizontalOptions="Start"
                     Margin="10,0,0,0"
-                    FontSize="Medium"
+                    FontSize="{StaticResource AppBarButtonFontSize}"
                     Text="{Binding TagsStr}"
                     Grid.Row="5">
                   
@@ -161,7 +161,7 @@
 
                 <Label
                     TextColor="Black"
-                    FontSize="Medium"
+                    FontSize="{StaticResource AppBarButtonFontSize}"
                     Text="Kegs:"
                     Grid.Row="7"/>
 
@@ -196,7 +196,7 @@
                     HorizontalOptions="End"
                     Text="Save draft"
                     Grid.Row="10"
-                    FontSize="Medium"
+                    FontSize="{StaticResource AppBarButtonFontSize}"
                     IsVisible="{Binding IsSaveDraftVisible}">
                   
                     <Label.GestureRecognizers>

@@ -10,6 +10,7 @@
     <ContentPage.Content>
         
         <Grid 
+            RowSpacing="{StaticResource GirdRowSpacing}"
             Margin="20">
            
             <Grid.RowDefinitions>
@@ -22,7 +23,7 @@
             <Image
                 Margin="40"
                 HorizontalOptions="Center"
-                VerticalOptions="Center"
+                VerticalOptions="Start"
                 BackgroundColor="Transparent">
                
                 <Image.Source>
@@ -43,33 +44,24 @@
             <Entry
                 Grid.Row="1"
                 Placeholder="Username"
-                Text="{Binding Username}"/>
+                HeightRequest="{StaticResource EntryHeight}"
+                Text="{Binding Username}">
+            </Entry>
 
             <Entry
                 IsPassword="True"
                 Grid.Row="2"
                 Placeholder="Password"
+                HeightRequest="{StaticResource EntryHeight}"
                 Text="{Binding Password}"/>
 
-            <Label
+            <Button
                 Margin="0,20,0,0"
                 x:Name="lblLogin"
-                BackgroundColor="{StaticResource selectTextColor}"
+                Style="{StaticResource BottomButtonTitleStyle}"
                 Grid.Row="3"
-                Text="{Binding Resources[app_name]}"
-                TextColor="White"
-                VerticalOptions="Center"
-                VerticalTextAlignment="Center"
-                HeightRequest="{StaticResource AppBarButtonHeight}"
-                HorizontalTextAlignment="Center"
-                FontSize="{StaticResource AppBarButtonFontSize}">
-               
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding Path=BindingContext.LoginCommand, 
-                                                        Source={x:Reference Name=lblLogin}}"
-                                                         CommandParameter="{Binding}"/>
-                </Label.GestureRecognizers>
-            </Label>
+                Text="{Binding Resources[button_login]}"
+                Command="{Binding LoginCommand}"/>
 
         </Grid>
         

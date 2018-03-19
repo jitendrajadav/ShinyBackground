@@ -61,6 +61,15 @@ namespace KegID {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        internal static string action_settings {
+            get {
+                return ResourceManager.GetString("action_settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to KegID.
         /// </summary>
         internal static string app_name {
@@ -84,6 +93,4245 @@ namespace KegID {
         internal static string bulk_update_success {
             get {
                 return ResourceManager.GetString("bulk_update_success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Alert.
+        /// </summary>
+        internal static string button_add_alert {
+            get {
+                return ResourceManager.GetString("button_add_alert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Palletize.
+        /// </summary>
+        internal static string button_build_pallet {
+            get {
+                return ResourceManager.GetString("button_build_pallet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dismiss.
+        /// </summary>
+        internal static string button_dismiss {
+            get {
+                return ResourceManager.GetString("button_dismiss", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Done.
+        /// </summary>
+        internal static string button_done {
+            get {
+                return ResourceManager.GetString("button_done", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fill.
+        /// </summary>
+        internal static string button_fill_kegs {
+            get {
+                return ResourceManager.GetString("button_fill_kegs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kegs.
+        /// </summary>
+        internal static string button_kegs {
+            get {
+                return ResourceManager.GetString("button_kegs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Log In.
+        /// </summary>
+        internal static string button_login {
+            get {
+                return ResourceManager.GetString("button_login", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Maintain.
+        /// </summary>
+        internal static string button_maintain_kegs {
+            get {
+                return ResourceManager.GetString("button_maintain_kegs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manifests.
+        /// </summary>
+        internal static string button_manifests {
+            get {
+                return ResourceManager.GetString("button_manifests", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Move.
+        /// </summary>
+        internal static string button_move_kegs {
+            get {
+                return ResourceManager.GetString("button_move_kegs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Next.
+        /// </summary>
+        internal static string button_next {
+            get {
+                return ResourceManager.GetString("button_next", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No.
+        /// </summary>
+        internal static string button_no {
+            get {
+                return ResourceManager.GetString("button_no", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pallets.
+        /// </summary>
+        internal static string button_pallets {
+            get {
+                return ResourceManager.GetString("button_pallets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Partners.
+        /// </summary>
+        internal static string button_partners {
+            get {
+                return ResourceManager.GetString("button_partners", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove Alert.
+        /// </summary>
+        internal static string button_remove_alert {
+            get {
+                return ResourceManager.GetString("button_remove_alert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        internal static string button_save {
+            get {
+                return ResourceManager.GetString("button_save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save Partner.
+        /// </summary>
+        internal static string button_save_partner {
+            get {
+                return ResourceManager.GetString("button_save_partner", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search.
+        /// </summary>
+        internal static string button_search {
+            get {
+                return ResourceManager.GetString("button_search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send Manifest.
+        /// </summary>
+        internal static string button_submit_manifest {
+            get {
+                return ResourceManager.GetString("button_submit_manifest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes.
+        /// </summary>
+        internal static string button_yes {
+            get {
+                return ResourceManager.GetString("button_yes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;lt;&amp;lt; add new &amp;gt;&amp;gt;.
+        /// </summary>
+        internal static string content_list_add_new {
+            get {
+                return ResourceManager.GetString("content_list_add_new", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Empty.
+        /// </summary>
+        internal static string content_list_empty {
+            get {
+                return ResourceManager.GetString("content_list_empty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to --Select contents--.
+        /// </summary>
+        internal static string content_list_select_content {
+            get {
+                return ResourceManager.GetString("content_list_select_content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        internal static string delete_btn_str {
+            get {
+                return ResourceManager.GetString("delete_btn_str", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to delete..
+        /// </summary>
+        internal static string deleted_error {
+            get {
+                return ResourceManager.GetString("deleted_error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deleted successfully..
+        /// </summary>
+        internal static string deleted_successfully {
+            get {
+                return ResourceManager.GetString("deleted_successfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string dialog_addcontents_message {
+            get {
+                return ResourceManager.GetString("dialog_addcontents_message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add a Brand.
+        /// </summary>
+        internal static string dialog_addcontents_title {
+            get {
+                return ResourceManager.GetString("dialog_addcontents_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You are about to leave this page.
+        /// </summary>
+        internal static string dialog_cancel_message {
+            get {
+                return ResourceManager.GetString("dialog_cancel_message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stay here.
+        /// </summary>
+        internal static string dialog_cancel_negative {
+            get {
+                return ResourceManager.GetString("dialog_cancel_negative", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not now.
+        /// </summary>
+        internal static string dialog_cancel_notnow {
+            get {
+                return ResourceManager.GetString("dialog_cancel_notnow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Leave.
+        /// </summary>
+        internal static string dialog_cancel_positive {
+            get {
+                return ResourceManager.GetString("dialog_cancel_positive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string dialog_cancel_title {
+            get {
+                return ResourceManager.GetString("dialog_cancel_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mark this batch as completed?.
+        /// </summary>
+        internal static string dialog_close_batch {
+            get {
+                return ResourceManager.GetString("dialog_close_batch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Close batch.
+        /// </summary>
+        internal static string dialog_close_batch_title {
+            get {
+                return ResourceManager.GetString("dialog_close_batch_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete Manifest.
+        /// </summary>
+        internal static string dialog_delete_manifest {
+            get {
+                return ResourceManager.GetString("dialog_delete_manifest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure to remove selected Manifest?.
+        /// </summary>
+        internal static string dialog_delete_manifest_message {
+            get {
+                return ResourceManager.GetString("dialog_delete_manifest_message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid scans.
+        /// </summary>
+        internal static string dialog_invalid_scans {
+            get {
+                return ResourceManager.GetString("dialog_invalid_scans", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to loading\u2026.
+        /// </summary>
+        internal static string dialog_loading {
+            get {
+                return ResourceManager.GetString("dialog_loading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Multiple Matches.
+        /// </summary>
+        internal static string dialog_multiple_matches {
+            get {
+                return ResourceManager.GetString("dialog_multiple_matches", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot connect to printer..
+        /// </summary>
+        internal static string dialog_print_message {
+            get {
+                return ResourceManager.GetString("dialog_print_message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        internal static string dialog_print_negative {
+            get {
+                return ResourceManager.GetString("dialog_print_negative", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Setup.
+        /// </summary>
+        internal static string dialog_print_positive {
+            get {
+                return ResourceManager.GetString("dialog_print_positive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select a Brand.
+        /// </summary>
+        internal static string dialog_selectcontents_title {
+            get {
+                return ResourceManager.GetString("dialog_selectcontents_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Done.
+        /// </summary>
+        internal static string done {
+            get {
+                return ResourceManager.GetString("done", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string empty {
+            get {
+                return ResourceManager.GetString("empty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bad Response received from server.
+        /// </summary>
+        internal static string error_bad_response {
+            get {
+                return ResourceManager.GetString("error_bad_response", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have selected a date in the past.  Continue with this date?.
+        /// </summary>
+        internal static string error_date_past {
+            get {
+                return ResourceManager.GetString("error_date_past", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ship date is past.  Use anyways?.
+        /// </summary>
+        internal static string error_invalid_date {
+            get {
+                return ResourceManager.GetString("error_invalid_date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Location Services are disabled.
+        /// </summary>
+        internal static string error_location_disabled {
+            get {
+                return ResourceManager.GetString("error_location_disabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Location Services are unavailable.
+        /// </summary>
+        internal static string error_location_unavailable {
+            get {
+                return ResourceManager.GetString("error_location_unavailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No scans added.
+        /// </summary>
+        internal static string error_no_scans {
+            get {
+                return ResourceManager.GetString("error_no_scans", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not connected.
+        /// </summary>
+        internal static string error_not_connected {
+            get {
+                return ResourceManager.GetString("error_not_connected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error while printing pallet. Please try again..
+        /// </summary>
+        internal static string error_print {
+            get {
+                return ResourceManager.GetString("error_print", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unauthorized.
+        /// </summary>
+        internal static string error_unauthorized {
+            get {
+                return ResourceManager.GetString("error_unauthorized", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to com.anotherroundapps.apps.kegid.extras.printhtml.
+        /// </summary>
+        internal static string extra_print_html {
+            get {
+                return ResourceManager.GetString("extra_print_html", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to com.anotherroundapps.apps.kegid.extras.printurl.
+        /// </summary>
+        internal static string extra_print_url {
+            get {
+                return ResourceManager.GetString("extra_print_url", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to tag_values.
+        /// </summary>
+        internal static string extra_tag_values {
+            get {
+                return ResourceManager.GetString("extra_tag_values", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to title.
+        /// </summary>
+        internal static string extra_title {
+            get {
+                return ResourceManager.GetString("extra_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Filling %1$s kegs with %2$s.
+        /// </summary>
+        internal static string format_filling_pallets {
+            get {
+                return ResourceManager.GetString("format_filling_pallets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to geo:%1$f,%2$f.
+        /// </summary>
+        internal static string format_geo_lat_lon {
+            get {
+                return ResourceManager.GetString("format_geo_lat_lon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to %1$s.
+        /// </summary>
+        internal static string format_geo_query_address {
+            get {
+                return ResourceManager.GetString("format_geo_query_address", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to %1$s(%2$s).
+        /// </summary>
+        internal static string format_geo_query_address_label {
+            get {
+                return ResourceManager.GetString("format_geo_query_address_label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to %1$f,%2$f.
+        /// </summary>
+        internal static string format_geo_query_lat_lon {
+            get {
+                return ResourceManager.GetString("format_geo_query_lat_lon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to %1$f,%2$f(%3$s).
+        /// </summary>
+        internal static string format_geo_query_lat_lon_label {
+            get {
+                return ResourceManager.GetString("format_geo_query_lat_lon_label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Multiple results for \&apos;%s\&apos;.
+        /// </summary>
+        internal static string format_header_choose {
+            get {
+                return ResourceManager.GetString("format_header_choose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to %1$d %2$s held (Oldest: %3$d d).
+        /// </summary>
+        internal static string format_items_held {
+            get {
+                return ResourceManager.GetString("format_items_held", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manifest # %1$s.
+        /// </summary>
+        internal static string format_title_manifest {
+            get {
+                return ResourceManager.GetString("format_title_manifest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pallet # %1$s.
+        /// </summary>
+        internal static string format_title_pallet {
+            get {
+                return ResourceManager.GetString("format_title_pallet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pallets: %1$d.
+        /// </summary>
+        internal static string format_total_pallets {
+            get {
+                return ResourceManager.GetString("format_total_pallets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Scanned Kegs.
+        /// </summary>
+        internal static string header_scanned_items {
+            get {
+                return ResourceManager.GetString("header_scanned_items", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hello world!.
+        /// </summary>
+        internal static string hello_world {
+            get {
+                return ResourceManager.GetString("hello_world", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select a brand or add new.
+        /// </summary>
+        internal static string hint_addbrand {
+            get {
+                return ResourceManager.GetString("hint_addbrand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to -- anywhere --.
+        /// </summary>
+        internal static string hint_anywhere {
+            get {
+                return ResourceManager.GetString("hint_anywhere", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Batch #.
+        /// </summary>
+        internal static string hint_batchnum {
+            get {
+                return ResourceManager.GetString("hint_batchnum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Brand.
+        /// </summary>
+        internal static string hint_contents {
+            get {
+                return ResourceManager.GetString("hint_contents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No results found.
+        /// </summary>
+        internal static string hint_empty_list {
+            get {
+                return ResourceManager.GetString("hint_empty_list", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to filter.
+        /// </summary>
+        internal static string hint_filter {
+            get {
+                return ResourceManager.GetString("hint_filter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to From date.
+        /// </summary>
+        internal static string hint_fromdate {
+            get {
+                return ResourceManager.GetString("hint_fromdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to -- none set--.
+        /// </summary>
+        internal static string hint_no_tags_set {
+            get {
+                return ResourceManager.GetString("hint_no_tags_set", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to order, shipment #.
+        /// </summary>
+        internal static string hint_ordernum {
+            get {
+                return ResourceManager.GetString("hint_ordernum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password.
+        /// </summary>
+        internal static string hint_password {
+            get {
+                return ResourceManager.GetString("hint_password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to barcode.
+        /// </summary>
+        internal static string hint_scan {
+            get {
+                return ResourceManager.GetString("hint_scan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Scan pallet barcode.
+        /// </summary>
+        internal static string hint_scan_pallet {
+            get {
+                return ResourceManager.GetString("hint_scan_pallet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search.
+        /// </summary>
+        internal static string hint_search_item {
+            get {
+                return ResourceManager.GetString("hint_search_item", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search.
+        /// </summary>
+        internal static string hint_search_partner {
+            get {
+                return ResourceManager.GetString("hint_search_partner", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to \u2013select batch\u2013.
+        /// </summary>
+        internal static string hint_select_batch {
+            get {
+                return ResourceManager.GetString("hint_select_batch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to \u2013select brand\u2013.
+        /// </summary>
+        internal static string hint_select_brand {
+            get {
+                return ResourceManager.GetString("hint_select_brand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to \u2013select ship date\u2013.
+        /// </summary>
+        internal static string hint_select_date {
+            get {
+                return ResourceManager.GetString("hint_select_date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to \u2013select date\u2013.
+        /// </summary>
+        internal static string hint_select_generic_date {
+            get {
+                return ResourceManager.GetString("hint_select_generic_date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to \u2013select location\u2013.
+        /// </summary>
+        internal static string hint_select_location {
+            get {
+                return ResourceManager.GetString("hint_select_location", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to \u2013set operator\u2013.
+        /// </summary>
+        internal static string hint_select_operator {
+            get {
+                return ResourceManager.GetString("hint_select_operator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to \u2013select size\u2013.
+        /// </summary>
+        internal static string hint_select_size {
+            get {
+                return ResourceManager.GetString("hint_select_size", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to \u2013add info\u2013.
+        /// </summary>
+        internal static string hint_select_tags {
+            get {
+                return ResourceManager.GetString("hint_select_tags", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select SKU.
+        /// </summary>
+        internal static string hint_sku {
+            get {
+                return ResourceManager.GetString("hint_sku", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To date.
+        /// </summary>
+        internal static string hint_todate {
+            get {
+                return ResourceManager.GetString("hint_todate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tracking #.
+        /// </summary>
+        internal static string hint_trackingnum {
+            get {
+                return ResourceManager.GetString("hint_trackingnum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Username.
+        /// </summary>
+        internal static string hint_username {
+            get {
+                return ResourceManager.GetString("hint_username", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string images_content {
+            get {
+                return ResourceManager.GetString("images_content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid date.
+        /// </summary>
+        internal static string invalid_barcode {
+            get {
+                return ResourceManager.GetString("invalid_barcode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ship Date.
+        /// </summary>
+        internal static string invalid_date {
+            get {
+                return ResourceManager.GetString("invalid_date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid session. Application needs restart..
+        /// </summary>
+        internal static string invalid_session {
+            get {
+                return ResourceManager.GetString("invalid_session", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Keg.
+        /// </summary>
+        internal static string keg {
+            get {
+                return ResourceManager.GetString("keg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kegs.
+        /// </summary>
+        internal static string kegs {
+            get {
+                return ResourceManager.GetString("kegs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Account #.
+        /// </summary>
+        internal static string label_accountnum {
+            get {
+                return ResourceManager.GetString("label_accountnum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Kegs\u2026.
+        /// </summary>
+        internal static string label_add_scans {
+            get {
+                return ResourceManager.GetString("label_add_scans", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bill Address.
+        /// </summary>
+        internal static string label_address_bill {
+            get {
+                return ResourceManager.GetString("label_address_bill", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to City.
+        /// </summary>
+        internal static string label_address_city {
+            get {
+                return ResourceManager.GetString("label_address_city", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Country.
+        /// </summary>
+        internal static string label_address_country {
+            get {
+                return ResourceManager.GetString("label_address_country", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Address Line 1.
+        /// </summary>
+        internal static string label_address_line1 {
+            get {
+                return ResourceManager.GetString("label_address_line1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Address Line 2.
+        /// </summary>
+        internal static string label_address_line2 {
+            get {
+                return ResourceManager.GetString("label_address_line2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Address Line 3.
+        /// </summary>
+        internal static string label_address_line3 {
+            get {
+                return ResourceManager.GetString("label_address_line3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Address Line 4.
+        /// </summary>
+        internal static string label_address_line4 {
+            get {
+                return ResourceManager.GetString("label_address_line4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Address Line 5.
+        /// </summary>
+        internal static string label_address_line5 {
+            get {
+                return ResourceManager.GetString("label_address_line5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Postal Code.
+        /// </summary>
+        internal static string label_address_postal {
+            get {
+                return ResourceManager.GetString("label_address_postal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ship Address.
+        /// </summary>
+        internal static string label_address_ship {
+            get {
+                return ResourceManager.GetString("label_address_ship", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to State.
+        /// </summary>
+        internal static string label_address_state {
+            get {
+                return ResourceManager.GetString("label_address_state", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Alcohol Content.
+        /// </summary>
+        internal static string label_alcohol_content {
+            get {
+                return ResourceManager.GetString("label_alcohol_content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Alernate Barcode.
+        /// </summary>
+        internal static string label_altbarcode {
+            get {
+                return ResourceManager.GetString("label_altbarcode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Apply Tags.
+        /// </summary>
+        internal static string label_apply_tags {
+            get {
+                return ResourceManager.GetString("label_apply_tags", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Asset Type.
+        /// </summary>
+        internal static string label_asset_type {
+            get {
+                return ResourceManager.GetString("label_asset_type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Volume.
+        /// </summary>
+        internal static string label_asset_volume {
+            get {
+                return ResourceManager.GetString("label_asset_volume", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Avg Cycle Time.
+        /// </summary>
+        internal static string label_average_cycle {
+            get {
+                return ResourceManager.GetString("label_average_cycle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Barcode.
+        /// </summary>
+        internal static string label_barcode {
+            get {
+                return ResourceManager.GetString("label_barcode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Batch.
+        /// </summary>
+        internal static string label_batch {
+            get {
+                return ResourceManager.GetString("label_batch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Batch Code.
+        /// </summary>
+        internal static string label_batch_code {
+            get {
+                return ResourceManager.GetString("label_batch_code", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Best by Date.
+        /// </summary>
+        internal static string label_bestby_date {
+            get {
+                return ResourceManager.GetString("label_bestby_date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Brand.
+        /// </summary>
+        internal static string label_brand {
+            get {
+                return ResourceManager.GetString("label_brand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Brew Date.
+        /// </summary>
+        internal static string label_brew_date {
+            get {
+                return ResourceManager.GetString("label_brew_date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Build Location.
+        /// </summary>
+        internal static string label_build_location {
+            get {
+                return ResourceManager.GetString("label_build_location", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Build Date.
+        /// </summary>
+        internal static string label_builddate {
+            get {
+                return ResourceManager.GetString("label_builddate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to choose a date.
+        /// </summary>
+        internal static string label_choose_a_date {
+            get {
+                return ResourceManager.GetString("label_choose_a_date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contact Name.
+        /// </summary>
+        internal static string label_contact_name {
+            get {
+                return ResourceManager.GetString("label_contact_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Brand.
+        /// </summary>
+        internal static string label_contents {
+            get {
+                return ResourceManager.GetString("label_contents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current Location.
+        /// </summary>
+        internal static string label_currentlocation {
+            get {
+                return ResourceManager.GetString("label_currentlocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Days held:.
+        /// </summary>
+        internal static string label_days_in_possession {
+            get {
+                return ResourceManager.GetString("label_days_in_possession", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Destination.
+        /// </summary>
+        internal static string label_destination {
+            get {
+                return ResourceManager.GetString("label_destination", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Effective Date.
+        /// </summary>
+        internal static string label_effectivedate {
+            get {
+                return ResourceManager.GetString("label_effectivedate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email.
+        /// </summary>
+        internal static string label_email {
+            get {
+                return ResourceManager.GetString("label_email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Empties.
+        /// </summary>
+        internal static string label_empties {
+            get {
+                return ResourceManager.GetString("label_empties", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fax.
+        /// </summary>
+        internal static string label_fax {
+            get {
+                return ResourceManager.GetString("label_fax", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Find a Keg.
+        /// </summary>
+        internal static string label_find_a_keg {
+            get {
+                return ResourceManager.GetString("label_find_a_keg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to First Name.
+        /// </summary>
+        internal static string label_firstname {
+            get {
+                return ResourceManager.GetString("label_firstname", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to From date.
+        /// </summary>
+        internal static string label_from_date {
+            get {
+                return ResourceManager.GetString("label_from_date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to History.
+        /// </summary>
+        internal static string label_history {
+            get {
+                return ResourceManager.GetString("label_history", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to In Possession:.
+        /// </summary>
+        internal static string label_in_possession {
+            get {
+                return ResourceManager.GetString("label_in_possession", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to In Use:.
+        /// </summary>
+        internal static string label_in_use {
+            get {
+                return ResourceManager.GetString("label_in_use", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Internal.
+        /// </summary>
+        internal static string label_internal {
+            get {
+                return ResourceManager.GetString("label_internal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to In Use.
+        /// </summary>
+        internal static string label_inuse {
+            get {
+                return ResourceManager.GetString("label_inuse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Partner.
+        /// </summary>
+        internal static string label_ispartner {
+            get {
+                return ResourceManager.GetString("label_ispartner", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Keg ID.
+        /// </summary>
+        internal static string label_keg_id {
+            get {
+                return ResourceManager.GetString("label_keg_id", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kegs.
+        /// </summary>
+        internal static string label_kegs {
+            get {
+                return ResourceManager.GetString("label_kegs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last Name.
+        /// </summary>
+        internal static string label_lastname {
+            get {
+                return ResourceManager.GetString("label_lastname", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Location.
+        /// </summary>
+        internal static string label_location {
+            get {
+                return ResourceManager.GetString("label_location", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Location Code.
+        /// </summary>
+        internal static string label_locationcode {
+            get {
+                return ResourceManager.GetString("label_locationcode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Location Name.
+        /// </summary>
+        internal static string label_locationname {
+            get {
+                return ResourceManager.GetString("label_locationname", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Maintenance to be done on Kegs.
+        /// </summary>
+        internal static string label_maintenance_actions {
+            get {
+                return ResourceManager.GetString("label_maintenance_actions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Maintenance Alerts (%1$d).
+        /// </summary>
+        internal static string label_maintenance_alerts {
+            get {
+                return ResourceManager.GetString("label_maintenance_alerts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This keg needs the following maintenance items performed:\n.
+        /// </summary>
+        internal static string label_maintenance_message {
+            get {
+                return ResourceManager.GetString("label_maintenance_message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to One of more of the items require maintenance actions. Please check and continue.
+        /// </summary>
+        internal static string label_maintenance_warning {
+            get {
+                return ResourceManager.GetString("label_maintenance_warning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tracking #.
+        /// </summary>
+        internal static string label_manifest_num {
+            get {
+                return ResourceManager.GetString("label_manifest_num", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to More Info.
+        /// </summary>
+        internal static string label_more_info {
+            get {
+                return ResourceManager.GetString("label_more_info", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Next.
+        /// </summary>
+        internal static string label_next {
+            get {
+                return ResourceManager.GetString("label_next", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notes.
+        /// </summary>
+        internal static string label_notes {
+            get {
+                return ResourceManager.GetString("label_notes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Operator.
+        /// </summary>
+        internal static string label_operator {
+            get {
+                return ResourceManager.GetString("label_operator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Order #.
+        /// </summary>
+        internal static string label_ordernum {
+            get {
+                return ResourceManager.GetString("label_ordernum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Origin.
+        /// </summary>
+        internal static string label_origin {
+            get {
+                return ResourceManager.GetString("label_origin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to At Risk kegs.
+        /// </summary>
+        internal static string label_overdue {
+            get {
+                return ResourceManager.GetString("label_overdue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Overdue Kegs %1$s.
+        /// </summary>
+        internal static string label_overdue_format {
+            get {
+                return ResourceManager.GetString("label_overdue_format", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Owner.
+        /// </summary>
+        internal static string label_owner {
+            get {
+                return ResourceManager.GetString("label_owner", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Packaged Date.
+        /// </summary>
+        internal static string label_packaged_date {
+            get {
+                return ResourceManager.GetString("label_packaged_date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pallet.
+        /// </summary>
+        internal static string label_pallet {
+            get {
+                return ResourceManager.GetString("label_pallet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pallet ID.
+        /// </summary>
+        internal static string label_pallet_id {
+            get {
+                return ResourceManager.GetString("label_pallet_id", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pallet # / SSCC.
+        /// </summary>
+        internal static string label_pallet_num {
+            get {
+                return ResourceManager.GetString("label_pallet_num", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Palletize?.
+        /// </summary>
+        internal static string label_palletize {
+            get {
+                return ResourceManager.GetString("label_palletize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Partner.
+        /// </summary>
+        internal static string label_partner {
+            get {
+                return ResourceManager.GetString("label_partner", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Partner Type.
+        /// </summary>
+        internal static string label_partner_type {
+            get {
+                return ResourceManager.GetString("label_partner_type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Phone.
+        /// </summary>
+        internal static string label_phone {
+            get {
+                return ResourceManager.GetString("label_phone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Planned Volume.
+        /// </summary>
+        internal static string label_planned_volume {
+            get {
+                return ResourceManager.GetString("label_planned_volume", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Qty.
+        /// </summary>
+        internal static string label_qty {
+            get {
+                return ResourceManager.GetString("label_qty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quantity.
+        /// </summary>
+        internal static string label_quantity {
+            get {
+                return ResourceManager.GetString("label_quantity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ref Key.
+        /// </summary>
+        internal static string label_referencekey {
+            get {
+                return ResourceManager.GetString("label_referencekey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Route.
+        /// </summary>
+        internal static string label_route {
+            get {
+                return ResourceManager.GetString("label_route", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        internal static string label_settings {
+            get {
+                return ResourceManager.GetString("label_settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to List in KegID partner directory.
+        /// </summary>
+        internal static string label_share_partner {
+            get {
+                return ResourceManager.GetString("label_share_partner", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ship Date.
+        /// </summary>
+        internal static string label_shipdate {
+            get {
+                return ResourceManager.GetString("label_shipdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ship On.
+        /// </summary>
+        internal static string label_shipon {
+            get {
+                return ResourceManager.GetString("label_shipon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Size.
+        /// </summary>
+        internal static string label_size {
+            get {
+                return ResourceManager.GetString("label_size", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SKU.
+        /// </summary>
+        internal static string label_sku {
+            get {
+                return ResourceManager.GetString("label_sku", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SMS Address.
+        /// </summary>
+        internal static string label_smsaddress {
+            get {
+                return ResourceManager.GetString("label_smsaddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stock.
+        /// </summary>
+        internal static string label_stock {
+            get {
+                return ResourceManager.GetString("label_stock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stock Location.
+        /// </summary>
+        internal static string label_stocklocation {
+            get {
+                return ResourceManager.GetString("label_stocklocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stock Location.
+        /// </summary>
+        internal static string label_tags {
+            get {
+                return ResourceManager.GetString("label_tags", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ultimate Destination.
+        /// </summary>
+        internal static string label_targetlocation {
+            get {
+                return ResourceManager.GetString("label_targetlocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Time Zone.
+        /// </summary>
+        internal static string label_timezone {
+            get {
+                return ResourceManager.GetString("label_timezone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To date.
+        /// </summary>
+        internal static string label_to_date {
+            get {
+                return ResourceManager.GetString("label_to_date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total.
+        /// </summary>
+        internal static string label_total {
+            get {
+                return ResourceManager.GetString("label_total", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total Kegs:.
+        /// </summary>
+        internal static string label_total_kegs {
+            get {
+                return ResourceManager.GetString("label_total_kegs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tracking #.
+        /// </summary>
+        internal static string label_trackingnum {
+            get {
+                return ResourceManager.GetString("label_trackingnum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to use scan date.
+        /// </summary>
+        internal static string label_use_scan_date {
+            get {
+                return ResourceManager.GetString("label_use_scan_date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warning.
+        /// </summary>
+        internal static string label_warning {
+            get {
+                return ResourceManager.GetString("label_warning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Website.
+        /// </summary>
+        internal static string label_website {
+            get {
+                return ResourceManager.GetString("label_website", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to With Keg.
+        /// </summary>
+        internal static string label_with_keg {
+            get {
+                return ResourceManager.GetString("label_with_keg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There are queued or draft items, if you logout they will be discarded and data will be lost..
+        /// </summary>
+        internal static string logout_validation_message {
+            get {
+                return ResourceManager.GetString("logout_validation_message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error uploading Manifest. Retry?.
+        /// </summary>
+        internal static string manifest_item_sync_genrl_str {
+            get {
+                return ResourceManager.GetString("manifest_item_sync_genrl_str", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add partner.
+        /// </summary>
+        internal static string menu_action_add_partner {
+            get {
+                return ResourceManager.GetString("menu_action_add_partner", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bluetooth.
+        /// </summary>
+        internal static string menu_action_bluetooth_settings {
+            get {
+                return ResourceManager.GetString("menu_action_bluetooth_settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bulk Update.
+        /// </summary>
+        internal static string menu_action_bulk_update {
+            get {
+                return ResourceManager.GetString("menu_action_bulk_update", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use Camera.
+        /// </summary>
+        internal static string menu_action_camera_scan {
+            get {
+                return ResourceManager.GetString("menu_action_camera_scan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Done.
+        /// </summary>
+        internal static string menu_action_done {
+            get {
+                return ResourceManager.GetString("menu_action_done", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Forgot PW.
+        /// </summary>
+        internal static string menu_action_forgot_password {
+            get {
+                return ResourceManager.GetString("menu_action_forgot_password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Get current location.
+        /// </summary>
+        internal static string menu_action_get_location {
+            get {
+                return ResourceManager.GetString("menu_action_get_location", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Log Out.
+        /// </summary>
+        internal static string menu_action_logout {
+            get {
+                return ResourceManager.GetString("menu_action_logout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Map.
+        /// </summary>
+        internal static string menu_action_map {
+            get {
+                return ResourceManager.GetString("menu_action_map", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Move Keg.
+        /// </summary>
+        internal static string menu_action_move_keg {
+            get {
+                return ResourceManager.GetString("menu_action_move_keg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Move Pallet.
+        /// </summary>
+        internal static string menu_action_move_pallet {
+            get {
+                return ResourceManager.GetString("menu_action_move_pallet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send Kegs.
+        /// </summary>
+        internal static string menu_action_movekegs {
+            get {
+                return ResourceManager.GetString("menu_action_movekegs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New Batch.
+        /// </summary>
+        internal static string menu_action_new_batch {
+            get {
+                return ResourceManager.GetString("menu_action_new_batch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add a Keg.
+        /// </summary>
+        internal static string menu_action_new_keg {
+            get {
+                return ResourceManager.GetString("menu_action_new_keg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New Manifest.
+        /// </summary>
+        internal static string menu_action_new_manifest {
+            get {
+                return ResourceManager.GetString("menu_action_new_manifest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pallet Builder.
+        /// </summary>
+        internal static string menu_action_new_pallet {
+            get {
+                return ResourceManager.GetString("menu_action_new_pallet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New Partner.
+        /// </summary>
+        internal static string menu_action_new_partner {
+            get {
+                return ResourceManager.GetString("menu_action_new_partner", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pick.
+        /// </summary>
+        internal static string menu_action_pick {
+            get {
+                return ResourceManager.GetString("menu_action_pick", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Print.
+        /// </summary>
+        internal static string menu_action_print {
+            get {
+                return ResourceManager.GetString("menu_action_print", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cloud Print.
+        /// </summary>
+        internal static string menu_action_print_cloud {
+            get {
+                return ResourceManager.GetString("menu_action_print_cloud", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Local Printer.
+        /// </summary>
+        internal static string menu_action_print_framework {
+            get {
+                return ResourceManager.GetString("menu_action_print_framework", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to PrinterShare.
+        /// </summary>
+        internal static string menu_action_print_printershare {
+            get {
+                return ResourceManager.GetString("menu_action_print_printershare", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Share....
+        /// </summary>
+        internal static string menu_action_print_share {
+            get {
+                return ResourceManager.GetString("menu_action_print_share", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zebra Label.
+        /// </summary>
+        internal static string menu_action_print_zebra {
+            get {
+                return ResourceManager.GetString("menu_action_print_zebra", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refresh.
+        /// </summary>
+        internal static string menu_action_refresh {
+            get {
+                return ResourceManager.GetString("menu_action_refresh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove partner.
+        /// </summary>
+        internal static string menu_action_remove_partner {
+            get {
+                return ResourceManager.GetString("menu_action_remove_partner", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        internal static string menu_action_save {
+            get {
+                return ResourceManager.GetString("menu_action_save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save Draft.
+        /// </summary>
+        internal static string menu_action_save_draft {
+            get {
+                return ResourceManager.GetString("menu_action_save_draft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Scan.
+        /// </summary>
+        internal static string menu_action_scan {
+            get {
+                return ResourceManager.GetString("menu_action_scan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search.
+        /// </summary>
+        internal static string menu_action_search {
+            get {
+                return ResourceManager.GetString("menu_action_search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Set Tags.
+        /// </summary>
+        internal static string menu_action_set_tags {
+            get {
+                return ResourceManager.GetString("menu_action_set_tags", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        internal static string menu_action_settings {
+            get {
+                return ResourceManager.GetString("menu_action_settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Share.
+        /// </summary>
+        internal static string menu_action_share {
+            get {
+                return ResourceManager.GetString("menu_action_share", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sort.
+        /// </summary>
+        internal static string menu_action_sort {
+            get {
+                return ResourceManager.GetString("menu_action_sort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Barcode.
+        /// </summary>
+        internal static string menu_action_sort_barcode {
+            get {
+                return ResourceManager.GetString("menu_action_sort_barcode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Internal.
+        /// </summary>
+        internal static string menu_action_sort_internal {
+            get {
+                return ResourceManager.GetString("menu_action_sort_internal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kegs Held.
+        /// </summary>
+        internal static string menu_action_sort_kegs {
+            get {
+                return ResourceManager.GetString("menu_action_sort_kegs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        internal static string menu_action_sort_name {
+            get {
+                return ResourceManager.GetString("menu_action_sort_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Oldest.
+        /// </summary>
+        internal static string menu_action_sort_oldest {
+            get {
+                return ResourceManager.GetString("menu_action_sort_oldest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Scan Time.
+        /// </summary>
+        internal static string menu_action_sort_scandate {
+            get {
+                return ResourceManager.GetString("menu_action_sort_scandate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Status.
+        /// </summary>
+        internal static string menu_action_sort_status {
+            get {
+                return ResourceManager.GetString("menu_action_sort_status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Submit.
+        /// </summary>
+        internal static string menu_action_submit {
+            get {
+                return ResourceManager.GetString("menu_action_submit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Support.
+        /// </summary>
+        internal static string menu_action_support {
+            get {
+                return ResourceManager.GetString("menu_action_support", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update.
+        /// </summary>
+        internal static string menu_action_update {
+            get {
+                return ResourceManager.GetString("menu_action_update", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to KegID Web.
+        /// </summary>
+        internal static string menu_action_website {
+            get {
+                return ResourceManager.GetString("menu_action_website", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Whats new.
+        /// </summary>
+        internal static string menu_action_whatsnew {
+            get {
+                return ResourceManager.GetString("menu_action_whatsnew", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There was an error adding this alert.Please try again later..
+        /// </summary>
+        internal static string message_maintenance_update_error {
+            get {
+                return ResourceManager.GetString("message_maintenance_update_error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Partner added..
+        /// </summary>
+        internal static string message_partner_added {
+            get {
+                return ResourceManager.GetString("message_partner_added", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Partner removed..
+        /// </summary>
+        internal static string message_partner_removed {
+            get {
+                return ResourceManager.GetString("message_partner_removed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No results found.
+        /// </summary>
+        internal static string no_result_found {
+            get {
+                return ResourceManager.GetString("no_result_found", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No Results.
+        /// </summary>
+        internal static string no_results {
+            get {
+                return ResourceManager.GetString("no_results", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error uploading Pallet. Retry?.
+        /// </summary>
+        internal static string pallete_item_sync_genrl_str {
+            get {
+                return ResourceManager.GetString("pallete_item_sync_genrl_str", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to \u0020day.
+        /// </summary>
+        internal static string possession_list_held_days_day_text {
+            get {
+                return ResourceManager.GetString("possession_list_held_days_day_text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to \u0020days.
+        /// </summary>
+        internal static string possession_list_held_days_days_text {
+            get {
+                return ResourceManager.GetString("possession_list_held_days_days_text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to KegID Info.
+        /// </summary>
+        internal static string pref_app_info {
+            get {
+                return ResourceManager.GetString("pref_app_info", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Version.
+        /// </summary>
+        internal static string pref_app_version {
+            get {
+                return ResourceManager.GetString("pref_app_version", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Auto Print.
+        /// </summary>
+        internal static string pref_auto_print {
+            get {
+                return ResourceManager.GetString("pref_auto_print", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Automatically print manifest.
+        /// </summary>
+        internal static string pref_auto_print_manifest {
+            get {
+                return ResourceManager.GetString("pref_auto_print_manifest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string pref_auto_print_manifest_summary {
+            get {
+                return ResourceManager.GetString("pref_auto_print_manifest_summary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Automatically print pallet.
+        /// </summary>
+        internal static string pref_auto_print_pallet {
+            get {
+                return ResourceManager.GetString("pref_auto_print_pallet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string pref_auto_print_pallet_summary {
+            get {
+                return ResourceManager.GetString("pref_auto_print_pallet_summary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CLOSE_BATCH.
+        /// </summary>
+        internal static string pref_close_batch {
+            get {
+                return ResourceManager.GetString("pref_close_batch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to com.arapps.kegid.preference.companyid.
+        /// </summary>
+        internal static string pref_companyid {
+            get {
+                return ResourceManager.GetString("pref_companyid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to com.arapps.kegid.preference.companyname.
+        /// </summary>
+        internal static string pref_companyname {
+            get {
+                return ResourceManager.GetString("pref_companyname", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to com.arapps.kegid.preference.firstname.
+        /// </summary>
+        internal static string pref_firstname {
+            get {
+                return ResourceManager.GetString("pref_firstname", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to com.arapps.kegid.preference.fullname.
+        /// </summary>
+        internal static string pref_fullname {
+            get {
+                return ResourceManager.GetString("pref_fullname", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to com.arapps.kegid.preference.gs1prefix.
+        /// </summary>
+        internal static string pref_gs1_prefix {
+            get {
+                return ResourceManager.GetString("pref_gs1_prefix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IP Address.
+        /// </summary>
+        internal static string pref_ipaddress {
+            get {
+                return ResourceManager.GetString("pref_ipaddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to KEG_LAST_REFRESH.
+        /// </summary>
+        internal static string pref_keg_last_refresh {
+            get {
+                return ResourceManager.GetString("pref_keg_last_refresh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to KEG_REFRESH.
+        /// </summary>
+        internal static string pref_keg_refresh {
+            get {
+                return ResourceManager.GetString("pref_keg_refresh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to com.arapps.kegid.preference.lastname.
+        /// </summary>
+        internal static string pref_lastname {
+            get {
+                return ResourceManager.GetString("pref_lastname", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OrderNumRequired.
+        /// </summary>
+        internal static string pref_ordernum_required {
+            get {
+                return ResourceManager.GetString("pref_ordernum_required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OriginRequired.
+        /// </summary>
+        internal static string pref_origin_required {
+            get {
+                return ResourceManager.GetString("pref_origin_required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to PALLET_LAST_REFRESH.
+        /// </summary>
+        internal static string pref_pallet_last_refresh {
+            get {
+                return ResourceManager.GetString("pref_pallet_last_refresh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to PALLET_REFRESH.
+        /// </summary>
+        internal static string pref_pallet_refresh {
+            get {
+                return ResourceManager.GetString("pref_pallet_refresh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Port.
+        /// </summary>
+        internal static string pref_port {
+            get {
+                return ResourceManager.GetString("pref_port", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to PRINT_METHOD.
+        /// </summary>
+        internal static string pref_print_method_key {
+            get {
+                return ResourceManager.GetString("pref_print_method_key", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Print Settings.
+        /// </summary>
+        internal static string pref_print_settings {
+            get {
+                return ResourceManager.GetString("pref_print_settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Print Via.
+        /// </summary>
+        internal static string pref_print_via {
+            get {
+                return ResourceManager.GetString("pref_print_via", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bluetooth.
+        /// </summary>
+        internal static string pref_print_via_bluetooth {
+            get {
+                return ResourceManager.GetString("pref_print_via_bluetooth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to System Dialog (intent launcher, share).
+        /// </summary>
+        internal static string pref_print_via_system_dialog {
+            get {
+                return ResourceManager.GetString("pref_print_via_system_dialog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wifi.
+        /// </summary>
+        internal static string pref_print_via_wifi {
+            get {
+                return ResourceManager.GetString("pref_print_via_wifi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Printer Name.
+        /// </summary>
+        internal static string pref_printer_name {
+            get {
+                return ResourceManager.GetString("pref_printer_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Batch scan.
+        /// </summary>
+        internal static string pref_scan_camera_batch {
+            get {
+                return ResourceManager.GetString("pref_scan_camera_batch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use single scan mode for camera scans.
+        /// </summary>
+        internal static string pref_scan_camera_batch_summary_off {
+            get {
+                return ResourceManager.GetString("pref_scan_camera_batch_summary_off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use batch mode for camera scans.
+        /// </summary>
+        internal static string pref_scan_camera_batch_summary_on {
+            get {
+                return ResourceManager.GetString("pref_scan_camera_batch_summary_on", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Scan Settings.
+        /// </summary>
+        internal static string pref_scan_settings {
+            get {
+                return ResourceManager.GetString("pref_scan_settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Selects from list of bluetooth devices.
+        /// </summary>
+        internal static string pref_select_bluetooth_device {
+            get {
+                return ResourceManager.GetString("pref_select_bluetooth_device", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send crash reports.
+        /// </summary>
+        internal static string pref_send_report {
+            get {
+                return ResourceManager.GetString("pref_send_report", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Helps to fix bugs.
+        /// </summary>
+        internal static string pref_send_report_summary {
+            get {
+                return ResourceManager.GetString("pref_send_report_summary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to com.arapps.kegid.preference.sessionexpires.
+        /// </summary>
+        internal static string pref_sessionexpires {
+            get {
+                return ResourceManager.GetString("pref_sessionexpires", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to com.arapps.kegid.preference.sessionid.
+        /// </summary>
+        internal static string pref_sessionid {
+            get {
+                return ResourceManager.GetString("pref_sessionid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Setup Bluetooth.
+        /// </summary>
+        internal static string pref_setup_bluetooth {
+            get {
+                return ResourceManager.GetString("pref_setup_bluetooth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sync frequency.
+        /// </summary>
+        internal static string pref_sync_frequency {
+            get {
+                return ResourceManager.GetString("pref_sync_frequency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Set the sync frequency.
+        /// </summary>
+        internal static string pref_sync_frequency_summary {
+            get {
+                return ResourceManager.GetString("pref_sync_frequency_summary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Template.
+        /// </summary>
+        internal static string pref_template {
+            get {
+                return ResourceManager.GetString("pref_template", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manifest.
+        /// </summary>
+        internal static string pref_template_manifest {
+            get {
+                return ResourceManager.GetString("pref_template_manifest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Summary for Manifest.
+        /// </summary>
+        internal static string pref_template_manifest_summary {
+            get {
+                return ResourceManager.GetString("pref_template_manifest_summary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pallet.
+        /// </summary>
+        internal static string pref_template_pallet {
+            get {
+                return ResourceManager.GetString("pref_template_pallet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Summary for Manifest.
+        /// </summary>
+        internal static string pref_template_pallet_summary {
+            get {
+                return ResourceManager.GetString("pref_template_pallet_summary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Test Connection.
+        /// </summary>
+        internal static string pref_test_connection {
+            get {
+                return ResourceManager.GetString("pref_test_connection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Set username.
+        /// </summary>
+        internal static string pref_user_name {
+            get {
+                return ResourceManager.GetString("pref_user_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Set your username.
+        /// </summary>
+        internal static string pref_user_name_summary {
+            get {
+                return ResourceManager.GetString("pref_user_name_summary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User Profile.
+        /// </summary>
+        internal static string pref_user_profile {
+            get {
+                return ResourceManager.GetString("pref_user_profile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to com.arapps.kegid.preference.userid.
+        /// </summary>
+        internal static string pref_userid {
+            get {
+                return ResourceManager.GetString("pref_userid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to com.arapps.kegid.preference.userinfo.
+        /// </summary>
+        internal static string pref_userinfo {
+            get {
+                return ResourceManager.GetString("pref_userinfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to com.arapps.kegid.preference.username.
+        /// </summary>
+        internal static string pref_username {
+            get {
+                return ResourceManager.GetString("pref_username", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Validate Barcode.
+        /// </summary>
+        internal static string pref_validate_barcode {
+            get {
+                return ResourceManager.GetString("pref_validate_barcode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to VALIDATION_METHOD.
+        /// </summary>
+        internal static string pref_validation_method {
+            get {
+                return ResourceManager.GetString("pref_validation_method", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Validation Method.
+        /// </summary>
+        internal static string pref_validation_method_title {
+            get {
+                return ResourceManager.GetString("pref_validation_method_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Validation Settings.
+        /// </summary>
+        internal static string pref_validation_settings {
+            get {
+                return ResourceManager.GetString("pref_validation_settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_accountnum {
+            get {
+                return ResourceManager.GetString("preview_accountnum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_address {
+            get {
+                return ResourceManager.GetString("preview_address", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_address_city {
+            get {
+                return ResourceManager.GetString("preview_address_city", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_address_country {
+            get {
+                return ResourceManager.GetString("preview_address_country", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_address_line1 {
+            get {
+                return ResourceManager.GetString("preview_address_line1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_address_line2 {
+            get {
+                return ResourceManager.GetString("preview_address_line2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_address_postal {
+            get {
+                return ResourceManager.GetString("preview_address_postal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_address_state {
+            get {
+                return ResourceManager.GetString("preview_address_state", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_altbarcode {
+            get {
+                return ResourceManager.GetString("preview_altbarcode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_barcode {
+            get {
+                return ResourceManager.GetString("preview_barcode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_brewer {
+            get {
+                return ResourceManager.GetString("preview_brewer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_companyname {
+            get {
+                return ResourceManager.GetString("preview_companyname", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_contactname {
+            get {
+                return ResourceManager.GetString("preview_contactname", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_contents {
+            get {
+                return ResourceManager.GetString("preview_contents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_cycledays {
+            get {
+                return ResourceManager.GetString("preview_cycledays", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_date {
+            get {
+                return ResourceManager.GetString("preview_date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_distributorname {
+            get {
+                return ResourceManager.GetString("preview_distributorname", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_email {
+            get {
+                return ResourceManager.GetString("preview_email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_emptiesname {
+            get {
+                return ResourceManager.GetString("preview_emptiesname", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_firstname {
+            get {
+                return ResourceManager.GetString("preview_firstname", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_iteminfo {
+            get {
+                return ResourceManager.GetString("preview_iteminfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_kegbarcode {
+            get {
+                return ResourceManager.GetString("preview_kegbarcode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_lastname {
+            get {
+                return ResourceManager.GetString("preview_lastname", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_locationcode {
+            get {
+                return ResourceManager.GetString("preview_locationcode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_manifest_title {
+            get {
+                return ResourceManager.GetString("preview_manifest_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_moreinfo {
+            get {
+                return ResourceManager.GetString("preview_moreinfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_notes {
+            get {
+                return ResourceManager.GetString("preview_notes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_numbers {
+            get {
+                return ResourceManager.GetString("preview_numbers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_numkegs {
+            get {
+                return ResourceManager.GetString("preview_numkegs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_onhand {
+            get {
+                return ResourceManager.GetString("preview_onhand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_ownername {
+            get {
+                return ResourceManager.GetString("preview_ownername", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_pallet_title {
+            get {
+                return ResourceManager.GetString("preview_pallet_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_palletbarcode {
+            get {
+                return ResourceManager.GetString("preview_palletbarcode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_palletid {
+            get {
+                return ResourceManager.GetString("preview_palletid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_palletinfo {
+            get {
+                return ResourceManager.GetString("preview_palletinfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_partnername {
+            get {
+                return ResourceManager.GetString("preview_partnername", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_partnertypename {
+            get {
+                return ResourceManager.GetString("preview_partnertypename", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_phone {
+            get {
+                return ResourceManager.GetString("preview_phone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_possessioninfo {
+            get {
+                return ResourceManager.GetString("preview_possessioninfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_referencekey {
+            get {
+                return ResourceManager.GetString("preview_referencekey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_retailname {
+            get {
+                return ResourceManager.GetString("preview_retailname", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_route {
+            get {
+                return ResourceManager.GetString("preview_route", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_scansummary {
+            get {
+                return ResourceManager.GetString("preview_scansummary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_sizename {
+            get {
+                return ResourceManager.GetString("preview_sizename", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_stock_empty {
+            get {
+                return ResourceManager.GetString("preview_stock_empty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_stock_full {
+            get {
+                return ResourceManager.GetString("preview_stock_full", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_stockname {
+            get {
+                return ResourceManager.GetString("preview_stockname", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_tagheader {
+            get {
+                return ResourceManager.GetString("preview_tagheader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_tagname {
+            get {
+                return ResourceManager.GetString("preview_tagname", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_tags {
+            get {
+                return ResourceManager.GetString("preview_tags", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_tagvalue {
+            get {
+                return ResourceManager.GetString("preview_tagvalue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_timezone {
+            get {
+                return ResourceManager.GetString("preview_timezone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_trackingnum {
+            get {
+                return ResourceManager.GetString("preview_trackingnum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_typename {
+            get {
+                return ResourceManager.GetString("preview_typename", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_volumename {
+            get {
+                return ResourceManager.GetString("preview_volumename", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string preview_website {
+            get {
+                return ResourceManager.GetString("preview_website", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Continue with current scans.
+        /// </summary>
+        internal static string prompt_action_scans_continue {
+            get {
+                return ResourceManager.GetString("prompt_action_scans_continue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove unverified scans.
+        /// </summary>
+        internal static string prompt_action_scans_remove_unverified {
+            get {
+                return ResourceManager.GetString("prompt_action_scans_remove_unverified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stay here.
+        /// </summary>
+        internal static string prompt_action_scans_stay {
+            get {
+                return ResourceManager.GetString("prompt_action_scans_stay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter Billing address..
+        /// </summary>
+        internal static string prompt_billing_addr {
+            get {
+                return ResourceManager.GetString("prompt_billing_addr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter city..
+        /// </summary>
+        internal static string prompt_city {
+            get {
+                return ResourceManager.GetString("prompt_city", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select destination..
+        /// </summary>
+        internal static string prompt_destination_addr {
+            get {
+                return ResourceManager.GetString("prompt_destination_addr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter first name..
+        /// </summary>
+        internal static string prompt_first_name {
+            get {
+                return ResourceManager.GetString("prompt_first_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please set printer ip address..
+        /// </summary>
+        internal static string prompt_ip_address {
+            get {
+                return ResourceManager.GetString("prompt_ip_address", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter last name..
+        /// </summary>
+        internal static string prompt_last_Name {
+            get {
+                return ResourceManager.GetString("prompt_last_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter address line 1..
+        /// </summary>
+        internal static string prompt_line1 {
+            get {
+                return ResourceManager.GetString("prompt_line1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter password..
+        /// </summary>
+        internal static string prompt_login_password {
+            get {
+                return ResourceManager.GetString("prompt_login_password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter username..
+        /// </summary>
+        internal static string prompt_login_username {
+            get {
+                return ResourceManager.GetString("prompt_login_username", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select partner type..
+        /// </summary>
+        internal static string prompt_partner_code {
+            get {
+                return ResourceManager.GetString("prompt_partner_code", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter location name..
+        /// </summary>
+        internal static string prompt_partner_name {
+            get {
+                return ResourceManager.GetString("prompt_partner_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please set printer port..
+        /// </summary>
+        internal static string prompt_port {
+            get {
+                return ResourceManager.GetString("prompt_port", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter postal code..
+        /// </summary>
+        internal static string prompt_postal_code {
+            get {
+                return ResourceManager.GetString("prompt_postal_code", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter search text..
+        /// </summary>
+        internal static string prompt_search {
+            get {
+                return ResourceManager.GetString("prompt_search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter shipping address..
+        /// </summary>
+        internal static string prompt_shipping_addr {
+            get {
+                return ResourceManager.GetString("prompt_shipping_addr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter state..
+        /// </summary>
+        internal static string prompt_state {
+            get {
+                return ResourceManager.GetString("prompt_state", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select time zone..
+        /// </summary>
+        internal static string prompt_time_zone {
+            get {
+                return ResourceManager.GetString("prompt_time_zone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please remove all invalid barcodes..
+        /// </summary>
+        internal static string prompt_validate_barcode {
+            get {
+                return ResourceManager.GetString("prompt_validate_barcode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to %d of your scanned barcodes have more than one owner.  Please select the correct owner for each barcode..
+        /// </summary>
+        internal static string prompt_validation_ambiguous_multiple {
+            get {
+                return ResourceManager.GetString("prompt_validation_ambiguous_multiple", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to One of your scanned barcodes has more than one owner.  Please select the correct owner for each barcode..
+        /// </summary>
+        internal static string prompt_validation_ambiguous_one_format {
+            get {
+                return ResourceManager.GetString("prompt_validation_ambiguous_one_format", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Some scans matched multiple kegs.\nClick the yellow icon(s) to choose from the results.
+        /// </summary>
+        internal static string prompt_validation_multiple {
+            get {
+                return ResourceManager.GetString("prompt_validation_multiple", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have multiple scans where no matching keg could be found.
+        /// </summary>
+        internal static string prompt_validation_nomatch_multiple {
+            get {
+                return ResourceManager.GetString("prompt_validation_nomatch_multiple", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No keg with a barcode of %s could be found.
+        /// </summary>
+        internal static string prompt_validation_nomatch_one_format {
+            get {
+                return ResourceManager.GetString("prompt_validation_nomatch_one_format", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Some scans were not validated.\nYou must remove any invalid scans.
+        /// </summary>
+        internal static string prompt_validation_prevent {
+            get {
+                return ResourceManager.GetString("prompt_validation_prevent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refine Search.
+        /// </summary>
+        internal static string refine_search {
+            get {
+                return ResourceManager.GetString("refine_search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refresh.
+        /// </summary>
+        internal static string refresh {
+            get {
+                return ResourceManager.GetString("refresh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Retry.
+        /// </summary>
+        internal static string retry_btn_str {
+            get {
+                return ResourceManager.GetString("retry_btn_str", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Same as Ship Address.
+        /// </summary>
+        internal static string same_as_ship_address {
+            get {
+                return ResourceManager.GetString("same_as_ship_address", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Saving draft failed.
+        /// </summary>
+        internal static string save_draft_failed {
+            get {
+                return ResourceManager.GetString("save_draft_failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Draft saved.
+        /// </summary>
+        internal static string save_draft_sucess {
+            get {
+                return ResourceManager.GetString("save_draft_sucess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The camera has a problem. You probably need to restart the device..
+        /// </summary>
+        internal static string scan_camera_problem_dialog_message {
+            get {
+                return ResourceManager.GetString("scan_camera_problem_dialog_message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sorry.
+        /// </summary>
+        internal static string scan_camera_problem_dialog_title {
+            get {
+                return ResourceManager.GetString("scan_camera_problem_dialog_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Batch.
+        /// </summary>
+        internal static string tag_batch {
+            get {
+                return ResourceManager.GetString("tag_batch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Operator.
+        /// </summary>
+        internal static string tag_operator {
+            get {
+                return ResourceManager.GetString("tag_operator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Order #.
+        /// </summary>
+        internal static string tag_ordernum {
+            get {
+                return ResourceManager.GetString("tag_ordernum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Size.
+        /// </summary>
+        internal static string tag_size {
+            get {
+                return ResourceManager.GetString("tag_size", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SKU.
+        /// </summary>
+        internal static string tag_sku {
+            get {
+                return ResourceManager.GetString("tag_sku", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CF688777-2DC7-41CB-950A-8A18865DE6B8.
+        /// </summary>
+        internal static string test_sessionid {
+            get {
+                return ResourceManager.GetString("test_sessionid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fill Kegs.
+        /// </summary>
+        internal static string title_activity_fill_manifest {
+            get {
+                return ResourceManager.GetString("title_activity_fill_manifest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Print.
+        /// </summary>
+        internal static string title_activity_print {
+            get {
+                return ResourceManager.GetString("title_activity_print", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to PrintFrameworkActivity.
+        /// </summary>
+        internal static string title_activity_print_framework {
+            get {
+                return ResourceManager.GetString("title_activity_print_framework", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bill Address.
+        /// </summary>
+        internal static string title_address_bill {
+            get {
+                return ResourceManager.GetString("title_address_bill", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ship Address.
+        /// </summary>
+        internal static string title_address_ship {
+            get {
+                return ResourceManager.GetString("title_address_ship", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Batch.
+        /// </summary>
+        internal static string title_batch_add {
+            get {
+                return ResourceManager.GetString("title_batch_add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Batches.
+        /// </summary>
+        internal static string title_batch_list {
+            get {
+                return ResourceManager.GetString("title_batch_list", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bulk Update.
+        /// </summary>
+        internal static string title_bulk_update {
+            get {
+                return ResourceManager.GetString("title_bulk_update", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose Keg.
+        /// </summary>
+        internal static string title_choose_keg {
+            get {
+                return ResourceManager.GetString("title_choose_keg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose Manifest.
+        /// </summary>
+        internal static string title_choose_manifest {
+            get {
+                return ResourceManager.GetString("title_choose_manifest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose Pallet.
+        /// </summary>
+        internal static string title_choose_pallet {
+            get {
+                return ResourceManager.GetString("title_choose_pallet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dashboard.
+        /// </summary>
+        internal static string title_dashboard {
+            get {
+                return ResourceManager.GetString("title_dashboard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Empties.
+        /// </summary>
+        internal static string title_empties {
+            get {
+                return ResourceManager.GetString("title_empties", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inventory.
+        /// </summary>
+        internal static string title_inventory {
+            get {
+                return ResourceManager.GetString("title_inventory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Keg History.
+        /// </summary>
+        internal static string title_keg_history {
+            get {
+                return ResourceManager.GetString("title_keg_history", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Keg Info.
+        /// </summary>
+        internal static string title_keg_info {
+            get {
+                return ResourceManager.GetString("title_keg_info", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Keg Search.
+        /// </summary>
+        internal static string title_keg_search {
+            get {
+                return ResourceManager.GetString("title_keg_search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Keg Update.
+        /// </summary>
+        internal static string title_keg_update {
+            get {
+                return ResourceManager.GetString("title_keg_update", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Maintain Kegs.
+        /// </summary>
+        internal static string title_maintain_kegs {
+            get {
+                return ResourceManager.GetString("title_maintain_kegs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Maintenance Task.
+        /// </summary>
+        internal static string title_maintainenance_add {
+            get {
+                return ResourceManager.GetString("title_maintainenance_add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove Maintenance Task.
+        /// </summary>
+        internal static string title_maintainenance_remove {
+            get {
+                return ResourceManager.GetString("title_maintainenance_remove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Move Kegs.
+        /// </summary>
+        internal static string title_manifest_builder {
+            get {
+                return ResourceManager.GetString("title_manifest_builder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manifest Info.
+        /// </summary>
+        internal static string title_manifest_info {
+            get {
+                return ResourceManager.GetString("title_manifest_info", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manifest Items.
+        /// </summary>
+        internal static string title_manifest_items {
+            get {
+                return ResourceManager.GetString("title_manifest_items", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manifests.
+        /// </summary>
+        internal static string title_manifest_list {
+            get {
+                return ResourceManager.GetString("title_manifest_list", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manifest Queued.
+        /// </summary>
+        internal static string title_manifest_queued {
+            get {
+                return ResourceManager.GetString("title_manifest_queued", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Find a Manifest.
+        /// </summary>
+        internal static string title_manifest_search {
+            get {
+                return ResourceManager.GetString("title_manifest_search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manifest Submitted.
+        /// </summary>
+        internal static string title_manifest_submitted {
+            get {
+                return ResourceManager.GetString("title_manifest_submitted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to More Info.
+        /// </summary>
+        internal static string title_more_info {
+            get {
+                return ResourceManager.GetString("title_more_info", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Pallets.
+        /// </summary>
+        internal static string title_pallet_add {
+            get {
+                return ResourceManager.GetString("title_pallet_add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pallet Builder.
+        /// </summary>
+        internal static string title_pallet_builder {
+            get {
+                return ResourceManager.GetString("title_pallet_builder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pallet Info.
+        /// </summary>
+        internal static string title_pallet_info {
+            get {
+                return ResourceManager.GetString("title_pallet_info", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pallet Items.
+        /// </summary>
+        internal static string title_pallet_items {
+            get {
+                return ResourceManager.GetString("title_pallet_items", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pallets.
+        /// </summary>
+        internal static string title_pallet_list {
+            get {
+                return ResourceManager.GetString("title_pallet_list", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pallet Queued.
+        /// </summary>
+        internal static string title_pallet_queued {
+            get {
+                return ResourceManager.GetString("title_pallet_queued", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pallet Search.
+        /// </summary>
+        internal static string title_pallet_search {
+            get {
+                return ResourceManager.GetString("title_pallet_search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pallet Submitted.
+        /// </summary>
+        internal static string title_pallet_submitted {
+            get {
+                return ResourceManager.GetString("title_pallet_submitted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Partner Info.
+        /// </summary>
+        internal static string title_partner_info {
+            get {
+                return ResourceManager.GetString("title_partner_info", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Partners.
+        /// </summary>
+        internal static string title_partner_list {
+            get {
+                return ResourceManager.GetString("title_partner_list", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Partner Search.
+        /// </summary>
+        internal static string title_partner_search {
+            get {
+                return ResourceManager.GetString("title_partner_search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Partners.
+        /// </summary>
+        internal static string title_partner_select {
+            get {
+                return ResourceManager.GetString("title_partner_select", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Partner Update.
+        /// </summary>
+        internal static string title_partner_update {
+            get {
+                return ResourceManager.GetString("title_partner_update", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Possession.
+        /// </summary>
+        internal static string title_possession {
+            get {
+                return ResourceManager.GetString("title_possession", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kegs Held.
+        /// </summary>
+        internal static string title_possession_list {
+            get {
+                return ResourceManager.GetString("title_possession_list", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Partners.
+        /// </summary>
+        internal static string title_possessor_list {
+            get {
+                return ResourceManager.GetString("title_possessor_list", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refine Search.
+        /// </summary>
+        internal static string title_refine_search {
+            get {
+                return ResourceManager.GetString("title_refine_search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Scan Info - Keg.
+        /// </summary>
+        internal static string title_scan_info_keg {
+            get {
+                return ResourceManager.GetString("title_scan_info_keg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Scan Info - Manifest.
+        /// </summary>
+        internal static string title_scan_info_manifest {
+            get {
+                return ResourceManager.GetString("title_scan_info_manifest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Scan Info - Pallet.
+        /// </summary>
+        internal static string title_scan_info_pallet {
+            get {
+                return ResourceManager.GetString("title_scan_info_pallet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Scan Kegs.
+        /// </summary>
+        internal static string title_scan_items {
+            get {
+                return ResourceManager.GetString("title_scan_items", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Searching&amp;#8230;.
+        /// </summary>
+        internal static string title_searching {
+            get {
+                return ResourceManager.GetString("title_searching", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stock.
+        /// </summary>
+        internal static string title_stock {
+            get {
+                return ResourceManager.GetString("title_stock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://api.kegid.com.
+        /// </summary>
+        internal static string url_api_root_prod {
+            get {
+                return ResourceManager.GetString("url_api_root_prod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://testapi.kegid.com.
+        /// </summary>
+        internal static string url_api_root_test {
+            get {
+                return ResourceManager.GetString("url_api_root_test", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://www.kegid.com.
+        /// </summary>
+        internal static string url_kegid_home {
+            get {
+                return ResourceManager.GetString("url_kegid_home", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://www.kegid.com/resetpw.aspx.
+        /// </summary>
+        internal static string url_resetpw {
+            get {
+                return ResourceManager.GetString("url_resetpw", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to www.kegid.com.
+        /// </summary>
+        internal static string www_kegid_com {
+            get {
+                return ResourceManager.GetString("www_kegid_com", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 0.
+        /// </summary>
+        internal static string zero {
+            get {
+                return ResourceManager.GetString("zero", resourceCulture);
             }
         }
     }

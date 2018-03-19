@@ -9,7 +9,15 @@ namespace KegID.Views
 	{
 		public LoginView ()
 		{
-			InitializeComponent ();
-		}
+            try
+            {
+                InitializeComponent();
+
+            }
+            catch (System.Exception)
+            {
+
+            }
+        }
 	}
 }

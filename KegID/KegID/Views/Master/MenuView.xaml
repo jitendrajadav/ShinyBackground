@@ -107,7 +107,6 @@
                 <Image 
                     Grid.Column="1"
                     Grid.Row="1"
-                    HeightRequest="50" 
                     WidthRequest="40">
                     <Image.Source>
                         <OnPlatform x:TypeArguments="ImageSource">
@@ -122,6 +121,13 @@
                             </OnPlatform.WinPhone>
                         </OnPlatform>
                     </Image.Source>
+                    <Image.HeightRequest>
+                        <OnPlatform x:TypeArguments="x:Double">
+                            <On Platform="iOS" Value="60" />
+                            <On Platform="Android, WinPhone, Windows" Value="50" />
+                        </OnPlatform>
+                    </Image.HeightRequest>
+
                 </Image>
 
                 <Label 
@@ -196,7 +202,6 @@
                 <Image 
                     Grid.Row="1"
                     Grid.Column="1"
-                    HeightRequest="50" 
                     WidthRequest="40">
                     <Image.Source>
                         <OnPlatform x:TypeArguments="ImageSource">
@@ -211,6 +216,13 @@
                             </OnPlatform.WinPhone>
                         </OnPlatform>
                     </Image.Source>
+                    <Image.HeightRequest>
+                        <OnPlatform x:TypeArguments="x:Double">
+                            <On Platform="iOS" Value="60" />
+                            <On Platform="Android, WinPhone, Windows" Value="50" />
+                        </OnPlatform>
+                    </Image.HeightRequest>
+
                 </Image>
 
                 <Label 
@@ -283,7 +295,6 @@
                 <Image 
                     Grid.Row="1"
                     Grid.Column="1"
-                    HeightRequest="50"
                     WidthRequest="40">
                     <Image.Source>
                         <OnPlatform x:TypeArguments="ImageSource">
@@ -298,6 +309,13 @@
                             </OnPlatform.WinPhone>
                         </OnPlatform>
                     </Image.Source>
+                    <Image.HeightRequest>
+                        <OnPlatform x:TypeArguments="x:Double">
+                            <On Platform="iOS" Value="60" />
+                            <On Platform="Android, WinPhone, Windows" Value="50" />
+                        </OnPlatform>
+                    </Image.HeightRequest>
+
                 </Image>
 
                 <Label 
@@ -370,7 +388,6 @@
                 <Image 
                     Grid.Row="1"
                     Grid.Column="1"
-                    HeightRequest="50" 
                     WidthRequest="40">
                     <Image.Source>
                         <OnPlatform x:TypeArguments="ImageSource">
@@ -385,6 +402,12 @@
                             </OnPlatform.WinPhone>
                         </OnPlatform>
                     </Image.Source>
+                    <Image.HeightRequest>
+                        <OnPlatform x:TypeArguments="x:Double">
+                            <On Platform="iOS" Value="60" />
+                            <On Platform="Android, WinPhone, Windows" Value="50" />
+                        </OnPlatform>
+                    </Image.HeightRequest>
                 </Image>
 
                 <Label 
