@@ -14,20 +14,14 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Label 
+            <Button 
                 x:Name="lblManifest"
-                Style="{StaticResource LabelTitleStyle}"
-                TextColor="{StaticResource selectTextColor}"
+                Style="{StaticResource TopButtonTitleStyle}"
                 Text="Manifest"
-                HorizontalOptions="Start">
-                
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding Path=BindingContext.ManifestCommand, 
-                                                        Source={x:Reference Name=lblManifest}}"
-                                                         CommandParameter="{Binding}"/>
-                </Label.GestureRecognizers>
-            </Label>
-            
+                HorizontalOptions="Start"
+                Command="{Binding ManifestCommand}"
+                />
+
             <ListView
                 Grid.Row="1"
                 Margin="10,0,10,0"
@@ -40,7 +34,7 @@
 
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <TextCell Height="40" Text="{Binding}"/>
+                        <TextCell Height="50" Text="{Binding}" TextColor="Black"/>
                     </DataTemplate>
                 </ListView.ItemTemplate>
 

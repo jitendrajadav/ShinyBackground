@@ -35,19 +35,13 @@
                 <ColumnDefinition Width="20*"/>
             </Grid.ColumnDefinitions>
 
-            <Label
+            <Button
                 x:Name="lblBack"
-                Style="{StaticResource LabelTitleStyle}"
+                Style="{StaticResource TopButtonTitleStyle}"
                 HorizontalOptions="Start"
-                TextColor="{StaticResource selectTextColor}"
-                Text="Back">
-                
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding Path=BindingContext.BackCommand, 
-                                                        Source={x:Reference Name=lblBack}}"
-                                                         CommandParameter="{Binding}"/>
-                </Label.GestureRecognizers>
-            </Label>
+                Text="Back"
+                Command="{Binding BackCommand}"
+                />
 
             <Label 
                 HorizontalOptions="Center"
@@ -141,22 +135,12 @@
 
             <Button
                 Margin="-10,0,-10,0"
-                BackgroundColor="{StaticResource selectTextColor}"
                 Grid.Column="0"
                 Grid.ColumnSpan="3"
                 Grid.Row="6"
-                Style="{StaticResource ButtonTitleStyle}"
-                HorizontalOptions="FillAndExpand"
-                TextColor="White"
+                Style="{StaticResource BottomButtonTitleStyle}"
                 Text="Submit"
-                Command="{Binding SubmitCommand}">
-                <Button.HeightRequest>
-                    <OnPlatform x:TypeArguments="x:Double">
-                        <On Platform="iOS, WinPhone, Windows" Value="50" />
-                        <On Platform="Android" Value="60" />
-                    </OnPlatform>
-                </Button.HeightRequest>
-            </Button>
+                Command="{Binding SubmitCommand}"/>
 
             <ListView
                 Margin="10,0,10,0"

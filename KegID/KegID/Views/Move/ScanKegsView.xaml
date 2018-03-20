@@ -40,22 +40,14 @@
                 Style="{StaticResource LabelTitleStyle}"
                 TextColor="Black"/>
 
-            <Label
+            <Button
                 x:Name="lblDone"
                 Grid.ColumnSpan="3"
-                BackgroundColor="Transparent"
-                TextColor="{StaticResource selectTextColor}"
                 HorizontalOptions="End"
                 Text="Done"
-                Style="{StaticResource LabelTitleStyle}"
-                FontSize="Medium">
-                
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding Path=BindingContext.DoneCommand, 
-                                                        Source={x:Reference Name=lblDone}}"
-                                                         CommandParameter="{Binding}"/>
-                </Label.GestureRecognizers>
-            </Label>
+                Style="{StaticResource TopButtonTitleStyle}"
+                Command="{Binding DoneCommand}"
+                />
 
             <BoxView
                 Margin="-10,5,-10,5"

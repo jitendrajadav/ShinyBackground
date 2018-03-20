@@ -179,7 +179,7 @@
                         FontSize="Medium"
                         BackgroundColor="#E6E6E6"
                         VerticalOptions="FillAndExpand"
-                        Text="Stock"/>
+                        Text="{Binding Resources[label_stock]}"/>
 
                     <BoxView
                         Grid.Column="3"
@@ -222,7 +222,7 @@
                         FontSize="Medium"
                         BackgroundColor="#E6E6E6"
                         VerticalOptions="FillAndExpand"
-                        Text="Empties"/>
+                        Text="{Binding Resources[label_empties]}"/>
 
                     <Label
                         x:Name="lblEmpty"
@@ -256,7 +256,7 @@
                         FontSize="Medium"
                         BackgroundColor="#E6E6E6"
                         VerticalOptions="FillAndExpand"
-                        Text="In Use"/>
+                        Text="{Binding Resources[label_inuse]}"/>
 
                     <Label
                         x:Name="lblInUse"
@@ -290,7 +290,7 @@
                         BackgroundColor="#E6E6E6"
                         FontSize="Medium"
                         VerticalOptions="FillAndExpand"
-                        Text="Total"/>
+                        Text="{Binding Resources[label_total]}"/>
 
                     <Label
                         BackgroundColor="Transparent"
@@ -369,7 +369,7 @@
                         VerticalOptions="FillAndExpand"
                         VerticalTextAlignment="Center"
                         BackgroundColor="#E6E6E6"
-                        Text="Avg. cycle time"/>
+                        Text="{Binding Resources[label_average_cycle]}"/>
 
                     <BoxView
                         Grid.Row="2"
@@ -405,7 +405,7 @@
                         VerticalOptions="FillAndExpand"
                         VerticalTextAlignment="Center"
                         BackgroundColor="#E6E6E6"
-                        Text="At risk kegs"/>
+                        Text="{Binding Resources[label_overdue]}"/>
 
                     <BoxView
                         Grid.Row="6"
@@ -471,7 +471,7 @@
                 <Label
                     x:Name="lblManifest"
                     BackgroundColor="Transparent"
-                    Text="Manifests"
+                    Text="{Binding Resources[button_manifests]}"
                     VerticalOptions="Center"
                     FontSize="Medium"
                     HorizontalOptions="Start"
@@ -512,7 +512,7 @@
                 <Label
                     x:Name="lblPallets"
                     BackgroundColor="Transparent"
-                    Text="Pallets"
+                    Text="{Binding Resources[button_pallets]}"
                     HorizontalOptions="Start"
                     Grid.Row="1"
                     VerticalOptions="Center"
@@ -552,7 +552,7 @@
                 <Label
                     x:Name="lblPartners"
                     BackgroundColor="Transparent"
-                    Text="Partners"
+                    Text="{Binding Resources[button_partners]}"
                     HorizontalOptions="Start"
                     Grid.Row="0"
                     VerticalOptions="Center"
@@ -592,7 +592,7 @@
                 <Label
                     x:Name="lblKegs"
                     BackgroundColor="Transparent"
-                    Text="Kegs"
+                    Text="{Binding Resources[button_kegs]}"
                     TextColor="#4E6388"
                     VerticalOptions="Center"
                     FontSize="Medium"

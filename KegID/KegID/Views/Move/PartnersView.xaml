@@ -28,20 +28,16 @@
                 IsVisible="{Binding IsWorking}" />
 
             <StackLayout
+                Margin="0,0,10,0"
                 VerticalOptions="Start"
                 Orientation="Horizontal">
 
-                <Label
+                <Button
                     x:Name="lblBack"
-                    Style="{StaticResource LabelTitleStyle}"
-                    TextColor="{StaticResource selectTextColor}"
-                    Text="Back">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding Path=BindingContext.BackCommand, 
-                                                        Source={x:Reference Name=lblBack}}"
-                                                         CommandParameter="{Binding}"/>
-                    </Label.GestureRecognizers>
-                </Label>
+                    Style="{StaticResource TopButtonTitleStyle}"
+                    Text="Back"
+                    Command="{Binding BackCommand}"
+                    />
 
                 <Label 
                     Text="Partners"
@@ -206,7 +202,13 @@
                 HorizontalOptions="Center"
                 Grid.Row="3"
                 Orientation="Horizontal">
-                
+                <StackLayout.Spacing>
+                    <OnPlatform x:TypeArguments="x:Double">
+                        <On Platform="iOS" Value="10" />
+                        <On Platform="Android, WinPhone, Windows, UWP" Value="0" />
+                    </OnPlatform>
+                </StackLayout.Spacing>
+
                 <Button
                     BackgroundColor="{Binding InternalBackgroundColor}"
                     TextColor="{Binding InternalTextColor}"

@@ -18,19 +18,13 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Label 
+            <Button 
                 x:Name="lblBackPartners"
-                Style="{StaticResource LabelTitleStyle}"
-                TextColor="{StaticResource selectTextColor}"
+                Style="{StaticResource TopButtonTitleStyle}"
                 Text="{Binding BackPartners}"
-                HorizontalOptions="Start">
-               
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding Path=BindingContext.BackPartnersCommand, 
-                                                        Source={x:Reference Name=lblBackPartners}}"
-                                                         CommandParameter="{Binding}"/>
-                </Label.GestureRecognizers>
-            </Label>
+                HorizontalOptions="Start"
+                Command="{Binding BackPartnersCommand}"
+                />
 
             <Entry
                 Grid.Row="1"

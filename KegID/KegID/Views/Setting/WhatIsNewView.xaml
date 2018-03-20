@@ -28,14 +28,10 @@
                 PositionSelected="Handle_PositionSelected"/>
             
             <Button
-                HeightRequest="60"
                 Margin="-15,-15,-15,-5"
                 x:Name="btnNavigation"
-                BackgroundColor="{StaticResource selectTextColor}"
-                VerticalOptions="FillAndExpand"
-                HorizontalOptions="FillAndExpand"
+                Style="{StaticResource BottomButtonTitleStyle}"
                 Grid.Row="1"
-                TextColor="White"
                 Text="Next >"
                 Clicked="NavigationCommand"/>
             

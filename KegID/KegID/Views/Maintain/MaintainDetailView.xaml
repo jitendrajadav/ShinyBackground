@@ -20,23 +20,16 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Label
+            <Button
                 x:Name="lblHome"
-                TextColor="{StaticResource selectTextColor}"
-                Style="{StaticResource LabelTitleStyle}"
+                Style="{StaticResource TopButtonTitleStyle}"
                 HorizontalOptions="Start"
-                Text="Home">
-                
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding Path=BindingContext.HomeCommand, 
-                                                        Source={x:Reference Name=lblHome}}"
-                                                         CommandParameter="{Binding}"/>
-                </Label.GestureRecognizers>
-            </Label>
+                Text="Home"
+                Command="{Binding HomeCommand}"
+                />
 
             <Label 
                 Text="Maintenance"
-                
                 Style="{StaticResource LabelTitleStyle}"
                 HorizontalOptions="Center" />
 

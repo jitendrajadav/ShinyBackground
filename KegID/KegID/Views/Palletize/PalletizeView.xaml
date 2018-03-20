@@ -24,37 +24,29 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Label
+            <Button
                 x:Name="lblCancel"
-                Style="{StaticResource LabelTitleStyle}"
-                TextColor="{StaticResource selectTextColor}"
+                Style="{StaticResource TopButtonTitleStyle}"
                 HorizontalOptions="Start"
-                Text="Cancel">
-             
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding Path=BindingContext.CancelCommand, 
-                                                        Source={x:Reference Name=lblCancel}}"
-                                                         CommandParameter="{Binding}"/>
-                </Label.GestureRecognizers>
-            </Label>
+                Text="Cancel"
+                Command="{Binding CancelCommand}"
+                />
 
             <Label
                 TextColor="Black"
-                Style="{StaticResource LabelTitleStyle}"
-                VerticalOptions="Center"
                 HorizontalOptions="Center"
+                Style="{StaticResource LabelTitleStyle}"
                 Text="Build Pallet"/>
             
             <Button
-                BackgroundColor="Transparent"
-                TextColor="{StaticResource selectTextColor}"
                 HorizontalOptions="End"
                 Text="Submit"
-                Style="{StaticResource ButtonTitleStyle}"
+                Style="{StaticResource TopButtonTitleStyle}"
                 Command="{Binding SubmitCommand}"
                 IsVisible="{Binding IsSubmitVisible}"/>
 
             <Grid
+                Margin="0,5,0,0"
                 ColumnSpacing="0"
                 Grid.Row="1">
                 <Grid.RowSpacing>

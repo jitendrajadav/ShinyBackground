@@ -27,19 +27,13 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Label
+            <Button
                 x:Name="lblHome"
-                Style="{StaticResource LabelTitleStyle}"
-                TextColor="{StaticResource selectTextColor}"
+                Style="{StaticResource TopButtonTitleStyle}"
                 HorizontalOptions="Start"
-                Text="Home">
-              
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding Path=BindingContext.HomeCommand, 
-                                                        Source={x:Reference Name=lblHome}}"
-                                                         CommandParameter="{Binding}"/>
-                </Label.GestureRecognizers>
-            </Label>
+                Text="Home"
+                Command="{Binding HomeCommand}"
+                />
 
             <Label 
                 Text="Pallet Details"

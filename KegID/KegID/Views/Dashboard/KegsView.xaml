@@ -16,22 +16,16 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Label
+            <Button
+                Style="{StaticResource TopButtonTitleStyle}"
                 x:Name="lblPartnerInfo"
                 HorizontalOptions="Start"
-                Style="{StaticResource LabelTitleStyle}"
-                HeightRequest="40"
-                TextColor="{StaticResource selectTextColor}"
-                Text="Partner Info">
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding Path=BindingContext.PartnerInfoCommand, 
-                                                        Source={x:Reference Name=lblPartnerInfo}}"
-                                                         CommandParameter="{Binding}"/>
-                </Label.GestureRecognizers>
-            </Label>
+                Text="{Binding Resources[title_partner_info]}"
+                Command="{Binding PartnerInfoCommand}"
+                />
 
             <Label 
-                Text="Kegs"
+                Text="{Binding Resources[label_kegs]}"
                 Style="{StaticResource LabelTitleStyle}"
                 TextColor="Black"
                 VerticalOptions="CenterAndExpand" 

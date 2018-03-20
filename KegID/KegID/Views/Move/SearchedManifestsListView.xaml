@@ -18,19 +18,13 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Label
+            <Button
                 x:Name="lblSearchManifest"
-                Style="{StaticResource LabelTitleStyle}"
-                TextColor="{StaticResource selectTextColor}"
+                Style="{StaticResource TopButtonTitleStyle}"
                 HorizontalOptions="Start"
-                Text="Search Manifests">
-              
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding Path=BindingContext.SearchManifestsCommand, 
-                                                        Source={x:Reference Name=lblSearchManifest}}"
-                                                         CommandParameter="{Binding}"/>
-                </Label.GestureRecognizers>
-            </Label>
+                Text="Search Manifests"
+                Command="{Binding SearchManifestsCommand}"
+                />
 
             <Label Text="Manifests"
                 VerticalOptions="Center" 

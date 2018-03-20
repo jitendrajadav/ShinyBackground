@@ -32,35 +32,22 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <Label
+            <Button
                 x:Name="lblCancel"
-                Style="{StaticResource LabelTitleStyle}"
-                TextColor="{StaticResource selectTextColor}"
+                Style="{StaticResource TopButtonTitleStyle}"
                 HorizontalOptions="Start"
-                Text="Cancel">
-               
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding Path=BindingContext.CancelCommand, 
-                                                        Source={x:Reference Name=lblCancel}}"
-                                                         CommandParameter="{Binding}"/>
-                </Label.GestureRecognizers>
-            </Label>
+                Text="Cancel"
+                Command="{Binding CancelCommand}"
+                />
 
-            <Label
+            <Button
                 x:Name="lblSave"
                 Grid.Column="1"
-                BackgroundColor="Transparent"
-                TextColor="{StaticResource selectTextColor}"
+                Style="{StaticResource TopButtonTitleStyle}"
                 HorizontalOptions="End"
                 Text="Save"
-                VerticalOptions="Center"
-                FontSize="{StaticResource AppBarButtonFontSize}">
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding Path=BindingContext.SaveCommand, 
-                                                        Source={x:Reference Name=lblSave}}"
-                                                         CommandParameter="{Binding}"/>
-                </Label.GestureRecognizers>
-            </Label>
+                Command="{Binding SaveCommand}"
+                />
 
             <BoxView
                 Margin="-10,0,-10,0"
@@ -80,7 +67,7 @@
                 HorizontalOptions="Start" />
 
             <Switch
-                HorizontalOptions="Center"
+                HorizontalOptions="End"
                 Grid.Column="1"
                 Grid.Row="2"/>
 
@@ -93,7 +80,7 @@
                 HorizontalOptions="Start" />
 
             <Switch
-                HorizontalOptions="Center"
+                HorizontalOptions="End"
                 Grid.Column="1"
                 Grid.Row="3"/>
 
@@ -136,7 +123,7 @@
                 HorizontalOptions="Start" />
 
             <Switch
-                HorizontalOptions="Center"
+                HorizontalOptions="End"
                 Grid.Column="1"
                 Grid.Row="7"/>
 
@@ -173,6 +160,7 @@
                 HorizontalOptions="Center"
                 Grid.ColumnSpan="2"
                 Grid.Row="10"
+                FontSize="Medium"
                 Text="Test printer">
                 
             </Label>

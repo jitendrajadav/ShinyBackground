@@ -26,23 +26,18 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <Label
+            <Button
                 x:Name="lblFillKegs"
-                TextColor="{StaticResource selectTextColor}"
-                Text="Fill Kegs"
-                Style="{StaticResource LabelTitleStyle}"
-                HorizontalOptions="Start">
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding Path=BindingContext.FillKegsCommand, 
-                                                        Source={x:Reference Name=lblFillKegs}}"
-                                                         CommandParameter="{Binding}"/>
-                </Label.GestureRecognizers>
-            </Label>
+                Style="{StaticResource TopButtonTitleStyle}"
+                Text="{Binding Resources[title_activity_fill_manifest]}"
+                HorizontalOptions="Start"
+                Command="{Binding FillKegsCommand}"
+                />
 
             <Label
                 TextColor="Black"
                 Style="{StaticResource LabelTitleStyle}"
-                Text="Add pallets"
+                Text="{Binding Resources[title_pallet_add]}"
                 HorizontalOptions="Center"/>
           
             <BoxView
@@ -96,14 +91,13 @@
             <Button
                 Grid.Row="3"
                 x:Name="imgAdd"
-                BackgroundColor="Transparent"
                 HorizontalOptions="End"   
                 Text="+"
-                TextColor="White"
-                FontSize="50"
-                BorderWidth="0"
                 Margin="0,0,10,0"
                 Command="{Binding FillScanCommand}"
+                BackgroundColor="Transparent"
+                FontSize="50"
+                TextColor="White"
                 VerticalOptions="Center"/>
 
             <ListView
@@ -156,25 +150,14 @@
 
             </ListView>
 
-            <Label
+            <Button
                 x:Name="lblSubmit"
-                HeightRequest="60"
                 Margin="-15,0,-15,-5"
-                TextColor="White"
-                BackgroundColor="{StaticResource selectTextColor}"
-                HorizontalOptions="FillAndExpand"
-                VerticalOptions="EndAndExpand"
-                HorizontalTextAlignment="Center"
                 Grid.Row="5"
-                Text="Submit"
-                VerticalTextAlignment="Center"
-                FontSize="{StaticResource AppBarButtonFontSize}">
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding Path=BindingContext.SubmitCommand, 
-                                                        Source={x:Reference Name=lblSubmit}}"
-                                                         CommandParameter="{Binding}"/>
-                </Label.GestureRecognizers>
-            </Label>
+                Text="{Binding Resources[menu_action_submit]}"
+                Style="{StaticResource BottomButtonTitleStyle}"
+                Command="{Binding SubmitCommand}"
+                />
 
         </Grid>
     </ContentPage.Content>

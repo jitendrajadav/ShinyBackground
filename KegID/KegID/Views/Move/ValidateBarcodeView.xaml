@@ -47,20 +47,13 @@
             </ListView>
         </StackLayout>
 
-        <Label
+        <Button
             x:Name="lblCancel"
-            BackgroundColor="Blue"
             Text="Close" 
-            TextColor="White"
-            FontSize="{StaticResource AppBarButtonFontSize}">
-            
-            <Label.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding Path=BindingContext.CancelCommand, 
-                                                        Source={x:Reference Name=lblCancel}}"
-                                                         CommandParameter="{Binding}"/>
-            </Label.GestureRecognizers>
-        </Label>
-        
+            Style="{StaticResource BottomButtonTitleStyle}"
+            Command="{Binding CancelCommand}"
+            />
+
     </StackLayout>
     
 </popup:PopupPage>

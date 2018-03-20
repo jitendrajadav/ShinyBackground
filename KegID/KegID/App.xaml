@@ -16,8 +16,8 @@
             <OnPlatform x:Key="TopAppBarButtonHeight" x:TypeArguments="x:Double" iOS="50" Android="60" WinPhone="40"/>
 
             <OnPlatform x:Key="EntryHeight" x:TypeArguments="x:Double" iOS="50" Android="60" WinPhone="40"/>
-            <OnPlatform x:Key="AppBarButtonMargin" x:TypeArguments="Thickness" iOS="10,30,10,10" Android="10" WinPhone="10"/>
-            <OnPlatform x:Key="GirdRowSpacing" x:TypeArguments="x:Double" iOS="0" Android="0" WinPhone="0"/>
+            <OnPlatform x:Key="AppBarButtonMargin" x:TypeArguments="Thickness" iOS="10,30,10,10" Android="0" WinPhone="10"/>
+            <OnPlatform x:Key="GirdRowSpacing" x:TypeArguments="x:Double" iOS="10" Android="0" WinPhone="0"/>
             
             <Color x:Key="bannerBGColor">#4E6388</Color>
             <Color x:Key="selectTextColor">#007AFF</Color>
@@ -31,7 +31,7 @@
             <converter:InvertedBooleanConverter x:Key="InvertedBooleanConverter"/>
 
             <Style x:Key="BottomButtonTitleStyle" TargetType="Button">
-                <Setter Property="VerticalOptions" Value="Center"/>
+                <Setter Property="VerticalOptions" Value="End"/>
                 <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
                 <Setter Property="TextColor" Value="White"/>
                 <Setter Property="BackgroundColor" Value="{StaticResource selectTextColor}"/>

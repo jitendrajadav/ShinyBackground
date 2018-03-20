@@ -25,19 +25,13 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <Label
+            <Button
                 x:Name="lblBack"
                 HorizontalOptions="Start"
-                Style="{StaticResource LabelTitleStyle}"
-                TextColor="{StaticResource selectTextColor}"
-                Text="Back">
-                
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding Path=BindingContext.BackCommand, 
-                                                        Source={x:Reference Name=lblBack}}"
-                                                         CommandParameter="{Binding}"/>
-                </Label.GestureRecognizers>
-            </Label>
+                Style="{StaticResource TopButtonTitleStyle}"
+                Text="Back"
+                Command="{Binding BackCommand}"
+                />
 
             <Label
                 HorizontalOptions="Center"
@@ -46,11 +40,9 @@
 
             <Button
                 HorizontalOptions="End"
-                VerticalOptions="Center"
-                BackgroundColor="Transparent"
+                Style="{StaticResource TopButtonTitleStyle}"
                 Command="{Binding DoneCommand}"
-                Text="Done"
-                TextColor="{StaticResource selectTextColor}"/>
+                Text="Done"/>
 
             <BoxView
                 Margin="-10,0,-10,0"
@@ -96,8 +88,7 @@
                 Text="{Binding Country}"/>
             
             <Button
-                BackgroundColor="Transparent"
-                TextColor="{StaticResource selectTextColor}"
+                Style="{StaticResource BottomButtonTitleStyle}"
                 Grid.Row="9"
                 Text="Get current location"/>
 

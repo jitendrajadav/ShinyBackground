@@ -1542,4 +1542,13 @@
   <data name="zero" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="button_home" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="hint_partner_name" xml:space="preserve">
+    <value>Partner Name</value>
+  </data>
+  <data name="menu_action_sort_alphabetical" xml:space="preserve">
+    <value>Alphabetical</value>
+  </data>
 </root>

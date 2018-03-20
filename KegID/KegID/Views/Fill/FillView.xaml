@@ -18,25 +18,20 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Label
+            <Button
                 x:Name="lblCancel"
-                Style="{StaticResource LabelTitleStyle}"
-                TextColor="{StaticResource selectTextColor}"
+                Style="{StaticResource TopButtonTitleStyle}"
                 HorizontalOptions="Start"
-                Text="Cancel">
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding Path=BindingContext.CancelCommand, 
-                                                        Source={x:Reference Name=lblCancel}}"
-                                                         CommandParameter="{Binding}"/>
-                </Label.GestureRecognizers>
-            </Label>
+                Text="{Binding Resources[dialog_print_negative]}"
+                Command="{Binding CancelCommand}"
+                />
 
             <Label
                 Style="{StaticResource LabelTitleStyle}"
                 FontSize="{StaticResource AppBarButtonFontSize}"
                 TextColor="Black"
                 HorizontalOptions="Center"
-                Text="Fill Kegs"/>
+                Text="{Binding Resources[title_activity_fill_manifest]}"/>
 
             <Grid
                 ColumnSpacing="0"
@@ -186,25 +181,14 @@
                     VerticalOptions="Center"
                     HorizontalOptions="FillAndExpand"/>
 
-                <Label
+                <Button
                     x:Name="lblNext"
                     Margin="-15,0,-15,-5"
-                    TextColor="White"
-                    HeightRequest="60"
-                    BackgroundColor="{StaticResource selectTextColor}"
-                    HorizontalOptions="FillAndExpand"
-                    HorizontalTextAlignment="Center"
-                    VerticalOptions="EndAndExpand"
                     Grid.Row="13"
-                    Text="Next"
-                    VerticalTextAlignment="Center"
-                    FontSize="{StaticResource AppBarButtonFontSize}">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding Path=BindingContext.NextCommand, 
-                                                        Source={x:Reference Name=lblNext}}"
-                                                         CommandParameter="{Binding}"/>
-                    </Label.GestureRecognizers>
-                </Label>
+                    Style="{StaticResource BottomButtonTitleStyle}"
+                    Text="{Binding Resources[button_next]}"
+                    Command="{Binding NextCommand}"
+                    />
 
             </Grid>
         </Grid>

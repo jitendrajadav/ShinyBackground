@@ -16,53 +16,41 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Label
+            <Button
                 x:Name="lblCancel"
-                TextColor="{StaticResource selectTextColor}"
                 HorizontalOptions="Start"
-                Style="{StaticResource LabelTitleStyle}"
-                Text="Cancel">
-               
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding Path=BindingContext.CancelCommand, 
-                                                        Source={x:Reference Name=lblCancel}}"
-                                                         CommandParameter="{Binding}"/>
-                </Label.GestureRecognizers>
-            </Label>
-            
+                Style="{StaticResource TopButtonTitleStyle}"
+                Text="Cancel"
+                Command="{Binding CancelCommand}"
+                />
+
             <Label
                 HorizontalOptions="Center"
                 Style="{StaticResource LabelTitleStyle}"
                 TextColor="Black"
                 Text="Create Manifest"/>
 
-            <Label
+            <Button
                 x:Name="lblSubmit"
-                Style="{StaticResource LabelTitleStyle}"
-                TextColor="{StaticResource selectTextColor}"
+                Style="{StaticResource TopButtonTitleStyle}"
                 HorizontalOptions="End"
                 Text="Submit"
-                IsVisible="{Binding IsSubmitVisible}">
-               
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding Path=BindingContext.SubmitCommand, 
-                                                        Source={x:Reference Name=lblSubmit}}"
-                                                         CommandParameter="{Binding}"/>
-                </Label.GestureRecognizers>
-            </Label>
+                IsVisible="{Binding IsSubmitVisible}"
+                Command="{Binding SubmitCommand}"
+                />
 
             <Grid
-                Grid.Row="1"
-                Margin="10,0,10,0">
+                Margin="10,0,10,0"
+                Grid.Row="1">
                 <Grid.RowSpacing>
                     <OnPlatform x:TypeArguments="x:Double">
                         <On Platform="iOS" Value="10" />
-                        <On Platform="Android, WinPhone, Windows" Value="0" />
+                        <On Platform="Android, WinPhone, Windows, UWP" Value="5" />
                     </OnPlatform>
                 </Grid.RowSpacing>
 
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -189,22 +177,17 @@
                     VerticalOptions="Start"
                     HorizontalOptions="FillAndExpand"/>
 
-                <Label
+                <Button
                     x:Name="lblSaveDraft"
-                    BackgroundColor="Transparent"
-                    TextColor="{StaticResource selectTextColor}"
                     HorizontalOptions="End"
                     Text="Save draft"
                     Grid.Row="10"
-                    FontSize="{StaticResource AppBarButtonFontSize}"
-                    IsVisible="{Binding IsSaveDraftVisible}">
-                  
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding Path=BindingContext.SaveDraftCommand, 
-                                                        Source={x:Reference Name=lblSaveDraft}}"
-                                                         CommandParameter="{Binding}"/>
-                    </Label.GestureRecognizers>
-                </Label>
+                    VerticalOptions="Start"
+                    Style="{StaticResource TopButtonTitleStyle}"
+                    IsVisible="{Binding IsSaveDraftVisible}"
+                    Command="{Binding SaveDraftCommand}"
+                    />
+
             </Grid>
         </Grid>
     </ContentPage.Content>

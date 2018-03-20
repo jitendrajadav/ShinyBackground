@@ -142,6 +142,15 @@ namespace KegID {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Home.
+        /// </summary>
+        internal static string button_home {
+            get {
+                return ResourceManager.GetString("button_home", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Kegs.
         /// </summary>
         internal static string button_kegs {
@@ -822,6 +831,15 @@ namespace KegID {
         internal static string hint_ordernum {
             get {
                 return ResourceManager.GetString("hint_ordernum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Partner Name.
+        /// </summary>
+        internal static string hint_partner_name {
+            get {
+                return ResourceManager.GetString("hint_partner_name", resourceCulture);
             }
         }
         
@@ -2244,6 +2262,15 @@ namespace KegID {
         internal static string menu_action_sort {
             get {
                 return ResourceManager.GetString("menu_action_sort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Alphabetical.
+        /// </summary>
+        internal static string menu_action_sort_alphabetical {
+            get {
+                return ResourceManager.GetString("menu_action_sort_alphabetical", resourceCulture);
             }
         }
         

@@ -16,19 +16,13 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Label
-                HeightRequest="50"
+            <Button
                 x:Name="lblAddBatch"
-                TextColor="{StaticResource selectTextColor}"
-                Style="{StaticResource LabelTitleStyle}"
-                Text="Add Batch"
-                VerticalTextAlignment="Center">
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding Path=BindingContext.AddBatchCommand, 
-                                                        Source={x:Reference Name=lblAddBatch}}"
-                                                         CommandParameter="{Binding}"/>
-                </Label.GestureRecognizers>
-            </Label>
+                Style="{StaticResource TopButtonTitleStyle}"
+                Text="{Binding Resources[title_batch_add]}"
+                Command="{Binding AddBatchCommand}"
+                HorizontalOptions="Start"
+                />
 
             <BoxView
                 Margin="-10,0,-10,0"

@@ -12,7 +12,13 @@
           
             <Grid
                 Margin="10,0,10,0">
-                
+                <Grid.RowSpacing>
+                    <OnPlatform x:TypeArguments="x:Double">
+                        <On Platform="iOS" Value="10" />
+                        <On Platform="Android, WinPhone, Windows, UWP" Value="3" />
+                    </OnPlatform>
+                </Grid.RowSpacing>
+
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -31,19 +37,13 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <Label
+                <Button
                     x:Name="lblCancel"
                     HorizontalOptions="Start"
-                    Style="{StaticResource LabelTitleStyle}"
-                    TextColor="{StaticResource selectTextColor}"
-                    Text="Cancel">
-                    
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding Path=BindingContext.CalcelCommand, 
-                                                        Source={x:Reference Name=lblCancel}}"
-                                                         CommandParameter="{Binding}"/>
-                    </Label.GestureRecognizers>
-                </Label>
+                    Style="{StaticResource TopButtonTitleStyle}"
+                    Text="Cancel"
+                    Command="{Binding CalcelCommand}"
+                    />
 
                 <Label
                     Style="{StaticResource LabelTitleStyle}"
@@ -51,18 +51,13 @@
                     HorizontalOptions="Center"
                     Text="Add Partner"/>
 
-                <Label
+                <Button
                     x:Name="lblSubmit"
                     Text="Submit"
                     HorizontalOptions="End"
-                    Style="{StaticResource LabelTitleStyle}"
-                    TextColor="{StaticResource selectTextColor}">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding Path=BindingContext.SubmitCommand, 
-                                                        Source={x:Reference Name=lblSubmit}}"
-                                                         CommandParameter="{Binding}"/>
-                    </Label.GestureRecognizers>
-                </Label>
+                    Style="{StaticResource TopButtonTitleStyle}"
+                    Command="{Binding SubmitCommand}"
+                    />
 
                 <BoxView
                     Margin="-10,0,-10,0"
@@ -108,7 +103,7 @@
 
                 <Picker
                     Margin="60,0,0,0"
-                    HorizontalOptions="Start"
+                    HorizontalOptions="FillAndExpand"
                     Grid.Row="4"
                     ItemsSource="{Binding PartnerTypeCollectioin}"
                     TextColor="{StaticResource selectTextColor}"

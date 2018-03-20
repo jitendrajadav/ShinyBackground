@@ -43,7 +43,7 @@
 
             <Entry
                 Grid.Row="1"
-                Placeholder="Username"
+                Placeholder="{Binding Resources[hint_username]}"
                 HeightRequest="{StaticResource EntryHeight}"
                 Text="{Binding Username}">
             </Entry>
@@ -51,7 +51,7 @@
             <Entry
                 IsPassword="True"
                 Grid.Row="2"
-                Placeholder="Password"
+                Placeholder="{Binding Resources[hint_password]}"
                 HeightRequest="{StaticResource EntryHeight}"
                 Text="{Binding Password}"/>
 

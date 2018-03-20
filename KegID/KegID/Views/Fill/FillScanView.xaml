@@ -33,42 +33,30 @@
                 <ColumnDefinition Width="15*"/>
             </Grid.ColumnDefinitions>
 
-            <Label
+            <Button
                 x:Name="lblCancel"
                 Grid.ColumnSpan="2"
-                Text="Cancel"
-                Style="{StaticResource LabelTitleStyle}"
-                TextColor="{StaticResource selectTextColor}"
-                HorizontalOptions="Start">
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding Path=BindingContext.CancelCommand, 
-                                                        Source={x:Reference Name=lblCancel}}"
-                                                         CommandParameter="{Binding}"/>
-                </Label.GestureRecognizers>
-            </Label>
+                Text="{Binding Resources[dialog_print_negative]}"
+                Style="{StaticResource TopButtonTitleStyle}"
+                HorizontalOptions="Start"
+                Command="{Binding CancelCommand}"
+                />
 
-            <Label
+            <Button
                 x:Name="lblSubmit"
                 Grid.ColumnSpan="2"
-                Text="Submit"
+                Text="{Binding Resources[menu_action_submit]}"
                 IsVisible="{Binding IsPalletze,Converter={StaticResource InvertedBooleanConverter}}"
-                BackgroundColor="Transparent"
-                Style="{StaticResource LabelTitleStyle}"
-                TextColor="{StaticResource selectTextColor}"
+                Style="{StaticResource TopButtonTitleStyle}"
                 HorizontalOptions="End"
-                FontSize="{StaticResource AppBarButtonFontSize}">
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding Path=BindingContext.SubmitCommand, 
-                                                        Source={x:Reference Name=lblSubmit}}"
-                                                         CommandParameter="{Binding}"/>
-                </Label.GestureRecognizers>
-            </Label>
+                Command="{Binding SubmitCommand}"
+                />
 
             <Label
                 Grid.ColumnSpan="2"
                 Style="{StaticResource LabelTitleStyle}"
                 HorizontalOptions="Center"
-                Text="Scan"
+                Text="{Binding Resources[menu_action_scan]}"
                 TextColor="Black"/>
             
             <BoxView
@@ -207,14 +195,10 @@
 
             <Button
                 Grid.ColumnSpan="2"
-                Text="Print"
+                Text="{Binding Resources[menu_action_print]}"
                 Grid.Row="4"
                 IsVisible="{Binding IsPalletze}"
-                BackgroundColor="{StaticResource selectTextColor}"
-                TextColor="White"
-                BorderRadius="0"
-                BorderWidth="0"
-                Style="{StaticResource ButtonTitleStyle}"
+                Style="{StaticResource BottomButtonTitleStyle}"
                 Command="{Binding PrintCommand}">
                 <Button.HeightRequest>
                     <OnPlatform x:TypeArguments="x:Double">

@@ -24,25 +24,19 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <Label
+            <Button
                 x:Name="lblCancel"
-                Style="{StaticResource LabelTitleStyle}"
-                TextColor="{StaticResource selectTextColor}"
+                Style="{StaticResource TopButtonTitleStyle}"
                 HorizontalOptions="Start"
-                Text="Cancel">
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding Path=BindingContext.CancelCommand, 
-                                                        Source={x:Reference Name=lblCancel}}"
-                                                         CommandParameter="{Binding}"/>
-                </Label.GestureRecognizers>
-            </Label>
+                Text="{Binding Resources[dialog_print_negative]}"
+                Command="{Binding CancelCommand}"/>
 
             <Label
                 Grid.ColumnSpan="3"
                 Style="{StaticResource LabelTitleStyle}"
                 TextColor="Black"
                 HorizontalOptions="Center"
-                Text="Add Batch"/>
+                Text="{Binding Resources[title_batch_add]}"/>
             
             <BoxView
                 Grid.ColumnSpan="3"
@@ -107,7 +101,7 @@
                         TextColor="Black"
                         FontSize="Medium"
                         HorizontalOptions="Start"
-                        Text="Batch code"/>
+                        Text="{Binding Resources[label_batch_code]}"/>
 
                     <Entry 
                         Grid.ColumnSpan="2"
@@ -121,7 +115,7 @@
                         TextColor="Black"
                         FontSize="Medium"
                         HorizontalOptions="Start"
-                        Text="Brew date"/>
+                        Text="{Binding Resources[label_brew_date]}"/>
 
                     <DatePicker 
                         Grid.Row="2"
@@ -134,7 +128,7 @@
                         TextColor="Black"
                         FontSize="Medium"
                         HorizontalOptions="Start"
-                        Text="Volume"/>
+                        Text="{Binding Resources[label_asset_volume]}"/>
 
                     <Entry 
                         Grid.Row="3"
@@ -173,7 +167,7 @@
                         TextColor="Black"
                         FontSize="Medium"
                         HorizontalOptions="Start"
-                        Text="Best by date"/>
+                        Text="{Binding Resources[label_bestby_date]}"/>
 
                     <DatePicker 
                         Grid.Row="5"
@@ -186,7 +180,7 @@
                         TextColor="Black"
                         FontSize="Medium"
                         HorizontalOptions="Start"
-                        Text="Alcohol content"/>
+                        Text="{Binding Resources[label_alcohol_content]}"/>
 
                     <Entry 
                         Grid.Row="6"
@@ -204,7 +198,7 @@
                         Text="{Binding TagsStr}"
                         Grid.Row="7"/>
 
-                    <Image
+                    <!--<Image
                         Margin="0,5,5,0"
                         x:Name="imgTags"
                         Grid.Row="7"
@@ -229,32 +223,21 @@
                                                         Source={x:Reference Name=imgTags}}"
                                                          CommandParameter="{Binding}"/>
                         </Image.GestureRecognizers>
-                    </Image>
+                    </Image>-->
 
                 </Grid>
                 
             </ScrollView>
 
-            <Label
+            <Button
                 x:Name="lblDone"
                 Margin="-10,0,-10,-5"
-                TextColor="White"
                 Grid.ColumnSpan="3"
-                HeightRequest="60"
-                BackgroundColor="{StaticResource selectTextColor}"
-                HorizontalOptions="FillAndExpand"
-                HorizontalTextAlignment="Center"
                 Grid.Row="3"
-                Text="Done"
-                VerticalOptions="Center"
-                VerticalTextAlignment="Center"
-                FontSize="{StaticResource AppBarButtonFontSize}">
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding Path=BindingContext.DoneCommand, 
-                                                        Source={x:Reference Name=lblDone}}"
-                                                         CommandParameter="{Binding}"/>
-                </Label.GestureRecognizers>
-            </Label>
+                Text="{Binding Resources[button_done]}"
+                Command="{Binding DoneCommand}"
+                Style="{StaticResource BottomButtonTitleStyle}"
+                />
 
         </Grid>
     </ContentPage.Content>

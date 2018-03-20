@@ -29,20 +29,14 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <Label
+            <Button
                 x:Name="lblManifest"
-                Style="{StaticResource LabelTitleStyle}"
-                TextColor="{StaticResource selectTextColor}"
+                Style="{StaticResource TopButtonTitleStyle}"
                 Grid.ColumnSpan="2"
                 HorizontalOptions="Start"
-                Text="Manifests">
-              
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding Path=BindingContext.ManifestsCommand, 
-                                                        Source={x:Reference Name=lblManifest}}"
-                                                         CommandParameter="{Binding}"/>
-                </Label.GestureRecognizers>
-            </Label>
+                Text="Manifests"
+                Command="{Binding ManifestsCommand}"
+                />
 
             <Label 
                 Grid.ColumnSpan="2"
@@ -130,23 +124,16 @@
                     Margin="5,0,0,0"/>
             </StackLayout>
 
-            <Label
+            <Button
                 x:Name="lblSearch"
-                BackgroundColor="Transparent"
-                TextColor="{StaticResource selectTextColor}"
                 Grid.Column="1"
                 Grid.Row="8"
                 HorizontalOptions="End"
                 Text="Search"
-                VerticalOptions="Center"
-                FontSize="{StaticResource AppBarButtonFontSize}">
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding Path=BindingContext.SearchCommand, 
-                                                        Source={x:Reference Name=lblSearch}}"
-                                                         CommandParameter="{Binding}"/>
-                </Label.GestureRecognizers>
-            </Label>
-            
+                Command="{Binding SearchCommand}"
+                Style="{StaticResource BottomButtonTitleStyle}"
+                />
+
         </Grid>
     </ContentPage.Content>
 </ContentPage>

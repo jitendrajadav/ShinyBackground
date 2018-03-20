@@ -24,24 +24,21 @@
             </Grid.ColumnDefinitions>
             
             <Label 
-                Grid.Column="1"
+                Grid.ColumnSpan="3"
                 Text="Add tags"
                 Style="{StaticResource LabelTitleStyle}"
                 TextColor="Black"
                 HorizontalOptions="CenterAndExpand" />
 
             <Button
-                TextColor="{StaticResource selectTextColor}"
-                BackgroundColor="Transparent"
-                Grid.Column="2"
-                Style="{StaticResource ButtonTitleStyle}"
-                HorizontalOptions="Center"
+                Margin="0,0,10,0"
+                Grid.ColumnSpan="3"
+                Style="{StaticResource TopButtonTitleStyle}"
+                HorizontalOptions="End"
                 Text="Save"
-                FontSize="Medium"
                 Clicked="SaveTagsClickedAsync"/>
 
             <BoxView
-                Margin="-10,0,-10,0"
                 Grid.Row="1"
                 Grid.ColumnSpan="3"
                 BackgroundColor="{StaticResource bannerBGColor}"

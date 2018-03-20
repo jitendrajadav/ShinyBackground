@@ -21,21 +21,16 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <Label
+            <Button
                 x:Name="lblHome"
-                Style="{StaticResource LabelTitleStyle}"
-                TextColor="{StaticResource selectTextColor}"
+                Style="{StaticResource TopButtonTitleStyle}"
                 HorizontalOptions="Start"
-                Text="Home">
-                
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding Path=BindingContext.HomeCommand, 
-                                                        Source={x:Reference Name=lblHome}}"
-                                                         CommandParameter="{Binding}"/>
-                </Label.GestureRecognizers>
-            </Label>
+                Text="Home"
+                Command="{Binding HomeCommand}"
+                />
 
             <Grid
                 Grid.Row="1"
@@ -61,7 +56,6 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
@@ -255,33 +249,25 @@
                     Grid.Row="16"/>
 
                 <Button
-                    BackgroundColor="Transparent"
-                    TextColor="{StaticResource selectTextColor}"
                     Grid.Column="0"
                     Grid.Row="17"
                     Grid.ColumnSpan="2"
-                    Style="{StaticResource ButtonTitleStyle}"
-                    HorizontalOptions="Center"
+                    Style="{StaticResource TopButtonTitleStyle}"
                     Command="{Binding PartnerCommand}"
                     Text="{Binding Path=PartnerModel.FullName}"/>
 
-                <Button
-                    HeightRequest="60"
-                    Margin="-15,-15,-15,-6"
-                    BackgroundColor="{StaticResource selectTextColor}"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="2"
-                    Grid.Row="18"
-                    VerticalOptions="End"
-                    BorderColor="Transparent"
-                    BorderWidth="0"
-                    Style="{StaticResource ButtonTitleStyle}"
-                    HorizontalOptions="FillAndExpand"
-                    TextColor="White"
-                    Text="Next"
-                    Command="{Binding NextCommand}"/>
-
             </Grid>
+            
+            <Button
+                Margin="-10,0,-10,-5"
+                Style="{StaticResource BottomButtonTitleStyle}"
+                Grid.Row="2"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="EndAndExpand"
+                Text="Next"
+                Command="{Binding NextCommand}"
+                />
+
         </Grid>
     </ContentPage.Content>
 </ContentPage>

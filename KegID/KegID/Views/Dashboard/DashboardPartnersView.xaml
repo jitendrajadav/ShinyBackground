@@ -28,22 +28,15 @@
                 HorizontalOptions="Center"
                 IsVisible="{Binding IsWorking}"/>
 
-            <Label
+            <Button
                 x:Name="lblBack"
-                Style="{StaticResource LabelTitleStyle}"
-                HeightRequest="40"
-                TextColor="{StaticResource selectTextColor}"
-                Text="Back"
-                VerticalTextAlignment="Center">
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding Path=BindingContext.BackCommand, 
-                                                    Source={x:Reference Name=lblBack}}"
-                                                        CommandParameter="{Binding}"/>
-                </Label.GestureRecognizers>
-            </Label>
+                HorizontalOptions="Start"
+                Style="{StaticResource TopButtonTitleStyle}"
+                Text="{Binding Resources[button_home]}"
+                Command="{Binding BackCommand}"/>
 
             <Label 
-                Text="Partners"
+                Text="{Binding Resources[title_partner_list]}"
                 TextColor="Black"
                 Style="{StaticResource LabelTitleStyle}"
                 VerticalOptions="CenterAndExpand" 
@@ -89,7 +82,7 @@
             <SearchBar
                 Margin="10,5,10,5"
                 x:Name="SearchBar"
-                Placeholder="Partner Name"
+                Placeholder="{Binding Resources[hint_partner_name]}"
                 Grid.Row="1"
                 Text="{Binding PartnerName}"
                 SearchCommand="{Binding TextChangedCommand}" 
@@ -180,19 +173,19 @@
                 <Button
                     BackgroundColor="{Binding InternalBackgroundColor}"
                     TextColor="{Binding InternalTextColor}"
-                    Text="Internal"
+                    Text="{Binding Resources[menu_action_sort_internal]}"
                     Command="{Binding InternalCommand}"/>
                 
                 <Button
                     BackgroundColor="{Binding AlphabeticalBackgroundColor}"
                     TextColor="{Binding AlphabeticalTextColor}"
-                    Text="Alphabetical"
+                    Text="{Binding Resources[menu_action_sort_alphabetical]"
                     Command="{Binding AlphabeticalCommand}"/>
                
                 <Button
                     BackgroundColor="{Binding KegsHeldBackgroundColor}"
                     TextColor="{Binding KegsHeldTextColor}"
-                    Text="Kegs Held"
+                    Text="{Binding Resources[menu_action_sort_kegs]}"
                     Command="{Binding KegsHeldCommand}"/>
 
             </StackLayout>
