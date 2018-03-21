@@ -41,7 +41,7 @@
                     x:Name="lblCancel"
                     HorizontalOptions="Start"
                     Style="{StaticResource TopButtonTitleStyle}"
-                    Text="Cancel"
+                    Text="{Binding Resources[dialog_print_negative]}"
                     Command="{Binding CalcelCommand}"
                     />
 

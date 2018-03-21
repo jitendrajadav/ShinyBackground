@@ -32,7 +32,7 @@
                 x:Name="btnNavigation"
                 Style="{StaticResource BottomButtonTitleStyle}"
                 Grid.Row="1"
-                Text="Next >"
+                Text="{Binding Resources[button_next]}"
                 Clicked="NavigationCommand"/>
             
         </Grid>

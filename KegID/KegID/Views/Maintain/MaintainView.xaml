@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:KegID"
              Title="Maintenance Items"
              BackgroundColor="#FFFFFF"
+             xmlns:control="clr-namespace:KegID.Controls"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Maintain}">
     
     <ContentPage.Content>
@@ -28,7 +29,7 @@
                 x:Name="lblHome"
                 Style="{StaticResource TopButtonTitleStyle}"
                 HorizontalOptions="Start"
-                Text="Home"
+                Text="{Binding Resources[button_home]}"
                 Command="{Binding HomeCommand}"
                 />
 
@@ -63,7 +64,7 @@
                     <ColumnDefinition Width="80*"/>
                 </Grid.ColumnDefinitions>
 
-                <Switch 
+                <control:CustomSwitch 
                     HeightRequest="30"
                     VerticalOptions="Center"
                     Grid.Row="0"
@@ -86,7 +87,7 @@
                     VerticalOptions="Center"
                     HorizontalOptions="FillAndExpand"/>
 
-                <Switch 
+                <control:CustomSwitch 
                     HeightRequest="30"
                     VerticalOptions="Center"
                     Grid.Row="2"
@@ -110,7 +111,7 @@
                     VerticalOptions="Center"
                     HorizontalOptions="FillAndExpand"/>
 
-                <Switch 
+                <control:CustomSwitch 
                     HeightRequest="30"
                     VerticalOptions="Center"
                     Grid.Row="4"
@@ -133,7 +134,7 @@
                     VerticalOptions="Center"
                     HorizontalOptions="FillAndExpand"/>
 
-                <Switch 
+                <control:CustomSwitch 
                     HeightRequest="30"
                     VerticalOptions="Center"
                     Grid.Row="6"
@@ -156,7 +157,7 @@
                     VerticalOptions="Center"
                     HorizontalOptions="FillAndExpand"/>
 
-                <Switch 
+                <control:CustomSwitch 
                     HeightRequest="30"
                     VerticalOptions="Center"
                     Grid.Row="8"
@@ -179,7 +180,7 @@
                     VerticalOptions="Center"
                     HorizontalOptions="FillAndExpand"/>
 
-                <Switch 
+                <control:CustomSwitch 
                     HeightRequest="30"
                     VerticalOptions="Center"
                     Grid.Row="10"
@@ -202,7 +203,7 @@
                     VerticalOptions="Center"
                     HorizontalOptions="FillAndExpand"/>
 
-                <Switch 
+                <control:CustomSwitch 
                     HeightRequest="30"
                     VerticalOptions="Center"
                     Grid.Row="12"
@@ -264,7 +265,7 @@
                 Grid.Row="2"
                 HorizontalOptions="FillAndExpand"
                 VerticalOptions="EndAndExpand"
-                Text="Next"
+                Text="{Binding Resources[button_next]}"
                 Command="{Binding NextCommand}"
                 />
 

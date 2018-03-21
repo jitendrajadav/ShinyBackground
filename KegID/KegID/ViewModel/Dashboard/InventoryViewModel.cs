@@ -13,7 +13,6 @@ namespace KegID.ViewModel
 {
     public class InventoryViewModel : BaseViewModel
     {
-
         #region Properties
         public IDashboardService _dashboardService { get; set; }
 
@@ -118,7 +117,6 @@ namespace KegID.ViewModel
                 var value = await _dashboardService.GetInventoryAsync(Configuration.SessionId);
                 StockInventoryCollection = value.InventoryResponseModel.Where(x => x.Status != "Empty").ToList();
                 EnptyInventoryCollection = value.InventoryResponseModel.Where(x => x.Status == "Empty").ToList();
-
             }
             catch (Exception ex)
             {

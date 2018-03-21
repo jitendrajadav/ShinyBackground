@@ -28,7 +28,7 @@
                 x:Name="lblCancel"
                 Style="{StaticResource TopButtonTitleStyle}"
                 HorizontalOptions="Start"
-                Text="Cancel"
+                Text="{Binding Resources[dialog_print_negative]}"
                 Command="{Binding CancelCommand}"
                 />
 
@@ -40,7 +40,7 @@
             
             <Button
                 HorizontalOptions="End"
-                Text="Submit"
+                Text="{Binding Resources[menu_action_submit]}"
                 Style="{StaticResource TopButtonTitleStyle}"
                 Command="{Binding SubmitCommand}"
                 IsVisible="{Binding IsSubmitVisible}"/>
@@ -109,15 +109,6 @@
                         <OnPlatform x:TypeArguments="ImageSource">
                             <On Platform="iOS, Android" Value="pencil.png" />
                             <On Platform="UWP" Value="Assets/pencil.png" />
-                            <!--<OnPlatform.iOS>
-                                <FileImageSource File="pencil.png"/>
-                            </OnPlatform.iOS>
-                            <OnPlatform.Android>
-                                <FileImageSource File="pencil.png"/>
-                            </OnPlatform.Android>
-                            <OnPlatform.WinPhone>
-                                <FileImageSource File="Assets/pencil.png"/>
-                            </OnPlatform.WinPhone>-->
                         </OnPlatform>
                     </Image.Source>
                   

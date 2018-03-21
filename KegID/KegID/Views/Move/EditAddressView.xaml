@@ -42,7 +42,7 @@
                 HorizontalOptions="End"
                 Style="{StaticResource TopButtonTitleStyle}"
                 Command="{Binding DoneCommand}"
-                Text="Done"/>
+                Text="{Binding Resources[button_done]}"/>
 
             <BoxView
                 Margin="-10,0,-10,0"
@@ -54,43 +54,43 @@
 
             <Entry
                 Grid.Row="2"
-                Placeholder="Address Line 1"
+                Placeholder="{Binding Resources[label_address_line1]}"
                 Text="{Binding Line1}"/>
 
             <Entry
                 Grid.Row="3"
-                Placeholder="Address Line 2"
+                Placeholder="{Binding Resources[label_address_line2]}"
                 Text="{Binding Line2}"/>
 
             <Entry
                 Grid.Row="4"
-                Placeholder="Address Line 3"
+                Placeholder="{Binding Resources[label_address_line3]}"
                 Text="{Binding Line3}"/>
 
             <Entry
                 Grid.Row="5"
-                Placeholder="City"
+                Placeholder="{Binding Resources[label_address_city]}"
                 Text="{Binding City}"/>
 
             <Entry
                 Grid.Row="6"
-                Placeholder="State"
+                Placeholder="{Binding Resources[label_address_state]}"
                 Text="{Binding State}"/>
 
             <Entry
                 Grid.Row="7"
-                Placeholder="Postal Code"
+                Placeholder="{Binding Resources[label_address_postal]}"
                 Text="{Binding PostalCode}"/>
 
             <Entry
                 Grid.Row="8"
-                Placeholder="Country"
+                Placeholder="{Binding Resources[label_address_country]}"
                 Text="{Binding Country}"/>
             
             <Button
                 Style="{StaticResource BottomButtonTitleStyle}"
                 Grid.Row="9"
-                Text="Get current location"/>
+                Text="{Binding Resources[menu_action_get_location]}"/>
 
         </Grid>
     </ContentPage.Content>

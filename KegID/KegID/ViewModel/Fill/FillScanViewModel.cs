@@ -490,6 +490,5 @@ namespace KegID.ViewModel
         }
 
         #endregion
-
     }
 }

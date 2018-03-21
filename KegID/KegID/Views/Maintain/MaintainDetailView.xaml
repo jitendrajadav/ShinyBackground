@@ -24,7 +24,7 @@
                 x:Name="lblHome"
                 Style="{StaticResource TopButtonTitleStyle}"
                 HorizontalOptions="Start"
-                Text="Home"
+                Text="{Binding Resources[button_home]}"
                 Command="{Binding HomeCommand}"
                 />
 
@@ -216,7 +216,7 @@
                     VerticalTextAlignment="Center"
                     VerticalOptions="FillAndExpand"
                     Style="{StaticResource LabelTitleStyle}"
-                    Text="Size"/>
+                    Text="{Binding Resources[label_size]}"/>
 
                 <Label
                     Grid.Column="3"
@@ -227,7 +227,7 @@
                     VerticalTextAlignment="Center"
                     VerticalOptions="FillAndExpand"
                     Style="{StaticResource LabelTitleStyle}"
-                    Text="Quantity"/>
+                    Text="{Binding Resources[label_quantity]}"/>
 
                 <BoxView
                     Grid.Row="2"
@@ -278,7 +278,7 @@
                     Style="{StaticResource LabelTitleStyle}"
                     TextColor="Black"
                     FontAttributes="Bold"
-                    Text="Total"/>
+                    Text="{Binding Resources[label_total]}"/>
 
                 <Label
                     Margin="0,0,5,0"

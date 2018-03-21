@@ -35,7 +35,7 @@
                 Grid.ColumnSpan="3"
                 Style="{StaticResource TopButtonTitleStyle}"
                 HorizontalOptions="End"
-                Text="Save"
+                Text="{Binding Resources[button_save]}"
                 Clicked="SaveTagsClickedAsync"/>
 
             <BoxView
@@ -48,7 +48,7 @@
             <Label
                 Margin="10,0,0,0"
                 VerticalOptions="Center"
-                Text="Name"
+                Text="{Binding Resources[menu_action_sort_name]}"
                 FontSize="{StaticResource AppBarButtonFontSize}"
                 HorizontalOptions="Center"
                 TextColor="White"

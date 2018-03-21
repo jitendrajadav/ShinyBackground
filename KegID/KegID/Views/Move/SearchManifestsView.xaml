@@ -34,7 +34,7 @@
                 Style="{StaticResource TopButtonTitleStyle}"
                 Grid.ColumnSpan="2"
                 HorizontalOptions="Start"
-                Text="Manifests"
+                Text="{Binding Resources[button_manifests]}"
                 Command="{Binding ManifestsCommand}"
                 />
 
@@ -63,7 +63,7 @@
                 Text="{Binding Barcode}"
                 Grid.Row="3"
                 Grid.ColumnSpan="2"
-                Placeholder="Barcode"/>
+                Placeholder="{Binding Resources[label_barcode]}"/>
 
             <Entry
                 Text="{Binding ManifestSender}"
@@ -129,7 +129,7 @@
                 Grid.Column="1"
                 Grid.Row="8"
                 HorizontalOptions="End"
-                Text="Search"
+                Text="{Binding Resources[button_search]}"
                 Command="{Binding SearchCommand}"
                 Style="{StaticResource BottomButtonTitleStyle}"
                 />

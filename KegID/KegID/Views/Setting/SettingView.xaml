@@ -24,7 +24,7 @@
                 HorizontalOptions="StartAndExpand"
                 VerticalTextAlignment="Center"
                 TextColor="{StaticResource selectTextColor}"
-                Text="Refresh">
+                Text="{Binding Resources[menu_action_refresh]}">
                 
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding Path=BindingContext.RefreshSettingCommand, 
@@ -101,7 +101,7 @@
                 HorizontalTextAlignment="Start"
                 BackgroundColor="Transparent"
                 TextColor="{StaticResource selectTextColor}"
-                Text="Support"
+                Text="{Binding Resources[menu_action_support]}"
                 FontSize="Medium">
                 
                 <Label.GestureRecognizers>
@@ -127,7 +127,7 @@
                 HorizontalTextAlignment="Start"
                 BackgroundColor="Transparent"
                 TextColor="{StaticResource selectTextColor}"
-                Text="Log Out"
+                Text="{Binding Resources[menu_action_logout]}"
                 FontSize="Medium">
                 
                 <Label.GestureRecognizers>

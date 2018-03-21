@@ -45,7 +45,7 @@
 
             <Label 
                 HorizontalOptions="Center"
-                Text="Scan"
+                Text="{Binding Resources[menu_action_scan]}"
                 TextColor="Black"
                 Style="{StaticResource LabelTitleStyle}"
                 Grid.ColumnSpan="3"/>
@@ -64,7 +64,7 @@
                 Grid.ColumnSpan="2"
                 Grid.Row="2"
                 Text="{Binding ManaulBarcode,Mode=TwoWay}"
-                Placeholder="Barcode">
+                Placeholder="{Binding Resources[label_barcode]}">
                 
                 <Entry.Behaviors>
                     <behaviors:EventToCommandBehavior
@@ -139,7 +139,7 @@
                 Grid.ColumnSpan="3"
                 Grid.Row="6"
                 Style="{StaticResource BottomButtonTitleStyle}"
-                Text="Submit"
+                Text="{Binding Resources[menu_action_submit]}"
                 Command="{Binding SubmitCommand}"/>
 
             <ListView

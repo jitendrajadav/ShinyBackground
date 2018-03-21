@@ -20,7 +20,7 @@
                 x:Name="lblCancel"
                 HorizontalOptions="Start"
                 Style="{StaticResource TopButtonTitleStyle}"
-                Text="Cancel"
+                Text="{Binding Resources[dialog_print_negative]}"
                 Command="{Binding CancelCommand}"
                 />
 
@@ -34,7 +34,7 @@
                 x:Name="lblSubmit"
                 Style="{StaticResource TopButtonTitleStyle}"
                 HorizontalOptions="End"
-                Text="Submit"
+                Text="{Binding Resources[menu_action_submit]}"
                 IsVisible="{Binding IsSubmitVisible}"
                 Command="{Binding SubmitCommand}"
                 />

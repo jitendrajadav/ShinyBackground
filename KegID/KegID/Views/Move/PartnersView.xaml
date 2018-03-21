@@ -40,7 +40,7 @@
                     />
 
                 <Label 
-                    Text="Partners"
+                    Text="{Binding Resources[title_partner_list]}"
                     FontAttributes="Bold"
                     Style="{StaticResource LabelTitleStyle}"
                     TextColor="Black"
@@ -197,31 +197,43 @@
 
             </ListView>
 
-            <StackLayout
+            <Grid
+                Margin="0,0,0,10"
+                ColumnSpacing="0"
                 VerticalOptions="Center"
                 HorizontalOptions="Center"
-                Grid.Row="3"
-                Orientation="Horizontal">
-                <StackLayout.Spacing>
+                Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="140"/>
+                    <ColumnDefinition Width="140"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowSpacing>
                     <OnPlatform x:TypeArguments="x:Double">
                         <On Platform="iOS" Value="10" />
                         <On Platform="Android, WinPhone, Windows, UWP" Value="0" />
                     </OnPlatform>
-                </StackLayout.Spacing>
+                </Grid.RowSpacing>
 
                 <Button
+                    BorderWidth="1"
+                    BorderColor="#4E6388"
                     BackgroundColor="{Binding InternalBackgroundColor}"
                     TextColor="{Binding InternalTextColor}"
-                    Text="Internal"
+                    FontSize="{StaticResource AppBarButtonFontSize}"
+                    Text="{Binding Resources[label_internal]}"
                     Command="{Binding InternalCommand}"/>
                 
                 <Button
+                    BorderWidth="1"
+                    BorderColor="#4E6388"
+                    Grid.Column="1"
                     BackgroundColor="{Binding AlphabeticalBackgroundColor}"
                     TextColor="{Binding AlphabeticalTextColor}"
                     Text="Alphabetical"
+                    FontSize="{StaticResource AppBarButtonFontSize}"
                     Command="{Binding AlphabeticalCommand}"/>
                
-            </StackLayout>
+            </Grid>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

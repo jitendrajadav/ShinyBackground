@@ -1,5 +1,4 @@
 ﻿using FFImageLoading.Forms;
-using GalaSoft.MvvmLight;
 using System.Collections.ObjectModel;
 using Xamarin.Forms;
 

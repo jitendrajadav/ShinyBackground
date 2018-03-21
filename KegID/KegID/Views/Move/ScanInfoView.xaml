@@ -37,7 +37,7 @@
                 x:Name="lblDone"
                 HorizontalOptions="End"
                 Grid.ColumnSpan="2"
-                Text="Done"
+                Text="{Binding Resources[button_done]}"
                 Style="{StaticResource TopButtonTitleStyle}"
                 Command="{Binding DoneCommand}"
                 />

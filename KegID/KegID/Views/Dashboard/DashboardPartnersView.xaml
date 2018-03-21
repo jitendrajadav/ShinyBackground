@@ -179,7 +179,7 @@
                 <Button
                     BackgroundColor="{Binding AlphabeticalBackgroundColor}"
                     TextColor="{Binding AlphabeticalTextColor}"
-                    Text="{Binding Resources[menu_action_sort_alphabetical]"
+                    Text="{Binding Resources[menu_action_sort_alphabetical]}"
                     Command="{Binding AlphabeticalCommand}"/>
                
                 <Button

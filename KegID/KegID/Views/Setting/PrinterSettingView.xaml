@@ -36,7 +36,7 @@
                 x:Name="lblCancel"
                 Style="{StaticResource TopButtonTitleStyle}"
                 HorizontalOptions="Start"
-                Text="Cancel"
+                Text="{Binding Resources[dialog_print_negative]}"
                 Command="{Binding CancelCommand}"
                 />
 
@@ -45,7 +45,7 @@
                 Grid.Column="1"
                 Style="{StaticResource TopButtonTitleStyle}"
                 HorizontalOptions="End"
-                Text="Save"
+                Text="{Binding Resources[button_save]}"
                 Command="{Binding SaveCommand}"
                 />
 
@@ -116,7 +116,7 @@
 
             <Label 
                 Grid.Row="7"
-                Text="Bluetooth"
+                Text="{Binding Resources[pref_print_via_bluetooth]}"
                 TextColor="Black"
                 FontSize="Medium"
                 VerticalOptions="CenterAndExpand" 
@@ -142,7 +142,7 @@
 
             <Label 
                 Grid.Row="9"
-                Text="Port"
+                Text="{Binding Resources[pref_port]}"
                 TextColor="Black"
                 FontSize="Medium"
                 VerticalOptions="CenterAndExpand" 

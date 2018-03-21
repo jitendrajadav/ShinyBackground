@@ -17,7 +17,7 @@
             <Button 
                 x:Name="lblManifest"
                 Style="{StaticResource TopButtonTitleStyle}"
-                Text="Manifest"
+                Text="{Binding Resources[pref_template_manifest]}"
                 HorizontalOptions="Start"
                 Command="{Binding ManifestCommand}"
                 />

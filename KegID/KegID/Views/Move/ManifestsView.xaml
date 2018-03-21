@@ -24,13 +24,13 @@
             <Button
                 x:Name="lblHome"
                 Style="{StaticResource TopButtonTitleStyle}"
-                Text="Home"
+                Text="{Binding Resources[button_home]}"
                 HorizontalOptions="Start"
                 Command="{Binding HomeCommand}"
                 />
 
             <Label 
-                Text="Manifests"
+                Text="{Binding Resources[button_manifests]}"
                 FontAttributes="Bold"
                 VerticalOptions="Center" 
                 HorizontalOptions="Center" />

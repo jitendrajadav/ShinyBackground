@@ -26,7 +26,7 @@
                 Command="{Binding SearchManifestsCommand}"
                 />
 
-            <Label Text="Manifests"
+            <Label Text="{Binding Resources[title_manifest_list]}"
                 VerticalOptions="Center" 
                 HorizontalOptions="Center" />
             

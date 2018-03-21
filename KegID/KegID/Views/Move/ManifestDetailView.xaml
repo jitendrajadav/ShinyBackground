@@ -25,14 +25,14 @@
                 x:Name="lblHome"
                 Style="{StaticResource TopButtonTitleStyle}"
                 HorizontalOptions="Start"
-                Text="Home"
+                Text="{Binding Resources[button_home]}"
                 Command="{Binding ManifestsCommand}"
                 />
 
             <Label 
                 TextColor="Black"
                 Style="{StaticResource LabelTitleStyle}"
-                Text="Manifest"
+                Text="{Binding Resources[pref_template_manifest]}"
                 />
 
             <Image
@@ -233,7 +233,7 @@
                     FontSize="Medium"
                     TextColor="Black"
                     FontAttributes="Bold"
-                    Text="Total"/>
+                    Text="{Binding Resources[label_total]}"/>
 
                 <Label
                     Margin="5"
