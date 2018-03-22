@@ -17,40 +17,6 @@ namespace KegID.ViewModel
 
         string translatedNumber;
 
-        //#region Title
-
-        ///// <summary>
-        ///// The <see cref="Title" /> property's name.
-        ///// </summary>
-        //public const string TitlePropertyName = "Title";
-
-        //private string _Title = default(string);
-
-        ///// <summary>
-        ///// Sets and gets the Title property.
-        ///// Changes to that property's value raise the PropertyChanged event. 
-        ///// </summary>
-        //public string Title
-        //{
-        //    get
-        //    {
-        //        return _Title;
-        //    }
-
-        //    set
-        //    {
-        //        if (_Title == value)
-        //        {
-        //            return;
-        //        }
-
-        //        _Title = value;
-        //        RaisePropertyChanged(TitlePropertyName);
-        //    }
-        //}
-
-        //#endregion
-
         #region KegsHeld
 
         /// <summary>
@@ -85,74 +51,6 @@ namespace KegID.ViewModel
 
         #endregion
 
-        //#region ShipTo
-
-        ///// <summary>
-        ///// The <see cref="ShipTo" /> property's name.
-        ///// </summary>
-        //public const string ShipToPropertyName = "ShipTo";
-
-        //private string _ShipTo = "Ship To";
-
-        ///// <summary>
-        ///// Sets and gets the ShipTo property.
-        ///// Changes to that property's value raise the PropertyChanged event. 
-        ///// </summary>
-        //public string ShipTo
-        //{
-        //    get
-        //    {
-        //        return _ShipTo;
-        //    }
-
-        //    set
-        //    {
-        //        if (_ShipTo == value)
-        //        {
-        //            return;
-        //        }
-
-        //        _ShipTo = value;
-        //        RaisePropertyChanged(ShipToPropertyName);
-        //    }
-        //}
-
-        //#endregion
-
-        //#region BillTo
-
-        ///// <summary>
-        ///// The <see cref="BillTo" /> property's name.
-        ///// </summary>
-        //public const string BillToPropertyName = "BillTo";
-
-        //private string _BillTo = "Bill To";
-
-        ///// <summary>
-        ///// Sets and gets the BillTo property.
-        ///// Changes to that property's value raise the PropertyChanged event. 
-        ///// </summary>
-        //public string BillTo
-        //{
-        //    get
-        //    {
-        //        return _BillTo;
-        //    }
-
-        //    set
-        //    {
-        //        if (_BillTo == value)
-        //        {
-        //            return;
-        //        }
-
-        //        _BillTo = value;
-        //        RaisePropertyChanged(BillToPropertyName);
-        //    }
-        //}
-
-        //#endregion
-
         #region Contact
 
         /// <summary>
@@ -186,40 +84,6 @@ namespace KegID.ViewModel
         }
 
         #endregion
-
-        //#region Phone
-
-        ///// <summary>
-        ///// The <see cref="Phone" /> property's name.
-        ///// </summary>
-        //public const string PhonePropertyName = "Phone";
-
-        //private string _Phone = "Phone";
-
-        ///// <summary>
-        ///// Sets and gets the Phone property.
-        ///// Changes to that property's value raise the PropertyChanged event. 
-        ///// </summary>
-        //public string Phone
-        //{
-        //    get
-        //    {
-        //        return _Phone;
-        //    }
-
-        //    set
-        //    {
-        //        if (_Phone == value)
-        //        {
-        //            return;
-        //        }
-
-        //        _Phone = value;
-        //        RaisePropertyChanged(PhonePropertyName);
-        //    }
-        //}
-
-        //#endregion
 
         #region ContactEmail
 
@@ -391,40 +255,6 @@ namespace KegID.ViewModel
 
         #endregion
 
-        //#region Type
-
-        ///// <summary>
-        ///// The <see cref="Type" /> property's name.
-        ///// </summary>
-        //public const string TypePropertyName = "Type";
-
-        //private string _Type = "Type";
-
-        ///// <summary>
-        ///// Sets and gets the Type property.
-        ///// Changes to that property's value raise the PropertyChanged event. 
-        ///// </summary>
-        //public string Type
-        //{
-        //    get
-        //    {
-        //        return _Type;
-        //    }
-
-        //    set
-        //    {
-        //        if (_Type == value)
-        //        {
-        //            return;
-        //        }
-
-        //        _Type = value;
-        //        RaisePropertyChanged(TypePropertyName);
-        //    }
-        //}
-
-        //#endregion
-
         #region PartnerModel
 
         /// <summary>
@@ -468,6 +298,7 @@ namespace KegID.ViewModel
         public RelayCommand EditCommand { get; }
         public RelayCommand KegsCommand { get; }
         public RelayCommand ShipToCommand { get; }
+        public RelayCommand PhoneNumberCommand { get; }
 
         #endregion
 
@@ -480,12 +311,14 @@ namespace KegID.ViewModel
             EditCommand = new RelayCommand(EditCommandRecieverAsync);
             KegsCommand = new RelayCommand(KegsCommandRecieverAsync);
             ShipToCommand = new RelayCommand(ShipToCommandRecieverAsync);
+            PhoneNumberCommand = new RelayCommand(PhoneNumberCommandReciever);
+
             LoadPartnerInfoAsync();
         }
 
         private async void LoadPartnerInfoAsync()
         {
-            var value = await _dashboardService.GetPartnerInfoAsync(Configuration.SessionId, SimpleIoc.Default.GetInstance<DashboardPartnersViewModel>().PartnerId);
+            var value = await _dashboardService.GetPartnerInfoAsync(AppSettings.User.SessionId, SimpleIoc.Default.GetInstance<DashboardPartnersViewModel>().PartnerId);
             KegsHeld = value.KegsHeld.ToString();
             Notes = value.Notes;
             Ref = value.ReferenceKey;
@@ -505,6 +338,10 @@ namespace KegID.ViewModel
         {
             await Application.Current.MainPage.Navigation.PushModalAsync(new KegsView());
         }
+        private void PhoneNumberCommandReciever()
+        {
+            OnTranslate(null,null);
+        }
 
         void OnTranslate(object sender, EventArgs e)
         {
@@ -513,6 +350,7 @@ namespace KegID.ViewModel
             {
                 //callButton.IsEnabled = true;
                 //callButton.Text = "Call " + translatedNumber;
+                OnCall(null,null);
             }
             else
             {

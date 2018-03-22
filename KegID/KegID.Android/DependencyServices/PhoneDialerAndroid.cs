@@ -19,6 +19,7 @@ namespace KegID.Droid.DependencyServices
                 return Task.FromResult(false);
 
             var intent = new Intent(Intent.ActionCall);
+            intent.AddFlags(ActivityFlags.NewTask);
             intent.SetData(Uri.Parse("tel:" + number));
 
             if (IsIntentAvailable(context, intent))

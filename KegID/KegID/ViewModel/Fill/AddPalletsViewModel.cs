@@ -1,5 +1,4 @@
-﻿using GalaSoft.MvvmLight;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using KegID.Model;
 using GalaSoft.MvvmLight.Command;
 using Xamarin.Forms;
@@ -239,7 +238,7 @@ namespace KegID.ViewModel
                 newPallet.StockLocation = SimpleIoc.Default.GetInstance<FillViewModel>().PartnerModel.PartnerId;
                 newPallet.StockLocationId = SimpleIoc.Default.GetInstance<FillViewModel>().PartnerModel.PartnerId;
                 newPallet.StockLocationName = SimpleIoc.Default.GetInstance<FillViewModel>().PartnerModel.FullName;
-                newPallet.OwnerId = Configuration.CompanyId;
+                newPallet.OwnerId = AppSettings.User.CompanyId;
                 newPallet.PalletId = Uuid.GetUuId();
                 newPallet.PalletItems = palletItems;
                 newPallet.ReferenceKey = "";
@@ -264,11 +263,11 @@ namespace KegID.ViewModel
             {
                 try
                 {
-                    var manifestResult = await _moveService.PostManifestAsync(manifestModel, Configuration.SessionId, Configuration.NewManifest);
+                    var manifestResult = await _moveService.PostManifestAsync(manifestModel, AppSettings.User.SessionId, Configuration.NewManifest);
 
                     if (manifestResult != null)
                     {
-                        var manifest = await _moveService.GetManifestAsync(Configuration.SessionId, manifestResult.ManifestId);
+                        var manifest = await _moveService.GetManifestAsync(AppSettings.User.SessionId, manifestResult.ManifestId);
                         if (manifest.StatusCode == System.Net.HttpStatusCode.OK)
                         {
                             SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().TrackingNumber = manifest.TrackingNumber;

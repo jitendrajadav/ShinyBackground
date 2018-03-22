@@ -1,5 +1,4 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
+﻿using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
 using KegID.Model;
@@ -300,12 +299,11 @@ namespace KegID.ViewModel
                 
                 if (manifestPostModel != null)
                 {
-
                     try
                     {
-                        var result = await _moveService.PostManifestAsync(manifestPostModel, Configuration.SessionId, Configuration.NewManifest);
+                        var result = await _moveService.PostManifestAsync(manifestPostModel, AppSettings.User.SessionId, Configuration.NewManifest);
 
-                        var manifest = await _moveService.GetManifestAsync(Configuration.SessionId, result.ManifestId);
+                        var manifest = await _moveService.GetManifestAsync(AppSettings.User.SessionId, result.ManifestId);
                         if (manifest.StatusCode == System.Net.HttpStatusCode.OK)
                         {
                             SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().TrackingNumber = manifest.TrackingNumber;

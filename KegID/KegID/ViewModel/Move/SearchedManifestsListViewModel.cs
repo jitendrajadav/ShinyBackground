@@ -85,7 +85,7 @@ namespace KegID.ViewModel
             try
             {
                 Loader.StartLoading();
-                var manifest = await _moveService.GetManifestAsync(Configuration.SessionId, model.ManifestId);
+                var manifest = await _moveService.GetManifestAsync(AppSettings.User.SessionId, model.ManifestId);
                 if (manifest.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().TrackingNumber = manifest.TrackingNumber;

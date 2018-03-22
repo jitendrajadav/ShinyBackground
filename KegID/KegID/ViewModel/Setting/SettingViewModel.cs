@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
+using KegID.Common;
 using KegID.Services;
 using KegID.Views;
 using Rg.Plugins.Popup.Extensions;
@@ -52,6 +53,7 @@ namespace KegID.ViewModel
                 var result = await Application.Current.MainPage.DisplayAlert("Warning", "You have at least on draft item that will be deleted if you log out.", "Stay", "Log out");
                 if (!result)
                 {
+                    AppSettings.RemoveUserData();
                     await Application.Current.MainPage.Navigation.PopPopupAsync();
                     await Application.Current.MainPage.Navigation.PopModalAsync();
                 }

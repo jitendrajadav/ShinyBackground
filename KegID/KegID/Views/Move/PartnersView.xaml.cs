@@ -11,10 +11,10 @@ namespace KegID.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class PartnersView : ContentPage
 	{
-		public PartnersView ()
+        public PartnersView ()
 		{
 			InitializeComponent ();
-		}
+        }
 
         protected override void OnAppearing()
         {

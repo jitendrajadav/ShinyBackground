@@ -104,6 +104,9 @@
     <Compile Include="Renderers\CustomButtonRenderer.cs" />
     <Compile Include="Renderers\CustomMapRenderer.cs" />
     <Compile Include="Renderers\BlueNavigationRenderer.cs" />
+    <Compile Include="Renderers\NativeiOSListViewCell.cs" />
+    <Compile Include="Renderers\NativeiOSListViewRenderer.cs" />
+    <Compile Include="Renderers\NativeiOSListViewSource.cs" />
     <Compile Include="Renderers\ScannerViewRenderer.cs" />
     <Compile Include="Renderers\TintImageEffectRenderer.cs" />
     <None Include="Entitlements.plist" />
@@ -422,5 +425,10 @@
       <Project>{d5c32361-0b30-4fa3-bce6-49d790cfee42}</Project>
       <Name>KegID</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\KegID\Assets\triangle.png">
+      <Link>Resources\triangle.png</Link>
+    </BundleResource>
   </ItemGroup>
 </Project>

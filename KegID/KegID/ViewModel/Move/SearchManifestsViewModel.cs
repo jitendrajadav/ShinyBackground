@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
+using KegID.Common;
 using KegID.Services;
 using KegID.Views;
 using System;
@@ -282,7 +283,7 @@ namespace KegID.ViewModel
         #region Methods
         private async void SearchCommandRecieverAsync()
         {
-            var value = await _moveService.GetManifestSearchAsync(Configuration.SessionId, TrackingNumber, Barcode, ManifestSender, ManifestDestination, Referencekey, FromDate.ToString("MM/dd/yyyy", CultureInfo.CreateSpecificCulture("en-US")), ToDate.ToString("MM/dd/yyyy", CultureInfo.CreateSpecificCulture("en-US")));
+            var value = await _moveService.GetManifestSearchAsync(AppSettings.User.SessionId, TrackingNumber, Barcode, ManifestSender, ManifestDestination, Referencekey, FromDate.ToString("MM/dd/yyyy", CultureInfo.CreateSpecificCulture("en-US")), ToDate.ToString("MM/dd/yyyy", CultureInfo.CreateSpecificCulture("en-US")));
             SimpleIoc.Default.GetInstance<SearchedManifestsListViewModel>().SearchManifestsCollection = value.ManifestSearchResponseModel;
             await Application.Current.MainPage.Navigation.PushModalAsync(new SearchedManifestsListView());
         }

@@ -328,7 +328,7 @@ namespace KegID.ViewModel
 
         #region Methods
 
-        public async void GenerateManifestIdAsync(PalletModel palletModel)
+        public void GenerateManifestIdAsync(PalletModel palletModel)
         {
             DateTime now = DateTime.Now;
             string barCode;
@@ -338,7 +338,7 @@ namespace KegID.ViewModel
             var secondsInDayTillNow = SecondsInDayTillNow();
             var millisecond = now.Millisecond;
 
-            var preference = await SQLiteServiceClient.Db.Table<Preference>().Where(x => x.PreferenceName == "DashboardPreferences").ToListAsync();
+            var preference = AppSettings.User.Preferences.Where(x => x.PreferenceName == "DashboardPreferences").ToList();
             foreach (var item in preference)
             {
                 if (item.PreferenceValue.Contains("OldestKegs"))
@@ -363,7 +363,6 @@ namespace KegID.ViewModel
 
             return totalSeconds = seconds + (minutes * 60) + (hours * 3600);
         }
-
 
         private async void SubmitCommandRecieverAsync()
         {
@@ -392,7 +391,7 @@ namespace KegID.ViewModel
                 {
                     Barcode = ManifestId.Split('-').LastOrDefault(),
                     BuildDate = DateTime.Now,
-                    OwnerId = Configuration.CompanyId,
+                    OwnerId = AppSettings.User.CompanyId,
                     PalletId = Uuid.GetUuId(),
                     PalletItems = palletItems,
                     ReferenceKey = "",
@@ -402,7 +401,7 @@ namespace KegID.ViewModel
                     Tags = SimpleIoc.Default.GetInstance<ScanKegsViewModel>().Tags
                 };
 
-                var value = await _palletizeService.PostPalletAsync(palletRequestModel, Configuration.SessionId, Configuration.NewPallet);
+                var value = await _palletizeService.PostPalletAsync(palletRequestModel, AppSettings.User.SessionId, Configuration.NewPallet);
 
                 if (value.StatusCode == System.Net.HttpStatusCode.OK)
                 {

@@ -5,8 +5,8 @@
         /// <summary>
         /// Global SessionId
         /// </summary>
-        public static string SessionId;
-        public static string CompanyId;
+        //public static string SessionId;
+        //public static string CompanyId;
         public const string NewManifest = "NewManifest";
         public const string NewPartner = "NewPartner";
         public const string NewBatch = "Batch";

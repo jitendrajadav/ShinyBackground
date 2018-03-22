@@ -103,7 +103,7 @@ namespace KegID.ViewModel
                 {
                     Loader.StartLoading();
 
-                    var value = await _fillService.GetBatchListAsync(Configuration.SessionId);
+                    var value = await _fillService.GetBatchListAsync(AppSettings.User.SessionId);
                     if (value.StatusCode == System.Net.HttpStatusCode.OK)
                     {
                         BatchCollection = value.BatchModel.Where(p=>p.BrandName!= string.Empty).OrderBy(x => x.BrandName).ToList();

@@ -169,25 +169,52 @@
                 Grid.Row="3"
                 Spacing="0"
                 Orientation="Horizontal">
-                
+
                 <Button
+                    BorderWidth="1"
+                    BorderColor="#4E6388"
                     BackgroundColor="{Binding InternalBackgroundColor}"
                     TextColor="{Binding InternalTextColor}"
                     Text="{Binding Resources[menu_action_sort_internal]}"
-                    Command="{Binding InternalCommand}"/>
-                
+                    Command="{Binding InternalCommand}">
+                    <Button.Margin>
+                        <OnPlatform x:TypeArguments="Thickness">
+                            <On Platform="iOS, WinPhone, Windows, UWP" Value="0" />
+                            <On Platform="Android" Value="0,0,-4,0" />
+                        </OnPlatform>
+                    </Button.Margin>
+                </Button>
+
                 <Button
+                    BorderWidth="1"
+                    BorderColor="#4E6388"
                     BackgroundColor="{Binding AlphabeticalBackgroundColor}"
                     TextColor="{Binding AlphabeticalTextColor}"
                     Text="{Binding Resources[menu_action_sort_alphabetical]}"
-                    Command="{Binding AlphabeticalCommand}"/>
-               
+                    Command="{Binding AlphabeticalCommand}">
+                    <Button.Margin>
+                        <OnPlatform x:TypeArguments="Thickness">
+                            <On Platform="iOS, WinPhone, Windows, UWP" Value="0" />
+                            <On Platform="Android" Value="-4,0,-4,0" />
+                        </OnPlatform>
+                    </Button.Margin>
+                </Button>
+
                 <Button
+                    BorderWidth="1"
+                    BorderColor="#4E6388"
                     BackgroundColor="{Binding KegsHeldBackgroundColor}"
                     TextColor="{Binding KegsHeldTextColor}"
                     Text="{Binding Resources[menu_action_sort_kegs]}"
-                    Command="{Binding KegsHeldCommand}"/>
-
+                    Command="{Binding KegsHeldCommand}">
+                    <Button.Margin>
+                        <OnPlatform x:TypeArguments="Thickness">
+                            <On Platform="iOS, WinPhone, Windows, UWP" Value="0" />
+                            <On Platform="Android" Value="-4,0,0,0" />
+                        </OnPlatform>
+                    </Button.Margin>
+                </Button>
+                
             </StackLayout>
         </Grid>
     </ContentPage.Content>

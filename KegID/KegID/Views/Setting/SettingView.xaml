@@ -8,135 +8,166 @@
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Setting}">
 
     <StackLayout 
-        VerticalOptions="Center"
+        Spacing="0"
+        VerticalOptions="Start"
         HorizontalOptions="FillAndExpand"
-        Padding="20, 50, 20, 300">
-       
-        <StackLayout 
-            Spacing="0"
-            BackgroundColor="White">
+        Padding="20, 50, 20, 20">
+      
+        <Image
+            x:Name="imgTriangle"
+            HeightRequest="40"
+            Margin="0,0,10,0"
+            HorizontalOptions="End"                  
+            VerticalOptions="EndAndExpand">
 
-            <Label
-                Margin="20,0,10,0"
-                HeightRequest="50"
-                Style="{StaticResource LabelTitleStyle}"
-                x:Name="lblRefresh"
-                HorizontalOptions="StartAndExpand"
-                VerticalTextAlignment="Center"
-                TextColor="{StaticResource selectTextColor}"
-                Text="{Binding Resources[menu_action_refresh]}">
-                
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding Path=BindingContext.RefreshSettingCommand, 
+            <Image.Source>
+                <OnPlatform x:TypeArguments="FileImageSource">
+                    <OnPlatform.iOS>
+                        <FileImageSource File="triangle.png"/>
+                    </OnPlatform.iOS>
+                    <OnPlatform.Android>
+                        <FileImageSource File="triangle.png"/>
+                    </OnPlatform.Android>
+                    <OnPlatform.WinPhone>
+                        <FileImageSource File="Assets/triangle.png"/>
+                    </OnPlatform.WinPhone>
+                </OnPlatform>
+            </Image.Source>
+        </Image>
+
+        <StackLayout
+            Margin="0,-15,0,0"
+            Spacing="0"
+            BackgroundColor="Black">
+            
+            <StackLayout 
+                Margin="3"
+                Spacing="0"
+                BackgroundColor="White">
+
+                <Label
+                    Margin="20,0,10,0"
+                    HeightRequest="50"
+                    Style="{StaticResource LabelTitleStyle}"
+                    x:Name="lblRefresh"
+                    HorizontalOptions="StartAndExpand"
+                    VerticalTextAlignment="Center"
+                    TextColor="{StaticResource selectTextColor}"
+                    Text="{Binding Resources[menu_action_refresh]}">
+
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Path=BindingContext.RefreshSettingCommand, 
                                                         Source={x:Reference Name=lblRefresh}}"
                                                          CommandParameter="{Binding}"/>
-                </Label.GestureRecognizers>
-            </Label>
+                    </Label.GestureRecognizers>
+                </Label>
 
-            <BoxView
-                BackgroundColor="LightGray"
-                HeightRequest="1"
-                VerticalOptions="Start"
-                HorizontalOptions="FillAndExpand"/>
+                <BoxView
+                    BackgroundColor="LightGray"
+                    HeightRequest="1"
+                    VerticalOptions="Start"
+                    HorizontalOptions="FillAndExpand"/>
 
-            <Label
-                Margin="20,0,0,0"
-                HeightRequest="50"
-                x:Name="lblPrinterSettings"
-                BackgroundColor="Transparent"
-                FontSize="Medium"
-                HorizontalOptions="StartAndExpand"
-                HorizontalTextAlignment="Start"
-                VerticalOptions="CenterAndExpand"
-                VerticalTextAlignment="Center"
-                TextColor="{StaticResource selectTextColor}"
-                Text="Printer Settings">
-               
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding Path=BindingContext.PrinterSettingCommand, 
+                <Label
+                    Margin="20,0,0,0"
+                    HeightRequest="50"
+                    x:Name="lblPrinterSettings"
+                    BackgroundColor="Transparent"
+                    FontSize="Medium"
+                    HorizontalOptions="StartAndExpand"
+                    HorizontalTextAlignment="Start"
+                    VerticalOptions="CenterAndExpand"
+                    VerticalTextAlignment="Center"
+                    TextColor="{StaticResource selectTextColor}"
+                    Text="Printer Settings">
+
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Path=BindingContext.PrinterSettingCommand, 
                                                         Source={x:Reference Name=lblPrinterSettings}}"
                                                          CommandParameter="{Binding}"/>
-                </Label.GestureRecognizers>
-            </Label>
+                    </Label.GestureRecognizers>
+                </Label>
 
-            <BoxView
-                BackgroundColor="LightGray"
-                HeightRequest="1"
-                VerticalOptions="Start"
-                HorizontalOptions="FillAndExpand"/>
+                <BoxView
+                    BackgroundColor="LightGray"
+                    HeightRequest="1"
+                    VerticalOptions="Start"
+                    HorizontalOptions="FillAndExpand"/>
 
-            <Label
-                Margin="20,0,0,0"
-                HeightRequest="50"
-                x:Name="lblWhatsNew"
-                BackgroundColor="Transparent"
-                VerticalOptions="CenterAndExpand"
-                HorizontalOptions="StartAndExpand"
-                HorizontalTextAlignment="Start"
-                VerticalTextAlignment="Center"
-                TextColor="{StaticResource selectTextColor}"
-                Text="What's New"
-                FontSize="Medium">
-                
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding Path=BindingContext.WhatsNewCommand, 
+                <Label
+                    Margin="20,0,0,0"
+                    HeightRequest="50"
+                    x:Name="lblWhatsNew"
+                    BackgroundColor="Transparent"
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="StartAndExpand"
+                    HorizontalTextAlignment="Start"
+                    VerticalTextAlignment="Center"
+                    TextColor="{StaticResource selectTextColor}"
+                    Text="What's New"
+                    FontSize="Medium">
+
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Path=BindingContext.WhatsNewCommand, 
                                                         Source={x:Reference Name=lblWhatsNew}}"
                                                          CommandParameter="{Binding}"/>
-                </Label.GestureRecognizers>
-            </Label>
+                    </Label.GestureRecognizers>
+                </Label>
 
-            <BoxView
-                BackgroundColor="LightGray"
-                HeightRequest="1"
-                VerticalOptions="Start"
-                HorizontalOptions="FillAndExpand"/>
+                <BoxView
+                    BackgroundColor="LightGray"
+                    HeightRequest="1"
+                    VerticalOptions="Start"
+                    HorizontalOptions="FillAndExpand"/>
 
-            <Label
-                Margin="20,0,0,0"
-                HeightRequest="50"
-                x:Name="lblSupport"
-                VerticalOptions="CenterAndExpand"
-                VerticalTextAlignment="Center"
-                HorizontalOptions="StartAndExpand"
-                HorizontalTextAlignment="Start"
-                BackgroundColor="Transparent"
-                TextColor="{StaticResource selectTextColor}"
-                Text="{Binding Resources[menu_action_support]}"
-                FontSize="Medium">
-                
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding Path=BindingContext.SupportCommand, 
+                <Label
+                    Margin="20,0,0,0"
+                    HeightRequest="50"
+                    x:Name="lblSupport"
+                    VerticalOptions="CenterAndExpand"
+                    VerticalTextAlignment="Center"
+                    HorizontalOptions="StartAndExpand"
+                    HorizontalTextAlignment="Start"
+                    BackgroundColor="Transparent"
+                    TextColor="{StaticResource selectTextColor}"
+                    Text="{Binding Resources[menu_action_support]}"
+                    FontSize="Medium">
+
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Path=BindingContext.SupportCommand, 
                                                         Source={x:Reference Name=lblSupport}}"
                                                          CommandParameter="{Binding}"/>
-                </Label.GestureRecognizers>
-            </Label>
+                    </Label.GestureRecognizers>
+                </Label>
 
-            <BoxView
-                BackgroundColor="LightGray"
-                HeightRequest="1"
-                VerticalOptions="Start"
-                HorizontalOptions="FillAndExpand"/>
+                <BoxView
+                    BackgroundColor="LightGray"
+                    HeightRequest="1"
+                    VerticalOptions="Start"
+                    HorizontalOptions="FillAndExpand"/>
 
-            <Label
-                Margin="20,0,0,0"
-                HeightRequest="50"
-                x:Name="lblLogOut"
-                VerticalOptions="CenterAndExpand"
-                VerticalTextAlignment="Center"
-                HorizontalOptions="StartAndExpand"
-                HorizontalTextAlignment="Start"
-                BackgroundColor="Transparent"
-                TextColor="{StaticResource selectTextColor}"
-                Text="{Binding Resources[menu_action_logout]}"
-                FontSize="Medium">
-                
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding Path=BindingContext.LogOutSettingCommand, 
+                <Label
+                    Margin="20,0,0,0"
+                    HeightRequest="50"
+                    x:Name="lblLogOut"
+                    VerticalOptions="CenterAndExpand"
+                    VerticalTextAlignment="Center"
+                    HorizontalOptions="StartAndExpand"
+                    HorizontalTextAlignment="Start"
+                    BackgroundColor="Transparent"
+                    TextColor="{StaticResource selectTextColor}"
+                    Text="{Binding Resources[menu_action_logout]}"
+                    FontSize="Medium">
+
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Path=BindingContext.LogOutSettingCommand, 
                                                         Source={x:Reference Name=lblLogOut}}"
                                                          CommandParameter="{Binding}"/>
-                </Label.GestureRecognizers>
-            </Label>
-            
+                    </Label.GestureRecognizers>
+                </Label>
+
+            </StackLayout>
+
         </StackLayout>
         
     </StackLayout>

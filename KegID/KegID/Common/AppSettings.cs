@@ -137,9 +137,9 @@ namespace KegID.Common
             set => Settings.AddOrUpdateValue(nameof(FallbackMapsLocation), value);
         }
 
-        public static User User
+        public static LoginModel User
         {
-            get => Settings.GetValueOrDefault(nameof(User), default(User));
+            get => Settings.GetValueOrDefault(nameof(User), default(LoginModel));
 
             set => Settings.AddOrUpdateValue(nameof(User), value);
         }

@@ -1,5 +1,4 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
+﻿using GalaSoft.MvvmLight.Command;
 using KegID.Common;
 using KegID.Model;
 using KegID.Services;
@@ -114,7 +113,7 @@ namespace KegID.ViewModel
             try
             {
                 Loader.StartLoading();
-                var value = await _dashboardService.GetInventoryAsync(Configuration.SessionId);
+                var value = await _dashboardService.GetInventoryAsync(AppSettings.User.SessionId);
                 StockInventoryCollection = value.InventoryResponseModel.Where(x => x.Status != "Empty").ToList();
                 EnptyInventoryCollection = value.InventoryResponseModel.Where(x => x.Status == "Empty").ToList();
             }

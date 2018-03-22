@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
@@ -275,7 +274,6 @@ namespace KegID.ViewModel
         public RelayCommand AddNewPartnerCommand { get; }
         public RelayCommand BackCommand { get; }
         public RelayCommand TextChangedCommand { get; }
-
         #endregion
 
         #region Constructor
@@ -290,26 +288,12 @@ namespace KegID.ViewModel
             AddNewPartnerCommand = new RelayCommand(AddNewPartnerCommandRecieverAsync);
             BackCommand = new RelayCommand(BackCommandRecieverAsync);
             TextChangedCommand = new RelayCommand(TextChangedCommandRecieverAsync);
-
             InternalBackgroundColor = "#4E6388";
             InternalTextColor = "White";
 
-            #region Old Code
-            //PartnerCollection = new InfiniteScrollCollection<PartnerModel>
-            //{
-            //    OnLoadMore = async () =>
-            //    {
-            //        // load the next page
-            //        var page = PartnerCollection.Count / PageSize;
-            //        //var items = await dataSource.GetItemsAsync(page + 1, PageSize);
-            //        var items = await SQLiteServiceClient.Db.Table<PartnerModel>().ToListAsync();
-            //        return items;
-            //    }
-            //};
-            #endregion
-
             LoadPartnersAsync();
         }
+
 
         #endregion
 
@@ -369,7 +353,7 @@ namespace KegID.ViewModel
             }
         }
 
-        private async void LoadPartnersAsync()
+        public async void LoadPartnersAsync()
         {
             AllPartners = await SQLiteServiceClient.Db.Table<PartnerModel>().ToListAsync();
 
@@ -380,10 +364,18 @@ namespace KegID.ViewModel
                 else
                 {
                     Loader.StartLoading();
-                    var value = await _moveService.GetPartnersListAsync(Configuration.SessionId);
+                    var value = await _moveService.GetPartnersListAsync(AppSettings.User.SessionId);
                     if (value.StatusCode == System.Net.HttpStatusCode.OK)
                     {
-                        AllPartners = value.PartnerModel.Where(x=>x.FullName != string.Empty).ToList();
+                        try
+                        {
+                            AllPartners = value.PartnerModel.Where(x => x.FullName != string.Empty).ToList();
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.WriteLine(ex.Message);
+
+                        }
                         if ((Application.Current.MainPage.Navigation.ModalStack[Application.Current.MainPage.Navigation.ModalStack.Count - 2].GetType().Name) == ViewTypeEnum.FillView.ToString())
                             SetFillViewFilter();
                         else

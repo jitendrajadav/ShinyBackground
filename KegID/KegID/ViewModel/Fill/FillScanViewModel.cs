@@ -293,7 +293,7 @@ namespace KegID.ViewModel
             IconItemTappedCommand = new RelayCommand<Barcode>((model) => IconItemTappedCommandRecieverAsync(model));
         }
 
-        public async void GenerateManifestIdAsync(PalletModel palletModel)
+        public void GenerateManifestIdAsync(PalletModel palletModel)
         {
             DateTime now = DateTime.Now;
             string barCode;
@@ -314,7 +314,7 @@ namespace KegID.ViewModel
                 {
                     BarcodeCollection.Clear();
 
-                    var preference = await SQLiteServiceClient.Db.Table<Preference>().Where(x => x.PreferenceName == "DashboardPreferences").ToListAsync();
+                    var preference = AppSettings.User.Preferences.Where(x => x.PreferenceName == "DashboardPreferences").ToList();
                     foreach (var item in preference)
                     {
                         if (item.PreferenceValue.Contains("OldestKegs"))
@@ -400,7 +400,7 @@ namespace KegID.ViewModel
 
         private async Task ValidateBarcodeInsertIntoLocalDB(string barcodeId)
         {
-            ValidateBarcodeModel validateBarcodeModel = await _moveService.GetValidateBarcodeAsync(Configuration.SessionId, barcodeId);
+            ValidateBarcodeModel validateBarcodeModel = await _moveService.GetValidateBarcodeAsync(AppSettings.User.SessionId, barcodeId);
 
             Barcode barcode = new Barcode
             {

@@ -309,7 +309,7 @@ namespace KegID.ViewModel
                 else
                 {
                     Loader.StartLoading();
-                    var value = await _moveService.GetBrandListAsync(Configuration.SessionId);
+                    var value = await _moveService.GetBrandListAsync(AppSettings.User.SessionId);
 
                     if (value.StatusCode == System.Net.HttpStatusCode.OK)
                     {
@@ -494,7 +494,7 @@ namespace KegID.ViewModel
 
         private async Task ValidateBarcodeInsertIntoLocalDB(string barcodeId)
         {
-            ValidateBarcodeModel validateBarcodeModel = await _moveService.GetValidateBarcodeAsync(Configuration.SessionId, barcodeId);
+            ValidateBarcodeModel validateBarcodeModel = await _moveService.GetValidateBarcodeAsync(AppSettings.User.SessionId, barcodeId);
 
             Barcode barcode = new Barcode
             {

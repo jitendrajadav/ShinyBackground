@@ -131,7 +131,7 @@ namespace KegID.ViewModel
 
             if (MaintainTypeReponseModel.Count == 0)
             {
-                var model = await _maintainService.GetMaintainTypeAsync(Configuration.SessionId);
+                var model = await _maintainService.GetMaintainTypeAsync(AppSettings.User.SessionId);
                 try
                 {
                     // The item does not exists in the database so lets insert it
@@ -200,7 +200,7 @@ namespace KegID.ViewModel
 
         private async Task ValidateBarcodeInsertIntoLocalDB(string barcodeId)
         {
-            ValidateBarcodeModel validateBarcodeModel = await _moveService.GetValidateBarcodeAsync(Configuration.SessionId, barcodeId);
+            ValidateBarcodeModel validateBarcodeModel = await _moveService.GetValidateBarcodeAsync(AppSettings.User.SessionId, barcodeId);
 
             Barcode barcode = new Barcode
             {
@@ -339,7 +339,7 @@ namespace KegID.ViewModel
                     model.MaintenanceDoneRequestModel.Longitude = (long)Geolocation.savedPosition.Longitude;
                     model.MaintenanceDoneRequestModel.Tags = new List<MaintenanceDoneRequestModelTag>();
 
-                    KegIDResponse kegIDResponse = await _maintainService.PostMaintenanceDoneAsync(model.MaintenanceDoneRequestModel, Configuration.SessionId, Configuration.PostedMaintenanceDone);
+                    KegIDResponse kegIDResponse = await _maintainService.PostMaintenanceDoneAsync(model.MaintenanceDoneRequestModel, AppSettings.User.SessionId, Configuration.PostedMaintenanceDone);
 
                     if (kegIDResponse.StatusCode == System.Net.HttpStatusCode.NoContent)
                     {

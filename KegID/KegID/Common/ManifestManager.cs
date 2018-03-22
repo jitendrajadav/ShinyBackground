@@ -1,5 +1,4 @@
 ﻿using KegID.Model;
-using KegID.Services;
 using KegID.SQLiteClient;
 using Newtonsoft.Json;
 using System;
@@ -64,7 +63,7 @@ namespace KegID.Common
                     SubmittedDate = DateTime.Today,
                     ShipDate = DateTime.Today,
 
-                    SenderId = Configuration.CompanyId,
+                    SenderId = AppSettings.User.CompanyId,
                     ReceiverId = partnerModel.PartnerId,
                     //DestinationName = partnerModel.FullName,
                     //DestinationTypeCode = partnerModel.LocationCode,

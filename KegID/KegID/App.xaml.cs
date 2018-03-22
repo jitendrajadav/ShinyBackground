@@ -8,7 +8,6 @@ using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Xamarin.Forms;
-using Xamarin.Forms.Maps;
 
 namespace KegID
 {
@@ -26,9 +25,9 @@ namespace KegID
             }
         }
 
-        public App ()
-		{
-			InitializeComponent();
+        public App()
+        {
+            InitializeComponent();
 
             #region Services Register
             if (!SimpleIoc.Default.IsRegistered<IAccountService>())
@@ -51,8 +50,10 @@ namespace KegID
 
             #endregion
 
+            if (AppSettings.User != null)
+                MainPage = new MainPage();
+            else
             MainPage = new LoginView();
-            
 
             // for Nagivation use will check later...
             //MainPage = new NavigationPage(new LoginView())

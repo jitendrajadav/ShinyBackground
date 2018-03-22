@@ -200,6 +200,5 @@
 
   <ItemGroup>
     <Folder Include="Model\Response\Fill\" />
-    <Folder Include="Assets\" />
   </ItemGroup>
 </Project>

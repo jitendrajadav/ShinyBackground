@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using KegID.Common;
 using KegID.Services;
@@ -438,7 +437,7 @@ namespace KegID.ViewModel
                 else
                 {
                     Loader.StartLoading();
-                    var value = await _moveService.GetPartnersListAsync(Configuration.SessionId);
+                    var value = await _moveService.GetPartnersListAsync(AppSettings.User.SessionId);
                     if (value.StatusCode == System.Net.HttpStatusCode.OK)
                     {
                         AllPartners = value.PartnerModel.Where(x=>x.FullName != string.Empty).ToList();

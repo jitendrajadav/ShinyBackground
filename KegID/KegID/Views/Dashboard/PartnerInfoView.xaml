@@ -26,6 +26,7 @@
                 />
 
             <Label 
+                HorizontalOptions="Center"
                 Style="{StaticResource LabelTitleStyle}"
                 Text="{Binding Resources[title_partner_info]}"
                 VerticalOptions="Center"/>
@@ -109,6 +110,7 @@
                         BackgroundColor="Transparent"
                         Grid.Row="3"
                         HorizontalOptions="Start"
+                        Command="{Binding PhoneNumberCommand}"
                         Text="{Binding PartnerModel.PhoneNumber}"/>
 
                     <Button

@@ -901,7 +901,7 @@ namespace KegID.ViewModel
                 LocationCode = LocationCode,
                 LocationStatus = LocationStatus,
                 Notes = Notes,
-                ParentPartnerId = IsInternalOn ? Configuration.CompanyId : Uuid.GetUuId(),
+                ParentPartnerId = IsInternalOn ? AppSettings.User.CompanyId : Uuid.GetUuId(),
                 PartnerId = Uuid.GetUuId(),
                 PartnerName = PartnerName,
                 PartnerTypeCode = SelectedPartnerType.Code,
@@ -918,7 +918,7 @@ namespace KegID.ViewModel
             try
             {
                 Loader.StartLoading();
-                var result = await _moveService.PostNewPartnerAsync(newPartnerRequestModel, Configuration.SessionId, RequestType: Configuration.NewPartner);
+                var result = await _moveService.PostNewPartnerAsync(newPartnerRequestModel, AppSettings.User.SessionId, RequestType: Configuration.NewPartner);
 
                 if (result != null)
                 {
@@ -981,7 +981,7 @@ namespace KegID.ViewModel
                 else
                 {
                     Loader.StartLoading();
-                    var value = await _moveService.GetPartnerTypeAsync(Configuration.SessionId);
+                    var value = await _moveService.GetPartnerTypeAsync(AppSettings.User.SessionId);
                     if (value.StatusCode == System.Net.HttpStatusCode.OK)
                     {
                         PartnerTypeCollectioin = value.PartnerTypeModel;

@@ -2,7 +2,6 @@
 using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
 using KegID.Model;
-using KegID.Services;
 using KegID.Views;
 using System;
 using System.Collections.Generic;
@@ -471,13 +470,13 @@ namespace KegID.ViewModel
             NewBatchModel.BrewDate = BrewDate;
             NewBatchModel.BrewedVolume = Convert.ToInt64(VolumeDigit);
             NewBatchModel.BrewedVolumeUom = VolumeChar;
-            NewBatchModel.CompanyId = Configuration.CompanyId;
+            NewBatchModel.CompanyId = AppSettings.User.CompanyId;
             NewBatchModel.CompletedDate = DateTime.Today.ToString();
             NewBatchModel.IsCompleted = true;
             NewBatchModel.PackageDate = PackageDate.ToString();
             NewBatchModel.PackagedVolume = 12;
             NewBatchModel.PackagedVolumeUom = "";
-            NewBatchModel.RecipeId = Configuration.CompanyId;
+            NewBatchModel.RecipeId = AppSettings.User.CompanyId;
             NewBatchModel.SourceKey = "";
 
             //var result = await _fillService.PostBatchAsync(batchRequestModel, Configuration.SessionId, Configuration.NewBatch);

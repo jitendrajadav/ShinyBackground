@@ -75,24 +75,51 @@
                 VerticalOptions="Center"
                 Grid.Row="2"
                 Orientation="Horizontal">
-                
+
                 <Button
+                    BorderWidth="1"
+                    BorderColor="#4E6388"
                     TextColor="{Binding QueuedTextColor}"
                     BackgroundColor="{Binding QueuedBackgroundColor}"
                     Command="{Binding QueuedCommand}"
-                    Text="Queued"/>
+                    Text="Queued">
+                    <Button.Margin>
+                        <OnPlatform x:TypeArguments="Thickness">
+                            <On Platform="iOS, WinPhone, Windows, UWP" Value="0" />
+                            <On Platform="Android" Value="0,0,-4,0" />
+                        </OnPlatform>
+                    </Button.Margin>
+                </Button>
 
                 <Button
+                    BorderWidth="1"
+                    BorderColor="#4E6388"
                     TextColor="{Binding DraftTextColor}"
                     BackgroundColor="{Binding DraftBackgroundColor}"
                     Command="{Binding DraftCommand}"
-                    Text="Draft"/>
-                
+                    Text="Draft">
+                    <Button.Margin>
+                        <OnPlatform x:TypeArguments="Thickness">
+                            <On Platform="iOS, WinPhone, Windows, UWP" Value="0" />
+                            <On Platform="Android" Value="-4,0,-4,0" />
+                        </OnPlatform>
+                    </Button.Margin>
+                </Button>
+
                 <Button
+                    BorderWidth="1"
+                    BorderColor="#4E6388"
                     TextColor="{Binding RecentTextColor}"
                     BackgroundColor="{Binding RecentBackgroundColor}"
                     Command="{Binding RecentCommand}"
-                    Text="Recent"/>
+                    Text="Recent">
+                    <Button.Margin>
+                        <OnPlatform x:TypeArguments="Thickness">
+                            <On Platform="iOS, WinPhone, Windows, UWP" Value="0" />
+                            <On Platform="Android" Value="-4,0,0,0" />
+                        </OnPlatform>
+                    </Button.Margin>
+                </Button>
 
             </StackLayout>
             

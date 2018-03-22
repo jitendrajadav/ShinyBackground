@@ -10,6 +10,7 @@ using FFImageLoading.Forms.Droid;
 using KegID.Droid.DependencyServices;
 using Plugin.CrossPlatformTintedImage.Android;
 using Plugin.Permissions;
+using Xamarin.Forms;
 
 namespace KegID.Droid
 {
@@ -22,8 +23,11 @@ namespace KegID.Droid
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(bundle);
-            Xamarin.Forms.DependencyService.Register<OpenAppService>();
-            Xamarin.Forms.Forms.Init(this, bundle);
+            DependencyService.Register<OpenAppService>();
+
+            Forms.SetFlags("FastRenderers_Experimental");
+
+            Forms.Init(this, bundle);
             UserDialogs.Init(this);
             CarouselViewRenderer.Init();
             CachedImageRenderer.Init(true);

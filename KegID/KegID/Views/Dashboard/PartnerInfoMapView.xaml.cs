@@ -14,8 +14,9 @@ namespace KegID.Views
         public PartnerInfoMapView ()
 		{
 			InitializeComponent ();
-            map = new Map
-            {
+            map = new Map(MapSpan.FromCenterAndRadius(
+                    new Position((long)Geolocation.savedPosition.Latitude, (long)Geolocation.savedPosition.Longitude), Distance.FromMiles(0.3)))
+            {  
                 IsShowingUser = true,
                 HeightRequest = 100,
                 WidthRequest = 960,
@@ -23,8 +24,8 @@ namespace KegID.Views
             };
             //MapHelper.CenterMapInDefaultLocation(MapControl);
 
-            map.MoveToRegion(MapSpan.FromCenterAndRadius(
-    new Position((long)Geolocation.savedPosition.Latitude, (long)Geolocation.savedPosition.Longitude), Distance.FromMiles(0))); // Santa Cruz golf course
+    //        map.MoveToRegion(MapSpan.FromCenterAndRadius(
+    //new Position((long)Geolocation.savedPosition.Latitude, (long)Geolocation.savedPosition.Longitude), Distance.FromMiles(0))); // Santa Cruz golf course
 
             var position = new Position((long)Geolocation.savedPosition.Latitude, (long)Geolocation.savedPosition.Longitude); // Latitude, Longitude
             var pin = new Pin

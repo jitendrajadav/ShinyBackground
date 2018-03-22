@@ -153,6 +153,8 @@
     <Compile Include="Renderers\ContentPageRenderer.cs" />
     <Compile Include="Renderers\CustomButtonRenderer.cs" />
     <Compile Include="Renderers\CustomMapRenderer.cs" />
+    <Compile Include="Renderers\NativeAndroidListViewAdapter.cs" />
+    <Compile Include="Renderers\NativeAndroidListViewRenderer.cs" />
     <Compile Include="Renderers\ScannerViewRenderer.cs" />
     <Compile Include="Renderers\CustomeSwitchRenderer.cs" />
     <Compile Include="Renderers\TintImageEffectRenderer.cs" />
@@ -162,6 +164,9 @@
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
+    <AndroidResource Include="Resources\layout\NativeAndroidListViewCell.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\icon.png" />
@@ -390,6 +395,17 @@
   <ItemGroup>
     <AndroidResource Include="..\KegID\Assets\tags.png">
       <Link>Resources\drawable\tags.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\CustomSelector.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\values\Colors.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\KegID\Assets\triangle.png">
+      <Link>Resources\drawable\triangle.png</Link>
     </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

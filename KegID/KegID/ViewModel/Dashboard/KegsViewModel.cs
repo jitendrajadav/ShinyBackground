@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
+using KegID.Common;
 using KegID.Model;
 using KegID.Services;
 using Xamarin.Forms;
@@ -97,7 +96,7 @@ namespace KegID.ViewModel
 
         private async void LoadKegPossessionAsync()
         {
-            var value = await _dashboardService.GetKegPossessionAsync(Configuration.SessionId, SimpleIoc.Default.GetInstance<DashboardPartnersViewModel>().PartnerId);
+            var value = await _dashboardService.GetKegPossessionAsync(AppSettings.User.SessionId, SimpleIoc.Default.GetInstance<DashboardPartnersViewModel>().PartnerId);
             KegPossessionCollection = value.KegPossessionResponseModel;
             KegsTitle = KegPossessionCollection.FirstOrDefault().PossessorName;
         }

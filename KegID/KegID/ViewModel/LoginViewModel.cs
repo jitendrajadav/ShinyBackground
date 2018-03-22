@@ -1,8 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using KegID.Common;
-using KegID.Model;
 using KegID.Services;
-using KegID.SQLiteClient;
 using KegID.Views;
 using Microsoft.AppCenter.Analytics;
 using System;
@@ -139,7 +137,6 @@ namespace KegID.ViewModel
             //Username = "test@kegid.com";
             //Password = "beer2keg";
             BgImage = GetIconByPlatform.GetIcon("kegbg.png");
-            LoginCommandReciever();
         }
 
         #endregion
@@ -155,62 +152,20 @@ namespace KegID.ViewModel
             });
         }
 
-        private async void LoginCommandReciever()
-        {
-            LoginModel globalData = null;
-            try
-            {
-                Loader.StartLoading();
-                globalData = await SQLiteServiceClient.Db.Table<LoginModel>().FirstOrDefaultAsync();
-
-                if (globalData != null)
-                {
-                    Configuration.SessionId = globalData.SessionId;
-                    Configuration.CompanyId = globalData.CompanyId;
-                    //await Application.Current.MainPage.Navigation.PushModalAsync(new KegIDMasterPage());
-                    await Application.Current.MainPage.Navigation.PushModalAsync(new MainPage());
-                    //await Application.Current.MainPage.Navigation.PushModalAsync(new CognexScanView());
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
-            finally
-            {
-                Loader.StopLoading();
-                globalData = null;
-                Analytics.TrackEvent("Loged In");
-            }
-        }
-
         private async void LoginCommandRecieverAsync()
         {
-            LoginModel Result = null;
             try
             {
                 Loader.StartLoading();
-                var globalData = await SQLiteServiceClient.Db.Table<LoginModel>().FirstOrDefaultAsync();
-                if (globalData == null)
+                var model = await _accountService.AuthenticateAsync(Username, Password);
+                if (model.StatusCode == System.Net.HttpStatusCode.OK)
                 {
-                    var value = await _accountService.AuthenticateAsync(Username, Password);
-                    if (value.StatusCode == System.Net.HttpStatusCode.OK)
-                    {
-                        Result = value.LoginModel;
-                        await SQLiteServiceClient.Db.InsertAsync(Result);
-                        await SQLiteServiceClient.Db.InsertAllAsync(Result.Preferences);
-                        Configuration.SessionId = Result.SessionId;
-                        Configuration.CompanyId = Result.CompanyId;
-                    }
-                }
-                if (Application.Current.MainPage.Navigation.ModalStack.Count <= 1)
-                {
-                    //await Application.Current.MainPage.Navigation.PushModalAsync(new KegIDMasterPage());
+                    AppSettings.User = model.LoginModel;
                     await Application.Current.MainPage.Navigation.PushModalAsync(new MainPage());
                 }
                 else
                 {
-                    await Application.Current.MainPage.Navigation.PopModalAsync();
+                  await Application.Current.MainPage.DisplayAlert("Error","Error while login please check","Ok");
                 }
             }
             catch (Exception ex)
@@ -220,14 +175,13 @@ namespace KegID.ViewModel
             finally
             {
                 Loader.StopLoading();
-                Result = null;
+                Analytics.TrackEvent("Loged In");
             }
         }
 
         internal async void InvalideServiceCallAsync()
         {
-            await SQLiteServiceClient.Db.DeleteAllAsync<LoginModel>();
-            await SQLiteServiceClient.Db.DeleteAllAsync<Preference>();
+            AppSettings.RemoveUserData();
             await Application.Current.MainPage.Navigation.PushModalAsync(new LoginView());
         }
         #endregion

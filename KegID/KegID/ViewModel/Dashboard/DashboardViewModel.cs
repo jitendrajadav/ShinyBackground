@@ -1,5 +1,4 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
+﻿using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
 using KegID.Model;
@@ -415,7 +414,7 @@ namespace KegID.ViewModel
                 if (refresh)
                     await Application.Current.MainPage.Navigation.PopPopupAsync();
 
-                Result = await _dashboardService.GetDeshboardDetailAsync(Configuration.SessionId);
+                Result = await _dashboardService.GetDeshboardDetailAsync(AppSettings.User.SessionId);
                 Stock = Result.Stock.ToString("0,0", CultureInfo.InvariantCulture);
                 //Stock= System.String.Format(CultureInfo.InvariantCulture,
                 //                 "{0:0,0}", Result.Stock.ToString("0,0", CultureInfo.InvariantCulture));
