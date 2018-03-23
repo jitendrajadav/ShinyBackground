@@ -47,13 +47,14 @@
                     TextColor="Black"
                     HorizontalOptions="CenterAndExpand" />
 
-                <Image
+                <controls:TintedImage
                     x:Name="imgSearch"
+                    TintColor="{StaticResource selectTextColor}"
                     HeightRequest="30"
                     HorizontalOptions="Center"                  
                     VerticalOptions="Center">
-                    
-                    <Image.Source>
+
+                    <controls:TintedImage.Source>
                         <OnPlatform x:TypeArguments="FileImageSource">
                             <OnPlatform.iOS>
                                 <FileImageSource File="actionsearch.png"/>
@@ -65,23 +66,24 @@
                                 <FileImageSource File="Assets/actionsearch.png"/>
                             </OnPlatform.WinPhone>
                         </OnPlatform>
-                    </Image.Source>
-                   
-                    <Image.GestureRecognizers>
+                    </controls:TintedImage.Source>
+
+                    <controls:TintedImage.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding Path=BindingContext.SearchPartnerCommand, 
                                                         Source={x:Reference Name=imgSearch}}"
                                                          CommandParameter="{Binding}"/>
 
-                    </Image.GestureRecognizers>
-                </Image>
+                    </controls:TintedImage.GestureRecognizers>
+                </controls:TintedImage>
 
-                <Image
+                <controls:TintedImage
                     x:Name="imgAdd"
+                    TintColor="{StaticResource selectTextColor}"
                     HeightRequest="30"
                     HorizontalOptions="Center"                  
                     VerticalOptions="Center">
 
-                    <Image.Source>
+                    <controls:TintedImage.Source>
                         <OnPlatform x:TypeArguments="FileImageSource">
                             <OnPlatform.iOS>
                                 <FileImageSource File="add.png"/>
@@ -93,15 +95,15 @@
                                 <FileImageSource File="Assets/add.png"/>
                             </OnPlatform.WinPhone>
                         </OnPlatform>
-                    </Image.Source>
+                    </controls:TintedImage.Source>
 
-                    <Image.GestureRecognizers>
+                    <controls:TintedImage.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding Path=BindingContext.AddNewPartnerCommand, 
                                                         Source={x:Reference Name=imgAdd}}"
                                                          CommandParameter="{Binding}"/>
 
-                    </Image.GestureRecognizers>
-                </Image>
+                    </controls:TintedImage.GestureRecognizers>
+                </controls:TintedImage>
 
             </StackLayout>
 

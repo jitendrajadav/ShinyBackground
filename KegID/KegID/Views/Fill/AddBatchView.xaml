@@ -231,7 +231,7 @@
 
             <Button
                 x:Name="lblDone"
-                Margin="-10,0,-10,-5"
+                Margin="{StaticResource BottomAppBarButtonMargin}"
                 Grid.ColumnSpan="3"
                 Grid.Row="3"
                 Text="{Binding Resources[button_done]}"

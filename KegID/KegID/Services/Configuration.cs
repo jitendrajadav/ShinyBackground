@@ -2,11 +2,10 @@
 {
     public static class Configuration
     {
+
         /// <summary>
-        /// Global SessionId
+        /// Constant flag
         /// </summary>
-        //public static string SessionId;
-        //public static string CompanyId;
         public const string NewManifest = "NewManifest";
         public const string NewPartner = "NewPartner";
         public const string NewBatch = "Batch";

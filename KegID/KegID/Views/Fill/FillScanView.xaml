@@ -4,6 +4,7 @@
              x:Class="KegID.Views.FillScanView"
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
              xmlns:local="clr-namespace:KegID"
+             xmlns:controls="clr-namespace:Plugin.CrossPlatformTintedImage.Abstractions;assembly=Plugin.CrossPlatformTintedImage.Abstractions"
              BackgroundColor="#FFFFFF"
              BindingContext="{Binding Source={x:Static local:App.Locator},Path=FillScan}">
     
@@ -129,7 +130,8 @@
                 </Entry.Behaviors>
             </Entry>
 
-            <Image
+            <controls:TintedImage
+                TintColor="{StaticResource selectTextColor}"
                 x:Name="imgCamera"
                 Grid.Row="2"
                 HeightRequest="30"
@@ -137,7 +139,7 @@
                 Margin="0,0,10,0"
                 Grid.Column="1"
                 HorizontalOptions="End">
-                <Image.Source>
+                <controls:TintedImage.Source>
                     <OnPlatform x:TypeArguments="FileImageSource">
                         <OnPlatform.iOS>
                             <FileImageSource File="camera.png"/>
@@ -149,13 +151,13 @@
                             <FileImageSource File="Assets/camera.png"/>
                         </OnPlatform.WinPhone>
                     </OnPlatform>
-                </Image.Source>
-                <Image.GestureRecognizers>
+                </controls:TintedImage.Source>
+                <controls:TintedImage.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding Path=BindingContext.BarcodeScanCommand, 
                                                         Source={x:Reference Name=imgCamera}}"
                                                          CommandParameter="{Binding}"/>
-                </Image.GestureRecognizers>
-            </Image>
+                </controls:TintedImage.GestureRecognizers>
+            </controls:TintedImage>
 
             <Label
                 Grid.Row="3"
@@ -165,7 +167,8 @@
                 LineBreakMode="TailTruncation"
                 Text="{Binding TagsStr}"/>
 
-            <Image
+            <controls:TintedImage
+                TintColor="{StaticResource selectTextColor}"
                 x:Name="imgTags"
                 Grid.Row="3"
                 Grid.Column="1"
@@ -173,7 +176,7 @@
                 HeightRequest="30"
                 WidthRequest="30"
                 HorizontalOptions="End">
-                <Image.Source>
+                <controls:TintedImage.Source>
                     <OnPlatform x:TypeArguments="FileImageSource">
                         <OnPlatform.iOS>
                             <FileImageSource File="tags.png"/>
@@ -185,13 +188,13 @@
                             <FileImageSource File="Assets/tags.png"/>
                         </OnPlatform.WinPhone>
                     </OnPlatform>
-                </Image.Source>
-                <Image.GestureRecognizers>
+                </controls:TintedImage.Source>
+                <controls:TintedImage.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding Path=BindingContext.AddTagsCommand, 
                                                         Source={x:Reference Name=imgTags}}"
                                                          CommandParameter="{Binding}"/>
-                </Image.GestureRecognizers>
-            </Image>
+                </controls:TintedImage.GestureRecognizers>
+            </controls:TintedImage>
 
             <Button
                 Grid.ColumnSpan="2"
@@ -206,7 +209,12 @@
                         <On Platform="Android" Value="60" />
                     </OnPlatform>
                 </Button.HeightRequest>
-
+                <Button.Margin>
+                    <OnPlatform x:TypeArguments="Thickness">
+                        <On Platform="iOS, WinPhone, Windows" Value="-5" />
+                        <On Platform="Android" Value="0" />
+                    </OnPlatform>
+                </Button.Margin>
             </Button>
 
             <BoxView

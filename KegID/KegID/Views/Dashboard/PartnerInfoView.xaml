@@ -93,55 +93,65 @@
                         Grid.Row="0"
                         HorizontalOptions="StartAndExpand"
                         Text="{Binding PartnerModel.Address}"
+                        FontSize="{StaticResource DetailFont}"
                         Command="{Binding ShipToCommand}"/>
 
                     <Button
                         BackgroundColor="Transparent"
                         Grid.Row="1"
                         HorizontalOptions="Start"
+                        FontSize="{StaticResource DetailFont}"
                         Text="{Binding PartnerModel.Address}"/>
 
                     <Label
                         Margin="10,0,0,0"
                         Grid.Row="2"
+                        FontSize="{StaticResource DetailFont}"
                         Text="{Binding Contact}"/>
 
                     <Button
                         BackgroundColor="Transparent"
                         Grid.Row="3"
                         HorizontalOptions="Start"
+                        FontSize="{StaticResource DetailFont}"
                         Command="{Binding PhoneNumberCommand}"
                         Text="{Binding PartnerModel.PhoneNumber}"/>
 
                     <Button
                         BackgroundColor="Transparent"
                         Grid.Row="4"
+                        FontSize="{StaticResource DetailFont}"
                         HorizontalOptions="Start"
                         Text="{Binding ContactEmail}"/>
                    
                     <Label
                         Margin="10,0,0,0"
                         Grid.Row="5"
+                        FontSize="{StaticResource DetailFont}"
                         Text="{Binding Ref}"/>
                     
                     <Label
                         Margin="10,0,0,0"
                         Grid.Row="6"
+                        FontSize="{StaticResource DetailFont}"
                         Text="{Binding Acct}"/>
                     
                     <Label
                         Margin="10,0,0,0"
                         Grid.Row="7"
+                        FontSize="{StaticResource DetailFont}"
                         Text="{Binding Route}"/>
                     
                     <Label
                         Margin="10,0,0,0"
                         Grid.Row="8"
+                        FontSize="{StaticResource DetailFont}"
                         Text="{Binding Notes}"/>
                     
                     <Label
                         Margin="10,0,0,0"
                         Grid.Row="9"
+                        FontSize="{StaticResource DetailFont}"
                         Text="{Binding PartnerModel.PartnerTypeName}"/>
 
                 </Grid>

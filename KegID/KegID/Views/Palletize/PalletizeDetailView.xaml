@@ -4,6 +4,7 @@
              xmlns:local="clr-namespace:KegID"
              x:Class="KegID.Views.PalletizeDetailView"
              BackgroundColor="#FFFFFF"
+             xmlns:controls="clr-namespace:Plugin.CrossPlatformTintedImage.Abstractions;assembly=Plugin.CrossPlatformTintedImage.Abstractions"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=PalletizeDetail}">
     
     <ContentPage.Content>
@@ -41,12 +42,13 @@
                 TextColor="Black"
                 HorizontalOptions="Center" />
 
-            <Image
+            <controls:TintedImage
+                TintColor="{StaticResource selectTextColor}"
                 HeightRequest="35"
                 x:Name="imgShare"
                 HorizontalOptions="End">
 
-                <Image.Source>
+                <controls:TintedImage.Source>
                     <OnPlatform x:TypeArguments="FileImageSource">
                         <OnPlatform.iOS>
                             <FileImageSource File="actionshare.png"/>
@@ -58,15 +60,15 @@
                             <FileImageSource File="Assets/actionshare.png"/>
                         </OnPlatform.WinPhone>
                     </OnPlatform>
-                </Image.Source>
+                </controls:TintedImage.Source>
 
-                <Image.GestureRecognizers>
+                <controls:TintedImage.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding Path=BindingContext.ShareCommand, 
                                                         Source={x:Reference Name=imgShare}}"
                                                          CommandParameter="{Binding}"/>
 
-                </Image.GestureRecognizers>
-            </Image>
+                </controls:TintedImage.GestureRecognizers>
+            </controls:TintedImage>
 
             <BoxView
                 Margin="-10,0,-10,0"

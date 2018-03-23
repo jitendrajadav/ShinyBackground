@@ -2,6 +2,7 @@
 using KegID.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Plugin.Connectivity;
 using System;
 using System.Diagnostics;
 using System.Net.Http;
@@ -30,10 +31,11 @@ namespace KegID.Common
 
             try
             {
-                var response = await client.GetAsync(uri);
-                if (response.IsSuccessStatusCode)
-                    kegIDResponse.Response = await response.Content.ReadAsStringAsync();
-                kegIDResponse.StatusCode = response.StatusCode;
+                    var response = await client.GetAsync(uri);
+                    if (response.IsSuccessStatusCode)
+                        kegIDResponse.Response = await response.Content.ReadAsStringAsync();
+                    kegIDResponse.StatusCode = response.StatusCode;
+                
             }
             catch (Exception ex)
             {
@@ -94,36 +96,40 @@ namespace KegID.Common
 
         #region ExecuteCall
 
-        public static async Task<KegIDResponse> ExecuteServiceCall<T>(string url, HttpMethodType httpMethodType,string content, string RequestType = "") 
+        public static async Task<KegIDResponse> ExecuteServiceCall<T>(string url, HttpMethodType httpMethodType, string content, string RequestType = "")
         {
-            //T response = default(T);
             KegIDResponse kegIDResponse = new KegIDResponse();
 
-            try
+            if (CrossConnectivity.Current.IsConnected)
             {
-                switch (httpMethodType)
+                try
                 {
-                    case HttpMethodType.Get:
-                        kegIDResponse = await Get(url, content);
-                        break;
-                    case HttpMethodType.Send:
-                        kegIDResponse = await Send(url, content, RequestType);
-                        break;
-                    case HttpMethodType.Post:
-                        kegIDResponse = await Post(url, content);
-                        break;
-                    case HttpMethodType.Put:
-                        break;
-                    case HttpMethodType.Delete:
-                        break;
-                    default:
-                        break;
+                    switch (httpMethodType)
+                    {
+                        case HttpMethodType.Get:
+                            kegIDResponse = await Get(url, content);
+                            break;
+                        case HttpMethodType.Send:
+                            kegIDResponse = await Send(url, content, RequestType);
+                            break;
+                        case HttpMethodType.Post:
+                            kegIDResponse = await Post(url, content);
+                            break;
+                        case HttpMethodType.Put:
+                            break;
+                        case HttpMethodType.Delete:
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e.Message);
                 }
             }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e.Message);
-            }
+            else
+                kegIDResponse.StatusCode = System.Net.HttpStatusCode.Forbidden;
 
             return kegIDResponse;
         }

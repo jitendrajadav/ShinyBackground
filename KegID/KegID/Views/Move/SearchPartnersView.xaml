@@ -21,22 +21,40 @@
             <Button 
                 x:Name="lblBackPartners"
                 Style="{StaticResource TopButtonTitleStyle}"
-                Text="Back"
+                Text="Partners"
                 HorizontalOptions="Start"
                 Command="{Binding BackPartnersCommand}"
                 />
 
-            <Entry
+            <BoxView
+                Margin="-10,0,-10,0"
                 Grid.Row="1"
-                Text="{Binding PartnerSearch}">
-               
-                <Entry.Behaviors>
-                    <behaviors:EventToCommandBehavior
-                        EventName="Completed"
-                      Command="{Binding PartnerSearchCommand}"/>
-                </Entry.Behaviors>
-            </Entry>
-            
+                BackgroundColor="{StaticResource bannerBGColor}"
+                VerticalOptions="FillAndExpand"
+                HorizontalOptions="FillAndExpand"/>
+
+            <SearchBar 
+                Margin="10,5,10,5"
+                x:Name="SearchBar" 
+                Grid.Row="1"
+                BackgroundColor="White"
+                PlaceholderColor="{StaticResource lightGrayColor}"
+                Text="{Binding PartnerSearch}"
+                SearchCommand="{Binding PartnerSearchCommand}" 
+                SearchCommandParameter="{Binding Text, Source={x:Reference SearchBar}}">
+
+                <SearchBar.Behaviors>
+                    <behaviors:TextChangedBehavior />
+                </SearchBar.Behaviors>
+
+                <SearchBar.HeightRequest>
+                    <OnPlatform x:TypeArguments="x:Double">
+                        <On Platform="iOS" Value="40" />
+                        <On Platform="Android, WinPhone, Windows" Value="40" />
+                    </OnPlatform>
+                </SearchBar.HeightRequest>
+            </SearchBar>
+
             <ListView
                 x:Name="lstSearchPartners"
                 Grid.Row="2"

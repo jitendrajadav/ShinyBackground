@@ -31,7 +31,6 @@
                 HorizontalOptions="CenterAndExpand" />
 
             <Button
-                Margin="0,0,10,0"
                 Grid.ColumnSpan="3"
                 Style="{StaticResource TopButtonTitleStyle}"
                 HorizontalOptions="End"

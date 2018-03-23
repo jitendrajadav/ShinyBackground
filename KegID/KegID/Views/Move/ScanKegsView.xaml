@@ -12,9 +12,19 @@
     <ContentPage.Content>
         
         <Grid
-            RowSpacing="0"
-            ColumnSpacing="0">
-           
+            Margin="10">
+            <Grid.RowSpacing>
+                <OnPlatform x:TypeArguments="x:Double">
+                    <On Platform="iOS" Value="5" />
+                    <On Platform="Android, WinPhone, Windows" Value="0" />
+                </OnPlatform>
+            </Grid.RowSpacing>
+            <Grid.ColumnSpacing>
+                <OnPlatform x:TypeArguments="x:Double">
+                    <On Platform="iOS" Value="5" />
+                    <On Platform="Android, WinPhone, Windows" Value="0" />
+                </OnPlatform>
+            </Grid.ColumnSpacing>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -59,7 +69,6 @@
                 HorizontalOptions="FillAndExpand"/>
 
             <Entry
-                Margin="10,0,0,5"
                 Grid.ColumnSpan="2"
                 Grid.Row="2"
                 Text="{Binding ManaulBarcode,Mode=TwoWay}"
@@ -72,45 +81,15 @@
                 </Entry.Behaviors>
             </Entry>
 
-            <!--<ffimageloading:CachedImage 
+            <controls:TintedImage 
+                TintColor="{StaticResource selectTextColor}"
                 x:Name="imgCamera"
                 Grid.Row="2"
                 HeightRequest="30"
+                WidthRequest="30"
                 Grid.Column="2"
-                HorizontalOptions="Center" 
-                VerticalOptions="Center"
-                LoadingPlaceholder="loading.png" 
-                ErrorPlaceholder="error.png" 
-                DownsampleToViewSize="true"
-                Aspect="AspectFit">
-                <ffimageloading:CachedImage.Source>
-                    <OnPlatform x:TypeArguments="FileImageSource">
-                        <OnPlatform.iOS>
-                            <FileImageSource File="camera.png"/>
-                        </OnPlatform.iOS>
-                        <OnPlatform.Android>
-                            <FileImageSource File="camera.png"/>
-                        </OnPlatform.Android>
-                        <OnPlatform.WinPhone>
-                            <FileImageSource File="Assets/camera.png"/>
-                        </OnPlatform.WinPhone>
-                    </OnPlatform>
-                </ffimageloading:CachedImage.Source>
-                <ffimageloading:CachedImage.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding Path=BindingContext.BarcodeScanCommand, 
-                                                        Source={x:Reference Name=imgCamera}}"
-                                                         CommandParameter="{Binding}"/>
-                </ffimageloading:CachedImage.GestureRecognizers>
-            </ffimageloading:CachedImage>-->
-          
-            <!--<controls:TintedImage 
-                x:Name="imgCamera"
-                Grid.Row="2"
-                HeightRequest="30"
-                Grid.Column="2"
-                HorizontalOptions="Center"
-                TintColor="Blue"
-                Source="camera.png">
+                HorizontalOptions="Center">
+
                 <controls:TintedImage.Source>
                     <OnPlatform x:TypeArguments="FileImageSource">
                         <OnPlatform.iOS>
@@ -124,44 +103,15 @@
                         </OnPlatform.WinPhone>
                     </OnPlatform>
                 </controls:TintedImage.Source>
-            </controls:TintedImage>-->
 
-            <Image
-                Margin="0,0,0,2"
-                x:Name="imgCamera"
-                Grid.Row="2"
-                WidthRequest="30"
-                HeightRequest="30"
-                Grid.Column="2"
-                HorizontalOptions="Center">
-               
-                <Image.Source>
-                    <OnPlatform x:TypeArguments="FileImageSource">
-                        <OnPlatform.iOS>
-                            <FileImageSource File="camera.png"/>
-                        </OnPlatform.iOS>
-                        <OnPlatform.Android>
-                            <FileImageSource File="camera.png"/>
-                        </OnPlatform.Android>
-                        <OnPlatform.WinPhone>
-                            <FileImageSource File="Assets/camera.png"/>
-                        </OnPlatform.WinPhone>
-                    </OnPlatform>
-                </Image.Source>
-               
-                <Image.GestureRecognizers>
+                <controls:TintedImage.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding Path=BindingContext.BarcodeScanCommand, 
                                                         Source={x:Reference Name=imgCamera}}"
                                                          CommandParameter="{Binding}"/>
-                </Image.GestureRecognizers>
-               
-                <!--<Image.Effects>
-                    <effects:TintImageEffect TintColor="Blue"/>
-                </Image.Effects>-->
-            </Image>
+                </controls:TintedImage.GestureRecognizers>
+            </controls:TintedImage>
             
             <Picker
-                Margin="10,0,0,5"
                 ItemsSource="{Binding BrandCollection}"
                 TextColor="{StaticResource selectTextColor}"
                 Grid.Column="0"
@@ -172,20 +122,19 @@
 
             <Entry
                 Grid.Row="3"
-                Margin="0,0,0,5"
                 Grid.Column="1"
                 Text="{Binding Batch}"
                 Placeholder="{Binding Resources[label_batch]}"/>
 
-            <Image
-                Margin="0,0,0,5"
+            <controls:TintedImage
+                TintColor="{StaticResource selectTextColor}"
                 x:Name="imgTags"
                 Grid.Row="3"
                 Grid.Column="2"
                 HeightRequest="30"
                 HorizontalOptions="Center">
-               
-                <Image.Source>
+
+                <controls:TintedImage.Source>
                     <OnPlatform x:TypeArguments="FileImageSource">
                         <OnPlatform.iOS>
                             <FileImageSource File="tags.png"/>
@@ -197,20 +146,19 @@
                             <FileImageSource File="Assets/tags.png"/>
                         </OnPlatform.WinPhone>
                     </OnPlatform>
-                </Image.Source>
-               
-                <Image.GestureRecognizers>
+                </controls:TintedImage.Source>
+
+                <controls:TintedImage.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding Path=BindingContext.AddTagsCommand, 
                                                         Source={x:Reference Name=imgTags}}"
                                                          CommandParameter="{Binding}"/>
-                </Image.GestureRecognizers>
-            </Image>
+                </controls:TintedImage.GestureRecognizers>
+            </controls:TintedImage>
 
             <Label
                 Grid.Row="4"
                 Grid.Column="0"
                 Grid.ColumnSpan="3"
-                Margin="10,0,0,2"
                 LineBreakMode="TailTruncation"
                 Text="{Binding TagsStr}"/>
 

@@ -53,7 +53,14 @@ namespace KegID.ViewModel
                 var result = await Application.Current.MainPage.DisplayAlert("Warning", "You have at least on draft item that will be deleted if you log out.", "Stay", "Log out");
                 if (!result)
                 {
-                    AppSettings.RemoveUserData();
+                    try
+                    {
+                        AppSettings.RemoveUserData();
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine(ex.Message);
+                    }
                     await Application.Current.MainPage.Navigation.PopPopupAsync();
                     await Application.Current.MainPage.Navigation.PopModalAsync();
                 }

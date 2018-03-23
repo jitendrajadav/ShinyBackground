@@ -5,6 +5,7 @@
              xmlns:local="clr-namespace:KegID"
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
              BackgroundColor="#FFFFFF"
+             xmlns:controls="clr-namespace:Plugin.CrossPlatformTintedImage.Abstractions;assembly=Plugin.CrossPlatformTintedImage.Abstractions"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=MaintainScan}">
    
     <ContentPage.Content>
@@ -74,7 +75,8 @@
             
             </Entry>
 
-            <Image
+            <controls:TintedImage
+                TintColor="{StaticResource selectTextColor}"
                 x:Name="imgCamera"
                 Grid.Row="2"
                 HeightRequest="30"
@@ -82,8 +84,8 @@
                 Margin="0,0,10,0"
                 Grid.Column="2"
                 HorizontalOptions="End">
-                
-                <Image.Source>
+
+                <controls:TintedImage.Source>
                     <OnPlatform x:TypeArguments="FileImageSource">
                         <OnPlatform.iOS>
                             <FileImageSource File="camera.png"/>
@@ -95,14 +97,14 @@
                             <FileImageSource File="Assets/camera.png"/>
                         </OnPlatform.WinPhone>
                     </OnPlatform>
-                </Image.Source>
-                
-                <Image.GestureRecognizers>
+                </controls:TintedImage.Source>
+
+                <controls:TintedImage.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding Path=BindingContext.BarcodeScanCommand, 
                                                         Source={x:Reference Name=imgCamera}}"
                                                          CommandParameter="{Binding}"/>
-                </Image.GestureRecognizers>
-            </Image>
+                </controls:TintedImage.GestureRecognizers>
+            </controls:TintedImage>
             
             <BoxView
                 Margin="-10,0,-10,0"

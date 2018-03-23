@@ -22,7 +22,7 @@ namespace KegID.Views
 
         private async void LoadAddTagsAsync()
         {
-            if (Application.Current.MainPage.Navigation.ModalStack.Count > 2)
+            if (Application.Current.MainPage.Navigation.ModalStack.Count > 1)
             {
                 switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack.LastOrDefault().GetType().Name))
                 {
