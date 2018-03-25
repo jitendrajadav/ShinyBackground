@@ -271,7 +271,11 @@ namespace KegID.ViewModel
             }
         }
 
-        private async void DestinationCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView());
+        private async void DestinationCommandRecieverAsync()
+        {
+            SimpleIoc.Default.GetInstance<PartnersViewModel>().BrewerStockOn = true;
+            await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView());
+        }
 
         private async void BatchCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new BatchView());
 

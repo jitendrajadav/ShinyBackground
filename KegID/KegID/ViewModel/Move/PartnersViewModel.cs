@@ -11,16 +11,18 @@ using System.Collections.Generic;
 using KegID.Model;
 using System.Diagnostics;
 using System;
+using System.Threading.Tasks;
 
 namespace KegID.ViewModel
 {
     public class PartnersViewModel : BaseViewModel
     {
         #region Properties
-
+        public bool BrewerStockOn { get; set; }
         public IMoveService _moveService { get; set; }
 
         private const int PageSize = 20;
+
 
         #region IsWorking
 
@@ -290,11 +292,8 @@ namespace KegID.ViewModel
             TextChangedCommand = new RelayCommand(TextChangedCommandRecieverAsync);
             InternalBackgroundColor = "#4E6388";
             InternalTextColor = "White";
-
-            LoadPartnersAsync();
         }
-
-
+        
         #endregion
 
         #region Methods
@@ -355,15 +354,21 @@ namespace KegID.ViewModel
 
         public async void LoadPartnersAsync()
         {
+            Loader.StartLoading();
+
             AllPartners = await SQLiteServiceClient.Db.Table<PartnerModel>().ToListAsync();
 
             try
             {
                 if (AllPartners.Count > 0)
-                    PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners);
+                {
+                    if (BrewerStockOn)
+                        PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners.Where(x => x.PartnerTypeName == "Brewer - Stock").ToList());
+                    else
+                        PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners);
+                }
                 else
                 {
-                    Loader.StartLoading();
                     var value = await _moveService.GetPartnersListAsync(AppSettings.User.SessionId);
                     if (value.StatusCode == System.Net.HttpStatusCode.OK)
                     {
@@ -374,10 +379,9 @@ namespace KegID.ViewModel
                         catch (Exception ex)
                         {
                             Debug.WriteLine(ex.Message);
-
                         }
-                        if ((Application.Current.MainPage.Navigation.ModalStack[Application.Current.MainPage.Navigation.ModalStack.Count - 2].GetType().Name) == ViewTypeEnum.FillView.ToString())
-                            SetFillViewFilter();
+                        if (BrewerStockOn)
+                            PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners.Where(x => x.PartnerTypeName == "Brewer - Stock").ToList());
                         else
                             PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners);
                         await SQLiteServiceClient.Db.InsertAllAsync(AllPartners);
@@ -393,23 +397,12 @@ namespace KegID.ViewModel
                 Loader.StopLoading();
             }
         }
-
-        internal void SetFillViewFilter()
-        {
-            try
-            {
-                if (AllPartners != null)
-                    PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners.Where(x => x.PartnerTypeName == "Brewer - Stock").ToList());
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
-        }
-
         private void AlphabeticalCommandReciever()
         {
-            PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners.OrderBy(x => x.FullName));
+            if (BrewerStockOn)
+                PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners.OrderBy(x => x.FullName).Where(x => x.PartnerTypeName == "Brewer - Stock").ToList());
+            else
+                PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners.OrderBy(x => x.FullName));
 
             AlphabeticalBackgroundColor = "#4E6388";
             AlphabeticalTextColor = "White";
@@ -420,7 +413,10 @@ namespace KegID.ViewModel
 
         private void InternalCommandReciever()
         {
-            PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners);
+            if (BrewerStockOn)
+                PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners.Where(x => x.PartnerTypeName == "Brewer - Stock").ToList());
+            else
+                PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners);
 
             InternalBackgroundColor = "#4E6388";
             InternalTextColor = "White";
@@ -429,7 +425,11 @@ namespace KegID.ViewModel
             AlphabeticalTextColor = "#4E6388";
         }
 
-        private async void BackCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PopModalAsync();
+        private async void BackCommandRecieverAsync()
+        {
+            await Application.Current.MainPage.Navigation.PopModalAsync();
+            Cleanup();
+        }
 
         private async void AddNewPartnerCommandRecieverAsync()
         {
@@ -444,6 +444,7 @@ namespace KegID.ViewModel
         public override void Cleanup()
         {
             base.Cleanup();
+            BrewerStockOn = false;
             PartnerCollection = null;
         }
 

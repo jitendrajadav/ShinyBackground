@@ -1,18 +1,14 @@
-﻿using SQLite.Net.Attributes;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace KegID.Model
 {
     public class LoginModel
     {
-        [PrimaryKey,AutoIncrement]
         public int Id { get; set; }
         public string CompanyNo { get; set; }
         public string CompanyKey { get; set; }
         public string MasterCompanyId { get; set; }
         public string MasterCompanyName { get; set; }
-        [Ignore]
         public List<string> Roles { get; set; }
         public bool IsEnabled { get; set; }
         public string FirstName { get; set; }
@@ -22,12 +18,10 @@ namespace KegID.Model
         public string PalletBarcodePrefix { get; set; }
         public bool IsNotify { get; set; }
         public string SessionExpires { get; set; }
-        [Ignore]
         public List<Preference> Preferences { get; set; }
         public string DataInfo { get; set; }
         public string UserHome { get; set; }
         public string UserHomeName { get; set; }
-        [Ignore]
         public List<string> Operators { get; set; }
         public string UserId { get; set; }
         public string FullName { get; set; }
@@ -41,7 +35,6 @@ namespace KegID.Model
 
     public class Preference
     {
-        [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
         public string PreferenceName { get; set; }
         public string PreferenceValue { get; set; }

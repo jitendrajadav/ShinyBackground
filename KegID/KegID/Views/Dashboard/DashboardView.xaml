@@ -8,14 +8,6 @@
              BackgroundColor="#FFFFFF"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Dashboard}">
 
-    <!--<ContentPage.ToolbarItems>
-        <ToolbarItem Text="Refresh" Command="{Binding RefreshDashboard}">
-            <ToolbarItem.Icon>
-                <OnPlatform x:TypeArguments="FileImageSource" iOS="menurefresh.png" Android="menurefresh.png" WinPhone="Assets/menurefresh.png" />
-            </ToolbarItem.Icon>
-        </ToolbarItem>
-    </ContentPage.ToolbarItems>-->
-    
     <ContentPage.Content>
         
         <Grid

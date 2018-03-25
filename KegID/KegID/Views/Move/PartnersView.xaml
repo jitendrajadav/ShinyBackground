@@ -209,7 +209,12 @@
                         <On Platform="Android, WinPhone, Windows, UWP" Value="0" />
                     </OnPlatform>
                 </Grid.RowSpacing>
-
+                <Grid.HeightRequest>
+                    <OnPlatform x:TypeArguments="x:Double">
+                        <On Platform="iOS" Value="30" />
+                        <On Platform="Android, WinPhone, Windows, UWP" Value="50" />
+                    </OnPlatform>
+                </Grid.HeightRequest>
                 <Button
                     BorderWidth="1"
                     BorderColor="#4E6388"

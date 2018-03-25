@@ -62,11 +62,13 @@
             <Style x:Key="LabelLeftAlign" TargetType="Label">
                 <Setter Property="HorizontalTextAlignment" Value="Center" />
                 <Setter Property="VerticalOptions" Value="Center"/>
+                <Setter Property="TextColor" Value="#555555"/>
             </Style>
 
             <Style x:Key="LabelRigthAlign" TargetType="Label">
                 <Setter Property="HorizontalTextAlignment" Value="Start" />
                 <Setter Property="VerticalTextAlignment" Value="Center"/>
+                <Setter Property="TextColor" Value="#555555"/>
             </Style>
 
             <Style x:Key="ButtonRigthAlign" TargetType="Button">
