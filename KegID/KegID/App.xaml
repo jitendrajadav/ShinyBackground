@@ -27,6 +27,7 @@
             <Color x:Key="lightGrayColor">#aaaaaa</Color>
             <Color x:Key="lightGrayPlaceholderColor">#D2D0DE</Color>
             <Color x:Key="scanCounterColor">#B7EB35</Color>
+            <Color x:Key="textLabelColor">#555555</Color>
             
             <converter:SelectedItemEventArgsToSelectedItemConverter x:Key="SelectedItemConverter" />
             <converter:ItemTappedEventArgsToSelectedItemConverter x:Key="ItemTappedConverter" />
