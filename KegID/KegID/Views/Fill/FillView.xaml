@@ -183,7 +183,7 @@
 
                 <Button
                     x:Name="lblNext"
-                    Margin="-15,0,-15,-5"
+                    Margin="{StaticResource BottomAppBarButtonMargin}"
                     Grid.Row="13"
                     Style="{StaticResource BottomButtonTitleStyle}"
                     Text="{Binding Resources[button_next]}"

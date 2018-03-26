@@ -152,7 +152,7 @@
 
             <Button
                 x:Name="lblSubmit"
-                Margin="-15,0,-15,-5"
+                Margin="{StaticResource BottomAppBarButtonMargin}"
                 Grid.Row="5"
                 Text="{Binding Resources[menu_action_submit]}"
                 Style="{StaticResource BottomButtonTitleStyle}"

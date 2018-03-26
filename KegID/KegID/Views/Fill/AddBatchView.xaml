@@ -47,14 +47,12 @@
                 VerticalOptions="Start"
                 HorizontalOptions="FillAndExpand"/>
 
-            <ScrollView
-                Margin="10,0,10,0"
-                Grid.ColumnSpan="3"
-                Grid.Row="2">
-               
                 <Grid
+                    Margin="10,0,10,0"
+                    Grid.ColumnSpan="3"
+                    Grid.Row="2"
                     ColumnSpacing="0"
-                    Grid.Row="1">
+                    >
                     <Grid.RowSpacing>
                         <OnPlatform x:TypeArguments="x:Double">
                             <On Platform="iOS" Value="10" />
@@ -198,44 +196,18 @@
                         Text="{Binding TagsStr}"
                         Grid.Row="7"/>
 
-                    <!--<Image
-                        Margin="0,5,5,0"
-                        x:Name="imgTags"
-                        Grid.Row="7"
-                        Grid.Column="2"
-                        HeightRequest="40"
-                        HorizontalOptions="End">
-                        <Image.Source>
-                            <OnPlatform x:TypeArguments="FileImageSource">
-                                <OnPlatform.iOS>
-                                    <FileImageSource File="tags.png"/>
-                                </OnPlatform.iOS>
-                                <OnPlatform.Android>
-                                    <FileImageSource File="tags.png"/>
-                                </OnPlatform.Android>
-                                <OnPlatform.WinPhone>
-                                    <FileImageSource File="Assets/tags.png"/>
-                                </OnPlatform.WinPhone>
-                            </OnPlatform>
-                        </Image.Source>
-                        <Image.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding Path=BindingContext.AddTagsCommand, 
-                                                        Source={x:Reference Name=imgTags}}"
-                                                         CommandParameter="{Binding}"/>
-                        </Image.GestureRecognizers>
-                    </Image>-->
-
                 </Grid>
                 
-            </ScrollView>
 
             <Button
                 x:Name="lblDone"
-                Margin="{StaticResource BottomAppBarButtonMargin}"
                 Grid.ColumnSpan="3"
                 Grid.Row="3"
                 Text="{Binding Resources[button_done]}"
                 Command="{Binding DoneCommand}"
+                VerticalOptions="EndAndExpand"
+                HorizontalOptions="FillAndExpand"
+                Margin="{StaticResource BottomAppBarButtonMargin}"
                 Style="{StaticResource BottomButtonTitleStyle}"
                 />
 

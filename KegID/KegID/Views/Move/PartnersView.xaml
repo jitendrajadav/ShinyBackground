@@ -19,40 +19,44 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <ActivityIndicator 
-                WidthRequest="32" 
-                HeightRequest="32" 
-                IsRunning="True"
-                Grid.RowSpan="4"
+            <Grid 
                 VerticalOptions="Center"
-                HorizontalOptions="Center"
-                IsVisible="{Binding IsWorking}" />
-
-            <StackLayout
                 Margin="0,0,10,0"
-                VerticalOptions="Start"
-                Orientation="Horizontal">
+                RowSpacing="0">
 
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+            
                 <Button
+                    Grid.Column="0"
                     x:Name="lblBack"
                     Style="{StaticResource TopButtonTitleStyle}"
                     Text="Back"
+                    HorizontalOptions="Start"
                     Command="{Binding BackCommand}"
                     />
 
                 <Label 
+                    Grid.Column="1"
                     Text="{Binding Resources[title_partner_list]}"
                     FontAttributes="Bold"
                     Style="{StaticResource LabelTitleStyle}"
                     TextColor="Black"
-                    HorizontalOptions="CenterAndExpand" />
+                    HorizontalOptions="CenterAndExpand"
+                    />
 
                 <controls:TintedImage
+                    Grid.Column="2"
                     x:Name="imgSearch"
                     TintColor="{StaticResource selectTextColor}"
                     HeightRequest="30"
-                    HorizontalOptions="Center"                  
-                    VerticalOptions="Center">
+                    HorizontalOptions="End"
+                    VerticalOptions="Center"
+                    >
 
                     <controls:TintedImage.Source>
                         <OnPlatform x:TypeArguments="FileImageSource">
@@ -71,17 +75,20 @@
                     <controls:TintedImage.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding Path=BindingContext.SearchPartnerCommand, 
                                                         Source={x:Reference Name=imgSearch}}"
-                                                         CommandParameter="{Binding}"/>
+                                                            CommandParameter="{Binding}"/>
 
                     </controls:TintedImage.GestureRecognizers>
                 </controls:TintedImage>
 
                 <controls:TintedImage
+                    Grid.Column="3"
                     x:Name="imgAdd"
                     TintColor="{StaticResource selectTextColor}"
                     HeightRequest="30"
-                    HorizontalOptions="Center"                  
-                    VerticalOptions="Center">
+                    Margin="5,0,0,0"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center"
+                    >
 
                     <controls:TintedImage.Source>
                         <OnPlatform x:TypeArguments="FileImageSource">
@@ -100,15 +107,13 @@
                     <controls:TintedImage.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding Path=BindingContext.AddNewPartnerCommand, 
                                                         Source={x:Reference Name=imgAdd}}"
-                                                         CommandParameter="{Binding}"/>
+                                                            CommandParameter="{Binding}"/>
 
                     </controls:TintedImage.GestureRecognizers>
                 </controls:TintedImage>
-
-            </StackLayout>
+            </Grid>
 
             <BoxView
-                Margin="-10,0,-10,0"
                 Grid.Row="1"
                 BackgroundColor="{StaticResource bannerBGColor}"
                 VerticalOptions="FillAndExpand"

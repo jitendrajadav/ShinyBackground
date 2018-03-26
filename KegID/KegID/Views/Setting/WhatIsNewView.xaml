@@ -28,7 +28,7 @@
                 PositionSelected="Handle_PositionSelected"/>
             
             <Button
-                Margin="-15,-15,-15,-5"
+                Margin="{StaticResource BottomAppBarButtonMargin}"
                 x:Name="btnNavigation"
                 Style="{StaticResource BottomButtonTitleStyle}"
                 Grid.Row="1"
