@@ -293,7 +293,11 @@ namespace KegID.ViewModel
             IconItemTappedCommand = new RelayCommand<Barcode>((model) => IconItemTappedCommandRecieverAsync(model));
         }
 
-        public void GenerateManifestIdAsync(PalletModel palletModel)
+        #endregion
+
+        #region Methods
+
+        public async void GenerateManifestIdAsync(PalletModel palletModel)
         {
             DateTime now = DateTime.Now;
             string barCode;
@@ -313,8 +317,8 @@ namespace KegID.ViewModel
                 else
                 {
                     BarcodeCollection.Clear();
+                    var preference = await SQLiteServiceClient.Db.Table<Preference>().Where(x => x.PreferenceName == "DashboardPreferences").ToListAsync();
 
-                    var preference = AppSettings.User.Preferences.Where(x => x.PreferenceName == "DashboardPreferences").ToList();
                     foreach (var item in preference)
                     {
                         if (item.PreferenceValue.Contains("OldestKegs"))
@@ -324,7 +328,7 @@ namespace KegID.ViewModel
                             prefix = value.Pos.Y;
                         }
                     }
-                    barCode = prefix.ToString().PadLeft(9,'0') + lastCharOfYear + dayOfYear + secondsInDayTillNow + (millisecond / 100);
+                    barCode = prefix.ToString().PadLeft(9, '0') + lastCharOfYear + dayOfYear + secondsInDayTillNow + (millisecond / 100);
                     var checksumDigit = Utils.CalculateCheckDigit(barCode);
                     ManifestId = barCode + checksumDigit;
                 }
@@ -339,12 +343,9 @@ namespace KegID.ViewModel
             minutes = (60 - now.Minute) - 1;
             seconds = (60 - now.Second - 1);
 
-           return totalSeconds = seconds + (minutes * 60) + (hours * 3600);
+            return totalSeconds = seconds + (minutes * 60) + (hours * 3600);
         }
 
-        #endregion
-
-        #region Methods
         private async void LabelItemTappedCommandRecieverAsync(Barcode model)
         {
 

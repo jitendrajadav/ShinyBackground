@@ -18,6 +18,8 @@ namespace KegID.UWP.Renderers
 {
     public class CustomMapRenderer : MapRenderer
     {
+        const int EarthRadiusInMeteres = 6371000;
+
         private RandomAccessStreamReference EventResource = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/pushpin.png"));
         private RandomAccessStreamReference RestaurantResource = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/pushpin.png"));
 
@@ -29,6 +31,45 @@ namespace KegID.UWP.Renderers
         {
             _customPins = new List<CustomPin>();
             _tempMapIcons = new List<CustomMapIcon>();
+        }
+
+        protected override void OnElementChanged(ElementChangedEventArgs<Map> e)
+        {
+            base.OnElementChanged(e);
+
+            if (e.OldElement != null)
+            {
+                // Unsubscribe
+            }
+            if (e.NewElement != null)
+            {
+                var formsMap = (CustomMap)e.NewElement;
+                var nativeMap = Control as MapControl;
+                var circle = formsMap.Circle;
+
+                var coordinates = new List<BasicGeoposition>();
+                var positions = GenerateCircleCoordinates(circle.Position, circle.Radius);
+                foreach (var position in positions)
+                {
+                    coordinates.Add(new BasicGeoposition { Latitude = position.Latitude, Longitude = position.Longitude });
+                }
+
+                var polygon = new MapPolygon();
+                polygon.FillColor = Windows.UI.Color.FromArgb(128, 255, 0, 0);
+                polygon.StrokeColor = Windows.UI.Color.FromArgb(128, 255, 0, 0);
+                polygon.StrokeThickness = 5;
+                polygon.Path = new Geopath(coordinates);
+                nativeMap.MapElements.Add(polygon);
+            }
+        }
+
+        private List<BasicGeoposition> GenerateCircleCoordinates(Position position, double radius)
+        {
+            var basicGeopositions = new List<BasicGeoposition>
+            {
+                new BasicGeoposition { Altitude = 1000, Latitude = 72, Longitude = 72 }
+            };
+            return basicGeopositions;
         }
 
         protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)

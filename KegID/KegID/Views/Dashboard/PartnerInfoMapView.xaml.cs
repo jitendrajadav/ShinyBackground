@@ -1,4 +1,5 @@
 ﻿using KegID.Common;
+using KegID.Controls;
 using System.Diagnostics;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
@@ -9,25 +10,19 @@ namespace KegID.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class PartnerInfoMapView : ContentPage
     {
-        Map map;
 
         public PartnerInfoMapView ()
 		{
 			InitializeComponent ();
-            map = new Map(MapSpan.FromCenterAndRadius(
-                    new Position((long)Geolocation.savedPosition.Latitude, (long)Geolocation.savedPosition.Longitude), Distance.FromMiles(0.3)))
-            {  
-                IsShowingUser = true,
+            var map = new Map
+            {
+                MapType = MapType.Street,
                 HeightRequest = 100,
                 WidthRequest = 960,
                 VerticalOptions = LayoutOptions.FillAndExpand
             };
-            //MapHelper.CenterMapInDefaultLocation(MapControl);
+            var position = new Position(Geolocation.savedPosition.Latitude, Geolocation.savedPosition.Longitude); // Latitude, Longitude
 
-    //        map.MoveToRegion(MapSpan.FromCenterAndRadius(
-    //new Position((long)Geolocation.savedPosition.Latitude, (long)Geolocation.savedPosition.Longitude), Distance.FromMiles(0))); // Santa Cruz golf course
-
-            var position = new Position((long)Geolocation.savedPosition.Latitude, (long)Geolocation.savedPosition.Longitude); // Latitude, Longitude
             var pin = new Pin
             {
                 Type = PinType.Place,
@@ -35,17 +30,15 @@ namespace KegID.Views
                 Label = "Powai",
                 Address = "custom detail info"
             };
+
+            //map.Circle = new CustomCircle
+            //{
+            //    Position = position,
+            //    Radius = 1000
+            //};
+
             map.Pins.Add(pin);
-
-
-            //MapControl.MoveToRegion(new MapSpan(new Position(0, 0), 360, 360));
-
-            // for debugging output only
-            map.PropertyChanged += (sender, e) => {
-                Debug.WriteLine(e.PropertyName + " just changed!");
-                if (e.PropertyName == "VisibleRegion" && map.VisibleRegion != null)
-                    CalculateBoundingCoordinates(map.VisibleRegion);
-            };
+            map.MoveToRegion(MapSpan.FromCenterAndRadius(position, Distance.FromMiles(1.0)));
 
             MapControl.Children.Add(map);
 

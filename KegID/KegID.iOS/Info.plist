@@ -64,7 +64,7 @@
 		</dict>
 	</array>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>This app needs access location when open and in the background.</string>
+	<string>KegID needs access location when open and in the background.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Need location for geolocator plugin.</string>
 	<key>RequestWhenInUseAuthorization</key>
@@ -78,5 +78,7 @@
   <string>We are using your location</string>
   <key>NSLocationAlwaysUsageDescription</key>
   <string>Can we use your location</string>
+  <key>NSCalendarsUsageDescription</key>
+  <string>Needs Calendar Permission</string>
 </dict>
 </plist>

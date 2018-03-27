@@ -160,7 +160,21 @@ namespace KegID.ViewModel
                 var model = await _accountService.AuthenticateAsync(Username, Password);
                 if (model.StatusCode == System.Net.HttpStatusCode.OK)
                 {
-                    AppSettings.User = model.LoginModel;
+                    try
+                    {
+                        AppSettings.User = new Model.UserInfoModel
+                        {
+                            SessionId = model.LoginModel.SessionId,
+                            CompanyId = model.LoginModel.CompanyId,
+                            MasterCompanyId = model.LoginModel.MasterCompanyId,
+                            UserId = model.LoginModel.UserId,
+                            SessionExpires = model.LoginModel.SessionExpires
+                        };
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine(ex.Message);
+                    }
                     await Application.Current.MainPage.Navigation.PushModalAsync(new MainPage());
                 }
                 else

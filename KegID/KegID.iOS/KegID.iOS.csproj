@@ -50,11 +50,12 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <MtouchArch>ARM64</MtouchArch>
-    <CodesignKey>iPhone Developer: jitendra.jadav@slg.com (3SGCHM877Y)</CodesignKey>
+    <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <CodesignProvision>iOS Team Provisioning Profile: com.yourcompany.KegID</CodesignProvision>
-    <MtouchLink>SdkOnly</MtouchLink>
+    <CodesignProvision>
+    </CodesignProvision>
+    <MtouchLink>None</MtouchLink>
     <CodesignExtraArgs>
     </CodesignExtraArgs>
   </PropertyGroup>

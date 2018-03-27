@@ -7,6 +7,8 @@ namespace KegID.Controls
 {
     public class CustomMap : Map
     {
+        public CustomCircle Circle { get; set; }
+
         public static readonly BindableProperty CustomPinsProperty =
             BindableProperty.Create("CustomPins",
                 typeof(IEnumerable<CustomPin>), typeof(CustomMap), default(IEnumerable<CustomPin>),
@@ -28,5 +30,11 @@ namespace KegID.Controls
             set { base.SetValue(SelectedPinProperty, value); }
         }
 
+    }
+
+    public class CustomCircle
+    {
+        public Position Position { get; set; }
+        public double Radius { get; set; }
     }
 }

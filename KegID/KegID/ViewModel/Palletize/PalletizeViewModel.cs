@@ -328,7 +328,7 @@ namespace KegID.ViewModel
 
         #region Methods
 
-        public void GenerateManifestIdAsync(PalletModel palletModel)
+        public async void GenerateManifestIdAsync(PalletModel palletModel)
         {
             DateTime now = DateTime.Now;
             string barCode;
@@ -338,7 +338,7 @@ namespace KegID.ViewModel
             var secondsInDayTillNow = SecondsInDayTillNow();
             var millisecond = now.Millisecond;
 
-            var preference = AppSettings.User.Preferences.Where(x => x.PreferenceName == "DashboardPreferences").ToList();
+            var preference = await SQLiteServiceClient.Db.Table<Preference>().Where(x => x.PreferenceName == "DashboardPreferences").ToListAsync();
             foreach (var item in preference)
             {
                 if (item.PreferenceValue.Contains("OldestKegs"))

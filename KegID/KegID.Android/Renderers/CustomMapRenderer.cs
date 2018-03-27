@@ -11,12 +11,15 @@ using KegID.Model;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using Xamarin.Forms.Maps.Android;
+using Xamarin.Forms.Platform.Android;
 
 [assembly: ExportRenderer(typeof(CustomMap), typeof(CustomMapRenderer))]
 namespace KegID.Droid.Renderers
 {
     public class CustomMapRenderer : MapRenderer
     {
+        CustomCircle circle;
+
         private const int EventResource = Resource.Drawable.more;
         private const int RestaurantResource = Resource.Drawable.more;
 
@@ -30,11 +33,42 @@ namespace KegID.Droid.Renderers
             _pinIcon = BitmapDescriptorFactory.FromResource(EventResource);
         }
 
+        protected override void OnElementChanged(ElementChangedEventArgs<Map> e)
+        {
+            base.OnElementChanged(e);
+            if (e.OldElement != null)
+            {
+                // Unsubscribe
+            }
+
+            if (e.NewElement != null)
+            {
+                var formsMap = (CustomMap)e.NewElement;
+                circle = formsMap.Circle;
+                Control.GetMapAsync(this);
+            }
+        }
+
+        protected override void OnMapReady(GoogleMap map)
+        {
+            base.OnMapReady(map);
+            var circleOptions = new CircleOptions();
+            circleOptions.InvokeCenter(new LatLng(circle.Position.Latitude, circle.Position.Longitude));
+            circleOptions.InvokeRadius(circle.Radius);
+            circleOptions.InvokeFillColor(0X66FF0000);
+            circleOptions.InvokeStrokeColor(0X66FF0000);
+            circleOptions.InvokeStrokeWidth(0);
+
+            NativeMap.AddCircle(circleOptions);
+
+        }
+
+
         protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             base.OnElementPropertyChanged(sender, e);
 
-            var androidMapView = (MapView)Control;
+            var androidMapView = Control;
             var formsMap = (CustomMap)sender;
 
             if (e.PropertyName.Equals("CustomPins") && !_isDrawnDone)
