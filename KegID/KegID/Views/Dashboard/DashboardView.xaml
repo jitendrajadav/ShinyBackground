@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:KegID"
              Title="Dashboard"
              BackgroundColor="#FFFFFF"
+             xmlns:controls="clr-namespace:Plugin.CrossPlatformTintedImage.Abstractions;assembly=Plugin.CrossPlatformTintedImage.Abstractions"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Dashboard}">
 
     <ContentPage.Content>
@@ -52,32 +53,33 @@
                     </Image.Source>
                 </Image>
 
-                <Image
+                <controls:TintedImage 
+                    TintColor="{StaticResource selectTextColor}"
                     x:Name="imgMore"
                     HorizontalOptions="Center"                  
                     VerticalOptions="Center"
                     Grid.Column="1"
                     HeightRequest="30"
                     BackgroundColor="Transparent" >
-                    <Image.Source>
+                    <controls:TintedImage.Source>
                         <OnPlatform x:TypeArguments="FileImageSource">
                             <OnPlatform.iOS>
-                                <FileImageSource File="more.png"/>
+                                <FileImageSource File="setting.png"/>
                             </OnPlatform.iOS>
                             <OnPlatform.Android>
-                                <FileImageSource File="more.png"/>
+                                <FileImageSource File="setting.png"/>
                             </OnPlatform.Android>
                             <OnPlatform.WinPhone>
-                                <FileImageSource File="Assets/more.png"/>
+                                <FileImageSource File="Assets/setting.png"/>
                             </OnPlatform.WinPhone>
                         </OnPlatform>
-                    </Image.Source>
-                    <Image.GestureRecognizers>
+                    </controls:TintedImage.Source>
+                    <controls:TintedImage.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding Path=BindingContext.MoreCommand, 
                                                         Source={x:Reference Name=imgMore}}"
                                                          CommandParameter="{Binding}"/>
-                    </Image.GestureRecognizers>
-                </Image>
+                    </controls:TintedImage.GestureRecognizers>
+                </controls:TintedImage>
 
             </Grid>
           

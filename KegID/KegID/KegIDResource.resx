@@ -205,7 +205,7 @@
     <value>Add a Brand</value>
   </data>
   <data name="dialog_cancel_message" xml:space="preserve">
-    <value>You are about to leave this page</value>
+    <value>Are you sure you want to cancel?</value>
   </data>
   <data name="dialog_cancel_negative" xml:space="preserve">
     <value>Stay here</value>
@@ -532,7 +532,7 @@
     <value>Brand</value>
   </data>
   <data name="label_currentlocation" xml:space="preserve">
-    <value>Current Location</value>
+    <value>Current location</value>
   </data>
   <data name="label_days_in_possession" xml:space="preserve">
     <value>Days held:</value>
@@ -613,7 +613,7 @@
     <value>Tracking #</value>
   </data>
   <data name="label_more_info" xml:space="preserve">
-    <value>More Info</value>
+    <value>More info</value>
   </data>
   <data name="label_next" xml:space="preserve">
     <value>Next</value>
@@ -1550,5 +1550,35 @@
   </data>
   <data name="menu_action_sort_alphabetical" xml:space="preserve">
     <value>Alphabetical</value>
+  </data>
+  <data name="button_edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="dialog_maintenance_performed_message" xml:space="preserve">
+    <value>This keg needs the following maintenance performed:</value>
+  </data>
+  <data name="label_alt_barcode" xml:space="preserve">
+    <value>Alt barcode</value>
+  </data>
+  <data name="label_contents_keg" xml:space="preserve">
+    <value>Contents</value>
+  </data>
+  <data name="label_date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="label_days_at_location" xml:space="preserve">
+    <value>Days at location</value>
+  </data>
+  <data name="label_edit_keg" xml:space="preserve">
+    <value>Edit Keg</value>
+  </data>
+  <data name="label_keg_status" xml:space="preserve">
+    <value>Keg Status</value>
+  </data>
+  <data name="label_maintenance_performed" xml:space="preserve">
+    <value>Maintenance Performed</value>
+  </data>
+  <data name="label_type" xml:space="preserve">
+    <value>Type</value>
   </data>
 </root>

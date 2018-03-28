@@ -1,0 +1,319 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KegID.Views.KegStatusView"
+             xmlns:local="clr-namespace:KegID"
+             xmlns:behaviors="clr-namespace:KegID.Behaviors"
+             xmlns:controls="clr-namespace:Plugin.CrossPlatformTintedImage.Abstractions;assembly=Plugin.CrossPlatformTintedImage.Abstractions"
+             BindingContext="{Binding Source={x:Static local:App.Locator},Path=KegStatus}">
+    
+    <ContentPage.Content>
+        
+        <Grid>
+            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+           
+            <Button
+                x:Name="lblKegs"
+                HorizontalOptions="Start"
+                Style="{StaticResource TopButtonTitleStyle}"
+                Text="{Binding Resources[button_kegs]}"
+                Command="{Binding KegsCommand}"/>
+
+            <Label 
+                Text="{Binding Resources[label_keg_status]}"
+                TextColor="Black"
+                Style="{StaticResource LabelTitleStyle}"
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="Center" />
+
+            <Button
+                x:Name="lblEdit"
+                HorizontalOptions="End"
+                Style="{StaticResource TopButtonTitleStyle}"
+                Text="{Binding Resources[button_edit]}"
+                Command="{Binding EditCommand}"/>
+
+            <BoxView
+                Margin="-10,0,-10,0"
+                Grid.Row="1"
+                BackgroundColor="{StaticResource bannerBGColor}"
+                VerticalOptions="FillAndExpand"
+                HorizontalOptions="FillAndExpand"/>
+
+            <Label 
+                Grid.Row="1"
+                HeightRequest="50"
+                Text="{Binding Path=KegStatusModel.Barcode, StringFormat=' Barcode   {0}'}"
+                TextColor="White"
+                FontSize="{StaticResource AppBarButtonFontSize}"
+                VerticalTextAlignment="Center"
+                VerticalOptions="CenterAndExpand"/>
+
+            <controls:TintedImage 
+                TintColor="#FAD283"
+                x:Name="imgInvalidTools"
+                Grid.Row="1"
+                HeightRequest="40"
+                WidthRequest="40"
+                HorizontalOptions="End">
+
+                <controls:TintedImage.Source>
+                    <OnPlatform x:TypeArguments="FileImageSource">
+                        <OnPlatform.iOS>
+                            <FileImageSource File="invalidtools.png"/>
+                        </OnPlatform.iOS>
+                        <OnPlatform.Android>
+                            <FileImageSource File="invalidtools.png"/>
+                        </OnPlatform.Android>
+                        <OnPlatform.WinPhone>
+                            <FileImageSource File="Assets/invalidtools.png"/>
+                        </OnPlatform.WinPhone>
+                    </OnPlatform>
+                </controls:TintedImage.Source>
+
+                <controls:TintedImage.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.InvalidToolsCommand, 
+                                                        Source={x:Reference Name=imgInvalidTools}}"
+                                                         CommandParameter="{Binding}"/>
+                </controls:TintedImage.GestureRecognizers>
+            </controls:TintedImage>
+
+
+            <ScrollView
+                Grid.Row="2">
+                <Grid
+                    Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                 
+                    <Label
+                        FontSize="{StaticResource AppBarButtonFontSize}"
+                        Text="{Binding Resources[label_alt_barcode]}"
+                        Grid.Row="0"/>
+                    
+                    <Label
+                        Margin="10,0,0,0"
+                        FontSize="{StaticResource AppBarButtonFontSize}"
+                        Text="--"
+                        Grid.Row="1"/>
+
+                    <Label
+                        FontSize="{StaticResource AppBarButtonFontSize}"
+                        Text="{Binding Resources[label_owner]}"
+                        Grid.Row="2"/>
+                   
+                    <Label
+                        Margin="10,0,0,0"
+                        FontSize="{StaticResource AppBarButtonFontSize}"
+                        Text="{Binding Owner}"
+                        Grid.Row="3"/>
+
+                    <Label
+                        FontSize="{StaticResource AppBarButtonFontSize}"
+                        Text="{Binding Resources[label_size]}"
+                        Grid.Row="4"/>
+
+                    <Label
+                        Margin="10,0,0,0"
+                        FontSize="{StaticResource AppBarButtonFontSize}"
+                        Text="{Binding Path=KegStatusModel.SizeName}"
+                        Grid.Row="5"/>
+
+                    <Label
+                        FontSize="{StaticResource AppBarButtonFontSize}"
+                        Text="{Binding Resources[label_type]}"
+                        Grid.Row="6"/>
+
+                    <Label
+                        Margin="10,0,0,0"
+                        FontSize="{StaticResource AppBarButtonFontSize}"
+                        Text="{Binding Path=KegStatusModel.TypeName}"
+                        Grid.Row="7"/>
+
+                    <Label
+                        FontSize="{StaticResource AppBarButtonFontSize}"
+                        Text="{Binding Resources[label_more_info]}"
+                        Grid.Row="8"/>
+
+                    <Label
+                        Margin="10,0,0,0"
+                        FontSize="{StaticResource AppBarButtonFontSize}"
+                        Text="{Binding TagsStr}"
+                        Grid.Row="9"/>
+
+                    <Label
+                        FontSize="{StaticResource AppBarButtonFontSize}"
+                        Text="{Binding Resources[label_currentlocation]}"
+                        Grid.Row="10"/>
+
+                    <Button
+                        BackgroundColor="Transparent"
+                        TextColor="{StaticResource selectTextColor}"
+                        FontSize="{StaticResource AppBarButtonFontSize}"
+                        Text="{Binding Path=KegStatusModel.PossessorName}"
+                        Grid.Row="11"
+                        HorizontalOptions="Start"
+                        Command="{Binding CurrentLocationCommand}"/>
+
+                    <Label
+                        FontSize="{StaticResource AppBarButtonFontSize}"
+                        Text="{Binding Resources[label_days_at_location]}"
+                        Grid.Row="12"/>
+
+                    <Label
+                        Margin="10,0,0,0"
+                        FontSize="{StaticResource AppBarButtonFontSize}"
+                        Text="{Binding Path=KegStatusModel.HeldDays}"
+                        Grid.Row="13"/>
+                    
+                    <Label
+                        FontSize="{StaticResource AppBarButtonFontSize}"
+                        Text="{Binding Resources[label_contents_keg]}"
+                        Grid.Row="14"/>
+
+                    <Label
+                        Margin="10,0,0,0"
+                        FontSize="{StaticResource AppBarButtonFontSize}"
+                        Text="{Binding Path=KegStatusModel.Contents}"
+                        Grid.Row="15"/>
+                    
+                    <Label
+                        FontSize="{StaticResource AppBarButtonFontSize}"
+                        Text="{Binding Resources[label_batch]}"
+                        Grid.Row="16"/>
+
+                    <Label
+                        Margin="10,0,0,0"
+                        FontSize="{StaticResource AppBarButtonFontSize}"
+                        Text="{Binding Batch}"
+                        Grid.Row="17"/>
+                    
+                    <Button
+                        BackgroundColor="Transparent"
+                        TextColor="{StaticResource selectTextColor}"
+                        FontSize="{StaticResource AppBarButtonFontSize}"
+                        Text="{Binding MoveKeg}"
+                        Grid.Row="18"
+                        HorizontalOptions="Start"
+                        Command="{Binding CurrentLocationCommand}"/>
+                    
+                    <Picker
+                        BackgroundColor="Transparent"
+                        TextColor="{StaticResource selectTextColor}"
+                        Grid.Row="19"
+                        Title="Add alert"
+                        HorizontalOptions="Start"
+                        ItemsSource="{Binding MaintenanceCollection}"
+                        SelectedItem="{Binding SelectedMaintenance,Mode=TwoWay}"/>
+
+                    <Picker
+                        HorizontalOptions="End"
+                        BackgroundColor="Transparent"
+                        TextColor="{StaticResource selectTextColor}"
+                        Grid.Row="19"
+                        Title="Remove alert"
+                        ItemsSource="{Binding RemoveMaintenanceCollection}"
+                        SelectedItem="{Binding RemoveSelecetedMaintenance,Mode=TwoWay}"/>
+
+                    <ListView
+                        IsVisible="{Binding IsVisibleListView}"
+                        x:Name="lstBarcode"
+                        Grid.Row="20"
+                        SeparatorVisibility="Default"
+                        SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
+                        HasUnevenRows="True"
+                        CachingStrategy="RecycleElement"
+                        ItemsSource="{Binding MaintenancePerformedCollection}">
+
+                        <ListView.Header>
+                            <Grid
+                                BackgroundColor="{StaticResource lightGrayColor}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="20*"/>
+                                    <ColumnDefinition Width="80*"/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <Label
+                                    Grid.Column="0"
+                                    HorizontalOptions="Center"
+                                    Style="{StaticResource LabelTitleStyle}"
+                                    TextColor="Black"
+                                    Text="{Binding Resources[label_date]}"/>
+
+                                <Label
+                                    Grid.Column="1"
+                                    HorizontalOptions="Center"
+                                    Style="{StaticResource LabelTitleStyle}"
+                                    TextColor="Black"
+                                    Text="{Binding Resources[label_maintenance_performed]}"/>
+                            </Grid>
+                        </ListView.Header>
+                        
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+
+                                    <Grid 
+                                        RowSpacing="0"
+                                        ColumnSpacing="0">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="20*"/>
+                                            <ColumnDefinition Width="80*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label 
+                                            Margin="0,5,0,0"
+                                            VerticalOptions="FillAndExpand" 
+                                            VerticalTextAlignment="Center" 
+                                            Text="{Binding Date}"
+                                            TextColor="Black"
+                                            FontSize="{StaticResource ListViewTitleFont}"/>
+
+                                        <Label 
+                                            Grid.Column="1"
+                                            Margin="0,5,0,0"
+                                            VerticalOptions="FillAndExpand" 
+                                            VerticalTextAlignment="Center" 
+                                            Text="{Binding Name}"
+                                            TextColor="Black"
+                                            FontSize="{StaticResource ListViewTitleFont}"/>
+
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                </Grid>
+            </ScrollView>
+        </Grid>
+        
+    </ContentPage.Content>
+</ContentPage>

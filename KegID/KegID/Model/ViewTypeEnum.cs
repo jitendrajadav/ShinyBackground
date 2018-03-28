@@ -41,6 +41,8 @@
         SettingView,
         WhatIsNewView,
         LoginView,
-        KegsView
+        KegsView,
+        KegStatusView,
+        EditKegView,
     }
 }

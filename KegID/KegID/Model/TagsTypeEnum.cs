@@ -16,5 +16,6 @@
         GTIN,
         ExpiryDate,
         None,
+        Volume,
     }
 }

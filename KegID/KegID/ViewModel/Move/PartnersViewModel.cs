@@ -345,6 +345,9 @@ namespace KegID.ViewModel
                     case ViewTypeEnum.MaintainView:
                         SimpleIoc.Default.GetInstance<MaintainViewModel>().PartnerModel = model;
                         break;
+                    case ViewTypeEnum.EditKegView:
+                        SimpleIoc.Default.GetInstance<EditKegViewModel>().PartnerModel = model;
+                        break;
                     default:
                         break;
                 }

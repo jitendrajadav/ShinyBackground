@@ -48,6 +48,26 @@ namespace KegID.Services
             return inventoryDetailModel;
         }
 
+        public async Task<MaintenanceAlertModel> GetKegMaintenanceAlertAsync(string kegId, string sessionId)
+        {
+            MaintenanceAlertModel maintenanceAlertModel = new MaintenanceAlertModel();
+
+            string url = string.Format(Configuration.GetMaintenanceAlertByKegIdUrl, kegId, sessionId);
+            var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
+
+            var settings = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                MissingMemberHandling = MissingMemberHandling.Ignore,
+                DefaultValueHandling = DefaultValueHandling.Include,
+                Converters = new List<JsonConverter> { new CustomIntConverter() }
+            };
+
+            maintenanceAlertModel.MaintenanceAlertResponseModel = DeserializeObject<IList<MaintenanceAlertResponseModel>>(value.Response, settings);
+            maintenanceAlertModel.StatusCode = value.StatusCode;
+            return maintenanceAlertModel;
+        }
+
         public async Task<KegMaintenanceHistoryModel> GetKegMaintenanceHistoryAsync(string kegId, string sessionId)
         {
             KegMaintenanceHistoryModel kegMaintenanceHistoryModel = new KegMaintenanceHistoryModel();

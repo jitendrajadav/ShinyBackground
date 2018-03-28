@@ -133,6 +133,15 @@ namespace KegID {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit.
+        /// </summary>
+        internal static string button_edit {
+            get {
+                return ResourceManager.GetString("button_edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Fill.
         /// </summary>
         internal static string button_fill_kegs {
@@ -358,7 +367,7 @@ namespace KegID {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You are about to leave this page.
+        ///   Looks up a localized string similar to Are you sure you want to cancel?.
         /// </summary>
         internal static string dialog_cancel_message {
             get {
@@ -453,6 +462,15 @@ namespace KegID {
         internal static string dialog_loading {
             get {
                 return ResourceManager.GetString("dialog_loading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This keg needs the following maintenance performed:.
+        /// </summary>
+        internal static string dialog_maintenance_performed_message {
+            get {
+                return ResourceManager.GetString("dialog_maintenance_performed_message", resourceCulture);
             }
         }
         
@@ -1177,6 +1195,15 @@ namespace KegID {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Alt barcode.
+        /// </summary>
+        internal static string label_alt_barcode {
+            get {
+                return ResourceManager.GetString("label_alt_barcode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Alernate Barcode.
         /// </summary>
         internal static string label_altbarcode {
@@ -1321,11 +1348,38 @@ namespace KegID {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Current Location.
+        ///   Looks up a localized string similar to Contents.
+        /// </summary>
+        internal static string label_contents_keg {
+            get {
+                return ResourceManager.GetString("label_contents_keg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current location.
         /// </summary>
         internal static string label_currentlocation {
             get {
                 return ResourceManager.GetString("label_currentlocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date.
+        /// </summary>
+        internal static string label_date {
+            get {
+                return ResourceManager.GetString("label_date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Days at location.
+        /// </summary>
+        internal static string label_days_at_location {
+            get {
+                return ResourceManager.GetString("label_days_at_location", resourceCulture);
             }
         }
         
@@ -1344,6 +1398,15 @@ namespace KegID {
         internal static string label_destination {
             get {
                 return ResourceManager.GetString("label_destination", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Keg.
+        /// </summary>
+        internal static string label_edit_keg {
+            get {
+                return ResourceManager.GetString("label_edit_keg", resourceCulture);
             }
         }
         
@@ -1474,6 +1537,15 @@ namespace KegID {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Keg Status.
+        /// </summary>
+        internal static string label_keg_status {
+            get {
+                return ResourceManager.GetString("label_keg_status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Kegs.
         /// </summary>
         internal static string label_kegs {
@@ -1546,6 +1618,15 @@ namespace KegID {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Maintenance Performed.
+        /// </summary>
+        internal static string label_maintenance_performed {
+            get {
+                return ResourceManager.GetString("label_maintenance_performed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to One of more of the items require maintenance actions. Please check and continue.
         /// </summary>
         internal static string label_maintenance_warning {
@@ -1564,7 +1645,7 @@ namespace KegID {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to More Info.
+        ///   Looks up a localized string similar to More info.
         /// </summary>
         internal static string label_more_info {
             get {
@@ -1902,6 +1983,15 @@ namespace KegID {
         internal static string label_trackingnum {
             get {
                 return ResourceManager.GetString("label_trackingnum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type.
+        /// </summary>
+        internal static string label_type {
+            get {
+                return ResourceManager.GetString("label_type", resourceCulture);
             }
         }
         

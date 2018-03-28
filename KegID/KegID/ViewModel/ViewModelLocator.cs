@@ -38,6 +38,7 @@ namespace KegID.ViewModel
             #endregion
 
             #region Dashboard
+
             SimpleIoc.Default.Register<DashboardPartnersViewModel>();
             SimpleIoc.Default.Register<InventoryViewModel>();
             SimpleIoc.Default.Register<PrinterSettingViewModel>();
@@ -47,6 +48,9 @@ namespace KegID.ViewModel
             SimpleIoc.Default.Register<PartnerInfoViewModel>();
             SimpleIoc.Default.Register<PartnerInfoMapViewModel>();
             SimpleIoc.Default.Register<KegsViewModel>();
+            SimpleIoc.Default.Register<KegStatusViewModel>();
+            SimpleIoc.Default.Register<EditKegViewModel>();
+
             #endregion
 
             #region Fill
@@ -733,6 +737,42 @@ namespace KegID.ViewModel
             get
             {
                 return SimpleIoc.Default.GetInstance<KegsViewModel>();
+            }
+        }
+
+        #endregion
+
+        #region KegStatus
+
+        /// <summary>
+        /// Gets the KegStatus property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public KegStatusViewModel KegStatus
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<KegStatusViewModel>();
+            }
+        }
+
+        #endregion
+
+        #region EditKeg
+
+        /// <summary>
+        /// Gets the EditKeg property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public EditKegViewModel EditKeg
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<EditKegViewModel>();
             }
         }
 

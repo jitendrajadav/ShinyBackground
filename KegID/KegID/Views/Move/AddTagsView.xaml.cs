@@ -69,6 +69,11 @@ namespace KegID.Views
                 await OnAddMoreTagsClickedAsync(TagsTypeEnum.BestByDate);
                 await OnAddMoreTagsClickedAsync(TagsTypeEnum.ProductionDate);
             }
+            else if (Application.Current.MainPage.Navigation.ModalStack.LastOrDefault().GetType().Name == ViewTypeEnum.EditKegView.ToString())
+            {
+                await OnAddMoreTagsClickedAsync(TagsTypeEnum.Volume);
+                await OnAddMoreTagsClickedAsync(TagsTypeEnum.Note);
+            }
         }
 
         async Task OnAddMoreTagsClickedAsync(TagsTypeEnum title)
@@ -322,6 +327,10 @@ namespace KegID.Views
                     case ViewTypeEnum.AddBatchView:
                         SimpleIoc.Default.GetInstance<AddBatchViewModel>().Tags = tags;
                         SimpleIoc.Default.GetInstance<AddBatchViewModel>().TagsStr = tagsStr;
+                        break;
+                    case ViewTypeEnum.EditKegView:
+                        SimpleIoc.Default.GetInstance<EditKegViewModel>().Tags = tags;
+                        SimpleIoc.Default.GetInstance<EditKegViewModel>().TagsStr = tagsStr;
                         break;
                 }
 

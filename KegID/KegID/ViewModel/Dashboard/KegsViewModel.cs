@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
 using KegID.Model;
 using KegID.Services;
+using KegID.Views;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -84,6 +86,8 @@ namespace KegID.ViewModel
 
         #region Commands
         public RelayCommand PartnerInfoCommand { get; }
+        public RelayCommand<KegPossessionResponseModel> ItemTappedCommand { get; }
+
         #endregion
 
         #region Constructor
@@ -91,7 +95,24 @@ namespace KegID.ViewModel
         {
             _dashboardService = dashboardService;
             PartnerInfoCommand = new RelayCommand(PartnerInfoCommandRecieverAsync);
+            ItemTappedCommand = new RelayCommand<KegPossessionResponseModel>((model) => ItemTappedCommandRecieverAsync(model));
             LoadKegPossessionAsync();
+        }
+
+        #endregion
+
+        #region Methods
+
+        private async void PartnerInfoCommandRecieverAsync()
+        {
+           await Application.Current.MainPage.Navigation.PopModalAsync();
+        }
+
+        private async void ItemTappedCommandRecieverAsync(KegPossessionResponseModel model)
+        {
+            SimpleIoc.Default.GetInstance<KegStatusViewModel>().KegStatusModel = model;
+            await Application.Current.MainPage.Navigation.PushModalAsync(new KegStatusView());
+            await SimpleIoc.Default.GetInstance<KegStatusViewModel>().LoadMaintenanceHistoryAsync();
         }
 
         private async void LoadKegPossessionAsync()
@@ -99,14 +120,6 @@ namespace KegID.ViewModel
             var value = await _dashboardService.GetKegPossessionAsync(AppSettings.User.SessionId, SimpleIoc.Default.GetInstance<DashboardPartnersViewModel>().PartnerId);
             KegPossessionCollection = value.KegPossessionResponseModel;
             KegsTitle = KegPossessionCollection.FirstOrDefault().PossessorName;
-        }
-
-        #endregion
-
-        #region Methods
-        private async void PartnerInfoCommandRecieverAsync()
-        {
-           await Application.Current.MainPage.Navigation.PopModalAsync();
         }
 
         #endregion

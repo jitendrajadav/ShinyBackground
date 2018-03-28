@@ -34,7 +34,7 @@
             <Button
                 HorizontalOptions="End"
                 Style="{StaticResource TopButtonTitleStyle}"
-                Text="Edit"
+                Text="{Binding Resources[button_edit]}"
                 Command="{Binding EditCommand}"/>
            
             <BoxView

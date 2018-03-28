@@ -18,7 +18,7 @@
         /// <summary>
         /// Base Url
         /// </summary>
-        public const string ServiceUrl = StageAPIUrl;
+        public const string ServiceUrl = TestAPIUrl;
 
         /// <summary>
         /// Login Service Url
@@ -35,7 +35,8 @@
         public const string GetPartnerInfoByPartnerIdUrl = ServiceUrl + "Partner/?sessionId={0}&id={1}";
         public const string GetKegStatusByKegIdUrl = ServiceUrl + "Keg/{0}?sessionId={1}";
         public const string GetKegMaintenanceHistoryByKegIdUrl = ServiceUrl + "KegMaintenanceHistory/{0}?sessionId={1}";
-        
+        public const string GetMaintenanceAlertByKegIdUrl = ServiceUrl + "MaintenanceAlert?kegId={0}&sessionId={1}";
+
         /// <summary>
         /// Move Service Url
         /// </summary>
@@ -61,7 +62,7 @@
 
 
         /// <summary>
-        /// Maintain Service Url
+        /// Maintainenance Service Url
         /// </summary>
         public const string GetMaintenanceTypeUrl = ServiceUrl + "MaintenanceType/?sessionId={0}";
 

@@ -15,6 +15,7 @@ namespace KegID.Services
         Task<KegStatusResponseModel> GetKegStatusAsync(string kegId, string sessionId);
 
         Task<KegMaintenanceHistoryModel> GetKegMaintenanceHistoryAsync(string kegId, string sessionId);
+        Task<MaintenanceAlertModel> GetKegMaintenanceAlertAsync(string kegId, string sessionId);
 
     }
 }

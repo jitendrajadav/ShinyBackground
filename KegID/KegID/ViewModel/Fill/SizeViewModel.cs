@@ -1,7 +1,9 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
+﻿using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
+using KegID.Model;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -63,9 +65,20 @@ namespace KegID.ViewModel
         #endregion
 
         #region Methods
+
         private async void ItemTappedCommandRecieverAsync(string model)
         {
-            SimpleIoc.Default.GetInstance<FillViewModel>().SizeButtonTitle = model;
+            switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack.LastOrDefault().GetType().Name))
+            {
+                case ViewTypeEnum.FillView:
+                    SimpleIoc.Default.GetInstance<FillViewModel>().SizeButtonTitle = model;
+                    break;
+                case ViewTypeEnum.EditKegView:
+                    SimpleIoc.Default.GetInstance<EditKegViewModel>().KegStatusModel.SizeName = model;
+                    break;
+                default:
+                    break;
+            }
             await Application.Current.MainPage.Navigation.PopModalAsync();
         }
 
