@@ -41,7 +41,7 @@
                 <Setter Property="TextColor" Value="White"/>
                 <Setter Property="BackgroundColor" Value="{StaticResource selectTextColor}"/>
                 <Setter Property="FontSize" Value="{StaticResource AppBarButtonFontSize}"/>
-                <Setter Property="Margin" Value="{StaticResource AppBarButtonMargin}"/>
+                <Setter Property="Margin" Value="{StaticResource BottomAppBarButtonMargin}"/>
                 <Setter Property="HeightRequest" Value="{StaticResource BottomAppBarButtonHeight}"/>
                 <Setter Property="BorderRadius" Value="0"/>
             </Style>
@@ -59,6 +59,16 @@
                 <Setter Property="VerticalOptions" Value="Center"/>
                 <Setter Property="FontSize" Value="{StaticResource AppBarButtonFontSize}"/>
                 <Setter Property="Margin" Value="{StaticResource AppBarButtonMargin}"/>
+                <Setter Property="TextColor" Value="Black"/>
+            </Style>
+
+            <Style x:Key="LabelTitleWhiteTextColorStyle" TargetType="Label">
+                <Setter Property="VerticalTextAlignment" Value="Center"/>
+                <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
+                <Setter Property="FontSize" Value="{StaticResource AppBarButtonFontSize}"/>
+                <Setter Property="Margin" Value="{StaticResource AppBarButtonMargin}"/>
+                <Setter Property="TextColor" Value="White"/>
+                <Setter Property="HeightRequest" Value="50"/>
             </Style>
 
             <Style x:Key="LabelLeftAlign" TargetType="Label">
@@ -74,6 +84,22 @@
                 <Setter Property="TextColor" Value="#555555"/>
             </Style>
 
+            <Style x:Key="LabelNormalStyle" TargetType="Label">
+                <Setter Property="HorizontalTextAlignment" Value="Start" />
+                <Setter Property="VerticalTextAlignment" Value="Center"/>
+                <Setter Property="TextColor" Value="Black"/>
+                <Setter Property="FontSize" Value="{StaticResource LableFontSize}"/>
+            </Style>
+
+            <Style x:Key="ButtonNormalStyle" TargetType="Button">
+                <Setter Property="VerticalOptions" Value="Center"/>
+                <Setter Property="HorizontalOptions" Value="Start"/>
+                <Setter Property="TextColor" Value="{StaticResource selectTextColor}"/>
+                <Setter Property="FontSize" Value="{StaticResource LableFontSize}"/>
+                <Setter Property="Margin" Value="10,0,0,0"/>
+                <Setter Property="BackgroundColor" Value="Transparent"/>
+            </Style>
+            
             <Style x:Key="ButtonRigthAlign" TargetType="Button">
                 <Setter Property="VerticalOptions" Value="Center"/>
             </Style>

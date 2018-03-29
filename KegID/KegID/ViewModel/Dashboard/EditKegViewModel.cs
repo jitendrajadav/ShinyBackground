@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using KegID.Model;
 using KegID.Views;
+using System;
 using System.Collections.Generic;
 using Xamarin.Forms;
 
@@ -222,7 +223,36 @@ namespace KegID.ViewModel
         {
             var vlaue1 = SelectedItemType;
             var vlaue5 = TagsStr;
-            var value7 = Tags;
+
+            var kegRequestModel = new KegRequestModel
+            {
+                KegId = KegStatusModel.KegId,
+                Barcode = KegStatusModel.Barcode,
+                OwnerId = PartnerModel.PartnerId,
+                AltBarcode = KegStatusModel.Barcode,
+                Notes = "",
+                ReferenceKey = "",
+                ProfileId = "",
+                AssetType = "",
+                AssetSize = "",
+                AssetVolume = "",
+                AssetDescription = "",
+                OwnerSkuId = "",
+                FixedContents = "",
+                Tags = Tags,
+                MaintenanceAlertIds = new List<string>(),
+                LessorId = "",
+                PurchaseDate = DateTime.Now,
+                PurchasePrice = 0,
+                PurchaseOrder = "",
+                ManufacturerName = "",
+                ManufacturerId = "",
+                ManufactureLocation = "",
+                ManufactureDate = DateTimeOffset.Now,
+                Material = "",
+                Markings = "",
+                Colors = ""
+            };
         }
 
         private async void PartnerCommandRecieverAsync()

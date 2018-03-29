@@ -8,8 +8,7 @@
     
     <ContentPage.Content>
         
-        <Grid
-            Margin="10,0,10,0">
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -20,9 +19,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
             <Button
@@ -34,6 +31,7 @@
                 />
 
             <Label
+                Style="{StaticResource LabelTitleStyle}"
                 HorizontalOptions="Center"
                 VerticalOptions="Center"
                 Text="{Binding AddressTitle}"/>
@@ -45,7 +43,6 @@
                 Text="{Binding Resources[button_done]}"/>
 
             <BoxView
-                Margin="-10,0,-10,0"
                 Grid.Row="1"
                 BackgroundColor="Black"
                 HeightRequest="1"
@@ -53,36 +50,43 @@
                 HorizontalOptions="FillAndExpand"/>
 
             <Entry
+                Margin="10,0,10,0"
                 Grid.Row="2"
                 Placeholder="{Binding Resources[label_address_line1]}"
                 Text="{Binding Line1}"/>
 
             <Entry
+                Margin="10,0,10,0"
                 Grid.Row="3"
                 Placeholder="{Binding Resources[label_address_line2]}"
                 Text="{Binding Line2}"/>
 
             <Entry
+                Margin="10,0,10,0"
                 Grid.Row="4"
                 Placeholder="{Binding Resources[label_address_line3]}"
                 Text="{Binding Line3}"/>
 
             <Entry
+                Margin="10,0,10,0"
                 Grid.Row="5"
                 Placeholder="{Binding Resources[label_address_city]}"
                 Text="{Binding City}"/>
 
             <Entry
+                Margin="10,0,10,0"
                 Grid.Row="6"
                 Placeholder="{Binding Resources[label_address_state]}"
                 Text="{Binding State}"/>
 
             <Entry
+                Margin="10,0,10,0"
                 Grid.Row="7"
                 Placeholder="{Binding Resources[label_address_postal]}"
                 Text="{Binding PostalCode}"/>
 
             <Entry
+                Margin="10,0,10,0"
                 Grid.Row="8"
                 Placeholder="{Binding Resources[label_address_country]}"
                 Text="{Binding Country}"/>

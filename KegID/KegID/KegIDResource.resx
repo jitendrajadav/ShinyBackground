@@ -538,7 +538,7 @@
     <value>Days held:</value>
   </data>
   <data name="label_destination" xml:space="preserve">
-    <value>Destination</value>
+    <value>Destination:</value>
   </data>
   <data name="label_effectivedate" xml:space="preserve">
     <value>Effective Date</value>
@@ -646,7 +646,7 @@
     <value>Pallet</value>
   </data>
   <data name="label_palletize" xml:space="preserve">
-    <value>Palletize?</value>
+    <value>Palletize:</value>
   </data>
   <data name="label_pallet_id" xml:space="preserve">
     <value>Pallet ID</value>
@@ -691,7 +691,7 @@
     <value>Ship On</value>
   </data>
   <data name="label_size" xml:space="preserve">
-    <value>Size</value>
+    <value>Size:</value>
   </data>
   <data name="label_sku" xml:space="preserve">
     <value>SKU</value>

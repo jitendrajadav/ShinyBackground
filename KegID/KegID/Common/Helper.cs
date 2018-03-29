@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Plugin.Connectivity;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -12,6 +13,15 @@ using System.Threading.Tasks;
 
 namespace KegID.Common
 {
+    public enum HttpMethodType
+    {
+        Get,
+        Post,
+        Send,
+        Put,
+        Delete
+    }
+
     public class Helper
     {
         static HttpClient client;
@@ -44,6 +54,7 @@ namespace KegID.Common
 
             return kegIDResponse;
         }
+
         public static async Task<KegIDResponse> Send(string Url, string Json, string RequestType)
         {
             KegIDResponse kegIDResponse = new KegIDResponse();
@@ -70,6 +81,7 @@ namespace KegID.Common
             }
             return kegIDResponse;
         }
+
         public static async Task<KegIDResponse> Post(string Url, string Json)
         {
             KegIDResponse kegIDResponse = new KegIDResponse();
@@ -149,6 +161,16 @@ namespace KegID.Common
                 return type;
             }
         }
+        public static JsonSerializerSettings GetJsonSetting()
+        {
+            return new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                MissingMemberHandling = MissingMemberHandling.Ignore,
+                DefaultValueHandling = DefaultValueHandling.Include,
+                Converters = new List<JsonConverter> { new CustomIntConverter() }
+            };
+        }
 
         public class CustomIntConverter : JsonConverter
         {
@@ -170,9 +192,10 @@ namespace KegID.Common
                 throw new FormatException();
             }
 
+
             public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
             {
-                throw new NotImplementedException();
+                
             }
         }
 

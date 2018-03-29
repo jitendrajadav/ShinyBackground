@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
-using System.Net;
 using System.Threading.Tasks;
+using KegID.Common;
 using KegID.Model;
 using Newtonsoft.Json;
 using static KegID.Common.Helper;
@@ -17,15 +16,7 @@ namespace KegID.Services
             string url = string.Format(Configuration.GetMaintenanceTypeUrl, sessionId);
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
-            var settings = new JsonSerializerSettings
-            {
-                NullValueHandling = NullValueHandling.Ignore,
-                MissingMemberHandling = MissingMemberHandling.Ignore,
-                DefaultValueHandling = DefaultValueHandling.Include,
-                Converters = new List<JsonConverter> { new CustomIntConverter() }
-            };
-
-            maintainTypeModel.MaintainTypeReponseModel = DeserializeObject<IList<MaintainTypeReponseModel>>(value.Response, settings);
+            maintainTypeModel.MaintainTypeReponseModel = DeserializeObject<IList<MaintainTypeReponseModel>>(value.Response, GetJsonSetting());
             maintainTypeModel.StatusCode = value.StatusCode;
 
             return maintainTypeModel;

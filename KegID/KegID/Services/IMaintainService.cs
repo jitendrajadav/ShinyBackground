@@ -6,8 +6,6 @@ namespace KegID.Services
     public interface IMaintainService
     {
         Task<MaintainTypeModel> GetMaintainTypeAsync(string sessionId);
-
         Task<KegIDResponse> PostMaintenanceDoneAsync(MaintenanceDoneRequestModel model, string sessionId, string RequestType);
-
     }
 }

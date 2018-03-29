@@ -121,6 +121,7 @@
                     Text="Shipping Address:"/>
 
                 <Label
+                    LineBreakMode="MiddleTruncation"
                     Margin="10"
                     x:Name="lblShipigAddress"
                     BackgroundColor="Transparent"
@@ -144,6 +145,7 @@
                     Text="Billing Address:"/>
 
                 <Label
+                    LineBreakMode="MiddleTruncation"
                     Margin="10"
                     x:Name="lblBillingAddress"
                     BackgroundColor="Transparent"

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
@@ -428,6 +429,7 @@ namespace KegID.ViewModel
             }
         }
 
+
         #endregion
 
         #region PartnerName
@@ -839,6 +841,40 @@ namespace KegID.ViewModel
 
         #endregion
 
+        #region PartnerInfoModel
+
+        /// <summary>
+        /// The <see cref="PartnerInfoModel" /> property's name.
+        /// </summary>
+        public const string PartnerInfoModelPropertyName = "PartnerInfoModel";
+
+        private PartnerInfoResponseModel _PartnerInfoResponseModel = null;
+
+        /// <summary>
+        /// Sets and gets the PartnerInfoModel property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public PartnerInfoResponseModel PartnerInfoModel
+        {
+            get
+            {
+                return _PartnerInfoResponseModel;
+            }
+
+            set
+            {
+                if (_PartnerInfoResponseModel == value)
+                {
+                    return;
+                }
+
+                _PartnerInfoResponseModel = value;
+                RaisePropertyChanged(PartnerInfoModelPropertyName);
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Commands
@@ -859,16 +895,16 @@ namespace KegID.ViewModel
             SubmitCommand = new RelayCommand(SubmitCommandRecieverAsync);
             ShippingAddressCommand = new RelayCommand(ShippingAddressCommandRecieverAsync);
             BillingAddressCommand = new RelayCommand(BillingAddressCommandRecieverAsync);
-            LoadPartnerTypeAsync();
         }
 
         #endregion
 
         #region Methods
+
         private async void BillingAddressCommandRecieverAsync()
         {
             SimpleIoc.Default.GetInstance<EditAddressViewModel>().AddressTitle = "Billing Address";
-           await Application.Current.MainPage.Navigation.PushModalAsync(new EditAddressView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new EditAddressView());
         }
 
         private async void ShippingAddressCommandRecieverAsync()
@@ -970,7 +1006,7 @@ namespace KegID.ViewModel
             }
         }
 
-        private async void LoadPartnerTypeAsync()
+        public async void LoadPartnerAsync(PartnerInfoResponseModel partnerInfoModel)
         {
             IList<PartnerTypeModel> model = await SQLiteServiceClient.Db.Table<PartnerTypeModel>().ToListAsync();
 
@@ -996,6 +1032,31 @@ namespace KegID.ViewModel
             finally
             {
                 Loader.StopLoading();
+            }
+
+            if (partnerInfoModel != null)
+                AssingValueAddPartner(partnerInfoModel);
+        }
+
+        private void AssingValueAddPartner(PartnerInfoResponseModel partnerInfoModel)
+        {
+            try
+            {
+                PartnerInfoModel = partnerInfoModel;
+                PartnerName = PartnerInfoModel.FullName;
+                ShipAddress = PartnerInfoModel.ShipAddress;
+                BillAddress = PartnerInfoModel.BillAddress;
+                ContactName = PartnerInfoModel.ContactName;
+                Phone = PartnerInfoModel.Phone;
+                ContactEmail = PartnerInfoModel.ContactEmail;
+                AccountNumber = PartnerInfoModel.AccountNumber;
+                ReferenceKey = PartnerInfoModel.ReferenceKey;
+                Notes = PartnerInfoModel.Notes;
+                SelectedPartnerType = PartnerTypeCollectioin.Where(x => x.Name == PartnerInfoModel.PartnerTypeName).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
             }
         }
 

@@ -11,6 +11,9 @@
         public const string NewBatch = "Batch";
         public const string NewPallet = "NewPallet";
         public const string PostedMaintenanceDone = "PostedMaintenanceDone";
+        public const string NewKeg = "NewKeg";
+        public const string PostedMaintenanceAlert = "PostedMaintenanceAlert";
+        
 
         public const string StageAPIUrl = "https://stageapi.kegid.com/api/";
         public const string TestAPIUrl = "https://testapi.kegid.com/api/";
@@ -37,6 +40,12 @@
         public const string GetKegMaintenanceHistoryByKegIdUrl = ServiceUrl + "KegMaintenanceHistory/{0}?sessionId={1}";
         public const string GetMaintenanceAlertByKegIdUrl = ServiceUrl + "MaintenanceAlert?kegId={0}&sessionId={1}";
 
+        public const string GetDeleteMaintenanceAlertByKegIdUrl = ServiceUrl + "DeleteMaintenanceAlert?kegId={0}&sessionId={1}";
+
+        public const string PostKegUrl = ServiceUrl + "Keg/?sessionId={0}";
+        public const string PostMaintenanceAlertUrl = ServiceUrl + "MaintenanceAlert/?sessionId={0}";
+        public const string PostMaintenanceDeleteAlertUrl = ServiceUrl + "MaintenanceAlert/DeleteAlert/?sessionId={0}";
+        
         /// <summary>
         /// Move Service Url
         /// </summary>

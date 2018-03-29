@@ -71,13 +71,9 @@
                     HorizontalOptions="FillAndExpand"/>
             
                 <Label 
-                    Margin="0,0,-10,0"
-                    HeightRequest="50"
                     Text="{Binding ManifestId, StringFormat=' Manifest #: {0}', Converter={StaticResource StringToLast8CharacterConverter}}"
-                    TextColor="White"
-                    FontSize="{StaticResource AppBarButtonFontSize}"
-                    VerticalTextAlignment="Center"
-                    VerticalOptions="CenterAndExpand"/>
+                    Style="{StaticResource LabelTitleWhiteTextColorStyle}"
+                    />
 
                 <Label
                     TextColor="Black"
@@ -85,23 +81,16 @@
                     Text="Destination:"
                     Grid.Row="1"/>
 
-                <Label
+                <Button
                     x:Name="lblDestination"
-                    BackgroundColor="Transparent"
-                    TextColor="{StaticResource selectTextColor}"
-                    Margin="10,0,0,0"
-                    HorizontalOptions="Start"
+                    Style="{StaticResource ButtonNormalStyle}"
                     Text="{Binding Path=PartnerModel.FullName}"
                     Grid.Row="2"
-                    FontSize="{StaticResource AppBarButtonFontSize}">
-                   
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding Path=BindingContext.SelectLocationCommand, 
-                                                        Source={x:Reference Name=lblDestination}}"
-                                                         CommandParameter="{Binding}"/>
-                    </Label.GestureRecognizers>
-                </Label>
-                
+                    BorderRadius="0"
+                    BorderWidth="0"
+                    VerticalOptions="Center"
+                    Command="{Binding SelectLocationCommand}"/>
+
                 <Label
                     Grid.Row="2"
                     HorizontalOptions="End"

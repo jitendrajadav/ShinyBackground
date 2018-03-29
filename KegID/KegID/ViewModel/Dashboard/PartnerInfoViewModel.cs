@@ -290,6 +290,40 @@ namespace KegID.ViewModel
 
         #endregion
 
+        #region PartnerInfoModel
+
+        /// <summary>
+        /// The <see cref="PartnerInfoModel" /> property's name.
+        /// </summary>
+        public const string PartnerInfoModelPropertyName = "PartnerInfoModel";
+
+        private PartnerInfoResponseModel _PartnerInfoResponseModel = null;
+
+        /// <summary>
+        /// Sets and gets the PartnerInfoModel property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public PartnerInfoResponseModel PartnerInfoModel
+        {
+            get
+            {
+                return _PartnerInfoResponseModel;
+            }
+
+            set
+            {
+                if (_PartnerInfoResponseModel == value)
+                {
+                    return;
+                }
+
+                _PartnerInfoResponseModel = value;
+                RaisePropertyChanged(PartnerInfoModelPropertyName);
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Commands
@@ -318,11 +352,11 @@ namespace KegID.ViewModel
 
         private async void LoadPartnerInfoAsync()
         {
-            var value = await _dashboardService.GetPartnerInfoAsync(AppSettings.User.SessionId, SimpleIoc.Default.GetInstance<DashboardPartnersViewModel>().PartnerId);
-            KegsHeld = value.KegsHeld.ToString();
-            Notes = value.Notes;
-            Ref = value.ReferenceKey;
-            ContactEmail = value.ContactEmail;
+            PartnerInfoModel = await _dashboardService.GetPartnerInfoAsync(AppSettings.User.SessionId, SimpleIoc.Default.GetInstance<DashboardPartnersViewModel>().PartnerId);
+            KegsHeld = PartnerInfoModel.KegsHeld.ToString();
+            Notes = PartnerInfoModel.Notes;
+            Ref = PartnerInfoModel.ReferenceKey;
+            ContactEmail = PartnerInfoModel.ContactEmail;
         }
 
         private async void ShipToCommandRecieverAsync()
@@ -376,6 +410,7 @@ namespace KegID.ViewModel
         private async void EditCommandRecieverAsync()
         {
             await Application.Current.MainPage.Navigation.PushModalAsync(new AddPartnerView());
+            SimpleIoc.Default.GetInstance<AddPartnerViewModel>().LoadPartnerAsync(PartnerInfoModel);
         }
 
         private async void PartnersCommandRecieverAsync()

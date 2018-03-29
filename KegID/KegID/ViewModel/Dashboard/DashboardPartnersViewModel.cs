@@ -455,7 +455,8 @@ namespace KegID.ViewModel
                 Loader.StopLoading();
                 KegsHeldCommandReciever();
             }
-        } 
+        }
+
         private void AlphabeticalCommandReciever()
         {
             PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners.OrderBy(x => x.FullName));

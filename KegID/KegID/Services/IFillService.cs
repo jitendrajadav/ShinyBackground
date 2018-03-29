@@ -7,6 +7,5 @@ namespace KegID.Services
     {
         Task<BatchResponseModel> GetBatchListAsync(string sessionId);
         //Task<object> PostBatchAsync(BatchRequestModel model, string sessionId, string RequestType);
-
     }
 }

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
@@ -471,8 +473,31 @@ namespace KegID.ViewModel
 
         private async void InvalidToolsCommandRecieverAsync()
         {
-            var value = await _dashboardService.GetKegMaintenanceAlertAsync(KegStatusModel.KegId, AppSettings.User.SessionId);
-            await Application.Current.MainPage.DisplayAlert("Warning?", Resources["dialog_maintenance_performed_message"], "Ok");
+            MaintenanceAlertModel model = null;
+            string maintenanceStr = string.Empty;
+
+            try
+            {
+                model = await _dashboardService.GetKegMaintenanceAlertAsync(KegStatusModel.KegId, AppSettings.User.SessionId);
+                if (model != null)
+                {
+                    foreach (var item in model.MaintenanceAlertResponseModel)
+                    {
+                        maintenanceStr += "-" + item.MaintenanceType.Name + "\n";
+                    }
+
+                    await Application.Current.MainPage.DisplayAlert("Warning", Resources["dialog_maintenance_performed_message"] + "\n" + maintenanceStr, "Ok");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            finally
+            {
+                model = null;
+                maintenanceStr = default(string);
+            }
         }
 
         private async void CurrentLocationCommandRecieverAsync()

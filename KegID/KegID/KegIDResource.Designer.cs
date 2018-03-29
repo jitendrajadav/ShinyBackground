@@ -1393,7 +1393,7 @@ namespace KegID {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Destination.
+        ///   Looks up a localized string similar to Destination:.
         /// </summary>
         internal static string label_destination {
             get {
@@ -1762,7 +1762,7 @@ namespace KegID {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Palletize?.
+        ///   Looks up a localized string similar to Palletize:.
         /// </summary>
         internal static string label_palletize {
             get {
@@ -1879,7 +1879,7 @@ namespace KegID {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Size.
+        ///   Looks up a localized string similar to Size:.
         /// </summary>
         internal static string label_size {
             get {

@@ -55,20 +55,16 @@
                 VerticalOptions="Center"/>
             
             <Button
+                Margin="-10,0,0,0"
                 Grid.Row="2"
-                BackgroundColor="Transparent"
-                VerticalOptions="Center"
-                HorizontalOptions="Start"
-                TextColor="{StaticResource selectTextColor}"
+                Style="{StaticResource ButtonNormalStyle}"
                 Text="{Binding KegsHeld,StringFormat='{0} Kegs'}"
                 Command="{Binding KegsCommand}"/>
             
             <Button
+                Margin="-10,0,0,0"
                 Grid.Row="2"
-                BackgroundColor="Transparent"
-                VerticalOptions="Center"
-                HorizontalOptions="End"
-                TextColor="{StaticResource selectTextColor}"
+                Style="{StaticResource ButtonNormalStyle}"
                 Text="{Binding Resources[menu_action_movekegs]}"
                 Command="{Binding SendKegsCommand}"/>
 
