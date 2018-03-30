@@ -1258,7 +1258,7 @@ namespace KegID {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Batch.
+        ///   Looks up a localized string similar to Batch:.
         /// </summary>
         internal static string label_batch {
             get {
@@ -1546,7 +1546,7 @@ namespace KegID {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Kegs.
+        ///   Looks up a localized string similar to Kegs:.
         /// </summary>
         internal static string label_kegs {
             get {
@@ -1645,7 +1645,7 @@ namespace KegID {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to More info.
+        ///   Looks up a localized string similar to More info:.
         /// </summary>
         internal static string label_more_info {
             get {
@@ -1915,6 +1915,15 @@ namespace KegID {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Stock ocation:.
+        /// </summary>
+        internal static string label_stock_location {
+            get {
+                return ResourceManager.GetString("label_stock_location", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Stock Location.
         /// </summary>
         internal static string label_stocklocation {
@@ -1929,6 +1938,15 @@ namespace KegID {
         internal static string label_tags {
             get {
                 return ResourceManager.GetString("label_tags", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Target location:.
+        /// </summary>
+        internal static string label_target_location {
+            get {
+                return ResourceManager.GetString("label_target_location", resourceCulture);
             }
         }
         
@@ -2293,7 +2311,7 @@ namespace KegID {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Save Draft.
+        ///   Looks up a localized string similar to Save draft.
         /// </summary>
         internal static string menu_action_save_draft {
             get {
@@ -3994,6 +4012,15 @@ namespace KegID {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Build Pallet.
+        /// </summary>
+        internal static string title_build_pallet {
+            get {
+                return ResourceManager.GetString("title_build_pallet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bulk Update.
         /// </summary>
         internal static string title_bulk_update {
@@ -4026,6 +4053,15 @@ namespace KegID {
         internal static string title_choose_pallet {
             get {
                 return ResourceManager.GetString("title_choose_pallet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create Manifest.
+        /// </summary>
+        internal static string title_create_manifest {
+            get {
+                return ResourceManager.GetString("title_create_manifest", resourceCulture);
             }
         }
         

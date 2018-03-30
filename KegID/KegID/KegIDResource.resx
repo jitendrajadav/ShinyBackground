@@ -502,7 +502,7 @@
     <value>Barcode</value>
   </data>
   <data name="label_batch" xml:space="preserve">
-    <value>Batch</value>
+    <value>Batch:</value>
   </data>
   <data name="label_batch_code" xml:space="preserve">
     <value>Batch Code</value>
@@ -580,7 +580,7 @@
     <value>Partner</value>
   </data>
   <data name="label_kegs" xml:space="preserve">
-    <value>Kegs</value>
+    <value>Kegs:</value>
   </data>
   <data name="label_keg_id" xml:space="preserve">
     <value>Keg ID</value>
@@ -613,7 +613,7 @@
     <value>Tracking #</value>
   </data>
   <data name="label_more_info" xml:space="preserve">
-    <value>More info</value>
+    <value>More info:</value>
   </data>
   <data name="label_next" xml:space="preserve">
     <value>Next</value>
@@ -826,7 +826,7 @@
     <value>Save</value>
   </data>
   <data name="menu_action_save_draft" xml:space="preserve">
-    <value>Save Draft</value>
+    <value>Save draft</value>
   </data>
   <data name="menu_action_scan" xml:space="preserve">
     <value>Scan</value>
@@ -1580,5 +1580,17 @@
   </data>
   <data name="label_type" xml:space="preserve">
     <value>Type</value>
+  </data>
+  <data name="label_stock_location" xml:space="preserve">
+    <value>Stock ocation:</value>
+  </data>
+  <data name="label_target_location" xml:space="preserve">
+    <value>Target location:</value>
+  </data>
+  <data name="title_build_pallet" xml:space="preserve">
+    <value>Build Pallet</value>
+  </data>
+  <data name="title_create_manifest" xml:space="preserve">
+    <value>Create Manifest</value>
   </data>
 </root>
