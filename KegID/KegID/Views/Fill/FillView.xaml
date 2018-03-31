@@ -22,7 +22,6 @@
             <Button
                 x:Name="lblCancel"
                 Style="{StaticResource TopButtonTitleStyle}"
-                HorizontalOptions="Start"
                 Text="{Binding Resources[dialog_print_negative]}"
                 Command="{Binding CancelCommand}"
                 />

@@ -54,11 +54,8 @@
                 Grid.Row="1"/>
             
             <Label
-                VerticalOptions="Center"
-                HorizontalOptions="Center"
                 Text="Value"
-                FontSize="{StaticResource AppBarButtonFontSize}"
-                TextColor="White"
+                Style="{StaticResource LabelTitleWhiteTextColorStyle}"
                 Grid.Row="1"
                 Grid.Column="1"/>
 

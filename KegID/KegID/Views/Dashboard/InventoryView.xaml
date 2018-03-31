@@ -38,10 +38,7 @@
             <Label
                 Grid.Row="1"
                 HorizontalOptions="Start"
-                VerticalOptions="Center"
-                TextColor="White"
-                Margin="10,0,0,0"
-                FontAttributes="Bold"
+                Style="{StaticResource LabelTitleWhiteTextColorStyle}"
                 Text="{Binding Resources[label_stock]}"/>
 
             <ListView 
@@ -125,7 +122,6 @@
             </Grid.RowDefinitions>
 
             <Button
-                BackgroundColor="Transparent"
                 TextColor="{StaticResource selectTextColor}"
                 HorizontalOptions="Start"
                 Text="{Binding Resources[button_home]}"
@@ -148,10 +144,7 @@
             <Label
                 Grid.Row="1"
                 HorizontalOptions="Start"
-                VerticalOptions="Center"
-                TextColor="White"
-                Margin="10,0,0,0"
-                FontAttributes="Bold"
+                Style="{StaticResource LabelTitleWhiteTextColorStyle}"
                 Text="{Binding Resources[content_list_empty]}"/>
 
             <ListView 

@@ -22,11 +22,6 @@
                 Text="{Binding Resources[title_partner_info]}"
                 Command="{Binding PartnerInfoCommand}"/>
 
-            <!--<controls:CustomMap 
-                Grid.Row="1"
-                    x:Name="MapControl"
-                CustomPins="{Binding CustomPins,Mode=TwoWay}"
-                   />-->
             <Grid 
                 Grid.Row="1"
                 x:Name="MapControl"/>

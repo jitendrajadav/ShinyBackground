@@ -23,7 +23,6 @@
             <Button
                 x:Name="lblHome"
                 Style="{StaticResource TopButtonTitleStyle}"
-                HorizontalOptions="Start"
                 Text="{Binding Resources[button_home]}"
                 Command="{Binding HomeCommand}"
                 />
@@ -42,25 +41,22 @@
 
             <Label 
                 Grid.Row="1"
-                TextColor="White"
-                Style="{StaticResource LabelTitleStyle}"
+                Style="{StaticResource LabelTitleWhiteTextColorStyle}"
                 Text="{Binding TrackingNo,StringFormat='Tracking #: {0}',Converter={StaticResource StringToLast8CharacterConverter}}"
-                HorizontalOptions="Start" />
+                />
 
             <Label 
                 Grid.Row="2"
-                Text="To:"
-                Style="{StaticResource LabelTitleStyle}"
-                TextColor="Black"
-                HorizontalOptions="Start" />
+                Text="{Binding Resources[label_to]}"
+                Style="{StaticResource LabelNormalStyle}"
+                />
             
             <Label 
                 Margin="10,0,0,0"
                 Grid.Row="3"
                 Text="{Binding StockLocation}"
-                Style="{StaticResource LabelTitleStyle}"
-                TextColor="Black"
-                HorizontalOptions="Start" />
+                Style="{StaticResource LabelNormalStyle}"
+                />
             
             <Grid
                 x:Name="maintenancePerformed"
@@ -122,8 +118,8 @@
                     HorizontalOptions="FillAndExpand"
                     HorizontalTextAlignment="Center"
                     VerticalTextAlignment="Center"
-                    Style="{StaticResource LabelTitleStyle}"
-                    Text="Maintenance performed"/>
+                    Style="{StaticResource LabelNormalStyle}"
+                    Text="{Binding Resources[label_maintenance_performed]}"/>
               
                 <BoxView
                     x:Name="myBox"
@@ -215,7 +211,7 @@
                     HorizontalTextAlignment="Center"
                     VerticalTextAlignment="Center"
                     VerticalOptions="FillAndExpand"
-                    Style="{StaticResource LabelTitleStyle}"
+                    Style="{StaticResource LabelNormalStyle}"
                     Text="{Binding Resources[label_size]}"/>
 
                 <Label
@@ -226,7 +222,7 @@
                     HorizontalTextAlignment="Center"
                     VerticalTextAlignment="Center"
                     VerticalOptions="FillAndExpand"
-                    Style="{StaticResource LabelTitleStyle}"
+                    Style="{StaticResource LabelNormalStyle}"
                     Text="{Binding Resources[label_quantity]}"/>
 
                 <BoxView
@@ -240,8 +236,7 @@
                 <Label
                     Grid.Column="1"
                     Grid.Row="3"
-                    Style="{StaticResource LabelTitleStyle}"
-                    TextColor="Black"
+                    Style="{StaticResource LabelNormalStyle}"
                     Margin="5,0,0,0"
                     Text="--"/>
 
@@ -259,7 +254,7 @@
                     Grid.Row="3"
                     Margin="0,0,5,0"
                     HorizontalOptions="End"
-                    Style="{StaticResource LabelTitleStyle}"
+                    Style="{StaticResource LabelNormalStyle}"
                     TextColor="{StaticResource selectTextColor}"
                     Text="{Binding ItemCount}"/>
 
@@ -275,8 +270,7 @@
                     Margin="5,0,0,0"
                     Grid.Column="1"
                     Grid.Row="5"
-                    Style="{StaticResource LabelTitleStyle}"
-                    TextColor="Black"
+                    Style="{StaticResource LabelNormalStyle}"
                     FontAttributes="Bold"
                     Text="{Binding Resources[label_total]}"/>
 
@@ -286,7 +280,7 @@
                     TextColor="{StaticResource selectTextColor}"
                     Grid.Row="5"
                     Grid.Column="3"
-                    Style="{StaticResource LabelTitleStyle}"
+                    Style="{StaticResource LabelNormalStyle}"
                     Text="{Binding ItemCount}"/>
 
             </Grid>

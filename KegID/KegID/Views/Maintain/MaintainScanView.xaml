@@ -39,15 +39,13 @@
             <Button
                 x:Name="lblBack"
                 Style="{StaticResource TopButtonTitleStyle}"
-                HorizontalOptions="Start"
-                Text="Back"
+                Text="{Binding Resources[button_back]}"
                 Command="{Binding BackCommand}"
                 />
 
             <Label 
                 HorizontalOptions="Center"
                 Text="{Binding Resources[menu_action_scan]}"
-                TextColor="Black"
                 Style="{StaticResource LabelTitleStyle}"
                 Grid.ColumnSpan="3"/>
 
@@ -117,20 +115,18 @@
 
             <Label
                 HorizontalOptions="Start"
-                TextColor="White"
+                Style="{StaticResource LabelTitleWhiteTextColorStyle}"
                 Grid.Column="0"
                 Grid.Row="5"
                 Margin="15,0,0,0"
-                FontSize="{StaticResource AppBarButtonFontSize}"
-                VerticalOptions="Center"
                 Grid.ColumnSpan="2"
-                Text="Scanned:"/>
+                Text="{Binding Resources[label_scanned]}"/>
 
             <Label
                 Grid.Column="2"
                 Grid.Row="5"
                 TextColor="#B7EB35"
-                FontSize="{StaticResource AppBarButtonFontSize}"
+                Style="{StaticResource LabelNormalStyle}"
                 HorizontalOptions="Center"
                 VerticalOptions="Center"
                 Text="{Binding BarcodeCollection.Count}"/>

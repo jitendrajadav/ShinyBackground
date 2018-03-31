@@ -49,11 +49,11 @@
                     Style="{StaticResource LabelTitleStyle}"
                     TextColor="Black"
                     HorizontalOptions="Center"
-                    Text="Add Partner"/>
+                    Text="{Binding Resources[title_add_partner]}"/>
 
                 <Button
                     x:Name="lblSubmit"
-                    Text="Submit"
+                    Text="{Binding Resources[menu_action_submit]}"
                     HorizontalOptions="End"
                     Style="{StaticResource TopButtonTitleStyle}"
                     Command="{Binding SubmitCommand}"
@@ -69,7 +69,7 @@
 
                 <Entry
                     Grid.Row="2"
-                    Placeholder="Company Name"
+                    Placeholder="{Binding Resources[hint_company_name]}"
                     PlaceholderColor="{StaticResource lightGrayPlaceholderColor}"
                     Text="{Binding PartnerName}"/>
 
@@ -78,20 +78,17 @@
                     Grid.Row="3">
 
                     <Label
-                        FontSize="Medium"
+                        Style="{StaticResource LabelNormalStyle}"
                         TextColor="{StaticResource textLabelColor}"
-                        VerticalOptions="Center"
-                        Text="Shared"/>
+                        Text="{Binding Resources[lable_shared]}"/>
 
                     <Switch
                         IsToggled="{Binding IsSharedOn}"/>
 
                     <Label
                         TextColor="{StaticResource textLabelColor}"
-                        FontSize="Medium"
-                        Margin="10,0,0,0"
-                        VerticalOptions="Center"
-                        Text="Internal"/>
+                        Style="{StaticResource LabelNormalStyle}"
+                        Text="{Binding Resources[menu_action_sort_internal]}"/>
 
                     <Switch
                         IsToggled="{Binding IsInternalOn}"/>
@@ -102,7 +99,7 @@
                     TextColor="{StaticResource textLabelColor}"
                     FontSize="Medium"
                     Grid.Row="4"
-                    Text="Type:"/>
+                    Text="{Binding Resources[label_type]}"/>
 
                 <Picker
                     Margin="60,0,0,0"
@@ -118,16 +115,14 @@
                     TextColor="{StaticResource textLabelColor}"
                     FontSize="Medium"
                     Grid.Row="5"
-                    Text="Shipping Address:"/>
+                    Text="{Binding Resources[label_shipping_address]}"/>
 
                 <Label
                     LineBreakMode="MiddleTruncation"
                     Margin="10"
                     x:Name="lblShipigAddress"
-                    BackgroundColor="Transparent"
                     Grid.Row="6"
-                    FontSize="Medium"
-                    HorizontalOptions="Start"
+                    Style="{StaticResource LabelNormalStyle}"
                     TextColor="{StaticResource selectTextColor}"
                     Text="{Binding ShippingAddress}">
                     
@@ -140,18 +135,16 @@
 
                 <Label
                     TextColor="{StaticResource textLabelColor}"
-                    FontSize="Medium"
+                    Style="{StaticResource LabelNormalStyle}"
                     Grid.Row="7"
-                    Text="Billing Address:"/>
+                    Text="{Binding Resources[label_billing_address]}"/>
 
                 <Label
                     LineBreakMode="MiddleTruncation"
                     Margin="10"
                     x:Name="lblBillingAddress"
-                    BackgroundColor="Transparent"
+                    Style="{StaticResource LabelNormalStyle}"
                     Grid.Row="8"
-                    HorizontalOptions="Start"
-                    FontSize="Medium"
                     TextColor="{StaticResource selectTextColor}"
                     Text="{Binding BillingAddress}">
                     
@@ -166,37 +159,37 @@
                     Grid.Row="9"
                     Text="{Binding ContactName}"
                     PlaceholderColor="{StaticResource lightGrayPlaceholderColor}"
-                    Placeholder="Contact Name"/>
+                    Placeholder="{Binding Resources[label_contact_name]}"/>
 
                 <Entry
                     Grid.Row="10"
                     Text="{Binding Phone}"
                     PlaceholderColor="{StaticResource lightGrayPlaceholderColor}"
-                    Placeholder="Contact phone"/>
+                    Placeholder="{Binding Resources[hint_contact_phone]}"/>
 
                 <Entry
                     Grid.Row="11"
                     Text="{Binding ContactEmail}"
                     PlaceholderColor="{StaticResource lightGrayPlaceholderColor}"
-                    Placeholder="Contact Email"/>
+                    Placeholder="{Binding Resources[hint_contact_email]}"/>
 
                 <Entry
                     Grid.Row="12"
                     Text="{Binding AccountNumber}"
                     PlaceholderColor="{StaticResource lightGrayPlaceholderColor}"
-                    Placeholder="Account #"/>
+                    Placeholder="{Binding Resources[label_accountnum]}"/>
 
                 <Entry
                     Grid.Row="13"
                     Text="{Binding ReferenceKey}"
                     PlaceholderColor="{StaticResource lightGrayPlaceholderColor}"
-                    Placeholder="Reference #"/>
+                    Placeholder="{Binding Resources[hint_reference]}"/>
 
                 <Entry
                     Grid.Row="14"
                     Text="{Binding Notes}"
                     PlaceholderColor="{StaticResource lightGrayPlaceholderColor}"
-                    Placeholder="Notes"/>
+                    Placeholder="{Binding Resources[hint_enter_notes_here]}"/>
 
             </Grid>
 

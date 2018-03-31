@@ -28,7 +28,6 @@
                 Text="{Binding Resources[label_keg_status]}"
                 TextColor="Black"
                 Style="{StaticResource LabelTitleStyle}"
-                VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="Center" />
 
             <Button
@@ -47,12 +46,9 @@
 
             <Label 
                 Grid.Row="1"
-                HeightRequest="50"
                 Text="{Binding Path=KegStatusModel.Barcode, StringFormat=' Barcode   {0}'}"
-                TextColor="White"
-                FontSize="{StaticResource AppBarButtonFontSize}"
-                VerticalTextAlignment="Center"
-                VerticalOptions="CenterAndExpand"/>
+                Style="{StaticResource LabelTitleWhiteTextColorStyle}"
+                />
 
             <controls:TintedImage 
                 TintColor="#FAD283"
@@ -113,62 +109,62 @@
                     </Grid.RowDefinitions>
                  
                     <Label
-                        FontSize="{StaticResource AppBarButtonFontSize}"
+                        Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Resources[label_alt_barcode]}"
                         Grid.Row="0"/>
                     
                     <Label
                         Margin="10,0,0,0"
-                        FontSize="{StaticResource AppBarButtonFontSize}"
+                        Style="{StaticResource LabelNormalStyle}"
                         Text="--"
                         Grid.Row="1"/>
 
                     <Label
-                        FontSize="{StaticResource AppBarButtonFontSize}"
+                        Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Resources[label_owner]}"
                         Grid.Row="2"/>
                    
                     <Label
                         Margin="10,0,0,0"
-                        FontSize="{StaticResource AppBarButtonFontSize}"
+                        Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Owner}"
                         Grid.Row="3"/>
 
                     <Label
-                        FontSize="{StaticResource AppBarButtonFontSize}"
+                        Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Resources[label_size]}"
                         Grid.Row="4"/>
 
                     <Label
                         Margin="10,0,0,0"
-                        FontSize="{StaticResource AppBarButtonFontSize}"
+                        Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Path=KegStatusModel.SizeName}"
                         Grid.Row="5"/>
 
                     <Label
-                        FontSize="{StaticResource AppBarButtonFontSize}"
+                        Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Resources[label_type]}"
                         Grid.Row="6"/>
 
                     <Label
                         Margin="10,0,0,0"
-                        FontSize="{StaticResource AppBarButtonFontSize}"
+                        Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Path=KegStatusModel.TypeName}"
                         Grid.Row="7"/>
 
                     <Label
-                        FontSize="{StaticResource AppBarButtonFontSize}"
+                        Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Resources[label_more_info]}"
                         Grid.Row="8"/>
 
                     <Label
                         Margin="10,0,0,0"
-                        FontSize="{StaticResource AppBarButtonFontSize}"
+                        Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding TagsStr}"
                         Grid.Row="9"/>
 
                     <Label
-                        FontSize="{StaticResource AppBarButtonFontSize}"
+                        Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Resources[label_currentlocation]}"
                         Grid.Row="10"/>
 
@@ -182,35 +178,35 @@
                         Command="{Binding CurrentLocationCommand}"/>
 
                     <Label
-                        FontSize="{StaticResource AppBarButtonFontSize}"
+                        Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Resources[label_days_at_location]}"
                         Grid.Row="12"/>
 
                     <Label
                         Margin="10,0,0,0"
-                        FontSize="{StaticResource AppBarButtonFontSize}"
+                        Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Path=KegStatusModel.HeldDays}"
                         Grid.Row="13"/>
                     
                     <Label
-                        FontSize="{StaticResource AppBarButtonFontSize}"
+                        Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Resources[label_contents_keg]}"
                         Grid.Row="14"/>
 
                     <Label
                         Margin="10,0,0,0"
-                        FontSize="{StaticResource AppBarButtonFontSize}"
+                        Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Path=KegStatusModel.Contents}"
                         Grid.Row="15"/>
                     
                     <Label
-                        FontSize="{StaticResource AppBarButtonFontSize}"
+                        Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Resources[label_batch]}"
                         Grid.Row="16"/>
 
                     <Label
                         Margin="10,0,0,0"
-                        FontSize="{StaticResource AppBarButtonFontSize}"
+                        Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Batch}"
                         Grid.Row="17"/>
                     

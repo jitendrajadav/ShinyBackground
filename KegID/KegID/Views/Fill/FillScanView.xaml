@@ -39,7 +39,6 @@
                 Grid.ColumnSpan="2"
                 Text="{Binding Resources[dialog_print_negative]}"
                 Style="{StaticResource TopButtonTitleStyle}"
-                HorizontalOptions="Start"
                 Command="{Binding CancelCommand}"
                 />
 
@@ -70,13 +69,9 @@
                 HorizontalOptions="FillAndExpand"/>
             
             <Label
-                Margin="10,0,0,0"
-                VerticalOptions="Center"
-                FontSize="Medium"
+                Style="{StaticResource LabelTitleWhiteTextColorStyle}"
                 Text="{Binding ManifestId, StringFormat='Pallet# -{0}'}"
                 IsVisible="{Binding IsPalletVisible}"
-                HorizontalOptions="FillAndExpand"
-                TextColor="White"
                 Grid.Row="1"/>
             
             <Entry
@@ -229,20 +224,14 @@
             <Label
                 Grid.Row="5"
                 Grid.Column="0"
-                TextColor="White"
-                VerticalOptions="Center"
-                Margin="10,0,0,0"
-                FontSize="{StaticResource AppBarButtonFontSize}"
-                Text="Scanned:"/>
+                Style="{StaticResource LabelTitleWhiteTextColorStyle}"
+                Text="{Binding Resources[label_scanned]}"/>
             
             <Label
                 Grid.Row="5"
                 Grid.Column="1"
                 TextColor="#B7EB35"
-                Margin="0,0,10,0"
-                FontSize="{StaticResource AppBarButtonFontSize}"
-                FontAttributes="Bold"
-                VerticalOptions="Center"
+                Style="{StaticResource LabelTitleWhiteTextColorStyle}"
                 Text="{Binding BarcodeCollection.Count}"/>
             
             <ListView

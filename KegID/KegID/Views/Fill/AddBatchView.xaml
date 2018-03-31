@@ -4,7 +4,7 @@
              x:Class="KegID.Views.AddBatchView"
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
              xmlns:local="clr-namespace:KegID"
-             BackgroundColor="#FFFFFF"
+             BackgroundColor="{StaticResource pageBGColor}"
              BindingContext="{Binding Source={x:Static local:App.Locator},Path=AddBatch}">
    
     <ContentPage.Content>
@@ -27,7 +27,6 @@
             <Button
                 x:Name="lblCancel"
                 Style="{StaticResource TopButtonTitleStyle}"
-                HorizontalOptions="Start"
                 Text="{Binding Resources[dialog_print_negative]}"
                 Command="{Binding CancelCommand}"/>
 
@@ -79,13 +78,9 @@
 
                     <Label
                         x:Name="lblBrand"
-                        HorizontalOptions="Start"
-                        Margin="10"
+                        Style="{StaticResource LabelNormalStyle}"
                         Grid.Row="0"
-                        FontSize="Medium"
-                        VerticalOptions="Center"
                         TextColor="{StaticResource selectTextColor}"
-                        BackgroundColor="Transparent"
                         Text="{Binding BrandButtonTitle}">
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding Path=BindingContext.BrandCommand, 
@@ -96,9 +91,7 @@
 
                     <Label
                         Grid.Row="1"
-                        TextColor="Black"
-                        FontSize="Medium"
-                        HorizontalOptions="Start"
+                        Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Resources[label_batch_code]}"/>
 
                     <Entry 
@@ -110,9 +103,7 @@
 
                     <Label
                         Grid.Row="2"
-                        TextColor="Black"
-                        FontSize="Medium"
-                        HorizontalOptions="Start"
+                        Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Resources[label_brew_date]}"/>
 
                     <DatePicker 
@@ -123,9 +114,7 @@
 
                     <Label
                         Grid.Row="3"
-                        TextColor="Black"
-                        FontSize="Medium"
-                        HorizontalOptions="Start"
+                        Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Resources[label_asset_volume]}"/>
 
                     <Entry 
@@ -149,10 +138,8 @@
 
                     <Label
                         Grid.Row="4"
-                        TextColor="Black"
-                        FontSize="Medium"
-                        HorizontalOptions="Start"
-                        Text="Package date"/>
+                        Style="{StaticResource LabelNormalStyle}"
+                        Text="{Binding Resources[label_package_date]}"/>
 
                     <DatePicker 
                         Grid.Row="4"
@@ -162,9 +149,7 @@
 
                     <Label
                         Grid.Row="5"
-                        TextColor="Black"
-                        FontSize="Medium"
-                        HorizontalOptions="Start"
+                        Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Resources[label_bestby_date]}"/>
 
                     <DatePicker 
@@ -175,9 +160,7 @@
 
                     <Label
                         Grid.Row="6"
-                        TextColor="Black"
-                        FontSize="Medium"
-                        HorizontalOptions="Start"
+                        Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Resources[label_alcohol_content]}"/>
 
                     <Entry 
@@ -188,11 +171,8 @@
                         Text="{Binding AlcoholContent}"/>
                    
                     <Label
-                        TextColor="Black"
-                        HorizontalOptions="Start"
-                        Grid.Column="0"
+                        Style="{StaticResource LabelNormalStyle}"
                         Grid.ColumnSpan="2"
-                        FontSize="Medium"
                         Text="{Binding TagsStr}"
                         Grid.Row="7"/>
 

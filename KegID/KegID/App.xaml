@@ -55,6 +55,7 @@
                 <Setter Property="BackgroundColor" Value="Transparent"/>
                 <Setter Property="FontSize" Value="{StaticResource AppBarButtonFontSize}"/>
                 <Setter Property="Margin" Value="{StaticResource AppBarButtonMargin}"/>
+                <Setter Property="HorizontalOptions" Value="Start"/>
             </Style>
 
             <Style x:Key="LabelTitleStyle" TargetType="Label">
@@ -71,6 +72,7 @@
                 <Setter Property="Margin" Value="{StaticResource AppBarButtonMargin}"/>
                 <Setter Property="TextColor" Value="White"/>
                 <Setter Property="HeightRequest" Value="50"/>
+                <Setter Property="HorizontalOptions" Value="Start"/>
             </Style>
 
             <Style x:Key="LabelLeftAlign" TargetType="Label">

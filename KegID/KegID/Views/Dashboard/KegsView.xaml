@@ -28,7 +28,6 @@
                 Text="{Binding Resources[label_kegs]}"
                 Style="{StaticResource LabelTitleStyle}"
                 TextColor="Black"
-                VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand"/>
 
             <BoxView
@@ -40,11 +39,8 @@
 
             <Label 
                 Text="{Binding KegsTitle}"
-                FontAttributes="Bold"
                 Grid.Row="1"
-                Style="{StaticResource LabelTitleStyle}"
-                TextColor="White"
-                VerticalOptions="CenterAndExpand" 
+                Style="{StaticResource LabelTitleWhiteTextColorStyle}"
                 HorizontalOptions="CenterAndExpand" />
 
             <ListView

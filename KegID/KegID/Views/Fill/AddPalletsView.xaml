@@ -30,7 +30,6 @@
                 x:Name="lblFillKegs"
                 Style="{StaticResource TopButtonTitleStyle}"
                 Text="{Binding Resources[title_activity_fill_manifest]}"
-                HorizontalOptions="Start"
                 Command="{Binding FillKegsCommand}"
                 />
 
@@ -50,16 +49,12 @@
 
             <Label
                 Grid.Row="2"
-                TextColor="Black"
-                FontSize="Medium"
-                Margin="10,0,10,30"
-                VerticalOptions="Center"
+                Style="{StaticResource LabelNormalStyle}"
                 Text="{Binding AddPalletsTitle}"/>
 
             <BoxView
                 Margin="-10,0,-10,0"
                 Grid.Row="3"
-                HeightRequest="40"
                 BackgroundColor="{StaticResource bannerBGColor}"
                 VerticalOptions="FillAndExpand"
                 HorizontalOptions="FillAndExpand"/>
@@ -71,19 +66,12 @@
                 VerticalOptions="Center">
                
                 <Label
-                    TextColor="White"
-                    Margin="10,0,0,0"
-                    FontSize="{StaticResource AppBarButtonFontSize}"
-                    VerticalTextAlignment="Center"
-                    FontAttributes="Bold"
+                    Style="{StaticResource LabelTitleWhiteTextColorStyle}"
                     Text="{Binding PalletCollection.Count, StringFormat='Pallets: {0}'}"/>
                 
                 <Label
                     TextColor="#B7EB35"
-                    FontAttributes="Bold"
-                    FontSize="{StaticResource AppBarButtonFontSize}"
-                    HorizontalOptions="Center"
-                    VerticalTextAlignment="Center"
+                    Style="{StaticResource LabelTitleWhiteTextColorStyle}"
                     Text="{Binding Kegs}"/>
 
             </StackLayout>

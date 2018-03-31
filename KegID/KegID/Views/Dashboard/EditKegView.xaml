@@ -60,15 +60,12 @@
             <Label 
                 Grid.ColumnSpan="2"
                 Grid.Row="1"
-                HeightRequest="50"
                 Text="{Binding Path=KegStatusModel.Barcode, StringFormat=' Barcode   {0}'}"
-                TextColor="White"
-                FontSize="{StaticResource AppBarButtonFontSize}"
-                VerticalTextAlignment="Center"
+                Style="{StaticResource LabelTitleWhiteTextColorStyle}"
                 VerticalOptions="CenterAndExpand"/>
            
             <Label
-                FontSize="{StaticResource AppBarButtonFontSize}"
+                Style="{StaticResource LabelNormalStyle}"
                 Text="{Binding Resources[label_alt_barcode]}"
                 Grid.Row="2"/>
 
@@ -79,27 +76,25 @@
                 Placeholder="0000-0000000"/>
 
             <Label
-                FontSize="{StaticResource AppBarButtonFontSize}"
+                Style="{StaticResource LabelNormalStyle}"
                 Text="{Binding Resources[label_owner]}"
                 Grid.Row="3"/>
 
             <Button
                 Grid.Row="3"
                 Style="{StaticResource TopButtonTitleStyle}"
-                BackgroundColor="Transparent"
                 Grid.Column="1"
                 HorizontalOptions="Start"
                 Text="{Binding Path=KegStatusModel.PossessorName,Mode=TwoWay}"
                 Command="{Binding PartnerCommand}"/>
 
             <Label
-                FontSize="{StaticResource AppBarButtonFontSize}"
+                Style="{StaticResource LabelNormalStyle}"
                 Text="{Binding Resources[label_size]}"
                 Grid.Row="4"/>
 
             <Button
                 HorizontalOptions="Start"
-                BackgroundColor="Transparent"
                 Style="{StaticResource TopButtonTitleStyle}"
                 Text="{Binding Path=KegStatusModel.SizeName}"
                 Grid.Row="4"
@@ -107,7 +102,7 @@
                 Command="{Binding SizeCommand}"/>
 
             <Label
-                FontSize="{StaticResource AppBarButtonFontSize}"
+                Style="{StaticResource LabelNormalStyle}"
                 Text="{Binding Resources[label_type]}"
                 Grid.Row="5"/>
 
@@ -127,13 +122,12 @@
             </Picker>
             
             <Label
-                Style="{StaticResource LabelLeftAlign}"
+                Style="{StaticResource LabelNormalStyle}"
                 Text="{Binding Resources[label_more_info]}"
                 Grid.Row="6"/>
 
             <Button
                 HorizontalOptions="Start"
-                BackgroundColor="Transparent"
                 Style="{StaticResource TopButtonTitleStyle}"
                 Text="{Binding TagsStr}"
                 Grid.Row="6"

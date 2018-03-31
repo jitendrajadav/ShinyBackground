@@ -619,7 +619,7 @@
     <value>Next</value>
   </data>
   <data name="label_notes" xml:space="preserve">
-    <value>Notes</value>
+    <value>Notes:</value>
   </data>
   <data name="label_operator" xml:space="preserve">
     <value>Operator</value>
@@ -1576,10 +1576,10 @@
     <value>Keg Status</value>
   </data>
   <data name="label_maintenance_performed" xml:space="preserve">
-    <value>Maintenance Performed</value>
+    <value>Maintenance performed</value>
   </data>
   <data name="label_type" xml:space="preserve">
-    <value>Type</value>
+    <value>Type:</value>
   </data>
   <data name="label_stock_location" xml:space="preserve">
     <value>Stock ocation:</value>
@@ -1592,5 +1592,68 @@
   </data>
   <data name="title_create_manifest" xml:space="preserve">
     <value>Create Manifest</value>
+  </data>
+  <data name="label_package_date" xml:space="preserve">
+    <value>Package date</value>
+  </data>
+  <data name="button_back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="hint_company_name" xml:space="preserve">
+    <value>Company Name</value>
+  </data>
+  <data name="hint_contact_email" xml:space="preserve">
+    <value>Contact Email</value>
+  </data>
+  <data name="hint_contact_phone" xml:space="preserve">
+    <value>Contact phone</value>
+  </data>
+  <data name="hint_enter_notes_here" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="hint_reference" xml:space="preserve">
+    <value>Reference #</value>
+  </data>
+  <data name="label_bent_chime" xml:space="preserve">
+    <value>Bent Chime</value>
+  </data>
+  <data name="label_bent_neck" xml:space="preserve">
+    <value>Bent Neck</value>
+  </data>
+  <data name="label_billing_address" xml:space="preserve">
+    <value>Billing Address:</value>
+  </data>
+  <data name="label_damaged_spear" xml:space="preserve">
+    <value>Damaged Spear</value>
+  </data>
+  <data name="label_deep_cleaning" xml:space="preserve">
+    <value>Deep Cleaning</value>
+  </data>
+  <data name="label_faulty_seal" xml:space="preserve">
+    <value>Faulty Seal</value>
+  </data>
+  <data name="label_faulty_valve" xml:space="preserve">
+    <value>Faulty Valve</value>
+  </data>
+  <data name="label_maintenance_items" xml:space="preserve">
+    <value>Maintenance items:</value>
+  </data>
+  <data name="label_scanned" xml:space="preserve">
+    <value>Scanned:</value>
+  </data>
+  <data name="label_shipping_address" xml:space="preserve">
+    <value>Shipping Address:</value>
+  </data>
+  <data name="label_to" xml:space="preserve">
+    <value>To:</value>
+  </data>
+  <data name="label_valve_inspection" xml:space="preserve">
+    <value>Valve Inspection</value>
+  </data>
+  <data name="lable_shared" xml:space="preserve">
+    <value>Shared</value>
+  </data>
+  <data name="title_add_partner" xml:space="preserve">
+    <value>Add Partner</value>
   </data>
 </root>
