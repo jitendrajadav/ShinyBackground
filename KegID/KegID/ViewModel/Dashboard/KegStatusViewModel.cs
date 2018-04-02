@@ -58,7 +58,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string OwnerPropertyName = "Owner";
 
-        private string _Owner = string.Empty;
+        private string _Owner = "Barcode Brewing";
 
         /// <summary>
         /// Sets and gets the Owner property.
@@ -433,6 +433,7 @@ namespace KegID.ViewModel
         public RelayCommand EditCommand { get; }
         public RelayCommand InvalidToolsCommand { get; }
         public RelayCommand CurrentLocationCommand { get; }
+        public RelayCommand MoveKegCommand { get; }
 
         #endregion
 
@@ -444,21 +445,26 @@ namespace KegID.ViewModel
             EditCommand = new RelayCommand(EditCommandRecieverAsync);
             InvalidToolsCommand = new RelayCommand(InvalidToolsCommandRecieverAsync);
             CurrentLocationCommand = new RelayCommand(CurrentLocationCommandRecieverAsync);
-        }
-
-        public async Task LoadMaintenanceHistoryAsync()
-        {
-          var value = await _dashboardService.GetKegMaintenanceHistoryAsync(KegStatusModel.KegId, AppSettings.User.SessionId);
-
-            if (value.KegMaintenanceHistoryResponseModel!= null)
-                IsVisibleListView = true;
-            else
-                IsVisibleListView = false;
+            MoveKegCommand = new RelayCommand(MoveKegCommandRecieverAsync);
         }
 
         #endregion
 
         #region Methods
+        private async void MoveKegCommandRecieverAsync()
+        {
+            await Application.Current.MainPage.Navigation.PushModalAsync(new MoveView());
+        }
+
+        public async Task LoadMaintenanceHistoryAsync()
+        {
+            var value = await _dashboardService.GetKegMaintenanceHistoryAsync(KegStatusModel.KegId, AppSettings.User.SessionId);
+
+            if (value.KegMaintenanceHistoryResponseModel != null)
+                IsVisibleListView = true;
+            else
+                IsVisibleListView = false;
+        }
 
         private async void KegsCommandRecieverAsync()
         {
@@ -467,7 +473,7 @@ namespace KegID.ViewModel
 
         private async void EditCommandRecieverAsync()
         {
-            SimpleIoc.Default.GetInstance<EditKegViewModel>().KegStatusModel = KegStatusModel;
+            SimpleIoc.Default.GetInstance<EditKegViewModel>().LoadData(KegStatusModel);
             await Application.Current.MainPage.Navigation.PushModalAsync(new EditKegView());
         }
 

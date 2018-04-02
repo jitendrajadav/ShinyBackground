@@ -48,6 +48,10 @@ namespace KegID.Views
                     case ViewTypeEnum.AddBatchView:
                         OnAddTagsClicked(null, null);
                         break;
+                    case ViewTypeEnum.EditKegView:
+                        await OnAddMoreTagsClickedAsync(TagsTypeEnum.Volume);
+                        await OnAddMoreTagsClickedAsync(TagsTypeEnum.Note);
+                        break;
                     default:
                         break;
                 }
@@ -68,11 +72,6 @@ namespace KegID.Views
             {
                 await OnAddMoreTagsClickedAsync(TagsTypeEnum.BestByDate);
                 await OnAddMoreTagsClickedAsync(TagsTypeEnum.ProductionDate);
-            }
-            else if (Application.Current.MainPage.Navigation.ModalStack.LastOrDefault().GetType().Name == ViewTypeEnum.EditKegView.ToString())
-            {
-                await OnAddMoreTagsClickedAsync(TagsTypeEnum.Volume);
-                await OnAddMoreTagsClickedAsync(TagsTypeEnum.Note);
             }
         }
 
@@ -145,6 +144,7 @@ namespace KegID.Views
                     valueEntry = new Entry()
                     {
                         VerticalOptions = LayoutOptions.Center,
+                        AutomationId = "Value"
                     };
                     break;
             }

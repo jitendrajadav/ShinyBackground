@@ -86,13 +86,47 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
+
+                    <Label
+                        VerticalTextAlignment="Start"
+                        x:Name="lblShipTo"
+                        Style="{StaticResource LabelNormalStyle}"
+                        Grid.Row="0"
+                        Text="{Binding Resources[label_ship_to]}">
+
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Path=BindingContext.ShipToCommand, 
+                                                        Source={x:Reference Name=lblShipTo}}"
+                                                         CommandParameter="{Binding}"/>
+                        </Label.GestureRecognizers>
+                    </Label>
 
                     <Label
                         x:Name="lblAddress1"
                         Style="{StaticResource LabelNormalStyle}"
-                        Grid.Row="0"
+                        Grid.Row="1"
                         Text="{Binding PartnerModel.Address}">
+                        
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding Path=BindingContext.ShipToCommand, 
                                                         Source={x:Reference Name=lblAddress1}}"
@@ -100,10 +134,29 @@
                         </Label.GestureRecognizers>
                     </Label>
 
+                    <BoxView
+                        Grid.Row="2"
+                        BackgroundColor="{StaticResource lightGrayColor}"
+                        HeightRequest="1"
+                        VerticalOptions="Start"
+                        HorizontalOptions="FillAndExpand"/>
+                    
+                    <Label
+                        x:Name="lblBillTo"
+                        Style="{StaticResource LabelNormalStyle}"
+                        Grid.Row="3"
+                        Text="{Binding Resources[label_bill_to]}">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Path=BindingContext.ShipToCommand, 
+                                                        Source={x:Reference Name=lblBillTo}}"
+                                                         CommandParameter="{Binding}"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+
                     <Label
                         x:Name="lblAddress2"
                         Style="{StaticResource LabelNormalStyle}"
-                        Grid.Row="1"
+                        Grid.Row="4"
                         Text="{Binding PartnerModel.Address}">
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding Path=BindingContext.ShipToCommand, 
@@ -112,16 +165,48 @@
                         </Label.GestureRecognizers>
                     </Label>
 
+                    <BoxView
+                        Grid.Row="5"
+                        BackgroundColor="{StaticResource lightGrayColor}"
+                        HeightRequest="1"
+                        VerticalOptions="Start"
+                        HorizontalOptions="FillAndExpand"/>
+                 
                     <Label
                         Margin="10,0,0,0"
-                        Grid.Row="2"
+                        Grid.Row="6"
+                        Style="{StaticResource LabelNormalStyle}"
+                        Text="{Binding Resources[label_contact]}"/>
+
+                    <Label
+                        Margin="10,0,0,0"
+                        Grid.Row="7"
                         Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Contact}"/>
+                    
+                    <BoxView
+                        Grid.Row="8"
+                        BackgroundColor="{StaticResource lightGrayColor}"
+                        HeightRequest="1"
+                        VerticalOptions="Start"
+                        HorizontalOptions="FillAndExpand"/>
+                    
+                    <Label
+                        x:Name="lblPhone"
+                        Style="{StaticResource LabelNormalStyle}"
+                        Grid.Row="9"
+                        Text="{Binding Resources[label_phone]}">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Path=BindingContext.PhoneNumberCommand, 
+                                                        Source={x:Reference Name=lblPhone}}"
+                                                         CommandParameter="{Binding}"/>
+                        </Label.GestureRecognizers>
+                    </Label>
 
                     <Label
                         x:Name="lblPhoneNumber"
                         Style="{StaticResource LabelNormalStyle}"
-                        Grid.Row="3"
+                        Grid.Row="10"
                         Text="{Binding PartnerModel.PhoneNumber}">
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding Path=BindingContext.PhoneNumberCommand, 
@@ -130,41 +215,120 @@
                         </Label.GestureRecognizers>
                     </Label>
 
+                    <BoxView
+                        Grid.Row="11"
+                        BackgroundColor="{StaticResource lightGrayColor}"
+                        HeightRequest="1"
+                        VerticalOptions="Start"
+                        HorizontalOptions="FillAndExpand"/>
+                   
+                    <Label
+                        x:Name="lblEmail"
+                        Style="{StaticResource LabelNormalStyle}"
+                        Grid.Row="12"
+                        Text="{Binding Resources[hint_contact_email]}">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Path=BindingContext.ContactEmailCommand, 
+                                                        Source={x:Reference Name=lblEmail}}"
+                                                         CommandParameter="{Binding}"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+
                     <Label
                         x:Name="lblContactEmail"
                         Style="{StaticResource LabelNormalStyle}"
-                        Grid.Row="4"
+                        Grid.Row="13"
                         Text="{Binding ContactEmail}">
                         <Label.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding Path=BindingContext.PhoneNumberCommand, 
+                            <TapGestureRecognizer Command="{Binding Path=BindingContext.ContactEmailCommand, 
                                                         Source={x:Reference Name=lblContactEmail}}"
                                                          CommandParameter="{Binding}"/>
                         </Label.GestureRecognizers>
                     </Label>
+                    
+                    <BoxView
+                        Grid.Row="14"
+                        BackgroundColor="{StaticResource lightGrayColor}"
+                        HeightRequest="1"
+                        VerticalOptions="Start"
+                        HorizontalOptions="FillAndExpand"/>
+
+                    <Label
+                        Style="{StaticResource LabelNormalStyle}"
+                        Grid.Row="15"
+                        Text="{Binding Resources[hint_reference]}"/>
+
+                    <Label
+                        Style="{StaticResource LabelNormalStyle}"
+                        Grid.Row="16"
+                        Text="{Binding Ref}"/>
+
+                    <BoxView
+                        Grid.Row="17"
+                        BackgroundColor="{StaticResource lightGrayColor}"
+                        HeightRequest="1"
+                        VerticalOptions="Start"
+                        HorizontalOptions="FillAndExpand"/>
+
+                    <Label
+                        Style="{StaticResource LabelNormalStyle}"
+                        Grid.Row="18"
+                        Text="{Binding Resources[label_accountnum]}"/>
+
+                    <Label
+                        Style="{StaticResource LabelNormalStyle}"
+                        Grid.Row="19"
+                        Text="{Binding Acct}"/>
+                   
+                    <BoxView
+                        Grid.Row="20"
+                        BackgroundColor="{StaticResource lightGrayColor}"
+                        HeightRequest="1"
+                        VerticalOptions="Start"
+                        HorizontalOptions="FillAndExpand"/>
                    
                     <Label
                         Style="{StaticResource LabelNormalStyle}"
-                        Grid.Row="5"
-                        Text="{Binding Ref}"/>
-                    
+                        Grid.Row="21"
+                        Text="{Binding Resources[label_route]}"/>
+
                     <Label
                         Style="{StaticResource LabelNormalStyle}"
-                        Grid.Row="6"
-                        Text="{Binding Acct}"/>
-                    
-                    <Label
-                        Style="{StaticResource LabelNormalStyle}"
-                        Grid.Row="7"
+                        Grid.Row="22"
                         Text="{Binding Route}"/>
                     
+                    <BoxView
+                        Grid.Row="23"
+                        BackgroundColor="{StaticResource lightGrayColor}"
+                        HeightRequest="1"
+                        VerticalOptions="Start"
+                        HorizontalOptions="FillAndExpand"/>
+                  
                     <Label
                         Style="{StaticResource LabelNormalStyle}"
-                        Grid.Row="8"
+                        Grid.Row="24"
+                        Text="{Binding Resources[hint_enter_notes_here]}"/>
+
+                    <Label
+                        Style="{StaticResource LabelNormalStyle}"
+                        Grid.Row="25"
                         Text="{Binding Notes}"/>
                     
+                    <BoxView
+                        Grid.Row="26"
+                        BackgroundColor="{StaticResource lightGrayColor}"
+                        HeightRequest="1"
+                        VerticalOptions="Start"
+                        HorizontalOptions="FillAndExpand"/>
+                   
                     <Label
                         Style="{StaticResource LabelNormalStyle}"
-                        Grid.Row="9"
+                        Grid.Row="27"
+                        Text="{Binding Resources[label_partnerinfo_type]}"/>
+
+                    <Label
+                        Style="{StaticResource LabelNormalStyle}"
+                        Grid.Row="28"
                         Text="{Binding PartnerModel.PartnerTypeName}"/>
 
                 </Grid>

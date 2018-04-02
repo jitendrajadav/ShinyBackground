@@ -68,13 +68,13 @@ namespace KegID.ViewModel
 
         private async void ItemTappedCommandRecieverAsync(string model)
         {
-            switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack.LastOrDefault().GetType().Name))
+            switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack[Application.Current.MainPage.Navigation.ModalStack.Count-2].GetType().Name))
             {
                 case ViewTypeEnum.FillView:
                     SimpleIoc.Default.GetInstance<FillViewModel>().SizeButtonTitle = model;
                     break;
                 case ViewTypeEnum.EditKegView:
-                    SimpleIoc.Default.GetInstance<EditKegViewModel>().KegStatusModel.SizeName = model;
+                    SimpleIoc.Default.GetInstance<EditKegViewModel>().Size = model;
                     break;
                 default:
                     break;

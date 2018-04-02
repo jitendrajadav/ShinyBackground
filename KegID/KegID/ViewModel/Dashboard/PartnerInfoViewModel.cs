@@ -6,6 +6,7 @@ using KegID.DependencyServices;
 using KegID.Model;
 using KegID.Services;
 using KegID.Views;
+using Plugin.Messaging;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -58,7 +59,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string ContactPropertyName = "Contact";
 
-        private string _Contact = "Contact";
+        private string _Contact = string.Empty;
 
         /// <summary>
         /// Sets and gets the Contact property.
@@ -92,7 +93,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string ContactEmailPropertyName = "ContactEmail";
 
-        private string _ContactEmail = "Contact";
+        private string _ContactEmail = string.Empty;
 
         /// <summary>
         /// Sets and gets the ContactEmail property.
@@ -126,7 +127,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string RefPropertyName = "Ref";
 
-        private string _Ref = "Ref #";
+        private string _Ref = string.Empty;
 
         /// <summary>
         /// Sets and gets the Ref property.
@@ -160,7 +161,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string AcctPropertyName = "Acct";
 
-        private string _Acct = "Acct #";
+        private string _Acct = string.Empty;
 
         /// <summary>
         /// Sets and gets the Acct property.
@@ -194,7 +195,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string RoutePropertyName = "Route";
 
-        private string _Route = "Route";
+        private string _Route = string.Empty;
 
         /// <summary>
         /// Sets and gets the Route property.
@@ -228,7 +229,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string NotesPropertyName = "Notes";
 
-        private string _Notes = "Notes";
+        private string _Notes = string.Empty;
 
         /// <summary>
         /// Sets and gets the Notes property.
@@ -333,6 +334,7 @@ namespace KegID.ViewModel
         public RelayCommand KegsCommand { get; }
         public RelayCommand ShipToCommand { get; }
         public RelayCommand PhoneNumberCommand { get; }
+        public RelayCommand ContactEmailCommand { get;}
 
         #endregion
 
@@ -346,8 +348,48 @@ namespace KegID.ViewModel
             KegsCommand = new RelayCommand(KegsCommandRecieverAsync);
             ShipToCommand = new RelayCommand(ShipToCommandRecieverAsync);
             PhoneNumberCommand = new RelayCommand(PhoneNumberCommandReciever);
+            ContactEmailCommand = new RelayCommand(ContactEmailCommandReciever);
 
             LoadPartnerInfoAsync();
+        }
+
+        #endregion
+
+        #region Methods
+
+        private void ContactEmailCommandReciever()
+        {
+
+            // Send Sms
+            //var smsMessenger = CrossMessaging.Current.SmsMessenger;
+            //if (smsMessenger.CanSendSms)
+            //    smsMessenger.SendSms("+27213894839493", "Well hello there from Xam.Messaging.Plugin");
+
+
+            var emailMessenger = CrossMessaging.Current.EmailMessenger;
+            if (emailMessenger.CanSendEmail)
+            {
+                // Send simple e-mail to single receiver without attachments, bcc, cc etc.
+                emailMessenger.SendEmail("to.plugins@xamarin.com", "Xamarin Messaging Plugin", "Well hello there from Xam.Messaging.Plugin");
+
+                // Alternatively use EmailBuilder fluent interface to construct more complex e-mail with multiple recipients, bcc, attachments etc. 
+                var email = new EmailMessageBuilder()
+                  .To("to.plugins@xamarin.com")
+                  .Cc("cc.plugins@xamarin.com")
+                  .Bcc(new[] { "bcc1.plugins@xamarin.com", "bcc2.plugins@xamarin.com" })
+                  .Subject("Xamarin Messaging Plugin")
+                  .Body("Well hello there from Xam.Messaging.Plugin")
+                  .Build();
+
+                emailMessenger.SendEmail(email);
+            }
+
+            // Construct HTML email (iOS and Android only)
+            //var email = new EmailMessageBuilder()
+            //  .To("to.plugins@xamarin.com")
+            //  .Subject("Xamarin Messaging Plugin")
+            //  .BodyAsHtml("Well hello there from <a>Xam.Messaging.Plugin</a>")
+            //  .Build();
         }
 
         private async void LoadPartnerInfoAsync()
@@ -363,10 +405,6 @@ namespace KegID.ViewModel
         {
             await Application.Current.MainPage.Navigation.PushModalAsync(new PartnerInfoMapView());
         }
-
-        #endregion
-
-        #region Methods
 
         private async void KegsCommandRecieverAsync()
         {
@@ -394,16 +432,21 @@ namespace KegID.ViewModel
         }
         async void OnCall(object sender, EventArgs e)
         {
-            if (await Application.Current.MainPage.DisplayAlert(
+            if (!await Application.Current.MainPage.DisplayAlert(
                 "Dial a Number",
                 "Would you like to call " + translatedNumber + "?",
                 "Cancel",
                 "Call"))
             {
-                // TODO: dial the phone
-                var dialer = DependencyService.Get<IDialer>();
-                if (dialer != null)
-                    await dialer.DialAsync(translatedNumber);
+                //// TODO: dial the phone
+                //var dialer = DependencyService.Get<IDialer>();
+                //if (dialer != null)
+                //    await dialer.DialAsync(translatedNumber);
+
+                // Make Phone Call
+                var phoneCallTask = CrossMessaging.Current.PhoneDialer;
+                if (phoneCallTask.CanMakePhoneCall)
+                    phoneCallTask.MakePhoneCall("+272193343499");
             }
         }
 

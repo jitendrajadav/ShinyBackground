@@ -80,26 +80,44 @@
                 Text="{Binding Resources[label_owner]}"
                 Grid.Row="3"/>
 
-            <Button
+            <Label
+                x:Name="lblOwner"
                 Grid.Row="3"
-                Style="{StaticResource TopButtonTitleStyle}"
-                Grid.Column="1"
                 HorizontalOptions="Start"
-                Text="{Binding Path=KegStatusModel.PossessorName,Mode=TwoWay}"
-                Command="{Binding PartnerCommand}"/>
+                HorizontalTextAlignment="Start"
+                TextColor="{StaticResource selectTextColor}"
+                Style="{StaticResource LabelNormalStyle}"
+                Grid.Column="1"
+                Text="{Binding Owner}"
+                Margin="0,2">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.PartnerCommand, 
+                                                        Source={x:Reference Name=lblOwner}}"
+                                                         CommandParameter="{Binding}"/>
+                </Label.GestureRecognizers>
+            </Label>
 
             <Label
                 Style="{StaticResource LabelNormalStyle}"
                 Text="{Binding Resources[label_size]}"
                 Grid.Row="4"/>
 
-            <Button
+            <Label
+                x:Name="lblSize"
                 HorizontalOptions="Start"
-                Style="{StaticResource TopButtonTitleStyle}"
-                Text="{Binding Path=KegStatusModel.SizeName}"
+                HorizontalTextAlignment="Start"
+                Style="{StaticResource LabelNormalStyle}"
+                Text="{Binding Size}"
+                TextColor="{StaticResource selectTextColor}"
                 Grid.Row="4"
                 Grid.Column="1"
-                Command="{Binding SizeCommand}"/>
+                Margin="0,2">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.SizeCommand, 
+                                                        Source={x:Reference Name=lblSize}}"
+                                                         CommandParameter="{Binding}"/>
+                </Label.GestureRecognizers>
+            </Label>
 
             <Label
                 Style="{StaticResource LabelNormalStyle}"
@@ -126,13 +144,23 @@
                 Text="{Binding Resources[label_more_info]}"
                 Grid.Row="6"/>
 
-            <Button
+            <Label
+                LineBreakMode="MiddleTruncation"
+                x:Name="lblTagsStr"
+                HorizontalTextAlignment="Start"
                 HorizontalOptions="Start"
-                Style="{StaticResource TopButtonTitleStyle}"
+                TextColor="{StaticResource selectTextColor}"
+                Style="{StaticResource LabelNormalStyle}"
                 Text="{Binding TagsStr}"
                 Grid.Row="6"
                 Grid.Column="1"
-                Command="{Binding AddTagsCommand}"/>
+                >
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.AddTagsCommand, 
+                                                        Source={x:Reference Name=lblTagsStr}}"
+                                                         CommandParameter="{Binding}"/>
+                </Label.GestureRecognizers>
+            </Label>
 
         </Grid>
 

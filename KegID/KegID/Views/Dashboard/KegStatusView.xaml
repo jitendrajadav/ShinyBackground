@@ -217,7 +217,7 @@
                         Text="{Binding MoveKeg}"
                         Grid.Row="18"
                         HorizontalOptions="Start"
-                        Command="{Binding CurrentLocationCommand}"/>
+                        Command="{Binding MoveKegCommand}"/>
                     
                     <Picker
                         BackgroundColor="Transparent"

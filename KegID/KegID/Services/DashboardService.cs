@@ -136,7 +136,7 @@ namespace KegID.Services
         {
             AddMaintenanceAlertModel responseModel = new AddMaintenanceAlertModel();
 
-            string url = string.Format(Configuration.PostMaintenanceAlertUrl, sessionId);
+            string url = string.Format(Configuration.PostMaintenanceDeleteAlertUrl, sessionId);
             string content = JsonConvert.SerializeObject(model);
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Send, content, RequestType: RequestType);
 

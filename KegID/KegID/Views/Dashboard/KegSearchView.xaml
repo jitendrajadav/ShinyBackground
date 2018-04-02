@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KegID.Views.KegSearchView"
+             xmlns:local="clr-namespace:KegID"
+             xmlns:behaviors="clr-namespace:KegID.Behaviors"
+             xmlns:controls="clr-namespace:Plugin.CrossPlatformTintedImage.Abstractions;assembly=Plugin.CrossPlatformTintedImage.Abstractions"
+             BindingContext="{Binding Source={x:Static local:App.Locator},Path=KegSearch}">
+    
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Button
+                x:Name="lblCancel"
+                HorizontalOptions="Start"
+                Style="{StaticResource TopButtonTitleStyle}"
+                Text="{Binding Resources[button_home]}"
+                Command="{Binding HomeCommand}"
+                />
+
+            <Label
+                HorizontalOptions="Center"
+                Style="{StaticResource LabelTitleStyle}"
+                Text="{Binding Resources[title_keg_search]}"
+                />
+            
+            <controls:TintedImage 
+                TintColor="{StaticResource selectTextColor}"
+                x:Name="imgCamera"
+                Margin="0,5,10,0"
+                HeightRequest="30"
+                WidthRequest="30"
+                HorizontalOptions="End">
+
+                <controls:TintedImage.Source>
+                    <OnPlatform x:TypeArguments="FileImageSource">
+                        <OnPlatform.iOS>
+                            <FileImageSource File="camera.png"/>
+                        </OnPlatform.iOS>
+                        <OnPlatform.Android>
+                            <FileImageSource File="camera.png"/>
+                        </OnPlatform.Android>
+                        <OnPlatform.WinPhone>
+                            <FileImageSource File="Assets/camera.png"/>
+                        </OnPlatform.WinPhone>
+                    </OnPlatform>
+                </controls:TintedImage.Source>
+
+                <controls:TintedImage.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.BarcodeScanCommand, 
+                                                        Source={x:Reference Name=imgCamera}}"
+                                                         CommandParameter="{Binding}"/>
+                </controls:TintedImage.GestureRecognizers>
+            </controls:TintedImage>
+            
+            <BoxView
+                Grid.Row="1"
+                BackgroundColor="{StaticResource lightGrayColor}"
+                HeightRequest="1"
+                VerticalOptions="Start"
+                HorizontalOptions="FillAndExpand"/>
+
+            <Entry
+                Margin="10"
+                Text="{Binding Borcode,Mode=TwoWay}"
+                Placeholder="{Binding Resources[hint_keg_barcode]}"
+                Grid.Row="2"/>
+
+            <Button
+                Margin="10"
+                Grid.Row="3"
+                x:Name="lblBulkupdate"
+                HorizontalOptions="Start"
+                Style="{StaticResource TopButtonTitleStyle}"
+                Text="{Binding Resources[menu_action_bulk_update]}"
+                Command="{Binding BulkUpdateCommand}"
+                />
+
+            <Button
+                Margin="10"
+                Grid.Row="3"
+                x:Name="lblSearch"
+                HorizontalOptions="End"
+                Style="{StaticResource TopButtonTitleStyle}"
+                Text="{Binding Resources[menu_action_search]}"
+                Command="{Binding SearchCommand}"
+                />
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

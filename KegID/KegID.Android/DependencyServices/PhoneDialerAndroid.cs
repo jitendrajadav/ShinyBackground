@@ -11,7 +11,6 @@ namespace KegID.Droid.DependencyServices
 {
     class PhoneDialerAndroid : IDialer
     {
-
         public Task<bool> DialAsync(string number)
         {
             var context = Android.App.Application.Context;

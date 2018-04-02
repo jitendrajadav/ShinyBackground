@@ -817,7 +817,7 @@ namespace KegID {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Contact Email.
+        ///   Looks up a localized string similar to Contact email.
         /// </summary>
         internal static string hint_contact_email {
             get {
@@ -880,6 +880,15 @@ namespace KegID {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Keg barcode.
+        /// </summary>
+        internal static string hint_keg_barcode {
+            get {
+                return ResourceManager.GetString("hint_keg_barcode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to -- none set--.
         /// </summary>
         internal static string hint_no_tags_set {
@@ -916,7 +925,7 @@ namespace KegID {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Reference #.
+        ///   Looks up a localized string similar to Ref #.
         /// </summary>
         internal static string hint_reference {
             get {
@@ -1123,7 +1132,7 @@ namespace KegID {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Account #.
+        ///   Looks up a localized string similar to Acct #.
         /// </summary>
         internal static string label_accountnum {
             get {
@@ -1357,6 +1366,15 @@ namespace KegID {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bill To.
+        /// </summary>
+        internal static string label_bill_to {
+            get {
+                return ResourceManager.GetString("label_bill_to", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Billing Address:.
         /// </summary>
         internal static string label_billing_address {
@@ -1407,6 +1425,15 @@ namespace KegID {
         internal static string label_choose_a_date {
             get {
                 return ResourceManager.GetString("label_choose_a_date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contact.
+        /// </summary>
+        internal static string label_contact {
+            get {
+                return ResourceManager.GetString("label_contact", resourceCulture);
             }
         }
         
@@ -1924,6 +1951,15 @@ namespace KegID {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Type.
+        /// </summary>
+        internal static string label_partnerinfo_type {
+            get {
+                return ResourceManager.GetString("label_partnerinfo_type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Phone.
         /// </summary>
         internal static string label_phone {
@@ -2001,6 +2037,15 @@ namespace KegID {
         internal static string label_share_partner {
             get {
                 return ResourceManager.GetString("label_share_partner", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ship To.
+        /// </summary>
+        internal static string label_ship_to {
+            get {
+                return ResourceManager.GetString("label_ship_to", resourceCulture);
             }
         }
         

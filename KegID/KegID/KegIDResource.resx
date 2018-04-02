@@ -442,7 +442,7 @@
     <value>Kegs</value>
   </data>
   <data name="label_accountnum" xml:space="preserve">
-    <value>Account #</value>
+    <value>Acct #</value>
   </data>
   <data name="label_address_bill" xml:space="preserve">
     <value>Bill Address</value>
@@ -1603,7 +1603,7 @@
     <value>Company Name</value>
   </data>
   <data name="hint_contact_email" xml:space="preserve">
-    <value>Contact Email</value>
+    <value>Contact email</value>
   </data>
   <data name="hint_contact_phone" xml:space="preserve">
     <value>Contact phone</value>
@@ -1612,7 +1612,7 @@
     <value>Notes</value>
   </data>
   <data name="hint_reference" xml:space="preserve">
-    <value>Reference #</value>
+    <value>Ref #</value>
   </data>
   <data name="label_bent_chime" xml:space="preserve">
     <value>Bent Chime</value>
@@ -1655,5 +1655,20 @@
   </data>
   <data name="title_add_partner" xml:space="preserve">
     <value>Add Partner</value>
+  </data>
+  <data name="label_bill_to" xml:space="preserve">
+    <value>Bill To</value>
+  </data>
+  <data name="label_contact" xml:space="preserve">
+    <value>Contact</value>
+  </data>
+  <data name="label_partnerinfo_type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="label_ship_to" xml:space="preserve">
+    <value>Ship To</value>
+  </data>
+  <data name="hint_keg_barcode" xml:space="preserve">
+    <value>Keg barcode</value>
   </data>
 </root>

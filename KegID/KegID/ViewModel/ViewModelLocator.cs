@@ -50,6 +50,7 @@ namespace KegID.ViewModel
             SimpleIoc.Default.Register<KegsViewModel>();
             SimpleIoc.Default.Register<KegStatusViewModel>();
             SimpleIoc.Default.Register<EditKegViewModel>();
+            SimpleIoc.Default.Register<KegSearchViewModel>();
 
             #endregion
 
@@ -777,6 +778,25 @@ namespace KegID.ViewModel
         }
 
         #endregion
+
+        #region KegSearch
+
+        /// <summary>
+        /// Gets the KegSearch property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public KegSearchViewModel KegSearch
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<KegSearchViewModel>();
+            }
+        }
+
+        #endregion
+
 
         #endregion
 

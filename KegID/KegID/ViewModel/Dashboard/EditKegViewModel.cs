@@ -11,6 +11,74 @@ namespace KegID.ViewModel
     {
         #region Properties
 
+        #region Owner
+
+        /// <summary>
+        /// The <see cref="Owner" /> property's name.
+        /// </summary>
+        public const string OwnerPropertyName = "Owner";
+
+        private string _Owner = "Barcode Brewing";
+
+        /// <summary>
+        /// Sets and gets the Owner property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public string Owner
+        {
+            get
+            {
+                return _Owner;
+            }
+
+            set
+            {
+                if (_Owner == value)
+                {
+                    return;
+                }
+
+                _Owner = value;
+                RaisePropertyChanged(OwnerPropertyName);
+            }
+        }
+
+        #endregion
+
+        #region Size
+
+        /// <summary>
+        /// The <see cref="Size" /> property's name.
+        /// </summary>
+        public const string SizePropertyName = "Size";
+
+        private string _Size = string.Empty;
+
+        /// <summary>
+        /// Sets and gets the Size property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public string Size
+        {
+            get
+            {
+                return _Size;
+            }
+
+            set
+            {
+                if (_Size == value)
+                {
+                    return;
+                }
+
+                _Size = value;
+                RaisePropertyChanged(SizePropertyName);
+            }
+        }
+
+        #endregion
+
         #region KegStatuModel
 
         /// <summary>
@@ -74,7 +142,7 @@ namespace KegID.ViewModel
 
                 _PartnerModel = value;
                 RaisePropertyChanged(PartnerModelPropertyName);
-                KegStatusModel.PossessorName = PartnerModel.FullName;
+                Owner = PartnerModel.FullName;
             }
         }
 
@@ -268,6 +336,13 @@ namespace KegID.ViewModel
         private async void AddTagsCommandRecieverAsync()
         {
             await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView());
+        }
+
+        internal void LoadData(KegPossessionResponseModel kegStatusModel)
+        {
+            KegStatusModel = kegStatusModel;
+            SelectedItemType = kegStatusModel.TypeName;
+            Size = kegStatusModel.SizeName;
         }
 
         #endregion

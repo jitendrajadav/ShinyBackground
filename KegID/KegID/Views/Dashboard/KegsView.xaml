@@ -25,7 +25,7 @@
                 />
 
             <Label 
-                Text="{Binding Resources[label_kegs]}"
+                Text="{Binding Resources[kegs]}"
                 Style="{StaticResource LabelTitleStyle}"
                 TextColor="Black"
                 HorizontalOptions="CenterAndExpand"/>

@@ -370,7 +370,7 @@ namespace KegID.ViewModel
 
         private async void KegsCommandRecieverAsync()
         {
-          await Application.Current.MainPage.Navigation.PushModalAsync(new ScanKegsView());
+          await Application.Current.MainPage.Navigation.PushModalAsync(new KegSearchView());
         }
 
         private async void PartnerCommandRecieverAsync()
