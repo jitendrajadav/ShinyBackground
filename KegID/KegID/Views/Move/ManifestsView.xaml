@@ -4,7 +4,7 @@
              x:Class="KegID.Views.ManifestsView"
              xmlns:local="clr-namespace:KegID"
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
-             BackgroundColor="#FFFFFF"
+             BackgroundColor="{StaticResource pageBGColor}"
              xmlns:controls="clr-namespace:Plugin.CrossPlatformTintedImage.Abstractions;assembly=Plugin.CrossPlatformTintedImage.Abstractions"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Manifests}">
    
@@ -32,8 +32,8 @@
 
             <Label 
                 Text="{Binding Resources[button_manifests]}"
-                FontAttributes="Bold"
-                VerticalOptions="Center" 
+                Style="{StaticResource LabelTitleStyle}"
+                TextColor="Black"
                 HorizontalOptions="Center" />
 
             <controls:TintedImage
@@ -95,9 +95,9 @@
                 </Grid.HeightRequest>
                 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="120"/>
-                    <ColumnDefinition Width="120"/>
-                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="110"/>
+                    <ColumnDefinition Width="110"/>
+                    <ColumnDefinition Width="110"/>
                 </Grid.ColumnDefinitions>
                 
                 <Button
@@ -106,7 +106,7 @@
                     TextColor="{Binding QueuedTextColor}"
                     BackgroundColor="{Binding QueuedBackgroundColor}"
                     Command="{Binding QueuedCommand}"
-                    Text="Queued">
+                    Text="{Binding Resources[title_manifest_queued]}">
                     <Button.Margin>
                         <OnPlatform x:TypeArguments="Thickness">
                             <On Platform="iOS, WinPhone, Windows, UWP" Value="0" />
@@ -122,7 +122,7 @@
                     TextColor="{Binding DraftTextColor}"
                     BackgroundColor="{Binding DraftBackgroundColor}"
                     Command="{Binding DraftCommand}"
-                    Text="Draft">
+                    Text="{Binding Resources[title_manifest_draft]}">
                     <Button.Margin>
                         <OnPlatform x:TypeArguments="Thickness">
                             <On Platform="iOS, WinPhone, Windows, UWP" Value="0" />
@@ -138,7 +138,7 @@
                     TextColor="{Binding RecentTextColor}"
                     BackgroundColor="{Binding RecentBackgroundColor}"
                     Command="{Binding RecentCommand}"
-                    Text="Recent">
+                    Text="{Binding Resources[title_manifest_recent]}">
                     <Button.Margin>
                         <OnPlatform x:TypeArguments="Thickness">
                             <On Platform="iOS, WinPhone, Windows, UWP" Value="0" />

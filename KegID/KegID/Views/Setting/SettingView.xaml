@@ -1,11 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="KegID.Views.SettingView"
-             xmlns:local="clr-namespace:KegID"
-             Title="Setting"
-             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
-             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Setting}">
+<pages:PopupPage 
+            xmlns="http://xamarin.com/schemas/2014/forms"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            x:Class="KegID.Views.SettingView"
+            xmlns:local="clr-namespace:KegID"
+            Title="Setting"
+            xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+            BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Setting}">
 
     <StackLayout 
         Spacing="0"

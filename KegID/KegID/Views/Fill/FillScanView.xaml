@@ -5,7 +5,7 @@
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
              xmlns:local="clr-namespace:KegID"
              xmlns:controls="clr-namespace:Plugin.CrossPlatformTintedImage.Abstractions;assembly=Plugin.CrossPlatformTintedImage.Abstractions"
-             BackgroundColor="#FFFFFF"
+             BackgroundColor="{StaticResource pageBGColor}"
              BindingContext="{Binding Source={x:Static local:App.Locator},Path=FillScan}">
     
     <ContentPage.Content>

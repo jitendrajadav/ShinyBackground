@@ -4,7 +4,7 @@
              x:Class="KegID.Views.SearchManifestsView"
              xmlns:local="clr-namespace:KegID"
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
-             BackgroundColor="#FFFFFF"
+             BackgroundColor="{StaticResource pageBGColor}"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=SearchManifests}">
    
     <ContentPage.Content>
@@ -33,15 +33,14 @@
                 x:Name="lblManifest"
                 Style="{StaticResource TopButtonTitleStyle}"
                 Grid.ColumnSpan="2"
-                HorizontalOptions="Start"
                 Text="{Binding Resources[button_manifests]}"
                 Command="{Binding ManifestsCommand}"
                 />
 
             <Label 
                 Grid.ColumnSpan="2"
-                Text="Search Manifests"
-                VerticalOptions="CenterAndExpand" 
+                Text="{Binding Resources[title_search_manifests]}"
+                Style="{StaticResource LabelTitleStyle}"
                 HorizontalOptions="CenterAndExpand" />
 
             <BoxView
@@ -102,10 +101,11 @@
                 Orientation="Horizontal">
                 
                 <Label
-                    VerticalOptions="Center"
-                    Text="From"/>
+                    Style="{StaticResource LabelNormalStyle}"
+                    Text="{Binding Resources[hint_fromdate]}"/>
                 
                 <DatePicker
+                    HorizontalOptions="FillAndExpand"
                     Date="{Binding FromDate}"
                     Margin="5,0,0,0"/>
             </StackLayout>
@@ -116,10 +116,11 @@
                 Orientation="Horizontal">
 
                 <Label
-                    VerticalOptions="Center"
-                    Text="To"/>
+                    Style="{StaticResource LabelNormalStyle}"
+                    Text="{Binding Resources[hint_todate]}"/>
 
                 <DatePicker
+                    HorizontalOptions="FillAndExpand"
                     Date="{Binding ToDate}"
                     Margin="5,0,0,0"/>
             </StackLayout>

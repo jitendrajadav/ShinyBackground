@@ -4,7 +4,7 @@
              x:Class="KegID.Views.MaintainScanView"
              xmlns:local="clr-namespace:KegID"
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
-             BackgroundColor="#FFFFFF"
+             BackgroundColor="{StaticResource pageBGColor}"
              xmlns:controls="clr-namespace:Plugin.CrossPlatformTintedImage.Abstractions;assembly=Plugin.CrossPlatformTintedImage.Abstractions"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=MaintainScan}">
    

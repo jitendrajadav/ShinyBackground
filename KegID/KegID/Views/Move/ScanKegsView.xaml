@@ -4,7 +4,7 @@
              x:Class="KegID.Views.ScanKegsView"
              xmlns:local="clr-namespace:KegID"
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
-             BackgroundColor="#FFFFFF"
+             BackgroundColor="{StaticResource pageBGColor}"
              xmlns:effects="clr-namespace:KegID.Extensions"
              xmlns:controls="clr-namespace:Plugin.CrossPlatformTintedImage.Abstractions;assembly=Plugin.CrossPlatformTintedImage.Abstractions"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=ScanKegs}">
@@ -186,7 +186,7 @@
                 Margin="15,0,0,0"
                 VerticalOptions="Center"
                 Grid.ColumnSpan="2"
-                Text="Scanned:"/>
+                Text="{Binding Resources[label_scanned]}"/>
 
             <Label
                 Grid.Column="2"

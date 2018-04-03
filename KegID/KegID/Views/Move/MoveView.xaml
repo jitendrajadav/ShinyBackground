@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:KegID"
              xmlns:control="clr-namespace:KegID.Controls"
              Title="{Binding Resources[title_create_manifest]}"
-             BackgroundColor="#FFFFFF"
+             BackgroundColor="{StaticResource pageBGColor}"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Move}">
 
     <ContentPage.Content>

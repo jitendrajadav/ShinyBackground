@@ -332,7 +332,7 @@ namespace KegID.ViewModel
         public RelayCommand MaintainCommand { get; }
         public RelayCommand PalletizeCommand { get; }
         public RelayCommand FillCommand { get; }
-        public RelayCommand MoveCommand { get; }
+        public RelayCommand ManifestCommand { get; }
         public RelayCommand InventoryCommand { get; }
         public RelayCommand PartnerCommand { get; }
         public RelayCommand KegsCommand { get; }
@@ -351,7 +351,7 @@ namespace KegID.ViewModel
             MaintainCommand = new RelayCommand(MaintainCommandRecieverAsync);
             PalletizeCommand = new RelayCommand(PalletizeCommandRecieverAsync);
             FillCommand = new RelayCommand(FillCommandRecieverAsync);
-            MoveCommand = new RelayCommand(MoveCommandRecieverAsync);
+            ManifestCommand = new RelayCommand(ManifestCommandRecieverAsync);
             InventoryCommand = new RelayCommand(InventoryCommandRecieverAsync);
             PartnerCommand = new RelayCommand(PartnerCommandRecieverAsync);
             KegsCommand = new RelayCommand(KegsCommandRecieverAsync);
@@ -375,7 +375,7 @@ namespace KegID.ViewModel
 
         private async void PartnerCommandRecieverAsync()
         {
-          await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new DashboardPartnersView());
         }
 
         private async void InventoryCommandRecieverAsync()
@@ -383,12 +383,11 @@ namespace KegID.ViewModel
             await Application.Current.MainPage.Navigation.PushModalAsync(new InventoryView());
         }
 
-        private async void MoveCommandRecieverAsync()
+        private async void ManifestCommandRecieverAsync()
         {
-            SimpleIoc.Default.GetInstance<MoveViewModel>().ManifestId = Uuid.GetUuId();
-            await Application.Current.MainPage.Navigation.PushModalAsync(new MoveView());
-
-            CheckDraftmaniFests();
+            //SimpleIoc.Default.GetInstance<MoveViewModel>().ManifestId = Uuid.GetUuId();
+            await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestsView());
+            //CheckDraftmaniFests();
         }
 
         private void CheckDraftmaniFests()
@@ -400,8 +399,8 @@ namespace KegID.ViewModel
 
         private async void PalletizeCommandRecieverAsync()
         {
-            SimpleIoc.Default.GetInstance<PalletizeViewModel>().GenerateManifestIdAsync(null);
-            await Application.Current.MainPage.Navigation.PushModalAsync(new PalletizeView());
+            //SimpleIoc.Default.GetInstance<PalletizeViewModel>().GenerateManifestIdAsync(null);
+            await Application.Current.MainPage.Navigation.PushModalAsync(new SearchPalletView());
         }
 
         private async void MaintainCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new MaintainView());

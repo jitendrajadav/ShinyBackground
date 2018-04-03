@@ -364,7 +364,7 @@
     <value>filter</value>
   </data>
   <data name="hint_fromdate" xml:space="preserve">
-    <value>From date</value>
+    <value>From</value>
   </data>
   <data name="hint_no_tags_set" xml:space="preserve">
     <value>-- none set--</value>
@@ -376,10 +376,10 @@
     <value>Password</value>
   </data>
   <data name="hint_scan" xml:space="preserve">
-    <value>barcode</value>
+    <value>Barcode</value>
   </data>
   <data name="hint_scan_pallet" xml:space="preserve">
-    <value>Scan pallet barcode</value>
+    <value>Pallet barcode</value>
   </data>
   <data name="hint_search_item" xml:space="preserve">
     <value>Search</value>
@@ -415,7 +415,7 @@
     <value>Select SKU</value>
   </data>
   <data name="hint_todate" xml:space="preserve">
-    <value>To date</value>
+    <value>To</value>
   </data>
   <data name="hint_trackingnum" xml:space="preserve">
     <value>Tracking #</value>
@@ -1444,7 +1444,7 @@
     <value>Manifests</value>
   </data>
   <data name="title_manifest_queued" xml:space="preserve">
-    <value>Manifest Queued</value>
+    <value>Queued</value>
   </data>
   <data name="title_manifest_search" xml:space="preserve">
     <value>Find a Manifest</value>
@@ -1670,5 +1670,23 @@
   </data>
   <data name="hint_keg_barcode" xml:space="preserve">
     <value>Keg barcode</value>
+  </data>
+  <data name="hint_location_created" xml:space="preserve">
+    <value>Location created</value>
+  </data>
+  <data name="title_manifest_draft" xml:space="preserve">
+    <value>Draft</value>
+  </data>
+  <data name="title_manifest_recent" xml:space="preserve">
+    <value>Recent</value>
+  </data>
+  <data name="title_search_manifests" xml:space="preserve">
+    <value>Search Manifests</value>
+  </data>
+  <data name="title_empty_summary" xml:space="preserve">
+    <value>Empty Summary</value>
+  </data>
+  <data name="title_stock_summary" xml:space="preserve">
+    <value>Stock Summary</value>
   </data>
 </root>

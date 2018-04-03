@@ -21,6 +21,8 @@
             <Color x:Key="textLabelColor">#555555</Color>
 
             <OnPlatform x:Key="ButtonLargeFontSize" x:TypeArguments="x:Double" iOS="40" Android="40" WinPhone="40"/>
+            <OnPlatform x:Key="LargeFontSize" x:TypeArguments="x:Double" iOS="30" Android="30" WinPhone="30"/>
+
             <OnPlatform x:Key="LableFontSize" x:TypeArguments="x:Double" iOS="18" Android="18" WinPhone="18"/>
             <OnPlatform x:Key="AppBarButtonFontSize" x:TypeArguments="x:Double" iOS="20" Android="20" WinPhone="20"/>
             
@@ -93,6 +95,13 @@
                 <Setter Property="VerticalTextAlignment" Value="Center"/>
                 <Setter Property="TextColor" Value="Black"/>
                 <Setter Property="FontSize" Value="{StaticResource LableFontSize}"/>
+            </Style>
+            
+            <Style x:Key="LabelLargeStyle" TargetType="Label">
+                <Setter Property="HorizontalTextAlignment" Value="Start" />
+                <Setter Property="VerticalTextAlignment" Value="Center"/>
+                <Setter Property="TextColor" Value="Black"/>
+                <Setter Property="FontSize" Value="{StaticResource LargeFontSize}"/>
             </Style>
 
             <Style x:Key="ButtonNormalStyle" TargetType="Button">

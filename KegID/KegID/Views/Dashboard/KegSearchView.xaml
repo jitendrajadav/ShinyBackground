@@ -4,16 +4,16 @@
              x:Class="KegID.Views.KegSearchView"
              xmlns:local="clr-namespace:KegID"
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
+             BackgroundColor="{StaticResource pageBGColor}"
              xmlns:controls="clr-namespace:Plugin.CrossPlatformTintedImage.Abstractions;assembly=Plugin.CrossPlatformTintedImage.Abstractions"
              BindingContext="{Binding Source={x:Static local:App.Locator},Path=KegSearch}">
     
     <ContentPage.Content>
+        
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
             <Button
@@ -58,40 +58,53 @@
                                                          CommandParameter="{Binding}"/>
                 </controls:TintedImage.GestureRecognizers>
             </controls:TintedImage>
-            
-            <BoxView
+
+            <Grid
                 Grid.Row="1"
-                BackgroundColor="{StaticResource lightGrayColor}"
-                HeightRequest="1"
-                VerticalOptions="Start"
-                HorizontalOptions="FillAndExpand"/>
+                BackgroundColor="#E6E6E6">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-            <Entry
-                Margin="10"
-                Text="{Binding Borcode,Mode=TwoWay}"
-                Placeholder="{Binding Resources[hint_keg_barcode]}"
-                Grid.Row="2"/>
+                <BoxView
+                    Grid.Row="0"
+                    BackgroundColor="{StaticResource lightGrayColor}"
+                    HeightRequest="1"
+                    VerticalOptions="Start"
+                    HorizontalOptions="FillAndExpand"/>
 
-            <Button
-                Margin="10"
-                Grid.Row="3"
-                x:Name="lblBulkupdate"
-                HorizontalOptions="Start"
-                Style="{StaticResource TopButtonTitleStyle}"
-                Text="{Binding Resources[menu_action_bulk_update]}"
-                Command="{Binding BulkUpdateCommand}"
-                />
+                <Entry
+                    BackgroundColor="White"
+                    Margin="10"
+                    Text="{Binding Borcode,Mode=TwoWay}"
+                    Placeholder="{Binding Resources[hint_keg_barcode]}"
+                    Grid.Row="1"/>
 
-            <Button
-                Margin="10"
-                Grid.Row="3"
-                x:Name="lblSearch"
-                HorizontalOptions="End"
-                Style="{StaticResource TopButtonTitleStyle}"
-                Text="{Binding Resources[menu_action_search]}"
-                Command="{Binding SearchCommand}"
-                />
+                <Button
+                    Margin="10"
+                    Grid.Row="2"
+                    x:Name="lblBulkupdate"
+                    HorizontalOptions="Start"
+                    Style="{StaticResource TopButtonTitleStyle}"
+                    Text="{Binding Resources[menu_action_bulk_update]}"
+                    Command="{Binding BulkUpdateCommand}"
+                    />
+
+                <Button
+                    Margin="10"
+                    Grid.Row="2"
+                    x:Name="lblSearch"
+                    HorizontalOptions="End"
+                    Style="{StaticResource TopButtonTitleStyle}"
+                    Text="{Binding Resources[menu_action_search]}"
+                    Command="{Binding SearchCommand}"
+                    />
+
+            </Grid>
 
         </Grid>
+        
     </ContentPage.Content>
 </ContentPage>

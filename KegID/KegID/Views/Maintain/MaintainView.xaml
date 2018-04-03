@@ -5,7 +5,7 @@
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
              xmlns:local="clr-namespace:KegID"
              Title="Maintenance Items"
-             BackgroundColor="#FFFFFF"
+             BackgroundColor="{StaticResource pageBGColor}"
              xmlns:control="clr-namespace:KegID.Controls"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Maintain}">
     
@@ -42,11 +42,10 @@
                 HorizontalOptions="FillAndExpand"/>
            
             <Label
-                Margin="10,0,0,0"
                 VerticalOptions="Center"
                 Grid.Row="2"
                 TextColor="Black"
-                FontSize="Large"
+                Style="{StaticResource LabelTitleStyle}"
                 Text="{Binding Resources[label_maintenance_items]}"/>
 
             <Grid

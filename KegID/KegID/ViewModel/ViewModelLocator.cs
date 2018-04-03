@@ -51,6 +51,7 @@ namespace KegID.ViewModel
             SimpleIoc.Default.Register<KegStatusViewModel>();
             SimpleIoc.Default.Register<EditKegViewModel>();
             SimpleIoc.Default.Register<KegSearchViewModel>();
+            SimpleIoc.Default.Register<BulkUpdateScanViewModel>();
 
             #endregion
 
@@ -64,8 +65,11 @@ namespace KegID.ViewModel
             #endregion
 
             #region Palletize
+
             SimpleIoc.Default.Register<PalletizeViewModel>();
             SimpleIoc.Default.Register<PalletizeDetailViewModel>();
+            SimpleIoc.Default.Register<SearchPalletViewModel>();
+
             #endregion
 
             #region Maintain
@@ -573,6 +577,24 @@ namespace KegID.ViewModel
 
         #endregion
 
+        #region SearchPallet
+
+        /// <summary>
+        /// Gets the SearchPallet property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public SearchPalletViewModel SearchPallet
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<SearchPalletViewModel>();
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Maintain
@@ -792,6 +814,24 @@ namespace KegID.ViewModel
             get
             {
                 return SimpleIoc.Default.GetInstance<KegSearchViewModel>();
+            }
+        }
+
+        #endregion
+
+        #region BulkUpdateScan
+
+        /// <summary>
+        /// Gets the BulkUpdateScan property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public BulkUpdateScanViewModel BulkUpdateScan
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<BulkUpdateScanViewModel>();
             }
         }
 

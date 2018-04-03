@@ -5,7 +5,7 @@
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
              xmlns:local="clr-namespace:KegID"
              Title="Dashboard"
-             BackgroundColor="#FFFFFF"
+             BackgroundColor="{StaticResource pageBGColor}"
              xmlns:controls="clr-namespace:Plugin.CrossPlatformTintedImage.Abstractions;assembly=Plugin.CrossPlatformTintedImage.Abstractions"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Dashboard}">
 
@@ -464,16 +464,12 @@
 
                 <Label
                     x:Name="lblManifest"
-                    BackgroundColor="Transparent"
+                    Style="{StaticResource LabelNormalStyle}"
                     Text="{Binding Resources[button_manifests]}"
-                    VerticalOptions="Center"
-                    FontSize="Medium"
-                    HorizontalOptions="Start"
-                    Grid.Row="0"
                     TextColor="#4E6388"
                     Grid.Column="1">
                     <Label.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding Path=BindingContext.MoveCommand, 
+                        <TapGestureRecognizer Command="{Binding Path=BindingContext.ManifestCommand, 
                                                         Source={x:Reference Name=lblManifest}}"
                                                          CommandParameter="{Binding}"/>
                     </Label.GestureRecognizers>
@@ -505,12 +501,9 @@
 
                 <Label
                     x:Name="lblPallets"
-                    BackgroundColor="Transparent"
+                    Style="{StaticResource LabelNormalStyle}"
                     Text="{Binding Resources[button_pallets]}"
-                    HorizontalOptions="Start"
                     Grid.Row="1"
-                    VerticalOptions="Center"
-                    FontSize="Medium"
                     TextColor="#4E6388"
                     Grid.Column="1">
                     <Label.GestureRecognizers>
@@ -545,12 +538,8 @@
 
                 <Label
                     x:Name="lblPartners"
-                    BackgroundColor="Transparent"
                     Text="{Binding Resources[button_partners]}"
-                    HorizontalOptions="Start"
-                    Grid.Row="0"
-                    VerticalOptions="Center"
-                    FontSize="Medium"
+                    Style="{StaticResource LabelNormalStyle}"
                     TextColor="#4E6388"
                     Grid.Column="3">
                     <Label.GestureRecognizers>
@@ -585,12 +574,9 @@
 
                 <Label
                     x:Name="lblKegs"
-                    BackgroundColor="Transparent"
+                    Style="{StaticResource LabelNormalStyle}"
                     Text="{Binding Resources[button_kegs]}"
                     TextColor="#4E6388"
-                    VerticalOptions="Center"
-                    FontSize="Medium"
-                    HorizontalOptions="Start"
                     Grid.Row="1"
                     Grid.Column="3">
                     <Label.GestureRecognizers>

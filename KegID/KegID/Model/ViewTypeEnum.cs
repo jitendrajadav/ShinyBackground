@@ -29,6 +29,7 @@
         MaintainView,
         PalletizeView,
         PalletizeDetailView,
+        SearchPalletView,
         AddBatchView,
         BrandView,
         VolumeView,
@@ -44,5 +45,7 @@
         KegsView,
         KegStatusView,
         EditKegView,
+        KegSearchView,
+        BulkUpdateScanView
     }
 }

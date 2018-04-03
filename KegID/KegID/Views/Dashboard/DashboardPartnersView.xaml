@@ -5,7 +5,7 @@
              xmlns:local="clr-namespace:KegID"
              xmlns:extended="clr-namespace:Xamarin.Forms.Extended;assembly=Xamarin.Forms.Extended.InfiniteScrolling"
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
-             BackgroundColor="#FFFFFF"
+             BackgroundColor="{StaticResource pageBGColor}"
              xmlns:controls="clr-namespace:Plugin.CrossPlatformTintedImage.Abstractions;assembly=Plugin.CrossPlatformTintedImage.Abstractions"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=DashboardPartners}">
     
@@ -33,15 +33,16 @@
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="Center" />
 
-            <Image
+            <controls:TintedImage
                 x:Name="imgAdd"
                 Margin="0,0,10,0"
                 HeightRequest="30"
                 WidthRequest="30"
+                TintColor="{StaticResource selectTextColor}"
                 HorizontalOptions="End"                  
                 VerticalOptions="Center">
 
-                <Image.Source>
+                <controls:TintedImage.Source>
                     <OnPlatform x:TypeArguments="FileImageSource">
                         <OnPlatform.iOS>
                             <FileImageSource File="add.png"/>
@@ -53,15 +54,15 @@
                             <FileImageSource File="Assets/add.png"/>
                         </OnPlatform.WinPhone>
                     </OnPlatform>
-                </Image.Source>
+                </controls:TintedImage.Source>
 
-                <Image.GestureRecognizers>
+                <controls:TintedImage.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding Path=BindingContext.AddNewPartnerCommand, 
                                                     Source={x:Reference Name=imgAdd}}"
                                                         CommandParameter="{Binding}"/>
 
-                </Image.GestureRecognizers>
-            </Image>
+                </controls:TintedImage.GestureRecognizers>
+            </controls:TintedImage>
 
             <BoxView
                 Margin="-10,0,-10,0"
@@ -171,9 +172,9 @@
                 </Grid.HeightRequest>
                 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="120"/>
-                    <ColumnDefinition Width="120"/>
-                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="110"/>
+                    <ColumnDefinition Width="110"/>
+                    <ColumnDefinition Width="110"/>
                 </Grid.ColumnDefinitions>
                 
                 <Button

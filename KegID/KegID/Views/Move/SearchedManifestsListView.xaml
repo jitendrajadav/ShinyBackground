@@ -4,7 +4,7 @@
              x:Class="KegID.Views.SearchedManifestsListView"
              xmlns:local="clr-namespace:KegID"
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
-             BackgroundColor="#FFFFFF"
+             BackgroundColor="{StaticResource pageBGColor}"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=SearchedManifestsList}">
   
     <ContentPage.Content>

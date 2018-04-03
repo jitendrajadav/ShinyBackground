@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:KegID"
              x:Class="KegID.Views.InventoryView"
-             BackgroundColor="#FFFFFF"
+             BackgroundColor="{StaticResource pageBGColor}"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Inventory}">
 
     <ContentPage Title="{Binding Resources[label_stock]}">
@@ -23,19 +23,19 @@
 
             <Label
                 HorizontalOptions="Center"
-                FontAttributes="Bold"
-                VerticalOptions="Center"
-                Text="Stock Summary"/>
+                Style="{StaticResource LabelTitleStyle}"
+                TextColor="Black"
+                Text="{Binding Resources[title_stock_summary]}"/>
 
             <BoxView
-                Margin="-10,0,-10,0"
                 Grid.Row="1"
                 BackgroundColor="{StaticResource bannerBGColor}"
-                HeightRequest="40"
-                VerticalOptions="Start"
+                VerticalOptions="Center"
                 HorizontalOptions="FillAndExpand"/>
            
             <Label
+                Margin="10,0,0,0"
+                VerticalTextAlignment="Center"
                 Grid.Row="1"
                 HorizontalOptions="Start"
                 Style="{StaticResource LabelTitleWhiteTextColorStyle}"
@@ -52,6 +52,7 @@
 
                 <ListView.Header>
                     <Grid
+                        Padding="0,5"
                         BackgroundColor="{StaticResource lightGrayColor}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="45*"/>
@@ -64,7 +65,7 @@
                         
                         <Label
                             Grid.Column="1"
-                            Text="{Binding Resources[label_size]}"/>
+                            Text="{Binding Resources[tag_size]}"/>
                         
                         <Label
                             Grid.Column="2"
@@ -123,25 +124,25 @@
 
             <Button
                 TextColor="{StaticResource selectTextColor}"
+                Style="{StaticResource TopButtonTitleStyle}"
                 HorizontalOptions="Start"
                 Text="{Binding Resources[button_home]}"
                 Command="{Binding HomeCommand}"/>
 
             <Label
                 HorizontalOptions="Center"
-                FontAttributes="Bold"
-                VerticalOptions="Center"
-                Text="Empty Summary"/>
+                Style="{StaticResource LabelTitleStyle}"
+                TextColor="Black"
+                Text="{Binding Resources[title_empty_summary]}"/>
 
             <BoxView
-                Margin="-10,0,-10,0"
                 Grid.Row="1"
                 BackgroundColor="{StaticResource bannerBGColor}"
-                HeightRequest="40"
-                VerticalOptions="Start"
+                VerticalOptions="Center"
                 HorizontalOptions="FillAndExpand"/>
 
             <Label
+                Margin="10,0,0,0"
                 Grid.Row="1"
                 HorizontalOptions="Start"
                 Style="{StaticResource LabelTitleWhiteTextColorStyle}"
@@ -158,6 +159,7 @@
 
                 <ListView.Header>
                     <Grid
+                        Padding="0,5"
                         BackgroundColor="{StaticResource lightGrayColor}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="45*"/>
@@ -170,7 +172,7 @@
 
                         <Label
                             Grid.Column="1"
-                            Text="{Binding Resources[label_size]}"/>
+                            Text="{Binding Resources[tag_size]}"/>
 
                         <Label
                             Grid.Column="2"

@@ -5,7 +5,7 @@
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
              xmlns:local="clr-namespace:KegID"
              Title="{Binding Resources[title_activity_fill_manifest]}"
-             BackgroundColor="#FFFFFF"
+             BackgroundColor="{StaticResource pageBGColor}"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Fill}">
     
     <ContentPage.Content>

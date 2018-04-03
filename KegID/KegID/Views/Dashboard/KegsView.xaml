@@ -4,7 +4,7 @@
              x:Class="KegID.Views.KegsView"
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
              xmlns:local="clr-namespace:KegID"
-             BackgroundColor="#FFFFFF"
+             BackgroundColor="{StaticResource pageBGColor}"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Kegs}">
     
     <ContentPage.Content>

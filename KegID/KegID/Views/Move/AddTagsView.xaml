@@ -4,7 +4,7 @@
              x:Class="KegID.Views.AddTagsView"
              xmlns:local="clr-namespace:KegID"
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
-             BackgroundColor="#FFFFFF"
+             BackgroundColor="{StaticResource pageBGColor}"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=AddTags}">
     
     <ContentPage.Content>
@@ -46,17 +46,18 @@
 
             <Label
                 Margin="10,0,0,0"
-                VerticalOptions="Center"
                 Text="{Binding Resources[menu_action_sort_name]}"
-                FontSize="{StaticResource AppBarButtonFontSize}"
+                Style="{StaticResource LabelTitleStyle}"
                 HorizontalOptions="Center"
                 TextColor="White"
                 Grid.Row="1"/>
             
             <Label
                 Text="Value"
-                Style="{StaticResource LabelTitleWhiteTextColorStyle}"
+                Style="{StaticResource LabelTitleStyle}"
                 Grid.Row="1"
+                HorizontalOptions="Center"
+                TextColor="White"
                 Grid.Column="1"/>
 
             <Button

@@ -1,5 +1,7 @@
 ﻿using System;
 using GalaSoft.MvvmLight.Command;
+using KegID.Views;
+using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
@@ -49,16 +51,16 @@ namespace KegID.ViewModel
         public RelayCommand BarcodeScanCommand { get; }
         public RelayCommand BulkUpdateCommand { get; }
         public RelayCommand SearchCommand { get; }
-
         
         #endregion
 
         #region Constructor
+
         public KegSearchViewModel()
         {
-            HomeCommand = new RelayCommand(HomeCommandReciever);
+            HomeCommand = new RelayCommand(HomeCommandRecieverAsync);
             BarcodeScanCommand = new RelayCommand(BarcodeScanCommandReciever);
-            BulkUpdateCommand = new RelayCommand(BulkUpdateCommandReciever);
+            BulkUpdateCommand = new RelayCommand(BulkUpdateCommandRecieverAsync);
             SearchCommand = new RelayCommand(SearchCommandReciever);
         }
 
@@ -71,18 +73,18 @@ namespace KegID.ViewModel
             
         }
 
-        private void HomeCommandReciever()
+        private async void HomeCommandRecieverAsync()
         {
-            
+            await Application.Current.MainPage.Navigation.PopModalAsync();
         }
 
         private void BarcodeScanCommandReciever()
         {
            var value = Borcode;
         }
-        private void BulkUpdateCommandReciever()
+        private async void BulkUpdateCommandRecieverAsync()
         {
-
+            await Application.Current.MainPage.Navigation.PushModalAsync(new BulkUpdateScanView());
         }
 
         #endregion
