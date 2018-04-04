@@ -28,7 +28,7 @@
                 />
 
             <Label 
-                Text="Maintenance"
+                Text="{Binding Resources[title_maintenance]}"
                 Style="{StaticResource LabelTitleStyle}"
                 HorizontalOptions="Center" />
 

@@ -21,7 +21,7 @@
             <Button 
                 x:Name="lblBackPartners"
                 Style="{StaticResource TopButtonTitleStyle}"
-                Text="Partners"
+                Text="{Binding Resources[title_partner_list]}"
                 HorizontalOptions="Start"
                 Command="{Binding BackPartnersCommand}"
                 />

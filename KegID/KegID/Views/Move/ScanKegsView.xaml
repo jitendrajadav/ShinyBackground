@@ -116,7 +116,7 @@
                 TextColor="{StaticResource selectTextColor}"
                 Grid.Column="0"
                 Grid.Row="3"
-                Title="Select Content"
+                Title="{Binding Resources[hint_select_content]}"
                 ItemDisplayBinding="{Binding BrandName}"
                 SelectedItem="{Binding SelectedBrand}"/>
 

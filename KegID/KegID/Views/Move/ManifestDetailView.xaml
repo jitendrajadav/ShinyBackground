@@ -84,7 +84,7 @@
             <Label 
                 Grid.Row="2"
                 FontSize="Medium"
-                Text="To:"
+                Text="{Binding Resources[label_to]}"
                 VerticalOptions="Center" 
                 HorizontalOptions="Start" />
             
@@ -98,7 +98,7 @@
 
             <Label 
                 Grid.Row="4"
-                Text="Shipping date:"
+                Text="{Binding Resources[label_shipping_date]}"
                 VerticalOptions="Center" 
                 FontSize="Medium"
                 HorizontalOptions="Start" />

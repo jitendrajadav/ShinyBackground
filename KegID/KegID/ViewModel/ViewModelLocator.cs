@@ -52,6 +52,7 @@ namespace KegID.ViewModel
             SimpleIoc.Default.Register<EditKegViewModel>();
             SimpleIoc.Default.Register<KegSearchViewModel>();
             SimpleIoc.Default.Register<BulkUpdateScanViewModel>();
+            SimpleIoc.Default.Register<KegSearchedListViewModel>();
 
             #endregion
 
@@ -69,6 +70,7 @@ namespace KegID.ViewModel
             SimpleIoc.Default.Register<PalletizeViewModel>();
             SimpleIoc.Default.Register<PalletizeDetailViewModel>();
             SimpleIoc.Default.Register<SearchPalletViewModel>();
+            SimpleIoc.Default.Register<PalletSearchedListViewModel>();
 
             #endregion
 
@@ -79,6 +81,7 @@ namespace KegID.ViewModel
             #endregion
 
         }
+
         #endregion
 
         #region Properties
@@ -595,6 +598,24 @@ namespace KegID.ViewModel
 
         #endregion
 
+        #region PalletSearchedList
+
+        /// <summary>
+        /// Gets the PalletSearchedList property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public PalletSearchedListViewModel PalletSearchedList
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<PalletSearchedListViewModel>();
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Maintain
@@ -837,6 +858,23 @@ namespace KegID.ViewModel
 
         #endregion
 
+        #region KegSearchedListView
+
+        /// <summary>
+        /// Gets the KegSearchedListView property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public KegSearchedListViewModel KegSearchedListView
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<KegSearchedListViewModel>();
+            }
+        }
+
+        #endregion
 
         #endregion
 

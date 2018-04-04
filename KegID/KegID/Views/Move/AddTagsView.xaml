@@ -25,7 +25,7 @@
             
             <Label 
                 Grid.ColumnSpan="3"
-                Text="Add tags"
+                Text="{Binding Resources[title_add_tags]}"
                 Style="{StaticResource LabelTitleStyle}"
                 TextColor="Black"
                 HorizontalOptions="CenterAndExpand" />

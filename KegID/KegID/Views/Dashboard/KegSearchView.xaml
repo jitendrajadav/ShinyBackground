@@ -78,7 +78,7 @@
                 <Entry
                     BackgroundColor="White"
                     Margin="10"
-                    Text="{Binding Borcode,Mode=TwoWay}"
+                    Text="{Binding Barcode,Mode=TwoWay}"
                     Placeholder="{Binding Resources[hint_keg_barcode]}"
                     Grid.Row="1"/>
 

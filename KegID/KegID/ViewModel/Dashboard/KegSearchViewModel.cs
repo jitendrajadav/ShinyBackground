@@ -1,5 +1,5 @@
-﻿using System;
-using GalaSoft.MvvmLight.Command;
+﻿using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Ioc;
 using KegID.Views;
 using Xamarin.Forms;
 
@@ -9,38 +9,38 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        #region Borcode
+        #region Barcode
 
         /// <summary>
-        /// The <see cref="Borcode" /> property's name.
+        /// The <see cref="Barcode" /> property's name.
         /// </summary>
-        public const string BorcodePropertyName = "Borcode";
+        public const string BarcodePropertyName = "Barcode";
 
-        private string _Borcode = string.Empty;
+        private string _Barcode = string.Empty;
 
         /// <summary>
-        /// Sets and gets the Borcode property.
+        /// Sets and gets the Barcode property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public string Borcode
+        public string Barcode
         {
             get
             {
-                return _Borcode;
+                return _Barcode;
             }
 
             set
             {
-                if (_Borcode == value)
+                if (_Barcode == value)
                 {
                     return;
                 }
 
-                _Borcode = value;
-                RaisePropertyChanged(BorcodePropertyName);
+                _Barcode = value;
+                RaisePropertyChanged(BarcodePropertyName);
             }
         }
-
+        
         #endregion
 
         #endregion
@@ -61,16 +61,17 @@ namespace KegID.ViewModel
             HomeCommand = new RelayCommand(HomeCommandRecieverAsync);
             BarcodeScanCommand = new RelayCommand(BarcodeScanCommandReciever);
             BulkUpdateCommand = new RelayCommand(BulkUpdateCommandRecieverAsync);
-            SearchCommand = new RelayCommand(SearchCommandReciever);
+            SearchCommand = new RelayCommand(SearchCommandRecieverAsync);
         }
 
         #endregion
 
         #region Methods
 
-        private void SearchCommandReciever()
+        private async void SearchCommandRecieverAsync()
         {
-            
+            SimpleIoc.Default.GetInstance<KegSearchedListViewModel>().LoadKegSearchAsync(Barcode);
+            await Application.Current.MainPage.Navigation.PushModalAsync(new KegSearchedListView());
         }
 
         private async void HomeCommandRecieverAsync()
@@ -80,7 +81,7 @@ namespace KegID.ViewModel
 
         private void BarcodeScanCommandReciever()
         {
-           var value = Borcode;
+           var value = Barcode;
         }
         private async void BulkUpdateCommandRecieverAsync()
         {

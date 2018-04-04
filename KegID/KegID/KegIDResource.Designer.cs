@@ -295,6 +295,15 @@ namespace KegID {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Test printer.
+        /// </summary>
+        internal static string button_test_printer {
+            get {
+                return ResourceManager.GetString("button_test_printer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Yes.
         /// </summary>
         internal static string button_yes {
@@ -898,6 +907,24 @@ namespace KegID {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Manifest destination.
+        /// </summary>
+        internal static string hint_manifest_destination {
+            get {
+                return ResourceManager.GetString("hint_manifest_destination", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manifest sender.
+        /// </summary>
+        internal static string hint_manifest_sender {
+            get {
+                return ResourceManager.GetString("hint_manifest_sender", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to -- none set--.
         /// </summary>
         internal static string hint_no_tags_set {
@@ -939,6 +966,15 @@ namespace KegID {
         internal static string hint_reference {
             get {
                 return ResourceManager.GetString("hint_reference", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reference key.
+        /// </summary>
+        internal static string hint_reference_key {
+            get {
+                return ResourceManager.GetString("hint_reference_key", resourceCulture);
             }
         }
         
@@ -993,6 +1029,15 @@ namespace KegID {
         internal static string hint_select_brand {
             get {
                 return ResourceManager.GetString("hint_select_brand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select Content.
+        /// </summary>
+        internal static string hint_select_content {
+            get {
+                return ResourceManager.GetString("hint_select_content", resourceCulture);
             }
         }
         
@@ -1267,7 +1312,7 @@ namespace KegID {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Alt barcode.
+        ///   Looks up a localized string similar to Alt barcode:.
         /// </summary>
         internal static string label_alt_barcode {
             get {
@@ -1465,11 +1510,20 @@ namespace KegID {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Contents.
+        ///   Looks up a localized string similar to Contents:.
         /// </summary>
         internal static string label_contents_keg {
             get {
                 return ResourceManager.GetString("label_contents_keg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Created at:.
+        /// </summary>
+        internal static string label_created_at {
+            get {
+                return ResourceManager.GetString("label_created_at", resourceCulture);
             }
         }
         
@@ -1672,6 +1726,15 @@ namespace KegID {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to IP/ host.
+        /// </summary>
+        internal static string label_ip_host {
+            get {
+                return ResourceManager.GetString("label_ip_host", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Partner.
         /// </summary>
         internal static string label_ispartner {
@@ -1717,7 +1780,7 @@ namespace KegID {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Location.
+        ///   Looks up a localized string similar to Location:.
         /// </summary>
         internal static string label_location {
             get {
@@ -1879,7 +1942,7 @@ namespace KegID {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Owner.
+        ///   Looks up a localized string similar to Owner:.
         /// </summary>
         internal static string label_owner {
             get {
@@ -1920,6 +1983,15 @@ namespace KegID {
         internal static string label_pallet_id {
             get {
                 return ResourceManager.GetString("label_pallet_id", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pallet label copies.
+        /// </summary>
+        internal static string label_pallet_label_copies {
+            get {
+                return ResourceManager.GetString("label_pallet_label_copies", resourceCulture);
             }
         }
         
@@ -1983,6 +2055,33 @@ namespace KegID {
         internal static string label_planned_volume {
             get {
                 return ResourceManager.GetString("label_planned_volume", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Print every pallate.
+        /// </summary>
+        internal static string label_prin_every_pallate {
+            get {
+                return ResourceManager.GetString("label_prin_every_pallate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Print every menifest.
+        /// </summary>
+        internal static string label_print_every_menifest {
+            get {
+                return ResourceManager.GetString("label_print_every_menifest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Printer Settings.
+        /// </summary>
+        internal static string label_printer_settings {
+            get {
+                return ResourceManager.GetString("label_printer_settings", resourceCulture);
             }
         }
         
@@ -2086,6 +2185,15 @@ namespace KegID {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Shipping date:.
+        /// </summary>
+        internal static string label_shipping_date {
+            get {
+                return ResourceManager.GetString("label_shipping_date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Size:.
         /// </summary>
         internal static string label_size {
@@ -2109,6 +2217,15 @@ namespace KegID {
         internal static string label_smsaddress {
             get {
                 return ResourceManager.GetString("label_smsaddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SSCC:.
+        /// </summary>
+        internal static string label_sscc {
+            get {
+                return ResourceManager.GetString("label_sscc", resourceCulture);
             }
         }
         
@@ -2266,11 +2383,29 @@ namespace KegID {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to What&apos;s New.
+        /// </summary>
+        internal static string label_what_is_new {
+            get {
+                return ResourceManager.GetString("label_what_is_new", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to With Keg.
         /// </summary>
         internal static string label_with_keg {
             get {
                 return ResourceManager.GetString("label_with_keg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zebra Printer:.
+        /// </summary>
+        internal static string label_zebra_printer {
+            get {
+                return ResourceManager.GetString("label_zebra_printer", resourceCulture);
             }
         }
         
@@ -4219,6 +4354,15 @@ namespace KegID {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add tags.
+        /// </summary>
+        internal static string title_add_tags {
+            get {
+                return ResourceManager.GetString("title_add_tags", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bill Address.
         /// </summary>
         internal static string title_address_bill {
@@ -4408,6 +4552,15 @@ namespace KegID {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Maintenance.
+        /// </summary>
+        internal static string title_maintenance {
+            get {
+                return ResourceManager.GetString("title_maintenance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Move Kegs.
         /// </summary>
         internal static string title_manifest_builder {
@@ -4512,6 +4665,15 @@ namespace KegID {
         internal static string title_pallet_builder {
             get {
                 return ResourceManager.GetString("title_pallet_builder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pallet Details.
+        /// </summary>
+        internal static string title_pallet_details {
+            get {
+                return ResourceManager.GetString("title_pallet_details", resourceCulture);
             }
         }
         
@@ -4660,7 +4822,7 @@ namespace KegID {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Scan Info - Manifest.
+        ///   Looks up a localized string similar to Scan Info.
         /// </summary>
         internal static string title_scan_info_manifest {
             get {

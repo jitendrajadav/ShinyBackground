@@ -35,7 +35,7 @@
                     Grid.Column="0"
                     x:Name="lblBack"
                     Style="{StaticResource TopButtonTitleStyle}"
-                    Text="Back"
+                    Text="{Binding Resources[button_back]}"
                     HorizontalOptions="Start"
                     Command="{Binding BackCommand}"
                     />
@@ -123,7 +123,7 @@
                 Margin="10,5,10,5"
                 x:Name="SearchBar" 
                 Grid.Row="1"
-                Placeholder="Partner Name"
+                Placeholder="{Binding Resources[hint_partner_name]}"
                 BackgroundColor="White"
                 PlaceholderColor="{StaticResource lightGrayColor}"
                 Text="{Binding PartnerName}"
@@ -246,7 +246,7 @@
                     Grid.Column="1"
                     BackgroundColor="{Binding AlphabeticalBackgroundColor}"
                     TextColor="{Binding AlphabeticalTextColor}"
-                    Text="Alphabetical"
+                    Text="{Binding Resources[menu_action_sort_alphabetical]}"
                     Command="{Binding AlphabeticalCommand}">
                     <Button.Margin>
                         <OnPlatform x:TypeArguments="Thickness">

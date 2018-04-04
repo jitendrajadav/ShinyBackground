@@ -1,5 +1,6 @@
 ﻿using System;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Ioc;
 using KegID.Model;
 using KegID.Views;
 using Xamarin.Forms;
@@ -10,69 +11,69 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        #region PalletBorcode
+        #region PalletBarcode
 
         /// <summary>
-        /// The <see cref="PalletBorcode" /> property's name.
+        /// The <see cref="PalletBarcode" /> property's name.
         /// </summary>
-        public const string PalletBorcodePropertyName = "PalletBorcode";
+        public const string PalletBarcodePropertyName = "PalletBarcode";
 
-        private string _PalletBorcode = string.Empty;
+        private string _PalletBarcode = string.Empty;
 
         /// <summary>
-        /// Sets and gets the PalletBorcode property.
+        /// Sets and gets the PalletBarcode property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public string PalletBorcode
+        public string PalletBarcode
         {
             get
             {
-                return _PalletBorcode;
+                return _PalletBarcode;
             }
 
             set
             {
-                if (_PalletBorcode == value)
+                if (_PalletBarcode == value)
                 {
                     return;
                 }
 
-                _PalletBorcode = value;
-                RaisePropertyChanged(PalletBorcodePropertyName);
+                _PalletBarcode = value;
+                RaisePropertyChanged(PalletBarcodePropertyName);
             }
         }
 
         #endregion
 
-        #region Borcode
+        #region Barcode
 
         /// <summary>
-        /// The <see cref="Borcode" /> property's name.
+        /// The <see cref="Barcode" /> property's name.
         /// </summary>
-        public const string BorcodePropertyName = "Borcode";
+        public const string BarcodePropertyName = "Barcode";
 
-        private string _Borcode = string.Empty;
+        private string _Barcode = string.Empty;
 
         /// <summary>
-        /// Sets and gets the Borcode property.
+        /// Sets and gets the Barcode property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public string Borcode
+        public string Barcode
         {
             get
             {
-                return _Borcode;
+                return _Barcode;
             }
 
             set
             {
-                if (_Borcode == value)
+                if (_Barcode == value)
                 {
                     return;
                 }
 
-                _Borcode = value;
-                RaisePropertyChanged(BorcodePropertyName);
+                _Barcode = value;
+                RaisePropertyChanged(BarcodePropertyName);
             }
         }
 
@@ -222,34 +223,35 @@ namespace KegID.ViewModel
         public RelayCommand HomeCommand { get; }
         public RelayCommand SearchCommand { get; }
         public RelayCommand LocationCreatedCommand { get; }
-        
+
         #endregion
 
         #region Contructor
 
         public SearchPalletViewModel()
         {
-            HomeCommand = new RelayCommand(HomeCommandReciever);
-            SearchCommand = new RelayCommand(SearchCommandReciever);
-            LocationCreatedCommand = new RelayCommand(LocationCreatedCommandReciever);
+            HomeCommand = new RelayCommand(HomeCommandRecieverAsync);
+            SearchCommand = new RelayCommand(SearchCommandRecieverAsync);
+            LocationCreatedCommand = new RelayCommand(LocationCreatedCommandRecieverAsync);
         }
 
         #endregion
 
         #region Methods
 
-        private void LocationCreatedCommandReciever()
+        private async void LocationCreatedCommandRecieverAsync()
         {
-            Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView());
+          await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView());
         }
 
-        private void HomeCommandReciever()
+        private async void HomeCommandRecieverAsync()
         {
-            throw new NotImplementedException();
+           await Application.Current.MainPage.Navigation.PopModalAsync();
         }
-        private void SearchCommandReciever()
+        private async void SearchCommandRecieverAsync()
         {
-            throw new NotImplementedException();
+            SimpleIoc.Default.GetInstance<PalletSearchedListViewModel>().GetPalletSearchAsync(Barcode,PartnerModel.PartnerId,FromDate.ToShortDateString(),ToDate.ToShortDateString(),string.Empty,string.Empty);
+            await Application.Current.MainPage.Navigation.PushModalAsync(new PalletSearchedListView());
         }
 
         #endregion

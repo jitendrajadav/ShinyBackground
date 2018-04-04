@@ -100,7 +100,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string InternalTextColorPropertyName = "InternalTextColor";
 
-        private string _InternalTextColor = "White";
+        private string _InternalTextColor = "#4E6388";
 
         /// <summary>
         /// Sets and gets the InternalTextColor property.

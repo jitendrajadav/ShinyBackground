@@ -37,7 +37,7 @@
                 />
 
             <Label 
-                Text="Pallet Details"
+                Text="{Binding Resources[title_pallet_details]}"
                 Style="{StaticResource LabelTitleStyle}" 
                 TextColor="Black"
                 HorizontalOptions="Center" />
@@ -86,7 +86,7 @@
 
             <Label 
                 Grid.Row="2"
-                Text="Created at:"
+                Text="{Binding Resources[label_created_at]}"
                 TextColor="Black"
                 Style="{StaticResource LabelTitleStyle}"
                 HorizontalOptions="Start" />
@@ -101,7 +101,7 @@
 
             <Label 
                 Grid.Row="4"
-                Text="Location:"
+                Text="{Binding Resources[label_location]}"
                 TextColor="Black"
                 Style="{StaticResource LabelTitleStyle}"
                 HorizontalOptions="Start" />
@@ -132,7 +132,7 @@
 
             <Label 
                 Grid.Row="8"
-                Text="SSCC:"
+                Text="{Binding Resources[label_sscc]}"
                 TextColor="Black"
                 Style="{StaticResource LabelTitleStyle}" 
                 HorizontalOptions="Start" />
@@ -147,7 +147,7 @@
             
             <Label 
                 Grid.Row="10"
-                Text="Target location:"
+                Text="{Binding Resources[label_target_location]}"
                 TextColor="Black"
                 Style="{StaticResource LabelTitleStyle}"
                 HorizontalOptions="Start" />

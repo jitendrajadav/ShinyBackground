@@ -80,7 +80,7 @@
                     VerticalOptions="CenterAndExpand"
                     VerticalTextAlignment="Center"
                     TextColor="{StaticResource selectTextColor}"
-                    Text="Printer Settings">
+                    Text="{Binding Resources[label_printer_settings]}">
 
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding Path=BindingContext.PrinterSettingCommand, 
@@ -105,7 +105,7 @@
                     HorizontalTextAlignment="Start"
                     VerticalTextAlignment="Center"
                     TextColor="{StaticResource selectTextColor}"
-                    Text="What's New"
+                    Text="{Binding Resources[label_what_is_new]}"
                     FontSize="Medium">
 
                     <Label.GestureRecognizers>

@@ -97,7 +97,7 @@
 
                 <Label
                     TextColor="{StaticResource textLabelColor}"
-                    FontSize="Medium"
+                    Style="{StaticResource LabelNormalStyle}"
                     Grid.Row="4"
                     Text="{Binding Resources[label_type]}"/>
 
@@ -113,7 +113,7 @@
 
                 <Label
                     TextColor="{StaticResource textLabelColor}"
-                    FontSize="Medium"
+                    Style="{StaticResource LabelNormalStyle}"
                     Grid.Row="5"
                     Text="{Binding Resources[label_shipping_address]}"/>
 

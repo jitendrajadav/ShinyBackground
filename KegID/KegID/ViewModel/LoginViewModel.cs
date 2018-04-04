@@ -134,8 +134,8 @@ namespace KegID.ViewModel
             KegIDCommand = new RelayCommand(KegIDCommandReciever);
             _accountService = accountService;
 
-            //Username = "test@kegid.com";
-            //Password = "beer2keg";
+            Username = "test@kegid.com";
+            Password = "beer2keg";
             BgImage = GetIconByPlatform.GetIcon("kegbg.png");
         }
 

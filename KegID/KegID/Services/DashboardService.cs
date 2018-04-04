@@ -81,6 +81,18 @@ namespace KegID.Services
             return kegPossessionModel;
         }
 
+        public async Task<KegSearchModel> GetKegSearchAsync(string sessionId, string barcode, bool includePartials)
+        {
+            KegSearchModel model = new KegSearchModel();
+
+            string url = string.Format(Configuration.GetKegSearchByBarcodeUrl, sessionId, barcode, includePartials);
+            var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
+
+            model.KegSearchResponseModel = DeserializeObject<IList<KegSearchResponseModel>>(value.Response, GetJsonSetting());
+            model.StatusCode = value.StatusCode;
+            return model;
+        }
+
         public async Task<KegStatusResponseModel> GetKegStatusAsync(string kegId, string sessionId)
         {
             KegStatusResponseModel kegStatusResponseModel = new KegStatusResponseModel();
@@ -91,6 +103,18 @@ namespace KegID.Services
             kegStatusResponseModel = DeserializeObject<KegStatusResponseModel>(value.Response, GetJsonSetting());
             kegStatusResponseModel.StatusCode = value.StatusCode;
             return kegStatusResponseModel;
+        }
+
+        public async Task<SearchPalletModel> GetPalletSearchAsync(string sessionId, string barcode, string locationId, string fromDate, string toDate, string kegs, string kegOwnerId)
+        {
+            SearchPalletModel model = new SearchPalletModel();
+
+            string url = string.Format(Configuration.GetPalletSearchUrl, sessionId, barcode, locationId, fromDate, toDate, kegs, kegOwnerId);
+            var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
+
+            model.SearchPalletResponseModel = DeserializeObject<IList<SearchPalletResponseModel>>(value.Response, GetJsonSetting());
+            model.StatusCode = value.StatusCode;
+            return model;
         }
 
         public async Task<PartnerInfoResponseModel> GetPartnerInfoAsync(string sessionId, string partnerId)

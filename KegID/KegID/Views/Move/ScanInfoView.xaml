@@ -29,7 +29,7 @@
             
             <Label 
                 Grid.ColumnSpan="2"
-                Text="Scan info"
+                Text="{Binding Resources[title_scan_info_manifest]}"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
 
@@ -59,12 +59,12 @@
             <Label
                 VerticalOptions="Center"
                 Grid.Row="2"
-                Text="Alt barcode:"/>
+                Text="{Binding Resources[label_alt_barcode]}"/>
 
             <Label
                 VerticalOptions="Center"
                 Grid.Row="3"
-                Text="Owner:"/>
+                Text="{Binding Resources[label_owner]}"/>
 
             <Label
                 VerticalOptions="Center"
@@ -75,7 +75,7 @@
             <Label
                 VerticalOptions="Center"
                 Grid.Row="4"
-                Text="Size:"/>
+                Text="{Binding Resources[label_size]}"/>
 
             <Label
                 VerticalOptions="Center"
@@ -86,7 +86,7 @@
             <Label
                 VerticalOptions="Center"
                 Grid.Row="5"
-                Text="Contents:"/>
+                Text="{Binding Resources[label_contents_keg]}"/>
 
             <Label
                 VerticalOptions="Center"
@@ -97,7 +97,7 @@
             <Label
                 VerticalOptions="Center"
                 Grid.Row="6"
-                Text="Batch:"/>
+                Text="{Binding Resources[label_batch]}"/>
 
             <Label
                 VerticalOptions="Center"
@@ -108,7 +108,7 @@
             <Label
                 VerticalOptions="Center"
                 Grid.Row="7"
-                Text="Location:"/>
+                Text="{Binding Resources[label_location]}"/>
 
             <Label
                 VerticalOptions="Center"

@@ -589,7 +589,7 @@
     <value>Last Name</value>
   </data>
   <data name="label_location" xml:space="preserve">
-    <value>Location</value>
+    <value>Location:</value>
   </data>
   <data name="label_locationcode" xml:space="preserve">
     <value>Location Code</value>
@@ -637,7 +637,7 @@
     <value>Overdue Kegs %1$s</value>
   </data>
   <data name="label_owner" xml:space="preserve">
-    <value>Owner</value>
+    <value>Owner:</value>
   </data>
   <data name="label_packaged_date" xml:space="preserve">
     <value>Packaged Date</value>
@@ -1510,7 +1510,7 @@
     <value>Scan Info - Keg</value>
   </data>
   <data name="title_scan_info_manifest" xml:space="preserve">
-    <value>Scan Info - Manifest</value>
+    <value>Scan Info</value>
   </data>
   <data name="title_scan_info_pallet" xml:space="preserve">
     <value>Scan Info - Pallet</value>
@@ -1558,10 +1558,10 @@
     <value>This keg needs the following maintenance performed:</value>
   </data>
   <data name="label_alt_barcode" xml:space="preserve">
-    <value>Alt barcode</value>
+    <value>Alt barcode:</value>
   </data>
   <data name="label_contents_keg" xml:space="preserve">
-    <value>Contents</value>
+    <value>Contents:</value>
   </data>
   <data name="label_date" xml:space="preserve">
     <value>Date</value>
@@ -1688,5 +1688,59 @@
   </data>
   <data name="title_stock_summary" xml:space="preserve">
     <value>Stock Summary</value>
+  </data>
+  <data name="button_test_printer" xml:space="preserve">
+    <value>Test printer</value>
+  </data>
+  <data name="hint_manifest_destination" xml:space="preserve">
+    <value>Manifest destination</value>
+  </data>
+  <data name="hint_manifest_sender" xml:space="preserve">
+    <value>Manifest sender</value>
+  </data>
+  <data name="hint_reference_key" xml:space="preserve">
+    <value>Reference key</value>
+  </data>
+  <data name="hint_select_content" xml:space="preserve">
+    <value>Select Content</value>
+  </data>
+  <data name="label_created_at" xml:space="preserve">
+    <value>Created at:</value>
+  </data>
+  <data name="label_ip_host" xml:space="preserve">
+    <value>IP/ host</value>
+  </data>
+  <data name="label_pallet_label_copies" xml:space="preserve">
+    <value>Pallet label copies</value>
+  </data>
+  <data name="label_printer_settings" xml:space="preserve">
+    <value>Printer Settings</value>
+  </data>
+  <data name="label_print_every_menifest" xml:space="preserve">
+    <value>Print every menifest</value>
+  </data>
+  <data name="label_prin_every_pallate" xml:space="preserve">
+    <value>Print every pallate</value>
+  </data>
+  <data name="label_shipping_date" xml:space="preserve">
+    <value>Shipping date:</value>
+  </data>
+  <data name="label_sscc" xml:space="preserve">
+    <value>SSCC:</value>
+  </data>
+  <data name="label_what_is_new" xml:space="preserve">
+    <value>What's New</value>
+  </data>
+  <data name="label_zebra_printer" xml:space="preserve">
+    <value>Zebra Printer:</value>
+  </data>
+  <data name="title_add_tags" xml:space="preserve">
+    <value>Add tags</value>
+  </data>
+  <data name="title_maintenance" xml:space="preserve">
+    <value>Maintenance</value>
+  </data>
+  <data name="title_pallet_details" xml:space="preserve">
+    <value>Pallet Details</value>
   </data>
 </root>
