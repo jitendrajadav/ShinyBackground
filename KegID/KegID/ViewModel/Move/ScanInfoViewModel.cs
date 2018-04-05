@@ -1,6 +1,7 @@
-﻿using System;
-using GalaSoft.MvvmLight;
+﻿using System.Linq;
 using GalaSoft.MvvmLight.Command;
+using KegID.Model;
+using KegID.SQLiteClient;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -215,7 +216,6 @@ namespace KegID.ViewModel
         #endregion
 
         #region Commands
-
         public RelayCommand DoneCommand { get; }
 
         #endregion
@@ -227,14 +227,25 @@ namespace KegID.ViewModel
             DoneCommand = new RelayCommand(DoneCommandRecieverAsync);
         }
 
-        private async void DoneCommandRecieverAsync()
-        {
-           await Application.Current.MainPage.Navigation.PopModalAsync();
-        }
-
         #endregion
 
         #region Methods
+        private async void DoneCommandRecieverAsync()
+        {
+            await Application.Current.MainPage.Navigation.PopModalAsync();
+        }
+
+        internal async void LoadInfoAsync(string id)
+        {
+            var value = await SQLiteServiceClient.Db.Table<ValidatePartnerModel>().Where(x => x.Barcode == id).ToListAsync();
+
+            Barcode = string.Format(" Barcode {0} ", id);
+            Ownername = value.FirstOrDefault().FullName;
+            Size = value.FirstOrDefault().Size;
+            Contents = value.FirstOrDefault().Contents;
+            Batch = value.FirstOrDefault().Batch;
+            Location = value.FirstOrDefault().Location;
+        }
 
         #endregion
     }

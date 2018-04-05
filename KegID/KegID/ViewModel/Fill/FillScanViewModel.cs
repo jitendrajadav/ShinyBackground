@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
@@ -376,58 +374,21 @@ namespace KegID.ViewModel
             else
             {
                 await Application.Current.MainPage.Navigation.PushModalAsync(new ScanInfoView());
-                var value = await SQLiteServiceClient.Db.Table<ValidatePartnerModel>().Where(x => x.Barcode == model.Id).ToListAsync();
-
-                SimpleIoc.Default.GetInstance<ScanInfoViewModel>().Barcode = string.Format(" Barcode {0} ", model.Id);
-                SimpleIoc.Default.GetInstance<ScanInfoViewModel>().Ownername = value.FirstOrDefault().FullName;
-                SimpleIoc.Default.GetInstance<ScanInfoViewModel>().Size = value.FirstOrDefault().Size;
-                SimpleIoc.Default.GetInstance<ScanInfoViewModel>().Contents = value.FirstOrDefault().Contents;
-                SimpleIoc.Default.GetInstance<ScanInfoViewModel>().Batch = value.FirstOrDefault().Batch;
-                SimpleIoc.Default.GetInstance<ScanInfoViewModel>().Location = value.FirstOrDefault().Location;
+                SimpleIoc.Default.GetInstance<ScanInfoViewModel>().LoadInfoAsync(model.Id);
             }
         }
 
         private async Task NavigateToValidatePartner(List<Barcode> model)
         {
             await Application.Current.MainPage.Navigation.PushPopupAsync(new ValidateBarcodeView());
-            await SimpleIoc.Default.GetInstance<ValidateBarcodeViewModel>().LoadBardeValue(model);
+            await SimpleIoc.Default.GetInstance<ValidateBarcodeViewModel>().LoadBarcodeValue(model);
         }
 
         private async void BarcodeManualCommandRecieverAsync()
         {
-            await ValidateBarcodeInsertIntoLocalDB(ManaulBarcode);
+            var value = await BarcodeScanner.ValidateBarcodeInsertIntoLocalDB(ManaulBarcode, _moveService);
             ManaulBarcode = string.Empty;
-        }
-
-        private async Task ValidateBarcodeInsertIntoLocalDB(string barcodeId)
-        {
-            ValidateBarcodeModel validateBarcodeModel = await _moveService.GetValidateBarcodeAsync(AppSettings.User.SessionId, barcodeId);
-
-            Barcode barcode = new Barcode
-            {
-                Id = barcodeId,
-                PartnerCount = validateBarcodeModel.Kegs.Partners.Count,
-                Icon = validateBarcodeModel.Kegs.Partners.Count > 1 ? GetIconByPlatform.GetIcon("validationerror.png") : GetIconByPlatform.GetIcon("validationquestion.png"),
-            };
-
-            BarcodeModel barcodeModel = new BarcodeModel()
-            {
-                Barcode = barcodeId,
-                BarcodeJson = JsonConvert.SerializeObject(validateBarcodeModel)
-            };
-            try
-            {
-                // The item does not exists in the database so lets insert it
-                await SQLiteServiceClient.Db.InsertAsync(barcodeModel);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
-
-            var isNew = BarcodeCollection.ToList().Any(x => x.Id == barcode.Id);
-            if (!isNew)
-                BarcodeCollection.Add(barcode);
+            BarcodeCollection = new ObservableCollection<Barcode>(value);
         }
 
         private void SubmitCommandReciever()
@@ -451,29 +412,31 @@ namespace KegID.ViewModel
             if (result.Count > 0)
                 await NavigateToValidatePartner(result.ToList());
             else
+                await AssignValueToAddPallet(ManifestId, BarcodeCollection);
+        }
+
+        private async Task AssignValueToAddPallet(string manifestId, IList<Barcode> barcodes)
+        {
+            if (!SimpleIoc.Default.GetInstance<AddPalletsViewModel>().PalletCollection.Any(x => x.ManifestId == manifestId))
             {
-                if (!SimpleIoc.Default.GetInstance<AddPalletsViewModel>().PalletCollection.Any(x => x.ManifestId == ManifestId))
-                {
-                    SimpleIoc.Default.GetInstance<AddPalletsViewModel>().PalletCollection.Add(new PalletModel() { Barcode = BarcodeCollection, Count = BarcodeCollection.Count(), ManifestId = ManifestId });
+                SimpleIoc.Default.GetInstance<AddPalletsViewModel>().PalletCollection.Add(new PalletModel() { Barcode = barcodes, Count = barcodes.Count(), ManifestId = manifestId });
 
-                    if (SimpleIoc.Default.GetInstance<AddPalletsViewModel>().PalletCollection.Sum(x => x.Count) > 1)
-                        SimpleIoc.Default.GetInstance<AddPalletsViewModel>().Kegs = string.Format("({0} Kegs)", SimpleIoc.Default.GetInstance<AddPalletsViewModel>().PalletCollection.Sum(x => x.Count));
-                    else
-                        SimpleIoc.Default.GetInstance<AddPalletsViewModel>().Kegs = string.Format("({0} Keg)", SimpleIoc.Default.GetInstance<AddPalletsViewModel>().PalletCollection.Sum(x => x.Count));
-                }
+                if (SimpleIoc.Default.GetInstance<AddPalletsViewModel>().PalletCollection.Sum(x => x.Count) > 1)
+                    SimpleIoc.Default.GetInstance<AddPalletsViewModel>().Kegs = string.Format("({0} Kegs)", SimpleIoc.Default.GetInstance<AddPalletsViewModel>().PalletCollection.Sum(x => x.Count));
                 else
-                {
-                    SimpleIoc.Default.GetInstance<AddPalletsViewModel>().PalletCollection.Where(x => x.ManifestId == ManifestId).FirstOrDefault().Barcode = BarcodeCollection;
-                    SimpleIoc.Default.GetInstance<AddPalletsViewModel>().PalletCollection.Where(x => x.ManifestId == ManifestId).FirstOrDefault().Count = BarcodeCollection.Count;
-
-                    if (SimpleIoc.Default.GetInstance<AddPalletsViewModel>().PalletCollection.Sum(x => x.Count) > 1)
-                        SimpleIoc.Default.GetInstance<AddPalletsViewModel>().Kegs = string.Format("({0} Kegs)", SimpleIoc.Default.GetInstance<AddPalletsViewModel>().PalletCollection.Sum(x => x.Count));
-                    else
-                        SimpleIoc.Default.GetInstance<AddPalletsViewModel>().Kegs = string.Format("({0} Keg)", SimpleIoc.Default.GetInstance<AddPalletsViewModel>().PalletCollection.Sum(x => x.Count));
-                }
-                await Application.Current.MainPage.Navigation.PopModalAsync();
-
+                    SimpleIoc.Default.GetInstance<AddPalletsViewModel>().Kegs = string.Format("({0} Keg)", SimpleIoc.Default.GetInstance<AddPalletsViewModel>().PalletCollection.Sum(x => x.Count));
             }
+            else
+            {
+                SimpleIoc.Default.GetInstance<AddPalletsViewModel>().PalletCollection.Where(x => x.ManifestId == manifestId).FirstOrDefault().Barcode = BarcodeCollection;
+                SimpleIoc.Default.GetInstance<AddPalletsViewModel>().PalletCollection.Where(x => x.ManifestId == manifestId).FirstOrDefault().Count = BarcodeCollection.Count;
+
+                if (SimpleIoc.Default.GetInstance<AddPalletsViewModel>().PalletCollection.Sum(x => x.Count) > 1)
+                    SimpleIoc.Default.GetInstance<AddPalletsViewModel>().Kegs = string.Format("({0} Kegs)", SimpleIoc.Default.GetInstance<AddPalletsViewModel>().PalletCollection.Sum(x => x.Count));
+                else
+                    SimpleIoc.Default.GetInstance<AddPalletsViewModel>().Kegs = string.Format("({0} Keg)", SimpleIoc.Default.GetInstance<AddPalletsViewModel>().PalletCollection.Sum(x => x.Count));
+            }
+            await Application.Current.MainPage.Navigation.PopModalAsync();
         }
 
         private async void CancelCommandRecieverAsync()
@@ -481,10 +444,12 @@ namespace KegID.ViewModel
            await Application.Current.MainPage.Navigation.PopModalAsync();
         }
 
-        private void BarcodeScanCommandRecieverAsync()
+        private async void BarcodeScanCommandRecieverAsync()
         {
-            SimpleIoc.Default.GetInstance<ScanKegsViewModel>().BarcodeScanCommandReciever();
+            var value = await BarcodeScanner.BarcodeScanAsync(_moveService);
+            BarcodeCollection = new ObservableCollection<Barcode>(value);
         }
+
         private async void AddTagsCommandRecieverAsync()
         {
             await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView());

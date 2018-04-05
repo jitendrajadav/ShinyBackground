@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Linq;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Ioc;
+using KegID.Model;
 using KegID.Views;
+using Plugin.Share;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -274,10 +278,26 @@ namespace KegID.ViewModel
 
         private void ShareCommandReciever()
         {
-           
+            CrossShare.Current.Share(message: new Plugin.Share.Abstractions.ShareMessage
+            {
+                Text = "Share",
+                Title = "Share",
+                Url = "https://www.slg.com/"
+            });
         }
 
         private async void HomeCommandCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PopModalAsync();
+
+        internal void LoadInfo(PalletResponseModel value)
+        {
+            ManifestId = value.Barcode;
+            PartnerTypeName = value.StockLocation.PartnerTypeName;
+            StockLocation = value.StockLocation.FullName;
+            TargetLocation = value.StockLocation.FullName;
+            ShippingDate = value.BuildDate;
+            ItemCount = value.PalletItems.Count;
+            SimpleIoc.Default.GetInstance<ContentTagsViewModel>().ContentCollection = value.PalletItems.Select(selector: x => x.Barcode).ToList();
+        }
 
         #endregion
 

@@ -1,5 +1,4 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
+﻿using GalaSoft.MvvmLight.Command;
 using KegID.Views;
 using Plugin.Share;
 using System;
@@ -219,6 +218,5 @@ namespace KegID.ViewModel
         private async void ManifestsCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PopModalAsync();
 
         #endregion
-
     }
 }

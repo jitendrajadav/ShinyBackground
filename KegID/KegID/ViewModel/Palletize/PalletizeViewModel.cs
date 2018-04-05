@@ -19,7 +19,6 @@ namespace KegID.ViewModel
         #region Properties
         public IPalletizeService _palletizeService { get; set; }
         public IMoveService _moveService { get; set; }
-
         public bool TargetLocationPartner { get; set; }
 
         #region StockLocation
@@ -405,13 +404,7 @@ namespace KegID.ViewModel
 
                 if (value.StatusCode == System.Net.HttpStatusCode.OK)
                 {
-                    SimpleIoc.Default.GetInstance<PalletizeDetailViewModel>().ManifestId = value.Barcode;
-                    SimpleIoc.Default.GetInstance<PalletizeDetailViewModel>().PartnerTypeName = value.StockLocation.PartnerTypeName;
-                    SimpleIoc.Default.GetInstance<PalletizeDetailViewModel>().StockLocation = value.StockLocation.FullName;
-                    SimpleIoc.Default.GetInstance<PalletizeDetailViewModel>().TargetLocation = value.StockLocation.FullName;
-                    SimpleIoc.Default.GetInstance<PalletizeDetailViewModel>().ShippingDate = value.BuildDate;
-                    SimpleIoc.Default.GetInstance<PalletizeDetailViewModel>().ItemCount = value.PalletItems.Count;
-                    SimpleIoc.Default.GetInstance<ContentTagsViewModel>().ContentCollection = value.PalletItems.Select(x => x.Barcode).ToList();
+                    SimpleIoc.Default.GetInstance<PalletizeDetailViewModel>().LoadInfo(value);
 
                     Loader.StopLoading();
                     await Application.Current.MainPage.Navigation.PushModalAsync(new PalletizeDetailView());

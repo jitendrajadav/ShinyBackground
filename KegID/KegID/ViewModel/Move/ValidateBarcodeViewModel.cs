@@ -17,6 +17,7 @@ namespace KegID.ViewModel
     public class ValidateBarcodeViewModel : BaseViewModel
     {
         #region Properties
+        public List<Barcode> models { get; set; }
 
         #region MultipleKegsTitle
 
@@ -86,13 +87,10 @@ namespace KegID.ViewModel
 
         #endregion
 
-        public List<Barcode> models { get; set; }
-
         #endregion
 
         #region Commands
         public RelayCommand CancelCommand { get; }
-
         public RelayCommand<Partner> ItemTappedCommand { get; }
         #endregion
 
@@ -156,10 +154,8 @@ namespace KegID.ViewModel
                 await ValidateScannedBarcode();
         }
 
-        public async Task LoadBardeValue(List<Barcode> _models)
+        public async Task LoadBarcodeValue(List<Barcode> _models)
         {
-            //List<T> list = (List<T>)Activator.CreateInstance(typeof(List<T>));
-
             models = _models;
             await ValidateScannedBarcode();
         }

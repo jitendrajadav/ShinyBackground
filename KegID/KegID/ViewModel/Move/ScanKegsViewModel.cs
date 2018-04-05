@@ -18,8 +18,6 @@ namespace KegID.ViewModel
 {
     public class ScanKegsViewModel : BaseViewModel
     {
-        //ZXingScannerPage scanPage;
-
         #region Properties
 
         public bool IsFromScanned { get; set; }
@@ -359,21 +357,14 @@ namespace KegID.ViewModel
             else
             {
                 await Application.Current.MainPage.Navigation.PushModalAsync(new ScanInfoView());
-                var value = await SQLiteServiceClient.Db.Table<ValidatePartnerModel>().Where(x => x.Barcode == model.Id).ToListAsync();
-
-                SimpleIoc.Default.GetInstance<ScanInfoViewModel>().Barcode = string.Format(" Barcode {0} ", model.Id);
-                SimpleIoc.Default.GetInstance<ScanInfoViewModel>().Ownername = value.FirstOrDefault().FullName;
-                SimpleIoc.Default.GetInstance<ScanInfoViewModel>().Size = value.FirstOrDefault().Size;
-                SimpleIoc.Default.GetInstance<ScanInfoViewModel>().Contents = value.FirstOrDefault().Contents;
-                SimpleIoc.Default.GetInstance<ScanInfoViewModel>().Batch = value.FirstOrDefault().Batch;
-                SimpleIoc.Default.GetInstance<ScanInfoViewModel>().Location = value.FirstOrDefault().Location;
+                SimpleIoc.Default.GetInstance<ScanInfoViewModel>().LoadInfoAsync(model.Id);
             }
         }
 
         private static async Task NavigateToValidatePartner(List<Barcode> model)
         {
             await Application.Current.MainPage.Navigation.PushPopupAsync(new ValidateBarcodeView());
-            await SimpleIoc.Default.GetInstance<ValidateBarcodeViewModel>().LoadBardeValue(model);
+            await SimpleIoc.Default.GetInstance<ValidateBarcodeViewModel>().LoadBarcodeValue(model);
         }
 
         private async void AddTagsCommandRecieverAsync()
@@ -418,112 +409,13 @@ namespace KegID.ViewModel
             var value = await BarcodeScanner.ValidateBarcodeInsertIntoLocalDB(ManaulBarcode,_moveService);
             ManaulBarcode = string.Empty;
             BarcodeCollection = new ObservableCollection<Barcode>(value);
-
         }
 
-        public async void BarcodeScanCommandReciever()
+        internal async void BarcodeScanCommandReciever()
         {
            var value = await BarcodeScanner.BarcodeScanAsync(_moveService);
             BarcodeCollection = new ObservableCollection<Barcode>(value);
-
-            // Create our custom overlay
-            //var customOverlay = new Grid
-            //{
-            //    HorizontalOptions = LayoutOptions.FillAndExpand,
-            //    VerticalOptions = LayoutOptions.FillAndExpand,
-            //    RowSpacing = 0
-            //};
-
-            //customOverlay.RowDefinitions.Add(new RowDefinition { Height = new GridLength(0, GridUnitType.Auto) });
-            //customOverlay.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
-            //customOverlay.RowDefinitions.Add(new RowDefinition { Height = new GridLength(0, GridUnitType.Auto) });
-
-            //var torch = new Button
-            //{
-            //    Text = "Toggle Torch"
-            //};
-            //torch.Clicked += delegate
-            //{
-            //    scanPage.ToggleTorch();
-            //};
-            //var title = new Label
-            //{
-            //    TextColor = Color.White,
-            //    Margin = new Thickness(10, 0, 0, 0),
-            //    VerticalTextAlignment = TextAlignment.End
-
-            //};
-            //var done = new Button
-            //{
-            //    VerticalOptions = LayoutOptions.End,
-            //    Text = "Done",
-            //    TextColor = Color.Blue
-            //};
-            //done.Clicked += async delegate
-            //{
-            //    switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack[Application.Current.MainPage.Navigation.ModalStack.Count - 2].GetType().Name))
-            //    {
-            //        case ViewTypeEnum.FillScanView:
-            //            SimpleIoc.Default.GetInstance<FillScanViewModel>().BarcodeCollection = BarcodeCollection;
-            //            break;
-            //        case ViewTypeEnum.MaintainScanView:
-            //            SimpleIoc.Default.GetInstance<MaintainScanViewModel>().BarcodeCollection = BarcodeCollection;
-            //            break;
-            //    }
-            //    await Application.Current.MainPage.Navigation.PopModalAsync();
-            //};
-
-            //customOverlay.Children.Add(torch, 0, 0);
-            //customOverlay.Children.Add(title, 0, 1);
-            //customOverlay.Children.Add(done, 0, 2);
-
-
-            //scanPage = new ZXingScannerPage(customOverlay: customOverlay);
-            //scanPage.OnScanResult += (result) =>
-            //Device.BeginInvokeOnMainThread(async () =>
-            //{
-            //    var check = BarcodeCollection.ToList().Any(x => x.Id == result.Text);
-
-            //    if (!check)
-            //    {
-            //        title.Text = "Last scan: " + result.Text;
-            //        await ValidateBarcodeInsertIntoLocalDB(result.Text);
-            //    }
-            //});
-
-            //await Application.Current.MainPage.Navigation.PushModalAsync(scanPage);
         }
-
-        //private async Task ValidateBarcodeInsertIntoLocalDB(string barcodeId)
-        //{
-        //    ValidateBarcodeModel validateBarcodeModel = await _moveService.GetValidateBarcodeAsync(AppSettings.User.SessionId, barcodeId);
-
-        //    Barcode barcode = new Barcode
-        //    {
-        //        Id = barcodeId,
-        //        PartnerCount = validateBarcodeModel.Kegs.Partners.Count,
-        //        Icon = validateBarcodeModel.Kegs.Partners.Count > 1 ? GetIconByPlatform.GetIcon("validationerror.png") : GetIconByPlatform.GetIcon("validationquestion.png"),
-        //    };
-
-        //    BarcodeModel barcodeModel = new BarcodeModel()
-        //    {
-        //        Barcode = barcodeId,
-        //        BarcodeJson = JsonConvert.SerializeObject(validateBarcodeModel)
-        //    };
-        //    try
-        //    {
-        //        // The item does not exists in the database so lets insert it
-        //        await SQLiteServiceClient.Db.InsertAsync(barcodeModel);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Debug.WriteLine(ex.Message);
-        //    }
-
-        //    var isNew = BarcodeCollection.ToList().Any(x => x.Id == barcode.Id);
-        //    if (!isNew)
-        //        BarcodeCollection.Add(barcode);
-        //}
 
         public override void Cleanup()
         {

@@ -1,5 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Ioc;
+using KegID.Common;
+using KegID.Model;
 using KegID.Views;
 using Xamarin.Forms;
 
@@ -203,6 +207,18 @@ namespace KegID.ViewModel
         private async void GridTappedCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new ContentTagsView());
 
         private async void HomeCommandCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PopModalAsync();
+
+        internal void LoadInfo(IList<Barcode> barcodeCollection)
+        {
+            TrackingNo = Uuid.GetUuId();
+
+            StockLocation = SimpleIoc.Default.GetInstance<MaintainViewModel>().PartnerModel.FullName + "\n" + SimpleIoc.Default.GetInstance<MaintainViewModel>().PartnerModel.PartnerTypeName;
+            MaintenanceCollection = SimpleIoc.Default.GetInstance<MaintainViewModel>().MaintenancePerformedCollection;
+            ItemCount = barcodeCollection.Count;
+            SimpleIoc.Default.GetInstance<ContentTagsViewModel>().ContentCollection = barcodeCollection.Select(x => x.Id).ToList();
+
+            Contents = string.Empty;
+        }
 
         #endregion
 
