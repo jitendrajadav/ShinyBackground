@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using KegID.Views;
+using Plugin.Share;
 using System;
 using Xamarin.Forms;
 
@@ -207,7 +208,12 @@ namespace KegID.ViewModel
 
         private void ShareCommandReciever()
         {
-           
+            CrossShare.Current.Share(message: new Plugin.Share.Abstractions.ShareMessage
+            {
+                Text = "Share",
+                Title = "Share",
+                Url = "https://www.slg.com/"
+            });
         }
 
         private async void ManifestsCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PopModalAsync();

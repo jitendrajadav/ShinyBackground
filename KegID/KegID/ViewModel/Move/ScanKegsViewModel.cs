@@ -415,8 +415,10 @@ namespace KegID.ViewModel
 
         private async void BarcodeManualCommandRecieverAsync()
         {
-            await BarcodeScanner.ValidateBarcodeInsertIntoLocalDB(ManaulBarcode,_moveService);
+            var value = await BarcodeScanner.ValidateBarcodeInsertIntoLocalDB(ManaulBarcode,_moveService);
             ManaulBarcode = string.Empty;
+            BarcodeCollection = new ObservableCollection<Barcode>(value);
+
         }
 
         public async void BarcodeScanCommandReciever()

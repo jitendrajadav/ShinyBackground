@@ -458,6 +458,8 @@ namespace KegID.ViewModel
 
         public async Task LoadMaintenanceHistoryAsync()
         {
+            var value1 = await _dashboardService.GetKegStatusAsync(KegStatusModel.KegId, AppSettings.User.SessionId);
+
             var value = await _dashboardService.GetKegMaintenanceHistoryAsync(KegStatusModel.KegId, AppSettings.User.SessionId);
 
             if (value.KegMaintenanceHistoryResponseModel != null)

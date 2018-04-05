@@ -36,7 +36,7 @@ namespace KegID.ViewModel
 
         internal async void GetPalletSearchAsync(string barcode,string partnerId,string fromDate, string toDate,string kegs,string kegOwnerId)
         {
-            var value = await _dashboardService.GetPalletSearchAsync(AppSettings.User.SessionId, barcode, partnerId, fromDate, toDate, kegs, kegOwnerId);
+            var value = await _dashboardService.GetPalletSearchAsync(AppSettings.User.SessionId, barcode, partnerId??string.Empty, fromDate, toDate, kegs, kegOwnerId);
         }
 
         #endregion

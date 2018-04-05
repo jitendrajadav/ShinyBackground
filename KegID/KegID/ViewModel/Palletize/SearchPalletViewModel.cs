@@ -250,7 +250,7 @@ namespace KegID.ViewModel
         }
         private async void SearchCommandRecieverAsync()
         {
-            SimpleIoc.Default.GetInstance<PalletSearchedListViewModel>().GetPalletSearchAsync(Barcode,PartnerModel.PartnerId,FromDate.ToShortDateString(),ToDate.ToShortDateString(),string.Empty,string.Empty);
+            SimpleIoc.Default.GetInstance<PalletSearchedListViewModel>().GetPalletSearchAsync(Barcode,PartnerModel?.PartnerId,FromDate.ToShortDateString(),ToDate.ToShortDateString(),string.Empty,string.Empty);
             await Application.Current.MainPage.Navigation.PushModalAsync(new PalletSearchedListView());
         }
 

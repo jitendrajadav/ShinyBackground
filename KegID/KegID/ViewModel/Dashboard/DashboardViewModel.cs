@@ -337,7 +337,8 @@ namespace KegID.ViewModel
         public RelayCommand PartnerCommand { get; }
         public RelayCommand KegsCommand { get; }
         public RelayCommand InUsePartnerCommand { get; }
-
+        public RelayCommand MoveCommand { get; }
+        
         #endregion
 
         #region Constructor
@@ -347,6 +348,7 @@ namespace KegID.ViewModel
             _dashboardService = dashboardService;
             BgImage = GetIconByPlatform.GetIcon("kegbg.png");
 
+            MoveCommand = new RelayCommand(MoveCommandRecieverAsync);
             MoreCommand = new RelayCommand(MoreCommandRecieverAsync);
             MaintainCommand = new RelayCommand(MaintainCommandRecieverAsync);
             PalletizeCommand = new RelayCommand(PalletizeCommandRecieverAsync);
@@ -362,6 +364,13 @@ namespace KegID.ViewModel
         #endregion
 
         #region Methods
+
+        private async void MoveCommandRecieverAsync()
+        {
+            SimpleIoc.Default.GetInstance<MoveViewModel>().ManifestId = Uuid.GetUuId();
+            await Application.Current.MainPage.Navigation.PushModalAsync(new MoveView());
+            CheckDraftmaniFests();
+        }
 
         private async void InUsePartnerCommandRecieverAsync()
         {
