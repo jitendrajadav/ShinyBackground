@@ -1,5 +1,6 @@
 ﻿using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -39,23 +40,30 @@ namespace KegID.Common
 
             if (request || permissionStatus != PermissionStatus.Granted)
             {
-                var newStatus = await CrossPermissions.Current.RequestPermissionsAsync(permission);
-                if (newStatus.ContainsKey(permission) && newStatus[permission] != PermissionStatus.Granted)
+                try
                 {
-                    var title = $"{permission} Permission";
-                    var question = $"To use the plugin the {permission} permission is required.";
-                    var positive = "Settings";
-                    var negative = "Maybe Later";
-                    var task = Application.Current?.MainPage?.DisplayAlert(title, question, positive, negative);
-                    if (task == null)
-                        return false;
-
-                    var result = await task;
-                    if (result)
+                    var newStatus = await CrossPermissions.Current.RequestPermissionsAsync(permission);
+                    if (newStatus.ContainsKey(permission) && newStatus[permission] != PermissionStatus.Granted)
                     {
-                        CrossPermissions.Current.OpenAppSettings();
+                        var title = $"{permission} Permission";
+                        var question = $"To use the plugin the {permission} permission is required.";
+                        var positive = "Settings";
+                        var negative = "Maybe Later";
+                        var task = Application.Current?.MainPage?.DisplayAlert(title, question, positive, negative);
+                        if (task == null)
+                            return false;
+
+                        var result = await task;
+                        if (result)
+                        {
+                            CrossPermissions.Current.OpenAppSettings();
+                        }
+                        return false;
                     }
-                    return false;
+                }
+                catch (System.Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
                 }
             }
 

@@ -34,13 +34,15 @@
                 Margin="-10,0,-10,0"
                 Grid.Row="1"
                 BackgroundColor="{StaticResource bannerBGColor}"
-                VerticalOptions="FillAndExpand"
+                VerticalOptions="Center"
                 HorizontalOptions="FillAndExpand"/>
 
             <Label 
                 Text="{Binding KegsTitle}"
                 Grid.Row="1"
                 Style="{StaticResource LabelTitleWhiteTextColorStyle}"
+                VerticalOptions="CenterAndExpand"
+                VerticalTextAlignment="Center"
                 HorizontalOptions="CenterAndExpand" />
 
             <ListView

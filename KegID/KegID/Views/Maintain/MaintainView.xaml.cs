@@ -1,4 +1,5 @@
 ﻿
+using System.Diagnostics;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -9,7 +10,14 @@ namespace KegID.Views
 	{
 		public MaintainView ()
 		{
-			InitializeComponent ();
+            try
+            {
+                InitializeComponent();
+            }
+            catch (System.Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
 		}
 	}
 }

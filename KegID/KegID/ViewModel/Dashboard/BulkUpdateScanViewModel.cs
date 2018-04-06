@@ -331,7 +331,7 @@ namespace KegID.ViewModel
         private static async Task NavigateToValidatePartner(List<Barcode> model)
         {
             await Application.Current.MainPage.Navigation.PushPopupAsync(new ValidateBarcodeView());
-            await SimpleIoc.Default.GetInstance<ValidateBarcodeViewModel>().LoadBardeValue(model);
+            await SimpleIoc.Default.GetInstance<ValidateBarcodeViewModel>().LoadBarcodeValue(model);
         }
 
         private async void AddTagsCommandRecieverAsync()

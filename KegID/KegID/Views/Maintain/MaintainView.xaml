@@ -79,7 +79,6 @@
                     <ColumnDefinition Width="80*"/>
                 </Grid.ColumnDefinitions>
 
-
                 <Switch 
                     HeightRequest="30"
                     VerticalOptions="Center"
@@ -243,7 +242,7 @@
                     Placeholder="{Binding Resources[hint_enter_notes_here]}"/>
 
                 <Label
-                    Text="{Binding Resources[label_destination}}"
+                    Text="{Binding Resources[label_destination]}"
                     Style="{StaticResource LabelNormalStyle}"
                     Grid.ColumnSpan="2"
                     Grid.Row="16"/>
