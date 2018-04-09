@@ -28,22 +28,21 @@
                 Text="{Binding Resources[kegs]}"
                 Style="{StaticResource LabelTitleStyle}"
                 TextColor="Black"
-                HorizontalOptions="CenterAndExpand"/>
+                HorizontalOptions="Center"
+                VerticalOptions="Center"/>
 
             <BoxView
-                Margin="-10,0,-10,0"
                 Grid.Row="1"
                 BackgroundColor="{StaticResource bannerBGColor}"
-                VerticalOptions="Center"
+                VerticalOptions="FillAndExpand"
                 HorizontalOptions="FillAndExpand"/>
 
             <Label 
                 Text="{Binding KegsTitle}"
                 Grid.Row="1"
                 Style="{StaticResource LabelTitleWhiteTextColorStyle}"
-                VerticalOptions="CenterAndExpand"
                 VerticalTextAlignment="Center"
-                HorizontalOptions="CenterAndExpand" />
+                HorizontalOptions="Center"/>
 
             <ListView
                 Margin="10,0,10,0"

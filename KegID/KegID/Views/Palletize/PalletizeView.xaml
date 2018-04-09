@@ -11,20 +11,13 @@
     <ContentPage.Content>
         
         <Grid
-            ColumnSpacing="0">
-            
-            <Grid.RowSpacing>
-                <OnPlatform x:TypeArguments="x:Double">
-                    <On Platform="iOS" Value="5" />
-                    <On Platform="Android, WinPhone, Windows" Value="0" />
-                </OnPlatform>
-            </Grid.RowSpacing>
+            RowSpacing="0">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-
+            
             <Button
                 x:Name="lblCancel"
                 Style="{StaticResource TopButtonTitleStyle}"
@@ -38,7 +31,7 @@
                 Style="{StaticResource LabelTitleStyle}"
                 Text="{Binding Resources[title_build_pallet]}"
                 />
-            
+
             <Button
                 HorizontalOptions="End"
                 Text="{Binding Resources[menu_action_submit]}"
@@ -48,7 +41,7 @@
                 />
 
             <Grid
-                Margin="10,5,0,0"
+                Margin="10,0,10,0"
                 ColumnSpacing="0"
                 Grid.Row="1">
                 
@@ -75,7 +68,7 @@
                 </Grid.RowDefinitions>
 
                 <BoxView
-                    Margin="-10,0,0,0"
+                    Margin="-10,0,-10,0"
                     Grid.Row="0"
                     HeightRequest="50"
                     BackgroundColor="{StaticResource bannerBGColor}"
@@ -83,6 +76,7 @@
                     HorizontalOptions="FillAndExpand"/>
 
                 <Label 
+                    Font="16"
                     Style="{StaticResource LabelTitleWhiteTextColorStyle}"
                     IsVisible="{Binding IsCameraVisible,Converter={StaticResource InvertedBooleanConverter}}"
                     Text="{Binding ManifestId, StringFormat='Pallet# -{0}'}"
@@ -100,20 +94,19 @@
                     HorizontalOptions="End"                  
                     HeightRequest="30"
                     VerticalOptions="Center"
-                    Margin="0,0,10,0"
                     BackgroundColor="Transparent">
-                  
+
                     <Image.Source>
                         <OnPlatform x:TypeArguments="ImageSource">
                             <On Platform="iOS, Android" Value="pencil.png" />
                             <On Platform="UWP" Value="Assets/pencil.png" />
                         </OnPlatform>
                     </Image.Source>
-                  
+
                     <Image.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding Path=BindingContext.IsPalletVisibleCommand, 
-                                                        Source={x:Reference Name=imgPencil}}"
-                                                         CommandParameter="{Binding}"/>
+                                                    Source={x:Reference Name=imgPencil}}"
+                                                        CommandParameter="{Binding}"/>
                     </Image.GestureRecognizers>
                 </Image>
 
@@ -133,8 +126,8 @@
 
                     <Image.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding Path=BindingContext.BarcodeScanCommand, 
-                                                        Source={x:Reference Name=imgCamera}}"
-                                                         CommandParameter="{Binding}"/>
+                                                    Source={x:Reference Name=imgCamera}}"
+                                                        CommandParameter="{Binding}"/>
                     </Image.GestureRecognizers>
                 </Image>
 
@@ -210,9 +203,7 @@
                     Text="{Binding AddKegs}"
                     Command="{Binding AddKegsCommand}"
                     />
-
             </Grid>
-            
         </Grid>
         
     </ContentPage.Content>

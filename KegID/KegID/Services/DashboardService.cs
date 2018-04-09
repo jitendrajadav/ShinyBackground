@@ -105,11 +105,11 @@ namespace KegID.Services
             return kegStatusResponseModel;
         }
 
-        public async Task<SearchPalletModel> GetPalletSearchAsync(string sessionId, string barcode, string locationId, string fromDate, string toDate, string kegs, string kegOwnerId)
+        public async Task<SearchPalletModel> GetPalletSearchAsync(string sessionId, string locationId, string fromDate, string toDate, string kegs, string kegOwnerId)
         {
             SearchPalletModel model = new SearchPalletModel();
 
-            string url = string.Format(Configuration.GetPalletSearchUrl, sessionId, barcode, locationId, fromDate, toDate, kegs, kegOwnerId);
+            string url = string.Format(Configuration.GetPalletSearchUrl, sessionId, locationId, fromDate, toDate, kegs, kegOwnerId);
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
             model.SearchPalletResponseModel = DeserializeObject<IList<SearchPalletResponseModel>>(value.Response, GetJsonSetting());

@@ -331,6 +331,7 @@ namespace KegID.ViewModel
         public RelayCommand MoreCommand { get;}
         public RelayCommand MaintainCommand { get; }
         public RelayCommand PalletizeCommand { get; }
+        public RelayCommand PalletsCommand { get; }
         public RelayCommand FillCommand { get; }
         public RelayCommand ManifestCommand { get; }
         public RelayCommand InventoryCommand { get; }
@@ -352,6 +353,7 @@ namespace KegID.ViewModel
             MoreCommand = new RelayCommand(MoreCommandRecieverAsync);
             MaintainCommand = new RelayCommand(MaintainCommandRecieverAsync);
             PalletizeCommand = new RelayCommand(PalletizeCommandRecieverAsync);
+            PalletsCommand = new RelayCommand(PalletsCommandRecieverAsync);
             FillCommand = new RelayCommand(FillCommandRecieverAsync);
             ManifestCommand = new RelayCommand(ManifestCommandRecieverAsync);
             InventoryCommand = new RelayCommand(InventoryCommandRecieverAsync);
@@ -360,6 +362,7 @@ namespace KegID.ViewModel
             InUsePartnerCommand = new RelayCommand(InUsePartnerCommandRecieverAsync);
             RefreshDashboardRecieverAsync();
         }
+
 
         #endregion
 
@@ -408,7 +411,12 @@ namespace KegID.ViewModel
 
         private async void PalletizeCommandRecieverAsync()
         {
-            //SimpleIoc.Default.GetInstance<PalletizeViewModel>().GenerateManifestIdAsync(null);
+            SimpleIoc.Default.GetInstance<PalletizeViewModel>().GenerateManifestIdAsync(null);
+            await Application.Current.MainPage.Navigation.PushModalAsync(new PalletizeView());
+        }
+
+        private async void PalletsCommandRecieverAsync()
+        {
             await Application.Current.MainPage.Navigation.PushModalAsync(new SearchPalletView());
         }
 

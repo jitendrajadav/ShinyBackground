@@ -509,7 +509,7 @@
                     TextColor="#4E6388"
                     Grid.Column="1">
                     <Label.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding Path=BindingContext.PalletizeCommand, 
+                        <TapGestureRecognizer Command="{Binding Path=BindingContext.PalletsCommand, 
                                                         Source={x:Reference Name=lblPallets}}"
                                                          CommandParameter="{Binding}"/>
                     </Label.GestureRecognizers>

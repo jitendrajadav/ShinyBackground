@@ -34,9 +34,9 @@ namespace KegID.ViewModel
            await Application.Current.MainPage.Navigation.PopModalAsync();
         }
 
-        internal async void GetPalletSearchAsync(string barcode,string partnerId,string fromDate, string toDate,string kegs,string kegOwnerId)
+        internal async void GetPalletSearchAsync(string partnerId,string fromDate, string toDate,string kegs,string kegOwnerId)
         {
-            var value = await _dashboardService.GetPalletSearchAsync(AppSettings.User.SessionId, barcode, partnerId??string.Empty, fromDate, toDate, kegs, kegOwnerId);
+            var value = await _dashboardService.GetPalletSearchAsync(AppSettings.User.SessionId, partnerId??string.Empty, fromDate, toDate, kegs, kegOwnerId);
         }
 
         #endregion

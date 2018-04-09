@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using KegID.Common;
 using KegID.Services;
+using KegID.SQLiteClient;
 using KegID.Views;
 using Microsoft.AppCenter.Analytics;
 using System;
@@ -170,6 +171,8 @@ namespace KegID.ViewModel
                             UserId = model.LoginModel.UserId,
                             SessionExpires = model.LoginModel.SessionExpires
                         };
+
+                        var value = await SQLiteServiceClient.Db.InsertAllAsync(model.LoginModel.Preferences);
                     }
                     catch (Exception ex)
                     {

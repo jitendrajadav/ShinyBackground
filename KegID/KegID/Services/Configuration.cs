@@ -43,7 +43,7 @@
         public const string GetMaintenanceAlertByKegIdUrl = ServiceUrl + "MaintenanceAlert?kegId={0}&sessionId={1}";
         
         public const string GetDeleteMaintenanceAlertByKegIdUrl = ServiceUrl + "DeleteMaintenanceAlert?kegId={0}&sessionId={1}";
-        public const string GetPalletSearchUrl = ServiceUrl + "PalletSearch?sessionId={0}&barcode={1}&locationId={2}&fromDate={3}&toDate={4}&kegs={5}&kegOwnerId={6}";
+        public const string GetPalletSearchUrl = ServiceUrl + "PalletSearch?sessionId={0}&locationId={1}&fromDate={2}&toDate={3}&kegs={4}&kegOwnerId={5}";
 
         public const string PostKegUrl = ServiceUrl + "Keg/?sessionId={0}";
         public const string PostMaintenanceAlertUrl = ServiceUrl + "MaintenanceAlert/?sessionId={0}";

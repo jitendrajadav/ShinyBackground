@@ -7,6 +7,7 @@ using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
 using KegID.Model;
 using KegID.Services;
+using KegID.SQLiteClient;
 using KegID.Views;
 using Xamarin.Forms;
 
@@ -446,6 +447,14 @@ namespace KegID.ViewModel
             InvalidToolsCommand = new RelayCommand(InvalidToolsCommandRecieverAsync);
             CurrentLocationCommand = new RelayCommand(CurrentLocationCommandRecieverAsync);
             MoveKegCommand = new RelayCommand(MoveKegCommandRecieverAsync);
+
+            LoadAlertAsync();
+        }
+
+        private async void LoadAlertAsync()
+        {
+            MaintenanceCollection = await SQLiteServiceClient.Db.Table<MaintainTypeReponseModel>().Where(x => x.IsAlert == true && x.IsAction == true).ToListAsync();
+            //RemoveMaintenanceCollection
         }
 
         #endregion
@@ -458,7 +467,7 @@ namespace KegID.ViewModel
 
         public async Task LoadMaintenanceHistoryAsync()
         {
-            //var value1 = await _dashboardService.GetKegStatusAsync(KegStatusModel.KegId, AppSettings.User.SessionId);
+            var value1 = await _dashboardService.GetKegStatusAsync(KegStatusModel.KegId, AppSettings.User.SessionId);
 
             var value = await _dashboardService.GetKegMaintenanceHistoryAsync(KegStatusModel.KegId, AppSettings.User.SessionId);
 

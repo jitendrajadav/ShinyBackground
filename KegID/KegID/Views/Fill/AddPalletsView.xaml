@@ -8,18 +8,10 @@
              BindingContext="{Binding Source={x:Static local:App.Locator},Path=AddPallets}">
     
     <ContentPage.Content>
-       
-        <Grid>
-            <Grid.RowSpacing>
-                <OnPlatform x:TypeArguments="x:Double">
-                    <On Platform="iOS" Value="5" />
-                    <On Platform="Android, WinPhone, Windows" Value="0" />
-                </OnPlatform>
-            </Grid.RowSpacing>
-
+        
+        <Grid
+            RowSpacing="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
@@ -38,7 +30,7 @@
                 Style="{StaticResource LabelTitleStyle}"
                 Text="{Binding Resources[title_pallet_add]}"
                 HorizontalOptions="Center"/>
-          
+
             <BoxView
                 Grid.Row="1"
                 Margin="0,0,0,10"
@@ -47,105 +39,124 @@
                 VerticalOptions="End"
                 HorizontalOptions="FillAndExpand"/>
 
-            <Label
-                Grid.Row="2"
-                Style="{StaticResource LabelNormalStyle}"
-                Text="{Binding AddPalletsTitle}"/>
+            <Grid
+                Margin="10,0,10,0"
+                Grid.Row="2">
+                <Grid.RowSpacing>
+                    <OnPlatform x:TypeArguments="x:Double">
+                        <On Platform="iOS" Value="5" />
+                        <On Platform="Android, WinPhone, Windows" Value="0" />
+                    </OnPlatform>
+                </Grid.RowSpacing>
 
-            <BoxView
-                Margin="-10,0,-10,0"
-                Grid.Row="3"
-                BackgroundColor="{StaticResource bannerBGColor}"
-                VerticalOptions="FillAndExpand"
-                HorizontalOptions="FillAndExpand"/>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
 
-            <StackLayout
-                Grid.Row="3"
-                Orientation="Horizontal"
-                HorizontalOptions="Start"
-                VerticalOptions="Center">
+
+                <Label
+                    Grid.Row="0"
+                    Style="{StaticResource LabelNormalStyle}"
+                    Text="{Binding AddPalletsTitle}"/>
+
+                <BoxView
+                    Margin="-10,0,-10,0"
+                    Grid.Row="1"
+                    BackgroundColor="{StaticResource bannerBGColor}"
+                    VerticalOptions="FillAndExpand"
+                    HorizontalOptions="FillAndExpand"/>
+
+                <StackLayout
+                    Grid.Row="1"
+                    Orientation="Horizontal"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center">
                
-                <Label
-                    Style="{StaticResource LabelTitleWhiteTextColorStyle}"
-                    Text="{Binding PalletCollection.Count, StringFormat='Pallets: {0}'}"/>
+                    <Label
+                        Style="{StaticResource LabelTitleWhiteTextColorStyle}"
+                        Text="{Binding PalletCollection.Count, StringFormat='Pallets: {0}'}"/>
                 
-                <Label
-                    TextColor="#B7EB35"
-                    Style="{StaticResource LabelTitleWhiteTextColorStyle}"
-                    Text="{Binding Kegs}"/>
+                    <Label
+                        TextColor="#B7EB35"
+                        Style="{StaticResource LabelTitleWhiteTextColorStyle}"
+                        Text="{Binding Kegs}"/>
 
-            </StackLayout>
+                </StackLayout>
 
-            <Button
-                Grid.Row="3"
-                x:Name="imgAdd"
-                HorizontalOptions="End"   
-                Text="+"
-                Margin="0,0,10,0"
-                Command="{Binding FillScanCommand}"
-                BackgroundColor="Transparent"
-                FontSize="50"
-                TextColor="White"
-                VerticalOptions="Center"/>
+                <Button
+                    Grid.Row="1"
+                    x:Name="imgAdd"
+                    HorizontalOptions="End"   
+                    Text="+"
+                    Margin="0,0,5,0"
+                    Command="{Binding FillScanCommand}"
+                    BackgroundColor="Transparent"
+                    FontSize="50"
+                    TextColor="White"
+                    VerticalOptions="Center"/>
 
-            <ListView
-                x:Name="lstPallets"
-                Grid.Row="4"
-                VerticalOptions="FillAndExpand"
-                SeparatorVisibility="Default"
-                SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
-                HasUnevenRows="True"
-                CachingStrategy="RecycleElement"
-                ItemsSource="{Binding PalletCollection}">
+                <ListView
+                    x:Name="lstPallets"
+                    Grid.Row="2"
+                    VerticalOptions="FillAndExpand"
+                    SeparatorVisibility="Default"
+                    SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
+                    HasUnevenRows="True"
+                    CachingStrategy="RecycleElement"
+                    ItemsSource="{Binding PalletCollection}">
 
-                <ListView.Behaviors>
-                    <behaviors:EventToCommandBehavior
-                        EventName="ItemTapped" 
-                        Command="{Binding ItemTappedCommand}"
-                        Converter="{StaticResource ItemTappedConverter}"/>
-                </ListView.Behaviors>
+                    <ListView.Behaviors>
+                        <behaviors:EventToCommandBehavior
+                            EventName="ItemTapped" 
+                            Command="{Binding ItemTappedCommand}"
+                            Converter="{StaticResource ItemTappedConverter}"/>
+                    </ListView.Behaviors>
 
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <Grid
-                                HeightRequest="50"
-                                VerticalOptions="Center">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="90*"/>
-                                    <ColumnDefinition Width="10*"/>
-                                </Grid.ColumnDefinitions>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid
+                                    HeightRequest="50"
+                                    VerticalOptions="Center">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="90*"/>
+                                        <ColumnDefinition Width="10*"/>
+                                    </Grid.ColumnDefinitions>
                                 
-                                <Label 
-                                    VerticalOptions="Center"
-                                    Grid.Column="0"
-                                    Margin="10,0,0,0"
-                                    FontSize="{StaticResource ListViewTitleFont}"
-                                    TextColor="Black"
-                                    Text="{Binding ManifestId}"/>
+                                    <Label 
+                                        VerticalOptions="Center"
+                                        Grid.Column="0"
+                                        Margin="10,0,0,0"
+                                        FontSize="{StaticResource ListViewTitleFont}"
+                                        TextColor="Black"
+                                        Text="{Binding ManifestId}"/>
                                 
-                                <Label 
-                                    Grid.Column="1"
-                                    Margin="0,0,10,0"
-                                    FontSize="{StaticResource ListViewTitleFont}"
-                                    VerticalOptions="Center"
-                                    HorizontalTextAlignment="End"
-                                    Text="{Binding Count}"/>
-                            </Grid>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
+                                    <Label 
+                                        Grid.Column="1"
+                                        Margin="0,0,10,0"
+                                        FontSize="{StaticResource ListViewTitleFont}"
+                                        VerticalOptions="Center"
+                                        HorizontalTextAlignment="End"
+                                        Text="{Binding Count}"/>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
 
-            </ListView>
+                </ListView>
 
-            <Button
-                x:Name="lblSubmit"
-                Margin="{StaticResource BottomAppBarButtonMargin}"
-                Grid.Row="5"
-                Text="{Binding Resources[menu_action_submit]}"
-                Style="{StaticResource BottomButtonTitleStyle}"
-                Command="{Binding SubmitCommand}"
-                />
+        </Grid>
+            
+        <Button
+            x:Name="lblSubmit"
+            Margin="{StaticResource BottomAppBarButtonMargin}"
+            Grid.Row="3"
+            Text="{Binding Resources[menu_action_submit]}"
+            Style="{StaticResource BottomButtonTitleStyle}"
+            Command="{Binding SubmitCommand}"
+            />
 
         </Grid>
     </ContentPage.Content>

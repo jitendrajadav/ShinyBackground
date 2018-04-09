@@ -56,8 +56,8 @@
                         BackgroundColor="{StaticResource lightGrayColor}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="45*"/>
-                            <ColumnDefinition Width="35*"/>
-                            <ColumnDefinition Width="20*"/>
+                            <ColumnDefinition Width="30*"/>
+                            <ColumnDefinition Width="25*"/>
                         </Grid.ColumnDefinitions>
                       
                         <Label
@@ -81,8 +81,8 @@
                                 HorizontalOptions="FillAndExpand">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="45*"/>
-                                    <ColumnDefinition Width="35*"/>
-                                    <ColumnDefinition Width="20*"/>
+                                    <ColumnDefinition Width="30*"/>
+                                    <ColumnDefinition Width="25*"/>
                                 </Grid.ColumnDefinitions>
                                 
                                 <Label 
@@ -163,8 +163,8 @@
                         BackgroundColor="{StaticResource lightGrayColor}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="45*"/>
-                            <ColumnDefinition Width="35*"/>
-                            <ColumnDefinition Width="20*"/>
+                            <ColumnDefinition Width="30*"/>
+                            <ColumnDefinition Width="25*"/>
                         </Grid.ColumnDefinitions>
 
                         <Label
@@ -188,8 +188,8 @@
                                 HorizontalOptions="FillAndExpand">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="45*"/>
-                                    <ColumnDefinition Width="35*"/>
-                                    <ColumnDefinition Width="20*"/>
+                                    <ColumnDefinition Width="30*"/>
+                                    <ColumnDefinition Width="25*"/>
                                 </Grid.ColumnDefinitions>
 
                                 <Label 

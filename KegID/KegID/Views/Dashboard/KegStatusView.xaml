@@ -226,6 +226,7 @@
                         Grid.Row="19"
                         Title="Add alert"
                         HorizontalOptions="Start"
+                        ItemDisplayBinding="{Binding Name}"
                         ItemsSource="{Binding MaintenanceCollection}"
                         SelectedItem="{Binding SelectedMaintenance,Mode=TwoWay}"/>
 

@@ -204,8 +204,8 @@
                 HorizontalOptions="Center"
                 Grid.Row="3">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="130"/>
-                    <ColumnDefinition Width="130"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="100"/>
                 </Grid.ColumnDefinitions>
                 <Grid.Margin>
                     <OnPlatform x:TypeArguments="Thickness">

@@ -95,9 +95,9 @@
                 </Grid.HeightRequest>
                 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="110"/>
-                    <ColumnDefinition Width="110"/>
-                    <ColumnDefinition Width="110"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="100"/>
                 </Grid.ColumnDefinitions>
                 
                 <Button

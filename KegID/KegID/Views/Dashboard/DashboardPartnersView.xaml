@@ -116,7 +116,7 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <StackLayout>
+                            <StackLayout Spacing="0">
                                 <Label 
                                     TextColor="{StaticResource selectTextColor}"
                                     Text="{Binding FullName}"
@@ -172,9 +172,9 @@
                 </Grid.HeightRequest>
                 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="110"/>
-                    <ColumnDefinition Width="110"/>
-                    <ColumnDefinition Width="110"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="100"/>
                 </Grid.ColumnDefinitions>
                 
                 <Button
