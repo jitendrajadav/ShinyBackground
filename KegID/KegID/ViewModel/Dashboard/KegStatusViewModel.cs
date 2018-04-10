@@ -7,7 +7,6 @@ using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
 using KegID.Model;
 using KegID.Services;
-using KegID.SQLiteClient;
 using KegID.Views;
 using Xamarin.Forms;
 
@@ -17,40 +16,44 @@ namespace KegID.ViewModel
     {
         #region Properties
         public IDashboardService _dashboardService { get; set; }
+        public string KegId { get; set; }
+        public string Barcode { get; set; }
+        public string TypeName { get; set; }
+        public string SizeName { get; set; }
 
-        #region KegStatuModel
+        //#region KegStatuModel
 
-        /// <summary>
-        /// The <see cref="KegStatusModel" /> property's name.
-        /// </summary>
-        public const string KegStatusModelPropertyName = "KegStatusModel";
+        ///// <summary>
+        ///// The <see cref="KegStatusModel" /> property's name.
+        ///// </summary>
+        //public const string KegStatusModelPropertyName = "KegStatusModel";
 
-        private KegPossessionResponseModel _kegStatusModel = null;
+        //private KegPossessionResponseModel _kegStatusModel = null;
 
-        /// <summary>
-        /// Sets and gets the KegStatusModel property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public KegPossessionResponseModel KegStatusModel
-        {
-            get
-            {
-                return _kegStatusModel;
-            }
+        ///// <summary>
+        ///// Sets and gets the KegStatusModel property.
+        ///// Changes to that property's value raise the PropertyChanged event. 
+        ///// </summary>
+        //public KegPossessionResponseModel KegStatusModel
+        //{
+        //    get
+        //    {
+        //        return _kegStatusModel;
+        //    }
 
-            set
-            {
-                if (_kegStatusModel == value)
-                {
-                    return;
-                }
+        //    set
+        //    {
+        //        if (_kegStatusModel == value)
+        //        {
+        //            return;
+        //        }
 
-                _kegStatusModel = value;
-                RaisePropertyChanged(KegStatusModelPropertyName);
-            }
-        }
+        //        _kegStatusModel = value;
+        //        RaisePropertyChanged(KegStatusModelPropertyName);
+        //    }
+        //}
 
-        #endregion
+        //#endregion
 
         #region Owner
 
@@ -229,13 +232,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string MaintenanceCollectionPropertyName = "MaintenanceCollection";
 
-        private IList<MaintainTypeReponseModel> _MaintenanceCollection = null;
+        private IList<MaintenanceAlert> _MaintenanceCollection = null;
 
         /// <summary>
         /// Sets and gets the MaintenanceCollection property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public IList<MaintainTypeReponseModel> MaintenanceCollection
+        public IList<MaintenanceAlert> MaintenanceCollection
         {
             get
             {
@@ -263,13 +266,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string SelectedMaintenancePropertyName = "SelectedMaintenance";
 
-        private MaintainTypeReponseModel _SelectedMaintenance = null;
+        private MaintenanceAlert _SelectedMaintenance = null;
 
         /// <summary>
         /// Sets and gets the SelectedMaintenance property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public MaintainTypeReponseModel SelectedMaintenance
+        public MaintenanceAlert SelectedMaintenance
         {
             get
             {
@@ -365,13 +368,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string MaintenancePerformedCollectionPropertyName = "MaintenancePerformedCollection";
 
-        private IList<MaintainTypeReponseModel> _MaintenancePerformedCollection = null;
+        private IList<KegMaintenanceHistoryResponseModel> _MaintenancePerformedCollection = null;
 
         /// <summary>
         /// Sets and gets the MaintenancePerformedCollection property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public IList<MaintainTypeReponseModel> MaintenancePerformedCollection
+        public IList<KegMaintenanceHistoryResponseModel> MaintenancePerformedCollection
         {
             get
             {
@@ -447,14 +450,6 @@ namespace KegID.ViewModel
             InvalidToolsCommand = new RelayCommand(InvalidToolsCommandRecieverAsync);
             CurrentLocationCommand = new RelayCommand(CurrentLocationCommandRecieverAsync);
             MoveKegCommand = new RelayCommand(MoveKegCommandRecieverAsync);
-
-            LoadAlertAsync();
-        }
-
-        private async void LoadAlertAsync()
-        {
-            MaintenanceCollection = await SQLiteServiceClient.Db.Table<MaintainTypeReponseModel>().Where(x => x.IsAlert == true && x.IsAction == true).ToListAsync();
-            //RemoveMaintenanceCollection
         }
 
         #endregion
@@ -465,16 +460,33 @@ namespace KegID.ViewModel
             await Application.Current.MainPage.Navigation.PushModalAsync(new MoveView());
         }
 
-        public async Task LoadMaintenanceHistoryAsync()
+        public async Task LoadMaintenanceHistoryAsync(string kegId,string barcode,string typeName,string sizeName)
         {
-            var value1 = await _dashboardService.GetKegStatusAsync(KegStatusModel.KegId, AppSettings.User.SessionId);
+            try
+            {
+                //KegStatusModel = model;
+                KegId = kegId;
+                Barcode = barcode;
+                TypeName = typeName;
+                SizeName = sizeName;
 
-            var value = await _dashboardService.GetKegMaintenanceHistoryAsync(KegStatusModel.KegId, AppSettings.User.SessionId);
+                var kegStatus = await _dashboardService.GetKegStatusAsync(KegId, AppSettings.User.SessionId);
+                MaintenanceCollection = kegStatus.MaintenanceAlerts;
 
-            if (value.KegMaintenanceHistoryResponseModel != null)
-                IsVisibleListView = true;
-            else
-                IsVisibleListView = false;
+                kegId = "6762E448-B6AD-4CE1-BA31-865DF01F6334";
+                var value = await _dashboardService.GetKegMaintenanceHistoryAsync(KegId, AppSettings.User.SessionId);
+
+                MaintenancePerformedCollection = value.KegMaintenanceHistoryResponseModel;
+
+                if (value.KegMaintenanceHistoryResponseModel != null)
+                    IsVisibleListView = true;
+                else
+                    IsVisibleListView = false;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
         }
 
         private async void KegsCommandRecieverAsync()
@@ -484,7 +496,7 @@ namespace KegID.ViewModel
 
         private async void EditCommandRecieverAsync()
         {
-            SimpleIoc.Default.GetInstance<EditKegViewModel>().LoadData(KegStatusModel);
+            SimpleIoc.Default.GetInstance<EditKegViewModel>().AssingInitialValue(KegId,Barcode, TypeName,SizeName);
             await Application.Current.MainPage.Navigation.PushModalAsync(new EditKegView());
         }
 
@@ -495,7 +507,7 @@ namespace KegID.ViewModel
 
             try
             {
-                model = await _dashboardService.GetKegMaintenanceAlertAsync(KegStatusModel.KegId, AppSettings.User.SessionId);
+                model = await _dashboardService.GetKegMaintenanceAlertAsync(KegId, AppSettings.User.SessionId);
                 if (model != null)
                 {
                     foreach (var item in model.MaintenanceAlertResponseModel)

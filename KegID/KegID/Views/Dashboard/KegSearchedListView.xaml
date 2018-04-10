@@ -30,7 +30,7 @@
                 HorizontalOptions="FillAndExpand"/>
             
             <ListView
-                Margin="-10,0,-10,0"
+                Margin="10,0,10,0"
                 x:Name="lstKegSearch"
                 Grid.Row="2"
                 SeparatorVisibility="Default"
@@ -64,9 +64,9 @@
 
                                 <Label
                                     Grid.Row="1"
-                                    FontSize="{StaticResource ListViewTitleFont}"
-                                    TextColor="{StaticResource selectTextColor}"
-                                    Text="{Binding Barcode}"/>
+                                    FontSize="{StaticResource ListViewDetailFont}"
+                                    TextColor="{StaticResource lightGrayColor}"
+                                    Text="{Binding SizeName}"/>
 
                             </Grid>
                         </ViewCell>

@@ -1,6 +1,10 @@
 ﻿using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
+using KegID.Model;
 using KegID.Services;
+using KegID.Views;
+using System.Collections.Generic;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -10,10 +14,45 @@ namespace KegID.ViewModel
         #region Properties
         public IDashboardService _dashboardService { get; set; }
 
+        #region PalletSearchCollection
+
+        /// <summary>
+        /// The <see cref="PalletSearchCollection" /> property's name.
+        /// </summary>
+        public const string PalletSearchCollectionPropertyName = "PalletSearchCollection";
+
+        private IList<SearchPalletResponseModel> _PalletSearchCollection = null;
+
+        /// <summary>
+        /// Sets and gets the PalletSearchCollection property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public IList<SearchPalletResponseModel> PalletSearchCollection
+        {
+            get
+            {
+                return _PalletSearchCollection;
+            }
+
+            set
+            {
+                if (_PalletSearchCollection == value)
+                {
+                    return;
+                }
+
+                _PalletSearchCollection = value;
+                RaisePropertyChanged(PalletSearchCollectionPropertyName);
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Commands
         public RelayCommand BackCommand { get; }
+        public RelayCommand<SearchPalletResponseModel> ItemTappedCommand { get;}
 
         #endregion
 
@@ -24,7 +63,9 @@ namespace KegID.ViewModel
             _dashboardService = dashboardService;
 
             BackCommand = new RelayCommand(BackCommandRecieverAsync);
+            ItemTappedCommand = new RelayCommand<SearchPalletResponseModel>((model) => ItemTappedCommandRecieverAsync(model));
         }
+
 
         #endregion
 
@@ -36,7 +77,15 @@ namespace KegID.ViewModel
 
         internal async void GetPalletSearchAsync(string partnerId,string fromDate, string toDate,string kegs,string kegOwnerId)
         {
-            var value = await _dashboardService.GetPalletSearchAsync(AppSettings.User.SessionId, partnerId??string.Empty, fromDate, toDate, kegs, kegOwnerId);
+            //needs to assing partnerId??string.Empty once backend is ready...
+            var value = await _dashboardService.GetPalletSearchAsync(AppSettings.User.SessionId, string.Empty, fromDate, toDate, kegs, kegOwnerId);
+            PalletSearchCollection = value.SearchPalletResponseModel;
+        }
+
+        private async void ItemTappedCommandRecieverAsync(SearchPalletResponseModel model)
+        {
+            await Application.Current.MainPage.Navigation.PushModalAsync(new PalletizeDetailView());
+            SimpleIoc.Default.GetInstance<PalletizeDetailViewModel>().AssingIntialValueAsync(model, true);
         }
 
         #endregion

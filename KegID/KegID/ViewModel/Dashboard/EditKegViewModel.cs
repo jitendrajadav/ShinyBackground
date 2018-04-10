@@ -10,6 +10,10 @@ namespace KegID.ViewModel
     public class EditKegViewModel : BaseViewModel
     {
         #region Properties
+        public string KegId { get; set; }
+        public string Barcode { get; set; }
+        public string TypeName { get; set; }
+        public string SizeName { get; set; }
 
         #region Owner
 
@@ -79,39 +83,39 @@ namespace KegID.ViewModel
 
         #endregion
 
-        #region KegStatuModel
+        //#region KegStatuModel
 
-        /// <summary>
-        /// The <see cref="KegStatusModel" /> property's name.
-        /// </summary>
-        public const string KegStatusModelPropertyName = "KegStatusModel";
+        ///// <summary>
+        ///// The <see cref="KegStatusModel" /> property's name.
+        ///// </summary>
+        //public const string KegStatusModelPropertyName = "KegStatusModel";
 
-        private KegPossessionResponseModel _kegStatusModel = null;
+        //private KegPossessionResponseModel _kegStatusModel = null;
 
-        /// <summary>
-        /// Sets and gets the KegStatusModel property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public KegPossessionResponseModel KegStatusModel
-        {
-            get
-            {
-                return _kegStatusModel;
-            }
+        ///// <summary>
+        ///// Sets and gets the KegStatusModel property.
+        ///// Changes to that property's value raise the PropertyChanged event. 
+        ///// </summary>
+        //public KegPossessionResponseModel KegStatusModel
+        //{
+        //    get
+        //    {
+        //        return _kegStatusModel;
+        //    }
 
-            set
-            {
-                if (_kegStatusModel == value)
-                {
-                    return;
-                }
+        //    set
+        //    {
+        //        if (_kegStatusModel == value)
+        //        {
+        //            return;
+        //        }
 
-                _kegStatusModel = value;
-                RaisePropertyChanged(KegStatusModelPropertyName);
-            }
-        }
+        //        _kegStatusModel = value;
+        //        RaisePropertyChanged(KegStatusModelPropertyName);
+        //    }
+        //}
 
-        #endregion
+        //#endregion
 
         #region PartnerModel
 
@@ -294,10 +298,10 @@ namespace KegID.ViewModel
 
             var kegRequestModel = new KegRequestModel
             {
-                KegId = KegStatusModel.KegId,
-                Barcode = KegStatusModel.Barcode,
+                KegId = KegId,
+                Barcode = Barcode,
                 OwnerId = PartnerModel.PartnerId,
-                AltBarcode = KegStatusModel.Barcode,
+                AltBarcode = Barcode,
                 Notes = "",
                 ReferenceKey = "",
                 ProfileId = "",
@@ -338,11 +342,13 @@ namespace KegID.ViewModel
             await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView());
         }
 
-        internal void LoadData(KegPossessionResponseModel kegStatusModel)
+        internal void AssingInitialValue(string kegId,string barcode, string typeName, string sizeName)
         {
-            KegStatusModel = kegStatusModel;
-            SelectedItemType = kegStatusModel.TypeName;
-            Size = kegStatusModel.SizeName;
+            //KegStatusModel = kegStatusModel;
+            KegId = kegId;
+            Barcode = barcode;
+            SelectedItemType = typeName;
+            Size = sizeName;
         }
 
         #endregion

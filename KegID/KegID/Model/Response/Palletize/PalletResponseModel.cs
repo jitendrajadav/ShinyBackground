@@ -65,16 +65,16 @@ namespace KegID.Model
         public string LocationCode { get; set; }
         public double Lat { get; set; }
         public double Lon { get; set; }
-        public bool IsInternal { get; set; }
-        public bool IsShared { get; set; }
-        public bool IsActive { get; set; }
+        public bool isInternal { get; set; }
+        public bool isShared { get; set; }
+        public bool isActive { get; set; }
         public bool PartnershipIsActive { get; set; }
         public object MasterCompanyId { get; set; }
         public object ParentPartnerId { get; set; }
         public object ParentPartnerName { get; set; }
         public string SourceKey { get; set; }
         public string LocationStatus { get; set; }
-        public long CompanyNo { get; set; }
+        public int CompanyNo { get; set; }
     }
 
     public class PalletItem

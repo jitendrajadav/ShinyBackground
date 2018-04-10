@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
+using KegID.Common;
 using KegID.Model;
+using KegID.Services;
 using KegID.Views;
 using Plugin.Share;
 using Xamarin.Forms;
@@ -12,6 +15,9 @@ namespace KegID.ViewModel
     public class PalletizeDetailViewModel : BaseViewModel
     {
         #region Properties
+        public IMoveService _moveService { get; set; }
+
+        public SearchPalletResponseModel Model { get; set; }
 
         #region ManifestId
 
@@ -251,6 +257,40 @@ namespace KegID.ViewModel
 
         #endregion
 
+        #region IsFromDashboard
+
+        /// <summary>
+        /// The <see cref="IsFromDashboard" /> property's name.
+        /// </summary>
+        public const string IsFromDashboardPropertyName = "IsFromDashboard";
+
+        private bool _IsFromDashboard = false;
+
+        /// <summary>
+        /// Sets and gets the IsFromDashboard property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public bool IsFromDashboard
+        {
+            get
+            {
+                return _IsFromDashboard;
+            }
+
+            set
+            {
+                if (_IsFromDashboard == value)
+                {
+                    return;
+                }
+
+                _IsFromDashboard = value;
+                RaisePropertyChanged(IsFromDashboardPropertyName);
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Commands
@@ -258,16 +298,32 @@ namespace KegID.ViewModel
         public RelayCommand HomeCommand { get; }
         public RelayCommand ShareCommand { get; }
         public RelayCommand GridTappedCommand { get; }
+        public RelayCommand EditPalletCommand { get; }
+        public RelayCommand MovePalletCommand { get; }
 
         #endregion
 
         #region Constructor
 
-        public PalletizeDetailViewModel()
+        public PalletizeDetailViewModel(IMoveService moveService)
         {
+            _moveService = moveService;
             HomeCommand = new RelayCommand(HomeCommandCommandRecieverAsync);
             ShareCommand = new RelayCommand(ShareCommandReciever);
             GridTappedCommand = new RelayCommand(GridTappedCommandRecieverAsync);
+            MovePalletCommand = new RelayCommand(MovePalletCommandRecieverAsync);
+            EditPalletCommand = new RelayCommand(EditPalletCommandRecieverAsync);
+        }
+
+        private async void EditPalletCommandRecieverAsync()
+        {
+            await Application.Current.MainPage.Navigation.PushModalAsync(new PalletizeView());
+            //SimpleIoc.Default.GetInstance<PalletizeViewModel>().AssingInitialValue(ManifestId,StockLocation,TargetLocation) ;
+        }
+
+        private async void MovePalletCommandRecieverAsync()
+        {
+            await Application.Current.MainPage.Navigation.PushModalAsync(new MoveView());
         }
 
         #endregion
@@ -299,7 +355,21 @@ namespace KegID.ViewModel
             SimpleIoc.Default.GetInstance<ContentTagsViewModel>().ContentCollection = value.PalletItems.Select(selector: x => x.Barcode).ToList();
         }
 
-        #endregion
+        internal async void AssingIntialValueAsync(SearchPalletResponseModel model, bool v)
+        {
+            var manifest = await _moveService.GetManifestAsync(AppSettings.User.SessionId, model.Barcode);
 
+            Model = model;
+            IsFromDashboard = v;
+            ManifestId = model.Barcode;
+            PartnerTypeName = model.OwnerName;
+            StockLocation = model.LocationName;
+            TargetLocation = model.LocationName;
+            ShippingDate = model.BuildDate.Date;
+            ItemCount = (int)model.BuildCount;
+            SimpleIoc.Default.GetInstance<ContentTagsViewModel>().ContentCollection = new List<string> { model.Barcode };
+        }
+
+        #endregion
     }
 }

@@ -203,14 +203,14 @@
                     <Button.HeightRequest>
                         <OnPlatform x:TypeArguments="x:Double">
                             <On Platform="iOS, WinPhone, Windows" Value="50" />
-                            <On Platform="Android" Value="60" />
+                            <On Platform="Android" Value="50" />
                         </OnPlatform>
                     </Button.HeightRequest>
                     
                     <Button.Margin>
                         <OnPlatform x:TypeArguments="Thickness">
-                            <On Platform="iOS, WinPhone, Windows" Value="-5" />
-                            <On Platform="Android" Value="0" />
+                            <On Platform="iOS, WinPhone, Windows" Value="-15,-5,-15,-5" />
+                            <On Platform="Android" Value="-10,2,-10,2" />
                         </OnPlatform>
                     </Button.Margin>
                 </Button>

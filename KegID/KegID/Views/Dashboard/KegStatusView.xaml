@@ -240,6 +240,7 @@
                         SelectedItem="{Binding RemoveSelecetedMaintenance,Mode=TwoWay}"/>
 
                     <ListView
+                        Margin="0,0,0,20"
                         IsVisible="{Binding IsVisibleListView}"
                         x:Name="lstBarcode"
                         Grid.Row="20"
@@ -251,10 +252,12 @@
 
                         <ListView.Header>
                             <Grid
+                                RowSpacing="0"
+                                ColumnSpacing="0"
                                 BackgroundColor="{StaticResource lightGrayColor}">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="20*"/>
-                                    <ColumnDefinition Width="80*"/>
+                                    <ColumnDefinition Width="30*"/>
+                                    <ColumnDefinition Width="70*"/>
                                 </Grid.ColumnDefinitions>
                                 
                                 <Label
@@ -278,32 +281,31 @@
                                 <ViewCell>
 
                                     <Grid 
+                                        Margin="2,0,2,0"
                                         RowSpacing="0"
                                         ColumnSpacing="0">
 
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="20*"/>
-                                            <ColumnDefinition Width="80*"/>
+                                            <ColumnDefinition Width="30*"/>
+                                            <ColumnDefinition Width="70*"/>
                                         </Grid.ColumnDefinitions>
 
                                         <Label 
-                                            Margin="0,5,0,0"
                                             VerticalOptions="FillAndExpand" 
                                             VerticalTextAlignment="Center" 
-                                            Text="{Binding Date}"
+                                            Text="{Binding DatePerformed,StringFormat='{0:dd/MM/yy}'}"
                                             TextColor="Black"
                                             FontSize="{StaticResource ListViewTitleFont}"/>
 
                                         <Label 
                                             Grid.Column="1"
-                                            Margin="0,5,0,0"
                                             VerticalOptions="FillAndExpand" 
                                             VerticalTextAlignment="Center" 
-                                            Text="{Binding Name}"
+                                            Text="{Binding MaintenanceType.Name}"
                                             TextColor="Black"
                                             FontSize="{StaticResource ListViewTitleFont}"/>
-
                                     </Grid>
+                                    
                                 </ViewCell>
                             </DataTemplate>
                         </ListView.ItemTemplate>

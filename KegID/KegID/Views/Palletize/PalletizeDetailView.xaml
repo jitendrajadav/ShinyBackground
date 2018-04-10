@@ -26,6 +26,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
             <Button
@@ -162,7 +163,7 @@
 
             <Grid
                 x:Name="grdContent"
-                Margin="0,30,0,0"
+                Margin="0,5,0,0"
                 RowSpacing="0,0,0,0"
                 ColumnSpacing="0,0,0,0"
                 Grid.Row="12">
@@ -335,8 +336,26 @@
                     Grid.Column="5"
                     Style="{StaticResource LabelTitleStyle}"
                     Text="{Binding ItemCount}"/>
-
             </Grid>
+
+            <Button
+                IsVisible="{Binding IsFromDashboard}"
+                VerticalOptions="End"
+                Margin="0,0,0,0"
+                Grid.Row="13"
+                Style="{StaticResource TopButtonTitleStyle}"
+                Command="{Binding EditPalletCommand}"
+                Text="{Binding Resources[button_edit]}"/>
+
+            <Button
+                IsVisible="{Binding IsFromDashboard}"
+                VerticalOptions="End"
+                Margin="0,0,5,0"
+                Grid.Row="13"
+                Style="{StaticResource TopButtonTitleStyle}"
+                Command="{Binding MovePalletCommand}"
+                Text="{Binding Resources[menu_action_move_pallet]}"
+                HorizontalOptions="End"/>
 
         </Grid>
     </ContentPage.Content>

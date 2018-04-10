@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
 using KegID.Model;
 using KegID.Services;
@@ -69,7 +70,8 @@ namespace KegID.ViewModel
 
         private async void ItemTappedCommandRecieverAsync(KegSearchResponseModel model)
         {
-           await Application.Current.MainPage.Navigation.PushModalAsync(new KegStatusView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new KegStatusView());
+            await SimpleIoc.Default.GetInstance<KegStatusViewModel>().LoadMaintenanceHistoryAsync(model.KegId,model.Barcode,model.TypeName,model.SizeName);
         }
 
         internal async void LoadKegSearchAsync(string barcode)

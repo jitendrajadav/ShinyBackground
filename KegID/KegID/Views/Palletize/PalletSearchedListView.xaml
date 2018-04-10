@@ -31,14 +31,13 @@
                 HorizontalOptions="FillAndExpand"/>
 
             <ListView
-                Margin="-10,0,-10,0"
                 x:Name="lstKegSearch"
                 Grid.Row="2"
                 SeparatorVisibility="Default"
                 SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
                 HasUnevenRows="True"
                 CachingStrategy="RecycleElement"
-                ItemsSource="{Binding KegSearchCollection}">
+                ItemsSource="{Binding PalletSearchCollection}">
 
                 <ListView.Behaviors>
                     <behaviors:EventToCommandBehavior
@@ -51,23 +50,38 @@
                     <DataTemplate>
                         <ViewCell>
 
-                            <Grid>
+                            <Grid
+                                Margin="10,0,10,0">
 
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
 
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="85*"/>
+                                    <ColumnDefinition Width="15*"/>
+                                </Grid.ColumnDefinitions>
+                                
                                 <Label
+                                    Grid.ColumnSpan="2"
                                     FontSize="{StaticResource ListViewTitleFont}"
                                     TextColor="{StaticResource selectTextColor}"
-                                    Text="{Binding Barcode}"/>
+                                    Text="{Binding Barcode,StringFormat='#{0}', Converter={StaticResource StringToLast8CharacterConverter}}"/>
 
-                                <Label
+                                <Label 
                                     Grid.Row="1"
-                                    FontSize="{StaticResource ListViewTitleFont}"
-                                    TextColor="{StaticResource selectTextColor}"
-                                    Text="{Binding Barcode}"/>
+                                    TextColor="{StaticResource lightGrayColor}" 
+                                    Text="{Binding LocationName}" 
+                                    FontSize="{StaticResource ListViewDetailFont}"/>
+
+                                <Label 
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    HorizontalOptions="End"
+                                    TextColor="{StaticResource lightGrayColor}" 
+                                    Text="{Binding ActiveCount, StringFormat='{0} Kegs'}" 
+                                    FontSize="{StaticResource ListViewDetailFont}"/>
 
                             </Grid>
                         </ViewCell>

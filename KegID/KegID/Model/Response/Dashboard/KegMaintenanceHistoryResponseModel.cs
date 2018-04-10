@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace KegID.Model
 {
@@ -13,7 +14,7 @@ namespace KegID.Model
         public string KegId { get; set; }
         public string Barcode { get; set; }
         public MaintenanceType MaintenanceType { get; set; }
-        public string DatePerformed { get; set; }
+        public DateTime DatePerformed { get; set; }
         public string DueDate { get; set; }
         public string Message { get; set; }
         public string AlertCleared { get; set; }

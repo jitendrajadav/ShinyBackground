@@ -153,7 +153,7 @@ namespace KegID.Common
             T type = default(T);
             try
             {
-                return JsonConvert.DeserializeObject<T>(response, setting);
+                return JsonConvert.DeserializeObject<T>(response,setting);
             }
             catch (Exception ex)
             {

@@ -1843,7 +1843,7 @@ namespace KegID {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Maintenance performed.
+        ///   Looks up a localized string similar to Maintenance Performed.
         /// </summary>
         internal static string label_maintenance_performed {
             get {

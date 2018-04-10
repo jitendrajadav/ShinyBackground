@@ -61,7 +61,7 @@ namespace KegID.Services
         {
             KegMaintenanceHistoryModel kegMaintenanceHistoryModel = new KegMaintenanceHistoryModel();
 
-            string url = string.Format(Configuration.GetKegStatusByKegIdUrl, kegId, sessionId);
+            string url = string.Format(Configuration.GetKegMaintenanceHistoryByKegIdUrl, kegId, sessionId);
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
             kegMaintenanceHistoryModel.KegMaintenanceHistoryResponseModel = DeserializeObject<IList<KegMaintenanceHistoryResponseModel>>(value.Response, GetJsonSetting());
@@ -97,7 +97,7 @@ namespace KegID.Services
         {
             KegStatusResponseModel kegStatusResponseModel = new KegStatusResponseModel();
 
-            string url = string.Format(Configuration.GetKegMaintenanceHistoryByKegIdUrl, kegId, sessionId);
+            string url = string.Format(Configuration.GetKegStatusByKegIdUrl, kegId, sessionId);
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
             kegStatusResponseModel = DeserializeObject<KegStatusResponseModel>(value.Response, GetJsonSetting());
