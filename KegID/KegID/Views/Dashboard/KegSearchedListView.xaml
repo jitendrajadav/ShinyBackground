@@ -6,7 +6,9 @@
              BackgroundColor="{StaticResource pageBGColor}"
              xmlns:local="clr-namespace:KegID"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=KegSearchedListView}">
+    
     <ContentPage.Content>
+       
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -19,7 +21,7 @@
                 Style="{StaticResource TopButtonTitleStyle}"
                 HorizontalOptions="Start"
                 Text="{Binding Resources[title_keg_search]}"
-                Command="{Binding SearchManifestsCommand}"
+                Command="{Binding KegSearchCommand}"
                 />
 
             <BoxView

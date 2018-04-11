@@ -404,6 +404,11 @@ namespace KegID.ViewModel
             TagsStr = default(string);
         }
 
+        internal void AssignInitialValue(string _barcode)
+        {
+            BarcodeCollection.Add(new Barcode { Id = _barcode });
+        }
+
         private async void BarcodeManualCommandRecieverAsync()
         {
             var value = await BarcodeScanner.ValidateBarcodeInsertIntoLocalDB(ManaulBarcode,_moveService);

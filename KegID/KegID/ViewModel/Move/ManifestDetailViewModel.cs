@@ -1,7 +1,10 @@
 ﻿using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Ioc;
+using KegID.Model;
 using KegID.Views;
 using Plugin.Share;
 using System;
+using System.Linq;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -216,6 +219,19 @@ namespace KegID.ViewModel
         }
 
         private async void ManifestsCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PopModalAsync();
+
+        internal void AssignInitialValue(ManifestResponseModel manifest)
+        {
+            TrackingNumber = manifest.TrackingNumber;
+
+            ManifestTo = manifest.CreatorCompany.FullName + "\n" + manifest.CreatorCompany.PartnerTypeName;
+
+            ShippingDate = Convert.ToDateTime(manifest.ShipDate);
+            ItemCount = manifest.ManifestItems.Count;
+            SimpleIoc.Default.GetInstance<ContentTagsViewModel>().ContentCollection = manifest.ManifestItems.Select(x => x.Barcode).ToList();
+
+            Contents = !string.IsNullOrEmpty(manifest.ManifestItems.FirstOrDefault().Contents) ? manifest.ManifestItems.FirstOrDefault().Contents : "No contens";
+        }
 
         #endregion
     }

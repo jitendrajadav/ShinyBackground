@@ -1,5 +1,7 @@
 ﻿using GalaSoft.MvvmLight.Command;
+using KegID.Common;
 using KegID.Model;
+using KegID.Services;
 using KegID.Views;
 using System;
 using System.Collections.Generic;
@@ -10,6 +12,8 @@ namespace KegID.ViewModel
     public class EditKegViewModel : BaseViewModel
     {
         #region Properties
+        public IDashboardService DashboardService { get; set; }
+
         public string KegId { get; set; }
         public string Barcode { get; set; }
         public string TypeName { get; set; }
@@ -82,40 +86,6 @@ namespace KegID.ViewModel
         }
 
         #endregion
-
-        //#region KegStatuModel
-
-        ///// <summary>
-        ///// The <see cref="KegStatusModel" /> property's name.
-        ///// </summary>
-        //public const string KegStatusModelPropertyName = "KegStatusModel";
-
-        //private KegPossessionResponseModel _kegStatusModel = null;
-
-        ///// <summary>
-        ///// Sets and gets the KegStatusModel property.
-        ///// Changes to that property's value raise the PropertyChanged event. 
-        ///// </summary>
-        //public KegPossessionResponseModel KegStatusModel
-        //{
-        //    get
-        //    {
-        //        return _kegStatusModel;
-        //    }
-
-        //    set
-        //    {
-        //        if (_kegStatusModel == value)
-        //        {
-        //            return;
-        //        }
-
-        //        _kegStatusModel = value;
-        //        RaisePropertyChanged(KegStatusModelPropertyName);
-        //    }
-        //}
-
-        //#endregion
 
         #region PartnerModel
 
@@ -268,10 +238,11 @@ namespace KegID.ViewModel
 
         #region Contructor
 
-        public EditKegViewModel()
+        public EditKegViewModel(IDashboardService _dashboardService)
         {
+            DashboardService = _dashboardService;
             CancelCommand = new RelayCommand(CancelCommandRecieverAsync);
-            SaveCommand = new RelayCommand(SaveCommandReciever);
+            SaveCommand = new RelayCommand(SaveCommandRecieverAsync);
             PartnerCommand = new RelayCommand(PartnerCommandRecieverAsync);
             SizeCommand = new RelayCommand(SizeCommandRecieverAsync);
             AddTagsCommand = new RelayCommand(AddTagsCommandRecieverAsync);
@@ -291,12 +262,12 @@ namespace KegID.ViewModel
             }
         }
 
-        private void SaveCommandReciever()
+        private async void SaveCommandRecieverAsync()
         {
             var vlaue1 = SelectedItemType;
             var vlaue5 = TagsStr;
 
-            var kegRequestModel = new KegRequestModel
+            var model = new KegRequestModel
             {
                 KegId = KegId,
                 Barcode = Barcode,
@@ -325,6 +296,8 @@ namespace KegID.ViewModel
                 Markings = "",
                 Colors = ""
             };
+
+          var Result = await DashboardService.PostKegAsync(model, AppSettings.User.SessionId, Configuration.NewKeg);
         }
 
         private async void PartnerCommandRecieverAsync()
@@ -342,13 +315,13 @@ namespace KegID.ViewModel
             await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView());
         }
 
-        internal void AssingInitialValue(string kegId,string barcode, string typeName, string sizeName)
+        internal void AssingInitialValue(string _kegId,string _barcode, string _owner, string _typeName, string _sizeName)
         {
-            //KegStatusModel = kegStatusModel;
-            KegId = kegId;
-            Barcode = barcode;
-            SelectedItemType = typeName;
-            Size = sizeName;
+            KegId = _kegId;
+            Barcode = _barcode;
+            Owner = _owner;
+            SelectedItemType = _typeName;
+            Size = _sizeName;
         }
 
         #endregion

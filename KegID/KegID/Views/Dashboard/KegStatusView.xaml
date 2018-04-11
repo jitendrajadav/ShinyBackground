@@ -47,7 +47,7 @@
 
             <Label 
                 Grid.Row="1"
-                Text="{Binding Path=KegStatusModel.Barcode, StringFormat=' Barcode   {0}'}"
+                Text="{Binding Barcode, StringFormat=' Barcode   {0}'}"
                 Style="{StaticResource LabelTitleWhiteTextColorStyle}"
                 />
 
@@ -80,10 +80,10 @@
                 </controls:TintedImage.GestureRecognizers>
             </controls:TintedImage>
 
-
             <ScrollView
                 Grid.Row="2">
                 <Grid
+                    Grid.Row="2"
                     Margin="10">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -108,110 +108,134 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                 
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
                     <Label
+                        Grid.ColumnSpan="2"
                         Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Resources[label_alt_barcode]}"
                         Grid.Row="0"/>
                     
                     <Label
+                        Grid.ColumnSpan="2"
                         Margin="10,0,0,0"
                         Style="{StaticResource LabelNormalStyle}"
                         Text="--"
                         Grid.Row="1"/>
 
                     <Label
+                        Grid.ColumnSpan="2"
                         Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Resources[label_owner]}"
                         Grid.Row="2"/>
                    
                     <Label
+                        Grid.ColumnSpan="2"
                         Margin="10,0,0,0"
                         Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Owner}"
                         Grid.Row="3"/>
 
                     <Label
+                        Grid.ColumnSpan="2"
                         Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Resources[label_size]}"
                         Grid.Row="4"/>
 
                     <Label
+                        Grid.ColumnSpan="2"
                         Margin="10,0,0,0"
                         Style="{StaticResource LabelNormalStyle}"
-                        Text="{Binding Path=KegStatusModel.SizeName}"
+                        Text="{Binding SizeName}"
                         Grid.Row="5"/>
 
                     <Label
+                        Grid.ColumnSpan="2"
                         Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Resources[label_type]}"
                         Grid.Row="6"/>
 
                     <Label
+                        Grid.ColumnSpan="2"
                         Margin="10,0,0,0"
                         Style="{StaticResource LabelNormalStyle}"
-                        Text="{Binding Path=KegStatusModel.TypeName}"
+                        Text="{Binding TypeName}"
                         Grid.Row="7"/>
 
                     <Label
+                        Grid.ColumnSpan="2"
                         Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Resources[label_more_info]}"
                         Grid.Row="8"/>
 
                     <Label
+                        Grid.ColumnSpan="2"
                         Margin="10,0,0,0"
                         Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding TagsStr}"
                         Grid.Row="9"/>
 
                     <Label
+                        Grid.ColumnSpan="2"
                         Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Resources[label_currentlocation]}"
                         Grid.Row="10"/>
 
                     <Button
+                        Grid.ColumnSpan="2"
                         BackgroundColor="Transparent"
                         TextColor="{StaticResource selectTextColor}"
                         FontSize="{StaticResource AppBarButtonFontSize}"
-                        Text="{Binding Path=KegStatusModel.PossessorName}"
+                        Text="{Binding PossessorName}"
                         Grid.Row="11"
                         HorizontalOptions="Start"
                         Command="{Binding CurrentLocationCommand}"/>
 
                     <Label
+                        Grid.ColumnSpan="2"
                         Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Resources[label_days_at_location]}"
                         Grid.Row="12"/>
 
                     <Label
+                        Grid.ColumnSpan="2"
                         Margin="10,0,0,0"
                         Style="{StaticResource LabelNormalStyle}"
-                        Text="{Binding Path=KegStatusModel.HeldDays}"
+                        Text="{Binding HeldDays,StringFormat='{0} days'}"
                         Grid.Row="13"/>
                     
                     <Label
+                        Grid.ColumnSpan="2"
                         Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Resources[label_contents_keg]}"
                         Grid.Row="14"/>
 
                     <Label
+                        Grid.ColumnSpan="2"
                         Margin="10,0,0,0"
                         Style="{StaticResource LabelNormalStyle}"
-                        Text="{Binding Path=KegStatusModel.Contents}"
+                        Text="{Binding Contents}"
                         Grid.Row="15"/>
                     
                     <Label
+                        Grid.ColumnSpan="2"
                         Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Resources[label_batch]}"
                         Grid.Row="16"/>
 
                     <Label
+                        Grid.ColumnSpan="2"
                         Margin="10,0,0,0"
                         Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Batch}"
                         Grid.Row="17"/>
                     
                     <Button
+                        Grid.ColumnSpan="2"
                         BackgroundColor="Transparent"
                         TextColor="{StaticResource selectTextColor}"
                         FontSize="{StaticResource AppBarButtonFontSize}"
@@ -221,26 +245,31 @@
                         Command="{Binding MoveKegCommand}"/>
                     
                     <Picker
+                        Grid.Column="0"
                         BackgroundColor="Transparent"
                         TextColor="{StaticResource selectTextColor}"
                         Grid.Row="19"
                         Title="Add alert"
-                        HorizontalOptions="Start"
+                        HorizontalOptions="FillAndExpand"
                         ItemDisplayBinding="{Binding Name}"
                         ItemsSource="{Binding MaintenanceCollection}"
                         SelectedItem="{Binding SelectedMaintenance,Mode=TwoWay}"/>
 
                     <Picker
-                        HorizontalOptions="End"
+                        Grid.Column="1"
+                        HorizontalOptions="FillAndExpand"
                         BackgroundColor="Transparent"
                         TextColor="{StaticResource selectTextColor}"
                         Grid.Row="19"
                         Title="Remove alert"
+                        ItemDisplayBinding="{Binding Name}"
                         ItemsSource="{Binding RemoveMaintenanceCollection}"
                         SelectedItem="{Binding RemoveSelecetedMaintenance,Mode=TwoWay}"/>
 
                     <ListView
-                        Margin="0,0,0,20"
+                        VerticalOptions="FillAndExpand"
+                        Grid.ColumnSpan="2"
+                        Margin="0,0,0,10"
                         IsVisible="{Binding IsVisibleListView}"
                         x:Name="lstBarcode"
                         Grid.Row="20"
@@ -310,7 +339,6 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-
                 </Grid>
             </ScrollView>
         </Grid>

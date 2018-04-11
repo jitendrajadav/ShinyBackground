@@ -52,7 +52,8 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand<KegSearchResponseModel> ItemTappedCommand { get; set; }
+        public RelayCommand<KegSearchResponseModel> ItemTappedCommand { get; }
+        public RelayCommand KegSearchCommand { get; }
 
         #endregion
 
@@ -62,21 +63,27 @@ namespace KegID.ViewModel
         {
             _dashboardService = dashboardService;
             ItemTappedCommand = new RelayCommand<KegSearchResponseModel>(execute: (model) => ItemTappedCommandRecieverAsync(model));
+            KegSearchCommand = new RelayCommand(KegSearchCommandRecieverAsync);
         }
 
         #endregion
 
         #region Methods
 
+        private async void KegSearchCommandRecieverAsync()
+        {
+            await Application.Current.MainPage.Navigation.PopModalAsync();
+        }
+
         private async void ItemTappedCommandRecieverAsync(KegSearchResponseModel model)
         {
             await Application.Current.MainPage.Navigation.PushModalAsync(new KegStatusView());
-            await SimpleIoc.Default.GetInstance<KegStatusViewModel>().LoadMaintenanceHistoryAsync(model.KegId,model.Barcode,model.TypeName,model.SizeName);
+            await SimpleIoc.Default.GetInstance<KegStatusViewModel>().LoadMaintenanceHistoryAsync(model.KegId, model.Contents, 4, model.Owner.FullName, model.Barcode, model.TypeName, model.SizeName);
         }
 
         internal async void LoadKegSearchAsync(string barcode)
         {
-            var value = await _dashboardService.GetKegSearchAsync(AppSettings.User.SessionId, barcode, false);
+            var value = await _dashboardService.GetKegSearchAsync(AppSettings.User.SessionId, barcode, true);
             KegSearchCollection = value.KegSearchResponseModel;
         }
 

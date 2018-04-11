@@ -61,7 +61,7 @@
             <Label 
                 Grid.ColumnSpan="2"
                 Grid.Row="1"
-                Text="{Binding Path=KegStatusModel.Barcode, StringFormat=' Barcode   {0}'}"
+                Text="{Binding Barcode, StringFormat=' Barcode   {0}'}"
                 Style="{StaticResource LabelTitleWhiteTextColorStyle}"
                 VerticalOptions="CenterAndExpand"/>
            

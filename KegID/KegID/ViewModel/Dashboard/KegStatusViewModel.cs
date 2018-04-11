@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
 using KegID.Model;
 using KegID.Services;
+using KegID.SQLiteClient;
 using KegID.Views;
 using Xamarin.Forms;
 
@@ -15,45 +17,7 @@ namespace KegID.ViewModel
     public class KegStatusViewModel : BaseViewModel
     {
         #region Properties
-        public IDashboardService _dashboardService { get; set; }
-        public string KegId { get; set; }
-        public string Barcode { get; set; }
-        public string TypeName { get; set; }
-        public string SizeName { get; set; }
-
-        //#region KegStatuModel
-
-        ///// <summary>
-        ///// The <see cref="KegStatusModel" /> property's name.
-        ///// </summary>
-        //public const string KegStatusModelPropertyName = "KegStatusModel";
-
-        //private KegPossessionResponseModel _kegStatusModel = null;
-
-        ///// <summary>
-        ///// Sets and gets the KegStatusModel property.
-        ///// Changes to that property's value raise the PropertyChanged event. 
-        ///// </summary>
-        //public KegPossessionResponseModel KegStatusModel
-        //{
-        //    get
-        //    {
-        //        return _kegStatusModel;
-        //    }
-
-        //    set
-        //    {
-        //        if (_kegStatusModel == value)
-        //        {
-        //            return;
-        //        }
-
-        //        _kegStatusModel = value;
-        //        RaisePropertyChanged(KegStatusModelPropertyName);
-        //    }
-        //}
-
-        //#endregion
+        public IDashboardService DashboardService { get; set; }
 
         #region Owner
 
@@ -62,7 +26,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string OwnerPropertyName = "Owner";
 
-        private string _Owner = "Barcode Brewing";
+        private string _Owner = string.Empty;
 
         /// <summary>
         /// Sets and gets the Owner property.
@@ -84,6 +48,244 @@ namespace KegID.ViewModel
 
                 _Owner = value;
                 RaisePropertyChanged(OwnerPropertyName);
+            }
+        }
+
+        #endregion
+
+        #region SizeName
+
+        /// <summary>
+        /// The <see cref="SizeName" /> property's name.
+        /// </summary>
+        public const string SizeNamePropertyName = "SizeName";
+
+        private string _SizeName = string.Empty;
+
+        /// <summary>
+        /// Sets and gets the SizeName property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public string SizeName
+        {
+            get
+            {
+                return _SizeName;
+            }
+
+            set
+            {
+                if (_SizeName == value)
+                {
+                    return;
+                }
+
+                _SizeName = value;
+                RaisePropertyChanged(SizeNamePropertyName);
+            }
+        }
+
+        #endregion
+
+        #region TypeName
+
+        /// <summary>
+        /// The <see cref="TypeName" /> property's name.
+        /// </summary>
+        public const string TypeNamePropertyName = "TypeName";
+
+        private string _TypeName = string.Empty;
+
+        /// <summary>
+        /// Sets and gets the TypeName property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public string TypeName
+        {
+            get
+            {
+                return _TypeName;
+            }
+
+            set
+            {
+                if (_TypeName == value)
+                {
+                    return;
+                }
+
+                _TypeName = value;
+                RaisePropertyChanged(TypeNamePropertyName);
+            }
+        }
+
+        #endregion
+
+        #region Barcode
+
+        /// <summary>
+        /// The <see cref="Barcode" /> property's name.
+        /// </summary>
+        public const string BarcodePropertyName = "Barcode";
+
+        private string _Barcode = string.Empty;
+
+        /// <summary>
+        /// Sets and gets the Barcode property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public string Barcode
+        {
+            get
+            {
+                return _Barcode;
+            }
+
+            set
+            {
+                if (_Barcode == value)
+                {
+                    return;
+                }
+
+                _Barcode = value;
+                RaisePropertyChanged(BarcodePropertyName);
+            }
+        }
+
+        #endregion
+
+        #region KegId
+
+        /// <summary>
+        /// The <see cref="KegId" /> property's name.
+        /// </summary>
+        public const string KegIdPropertyName = "KegId";
+
+        private string _KegId = string.Empty;
+
+        /// <summary>
+        /// Sets and gets the KegId property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public string KegId
+        {
+            get
+            {
+                return _KegId;
+            }
+
+            set
+            {
+                if (_KegId == value)
+                {
+                    return;
+                }
+
+                _KegId = value;
+                RaisePropertyChanged(KegIdPropertyName);
+            }
+        }
+
+        #endregion
+
+        #region PossessorName
+
+        /// <summary>
+        /// The <see cref="PossessorName" /> property's name.
+        /// </summary>
+        public const string PossessorNamePropertyName = "PossessorName";
+
+        private string _PossessorName = string.Empty;
+
+        /// <summary>
+        /// Sets and gets the PossessorName property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public string PossessorName
+        {
+            get
+            {
+                return _PossessorName;
+            }
+
+            set
+            {
+                if (_PossessorName == value)
+                {
+                    return;
+                }
+
+                _PossessorName = value;
+                RaisePropertyChanged(PossessorNamePropertyName);
+            }
+        }
+
+        #endregion
+
+        #region HeldDays
+
+        /// <summary>
+        /// The <see cref="HeldDays" /> property's name.
+        /// </summary>
+        public const string HeldDaysPropertyName = "HeldDays";
+
+        private long _HeldDays = 0;
+
+        /// <summary>
+        /// Sets and gets the HeldDays property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public long HeldDays
+        {
+            get
+            {
+                return _HeldDays;
+            }
+
+            set
+            {
+                if (_HeldDays == value)
+                {
+                    return;
+                }
+
+                _HeldDays = value;
+                RaisePropertyChanged(HeldDaysPropertyName);
+            }
+        }
+
+        #endregion
+
+        #region Contents
+
+        /// <summary>
+        /// The <see cref="Contents" /> property's name.
+        /// </summary>
+        public const string ContentsPropertyName = "Contents";
+
+        private string _Contents = string.Empty;
+
+        /// <summary>
+        /// Sets and gets the Contents property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public string Contents
+        {
+            get
+            {
+                return _Contents;
+            }
+
+            set
+            {
+                if (_Contents == value)
+                {
+                    return;
+                }
+
+                _Contents = value;
+                RaisePropertyChanged(ContentsPropertyName);
             }
         }
 
@@ -164,7 +366,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string BatchPropertyName = "Batch";
 
-        private string _Batch = "45";
+        private string _Batch = string.Empty;
 
         /// <summary>
         /// Sets and gets the Batch property.
@@ -287,9 +489,11 @@ namespace KegID.ViewModel
                 }
 
                 _SelectedMaintenance = value;
+                AddAlertPerticularKegAsync(_SelectedMaintenance);
                 RaisePropertyChanged(SelectedMaintenancePropertyName);
             }
         }
+
 
         #endregion
 
@@ -300,13 +504,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string RemoveMaintenanceCollectionPropertyName = "RemoveMaintenanceCollection";
 
-        private IList<MaintainTypeReponseModel> _RemoveMaintenanceCollection = null;
+        private IList<MaintenanceAlert> _RemoveMaintenanceCollection = null;
 
         /// <summary>
         /// Sets and gets the RemoveMaintenanceCollection property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public IList<MaintainTypeReponseModel> RemoveMaintenanceCollection
+        public IList<MaintenanceAlert> RemoveMaintenanceCollection
         {
             get
             {
@@ -334,13 +538,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string RemoveSelecetedMaintenancePropertyName = "RemoveSelecetedMaintenance";
 
-        private MaintainTypeReponseModel _RemoveSelecetedMaintenance = null;
+        private MaintenanceAlert _RemoveSelecetedMaintenance = null;
 
         /// <summary>
         /// Sets and gets the RemoveSelecetedMaintenance property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public MaintainTypeReponseModel RemoveSelecetedMaintenance
+        public MaintenanceAlert RemoveSelecetedMaintenance
         {
             get
             {
@@ -355,6 +559,7 @@ namespace KegID.ViewModel
                 }
 
                 _RemoveSelecetedMaintenance = value;
+                RemoveAlertPerticularKegAsync(_RemoveSelecetedMaintenance);
                 RaisePropertyChanged(RemoveSelecetedMaintenancePropertyName);
             }
         }
@@ -442,9 +647,9 @@ namespace KegID.ViewModel
         #endregion
 
         #region Constructor
-        public KegStatusViewModel(IDashboardService dashboardService)
+        public KegStatusViewModel(IDashboardService _dashboardService)
         {
-            _dashboardService = dashboardService;
+            DashboardService = _dashboardService;
             KegsCommand = new RelayCommand(KegsCommandRecieverAsync);
             EditCommand = new RelayCommand(EditCommandRecieverAsync);
             InvalidToolsCommand = new RelayCommand(InvalidToolsCommandRecieverAsync);
@@ -455,30 +660,46 @@ namespace KegID.ViewModel
         #endregion
 
         #region Methods
+
         private async void MoveKegCommandRecieverAsync()
         {
             await Application.Current.MainPage.Navigation.PushModalAsync(new MoveView());
+            SimpleIoc.Default.GetInstance<MoveViewModel>().AssignInitialValue(KegId,Barcode);
         }
 
-        public async Task LoadMaintenanceHistoryAsync(string kegId,string barcode,string typeName,string sizeName)
+        public async Task LoadMaintenanceHistoryAsync(string _kegId,string _contents,long _heldDays,string _possessorName, string _barcode,string _typeName,string _sizeName)
         {
             try
             {
-                //KegStatusModel = model;
-                KegId = kegId;
-                Barcode = barcode;
-                TypeName = typeName;
-                SizeName = sizeName;
+                KegId = _kegId;
+                Contents = _contents == string.Empty ? "--" : _contents;
+                HeldDays = _heldDays;
+                PossessorName = _possessorName;
+                Barcode = _barcode;
+                TypeName = _typeName;
+                SizeName = _sizeName;
 
-                var kegStatus = await _dashboardService.GetKegStatusAsync(KegId, AppSettings.User.SessionId);
-                MaintenanceCollection = kegStatus.MaintenanceAlerts;
+                var kegStatus = await DashboardService.GetKegStatusAsync(KegId, AppSettings.User.SessionId);
 
-                kegId = "6762E448-B6AD-4CE1-BA31-865DF01F6334";
-                var value = await _dashboardService.GetKegMaintenanceHistoryAsync(KegId, AppSettings.User.SessionId);
+                var addMaintenanceCollection = await SQLiteServiceClient.Db.Table<MaintainTypeReponseModel>().ToListAsync();
+                MaintenanceCollection = new List<MaintenanceAlert>();
 
+                foreach (var item in addMaintenanceCollection)
+                {
+                    var flag = kegStatus.MaintenanceAlerts.Where(x => x.Id == item.Id).FirstOrDefault();
+                    if (flag == null)
+                        MaintenanceCollection.Add(new MaintenanceAlert { Id = (int)item.Id, ActivationMethod = (int)item.ActivationMethod, AssetSize = "", AssetType = "", Barcode = "", DefectType = item.DefectType.ToString(), DueDate = DateTime.Now, IsActivated = false, KegId = "", LocationId = "", LocationName = "", Message = "", Name = item.Name, OwnerId = "", OwnerName = "", PalletBarcode = "", PalletId = "", TypeId = 0, TypeName = "" });
+                }
+
+                RemoveMaintenanceCollection = kegStatus.MaintenanceAlerts;
+                Owner = kegStatus.Owner.FullName;
+                Batch = kegStatus.Batch == string.Empty ? "--" : kegStatus.Batch;
+                //KegId = "6762E448-B6AD-4CE1-BA31-865DF01F6334";
+
+                var value = await DashboardService.GetKegMaintenanceHistoryAsync(KegId, AppSettings.User.SessionId);
                 MaintenancePerformedCollection = value.KegMaintenanceHistoryResponseModel;
 
-                if (value.KegMaintenanceHistoryResponseModel != null)
+                if (value.KegMaintenanceHistoryResponseModel.Count > 0)
                     IsVisibleListView = true;
                 else
                     IsVisibleListView = false;
@@ -496,7 +717,7 @@ namespace KegID.ViewModel
 
         private async void EditCommandRecieverAsync()
         {
-            SimpleIoc.Default.GetInstance<EditKegViewModel>().AssingInitialValue(KegId,Barcode, TypeName,SizeName);
+            SimpleIoc.Default.GetInstance<EditKegViewModel>().AssingInitialValue(KegId,Barcode, Owner, TypeName,SizeName);
             await Application.Current.MainPage.Navigation.PushModalAsync(new EditKegView());
         }
 
@@ -507,7 +728,7 @@ namespace KegID.ViewModel
 
             try
             {
-                model = await _dashboardService.GetKegMaintenanceAlertAsync(KegId, AppSettings.User.SessionId);
+                model = await DashboardService.GetKegMaintenanceAlertAsync(KegId, AppSettings.User.SessionId);
                 if (model != null)
                 {
                     foreach (var item in model.MaintenanceAlertResponseModel)
@@ -532,6 +753,34 @@ namespace KegID.ViewModel
         private async void CurrentLocationCommandRecieverAsync()
         {
             await Application.Current.MainPage.Navigation.PushModalAsync(new PartnerInfoMapView());
+        }
+
+        private async void AddAlertPerticularKegAsync(MaintenanceAlert _model)
+        {
+            var model = new AddMaintenanceAlertRequestModel
+            {
+                AlertCc = "",
+                DueDate = _model.DueDate,
+                KegId = KegId,
+                Message = _model.Message,
+                NeededTypes = new List<long>(),
+                ReminderDays = 5
+            };
+            await DashboardService.PostMaintenanceAlertAsync(model, AppSettings.User.SessionId, Configuration.PostedMaintenanceAlert);
+        }
+
+        private async void RemoveAlertPerticularKegAsync(MaintenanceAlert _model)
+        {
+            var model = new AddMaintenanceAlertRequestModel
+            {
+                AlertCc = "",
+                DueDate = _model.DueDate,
+                KegId = KegId,
+                Message = _model.Message,
+                NeededTypes = new List<long>(),
+                ReminderDays = 5
+            };
+            await DashboardService.PostMaintenanceDeleteAlertUrlAsync(model, AppSettings.User.SessionId, Configuration.PostedMaintenanceAlert);
         }
 
         #endregion

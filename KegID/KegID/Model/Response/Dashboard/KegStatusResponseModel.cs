@@ -95,7 +95,7 @@ namespace KegID.Model
         public DateTime DueDate { get; set; }
         public bool IsActivated { get; set; }
         public int ActivationMethod { get; set; }
-        public object Message { get; set; }
+        public string Message { get; set; }
         public string OwnerId { get; set; }
         public string OwnerName { get; set; }
         public string LocationId { get; set; }

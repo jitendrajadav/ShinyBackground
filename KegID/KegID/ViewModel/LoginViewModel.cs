@@ -117,7 +117,8 @@ namespace KegID.ViewModel
 
         #endregion
 
-        public IAccountService _accountService { get; set; }
+        public IAccountService AccountService { get; set; }
+        public IMaintainService MaintainService { get; set; }
 
         #endregion
 
@@ -129,11 +130,12 @@ namespace KegID.ViewModel
         #endregion
 
         #region Constructor
-        public LoginViewModel(IAccountService accountService)
+        public LoginViewModel(IAccountService _accountService, IMaintainService _maintainService)
         {
+            AccountService = _accountService;
+            MaintainService = _maintainService;
             LoginCommand = new RelayCommand(LoginCommandRecieverAsync);
             KegIDCommand = new RelayCommand(KegIDCommandReciever);
-            _accountService = accountService;
 
             Username = "test@kegid.com";
             Password = "beer2keg";
@@ -158,7 +160,7 @@ namespace KegID.ViewModel
             try
             {
                 Loader.StartLoading();
-                var model = await _accountService.AuthenticateAsync(Username, Password);
+                var model = await AccountService.AuthenticateAsync(Username, Password);
                 if (model.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     try
@@ -171,14 +173,23 @@ namespace KegID.ViewModel
                             UserId = model.LoginModel.UserId,
                             SessionExpires = model.LoginModel.SessionExpires
                         };
-
-                        var value = await SQLiteServiceClient.Db.InsertAllAsync(model.LoginModel.Preferences);
                     }
                     catch (Exception ex)
                     {
                         Debug.WriteLine(ex.Message);
                     }
                     await Application.Current.MainPage.Navigation.PushModalAsync(new MainPage());
+                    try
+                    {
+                        var value = await SQLiteServiceClient.Db.InsertAllAsync(model.LoginModel.Preferences);
+                        var maintenance = await MaintainService.GetMaintainTypeAsync(AppSettings.User.SessionId);
+                        await SQLiteServiceClient.Db.InsertAllAsync(maintenance.MaintainTypeReponseModel);
+                    }
+                    catch (Exception ex)
+                    {
+
+                        Debug.WriteLine(ex.Message);
+                    }
                 }
                 else
                 {

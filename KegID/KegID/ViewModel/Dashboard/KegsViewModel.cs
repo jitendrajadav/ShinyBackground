@@ -111,7 +111,7 @@ namespace KegID.ViewModel
         {
             //SimpleIoc.Default.GetInstance<KegStatusViewModel>().KegStatusModel = model;
             await Application.Current.MainPage.Navigation.PushModalAsync(new KegStatusView());
-            await SimpleIoc.Default.GetInstance<KegStatusViewModel>().LoadMaintenanceHistoryAsync(model.KegId,model.Barcode,model.TypeName,model.SizeName);
+            await SimpleIoc.Default.GetInstance<KegStatusViewModel>().LoadMaintenanceHistoryAsync(model.KegId,model.Contents,model.HeldDays,model.PossessorName,model.Barcode,model.TypeName,model.SizeName);
         }
 
         private async void LoadKegPossessionAsync()
