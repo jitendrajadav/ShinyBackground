@@ -130,6 +130,7 @@ namespace KegID.ViewModel
         #endregion
 
         #region Constructor
+
         public LoginViewModel(IAccountService _accountService, IMaintainService _maintainService)
         {
             AccountService = _accountService;
@@ -212,6 +213,7 @@ namespace KegID.ViewModel
             AppSettings.RemoveUserData();
             await Application.Current.MainPage.Navigation.PushModalAsync(new LoginView());
         }
+
         #endregion
     }
 }

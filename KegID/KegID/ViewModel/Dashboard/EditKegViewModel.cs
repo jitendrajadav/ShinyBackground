@@ -13,7 +13,6 @@ namespace KegID.ViewModel
     {
         #region Properties
         public IDashboardService DashboardService { get; set; }
-
         public string KegId { get; set; }
         public string Barcode { get; set; }
         public string TypeName { get; set; }

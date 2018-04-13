@@ -17,6 +17,7 @@ namespace KegID.ViewModel
     public class BatchViewModel : BaseViewModel
     {
         #region Properties
+
         public IFillService _fillService { get; set; }
 
         #region BatchCollection
@@ -56,8 +57,10 @@ namespace KegID.ViewModel
         #endregion
 
         #region Commands
+
         public RelayCommand<BatchModel> ItemTappedCommand { get;}
         public RelayCommand AddBatchCommand { get; }
+
         #endregion
 
         #region Constructor
@@ -121,6 +124,7 @@ namespace KegID.ViewModel
             }
             return BatchCollection;
         }
+
         #endregion
     }
 }

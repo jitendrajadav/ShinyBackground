@@ -53,20 +53,22 @@ namespace KegID.ViewModel
         #endregion
 
         #region Constructor
+
         public BrandViewModel()
         {
             ItemTappedCommand = new RelayCommand<BrandModel>((model)=>ItemTappedCommandRecieverAsync(model));
             LoadBrand();
         }
 
+        #endregion
+
+        #region Methods
+
         private async void LoadBrand()
         {
             BrandCollection = await SimpleIoc.Default.GetInstance<ScanKegsViewModel>().LoadBrandAsync();
         }
 
-        #endregion
-
-        #region Methods
         private async void ItemTappedCommandRecieverAsync(BrandModel model)
         {
             SimpleIoc.Default.GetInstance<AddBatchViewModel>().BrandModel = model;

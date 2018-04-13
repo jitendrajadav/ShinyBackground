@@ -1,5 +1,4 @@
-﻿using GalaSoft.MvvmLight;
-using KegID.Model;
+﻿using KegID.Model;
 using KegID.Views;
 using System.Collections.ObjectModel;
 

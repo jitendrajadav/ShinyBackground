@@ -34,3 +34,4 @@
 /KegID.RuntimeComponent/obj/x64/Release/KegID.RuntimeComponent.csproj.CoreCompileInputs.cache
 /KegID/KegID/bin/Release/netstandard2.0
 /KegID/KegID.UWP/bin
+/KegID/KegID.Android/bin/Release

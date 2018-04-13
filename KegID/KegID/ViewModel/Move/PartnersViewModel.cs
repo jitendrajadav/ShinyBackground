@@ -11,7 +11,6 @@ using System.Collections.Generic;
 using KegID.Model;
 using System.Diagnostics;
 using System;
-using System.Threading.Tasks;
 
 namespace KegID.ViewModel
 {
@@ -22,7 +21,6 @@ namespace KegID.ViewModel
         public IMoveService _moveService { get; set; }
 
         private const int PageSize = 20;
-
 
         #region IsWorking
 
@@ -276,9 +274,11 @@ namespace KegID.ViewModel
         public RelayCommand AddNewPartnerCommand { get; }
         public RelayCommand BackCommand { get; }
         public RelayCommand TextChangedCommand { get; }
+        
         #endregion
 
         #region Constructor
+
         public PartnersViewModel(IMoveService moveService)
         {
             _moveService = moveService;
@@ -318,36 +318,29 @@ namespace KegID.ViewModel
                 switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack[Application.Current.MainPage.Navigation.ModalStack.Count - 2].GetType().Name))
                 {
                     case ViewTypeEnum.SearchManifestsView:
-                        if (SimpleIoc.Default.GetInstance<SearchManifestsViewModel>().IsManifestDestination)
-                        {
-                            SimpleIoc.Default.GetInstance<SearchManifestsViewModel>().IsManifestDestination = false;
-                            SimpleIoc.Default.GetInstance<SearchManifestsViewModel>().ManifestDestination = model.FullName;
-                        }
-                        else
-                            SimpleIoc.Default.GetInstance<SearchManifestsViewModel>().ManifestSender = model.FullName;
+                        SimpleIoc.Default.GetInstance<SearchManifestsViewModel>().AssignPartnerValue(model);
                         break;
-                        case ViewTypeEnum.MoveView:
+
+                    case ViewTypeEnum.MoveView:
                         SimpleIoc.Default.GetInstance<MoveViewModel>().PartnerModel = model;
                         break;
+
                     case ViewTypeEnum.FillView:
                         SimpleIoc.Default.GetInstance<FillViewModel>().PartnerModel = model;
-                        PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners);
                         break;
+
                     case ViewTypeEnum.PalletizeView:
-                        if (SimpleIoc.Default.GetInstance<PalletizeViewModel>().TargetLocationPartner)
-                        {
-                            SimpleIoc.Default.GetInstance<PalletizeViewModel>().TargetLocationPartner = false;
-                            SimpleIoc.Default.GetInstance<PalletizeViewModel>().TargetLocation = model;
-                        }
-                        else
-                            SimpleIoc.Default.GetInstance<PalletizeViewModel>().StockLocation = model;
+                        SimpleIoc.Default.GetInstance<PalletizeViewModel>().AssignPartnerValue(model);
                         break;
+
                     case ViewTypeEnum.MaintainView:
                         SimpleIoc.Default.GetInstance<MaintainViewModel>().PartnerModel = model;
                         break;
+
                     case ViewTypeEnum.EditKegView:
                         SimpleIoc.Default.GetInstance<EditKegViewModel>().PartnerModel = model;
                         break;
+
                     case ViewTypeEnum.SearchPalletView:
                         SimpleIoc.Default.GetInstance<SearchPalletViewModel>().PartnerModel = model;
                         break;
@@ -356,6 +349,7 @@ namespace KegID.ViewModel
                         break;
                 }
                 await Application.Current.MainPage.Navigation.PopModalAsync();
+                Cleanup();
             }
         }
 
@@ -404,6 +398,7 @@ namespace KegID.ViewModel
                 Loader.StopLoading();
             }
         }
+
         private void AlphabeticalCommandReciever()
         {
             if (BrewerStockOn)

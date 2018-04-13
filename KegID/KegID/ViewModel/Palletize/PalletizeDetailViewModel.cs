@@ -15,8 +15,8 @@ namespace KegID.ViewModel
     public class PalletizeDetailViewModel : BaseViewModel
     {
         #region Properties
-        public IMoveService _moveService { get; set; }
 
+        public IMoveService _moveService { get; set; }
         public SearchPalletResponseModel Model { get; set; }
 
         #region ManifestId
@@ -315,6 +315,10 @@ namespace KegID.ViewModel
             EditPalletCommand = new RelayCommand(EditPalletCommandRecieverAsync);
         }
 
+        #endregion
+
+        #region Methods
+
         private async void EditPalletCommandRecieverAsync()
         {
             await Application.Current.MainPage.Navigation.PushModalAsync(new PalletizeView());
@@ -325,10 +329,6 @@ namespace KegID.ViewModel
         {
             await Application.Current.MainPage.Navigation.PushModalAsync(new MoveView());
         }
-
-        #endregion
-
-        #region Methods
 
         private async void GridTappedCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new ContentTagsView());
 

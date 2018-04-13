@@ -13,6 +13,7 @@ namespace KegID.ViewModel
     public class SettingViewModel : BaseViewModel
     {
         #region Properties
+
         public IDashboardService _dashboardService { get; set; }
 
         #endregion
@@ -41,6 +42,7 @@ namespace KegID.ViewModel
         #endregion
 
         #region Methods
+
         private void RefreshSettingCommandRecieverAsync()
         {
             SimpleIoc.Default.GetInstance<DashboardViewModel>().RefreshDashboardRecieverAsync(true);
@@ -92,7 +94,7 @@ namespace KegID.ViewModel
                 Device.OpenUri(new Uri("https://www.slg.com/"));
             });
         }
-        #endregion
 
+        #endregion
     }
 }

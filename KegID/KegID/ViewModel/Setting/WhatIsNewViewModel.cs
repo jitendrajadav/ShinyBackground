@@ -49,6 +49,7 @@ namespace KegID.ViewModel
         #endregion
 
         #region Constructor
+
         public WhatIsNewViewModel() => WhatsNewItemsSource = new ObservableCollection<View>()
             {
                 new CachedImage() { Source = "new0.png", DownsampleToViewSize = false, Aspect = Aspect.Fill },

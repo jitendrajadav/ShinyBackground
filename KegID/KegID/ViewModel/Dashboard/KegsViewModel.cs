@@ -13,6 +13,7 @@ namespace KegID.ViewModel
     public class KegsViewModel : BaseViewModel
     {
         #region Properties
+
         public IDashboardService _dashboardService { get; set; }
 
         #region KegsTitle
@@ -84,12 +85,14 @@ namespace KegID.ViewModel
         #endregion
 
         #region Commands
+
         public RelayCommand PartnerInfoCommand { get; }
         public RelayCommand<KegPossessionResponseModel> ItemTappedCommand { get; }
 
         #endregion
 
         #region Constructor
+
         public KegsViewModel(IDashboardService dashboardService)
         {
             _dashboardService = dashboardService;

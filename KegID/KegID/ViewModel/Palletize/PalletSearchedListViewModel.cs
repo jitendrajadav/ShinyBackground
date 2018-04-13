@@ -12,6 +12,7 @@ namespace KegID.ViewModel
     public class PalletSearchedListViewModel : BaseViewModel
     {
         #region Properties
+
         public IDashboardService _dashboardService { get; set; }
 
         #region PalletSearchCollection
@@ -51,6 +52,7 @@ namespace KegID.ViewModel
         #endregion
 
         #region Commands
+
         public RelayCommand BackCommand { get; }
         public RelayCommand<SearchPalletResponseModel> ItemTappedCommand { get;}
 
@@ -66,10 +68,10 @@ namespace KegID.ViewModel
             ItemTappedCommand = new RelayCommand<SearchPalletResponseModel>((model) => ItemTappedCommandRecieverAsync(model));
         }
 
-
         #endregion
 
         #region Methods
+
         private async void BackCommandRecieverAsync()
         {
            await Application.Current.MainPage.Navigation.PopModalAsync();

@@ -445,6 +445,10 @@ namespace KegID.ViewModel
             VolumeCharCommand = new RelayCommand(VolumeCharCommandRecieverAsync);
         }
 
+        #endregion
+
+        #region Methods
+
         private async void VolumeCharCommandRecieverAsync()
         {
             await Application.Current.MainPage.Navigation.PushModalAsync(new VolumeView());
@@ -454,10 +458,6 @@ namespace KegID.ViewModel
         {
             await Application.Current.MainPage.Navigation.PushModalAsync(new BrandView());
         }
-
-        #endregion
-
-        #region Methods
 
         private async void DoneCommandRecieverAsync()
         {
@@ -496,6 +496,5 @@ namespace KegID.ViewModel
         }
 
         #endregion
-
     }
 }

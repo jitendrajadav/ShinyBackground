@@ -78,7 +78,7 @@ namespace KegID.Common
                 position = await locator.GetPositionAsync(TimeSpan.FromSeconds(20), null, true);
 
             }
-            catch (Exception ex)
+            catch 
             {
                 //Display error as we have timed out or can't get location.
                 return position;

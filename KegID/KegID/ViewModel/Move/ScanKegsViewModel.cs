@@ -123,6 +123,7 @@ namespace KegID.ViewModel
             }
         }
 
+
         #endregion
 
         #region ManaulBarcode
@@ -357,7 +358,7 @@ namespace KegID.ViewModel
             else
             {
                 await Application.Current.MainPage.Navigation.PushModalAsync(new ScanInfoView());
-                SimpleIoc.Default.GetInstance<ScanInfoViewModel>().LoadInfoAsync(model.Id);
+                SimpleIoc.Default.GetInstance<ScanInfoViewModel>().AssignInitialValue(model.Id);
             }
         }
 
@@ -377,21 +378,13 @@ namespace KegID.ViewModel
             switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack[Application.Current.MainPage.Navigation.ModalStack.Count - 2].GetType().Name))
             {
                 case ViewTypeEnum.MoveView:
-                    if (BarcodeCollection.Count > 1)
-                        SimpleIoc.Default.GetInstance<MoveViewModel>().AddKegs = string.Format("{0} Items", BarcodeCollection.Count);
-                    else if (BarcodeCollection.Count == 1)
-                        SimpleIoc.Default.GetInstance<MoveViewModel>().AddKegs = string.Format("{0} Item", BarcodeCollection.Count);
-                    if (!SimpleIoc.Default.GetInstance<MoveViewModel>().IsSubmitVisible)
-                        SimpleIoc.Default.GetInstance<MoveViewModel>().IsSubmitVisible = true;
+                    SimpleIoc.Default.GetInstance<MoveViewModel>().AssingScanKegsValue(BarcodeCollection);
                     break;
+
                 case ViewTypeEnum.PalletizeView:
-                    if (BarcodeCollection.Count > 1)
-                        SimpleIoc.Default.GetInstance<PalletizeViewModel>().AddKegs = string.Format("{0} Items", BarcodeCollection.Count);
-                    else if (BarcodeCollection.Count == 1)
-                        SimpleIoc.Default.GetInstance<PalletizeViewModel>().AddKegs = string.Format("{0} Item", BarcodeCollection.Count);
-                    if (!SimpleIoc.Default.GetInstance<PalletizeViewModel>().IsSubmitVisible)
-                        SimpleIoc.Default.GetInstance<PalletizeViewModel>().IsSubmitVisible = true;
+                    SimpleIoc.Default.GetInstance<PalletizeViewModel>().AssingScanKegsValue(BarcodeCollection);
                     break;
+
                 default:
                     break;
             }
@@ -406,7 +399,8 @@ namespace KegID.ViewModel
 
         internal void AssignInitialValue(string _barcode)
         {
-            BarcodeCollection.Add(new Barcode { Id = _barcode });
+            if (!string.IsNullOrEmpty(_barcode))
+                BarcodeCollection.Add(new Barcode { Id = _barcode });
         }
 
         private async void BarcodeManualCommandRecieverAsync()
@@ -420,6 +414,12 @@ namespace KegID.ViewModel
         {
            var value = await BarcodeScanner.BarcodeScanAsync(_moveService);
             BarcodeCollection = new ObservableCollection<Barcode>(value);
+        }
+
+        internal void AssignValidatedValue(Partner model)
+        {
+            BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = GetIconByPlatform.GetIcon("validationquestion.png");
+            BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().PartnerCount = 1;
         }
 
         public override void Cleanup()

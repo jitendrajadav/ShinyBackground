@@ -178,6 +178,7 @@ namespace KegID.ViewModel
                 await Application.Current.MainPage.Navigation.PopModalAsync();
             }
         }
+
         #endregion
     }
 }

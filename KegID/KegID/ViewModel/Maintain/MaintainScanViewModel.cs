@@ -19,6 +19,7 @@ namespace KegID.ViewModel
     public class MaintainScanViewModel : BaseViewModel
     {
         #region Properties
+
         public IMoveService _moveService { get; set; }
         public IMaintainService _maintainService { get; set; }
         public IList<MaintainTypeReponseModel> MaintainTypeReponseModel { get; set; }
@@ -105,6 +106,7 @@ namespace KegID.ViewModel
         #endregion
 
         #region Constructor
+
         public MaintainScanViewModel(IMoveService moveService, IMaintainService maintainService)
         {
             _moveService = moveService;
@@ -144,6 +146,12 @@ namespace KegID.ViewModel
             }
         }
 
+        internal void AssignValidatedValue(Partner model)
+        {
+            BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = GetIconByPlatform.GetIcon("validationquestion.png");
+            BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().PartnerCount = 1;
+        }
+
         private async void LabelItemTappedCommandRecieverAsync(Barcode model)
         {
 
@@ -174,7 +182,7 @@ namespace KegID.ViewModel
             else
             {
                 await Application.Current.MainPage.Navigation.PushModalAsync(new ScanInfoView());
-                SimpleIoc.Default.GetInstance<ScanInfoViewModel>().LoadInfoAsync(model.Id);
+                SimpleIoc.Default.GetInstance<ScanInfoViewModel>().AssignInitialValue(model.Id);
             }
         }
 
@@ -218,23 +226,27 @@ namespace KegID.ViewModel
 
                     foreach (var item in BarcodeCollection)
                     {
-                        keg = new MaintainKeg();
-                        keg.Barcode = item.Id;
-                        //keg.BatchId = Uuid.GetUuId();
-                        //keg.Contents = "";
-                        //keg.HeldOnPalletId = Uuid.GetUuId();
-                        //keg.KegId = Uuid.GetUuId();
-                        //keg.Message = SimpleIoc.Default.GetInstance<MaintainViewModel>().Notes;
-                        //keg.PalletId = Uuid.GetUuId();
-                        keg.ScanDate = DateTimeOffset.Now;
-                        //keg.SkuId = Uuid.GetUuId();
-                        keg.Tags = new List<KegTag>();
-                        keg.ValidationStatus = 4;
+                        keg = new MaintainKeg
+                        {
+                            Barcode = item.Id,
+                            //keg.BatchId = Uuid.GetUuId();
+                            //keg.Contents = "";
+                            //keg.HeldOnPalletId = Uuid.GetUuId();
+                            //keg.KegId = Uuid.GetUuId();
+                            //keg.Message = SimpleIoc.Default.GetInstance<MaintainViewModel>().Notes;
+                            //keg.PalletId = Uuid.GetUuId();
+                            ScanDate = DateTimeOffset.Now,
+                            //keg.SkuId = Uuid.GetUuId();
+                            Tags = new List<KegTag>(),
+                            ValidationStatus = 4
+                        };
                         kegs.Add(keg);
                     }
 
-                    MaintenanceDoneModel model = new MaintenanceDoneModel();
-                    model.MaintenanceDoneRequestModel = new MaintenanceDoneRequestModel();
+                    MaintenanceDoneModel model = new MaintenanceDoneModel
+                    {
+                        MaintenanceDoneRequestModel = new MaintenanceDoneRequestModel()
+                    };
                     model.MaintenanceDoneRequestModel.ActionsPerformed = SimpleIoc.Default.GetInstance<MaintainViewModel>().MaintenancePerformed.ToList();
                     model.MaintenanceDoneRequestModel.DatePerformed = DateTimeOffset.Now.AddDays(-2);
                     model.MaintenanceDoneRequestModel.Kegs = kegs;

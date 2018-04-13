@@ -7,7 +7,6 @@ using KegID.Views;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -85,18 +84,11 @@ namespace KegID.ViewModel
             try
             {
                 Loader.StartLoading();
+
                 var manifest = await _moveService.GetManifestAsync(AppSettings.User.SessionId, model.ManifestId);
                 if (manifest.StatusCode == System.Net.HttpStatusCode.OK)
                 {
-                    SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().TrackingNumber = manifest.TrackingNumber;
-
-                    SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ManifestTo = manifest.CreatorCompany.FullName + "\n" + manifest.CreatorCompany.PartnerTypeName;
-
-                    SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ShippingDate = Convert.ToDateTime(manifest.ShipDate);
-                    SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ItemCount = manifest.ManifestItems.Count;
-                    SimpleIoc.Default.GetInstance<ContentTagsViewModel>().ContentCollection = manifest.ManifestItems.Select(x=>x.Barcode).ToList();
-
-                    SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().Contents = !string.IsNullOrEmpty(manifest.ManifestItems.FirstOrDefault().Contents) ? manifest.ManifestItems.FirstOrDefault().Contents : "No contens";
+                    SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().AssignInitialValue(manifest);
 
                     Loader.StopLoading();
                     await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestDetailView());
@@ -111,7 +103,7 @@ namespace KegID.ViewModel
                 Loader.StopLoading();
             }
         }
-        #endregion
 
+        #endregion
     }
 }

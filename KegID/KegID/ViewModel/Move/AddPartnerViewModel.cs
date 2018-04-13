@@ -887,6 +887,7 @@ namespace KegID.ViewModel
         #endregion
 
         #region Constructor
+
         public AddPartnerViewModel(IMoveService moveService)
         {
             _moveService = moveService;

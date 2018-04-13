@@ -216,6 +216,7 @@ namespace KegID.ViewModel
         #endregion
 
         #region Commands
+
         public RelayCommand DoneCommand { get; }
 
         #endregion
@@ -235,11 +236,11 @@ namespace KegID.ViewModel
             await Application.Current.MainPage.Navigation.PopModalAsync();
         }
 
-        internal async void LoadInfoAsync(string id)
+        internal async void AssignInitialValue(string _barcode)
         {
-            var value = await SQLiteServiceClient.Db.Table<ValidatePartnerModel>().Where(x => x.Barcode == id).ToListAsync();
+            var value = await SQLiteServiceClient.Db.Table<ValidatePartnerModel>().Where(x => x.Barcode == _barcode).ToListAsync();
 
-            Barcode = string.Format(" Barcode {0} ", id);
+            Barcode = string.Format(" Barcode {0} ", _barcode);
             Ownername = value.FirstOrDefault().FullName;
             Size = value.FirstOrDefault().Size;
             Contents = value.FirstOrDefault().Contents;

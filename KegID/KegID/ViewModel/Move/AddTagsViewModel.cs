@@ -1,5 +1,4 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
+﻿using GalaSoft.MvvmLight.Command;
 using System;
 
 namespace KegID.ViewModel
@@ -75,7 +74,6 @@ namespace KegID.ViewModel
         }
 
         #endregion
-
 
         #endregion
 

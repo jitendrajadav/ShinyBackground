@@ -19,6 +19,7 @@ namespace KegID.ViewModel
     public class FillScanViewModel : BaseViewModel
     {
         #region Properties
+
         public IMoveService _moveService { get; set; }
 
         #region ManifestId
@@ -374,7 +375,7 @@ namespace KegID.ViewModel
             else
             {
                 await Application.Current.MainPage.Navigation.PushModalAsync(new ScanInfoView());
-                SimpleIoc.Default.GetInstance<ScanInfoViewModel>().LoadInfoAsync(model.Id);
+                SimpleIoc.Default.GetInstance<ScanInfoViewModel>().AssignInitialValue(model.Id);
             }
         }
 
@@ -412,31 +413,7 @@ namespace KegID.ViewModel
             if (result.Count > 0)
                 await NavigateToValidatePartner(result.ToList());
             else
-                await AssignValueToAddPallet(ManifestId, BarcodeCollection);
-        }
-
-        private async Task AssignValueToAddPallet(string manifestId, IList<Barcode> barcodes)
-        {
-            if (!SimpleIoc.Default.GetInstance<AddPalletsViewModel>().PalletCollection.Any(x => x.ManifestId == manifestId))
-            {
-                SimpleIoc.Default.GetInstance<AddPalletsViewModel>().PalletCollection.Add(new PalletModel() { Barcode = barcodes, Count = barcodes.Count(), ManifestId = manifestId });
-
-                if (SimpleIoc.Default.GetInstance<AddPalletsViewModel>().PalletCollection.Sum(x => x.Count) > 1)
-                    SimpleIoc.Default.GetInstance<AddPalletsViewModel>().Kegs = string.Format("({0} Kegs)", SimpleIoc.Default.GetInstance<AddPalletsViewModel>().PalletCollection.Sum(x => x.Count));
-                else
-                    SimpleIoc.Default.GetInstance<AddPalletsViewModel>().Kegs = string.Format("({0} Keg)", SimpleIoc.Default.GetInstance<AddPalletsViewModel>().PalletCollection.Sum(x => x.Count));
-            }
-            else
-            {
-                SimpleIoc.Default.GetInstance<AddPalletsViewModel>().PalletCollection.Where(x => x.ManifestId == manifestId).FirstOrDefault().Barcode = BarcodeCollection;
-                SimpleIoc.Default.GetInstance<AddPalletsViewModel>().PalletCollection.Where(x => x.ManifestId == manifestId).FirstOrDefault().Count = BarcodeCollection.Count;
-
-                if (SimpleIoc.Default.GetInstance<AddPalletsViewModel>().PalletCollection.Sum(x => x.Count) > 1)
-                    SimpleIoc.Default.GetInstance<AddPalletsViewModel>().Kegs = string.Format("({0} Kegs)", SimpleIoc.Default.GetInstance<AddPalletsViewModel>().PalletCollection.Sum(x => x.Count));
-                else
-                    SimpleIoc.Default.GetInstance<AddPalletsViewModel>().Kegs = string.Format("({0} Keg)", SimpleIoc.Default.GetInstance<AddPalletsViewModel>().PalletCollection.Sum(x => x.Count));
-            }
-            await Application.Current.MainPage.Navigation.PopModalAsync();
+                await SimpleIoc.Default.GetInstance<AddPalletsViewModel>().AssignValueToAddPalletAsync(ManifestId, BarcodeCollection);
         }
 
         private async void CancelCommandRecieverAsync()
@@ -453,6 +430,12 @@ namespace KegID.ViewModel
         private async void AddTagsCommandRecieverAsync()
         {
             await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView());
+        }
+
+        internal void AssignValidatedValue(Partner model)
+        {
+            BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = GetIconByPlatform.GetIcon("validationquestion.png");
+            BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().PartnerCount = 1;
         }
 
         #endregion

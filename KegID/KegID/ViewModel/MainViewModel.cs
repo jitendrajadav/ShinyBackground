@@ -150,12 +150,12 @@ namespace KegID.ViewModel
         #region Commands
 
         public RelayCommand GotoDetailPage { get; }
-
         public RelayCommand<Barcode> ItemSelectedCommand { get; }
-
         public RelayCommand<Barcode> ItemTappedCommand { get; }
 
         #endregion
+
+        #region Constructor
 
         public MainViewModel()
         {
@@ -166,7 +166,9 @@ namespace KegID.ViewModel
             ItemSelectedCommand = new RelayCommand<Barcode>((model) => ItemSelectedCommandReciever(model));
             ItemTappedCommand = new RelayCommand<Barcode>((model) => ItemTappedCommandReciever(model));
 
-        }
+        } 
+
+        #endregion
 
         #region Methods
 
@@ -184,8 +186,7 @@ namespace KegID.ViewModel
         {
             //Application.Current.MainPage.Navigation.PushModalAsync(new DetailView());
         } 
+
         #endregion
-
     }
-
 }

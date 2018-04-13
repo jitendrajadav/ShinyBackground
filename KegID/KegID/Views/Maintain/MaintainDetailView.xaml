@@ -212,7 +212,7 @@
                     VerticalTextAlignment="Center"
                     VerticalOptions="FillAndExpand"
                     Style="{StaticResource LabelNormalStyle}"
-                    Text="{Binding Resources[label_size]}"/>
+                    Text="{Binding Resources[tag_size]}"/>
 
                 <Label
                     Grid.Column="3"

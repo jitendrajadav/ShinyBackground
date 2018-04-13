@@ -1,5 +1,4 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
+﻿using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using KegID.Model;
 using Xamarin.Forms;
@@ -285,13 +284,14 @@ namespace KegID.ViewModel
         #endregion
 
         #region Commands
-        public RelayCommand BackCommand { get; }
 
+        public RelayCommand BackCommand { get; }
         public RelayCommand DoneCommand { get; }
        
         #endregion
 
         #region Constructor
+
         public EditAddressViewModel()
         {
             BackCommand = new RelayCommand(BackCommandRecieverAsync);

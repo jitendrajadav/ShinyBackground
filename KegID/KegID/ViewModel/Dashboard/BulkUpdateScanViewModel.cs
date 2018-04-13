@@ -3,12 +3,10 @@ using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
 using KegID.Model;
 using KegID.Services;
-using KegID.SQLiteClient;
 using KegID.Views;
 using Rg.Plugins.Popup.Extensions;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -288,6 +286,7 @@ namespace KegID.ViewModel
         #endregion
 
         #region Methods
+
         private async void IconItemTappedCommandRecieverAsync(Barcode model)
         {
             if (model.PartnerCount > 1)
@@ -301,14 +300,7 @@ namespace KegID.ViewModel
             else
             {
                 await Application.Current.MainPage.Navigation.PushModalAsync(new ScanInfoView());
-                var value = await SQLiteServiceClient.Db.Table<ValidatePartnerModel>().Where(x => x.Barcode == model.Id).ToListAsync();
-
-                SimpleIoc.Default.GetInstance<ScanInfoViewModel>().Barcode = string.Format(" Barcode {0} ", model.Id);
-                SimpleIoc.Default.GetInstance<ScanInfoViewModel>().Ownername = value.FirstOrDefault().FullName;
-                SimpleIoc.Default.GetInstance<ScanInfoViewModel>().Size = value.FirstOrDefault().Size;
-                SimpleIoc.Default.GetInstance<ScanInfoViewModel>().Contents = value.FirstOrDefault().Contents;
-                SimpleIoc.Default.GetInstance<ScanInfoViewModel>().Batch = value.FirstOrDefault().Batch;
-                SimpleIoc.Default.GetInstance<ScanInfoViewModel>().Location = value.FirstOrDefault().Location;
+                SimpleIoc.Default.GetInstance<ScanInfoViewModel>().AssignInitialValue(model.Id);
             }
         }
 

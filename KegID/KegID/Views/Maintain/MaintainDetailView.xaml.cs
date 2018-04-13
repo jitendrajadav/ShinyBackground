@@ -1,6 +1,7 @@
 ﻿
 using GalaSoft.MvvmLight.Ioc;
 using KegID.ViewModel;
+using System.Diagnostics;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -17,17 +18,24 @@ namespace KegID.Views
 
         public void GenerateDynamicMaintenancePerformed()
         {
-            foreach (var item in SimpleIoc.Default.GetInstance<MaintainViewModel>().MaintenancePerformedCollection)
+            try
             {
-                Label PerformedLabel = new Label()
+                foreach (var item in SimpleIoc.Default.GetInstance<MaintainViewModel>().MaintenancePerformedCollection)
                 {
-                    VerticalOptions = LayoutOptions.Center,
-                    Text = item,
-                    Style = (Style)Application.Current.Resources["LabelTitleStyle"],
-                    TextColor = Color.Black
-                };
+                    Label PerformedLabel = new Label()
+                    {
+                        VerticalOptions = LayoutOptions.Center,
+                        Text = item,
+                        Style = (Style)Application.Current.Resources["LabelTitleStyle"],
+                        TextColor = Color.Black
+                    };
 
-                maintenancePerformedStack.Children.Add(PerformedLabel);
+                    maintenancePerformedStack.Children.Add(PerformedLabel);
+                }
+            }
+            catch (System.Exception ex)
+            {
+                Debug.WriteLine(message: ex.Message);
             }
         }
     }

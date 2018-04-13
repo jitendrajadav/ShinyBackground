@@ -218,6 +218,7 @@ namespace KegID.ViewModel
         #endregion
 
         #region Commands
+
         public RelayCommand BatchCommand { get; }
         public RelayCommand SizeCommand { get;}
         public RelayCommand DestinationCommand { get; }
@@ -227,6 +228,7 @@ namespace KegID.ViewModel
         #endregion
 
         #region Constructor
+
         public FillViewModel()
         {
             BatchCommand = new RelayCommand(BatchCommandRecieverAsync);

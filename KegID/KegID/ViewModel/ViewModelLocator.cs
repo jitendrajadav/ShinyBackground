@@ -38,13 +38,9 @@ namespace KegID.ViewModel
             #endregion
 
             #region Dashboard
-
             SimpleIoc.Default.Register<DashboardPartnersViewModel>();
             SimpleIoc.Default.Register<InventoryViewModel>();
-            SimpleIoc.Default.Register<PrinterSettingViewModel>();
             SimpleIoc.Default.Register<DashboardViewModel>();
-            SimpleIoc.Default.Register<SettingViewModel>();
-            SimpleIoc.Default.Register<WhatIsNewViewModel>();
             SimpleIoc.Default.Register<PartnerInfoViewModel>();
             SimpleIoc.Default.Register<PartnerInfoMapViewModel>();
             SimpleIoc.Default.Register<KegsViewModel>();
@@ -53,7 +49,6 @@ namespace KegID.ViewModel
             SimpleIoc.Default.Register<KegSearchViewModel>();
             SimpleIoc.Default.Register<BulkUpdateScanViewModel>();
             SimpleIoc.Default.Register<KegSearchedListViewModel>();
-
             #endregion
 
             #region Fill
@@ -78,6 +73,12 @@ namespace KegID.ViewModel
             SimpleIoc.Default.Register<MaintainViewModel>();
             SimpleIoc.Default.Register<MaintainScanViewModel>();
             SimpleIoc.Default.Register<MaintainDetailViewModel>();
+            #endregion
+
+            #region Setting
+            SimpleIoc.Default.Register<SettingViewModel>();
+            SimpleIoc.Default.Register<WhatIsNewViewModel>();
+            SimpleIoc.Default.Register<PrinterSettingViewModel>();
             #endregion
 
         }
@@ -430,8 +431,210 @@ namespace KegID.ViewModel
 
         #endregion
 
+        #region Dashboard
+
+        #region Dashboard
+
+        /// <summary>
+        /// Gets the Dashboard property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public DashboardViewModel Dashboard
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<DashboardViewModel>();
+            }
+        }
+
+        #endregion
+
+        #region Inventory
+
+        /// <summary>
+        /// Gets the Inventory property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public InventoryViewModel Inventory
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<InventoryViewModel>();
+            }
+        }
+
+        #endregion
+
+        #region DashboardPartners
+
+        /// <summary>
+        /// Gets the DashboardPartners property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public DashboardPartnersViewModel DashboardPartners
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<DashboardPartnersViewModel>();
+            }
+        }
+
+        #endregion
+
+        #region PartnerInfo
+
+        /// <summary>
+        /// Gets the PartnerInfo property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public PartnerInfoViewModel PartnerInfo
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<PartnerInfoViewModel>();
+            }
+        }
+
+        #endregion
+
+        #region PartnerInfoMap
+
+        /// <summary>
+        /// Gets the PartnerInfoMap property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public PartnerInfoMapViewModel PartnerInfoMap
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<PartnerInfoMapViewModel>();
+            }
+        }
+
+        #endregion
+
+        #region Kegs
+
+        /// <summary>
+        /// Gets the Kegs property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public KegsViewModel Kegs
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<KegsViewModel>();
+            }
+        }
+
+        #endregion
+
+        #region KegStatus
+
+        /// <summary>
+        /// Gets the KegStatus property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public KegStatusViewModel KegStatus
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<KegStatusViewModel>();
+            }
+        }
+
+        #endregion
+
+        #region EditKeg
+
+        /// <summary>
+        /// Gets the EditKeg property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public EditKegViewModel EditKeg
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<EditKegViewModel>();
+            }
+        }
+
+        #endregion
+
+        #region KegSearch
+
+        /// <summary>
+        /// Gets the KegSearch property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public KegSearchViewModel KegSearch
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<KegSearchViewModel>();
+            }
+        }
+
+        #endregion
+
+        #region BulkUpdateScan
+
+        /// <summary>
+        /// Gets the BulkUpdateScan property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public BulkUpdateScanViewModel BulkUpdateScan
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<BulkUpdateScanViewModel>();
+            }
+        }
+
+        #endregion
+
+        #region KegSearchedListView
+
+        /// <summary>
+        /// Gets the KegSearchedListView property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public KegSearchedListViewModel KegSearchedListView
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<KegSearchedListViewModel>();
+            }
+        }
+
+        #endregion
+
+        #endregion
+
         #region Fill
-        
+
         #region Fill
 
         /// <summary>
@@ -676,208 +879,6 @@ namespace KegID.ViewModel
 
         #endregion
 
-        #region Dashboard
-
-        #region Dashboard
-
-        /// <summary>
-        /// Gets the Dashboard property.
-        /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
-            "CA1822:MarkMembersAsStatic",
-            Justification = "This non-static member is needed for data binding purposes.")]
-        public DashboardViewModel Dashboard
-        {
-            get
-            {
-                return SimpleIoc.Default.GetInstance<DashboardViewModel>();
-            }
-        }
-
-        #endregion
-
-        #region Inventory
-
-        /// <summary>
-        /// Gets the Inventory property.
-        /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
-            "CA1822:MarkMembersAsStatic",
-            Justification = "This non-static member is needed for data binding purposes.")]
-        public InventoryViewModel Inventory
-        {
-            get
-            {
-                return SimpleIoc.Default.GetInstance<InventoryViewModel>();
-            }
-        }
-
-        #endregion
-
-        #region DashboardPartners
-
-        /// <summary>
-        /// Gets the DashboardPartners property.
-        /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
-            "CA1822:MarkMembersAsStatic",
-            Justification = "This non-static member is needed for data binding purposes.")]
-        public DashboardPartnersViewModel DashboardPartners
-        {
-            get
-            {
-                return SimpleIoc.Default.GetInstance<DashboardPartnersViewModel>();
-            }
-        }
-
-        #endregion
-
-        #region PartnerInfo
-
-        /// <summary>
-        /// Gets the PartnerInfo property.
-        /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
-            "CA1822:MarkMembersAsStatic",
-            Justification = "This non-static member is needed for data binding purposes.")]
-        public PartnerInfoViewModel PartnerInfo
-        {
-            get
-            {
-                return SimpleIoc.Default.GetInstance<PartnerInfoViewModel>();
-            }
-        }
-
-        #endregion
-
-        #region PartnerInfoMap
-
-        /// <summary>
-        /// Gets the PartnerInfoMap property.
-        /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
-            "CA1822:MarkMembersAsStatic",
-            Justification = "This non-static member is needed for data binding purposes.")]
-        public PartnerInfoMapViewModel PartnerInfoMap
-        {
-            get
-            {
-                return SimpleIoc.Default.GetInstance<PartnerInfoMapViewModel>();
-            }
-        }
-
-        #endregion
-
-        #region Kegs
-
-        /// <summary>
-        /// Gets the Kegs property.
-        /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
-            "CA1822:MarkMembersAsStatic",
-            Justification = "This non-static member is needed for data binding purposes.")]
-        public KegsViewModel Kegs
-        {
-            get
-            {
-                return SimpleIoc.Default.GetInstance<KegsViewModel>();
-            }
-        }
-
-        #endregion
-
-        #region KegStatus
-
-        /// <summary>
-        /// Gets the KegStatus property.
-        /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
-            "CA1822:MarkMembersAsStatic",
-            Justification = "This non-static member is needed for data binding purposes.")]
-        public KegStatusViewModel KegStatus
-        {
-            get
-            {
-                return SimpleIoc.Default.GetInstance<KegStatusViewModel>();
-            }
-        }
-
-        #endregion
-
-        #region EditKeg
-
-        /// <summary>
-        /// Gets the EditKeg property.
-        /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
-            "CA1822:MarkMembersAsStatic",
-            Justification = "This non-static member is needed for data binding purposes.")]
-        public EditKegViewModel EditKeg
-        {
-            get
-            {
-                return SimpleIoc.Default.GetInstance<EditKegViewModel>();
-            }
-        }
-
-        #endregion
-
-        #region KegSearch
-
-        /// <summary>
-        /// Gets the KegSearch property.
-        /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
-            "CA1822:MarkMembersAsStatic",
-            Justification = "This non-static member is needed for data binding purposes.")]
-        public KegSearchViewModel KegSearch
-        {
-            get
-            {
-                return SimpleIoc.Default.GetInstance<KegSearchViewModel>();
-            }
-        }
-
-        #endregion
-
-        #region BulkUpdateScan
-
-        /// <summary>
-        /// Gets the BulkUpdateScan property.
-        /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
-            "CA1822:MarkMembersAsStatic",
-            Justification = "This non-static member is needed for data binding purposes.")]
-        public BulkUpdateScanViewModel BulkUpdateScan
-        {
-            get
-            {
-                return SimpleIoc.Default.GetInstance<BulkUpdateScanViewModel>();
-            }
-        }
-
-        #endregion
-
-        #region KegSearchedListView
-
-        /// <summary>
-        /// Gets the KegSearchedListView property.
-        /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
-            "CA1822:MarkMembersAsStatic",
-            Justification = "This non-static member is needed for data binding purposes.")]
-        public KegSearchedListViewModel KegSearchedListView
-        {
-            get
-            {
-                return SimpleIoc.Default.GetInstance<KegSearchedListViewModel>();
-            }
-        }
-
-        #endregion
-
-        #endregion
-
         #region Setting
 
         #region Setting
@@ -942,7 +943,5 @@ namespace KegID.ViewModel
         {
             // TODO Clear the ViewModels
         }
-
     }
-
 }

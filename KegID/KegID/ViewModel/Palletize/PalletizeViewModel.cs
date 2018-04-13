@@ -17,6 +17,7 @@ namespace KegID.ViewModel
     public class PalletizeViewModel : BaseViewModel
     {
         #region Properties
+
         public IPalletizeService _palletizeService { get; set; }
         public IMoveService _moveService { get; set; }
         public bool TargetLocationPartner { get; set; }
@@ -295,6 +296,7 @@ namespace KegID.ViewModel
         #endregion
 
         #region Commands
+
         public RelayCommand CancelCommand { get; }
         public RelayCommand PartnerCommand { get; }
         public RelayCommand AddTagsCommand { get; }
@@ -303,9 +305,11 @@ namespace KegID.ViewModel
         public RelayCommand IsPalletVisibleCommand { get; }
         public RelayCommand BarcodeScanCommand { get; }
         public RelayCommand SubmitCommand { get; }
+        
         #endregion
 
         #region Constructor
+
         public PalletizeViewModel(IPalletizeService palletizeService, IMoveService moveService)
         {
             _moveService = moveService;
@@ -350,6 +354,17 @@ namespace KegID.ViewModel
             barCode = prefix.ToString().PadLeft(9, '0') + lastCharOfYear + dayOfYear + secondsInDayTillNow + (millisecond / 100);
             var checksumDigit = Utils.CalculateCheckDigit(barCode);
             ManifestId = barCode + checksumDigit;
+        }
+
+        internal void AssignPartnerValue(PartnerModel model)
+        {
+            if (TargetLocationPartner)
+            {
+                TargetLocationPartner = false;
+                TargetLocation = model;
+            }
+            else
+                StockLocation = model;
         }
 
         private static int SecondsInDayTillNow()
@@ -423,6 +438,16 @@ namespace KegID.ViewModel
             {
                 Loader.StopLoading();
             }
+        }
+
+        internal void AssingScanKegsValue(IList<Barcode> _barcodes)
+        {
+            if (_barcodes.Count > 1)
+                AddKegs = string.Format("{0} Items", _barcodes.Count);
+            else if (_barcodes.Count == 1)
+                AddKegs = string.Format("{0} Item", _barcodes.Count);
+            if (!IsSubmitVisible)
+                IsSubmitVisible = true;
         }
 
         private void BarcodeScanCommandReciever()

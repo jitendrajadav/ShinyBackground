@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
+using KegID.Model;
 using KegID.Services;
 using KegID.Views;
 using System;
@@ -12,6 +13,8 @@ namespace KegID.ViewModel
     public class SearchManifestsViewModel : BaseViewModel
     {
         #region Properties
+
+        public bool IsManifestDestination { get; set; }
         public IMoveService _moveService { get; set; }
 
         #region TrackingNumber
@@ -253,8 +256,6 @@ namespace KegID.ViewModel
 
         #endregion
 
-        public bool IsManifestDestination { get; set; }
-
         #endregion
 
         #region Commands
@@ -281,6 +282,7 @@ namespace KegID.ViewModel
         #endregion
 
         #region Methods
+
         private async void SearchCommandRecieverAsync()
         {
             var value = await _moveService.GetManifestSearchAsync(AppSettings.User.SessionId, TrackingNumber, Barcode, ManifestSender, ManifestDestination, Referencekey, FromDate.ToString("MM/dd/yyyy", CultureInfo.CreateSpecificCulture("en-US")), ToDate.ToString("MM/dd/yyyy", CultureInfo.CreateSpecificCulture("en-US")));
@@ -300,6 +302,17 @@ namespace KegID.ViewModel
         }
 
         private async void ManifestsCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PopModalAsync();
+
+        internal void AssignPartnerValue(PartnerModel model)
+        {
+            if (IsManifestDestination)
+            {
+                IsManifestDestination = false;
+                ManifestDestination = model.FullName;
+            }
+            else
+                ManifestSender = model.FullName;
+        }
 
         #endregion
     }

@@ -392,6 +392,7 @@ namespace KegID.ViewModel
         #endregion
 
         #region Commands
+
         public RelayCommand HomeCommand { get; }
         public RelayCommand NextCommand { get; }
         public RelayCommand PartnerCommand { get; }
@@ -399,6 +400,7 @@ namespace KegID.ViewModel
         #endregion
 
         #region Constructor
+
         public MaintainViewModel()
         {
             HomeCommand = new RelayCommand(HomeCommandRecieverAsync);
@@ -412,7 +414,9 @@ namespace KegID.ViewModel
         #endregion
 
         #region Methods
+
         private async void HomeCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PopModalAsync();
+
         private async void PartnerCommandRecieverAsync()
         {
             await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView());

@@ -11,7 +11,7 @@ namespace KegID.Model
         public object KegName { get; set; }
         public string TypeName { get; set; }
         public string AssetTypeSourceKey { get; set; }
-        public object TypeId { get; set; }
+        public int TypeId { get; set; }
         public string SizeName { get; set; }
         public string AssetSizeSourceKey { get; set; }
         public object SizeId { get; set; }

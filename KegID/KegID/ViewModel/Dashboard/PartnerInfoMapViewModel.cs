@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using KegID.Common;
 using KegID.Model;
 using Xamarin.Forms;
 
@@ -50,10 +47,13 @@ namespace KegID.ViewModel
         #endregion
 
         #region Commands
+
         public RelayCommand PartnerInfoCommand { get; }
+
         #endregion
 
         #region Constructor
+
         public PartnerInfoMapViewModel()
         {
             PartnerInfoCommand = new RelayCommand(PartnerInfoCommandRecieverAsync);
@@ -90,9 +90,10 @@ namespace KegID.ViewModel
         #endregion
 
         #region Methods
+
         private async void PartnerInfoCommandRecieverAsync()
         {
-          await Application.Current.MainPage.Navigation.PopModalAsync();
+            await Application.Current.MainPage.Navigation.PopModalAsync();
         }
 
         #endregion

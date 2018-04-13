@@ -10,12 +10,15 @@ using KegID.Services;
 using System.Collections.Generic;
 using System.Linq;
 using System.Diagnostics;
+using System.Threading.Tasks;
+using Rg.Plugins.Popup.Extensions;
 
 namespace KegID.ViewModel
 {
     public class AddPalletsViewModel : BaseViewModel
     {
         #region Properties
+
         public IPalletizeService _palletizeService { get; set; }
         public IMoveService _moveService { get; set; }
 
@@ -179,15 +182,15 @@ namespace KegID.ViewModel
             ItemTappedCommand = new RelayCommand<PalletModel>((model) => ItemTappedCommandRecieverAsync(model));
         }
 
+        #endregion
+
+        #region Methods
+
         private async void ItemTappedCommandRecieverAsync(PalletModel model)
         {
             SimpleIoc.Default.GetInstance<FillScanViewModel>().GenerateManifestIdAsync(model);
             await Application.Current.MainPage.Navigation.PushModalAsync(new FillScanView());
         }
-
-        #endregion
-
-        #region Methods
 
         private async void FillKegsCommandRecieverAsync()
         {
@@ -196,10 +199,11 @@ namespace KegID.ViewModel
 
         private async void SubmitCommandRecieverAsync()
         {
-            
-            var barCodeCollection = SimpleIoc.Default.GetInstance<FillScanViewModel>().BarcodeCollection;
+            var barcodes = SimpleIoc.Default.GetInstance<FillScanViewModel>().BarcodeCollection;
+            var tags = SimpleIoc.Default.GetInstance<FillScanViewModel>().Tags;
+            var partnerModel = SimpleIoc.Default.GetInstance<FillViewModel>().PartnerModel;
 
-            if (barCodeCollection.Count == 0)
+            if (barcodes.Count == 0)
             {
                 await Application.Current.MainPage.DisplayAlert("Error", "Error: Please add some scans.", "Ok");
                 return;
@@ -225,7 +229,7 @@ namespace KegID.ViewModel
                     palletItem.ScanDate = DateTime.Today;
                     //palletItem.SkuId = "";
                     palletItem.ValidationStatus = 4;
-                    palletItem.Tags = SimpleIoc.Default.GetInstance<FillScanViewModel>().Tags;
+                    palletItem.Tags = tags;
 
                     palletItems.Add(palletItem);
                 }
@@ -235,14 +239,14 @@ namespace KegID.ViewModel
                 //newPallet.BarcodeFormat = "";
                 newPallet.BuildDate = DateTime.Today;
                 //newPallet.ManifestTypeId = 4;
-                newPallet.StockLocation = SimpleIoc.Default.GetInstance<FillViewModel>().PartnerModel.PartnerId;
-                newPallet.StockLocationId = SimpleIoc.Default.GetInstance<FillViewModel>().PartnerModel.PartnerId;
-                newPallet.StockLocationName = SimpleIoc.Default.GetInstance<FillViewModel>().PartnerModel.FullName;
+                newPallet.StockLocation = partnerModel.PartnerId;
+                newPallet.StockLocationId = partnerModel.PartnerId;
+                newPallet.StockLocationName = partnerModel.FullName;
                 newPallet.OwnerId = AppSettings.User.CompanyId;
                 newPallet.PalletId = Uuid.GetUuId();
                 newPallet.PalletItems = palletItems;
                 newPallet.ReferenceKey = "";
-                newPallet.Tags = SimpleIoc.Default.GetInstance<FillScanViewModel>().Tags;
+                newPallet.Tags = tags;
                 //newPallet.TargetLocation = "";
 
                 newPallets.Add(newPallet);
@@ -255,30 +259,21 @@ namespace KegID.ViewModel
 
             Loader.StartLoading();
 
-            ManifestModel manifestModel = await ManifestManager.GetManifestDraft(EventTypeEnum.FILL_MANIFEST, Uuid.GetUuId(),
-                    SimpleIoc.Default.GetInstance<FillScanViewModel>().BarcodeCollection, SimpleIoc.Default.GetInstance<FillScanViewModel>().Tags,
-                    SimpleIoc.Default.GetInstance<FillViewModel>().PartnerModel, newPallets,new List<NewBatch>(), closedBatches, 4);
+            var model = await ManifestManager.GetManifestDraft(EventTypeEnum.FILL_MANIFEST, Uuid.GetUuId(),
+                    barcodes, tags, partnerModel, newPallets,new List<NewBatch>(), closedBatches, 4);
 
-            if (manifestModel != null)
+            if (model != null)
             {
                 try
                 {
-                    var manifestResult = await _moveService.PostManifestAsync(manifestModel, AppSettings.User.SessionId, Configuration.NewManifest);
+                    var manifestResult = await _moveService.PostManifestAsync(model, AppSettings.User.SessionId, Configuration.NewManifest);
 
                     if (manifestResult != null)
                     {
                         var manifest = await _moveService.GetManifestAsync(AppSettings.User.SessionId, manifestResult.ManifestId);
                         if (manifest.StatusCode == System.Net.HttpStatusCode.OK)
                         {
-                            SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().TrackingNumber = manifest.TrackingNumber;
-
-                            SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ManifestTo = manifest.CreatorCompany.FullName + "\n" + manifest.CreatorCompany.PartnerTypeName;
-
-                            SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ShippingDate = Convert.ToDateTime(manifest.ShipDate);
-                            SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().ItemCount = manifest.ManifestItems.Count;
-                            SimpleIoc.Default.GetInstance<ContentTagsViewModel>().ContentCollection = manifest.ManifestItems.Select(x => x.Barcode).ToList();
-
-                            SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().Contents = !string.IsNullOrEmpty(manifest.ManifestItems.FirstOrDefault().Contents) ? manifest.ManifestItems.FirstOrDefault().Contents : "No contens";
+                            SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().AssignInitialValue(manifest);
 
                             Loader.StopLoading();
                             await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestDetailView());
@@ -306,6 +301,48 @@ namespace KegID.ViewModel
         {
             SimpleIoc.Default.GetInstance<FillScanViewModel>().GenerateManifestIdAsync(null);
             await Application.Current.MainPage.Navigation.PushModalAsync(new FillScanView());
+        }
+
+        internal async Task AssignValueToAddPalletAsync(string manifestId, IList<Barcode> barcodes)
+        {
+            if (!PalletCollection.Any(x => x.ManifestId == manifestId))
+            {
+                PalletCollection.Add(new PalletModel() { Barcode = barcodes, Count = barcodes.Count(), ManifestId = manifestId });
+
+                if (PalletCollection.Sum(x => x.Count) > 1)
+                    Kegs = string.Format("({0} Kegs)", PalletCollection.Sum(x => x.Count));
+                else
+                    Kegs = string.Format("({0} Keg)", PalletCollection.Sum(x => x.Count));
+            }
+            else
+            {
+                PalletCollection.Where(x => x.ManifestId == manifestId).FirstOrDefault().Barcode = barcodes;
+                PalletCollection.Where(x => x.ManifestId == manifestId).FirstOrDefault().Count = barcodes.Count;
+
+                if (PalletCollection.Sum(x => x.Count) > 1)
+                    Kegs = string.Format("({0} Kegs)", PalletCollection.Sum(x => x.Count));
+                else
+                    Kegs = string.Format("({0} Keg)", PalletCollection.Sum(x => x.Count));
+            }
+            await Application.Current.MainPage.Navigation.PopModalAsync();
+        }
+
+        internal async void AssignValidateBarcodeValueAsync()
+        {
+            PalletCollection.Add(new PalletModel()
+            {
+                Barcode = SimpleIoc.Default.GetInstance<FillScanViewModel>().BarcodeCollection,
+                Count = SimpleIoc.Default.GetInstance<FillScanViewModel>().BarcodeCollection.Count(),
+                ManifestId = SimpleIoc.Default.GetInstance<FillScanViewModel>().ManifestId
+            });
+
+            if (PalletCollection.Sum(x => x.Count) > 1)
+                Kegs = string.Format("({0} Kegs)", PalletCollection.Sum(x => x.Count));
+            else
+                Kegs = string.Format("({0} Keg)", PalletCollection.Sum(x => x.Count));
+
+            await Application.Current.MainPage.Navigation.PopPopupAsync();
+            await Application.Current.MainPage.Navigation.PopModalAsync();
         }
 
         #endregion

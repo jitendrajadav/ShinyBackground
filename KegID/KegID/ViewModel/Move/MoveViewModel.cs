@@ -274,6 +274,7 @@ namespace KegID.ViewModel
         #endregion
 
         #region Constructor
+
         public MoveViewModel(IMoveService moveService)
         {
             _moveService = moveService;
@@ -370,6 +371,16 @@ namespace KegID.ViewModel
             {
                 Loader.StopLoading();
             }
+        }
+
+        internal void AssingScanKegsValue(IList<Barcode> _barcodes)
+        {
+            if (_barcodes.Count > 1)
+                AddKegs = string.Format("{0} Items", _barcodes.Count);
+            else if (_barcodes.Count == 1)
+                AddKegs = string.Format("{0} Item", _barcodes.Count);
+            if (!IsSubmitVisible)
+                IsSubmitVisible = true;
         }
 
         private async void CancelCommandRecieverAsync()
