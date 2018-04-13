@@ -167,6 +167,7 @@ namespace KegID.ViewModel
 
         private bool _IsPalletze = true;
 
+
         /// <summary>
         /// Sets and gets the IsPalletze property.
         /// Changes to that property's value raise the PropertyChanged event. 
@@ -286,7 +287,7 @@ namespace KegID.ViewModel
             AddTagsCommand = new RelayCommand(AddTagsCommandRecieverAsync);
             PrintCommand = new RelayCommand(PrintCommandRecieverAsync);
             IsPalletVisibleCommand = new RelayCommand(IsPalletVisibleCommandReciever);
-            SubmitCommand = new RelayCommand(SubmitCommandReciever);
+            SubmitCommand = new RelayCommand(SubmitCommandRecieverAsync);
             BarcodeManualCommand = new RelayCommand(BarcodeManualCommandRecieverAsync);
             LabelItemTappedCommand = new RelayCommand<Barcode>((model) => LabelItemTappedCommandRecieverAsync(model));
             IconItemTappedCommand = new RelayCommand<Barcode>((model) => IconItemTappedCommandRecieverAsync(model));
@@ -295,6 +296,21 @@ namespace KegID.ViewModel
         #endregion
 
         #region Methods
+
+        internal async void AssignValidateBarcodeValueAsync()
+        {
+            SimpleIoc.Default.GetInstance<AddPalletsViewModel>().AssignFillScanValue(BarcodeCollection, ManifestId);
+
+            await Application.Current.MainPage.Navigation.PopPopupAsync();
+
+            if (IsPalletze)
+                await Application.Current.MainPage.Navigation.PopModalAsync();
+            else
+            {
+                await Application.Current.MainPage.Navigation.PushModalAsync(new FillScanReviewView());
+                SimpleIoc.Default.GetInstance<FillScanReviewViewModel>().AssignInitialValue(ManifestId, BarcodeCollection.Count);
+            }
+        }
 
         public async void GenerateManifestIdAsync(PalletModel palletModel)
         {
@@ -329,7 +345,7 @@ namespace KegID.ViewModel
                     }
                     barCode = prefix.ToString().PadLeft(9, '0') + lastCharOfYear + dayOfYear + secondsInDayTillNow + (millisecond / 100);
                     var checksumDigit = Utils.CalculateCheckDigit(barCode);
-                    ManifestId = barCode + checksumDigit;
+                    ManifestId = "Pallet #"+ barCode + checksumDigit;
                 }
             }
         }
@@ -392,9 +408,16 @@ namespace KegID.ViewModel
             BarcodeCollection = new ObservableCollection<Barcode>(value);
         }
 
-        private void SubmitCommandReciever()
+        private async void SubmitCommandRecieverAsync()
         {
-            
+            var result = BarcodeCollection.Where(x => x.PartnerCount > 1).ToList();
+            if (result.Count > 0)
+                await NavigateToValidatePartner(result.ToList());
+            else
+            {
+               await Application.Current.MainPage.Navigation.PushModalAsync(new FillScanReviewView());
+                SimpleIoc.Default.GetInstance<FillScanReviewViewModel>().AssignInitialValue(ManifestId, BarcodeCollection.Count);
+            }
         }
 
         private void IsPalletVisibleCommandReciever()

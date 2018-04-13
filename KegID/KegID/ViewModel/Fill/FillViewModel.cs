@@ -263,7 +263,7 @@ namespace KegID.ViewModel
                 else
                 {
                     SimpleIoc.Default.GetInstance<FillScanViewModel>().IsPalletze = IsPalletze;
-                    SimpleIoc.Default.GetInstance<FillScanViewModel>().ManifestId = "Filling " + SizeButtonTitle + " kegs with " + BatchButtonTitle + "\n" + DestinationTitle;
+                    SimpleIoc.Default.GetInstance<FillScanViewModel>().ManifestId = "Filling " + SizeButtonTitle + " kegs with " + BatchButtonTitle + " " + DestinationTitle;
                     await Application.Current.MainPage.Navigation.PushModalAsync(new FillScanView());
                 }
             }

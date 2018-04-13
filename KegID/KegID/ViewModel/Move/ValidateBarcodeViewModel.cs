@@ -139,7 +139,7 @@ namespace KegID.ViewModel
                         break;
 
                     case ViewTypeEnum.FillScanView:
-                        SimpleIoc.Default.GetInstance<AddPalletsViewModel>().AssignValidateBarcodeValueAsync();
+                        SimpleIoc.Default.GetInstance<FillScanViewModel>().AssignValidateBarcodeValueAsync();
                         break;
 
                     case ViewTypeEnum.MaintainScanView:

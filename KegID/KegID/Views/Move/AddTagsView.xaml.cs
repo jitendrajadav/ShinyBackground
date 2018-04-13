@@ -52,7 +52,9 @@ namespace KegID.Views
                         await OnAddMoreTagsClickedAsync(TagsTypeEnum.Volume);
                         await OnAddMoreTagsClickedAsync(TagsTypeEnum.Note);
                         break;
-                    default:
+                    case ViewTypeEnum.MoveView:
+                        await OnAddMoreTagsClickedAsync(TagsTypeEnum.BestByDate);
+                        await OnAddMoreTagsClickedAsync(TagsTypeEnum.ProductionDate);
                         break;
                 }
             }

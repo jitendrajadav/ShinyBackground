@@ -197,7 +197,7 @@ namespace KegID.ViewModel
             await Application.Current.MainPage.Navigation.PopModalAsync();
         }
 
-        private async void SubmitCommandRecieverAsync()
+        public async void SubmitCommandRecieverAsync()
         {
             var barcodes = SimpleIoc.Default.GetInstance<FillScanViewModel>().BarcodeCollection;
             var tags = SimpleIoc.Default.GetInstance<FillScanViewModel>().Tags;
@@ -327,22 +327,19 @@ namespace KegID.ViewModel
             await Application.Current.MainPage.Navigation.PopModalAsync();
         }
 
-        internal async void AssignValidateBarcodeValueAsync()
+        internal void AssignFillScanValue(IList<Barcode> _barcodes, string _manifest)
         {
             PalletCollection.Add(new PalletModel()
             {
-                Barcode = SimpleIoc.Default.GetInstance<FillScanViewModel>().BarcodeCollection,
-                Count = SimpleIoc.Default.GetInstance<FillScanViewModel>().BarcodeCollection.Count(),
-                ManifestId = SimpleIoc.Default.GetInstance<FillScanViewModel>().ManifestId
+                Barcode = _barcodes,
+                Count = _barcodes.Count(),
+                ManifestId = _manifest
             });
 
             if (PalletCollection.Sum(x => x.Count) > 1)
                 Kegs = string.Format("({0} Kegs)", PalletCollection.Sum(x => x.Count));
             else
                 Kegs = string.Format("({0} Keg)", PalletCollection.Sum(x => x.Count));
-
-            await Application.Current.MainPage.Navigation.PopPopupAsync();
-            await Application.Current.MainPage.Navigation.PopModalAsync();
         }
 
         #endregion

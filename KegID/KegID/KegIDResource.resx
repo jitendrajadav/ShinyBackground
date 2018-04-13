@@ -1743,4 +1743,7 @@
   <data name="title_pallet_details" xml:space="preserve">
     <value>Pallet Details</value>
   </data>
+  <data name="title_review" xml:space="preserve">
+    <value>Review</value>
+  </data>
 </root>

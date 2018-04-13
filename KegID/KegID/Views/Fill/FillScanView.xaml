@@ -71,7 +71,7 @@
                 <Label
                     Margin="10,0,40,0"
                     Style="{StaticResource LabelTitleWhiteTextColorStyle}"
-                    Text="{Binding ManifestId, StringFormat='Pallet# -{0}'}"
+                    Text="{Binding ManifestId}"
                     IsVisible="{Binding IsPalletVisible}"
                     Font="16"
                     Grid.Row="0"/>

@@ -54,6 +54,7 @@ namespace KegID.ViewModel
             #region Fill
             SimpleIoc.Default.Register<FillViewModel>();
             SimpleIoc.Default.Register<FillScanViewModel>();
+            SimpleIoc.Default.Register<FillScanReviewViewModel>();
             SimpleIoc.Default.Register<AddPalletsViewModel>();
             SimpleIoc.Default.Register<BrandViewModel>();
             SimpleIoc.Default.Register<VolumeViewModel>();
@@ -684,6 +685,24 @@ namespace KegID.ViewModel
             get
             {
                 return SimpleIoc.Default.GetInstance<FillScanViewModel>();
+            }
+        }
+
+        #endregion
+
+        #region FillScanReview
+
+        /// <summary>
+        /// Gets the FillScanReview property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public FillScanReviewViewModel FillScanReview
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<FillScanReviewViewModel>();
             }
         }
 

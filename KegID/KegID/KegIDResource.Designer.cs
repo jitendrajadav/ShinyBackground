@@ -4813,6 +4813,15 @@ namespace KegID {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Review.
+        /// </summary>
+        internal static string title_review {
+            get {
+                return ResourceManager.GetString("title_review", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Scan Info - Keg.
         /// </summary>
         internal static string title_scan_info_keg {

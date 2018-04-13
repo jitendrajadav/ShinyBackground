@@ -58,6 +58,9 @@
     <Compile Update="Views\Dashboard\DashboardPartnersView.xaml.cs">
       <DependentUpon>DashboardPartnersView.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\Fill\FillScanReviewView.xaml.cs">
+      <DependentUpon>FillScanReviewView.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\Maintain\MaintainScanView.xaml.cs">
       <DependentUpon>MaintainScanView.xaml</DependentUpon>
     </Compile>

@@ -1,0 +1,211 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:KegID"
+             x:Class="KegID.Views.FillScanReviewView"
+             BackgroundColor="{StaticResource pageBGColor}"
+             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=FillScanReview}">
+  
+    <ContentPage.Content>
+        
+        <Grid
+            Margin="10,0,10,0">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Button
+                x:Name="btnScan"
+                Style="{StaticResource TopButtonTitleStyle}"
+                HorizontalOptions="Start"
+                Text="{Binding Resources[menu_action_scan]}"
+                Command="{Binding ScanCommand}"
+                />
+
+            <Label 
+                TextColor="Black"
+                Style="{StaticResource LabelTitleStyle}"
+                HorizontalOptions="Center"
+                Text="{Binding Resources[title_review]}"
+                />
+
+            <BoxView
+                Margin="-10,0,-10,0"
+                Grid.Row="1"
+                BackgroundColor="{StaticResource bannerBGColor}"
+                VerticalOptions="FillAndExpand"
+                HorizontalOptions="FillAndExpand"/>
+
+            <Label 
+                Grid.Row="1"
+                TextColor="White"
+                Text="{Binding TrackingNumber,StringFormat='Tracking #: {0}', Converter={StaticResource StringToLast8CharacterConverter}}"
+                VerticalOptions="Center" 
+                FontSize="{StaticResource AppBarButtonFontSize}"
+                HorizontalOptions="Start" />
+
+            <Label 
+                Grid.Row="2"
+                FontSize="Medium"
+                Text="{Binding Resources[label_to]}"
+                VerticalOptions="Center" 
+                HorizontalOptions="Start" />
+            
+            <Label 
+                Grid.Row="3"
+                Margin="10,0,0,0"
+                FontSize="Medium"
+                Text="{Binding ManifestTo}"
+                VerticalOptions="Center" 
+                HorizontalOptions="Start" />
+
+            <Grid
+                x:Name="grdContent"
+                Margin="10,30,10,0"
+                RowSpacing="0,0,0,0"
+                ColumnSpacing="0,0,0,0"
+                Grid.Row="4">
+                
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="82*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="15*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <BoxView
+                    Grid.Row="0"
+                    Grid.ColumnSpan="5"
+                    BackgroundColor="{StaticResource lightGrayColor}"
+                    HeightRequest="1"
+                    VerticalOptions="Start"
+                    HorizontalOptions="FillAndExpand"/>
+
+                <BoxView
+                    Grid.Row="0"
+                    Grid.RowSpan="7"
+                    BackgroundColor="{StaticResource lightGrayColor}"
+                    WidthRequest="1"
+                    VerticalOptions="FillAndExpand"
+                    HorizontalOptions="Start"/>
+
+                <BoxView
+                    Grid.Row="6"
+                    Grid.ColumnSpan="5"
+                    BackgroundColor="{StaticResource lightGrayColor}"
+                    HeightRequest="1"
+                    VerticalOptions="End"
+                    HorizontalOptions="FillAndExpand"/>
+
+                <BoxView
+                    Grid.Row="0"
+                    Grid.Column="4"
+                    Grid.RowSpan="7"
+                    BackgroundColor="{StaticResource lightGrayColor}"
+                    WidthRequest="1"
+                    VerticalOptions="FillAndExpand"
+                    HorizontalOptions="End"/>
+
+                <Label
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    Grid.ColumnSpan="3"
+                    FontSize="Medium"
+                    TextColor="Black"
+                    FontAttributes="Bold"
+                    BackgroundColor="LightGray"
+                    HorizontalOptions="FillAndExpand"
+                    HorizontalTextAlignment="Center"
+                    VerticalTextAlignment="Center"
+                    VerticalOptions="FillAndExpand"
+                    Text="{Binding Contents}"/>
+
+                <BoxView
+                    Grid.Row="3"
+                    Grid.Column="2"
+                    Grid.RowSpan="3"
+                    BackgroundColor="{StaticResource lightGrayColor}"
+                    WidthRequest="1"
+                    VerticalOptions="FillAndExpand"
+                    HorizontalOptions="End"/>
+
+                <BoxView
+                    Grid.Row="2"
+                    Grid.ColumnSpan="4"
+                    BackgroundColor="{StaticResource lightGrayColor}"
+                    HeightRequest="1"
+                    VerticalOptions="Start"
+                    HorizontalOptions="FillAndExpand"/>
+
+                <Label
+                    Margin="5"
+                    Grid.Column="1"
+                    Grid.Row="3"
+                    FontSize="Medium"
+                    Text="1/2 bbl"/>
+
+                <Label
+                    Margin="5"
+                    HorizontalOptions="End"
+                    TextColor="{StaticResource selectTextColor}"
+                    Grid.Row="3"
+                    FontSize="Medium"
+                    Grid.Column="3"
+                    Text="{Binding ItemCount}"/>
+
+                <BoxView
+                    Grid.Row="4"
+                    Grid.ColumnSpan="4"
+                    BackgroundColor="{StaticResource lightGrayColor}"
+                    HeightRequest="1"
+                    VerticalOptions="Start"
+                    HorizontalOptions="FillAndExpand"/>
+
+                <Label
+                    Margin="5"
+                    Grid.Column="1"
+                    Grid.Row="5"
+                    FontSize="Medium"
+                    TextColor="Black"
+                    FontAttributes="Bold"
+                    Text="{Binding Resources[label_total]}"/>
+
+                <Label
+                    Margin="5"
+                    HorizontalOptions="End"
+                    FontSize="Medium"
+                    TextColor="{StaticResource selectTextColor}"
+                    Grid.Row="5"
+                    Grid.Column="3"
+                    Text="{Binding ItemCount}"/>
+            </Grid>
+            
+            <Button
+                x:Name="lblSubmit"
+                Margin="{StaticResource BottomAppBarButtonMargin}"
+                Grid.Row="5"
+                Text="{Binding Resources[menu_action_submit]}"
+                Style="{StaticResource BottomButtonTitleStyle}"
+                Command="{Binding SubmitCommand}"
+            />
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
