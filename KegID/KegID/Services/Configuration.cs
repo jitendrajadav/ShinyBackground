@@ -13,6 +13,7 @@
         public const string PostedMaintenanceDone = "PostedMaintenanceDone";
         public const string NewKeg = "NewKeg";
         public const string PostedMaintenanceAlert = "PostedMaintenanceAlert";
+        public const string DeleteTypeMaintenanceAlert = "DeleteType";
         
 
         public const string StageAPIUrl = "https://stageapi.kegid.com/api/";
@@ -21,7 +22,7 @@
         /// <summary>
         /// Base Url
         /// </summary>
-        public const string ServiceUrl = TestAPIUrl;
+        public const string ServiceUrl = StageAPIUrl;
 
         /// <summary>
         /// Login Service Url

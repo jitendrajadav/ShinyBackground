@@ -80,7 +80,13 @@
                     Margin="10"
                     Text="{Binding Barcode,Mode=TwoWay}"
                     Placeholder="{Binding Resources[hint_keg_barcode]}"
-                    Grid.Row="1"/>
+                    Grid.Row="1">
+                    <Entry.Behaviors>
+                        <behaviors:EventToCommandBehavior
+                        EventName="Completed"
+                      Command="{Binding SearchCommand}"/>
+                    </Entry.Behaviors>
+                </Entry>
 
                 <Button
                     Margin="10"

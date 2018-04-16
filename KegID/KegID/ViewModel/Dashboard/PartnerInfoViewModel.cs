@@ -335,7 +335,8 @@ namespace KegID.ViewModel
         public RelayCommand ShipToCommand { get; }
         public RelayCommand PhoneNumberCommand { get; }
         public RelayCommand ContactEmailCommand { get;}
-
+        public RelayCommand SendKegsCommand { get;}
+        
         #endregion
 
         #region Constructor
@@ -349,9 +350,11 @@ namespace KegID.ViewModel
             ShipToCommand = new RelayCommand(ShipToCommandRecieverAsync);
             PhoneNumberCommand = new RelayCommand(PhoneNumberCommandReciever);
             ContactEmailCommand = new RelayCommand(ContactEmailCommandReciever);
+            SendKegsCommand = new RelayCommand(SendKegsCommandRecieverAsync);
 
             LoadPartnerInfoAsync();
         }
+
 
         #endregion
 
@@ -400,9 +403,15 @@ namespace KegID.ViewModel
             Ref = PartnerInfoModel.ReferenceKey;
             ContactEmail = PartnerInfoModel.ContactEmail;
         }
+        private async void SendKegsCommandRecieverAsync()
+        {
+            await Application.Current.MainPage.Navigation.PushModalAsync(new MoveView());
+            SimpleIoc.Default.GetInstance<MoveViewModel>().AssignInitialValue(string.Empty, string.Empty, string.Empty, PartnerModel.FullName, true);
+        }
 
         private async void ShipToCommandRecieverAsync()
         {
+            SimpleIoc.Default.GetInstance<PartnerInfoMapViewModel>().AssignInitialValue(PartnerInfoModel);
             await Application.Current.MainPage.Navigation.PushModalAsync(new PartnerInfoMapView());
         }
 

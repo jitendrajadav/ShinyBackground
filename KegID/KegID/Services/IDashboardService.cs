@@ -15,7 +15,7 @@ namespace KegID.Services
         Task<DeleteMaintenanceAlertResponseModel> GetDeleteMaintenanceAlertAsync(string kegId, string sessionId);
         Task<object> PostKegAsync(KegRequestModel model, string sessionId, string RequestType);
         Task<AddMaintenanceAlertModel> PostMaintenanceAlertAsync(AddMaintenanceAlertRequestModel model, string sessionId, string RequestType);
-        Task<AddMaintenanceAlertModel> PostMaintenanceDeleteAlertUrlAsync(object model, string sessionId, string RequestType);
+        Task<AddMaintenanceAlertModel> PostMaintenanceDeleteAlertUrlAsync(DeleteMaintenanceAlertRequestModel model, string sessionId, string RequestType);
         Task<SearchPalletModel> GetPalletSearchAsync(string sessionId, string locationId,string fromDate, string toDate, string kegs, string kegOwnerId);
         Task<KegSearchModel> GetKegSearchAsync(string sessionId, string barcode, bool includePartials);
         

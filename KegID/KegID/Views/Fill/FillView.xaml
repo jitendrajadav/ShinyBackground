@@ -86,6 +86,7 @@
                     />
 
                 <Label
+                    IsVisible="{Binding IsRequiredVisible}"
                     Style="{StaticResource LabelNormalStyle}"
                     Grid.Row="2"
                     HorizontalOptions="End"

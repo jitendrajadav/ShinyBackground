@@ -38,6 +38,8 @@ namespace KegID.ViewModel
                 }
 
                 _NewBatchModel = value;
+                BatchButtonTitle = _NewBatchModel.BrandName + "-" + _NewBatchModel.BatchCode;
+                IsRequiredVisible = false;
                 RaisePropertyChanged(NewBatchModelPropertyName);
             }
         }
@@ -210,6 +212,40 @@ namespace KegID.ViewModel
 
                 _IsPalletze = value;
                 RaisePropertyChanged(IsPalletzePropertyName);
+            }
+        }
+
+        #endregion
+
+        #region IsRequiredVisible
+
+        /// <summary>
+        /// The <see cref="IsRequiredVisible" /> property's name.
+        /// </summary>
+        public const string IsRequiredVisiblePropertyName = "IsRequiredVisible";
+
+        private bool _IsRequiredVisible = true;
+
+        /// <summary>
+        /// Sets and gets the IsRequiredVisible property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public bool IsRequiredVisible
+        {
+            get
+            {
+                return _IsRequiredVisible;
+            }
+
+            set
+            {
+                if (_IsRequiredVisible == value)
+                {
+                    return;
+                }
+
+                _IsRequiredVisible = value;
+                RaisePropertyChanged(IsRequiredVisiblePropertyName);
             }
         }
 

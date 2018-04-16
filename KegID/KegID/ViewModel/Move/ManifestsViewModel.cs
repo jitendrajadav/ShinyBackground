@@ -1,5 +1,8 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Command;
 using KegID.Common;
 using KegID.Model;
@@ -280,17 +283,18 @@ namespace KegID.ViewModel
             DraftCommand = new RelayCommand(DraftCommandReciever);
             RecentCommand = new RelayCommand(RecentCommandReciever);
             ItemTappedCommand = new RelayCommand<ManifestModel>((model) => ItemTappedCommandRecieverAsync(model));
-            LoadDraftManifestAsync();
+            //LoadDraftManifestAsync();
         }
 
         #endregion
 
         #region Methods
 
-        private async void LoadDraftManifestAsync()
+        internal async Task LoadDraftManifestAsync()
         {
             try
             {
+                ManifestCollection.Clear();
                 Loader.StartLoading();
                 //var manifest = await _moveService.GetManifestListAsync(Configuration.SessionId);
                 //ManifestCollection = new ObservableCollection<ManifestModelGet>(manifest);
@@ -299,12 +303,13 @@ namespace KegID.ViewModel
                 {
                     ManifestModel manifest = JsonConvert.DeserializeObject<ManifestModel>(item.DraftManifestJson);
                     manifest.ManifestItemsCount = manifest.ManifestItems.Count;
-                    manifest.OwnerName = manifest.ManifestItems.FirstOrDefault().KegStatus.FirstOrDefault().OwnerName;
+                    manifest.OwnerName = manifest.OwnerName;
                     ManifestCollection.Add(manifest);
                 }
             }
-            catch (System.Exception)
+            catch (Exception ex)
             {
+                Debug.Write(ex.Message);
             }
             finally
             {
@@ -316,7 +321,6 @@ namespace KegID.ViewModel
 
         private async void HomeCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PopModalAsync();
             await Application.Current.MainPage.Navigation.PopModalAsync();
         }
 

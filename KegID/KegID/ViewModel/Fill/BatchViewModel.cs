@@ -92,7 +92,6 @@ namespace KegID.ViewModel
             if (model != null)
             {
                 SimpleIoc.Default.GetInstance<FillViewModel>().NewBatchModel = model;
-                SimpleIoc.Default.GetInstance<FillViewModel>().BatchButtonTitle = model.BrandName + "-" + model.BatchCode;
                 await Application.Current.MainPage.Navigation.PopModalAsync();
             }
         }

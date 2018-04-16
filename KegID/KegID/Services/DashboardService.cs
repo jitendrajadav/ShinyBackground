@@ -156,7 +156,7 @@ namespace KegID.Services
             return responseModel;
         }
 
-        public async Task<AddMaintenanceAlertModel> PostMaintenanceDeleteAlertUrlAsync(object model, string sessionId, string RequestType)
+        public async Task<AddMaintenanceAlertModel> PostMaintenanceDeleteAlertUrlAsync(DeleteMaintenanceAlertRequestModel model, string sessionId, string RequestType)
         {
             AddMaintenanceAlertModel responseModel = new AddMaintenanceAlertModel();
 

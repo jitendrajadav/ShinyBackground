@@ -489,7 +489,8 @@ namespace KegID.ViewModel
                 }
 
                 _SelectedMaintenance = value;
-                AddAlertPerticularKegAsync(_SelectedMaintenance);
+                if (_SelectedMaintenance != null)
+                    AddAlertPerticularKegAsync(_SelectedMaintenance);
                 RaisePropertyChanged(SelectedMaintenancePropertyName);
             }
         }
@@ -559,7 +560,8 @@ namespace KegID.ViewModel
                 }
 
                 _RemoveSelecetedMaintenance = value;
-                RemoveAlertPerticularKegAsync(_RemoveSelecetedMaintenance);
+                if (_RemoveSelecetedMaintenance != null)
+                    RemoveAlertPerticularKegAsync(_RemoveSelecetedMaintenance);
                 RaisePropertyChanged(RemoveSelecetedMaintenancePropertyName);
             }
         }
@@ -665,7 +667,7 @@ namespace KegID.ViewModel
         private async void MoveKegCommandRecieverAsync()
         {
             await Application.Current.MainPage.Navigation.PushModalAsync(new MoveView());
-            SimpleIoc.Default.GetInstance<MoveViewModel>().AssignInitialValue(KegId,Barcode);
+            SimpleIoc.Default.GetInstance<MoveViewModel>().AssignInitialValue(KegId,Barcode,"1",string.Empty,true);
         }
 
         public async Task LoadMaintenanceHistoryAsync(string _kegId,string _contents,long _heldDays,string _possessorName, string _barcode,string _typeName,string _sizeName)
@@ -685,11 +687,18 @@ namespace KegID.ViewModel
                 var addMaintenanceCollection = await SQLiteServiceClient.Db.Table<MaintainTypeReponseModel>().ToListAsync();
                 MaintenanceCollection = new List<MaintenanceAlert>();
 
-                foreach (var item in addMaintenanceCollection)
+                try
                 {
-                    var flag = kegStatus.MaintenanceAlerts.Where(x => x.Id == item.Id).FirstOrDefault();
-                    if (flag == null)
-                        MaintenanceCollection.Add(new MaintenanceAlert { Id = (int)item.Id, ActivationMethod = (int)item.ActivationMethod, AssetSize = "", AssetType = "", Barcode = Barcode, DefectType = item.DefectType.ToString(), DueDate = DateTime.Now, IsActivated = false, KegId = _kegId, LocationId = kegStatus.Location.PartnerId, LocationName = kegStatus.Owner.FullName, Message = "", Name = item.Name, OwnerId = kegStatus.Pallet.OwnerId, OwnerName = kegStatus.Pallet.OwnerName, PalletBarcode = kegStatus.Pallet.Barcode, PalletId = kegStatus.Pallet.PalletId, TypeId = kegStatus.TypeId, TypeName = kegStatus.TypeName });
+                    foreach (var item in addMaintenanceCollection)
+                    {
+                        var flag = kegStatus.MaintenanceAlerts.Where(x => x.Id == item.Id).FirstOrDefault();
+                        if (flag == null)
+                            MaintenanceCollection.Add(new MaintenanceAlert { Id = (int)item.Id, ActivationMethod = (int)item.ActivationMethod, AssetSize = "", AssetType = "", Barcode = Barcode, DefectType = item.DefectType.ToString(), DueDate = DateTime.Now, IsActivated = false, KegId = _kegId, LocationId = kegStatus.Location.PartnerId, LocationName = kegStatus.Owner.FullName, Message = "", Name = item.Name, OwnerId = kegStatus.Pallet?.OwnerId, OwnerName = kegStatus.Pallet?.OwnerName, PalletBarcode = kegStatus.Pallet?.Barcode, PalletId = kegStatus.Pallet?.PalletId, TypeId = kegStatus.TypeId, TypeName = kegStatus.TypeName });
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
                 }
 
                 RemoveMaintenanceCollection = kegStatus.MaintenanceAlerts;
@@ -758,13 +767,14 @@ namespace KegID.ViewModel
 
         private async void AddAlertPerticularKegAsync(MaintenanceAlert _model)
         {
+            List<int> neededTypes = MaintenanceCollection.Where(x=>x.Id == _model.Id).Select(x => x.Id).ToList();
             var model = new AddMaintenanceAlertRequestModel
             {
                 AlertCc = "",
                 DueDate = _model.DueDate,
                 KegId = KegId,
                 Message = _model.Message,
-                NeededTypes = new List<long>(),
+                NeededTypes = neededTypes.ConvertAll(i=>(long)i),
                 ReminderDays = 5
             };
            var resutl = await DashboardService.PostMaintenanceAlertAsync(model, AppSettings.User.SessionId, Configuration.PostedMaintenanceAlert);
@@ -772,16 +782,24 @@ namespace KegID.ViewModel
 
         private async void RemoveAlertPerticularKegAsync(MaintenanceAlert _model)
         {
-            var model = new AddMaintenanceAlertRequestModel
+            var neededTypes = RemoveMaintenanceCollection.Where(x=>x.Id == _model.Id).Select(x => x.Id).FirstOrDefault();
+            //var model = new DeleteMaintenanceAlertRequestModel
+            //{
+            //    AlertCc = "",
+            //    DueDate = DateTime.Now,
+            //    KegId = KegId,
+            //    Message = _model.Message,
+            //    NeededTypes = neededTypes,
+            //    ReminderDays = 10
+            //};
+            //var resutl = await DashboardService.PostMaintenanceDeleteAlertUrlAsync(model, AppSettings.User.SessionId, Configuration.PostedMaintenanceAlert);
+
+            var model = new DeleteMaintenanceAlertRequestModel
             {
-                AlertCc = "",
-                DueDate = _model.DueDate,
                 KegId = KegId,
-                Message = _model.Message,
-                NeededTypes = new List<long>(),
-                ReminderDays = 5
+                TypeId = neededTypes,
             };
-            var resutl = await DashboardService.PostMaintenanceDeleteAlertUrlAsync(model, AppSettings.User.SessionId, Configuration.PostedMaintenanceAlert);
+            var resutl = await DashboardService.PostMaintenanceDeleteAlertUrlAsync(model, AppSettings.User.SessionId, Configuration.DeleteTypeMaintenanceAlert);
         }
 
         #endregion

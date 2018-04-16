@@ -481,7 +481,7 @@ namespace KegID.ViewModel
         public override void Cleanup()
         {
             base.Cleanup();
-            PartnerCollection = null;
+            //PartnerCollection = null;
         }
 
         #endregion

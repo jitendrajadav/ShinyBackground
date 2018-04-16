@@ -67,7 +67,7 @@ namespace KegID.Common
                     ReceiverId = partnerModel.PartnerId,
                     //DestinationName = partnerModel.FullName,
                     //DestinationTypeCode = partnerModel.LocationCode,
-
+                    OwnerName = partnerModel.FullName,
                     ManifestItems = manifestItemlst,
                     NewPallets = newPallets,
                     NewBatches = batches,

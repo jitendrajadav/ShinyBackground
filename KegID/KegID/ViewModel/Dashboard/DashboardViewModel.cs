@@ -3,6 +3,7 @@ using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
 using KegID.Model;
 using KegID.Services;
+using KegID.SQLiteClient;
 using KegID.Views;
 using Rg.Plugins.Popup.Extensions;
 using System;
@@ -229,13 +230,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string DraftmaniFestsPropertyName = "DraftmaniFests";
 
-        private string _DraftmaniFests = default(string);
+        private int _DraftmaniFests = default(int);
 
         /// <summary>
         /// Sets and gets the DraftmaniFests property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public string DraftmaniFests
+        public int DraftmaniFests
         {
             get
             {
@@ -361,6 +362,7 @@ namespace KegID.ViewModel
             KegsCommand = new RelayCommand(KegsCommandRecieverAsync);
             InUsePartnerCommand = new RelayCommand(InUsePartnerCommandRecieverAsync);
             RefreshDashboardRecieverAsync();
+            CheckDraftmaniFestsAsync();
         }
 
 
@@ -372,7 +374,6 @@ namespace KegID.ViewModel
         {
             SimpleIoc.Default.GetInstance<MoveViewModel>().ManifestId = Uuid.GetUuId();
             await Application.Current.MainPage.Navigation.PushModalAsync(new MoveView());
-            CheckDraftmaniFests();
         }
 
         private async void InUsePartnerCommandRecieverAsync()
@@ -399,12 +400,18 @@ namespace KegID.ViewModel
         {
             //SimpleIoc.Default.GetInstance<MoveViewModel>().ManifestId = Uuid.GetUuId();
             await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestsView());
+            await SimpleIoc.Default.GetInstance<ManifestsViewModel>().LoadDraftManifestAsync();
             //CheckDraftmaniFests();
         }
 
-        private void CheckDraftmaniFests()
+        internal async void CheckDraftmaniFestsAsync()
         {
-            IsVisibleDraftmaniFestsLabel = false;
+            var collection = await SQLiteServiceClient.Db.Table<DraftManifestModel>().ToListAsync();
+            if (collection.Count > 0)
+            {
+                DraftmaniFests = collection.Count;
+                IsVisibleDraftmaniFestsLabel = true;
+            }
         }
 
         private async void FillCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new FillView());

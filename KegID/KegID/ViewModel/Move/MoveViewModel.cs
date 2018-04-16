@@ -54,6 +54,40 @@ namespace KegID.ViewModel
 
         #endregion
 
+        #region Destination
+
+        /// <summary>
+        /// The <see cref="Destination" /> property's name.
+        /// </summary>
+        public const string DestinationPropertyName = "Destination";
+
+        private string _Destination = "Select a location";
+
+        /// <summary>
+        /// Sets and gets the Destination property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public string Destination
+        {
+            get
+            {
+                return _Destination;
+            }
+
+            set
+            {
+                if (_Destination == value)
+                {
+                    return;
+                }
+
+                _Destination = value;
+                RaisePropertyChanged(DestinationPropertyName);
+            }
+        }
+
+        #endregion
+
         #region PartnerModel
 
         /// <summary>
@@ -82,6 +116,9 @@ namespace KegID.ViewModel
                 }
 
                 _PartnerModel = value;
+                Destination = _PartnerModel.FullName;
+                IsRequiredVisible = false;
+                IsSaveDraftVisible = true;
                 RaisePropertyChanged(PartnerModelPropertyName);
             }
         }
@@ -260,6 +297,40 @@ namespace KegID.ViewModel
 
         #endregion
 
+        #region IsRequiredVisible
+
+        /// <summary>
+        /// The <see cref="IsRequiredVisible" /> property's name.
+        /// </summary>
+        public const string IsRequiredVisiblePropertyName = "IsRequiredVisible";
+
+        private bool _IsRequiredVisible = true;
+
+        /// <summary>
+        /// Sets and gets the IsRequiredVisible property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public bool IsRequiredVisible
+        {
+            get
+            {
+                return _IsRequiredVisible;
+            }
+
+            set
+            {
+                if (_IsRequiredVisible == value)
+                {
+                    return;
+                }
+
+                _IsRequiredVisible = value;
+                RaisePropertyChanged(IsRequiredVisiblePropertyName);
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Commands
@@ -285,7 +356,6 @@ namespace KegID.ViewModel
             SaveDraftCommand = new RelayCommand(SaveDraftCommandRecieverAsync);
             CancelCommand = new RelayCommand(CancelCommandRecieverAsync);
             SubmitCommand = new RelayCommand(SubmitCommandRecieverAsync);
-            PartnerModel.FullName = "Select a location";
         }
 
         #endregion
@@ -344,7 +414,7 @@ namespace KegID.ViewModel
                 Loader.StartLoading();
 
                 ManifestModel manifestPostModel =
-                    await ManifestManager.GetManifestDraft(EventTypeEnum.MOVE_MANIFEST, ManifestId, SimpleIoc.Default.GetInstance<ScanKegsViewModel>().BarcodeCollection, SimpleIoc.Default.GetInstance<ScanKegsViewModel>().Tags, PartnerModel, new List<NewPallet>(), new List<NewBatch>(), new List<string>(), 2, SimpleIoc.Default.GetInstance<ScanKegsViewModel>().SelectedBrand.BrandName);
+                    await ManifestManager.GetManifestDraft(EventTypeEnum.MOVE_MANIFEST, ManifestId, SimpleIoc.Default.GetInstance<ScanKegsViewModel>().BarcodeCollection, SimpleIoc.Default.GetInstance<ScanKegsViewModel>().Tags, PartnerModel, new List<NewPallet>(), new List<NewBatch>(), new List<string>(), 2, SimpleIoc.Default.GetInstance<ScanKegsViewModel>().SelectedBrand?.BrandName);
                 DraftManifestModel draftManifestModel = new DraftManifestModel()
                 {
                     ManifestId = ManifestId,
@@ -353,7 +423,9 @@ namespace KegID.ViewModel
 
                 try
                 {
-                    await SQLiteServiceClient.Db.InsertAsync(draftManifestModel);
+                    var Result = await SQLiteServiceClient.Db.InsertAsync(draftManifestModel);
+                    if (Result > 0)
+                        SimpleIoc.Default.GetInstance<DashboardViewModel>().CheckDraftmaniFestsAsync();
                 }
                 catch (Exception ex)
                 {
@@ -362,6 +434,7 @@ namespace KegID.ViewModel
 
                 Loader.StopLoading();
                 await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestsView());
+                await SimpleIoc.Default.GetInstance<ManifestsViewModel>().LoadDraftManifestAsync();
             }
             catch (Exception ex)
             {
@@ -407,11 +480,17 @@ namespace KegID.ViewModel
                 await Application.Current.MainPage.DisplayAlert("Error", "Please select a destination first.", "Ok");
         }
 
-        internal void AssignInitialValue(string _kegId, string _barcode)
+        internal void AssignInitialValue(string _kegId, string _barcode, string _addKegs, string _destination,bool isSaveDraftVisible)
         {
             Barcode = _barcode;
-            ManifestId = _kegId;
-            AddKegs = string.Format("{0} Item", 1);
+            ManifestId = !string.IsNullOrEmpty(_kegId) ? _kegId : Uuid.GetUuId();
+            AddKegs = !string.IsNullOrEmpty(_addKegs) ? string.Format("{0} Item", _addKegs) : "Add Kegs";
+            if (!string.IsNullOrEmpty(_destination))
+            {
+                Destination = _destination;
+                IsRequiredVisible = false;
+            }
+            IsSaveDraftVisible = isSaveDraftVisible;
         }
 
         #endregion

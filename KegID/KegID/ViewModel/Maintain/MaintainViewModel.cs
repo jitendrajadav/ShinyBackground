@@ -423,7 +423,10 @@ namespace KegID.ViewModel
         }
         private async void NextCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new MaintainScanView());
+            if (MaintenancePerformed.Count > 0)
+                await Application.Current.MainPage.Navigation.PushModalAsync(new MaintainScanView());
+            else
+              await Application.Current.MainPage.DisplayAlert("Error","Please select at least one maintenance item to perform.","Ok");
         }
 
         #endregion

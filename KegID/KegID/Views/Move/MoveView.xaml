@@ -86,11 +86,12 @@
                 <Button
                     x:Name="lblDestination"
                     Style="{StaticResource ButtonNormalStyle}"
-                    Text="{Binding Path=PartnerModel.FullName}"
+                    Text="{Binding Destination}"
                     Grid.Row="2"
                     Command="{Binding SelectLocationCommand}"/>
 
                 <Label
+                    IsVisible="{Binding IsRequiredVisible}"
                     Grid.Row="2"
                     HorizontalOptions="End"
                     VerticalOptions="Center"

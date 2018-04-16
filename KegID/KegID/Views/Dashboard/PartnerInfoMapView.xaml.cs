@@ -1,5 +1,5 @@
-﻿using KegID.Common;
-using KegID.Controls;
+﻿using GalaSoft.MvvmLight.Ioc;
+using KegID.ViewModel;
 using System.Diagnostics;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
@@ -21,14 +21,16 @@ namespace KegID.Views
                 WidthRequest = 960,
                 VerticalOptions = LayoutOptions.FillAndExpand
             };
-            var position = new Position(Geolocation.savedPosition.Latitude, Geolocation.savedPosition.Longitude); // Latitude, Longitude
 
+            //var position = new Position(Geolocation.savedPosition.Latitude, Geolocation.savedPosition.Longitude); // Latitude, Longitude
+            var model = SimpleIoc.Default.GetInstance<PartnerInfoMapViewModel>().Model;
+            var position = new Position(model.Lat, model.Lon);
             var pin = new Pin
             {
                 Type = PinType.Place,
                 Position = position,
-                Label = "Powai",
-                Address = "custom detail info"
+                Label = model.BillAddress.City,
+                Address = model.BillAddress.Line1
             };
 
             //map.Circle = new CustomCircle
