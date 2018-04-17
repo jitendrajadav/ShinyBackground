@@ -66,6 +66,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
                 <BoxView
@@ -77,7 +78,7 @@
 
                 <Entry
                     BackgroundColor="White"
-                    Margin="10"
+                    Margin="10,10,10,0"
                     Text="{Binding Barcode,Mode=TwoWay}"
                     Placeholder="{Binding Resources[hint_keg_barcode]}"
                     Grid.Row="1">
@@ -88,9 +89,16 @@
                     </Entry.Behaviors>
                 </Entry>
 
-                <Button
-                    Margin="10"
+                <Label
+                    Style="{StaticResource LabelTitleStyle}"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
                     Grid.Row="2"
+                    Text="{Binding KegsSuccessMsg}"/>
+
+                <Button
+                    Margin="10,0,10,0"
+                    Grid.Row="3"
                     x:Name="lblBulkupdate"
                     HorizontalOptions="Start"
                     Style="{StaticResource TopButtonTitleStyle}"
@@ -100,7 +108,7 @@
 
                 <Button
                     Margin="10"
-                    Grid.Row="2"
+                    Grid.Row="3"
                     x:Name="lblSearch"
                     HorizontalOptions="End"
                     Style="{StaticResource TopButtonTitleStyle}"

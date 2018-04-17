@@ -7,6 +7,7 @@ using KegID.Views;
 using Rg.Plugins.Popup.Extensions;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -16,6 +17,7 @@ namespace KegID.ViewModel
     {
         #region Properties
         public IMoveService _moveService { get; set; }
+        public IDashboardService _dashboardService { get; set; }
 
         #region ManaulBarcode
 
@@ -269,14 +271,15 @@ namespace KegID.ViewModel
 
         #region Contructor
 
-        public BulkUpdateScanViewModel(IMoveService moveService)
+        public BulkUpdateScanViewModel(IMoveService moveService, IDashboardService dashboardService)
         {
             _moveService = moveService;
+            _dashboardService = dashboardService;
 
             AddTagsCommand = new RelayCommand(AddTagsCommandRecieverAsync);
             BarcodeManualCommand = new RelayCommand(BarcodeManualCommandRecieverAsync);
             BarcodeScanCommand = new RelayCommand(BarcodeScanCommandRecieverAsync);
-            SaveCommand = new RelayCommand(SaveCommandReciever);
+            SaveCommand = new RelayCommand(SaveCommandRecieverAsync);
             CancelCommand = new RelayCommand(CancelCommandRecieverAsync);
             SizeCollection = new List<string>() { "1/2 bbl", "1/4 bbl", "1/6 bbl", "30 L", "40 L", "50 L" };
             LabelItemTappedCommand = new RelayCommand<Barcode>(execute: (model) => LabelItemTappedCommandRecieverAsync(model));
@@ -320,6 +323,7 @@ namespace KegID.ViewModel
                 await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView());
             }
         }
+
         private static async Task NavigateToValidatePartner(List<Barcode> model)
         {
             await Application.Current.MainPage.Navigation.PushPopupAsync(new ValidateBarcodeView());
@@ -333,23 +337,84 @@ namespace KegID.ViewModel
 
         private async void BarcodeManualCommandRecieverAsync()
         {
-            await BarcodeScanner.ValidateBarcodeInsertIntoLocalDB(ManaulBarcode, _moveService);
-            ManaulBarcode = string.Empty;
+            var isNew = BarcodeCollection.ToList().Any(x => x.Id == ManaulBarcode);
+            if (!isNew)
+            {
+                var barcodes = await BarcodeScanner.ValidateBarcodeInsertIntoLocalDB(_moveService, ManaulBarcode, Tags, TagsStr);
+                ManaulBarcode = string.Empty;
+                BarcodeCollection.Add(barcodes);
+            }
         }
 
         private async void BarcodeScanCommandRecieverAsync()
         {
-           var value = await BarcodeScanner.BarcodeScanAsync(_moveService);
+           await BarcodeScanner.BarcodeScanAsync(_moveService,Tags,TagsStr);
         }
 
-        private void SaveCommandReciever()
+        private async void SaveCommandRecieverAsync()
         {
-            
+            if (BarcodeCollection.Count > 0)
+            {
+                var model = new KegBulkUpdateItemRequestModel();
+                var MassUpdateKegKegs = new List<MassUpdateKeg>();
+                MassUpdateKeg MassUpdateKeg = null;
+                var val = await _dashboardService.GetAssetVolumeAsync(AppSettings.User.SessionId, false);
+                foreach (var item in BarcodeCollection)
+                {
+                    MassUpdateKeg = new MassUpdateKeg
+                    {
+                        //AssetProfile = "",
+                        //Colors = "",
+                        //Coupling = "",
+                        //FixedContents = "",
+                        //LeasingCompany = "",
+                        //Location = "",
+                        //LocationDate = DateTime.Now.ToShortDateString(),
+                        //ManufactureDate = DateTime.Now.ToShortDateString(),
+                        //ManufactureLocation = "",
+                        //Manufacturer = "",
+                        //Markings = "",
+                        //Material = "",
+                        //Measure = "",
+                        //OwnerName = "",
+                        //PurchaseDate = DateTime.Now.ToShortDateString(),
+                        //PurchaseOrder = "",
+                        //PurchasePrice = "",
+                        //SkuCode = "",
+                        //Volume = item.Tags?.FirstOrDefault().Value
+                        AssetSize = SelectedItemSize,
+                        AssetType = SelectedItemType,
+                        Barcode = item.Id,
+                        Tags = item.Tags,
+                        AssetVolume = item.Tags?.FirstOrDefault().Value,
+                        KegId = Uuid.GetUuId(),
+                        OwnerId = AppSettings.User.CompanyId,
+                        OwnerSkuId = "",
+                        ProfileId = "",
+                    };
+
+                    MassUpdateKegKegs.Add(MassUpdateKeg);
+                }
+                model.Kegs = MassUpdateKegKegs;
+
+                var value = await _dashboardService.PostKegUploadAsync(model, AppSettings.User.SessionId, Configuration.MassUpdateKegList);
+                if (value.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    await Application.Current.MainPage.Navigation.PopModalAsync();
+                    SimpleIoc.Default.GetInstance<KegSearchViewModel>().AssingSuccessMsgAsync();
+                } 
+            }
         }
 
         private async void CancelCommandRecieverAsync()
         {
             await Application.Current.MainPage.Navigation.PopModalAsync();
+        }
+
+        internal void AssignAddTagsValue(List<Tag> _tags, string _tagsStr)
+        {
+            Tags = _tags;
+            TagsStr = _tagsStr;
         }
 
         #endregion

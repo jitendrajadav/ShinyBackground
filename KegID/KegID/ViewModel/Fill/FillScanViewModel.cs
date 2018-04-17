@@ -99,6 +99,7 @@ namespace KegID.ViewModel
 
         private string _TagsStr = default(string);
 
+
         /// <summary>
         /// Sets and gets the TagsStr property.
         /// Changes to that property's value raise the PropertyChanged event. 
@@ -403,9 +404,13 @@ namespace KegID.ViewModel
 
         private async void BarcodeManualCommandRecieverAsync()
         {
-            var value = await BarcodeScanner.ValidateBarcodeInsertIntoLocalDB(ManaulBarcode, _moveService);
-            ManaulBarcode = string.Empty;
-            BarcodeCollection = new ObservableCollection<Barcode>(value);
+            var isNew = BarcodeCollection.ToList().Any(x => x.Id == ManaulBarcode);
+            if (!isNew)
+            {
+                var value = await BarcodeScanner.ValidateBarcodeInsertIntoLocalDB(_moveService, ManaulBarcode, Tags, TagsStr);
+                ManaulBarcode = string.Empty;
+                BarcodeCollection.Add(value);
+            }
         }
 
         private async void SubmitCommandRecieverAsync()
@@ -446,8 +451,19 @@ namespace KegID.ViewModel
 
         private async void BarcodeScanCommandRecieverAsync()
         {
-            var value = await BarcodeScanner.BarcodeScanAsync(_moveService);
-            BarcodeCollection = new ObservableCollection<Barcode>(value);
+             await BarcodeScanner.BarcodeScanAsync(_moveService, Tags, TagsStr);
+        }
+
+        internal void AssignBarcodeScannerValue(List<Barcode> barcodes)
+        {
+            foreach (var item in barcodes)
+                BarcodeCollection.Add(item);
+        }
+
+        internal void AssignAddTagsValue(List<Tag> _tags, string _tagsStr)
+        {
+            Tags = _tags;
+            TagsStr = _tagsStr;
         }
 
         private async void AddTagsCommandRecieverAsync()

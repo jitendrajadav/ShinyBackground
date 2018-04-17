@@ -14,6 +14,8 @@
         public const string NewKeg = "NewKeg";
         public const string PostedMaintenanceAlert = "PostedMaintenanceAlert";
         public const string DeleteTypeMaintenanceAlert = "DeleteType";
+        public const string KegUploadModel = "KegUploadModel";
+        public const string MassUpdateKegList = "MassUpdateKegList";
         
 
         public const string StageAPIUrl = "https://stageapi.kegid.com/api/";
@@ -46,8 +48,13 @@
         public const string GetDeleteMaintenanceAlertByKegIdUrl = ServiceUrl + "DeleteMaintenanceAlert?kegId={0}&sessionId={1}";
         public const string GetPalletSearchUrl = ServiceUrl + "PalletSearch?sessionId={0}&locationId={1}&fromDate={2}&toDate={3}&kegs={4}&kegOwnerId={5}";
         public const string GetPalletUrl = ServiceUrl + "Pallet/?sessionId={0}&barcode={1}";
+        public const string GetAssetSize = ServiceUrl + "AssetSize/?sessionId={0}&assignableOnly={1}";
+        public const string GetAssetType = ServiceUrl + "AssetType/?sessionId={0}&assignableOnly={1}";
+        public const string GetAssetVolume = ServiceUrl + "AssetVolume/?sessionId={0}&assignableOnly={1}";
 
+        public const string PostKegsUrl = ServiceUrl + "Kegs/?sessionId={0}";
         public const string PostKegUrl = ServiceUrl + "Keg/?sessionId={0}";
+
         public const string PostMaintenanceAlertUrl = ServiceUrl + "MaintenanceAlert/?sessionId={0}";
         public const string PostMaintenanceDeleteAlertUrl = ServiceUrl + "MaintenanceAlert/DeleteAlert/?sessionId={0}";
         

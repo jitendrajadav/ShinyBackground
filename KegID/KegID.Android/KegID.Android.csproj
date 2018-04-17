@@ -91,10 +91,7 @@
     <PackageReference Include="Microsoft.Net.Http">
       <Version>2.2.29</Version>
     </PackageReference>
-    <PackageReference Include="MvvmLight">
-      <Version>5.4.1</Version>
-    </PackageReference>
-    <PackageReference Include="MvvmLightLibs">
+    <PackageReference Include="MvvmLightLibsStd10">
       <Version>5.4.1</Version>
     </PackageReference>
     <PackageReference Include="name.atsushieno.proguard.facebook">

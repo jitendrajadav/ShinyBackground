@@ -87,6 +87,20 @@ namespace KegID.Services
             return partnerResponseModel;
         }
 
+        public async Task<IList<string>> GetAssetSizeAsync(string sessionId, bool assignableOnly)
+        {
+            string url = string.Format(Configuration.GetAssetSize, sessionId, assignableOnly);
+            var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
+            return DeserializeObject<IList<string>>(value.Response, GetJsonSetting());
+        }
+
+        public async Task<IList<string>> GetAssetTypeAsync(string sessionId, bool assignableOnly)
+        {
+            string url = string.Format(Configuration.GetAssetType, sessionId, assignableOnly);
+            var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
+            return DeserializeObject<IList<string>>(value.Response, GetJsonSetting());
+        }
+
         public async Task<ManifestSearchModel> GetManifestSearchAsync(string sessionId, string trackingNumber,string barcode, string senderId, string destinationId, string referenceKey,string fromDate, string toDate)
         {
             ManifestSearchModel manifestSearchModel = new ManifestSearchModel();
@@ -140,5 +154,6 @@ namespace KegID.Services
             return partnerResponseModel;
         }
 
+       
     }
 }

@@ -22,8 +22,7 @@
     <PackageReference Include="Microsoft.AppCenter.Push" Version="1.5.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.4.1" />
     <PackageReference Include="Microsoft.Net.Http" Version="2.2.29" />
-    <PackageReference Include="MvvmLight" Version="5.4.1" />
-    <PackageReference Include="MvvmLightLibs" Version="5.4.1" />
+    <PackageReference Include="MvvmLightLibsStd10" Version="5.4.1" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="Plugin.CrossPlatformTintedImage" Version="1.0.0" />
     <PackageReference Include="Plugin.Permissions" Version="2.2.1" />

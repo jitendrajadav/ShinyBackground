@@ -323,6 +323,12 @@ namespace KegID.ViewModel
             Size = _sizeName;
         }
 
+        internal void AssignAddTagsValue(List<Tag> _tags, string _tagsStr)
+        {
+            Tags = _tags;
+            TagsStr = _tagsStr;
+        }
+
         #endregion
     }
 }

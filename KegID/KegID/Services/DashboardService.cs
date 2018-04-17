@@ -9,6 +9,14 @@ namespace KegID.Services
 {
     public class DashboardService : IDashboardService
     {
+        public async Task<IList<string>> GetAssetVolumeAsync(string sessionId, bool assignableOnly)
+        {
+            string url = string.Format(Configuration.GetAssetVolume, sessionId,assignableOnly);
+            var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
+            var test = DeserializeObject<IList<string>>(value.Response, GetJsonSetting());
+            return test;
+        }
+
         public async Task<DeleteMaintenanceAlertResponseModel> GetDeleteMaintenanceAlertAsync(string kegId, string sessionId)
         {
             DeleteMaintenanceAlertResponseModel model = new DeleteMaintenanceAlertResponseModel();
@@ -141,6 +149,19 @@ namespace KegID.Services
             //manifestModelGet.StatusCode = value.StatusCode;
             //return manifestModelGet;
             return null;
+        }
+
+        public async Task<KegMassUpdateKegModel> PostKegUploadAsync(KegBulkUpdateItemRequestModel model, string sessionId, string RequestType)
+        {
+            KegMassUpdateKegModel resultModel = new KegMassUpdateKegModel();
+
+            string url = string.Format(Configuration.PostKegsUrl, sessionId);
+            string content = JsonConvert.SerializeObject(model);
+            var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Send, content, RequestType: RequestType);
+
+            resultModel.Model = value.Response != null ? DeserializeObject<IList<KegMassUpdateKegResponseModel>>(value.Response, GetJsonSetting()) : new List<KegMassUpdateKegResponseModel>();
+            resultModel.StatusCode = value.StatusCode;
+            return resultModel;
         }
 
         public async Task<AddMaintenanceAlertModel> PostMaintenanceAlertAsync(AddMaintenanceAlertRequestModel model, string sessionId, string RequestType)

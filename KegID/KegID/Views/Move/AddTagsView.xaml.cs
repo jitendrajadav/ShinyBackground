@@ -1,5 +1,7 @@
 ﻿using GalaSoft.MvvmLight.Ioc;
+using KegID.Common;
 using KegID.Model;
+using KegID.Services;
 using KegID.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -55,6 +57,9 @@ namespace KegID.Views
                     case ViewTypeEnum.MoveView:
                         await OnAddMoreTagsClickedAsync(TagsTypeEnum.BestByDate);
                         await OnAddMoreTagsClickedAsync(TagsTypeEnum.ProductionDate);
+                        break;
+                    case ViewTypeEnum.BulkUpdateScanView:
+                        await OnAddMoreTagsClickedAsync(TagsTypeEnum.Volume);
                         break;
                 }
             }
@@ -158,17 +163,13 @@ namespace KegID.Views
                 case TagsTypeEnum.ExpiryDate:
                     break;
                 case TagsTypeEnum.AssetType:
-                    valueEntry.Items.Add("Keg");
-                    valueEntry.Items.Add("Tap Handle");
+                    var assetType = await LoadAssetTypeAsync();
+                    valueEntry.ItemsSource = assetType.ToList();
                     break;
 
                 case TagsTypeEnum.Size:
-                    valueEntry.Items.Add("1/2 bbl");
-                    valueEntry.Items.Add("1/4 bbl");
-                    valueEntry.Items.Add("1/6 bbl");
-                    valueEntry.Items.Add("30 L");
-                    valueEntry.Items.Add("40 L");
-                    valueEntry.Items.Add("50 L");
+                    var assetSize = await LoadAssetSizeAsync();
+                    valueEntry.ItemsSource = assetSize.ToList();
                     break;
 
                 case TagsTypeEnum.Contents:
@@ -202,6 +203,18 @@ namespace KegID.Views
             grdTag.Children.Add(nameEntry, 0, grdTag.RowDefinitions.Count - 1);
             grdTag.Children.Add(valueEntry, 1, grdTag.RowDefinitions.Count - 1);
             grdTag.Children.Add(removeButton, 2, grdTag.RowDefinitions.Count - 1);
+        }
+
+        private async Task<IList<string>> LoadAssetSizeAsync()
+        {
+            var service = SimpleIoc.Default.GetInstance<IMoveService>();
+            return await service.GetAssetSizeAsync(AppSettings.User.SessionId, false);
+        }
+
+        private async Task<IList<string>> LoadAssetTypeAsync()
+        {
+            var service = SimpleIoc.Default.GetInstance<IMoveService>();
+            return await service.GetAssetTypeAsync(AppSettings.User.SessionId, false);
         }
 
         void OnAddTagsClicked(object sender, EventArgs e)
@@ -311,28 +324,25 @@ namespace KegID.Views
                 switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack[Application.Current.MainPage.Navigation.ModalStack.Count - 2].GetType().Name))
                 {
                     case ViewTypeEnum.ScanKegsView:
-                        SimpleIoc.Default.GetInstance<ScanKegsViewModel>().IsFromScanned = false;
-                        SimpleIoc.Default.GetInstance<ScanKegsViewModel>().Tags = tags;
-                        SimpleIoc.Default.GetInstance<ScanKegsViewModel>().TagsStr = tagsStr;
+                        SimpleIoc.Default.GetInstance<ScanKegsViewModel>().AssignAddTagsValue(tags, tagsStr);
                         break;
                     case ViewTypeEnum.MoveView:
-                        SimpleIoc.Default.GetInstance<MoveViewModel>().Tags = tags;
-                        SimpleIoc.Default.GetInstance<MoveViewModel>().TagsStr = tagsStr;
+                        SimpleIoc.Default.GetInstance<MoveViewModel>().AssignAddTagsValue(tags, tagsStr);
                         break;
                     case ViewTypeEnum.PalletizeView:
                         SimpleIoc.Default.GetInstance<PalletizeViewModel>().AddInfoTitle = tagsStr;
                         break;
                     case ViewTypeEnum.FillScanView:
-                        SimpleIoc.Default.GetInstance<FillScanViewModel>().TagsStr = tagsStr;
-                        SimpleIoc.Default.GetInstance<FillScanViewModel>().Tags = tags;
+                        SimpleIoc.Default.GetInstance<FillScanViewModel>().AssignAddTagsValue(tags, tagsStr);
                         break;
                     case ViewTypeEnum.AddBatchView:
-                        SimpleIoc.Default.GetInstance<AddBatchViewModel>().Tags = tags;
-                        SimpleIoc.Default.GetInstance<AddBatchViewModel>().TagsStr = tagsStr;
+                        SimpleIoc.Default.GetInstance<AddBatchViewModel>().AssignAddTagsValue(tags, tagsStr);
                         break;
                     case ViewTypeEnum.EditKegView:
-                        SimpleIoc.Default.GetInstance<EditKegViewModel>().Tags = tags;
-                        SimpleIoc.Default.GetInstance<EditKegViewModel>().TagsStr = tagsStr;
+                        SimpleIoc.Default.GetInstance<EditKegViewModel>().AssignAddTagsValue(tags, tagsStr);
+                        break;
+                    case ViewTypeEnum.BulkUpdateScanView:
+                        SimpleIoc.Default.GetInstance<BulkUpdateScanViewModel>().AssignAddTagsValue(tags, tagsStr);
                         break;
                 }
 

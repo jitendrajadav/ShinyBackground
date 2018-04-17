@@ -98,6 +98,8 @@ namespace KegID.ViewModel
 
         public RelayCommand SubmitCommand { get;}
         public RelayCommand BackCommand { get;}
+
+
         public RelayCommand BarcodeScanCommand { get;}
         public RelayCommand BarcodeManualCommand { get;}
         public RelayCommand<Barcode> IconItemTappedCommand { get;}
@@ -194,15 +196,24 @@ namespace KegID.ViewModel
 
         private async void BarcodeManualCommandRecieverAsync()
         {
-            var value = await BarcodeScanner.ValidateBarcodeInsertIntoLocalDB(ManaulBarcode, _moveService);
-            ManaulBarcode = string.Empty;
-            BarcodeCollection = new ObservableCollection<Barcode>(value);
+            var isNew = BarcodeCollection.ToList().Any(x => x.Id == ManaulBarcode);
+            if (!isNew)
+            {
+                var value = await BarcodeScanner.ValidateBarcodeInsertIntoLocalDB(_moveService, ManaulBarcode, null, string.Empty);
+                ManaulBarcode = string.Empty;
+                BarcodeCollection.Add(value);
+            }
         }
 
         private async void BarcodeScanCommandRecieverAsync()
         {
-            var value = await BarcodeScanner.BarcodeScanAsync(_moveService);
-            BarcodeCollection = new ObservableCollection<Barcode>(value);
+            await BarcodeScanner.BarcodeScanAsync(_moveService, null, string.Empty);
+        }
+
+        internal void AssignBarcodeScannerValue(List<Barcode> barcodes)
+        {
+            foreach (var item in barcodes)
+                BarcodeCollection.Add(item);
         }
 
         private async void BackCommandRecieverAsync()

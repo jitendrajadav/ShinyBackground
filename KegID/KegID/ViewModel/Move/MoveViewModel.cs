@@ -456,6 +456,12 @@ namespace KegID.ViewModel
                 IsSubmitVisible = true;
         }
 
+        internal void AssignAddTagsValue(List<Tag> _tags, string _tagsStr)
+        {
+            Tags = _tags;
+            TagsStr = _tagsStr;
+        }
+
         private async void CancelCommandRecieverAsync()
         {
             var result = await Application.Current.MainPage.DisplayActionSheet("Cancel? \n You have like to save this manifest as a draft or delete?",null,null, "Delete manifest", "Save as draft");

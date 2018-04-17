@@ -89,6 +89,7 @@ namespace KegID.ViewModel
             }
         }
 
+
         #endregion
 
         #region SelectedBrand
@@ -405,15 +406,24 @@ namespace KegID.ViewModel
 
         private async void BarcodeManualCommandRecieverAsync()
         {
-            var value = await BarcodeScanner.ValidateBarcodeInsertIntoLocalDB(ManaulBarcode,_moveService);
-            ManaulBarcode = string.Empty;
-            BarcodeCollection = new ObservableCollection<Barcode>(value);
+            var isNew = BarcodeCollection.ToList().Any(x => x.Id == ManaulBarcode);
+            if (!isNew)
+            {
+                var value = await BarcodeScanner.ValidateBarcodeInsertIntoLocalDB(_moveService, ManaulBarcode, Tags, TagsStr);
+                ManaulBarcode = string.Empty;
+                BarcodeCollection.Add(value);
+            }
         }
 
         internal async void BarcodeScanCommandReciever()
         {
-           var value = await BarcodeScanner.BarcodeScanAsync(_moveService);
-            BarcodeCollection = new ObservableCollection<Barcode>(value);
+            await BarcodeScanner.BarcodeScanAsync(_moveService, Tags, TagsStr);
+        }
+
+        internal void AssignBarcodeScannerValue(List<Barcode> barcodes)
+        {
+            foreach (var item in barcodes)
+                BarcodeCollection.Add(item);
         }
 
         internal void AssignValidatedValue(Partner model)
@@ -422,11 +432,19 @@ namespace KegID.ViewModel
             BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().PartnerCount = 1;
         }
 
+        internal void AssignAddTagsValue(List<Tag> _tags, string _tagsStr)
+        {
+            IsFromScanned = false;
+            Tags = _tags;
+            TagsStr = _tagsStr;
+        }
+
         public override void Cleanup()
         {
             BarcodeCollection.Clear();
             base.Cleanup();
         }
+
 
         #endregion
     }

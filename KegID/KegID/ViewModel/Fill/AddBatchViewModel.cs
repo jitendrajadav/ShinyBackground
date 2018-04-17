@@ -495,6 +495,12 @@ namespace KegID.ViewModel
            await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView());
         }
 
+        internal void AssignAddTagsValue(List<Tag> _tags, string _tagsStr)
+        {
+            Tags = _tags;
+            TagsStr = _tagsStr;
+        }
+
         #endregion
     }
 }

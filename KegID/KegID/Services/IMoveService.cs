@@ -1,4 +1,5 @@
 ﻿using KegID.Model;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace KegID.Services
@@ -12,6 +13,8 @@ namespace KegID.Services
         Task<PartnerTypeResponseModel> GetPartnerTypeAsync(string sessionId);
         Task<PartnerResponseModel> GetPartnerSearchAsync(string sessionId,string search,bool internalonly,bool includepublic);
         Task<ManifestSearchModel> GetManifestSearchAsync(string sessionId, string trackingNumber,string barcode, string senderId, string destinationId,string referenceKey,string fromDate, string toDate);
+        Task<IList<string>> GetAssetSizeAsync(string sessionId, bool assignableOnly);
+        Task<IList<string>> GetAssetTypeAsync(string sessionId, bool assignableOnly);
 
         Task<ManifestModelGet> PostManifestAsync(ManifestModel model, string sessionId,string RequestType);
         //Task<ManifestModelGet> PostManifestAsync(ManifestRequestModel model, string sessionId, string RequestType);

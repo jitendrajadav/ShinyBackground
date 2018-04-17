@@ -1,5 +1,10 @@
-﻿using GalaSoft.MvvmLight.Command;
+﻿using System;
+using System.Threading.Tasks;
+using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
+using KegID.Common;
+using KegID.Model;
+using KegID.Services;
 using KegID.Views;
 using Xamarin.Forms;
 
@@ -8,6 +13,8 @@ namespace KegID.ViewModel
     public class KegSearchViewModel : BaseViewModel
     {
         #region Properties
+
+        public IMoveService _moveService { get; set; }
 
         #region Barcode
 
@@ -40,7 +47,41 @@ namespace KegID.ViewModel
                 RaisePropertyChanged(BarcodePropertyName);
             }
         }
-        
+
+        #endregion
+
+        #region KegsSuccessMsg
+
+        /// <summary>
+            /// The <see cref="KegsSuccessMsg" /> property's name.
+            /// </summary>
+        public const string KegsSuccessMsgPropertyName = "KegsSuccessMsg";
+
+        private string _kegsSuccessMsg = string.Empty;
+
+        /// <summary>
+        /// Sets and gets the KegsSuccessMsg property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public string KegsSuccessMsg
+        {
+            get
+            {
+                return _kegsSuccessMsg;
+            }
+
+            set
+            {
+                if (_kegsSuccessMsg == value)
+                {
+                    return;
+                }
+
+                _kegsSuccessMsg = value;
+                RaisePropertyChanged(KegsSuccessMsgPropertyName);
+            }
+        }
+
         #endregion
 
         #endregion
@@ -56,10 +97,11 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public KegSearchViewModel()
+        public KegSearchViewModel(IMoveService moveService)
         {
+            _moveService = moveService;
             HomeCommand = new RelayCommand(HomeCommandRecieverAsync);
-            BarcodeScanCommand = new RelayCommand(BarcodeScanCommandReciever);
+            BarcodeScanCommand = new RelayCommand(BarcodeScanCommandRecieverAsync);
             BulkUpdateCommand = new RelayCommand(BulkUpdateCommandRecieverAsync);
             SearchCommand = new RelayCommand(SearchCommandRecieverAsync);
         }
@@ -79,13 +121,27 @@ namespace KegID.ViewModel
             await Application.Current.MainPage.Navigation.PopModalAsync();
         }
 
-        private void BarcodeScanCommandReciever()
+        private async void BarcodeScanCommandRecieverAsync()
         {
-           var value = Barcode;
+            await BarcodeScanner.BarcodeScanSingleAsync(_moveService, null, string.Empty);
         }
+
         private async void BulkUpdateCommandRecieverAsync()
         {
             await Application.Current.MainPage.Navigation.PushModalAsync(new BulkUpdateScanView());
+        }
+
+        internal async void AssingSuccessMsgAsync()
+        {
+            KegsSuccessMsg = "Kegs successfully updated";
+            await Task.Delay(new TimeSpan(0, 0, 5));
+            KegsSuccessMsg = string.Empty;
+        }
+
+        internal async void AssignBarcodeScannerValueAsync(Barcode barcodes)
+        {
+            SimpleIoc.Default.GetInstance<KegSearchedListViewModel>().LoadKegSearchAsync(barcodes.Id);
+            await Application.Current.MainPage.Navigation.PushModalAsync(new KegSearchedListView());
         }
 
         #endregion
