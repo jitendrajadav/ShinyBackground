@@ -72,7 +72,7 @@ namespace KegID
             // Handle when your app starts
             SQLiteServiceClient.Instance.CreateDbIfNotExist();
             Geolocation.GetGPS();
-           var value= Geolocation.GetCurrentLocation();
+           //var value= Geolocation.GetCurrentLocation();
         }
 
         protected override void OnSleep ()

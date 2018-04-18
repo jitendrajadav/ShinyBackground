@@ -63,20 +63,22 @@
 			<string>Viewer</string>
 		</dict>
 	</array>
-	<!--<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>KegID needs access location when open and in the background.</string>-->
-	<key>NSLocationAlwaysUsageDescription</key>
+	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Need location for geolocator plugin.</string>
-	<!--<key>RequestWhenInUseAuthorization</key>
-	<string>Need location for geolocator plugin.</string>-->
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
 	</array>
-  <string>Maps</string>
-  <!--<key>NSLocationWhenInUseUsageDescription</key>
-  <string>We are using your location</string>-->
-  <!--<key>NSCalendarsUsageDescription</key>
-  <string>Needs Calendar Permission</string>-->
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeName</key>
+			<string>MKDirectionsRequest</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.apple.maps.directionsrequest</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>
