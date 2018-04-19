@@ -486,7 +486,7 @@ namespace KegID.ViewModel
                 await Application.Current.MainPage.DisplayAlert("Error", "Please select a destination first.", "Ok");
         }
 
-        internal void AssignInitialValue(string _kegId, string _barcode, string _addKegs, string _destination,bool isSaveDraftVisible)
+        internal void AssignInitialValue(string _kegId, string _barcode, string _addKegs, string _destination,string _partnerId, bool isSaveDraftVisible)
         {
             Barcode = _barcode;
             ManifestId = !string.IsNullOrEmpty(_kegId) ? _kegId : Uuid.GetUuId();
@@ -494,6 +494,7 @@ namespace KegID.ViewModel
             if (!string.IsNullOrEmpty(_destination))
             {
                 Destination = _destination;
+                PartnerModel.PartnerId = _partnerId;
                 IsRequiredVisible = false;
             }
             IsSaveDraftVisible = isSaveDraftVisible;

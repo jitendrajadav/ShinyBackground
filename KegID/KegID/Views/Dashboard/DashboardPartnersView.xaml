@@ -161,7 +161,7 @@
                 <Grid.Margin>
                     <OnPlatform x:TypeArguments="Thickness">
                         <On Platform="iOS, WinPhone, Windows, UWP" Value="0,0,0,5" />
-                        <On Platform="Android" Value="0" />
+                        <On Platform="Android" Value="0,0,0,5" />
                     </OnPlatform>
                 </Grid.Margin>
                 <Grid.HeightRequest>

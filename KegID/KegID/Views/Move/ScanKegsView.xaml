@@ -267,7 +267,7 @@
                                         TextColor="{StaticResource lightGrayColor}"
                                         Grid.Row="1"
                                         FontSize="{StaticResource ListViewDetailFont}"
-                                        Text="{Binding Path=BindingContext.TagsStr,Source={x:Reference Name=lstBarcode}}"/>
+                                        Text="{Binding TagsStr}"/>
                                 </Grid>
                             </ViewCell>
                         </DataTemplate>

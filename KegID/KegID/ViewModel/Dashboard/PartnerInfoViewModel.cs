@@ -405,13 +405,13 @@ namespace KegID.ViewModel
         }
         private async void SendKegsCommandRecieverAsync()
         {
+            SimpleIoc.Default.GetInstance<MoveViewModel>().AssignInitialValue(string.Empty, string.Empty, string.Empty, PartnerModel.FullName, PartnerModel.PartnerId, true);
             await Application.Current.MainPage.Navigation.PushModalAsync(new MoveView());
-            SimpleIoc.Default.GetInstance<MoveViewModel>().AssignInitialValue(string.Empty, string.Empty, string.Empty, PartnerModel.FullName, true);
         }
 
         private async void ShipToCommandRecieverAsync()
         {
-            SimpleIoc.Default.GetInstance<PartnerInfoMapViewModel>().AssignInitialValue(PartnerInfoModel);
+            SimpleIoc.Default.GetInstance<PartnerInfoMapViewModel>().AssignInitialValue(PartnerInfoModel.Lat, PartnerInfoModel.Lon,PartnerInfoModel.BillAddress.City, PartnerInfoModel.BillAddress.Line1);
             await Application.Current.MainPage.Navigation.PushModalAsync(new PartnerInfoMapView());
         }
 

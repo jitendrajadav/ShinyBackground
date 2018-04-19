@@ -67,7 +67,13 @@
                 <Setter Property="Margin" Value="{StaticResource AppBarButtonMargin}"/>
                 <Setter Property="TextColor" Value="Black"/>
             </Style>
-
+            
+            <Style x:Key="LabelBannerStyle" TargetType="Label">
+                <Setter Property="VerticalOptions" Value="Center"/>
+                <Setter Property="FontSize" Value="{StaticResource AppBarButtonFontSize}"/>
+                <Setter Property="TextColor" Value="Black"/>
+            </Style>
+            
             <Style x:Key="LabelTitleWhiteTextColorStyle" TargetType="Label">
                 <Setter Property="VerticalOptions" Value="Center"/>
                 <Setter Property="VerticalTextAlignment" Value="Center"/>

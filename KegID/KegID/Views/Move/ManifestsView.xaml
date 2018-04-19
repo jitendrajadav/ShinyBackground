@@ -83,14 +83,14 @@
                 Grid.Row="2">
                 <Grid.Margin>
                     <OnPlatform x:TypeArguments="Thickness">
-                        <On Platform="iOS, WinPhone, Windows, UWP" Value="0,0,0,5" />
-                        <On Platform="Android" Value="0" />
+                        <On Platform="iOS, WinPhone, Windows, UWP" Value="0,5,0,20" />
+                        <On Platform="Android" Value="0,5,0,20" />
                     </OnPlatform>
                 </Grid.Margin>
                 
                 <Grid.HeightRequest>
                     <OnPlatform x:TypeArguments="x:Double">
-                        <On Platform="iOS" Value="35" />
+                        <On Platform="iOS" Value="30" />
                         <On Platform="Android, WinPhone, Windows, UWP" Value="35" />
                     </OnPlatform>
                 </Grid.HeightRequest>
@@ -182,26 +182,26 @@
                                 </Grid.ColumnDefinitions>
                                 
                                 <Label
-                                    FontSize="{StaticResource ListViewTitleFont}"
+                                    FontSize="{StaticResource ListViewDetailFont}"
                                     TextColor="{StaticResource selectTextColor}"
                                     LineBreakMode="TailTruncation"
                                     Text="{Binding OwnerName}"/>
 
                                 <Label
-                                    FontSize="{StaticResource ListViewTitleFont}"
+                                    FontSize="{StaticResource ListViewDetailFont}"
                                     TextColor="{StaticResource selectTextColor}"
                                     Grid.Row="1"
                                     Text="{Binding ShipDate, StringFormat='{0:dd/MM/yy}'}"/>
 
                                 <Label
-                                    FontSize="{StaticResource ListViewTitleFont}"
+                                    FontSize="{StaticResource ListViewDetailFont}"
                                     TextColor="{StaticResource selectTextColor}"
                                     HorizontalOptions="End"
                                     Grid.Column="1"
                                     Text="{Binding ManifestId, StringFormat='# {0}',Converter={StaticResource StringToLast8CharacterConverter}}"/>
 
                                 <Label
-                                    FontSize="{StaticResource ListViewTitleFont}"
+                                    FontSize="{StaticResource ListViewDetailFont}"
                                     TextColor="{StaticResource selectTextColor}"
                                     HorizontalOptions="End"
                                     Grid.Column="1"

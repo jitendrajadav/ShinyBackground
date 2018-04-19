@@ -18,7 +18,7 @@ namespace KegID.Views
         {
             base.OnAppearing();
             //ViewModelLocator.Cleanup();
-            SimpleIoc.Default.GetInstance<ScanKegsViewModel>().Cleanup();
+            //SimpleIoc.Default.GetInstance<ScanKegsViewModel>().Cleanup();
         }
     }
 }

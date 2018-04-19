@@ -12,6 +12,7 @@ using Xamarin.Forms.Platform.iOS;
 [assembly: Xamarin.Forms.ExportRenderer(typeof(CameraPreview), typeof(ScannerViewRenderer))]
 namespace KegID.iOS.Renderers
 {
+
     public class ScannerViewRenderer : ViewRenderer<CameraPreview, UIImageView>, ICMBReaderDeviceDelegate
     {
         CMBReaderDevice readerDevice;
@@ -32,8 +33,10 @@ namespace KegID.iOS.Renderers
                 return;
             }
 
-            ivPreview = new UIImageView();
-            ivPreview.ContentMode = UIViewContentMode.ScaleToFill;
+            ivPreview = new UIImageView
+            {
+                ContentMode = UIViewContentMode.ScaleToFill
+            };
 
             if (Control == null)
                 SetNativeControl(ivPreview);
@@ -41,7 +44,7 @@ namespace KegID.iOS.Renderers
             Xamarin.Forms.ToolbarItem toolbarItemSelectDevice = CognexScanView._toolbarItemSelectDevice;
             toolbarItemSelectDevice.Clicked += (sender, eve) =>
             {
-                pickDevice(sender);
+                PickDevice(sender);
             };
 
             lblConnection = CognexScanView._lblStatus;
@@ -52,13 +55,13 @@ namespace KegID.iOS.Renderers
             btnScan.IsEnabled = false;
             btnScan.Clicked += (sender, ev) =>
             {
-                toggleScanner(btnScan);
+                ToggleScanner(btnScan);
             };
 
-            initReader();
+            InitReader();
         }
 
-        private void initReader()
+        private void InitReader()
         {
             if (readerDevice == null)
             {
@@ -86,24 +89,23 @@ namespace KegID.iOS.Renderers
                         DispatchQueue.MainQueue.DispatchAsync(() =>
                         {
                             readerDevice.WeakDelegate = this;
-                            connectToReaderDevice();
-
+                            ConnectToReaderDevice();
                         });
                     });
                 }
                 else
                 {
-                    pickDevice(null);
+                    PickDevice(null);
                 }
             }
             else
             {
                 readerDevice.WeakDelegate = this;
-                connectToReaderDevice();
+                ConnectToReaderDevice();
             }
         }
 
-        private void connectToReaderDevice()
+        private void ConnectToReaderDevice()
         {
             if (readerDevice.Availability == CMBReaderAvailibility.Available && readerDevice.ConnectionState != CMBConnectionState.Connected)
             {
@@ -112,6 +114,15 @@ namespace KegID.iOS.Renderers
                     if (error != null)
                     {
                         new UIAlertView("Failed to connect", error.Description, null, "OK", null).Show();
+
+                        ////Create Alert
+                        //var okAlertController = UIAlertController.Create("OK Alert", "This is a sample alert with an OK button.", UIAlertControllerStyle.Alert);
+
+                        ////Add Action
+                        //okAlertController.AddAction(UIAlertAction.Create("Ok", UIAlertActionStyle.Default, null));
+
+                        //// Present Alert
+                        //await PresentViewControllerAsync(okAlertController, true, null);
 
                         btnScan.IsEnabled = false;
                         lblConnection.Text = " Disconnected";
@@ -127,7 +138,7 @@ namespace KegID.iOS.Renderers
             }
         }
 
-        private void disconnectReaderDevice()
+        private void DisconnectReaderDevice()
         {
             if (readerDevice == null) return;
             if (readerDevice != null && readerDevice.ConnectionState != CMBConnectionState.Disconnected)
@@ -136,44 +147,44 @@ namespace KegID.iOS.Renderers
             }
         }
 
-        void pickDevice(object sender)
+        void PickDevice(object sender)
         {
-            disconnectReaderDevice();
+            DisconnectReaderDevice();
             readerDevice = null;
 
             UIAlertController devicePicker = UIAlertController.Create("Select device", null, UIAlertControllerStyle.ActionSheet);
             devicePicker.AddAction(UIAlertAction.Create("MX Scanner", UIAlertActionStyle.Default, (obj) =>
             {
                 NSUserDefaults.StandardUserDefaults.SetInt(0, "selectedDevice");
-                initReader();
+                InitReader();
             }));
             devicePicker.AddAction(UIAlertAction.Create("Mobile Camera", UIAlertActionStyle.Default, (obj) =>
             {
                 NSUserDefaults.StandardUserDefaults.SetInt(1, "selectedDevice");
-                initReader();
+                InitReader();
             }));
             devicePicker.AddAction(UIAlertAction.Create("Mobile Camera w/ basic Aimer", UIAlertActionStyle.Default, (obj) =>
             {
                 NSUserDefaults.StandardUserDefaults.SetInt(2, "selectedDevice");
-                initReader();
+                InitReader();
             }));
 
             if (sender != null)
             {
                 devicePicker.AddAction(UIAlertAction.Create("Cancel", UIAlertActionStyle.Cancel, (obj) =>
                 {
-                    initReader();
+                    InitReader();
                 }));
             }
 
             UIApplication.SharedApplication.KeyWindow.RootViewController.PresentViewController(devicePicker, true, null);
         }
 
-        private void toggleScanner(Xamarin.Forms.Button sender)
+        private void ToggleScanner(Xamarin.Forms.Button sender)
         {
             if (isScanning)
             {
-                stopScan();
+                StopScan();
                 sender.Text = "START SCANNING";
             }
             else
@@ -182,24 +193,24 @@ namespace KegID.iOS.Renderers
                 lblCode.Text = "";
                 lblConnection.IsVisible = false;
 
-                startScan();
+                StartScan();
                 sender.Text = "STOP SCANNING";
             }
 
             isScanning = !isScanning;
         }
 
-        private void startScan()
+        private void StartScan()
         {
             readerDevice.StartScanning();
         }
 
-        private void stopScan()
+        private void StopScan()
         {
             readerDevice.StopScanning();
         }
 
-        void loadSettings()
+        void LoadSettings()
         {
             readerDevice.SetSymbology(CMBSymbology.DataMatrix, true, (error) =>
             {
@@ -278,13 +289,13 @@ namespace KegID.iOS.Renderers
             //base.AvailabilityDidChangeOfReader(reader);
             if (reader.Availability != CMBReaderAvailibility.Available)
             {
-                disconnectReaderDevice();
+                DisconnectReaderDevice();
             }
             else
             {
                 lblSymbology.Text = "";
                 readerDevice = reader;
-                connectToReaderDevice();
+                ConnectToReaderDevice();
             }
         }
 
@@ -295,7 +306,7 @@ namespace KegID.iOS.Renderers
             {
                 DispatchQueue.MainQueue.DispatchAsync(() =>
                 {
-                    loadSettings();
+                    LoadSettings();
                 });
 
                 btnScan.Text = "START SCANNING";
@@ -319,6 +330,14 @@ namespace KegID.iOS.Renderers
                 lblConnection.Text = "Disconnected";
                 lblConnection.BackgroundColor = Xamarin.Forms.Color.FromHex("#ffff4444");
             }
+        }
+    }
+
+    public class HomeScreenAlertDelegate : UIAlertViewDelegate
+    {
+        public override void Clicked(UIAlertView alertview, nint buttonIndex)
+        {
+            base.Clicked(alertview, buttonIndex);
         }
     }
 }

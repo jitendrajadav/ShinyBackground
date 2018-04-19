@@ -23,14 +23,14 @@ namespace KegID.Views
             };
 
             //var position = new Position(Geolocation.savedPosition.Latitude, Geolocation.savedPosition.Longitude); // Latitude, Longitude
-            var model = SimpleIoc.Default.GetInstance<PartnerInfoMapViewModel>().Model;
+            var model = SimpleIoc.Default.GetInstance<PartnerInfoMapViewModel>().Position;
             var position = new Position(model.Lat, model.Lon);
             var pin = new Pin
             {
                 Type = PinType.Place,
                 Position = position,
-                Label = model.BillAddress.City,
-                Address = model.BillAddress.Line1
+                Label = model.Label,
+                Address = model.Address
             };
 
             //map.Circle = new CustomCircle

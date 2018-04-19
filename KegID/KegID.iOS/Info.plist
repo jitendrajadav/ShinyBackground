@@ -65,7 +65,10 @@
 	</array>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Need location for geolocator plugin.</string>
-	<key>UIBackgroundModes</key>
+  <key>NSCameraUsageDescription</key>
+  <string>Camera</string>
+
+  <key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
 	</array>
@@ -80,5 +83,16 @@
 			</array>
 		</dict>
 	</array>
+  <key>XSLaunchImageAssets</key>
+  <string>Resources/Media.xcassets/LaunchImages.launchimage</string>
+  <key>XSAppIconAssets</key>
+  <string>Resources/Media.xcassets/AppIcons.appiconset</string>
+  <key>UIStatusBarStyle</key>
+  <string>UIStatusBarStyleLightContent</string>
+  <key>UISupportedExternalAccessoryProtocols</key>
+  <array>
+    <string>com.cognex.dmcc</string>
+    <string>com.demo.data</string>
+  </array>
 </dict>
 </plist>

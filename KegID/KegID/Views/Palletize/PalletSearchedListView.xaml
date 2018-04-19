@@ -59,8 +59,8 @@
                                 </Grid.RowDefinitions>
 
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="85*"/>
-                                    <ColumnDefinition Width="15*"/>
+                                    <ColumnDefinition Width="84*"/>
+                                    <ColumnDefinition Width="16*"/>
                                 </Grid.ColumnDefinitions>
                                 
                                 <Label
@@ -71,6 +71,7 @@
 
                                 <Label 
                                     Grid.Row="1"
+                                    LineBreakMode="MiddleTruncation"
                                     TextColor="{StaticResource lightGrayColor}" 
                                     Text="{Binding LocationName}" 
                                     FontSize="{StaticResource ListViewDetailFont}"/>

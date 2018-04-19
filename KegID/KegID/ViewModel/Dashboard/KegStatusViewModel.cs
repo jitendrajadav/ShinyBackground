@@ -19,6 +19,8 @@ namespace KegID.ViewModel
         #region Properties
         public IDashboardService DashboardService { get; set; }
 
+        public LocationInfo Posision { get; set; }
+
         #region Owner
 
         /// <summary>
@@ -667,7 +669,7 @@ namespace KegID.ViewModel
         private async void MoveKegCommandRecieverAsync()
         {
             await Application.Current.MainPage.Navigation.PushModalAsync(new MoveView());
-            SimpleIoc.Default.GetInstance<MoveViewModel>().AssignInitialValue(KegId,Barcode,"1",string.Empty,true);
+            SimpleIoc.Default.GetInstance<MoveViewModel>().AssignInitialValue(KegId,Barcode,"1",string.Empty,string.Empty,true);
         }
 
         public async Task LoadMaintenanceHistoryAsync(string _kegId,string _contents,long _heldDays,string _possessorName, string _barcode,string _typeName,string _sizeName)
@@ -705,6 +707,10 @@ namespace KegID.ViewModel
                 Owner = kegStatus.Owner.FullName;
                 Batch = kegStatus.Batch == string.Empty ? "--" : kegStatus.Batch;
                 //KegId = "6762E448-B6AD-4CE1-BA31-865DF01F6334";
+                Posision.Address = kegStatus.Owner.Address;
+                Posision.Label = kegStatus.Owner.City;
+                Posision.Lat = kegStatus.Owner.Lat;
+                Posision.Lon = kegStatus.Owner.Lon;
 
                 var value = await DashboardService.GetKegMaintenanceHistoryAsync(KegId, AppSettings.User.SessionId);
                 MaintenancePerformedCollection = value.KegMaintenanceHistoryResponseModel;
@@ -762,6 +768,7 @@ namespace KegID.ViewModel
 
         private async void CurrentLocationCommandRecieverAsync()
         {
+            SimpleIoc.Default.GetInstance<PartnerInfoMapViewModel>().AssignInitialValue(Posision.Lat, Posision.Lon, Posision.Label, Posision.Address);
             await Application.Current.MainPage.Navigation.PushModalAsync(new PartnerInfoMapView());
         }
 

@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
 using KegID.Model;
 using KegID.Services;
@@ -317,7 +319,11 @@ namespace KegID.ViewModel
             }
         }
 
-        private async void ItemTappedCommandRecieverAsync(ManifestModel model) => await Application.Current.MainPage.Navigation.PopModalAsync();
+        private async void ItemTappedCommandRecieverAsync(ManifestModel model)
+        {
+            SimpleIoc.Default.GetInstance<MoveViewModel>().AssignInitialValue(model.ManifestId, model.ManifestItems.FirstOrDefault().Barcode, model.ManifestItemsCount.ToString(), model.OwnerName, model.ReceiverId, true);
+            await Application.Current.MainPage.Navigation.PushModalAsync(new MoveView());
+        }
 
         private async void HomeCommandRecieverAsync()
         {

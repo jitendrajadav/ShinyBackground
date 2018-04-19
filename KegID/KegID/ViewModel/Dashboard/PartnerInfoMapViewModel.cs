@@ -9,42 +9,7 @@ namespace KegID.ViewModel
     public class PartnerInfoMapViewModel : BaseViewModel
     {
         #region Properties
-
-        public PartnerInfoResponseModel Model { get; set; }
-
-        //#region CustomPins
-
-        ///// <summary>
-        ///// The <see cref="CustomPins" /> property's name.
-        ///// </summary>
-        //public const string CustomPinsPropertyName = "CustomPins";
-
-        //private ObservableCollection<CustomPin> _customPins = new ObservableCollection<CustomPin>();
-
-        ///// <summary>
-        ///// Sets and gets the CustomPins property.
-        ///// Changes to that property's value raise the PropertyChanged event. 
-        ///// </summary>
-        //public ObservableCollection<CustomPin> CustomPins
-        //{
-        //    get
-        //    {
-        //        return _customPins;
-        //    }
-
-        //    set
-        //    {
-        //        if (_customPins == value)
-        //        {
-        //            return;
-        //        }
-
-        //        _customPins = value;
-        //        RaisePropertyChanged(CustomPinsPropertyName);
-        //    }
-        //}
-
-        //#endregion
+        public LocationInfo Position { get; set; }
 
         #endregion
 
@@ -106,9 +71,12 @@ namespace KegID.ViewModel
             await Application.Current.MainPage.Navigation.PopModalAsync();
         }
 
-        internal void AssignInitialValue(PartnerInfoResponseModel _model)
+        internal void AssignInitialValue(double _lat, double _lon, string _lable, string _address)
         {
-            Model = _model;
+            Position.Lat = _lat;
+            Position.Lon = _lon;
+            Position.Label = _lable;
+            Position.Address = _address;
         }
 
         #endregion
