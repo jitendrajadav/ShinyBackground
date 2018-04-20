@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
@@ -285,7 +284,6 @@ namespace KegID.ViewModel
             DraftCommand = new RelayCommand(DraftCommandReciever);
             RecentCommand = new RelayCommand(RecentCommandReciever);
             ItemTappedCommand = new RelayCommand<ManifestModel>((model) => ItemTappedCommandRecieverAsync(model));
-            //LoadDraftManifestAsync();
         }
 
         #endregion
@@ -298,8 +296,6 @@ namespace KegID.ViewModel
             {
                 ManifestCollection.Clear();
                 Loader.StartLoading();
-                //var manifest = await _moveService.GetManifestListAsync(Configuration.SessionId);
-                //ManifestCollection = new ObservableCollection<ManifestModelGet>(manifest);
                 var collection = await SQLiteServiceClient.Db.Table<DraftManifestModel>().ToListAsync();
                 foreach (var item in collection)
                 {
@@ -321,7 +317,7 @@ namespace KegID.ViewModel
 
         private async void ItemTappedCommandRecieverAsync(ManifestModel model)
         {
-            SimpleIoc.Default.GetInstance<MoveViewModel>().AssignInitialValue(model.ManifestId, model.ManifestItems.FirstOrDefault().Barcode, model.ManifestItemsCount.ToString(), model.OwnerName, model.ReceiverId, true);
+            SimpleIoc.Default.GetInstance<MoveViewModel>().AssignInitialValue(model.ManifestId, model.ManifestItems.Count > 0 ? model.ManifestItems.FirstOrDefault().Barcode:string.Empty, model.ManifestItemsCount > 0 ? model.ManifestItemsCount.ToString() : string.Empty, model.OwnerName, model.ReceiverId, true);
             await Application.Current.MainPage.Navigation.PushModalAsync(new MoveView());
         }
 

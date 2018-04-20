@@ -1,11 +1,15 @@
 ﻿using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
+using KegID.Model;
 using KegID.Services;
 using KegID.SQLiteClient;
 using KegID.Views;
 using Microsoft.AppCenter.Analytics;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -185,10 +189,11 @@ namespace KegID.ViewModel
                         var value = await SQLiteServiceClient.Db.InsertAllAsync(model.LoginModel.Preferences);
                         var maintenance = await MaintainService.GetMaintainTypeAsync(AppSettings.User.SessionId);
                         await SQLiteServiceClient.Db.InsertAllAsync(maintenance.MaintainTypeReponseModel);
+                        await LoadAssetSizeAsync();
+                        await LoadAssetTypeAsync();
                     }
                     catch (Exception ex)
                     {
-
                         Debug.WriteLine(ex.Message);
                     }
                 }
@@ -212,6 +217,56 @@ namespace KegID.ViewModel
         {
             AppSettings.RemoveUserData();
             await Application.Current.MainPage.Navigation.PushModalAsync(new LoginView());
+        }
+
+        private async Task LoadAssetSizeAsync()
+        {
+            List<AssetSizeModel> assetSizeModel = null;
+            var service = SimpleIoc.Default.GetInstance<IMoveService>();
+            try
+            {
+                var model = await service.GetAssetSizeAsync(AppSettings.User.SessionId, false);
+                assetSizeModel = new List<AssetSizeModel>();
+                foreach (var item in model)
+                {
+                    assetSizeModel.Add(new AssetSizeModel { AssetSize = item });
+                }
+                await SQLiteServiceClient.Db.InsertAllAsync(assetSizeModel);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            finally
+            {
+                assetSizeModel = null;
+                service = null;
+            }
+        }
+
+        private async Task LoadAssetTypeAsync()
+        {
+            List<AssetTypeModel> assetTypeModels = null;
+            var service = SimpleIoc.Default.GetInstance<IMoveService>();
+            try
+            {
+                var model = await service.GetAssetTypeAsync(AppSettings.User.SessionId, false);
+                assetTypeModels = new List<AssetTypeModel>();
+                foreach (var item in model)
+                {
+                    assetTypeModels.Add(new AssetTypeModel { AssetType = item });
+                }
+                await SQLiteServiceClient.Db.InsertAllAsync(assetTypeModels);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            finally
+            {
+                assetTypeModels = null;
+                service = null;
+            }
         }
 
         #endregion

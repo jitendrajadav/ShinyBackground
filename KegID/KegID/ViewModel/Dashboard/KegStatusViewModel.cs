@@ -695,7 +695,7 @@ namespace KegID.ViewModel
                     {
                         var flag = kegStatus.MaintenanceAlerts.Where(x => x.Id == item.Id).FirstOrDefault();
                         if (flag == null)
-                            MaintenanceCollection.Add(new MaintenanceAlert { Id = (int)item.Id, ActivationMethod = (int)item.ActivationMethod, AssetSize = "", AssetType = "", Barcode = Barcode, DefectType = item.DefectType.ToString(), DueDate = DateTime.Now, IsActivated = false, KegId = _kegId, LocationId = kegStatus.Location.PartnerId, LocationName = kegStatus.Owner.FullName, Message = "", Name = item.Name, OwnerId = kegStatus.Pallet?.OwnerId, OwnerName = kegStatus.Pallet?.OwnerName, PalletBarcode = kegStatus.Pallet?.Barcode, PalletId = kegStatus.Pallet?.PalletId, TypeId = kegStatus.TypeId, TypeName = kegStatus.TypeName });
+                            MaintenanceCollection.Add(new MaintenanceAlert { Id = (int)item.Id, ActivationMethod = item.ActivationMethod, AssetSize = "", AssetType = "", Barcode = Barcode, DefectType = item.DefectType.ToString(), DueDate = DateTime.Now, IsActivated = false, KegId = _kegId, LocationId = kegStatus.Location.PartnerId, LocationName = kegStatus.Owner.FullName, Message = "", Name = item.Name, OwnerId = kegStatus.Pallet?.OwnerId, OwnerName = kegStatus.Pallet?.OwnerName, PalletBarcode = kegStatus.Pallet?.Barcode, PalletId = kegStatus.Pallet?.PalletId, TypeId = kegStatus.TypeId, TypeName = kegStatus.TypeName });
                     }
                 }
                 catch (Exception ex)
@@ -707,10 +707,13 @@ namespace KegID.ViewModel
                 Owner = kegStatus.Owner.FullName;
                 Batch = kegStatus.Batch == string.Empty ? "--" : kegStatus.Batch;
                 //KegId = "6762E448-B6AD-4CE1-BA31-865DF01F6334";
-                Posision.Address = kegStatus.Owner.Address;
-                Posision.Label = kegStatus.Owner.City;
-                Posision.Lat = kegStatus.Owner.Lat;
-                Posision.Lon = kegStatus.Owner.Lon;
+                Posision = new LocationInfo
+                {
+                    Address = kegStatus.Location.Address,
+                    Label = kegStatus.Location.City,
+                    Lat = kegStatus.Location.Lat,
+                    Lon = kegStatus.Location.Lon
+                };
 
                 var value = await DashboardService.GetKegMaintenanceHistoryAsync(KegId, AppSettings.User.SessionId);
                 MaintenancePerformedCollection = value.KegMaintenanceHistoryResponseModel;

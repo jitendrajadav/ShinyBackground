@@ -12,19 +12,19 @@ namespace KegID.Model
         public string Description { get; set; }
         public bool IsAlert { get; set; }
         public bool IsAction { get; set; }
-        public DefectType DefectType { get; set; }
-        public ActivationMethod ActivationMethod { get; set; }
+        public string DefectType { get; set; }
+        public string ActivationMethod { get; set; }
         public DateTime DeletedDate { get; set; }
         public bool InUse { get; set; }
         [Ignore]
-        public List<ActivationPartnerType> ActivationPartnerTypes { get; set; }
+        public List<string> ActivationPartnerTypes { get; set; }
     }
 
-    public enum ActivationMethod { Always=1, ReverseOnly=2 };
+    //public enum ActivationMethod { Always=1, ReverseOnly=2 };
 
-    public enum ActivationPartnerType { Brewrempty, Brewrretrn, Distrempty, Distrlgstc };
+    //public enum ActivationPartnerType { Brewrempty, Brewrretrn, Distrempty, Distrlgstc };
 
-    public enum DefectType { Keg= 65, Contents= 67 };
+    //public enum DefectType { Keg= 65, Contents= 67 };
 
 
     public class MaintainTypeModel : KegIDResponse

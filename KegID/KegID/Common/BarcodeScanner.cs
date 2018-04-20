@@ -35,8 +35,12 @@ namespace KegID.Common
 
             var torch = new Button
             {
-                Text = "Toggle Torch"
+                Text = "Toggle Torch",
+                BackgroundColor = Color.White,
+                HeightRequest = 70,
+                VerticalOptions = LayoutOptions.Center
             };
+
             torch.Clicked += delegate
             {
                 scanPage.ToggleTorch();
@@ -52,7 +56,8 @@ namespace KegID.Common
             {
                 VerticalOptions = LayoutOptions.End,
                 Text = "Done",
-                TextColor = Color.Blue
+                TextColor = Color.Blue,
+                BackgroundColor = Color.White
             };
             done.Clicked += async delegate
             {

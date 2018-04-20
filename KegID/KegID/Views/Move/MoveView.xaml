@@ -46,7 +46,7 @@
                 
                 <Grid.RowSpacing>
                     <OnPlatform x:TypeArguments="x:Double">
-                        <On Platform="iOS" Value="10" />
+                        <On Platform="iOS" Value="2" />
                         <On Platform="Android, WinPhone, Windows, UWP" Value="0" />
                     </OnPlatform>
                 </Grid.RowSpacing>
@@ -68,7 +68,6 @@
                     Margin="-10,0,-10,0"
                     Grid.Row="0"
                     BackgroundColor="{StaticResource bannerBGColor}"
-                    WidthRequest="10"
                     VerticalOptions="FillAndExpand"
                     HorizontalOptions="FillAndExpand"/>
             

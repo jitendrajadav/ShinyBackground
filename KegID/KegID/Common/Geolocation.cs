@@ -53,6 +53,7 @@ namespace KegID.Common
             {
             }
         }
+
         public static async Task<Position> GetCurrentLocation()
         {
             Position position = null;
@@ -127,7 +128,7 @@ namespace KegID.Common
             }
             finally
             {
-                AddressForPosition();
+                //AddressForPosition();
             }
         }
 

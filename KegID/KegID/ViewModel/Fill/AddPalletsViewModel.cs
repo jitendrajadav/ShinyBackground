@@ -219,34 +219,38 @@ namespace KegID.ViewModel
             {
                 foreach (var item in pallet.Barcode)
                 {
-                    palletItem = new TItem();
-                    palletItem.Barcode = item.Id;
-                    //palletItem.BatchId = SimpleIoc.Default.GetInstance<FillViewModel>().NewBatchModel.BatchId;
-                    //palletItem.Contents = "";
-                    //palletItem.HeldOnPalletId = "";
-                    //palletItem.KegId = "";
-                    //palletItem.PalletId = "";
-                    palletItem.ScanDate = DateTime.Today;
-                    //palletItem.SkuId = "";
-                    palletItem.ValidationStatus = 4;
-                    palletItem.Tags = tags;
+                    palletItem = new TItem
+                    {
+                        Barcode = item.Id,
+                        //palletItem.BatchId = SimpleIoc.Default.GetInstance<FillViewModel>().NewBatchModel.BatchId;
+                        //palletItem.Contents = "";
+                        //palletItem.HeldOnPalletId = "";
+                        //palletItem.KegId = "";
+                        //palletItem.PalletId = "";
+                        ScanDate = DateTime.Today,
+                        //palletItem.SkuId = "";
+                        ValidationStatus = 4,
+                        Tags = tags
+                    };
 
                     palletItems.Add(palletItem);
                 }
 
-                newPallet = new NewPallet();
-                newPallet.Barcode = pallet.ManifestId;
-                //newPallet.BarcodeFormat = "";
-                newPallet.BuildDate = DateTime.Today;
-                //newPallet.ManifestTypeId = 4;
-                newPallet.StockLocation = partnerModel.PartnerId;
-                newPallet.StockLocationId = partnerModel.PartnerId;
-                newPallet.StockLocationName = partnerModel.FullName;
-                newPallet.OwnerId = AppSettings.User.CompanyId;
-                newPallet.PalletId = Uuid.GetUuId();
-                newPallet.PalletItems = palletItems;
-                newPallet.ReferenceKey = "";
-                newPallet.Tags = tags;
+                newPallet = new NewPallet
+                {
+                    Barcode = pallet.ManifestId,
+                    //newPallet.BarcodeFormat = "";
+                    BuildDate = DateTime.Today,
+                    //newPallet.ManifestTypeId = 4;
+                    StockLocation = partnerModel.PartnerId,
+                    StockLocationId = partnerModel.PartnerId,
+                    StockLocationName = partnerModel.FullName,
+                    OwnerId = AppSettings.User.CompanyId,
+                    PalletId = Uuid.GetUuId(),
+                    PalletItems = palletItems,
+                    ReferenceKey = "",
+                    Tags = tags
+                };
                 //newPallet.TargetLocation = "";
 
                 newPallets.Add(newPallet);
@@ -291,6 +295,16 @@ namespace KegID.ViewModel
                 finally
                 {
                     Loader.StopLoading();
+                    model = null;
+                    barcodes = null;
+                    tags = null;
+                    partnerModel = null;
+                    closedBatches = null;
+                    newPallets = null;
+                    newPallet = null;
+                    palletItems = null;
+                    palletItem = null;
+                    Cleanup();
                 }
             }
             else
@@ -340,6 +354,13 @@ namespace KegID.ViewModel
                 Kegs = string.Format("({0} Kegs)", PalletCollection.Sum(x => x.Count));
             else
                 Kegs = string.Format("({0} Keg)", PalletCollection.Sum(x => x.Count));
+        }
+
+        public override void Cleanup()
+        {
+            base.Cleanup();
+            PalletCollection.Clear();
+            Kegs = default(string);
         }
 
         #endregion

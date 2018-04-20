@@ -33,7 +33,7 @@
                 x:Name="lblManifest"
                 Style="{StaticResource TopButtonTitleStyle}"
                 Grid.ColumnSpan="2"
-                Text="{Binding Resources[button_manifests]}"
+                Text="{Binding Resources[button_back]}"
                 Command="{Binding ManifestsCommand}"
                 />
 
@@ -47,7 +47,7 @@
                 Margin="-10,0,-10,0"
                 Grid.Row="1"
                 Grid.ColumnSpan="2"
-                BackgroundColor="Black"
+                BackgroundColor="{StaticResource lightGrayColor}"
                 HeightRequest="1"
                 VerticalOptions="Start"
                 HorizontalOptions="FillAndExpand"/>
@@ -132,7 +132,7 @@
                 HorizontalOptions="End"
                 Text="{Binding Resources[button_search]}"
                 Command="{Binding SearchCommand}"
-                Style="{StaticResource BottomButtonTitleStyle}"
+                Style="{StaticResource TopButtonTitleStyle}"
                 />
 
         </Grid>

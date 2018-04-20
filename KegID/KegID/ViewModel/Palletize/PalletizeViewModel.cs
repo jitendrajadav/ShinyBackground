@@ -342,18 +342,29 @@ namespace KegID.ViewModel
             var millisecond = now.Millisecond;
 
             var preference = await SQLiteServiceClient.Db.Table<Preference>().Where(x => x.PreferenceName == "DashboardPreferences").ToListAsync();
-            foreach (var item in preference)
+            try
             {
-                if (item.PreferenceValue.Contains("OldestKegs"))
+                foreach (var item in preference)
                 {
-                    var preferenceValue = JsonConvert.DeserializeObject<PreferenceValueResponseModel>(item.PreferenceValue);
-                    var value = preferenceValue.SelectedWidgets.Where(x => x.Id == "OldestKegs").FirstOrDefault();
-                    prefix = value.Pos.Y;
+                    if (item.PreferenceValue.Contains("OldestKegs"))
+                    {
+                        var preferenceValue = JsonConvert.DeserializeObject<PreferenceValueResponseModel>(item.PreferenceValue);
+                        var value = preferenceValue.SelectedWidgets.Where(x => x.Id == "OldestKegs").FirstOrDefault();
+                        prefix = value.Pos.Y;
+                    }
                 }
+                barCode = prefix.ToString().PadLeft(9, '0') + lastCharOfYear + dayOfYear + secondsInDayTillNow + (millisecond / 100);
+                var checksumDigit = Utils.CalculateCheckDigit(barCode);
+                ManifestId = barCode + checksumDigit;
             }
-            barCode = prefix.ToString().PadLeft(9, '0') + lastCharOfYear + dayOfYear + secondsInDayTillNow + (millisecond / 100);
-            var checksumDigit = Utils.CalculateCheckDigit(barCode);
-            ManifestId = barCode + checksumDigit;
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            finally
+            {
+                preference = null;
+            }
         }
 
         internal void AssignPartnerValue(PartnerModel model)
@@ -380,13 +391,14 @@ namespace KegID.ViewModel
 
         private async void SubmitCommandRecieverAsync()
         {
+            List<PalletItem> palletItems = new List<PalletItem>();
+            PalletItem pallet = null;
+            PalletRequestModel palletRequestModel = null;
+            var barCodeCollection = SimpleIoc.Default.GetInstance<ScanKegsViewModel>().BarcodeCollection;
+
             try
             {
                 Loader.StartLoading();
-
-                List<PalletItem> palletItems = new List<PalletItem>();
-                PalletItem pallet = null;
-                var barCodeCollection = SimpleIoc.Default.GetInstance<ScanKegsViewModel>().BarcodeCollection;
 
                 foreach (var item in barCodeCollection)
                 {
@@ -401,7 +413,7 @@ namespace KegID.ViewModel
                     palletItems.Add(pallet);
                 }
 
-                PalletRequestModel palletRequestModel = new PalletRequestModel
+                palletRequestModel = new PalletRequestModel
                 {
                     Barcode = ManifestId.Split('-').LastOrDefault(),
                     BuildDate = DateTime.Now,
@@ -437,6 +449,11 @@ namespace KegID.ViewModel
             finally
             {
                 Loader.StopLoading();
+                palletItems = null;
+                pallet = null;
+                barCodeCollection = null;
+                palletRequestModel = null;
+                Cleanup();
             }
         }
 
@@ -474,13 +491,29 @@ namespace KegID.ViewModel
         {
             await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView());
         }
+
         private async void TargetLocationPartnerCommandRecieverAsync()
         {
             TargetLocationPartner = true;
             await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView());
         }
 
-        private async void CancelCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PopModalAsync();
+        private async void CancelCommandRecieverAsync()
+        {
+            await Application.Current.MainPage.Navigation.PopModalAsync();
+            IsCameraVisible = false;
+        }
+
+        public override void Cleanup()
+        {
+            base.Cleanup();
+            StockLocation = null;
+            TargetLocation = null;
+            AddInfoTitle = "Add info";
+            AddKegs = "Add Kegs";
+            IsSubmitVisible = false;
+            Tags = null;
+        }
 
         #endregion
     }

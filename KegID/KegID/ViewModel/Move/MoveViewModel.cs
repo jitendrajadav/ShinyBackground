@@ -364,11 +364,17 @@ namespace KegID.ViewModel
 
         private async void SubmitCommandRecieverAsync()
         {
+            ManifestModel manifestPostModel = null;
+            SimpleIoc @default = SimpleIoc.Default;
+
             try
             {
                 Loader.StartLoading();
 
-                ManifestModel manifestPostModel = await ManifestManager.GetManifestDraft(EventTypeEnum.MOVE_MANIFEST, ManifestId, SimpleIoc.Default.GetInstance<ScanKegsViewModel>().BarcodeCollection, SimpleIoc.Default.GetInstance<ScanKegsViewModel>().Tags, PartnerModel, new List<NewPallet>(), new List<NewBatch>(), new List<string>(), 2 ,SimpleIoc.Default.GetInstance<ScanKegsViewModel>().SelectedBrand.BrandName);
+                manifestPostModel = await ManifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.MOVE_MANIFEST, manifestId: ManifestId,
+                    barcodeCollection: @default.GetInstance<ScanKegsViewModel>().BarcodeCollection, tags: @default.GetInstance<ScanKegsViewModel>().Tags,
+                    partnerModel: PartnerModel, newPallets: new List<NewPallet>(), batches: new List<NewBatch>(), closedBatches: new List<string>(), validationStatus: 2 ,
+                    contents: @default.GetInstance<ScanKegsViewModel>().SelectedBrand.BrandName);
                 
                 if (manifestPostModel != null)
                 {
@@ -379,19 +385,25 @@ namespace KegID.ViewModel
                         var manifest = await _moveService.GetManifestAsync(AppSettings.User.SessionId, result.ManifestId);
                         if (manifest.StatusCode == System.Net.HttpStatusCode.OK)
                         {
-                            SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().AssignInitialValue(manifest);
+                            @default.GetInstance<ManifestDetailViewModel>().AssignInitialValue(manifest);
                             Loader.StopLoading();
                             await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestDetailView());
                         }
                         else
                         {
                             Loader.StopLoading();
-                            SimpleIoc.Default.GetInstance<LoginViewModel>().InvalideServiceCallAsync();
+                            @default.GetInstance<LoginViewModel>().InvalideServiceCallAsync();
                         }
                     }
                     catch (Exception ex)
                     {
                         Debug.WriteLine(ex.Message);
+                    }
+                    finally
+                    {
+                        manifestPostModel = null;
+                        @default = null;
+                        Cleanup();
                     }
                 }
                 else
@@ -409,13 +421,20 @@ namespace KegID.ViewModel
 
         private async void SaveDraftCommandRecieverAsync()
         {
+            ManifestModel manifestPostModel = null;
+            DraftManifestModel draftManifestModel = null;
+            SimpleIoc @default = SimpleIoc.Default;
+
             try
             {
                 Loader.StartLoading();
+                
+                manifestPostModel = await ManifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.MOVE_MANIFEST, manifestId: ManifestId,
+                    barcodeCollection: @default.GetInstance<ScanKegsViewModel>().BarcodeCollection, tags: @default.GetInstance<ScanKegsViewModel>().Tags,
+                    partnerModel: PartnerModel, newPallets: new List<NewPallet>(), batches: new List<NewBatch>(), closedBatches: new List<string>(),
+                    validationStatus: 2, contents: @default.GetInstance<ScanKegsViewModel>().SelectedBrand?.BrandName);
 
-                ManifestModel manifestPostModel =
-                    await ManifestManager.GetManifestDraft(EventTypeEnum.MOVE_MANIFEST, ManifestId, SimpleIoc.Default.GetInstance<ScanKegsViewModel>().BarcodeCollection, SimpleIoc.Default.GetInstance<ScanKegsViewModel>().Tags, PartnerModel, new List<NewPallet>(), new List<NewBatch>(), new List<string>(), 2, SimpleIoc.Default.GetInstance<ScanKegsViewModel>().SelectedBrand?.BrandName);
-                DraftManifestModel draftManifestModel = new DraftManifestModel()
+                draftManifestModel = new DraftManifestModel()
                 {
                     ManifestId = ManifestId,
                     DraftManifestJson = JsonConvert.SerializeObject(manifestPostModel)
@@ -425,7 +444,7 @@ namespace KegID.ViewModel
                 {
                     var Result = await SQLiteServiceClient.Db.InsertAsync(draftManifestModel);
                     if (Result > 0)
-                        SimpleIoc.Default.GetInstance<DashboardViewModel>().CheckDraftmaniFestsAsync();
+                        @default.GetInstance<DashboardViewModel>().CheckDraftmaniFestsAsync();
                 }
                 catch (Exception ex)
                 {
@@ -434,7 +453,7 @@ namespace KegID.ViewModel
 
                 Loader.StopLoading();
                 await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestsView());
-                await SimpleIoc.Default.GetInstance<ManifestsViewModel>().LoadDraftManifestAsync();
+                await @default.GetInstance<ManifestsViewModel>().LoadDraftManifestAsync();
             }
             catch (Exception ex)
             {
@@ -443,17 +462,28 @@ namespace KegID.ViewModel
             finally
             {
                 Loader.StopLoading();
+                manifestPostModel = null;
+                draftManifestModel = null;
+                @default = null;
+                Cleanup();
             }
         }
 
         internal void AssingScanKegsValue(IList<Barcode> _barcodes)
         {
-            if (_barcodes.Count > 1)
-                AddKegs = string.Format("{0} Items", _barcodes.Count);
-            else if (_barcodes.Count == 1)
-                AddKegs = string.Format("{0} Item", _barcodes.Count);
-            if (!IsSubmitVisible)
-                IsSubmitVisible = true;
+            try
+            {
+                if (_barcodes.Count > 1)
+                    AddKegs = string.Format("{0} Items", _barcodes.Count);
+                else if (_barcodes.Count == 1)
+                    AddKegs = string.Format("{0} Item", _barcodes.Count);
+                if (!IsSubmitVisible)
+                    IsSubmitVisible = true;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
         }
 
         internal void AssignAddTagsValue(List<Tag> _tags, string _tagsStr)
@@ -464,10 +494,17 @@ namespace KegID.ViewModel
 
         private async void CancelCommandRecieverAsync()
         {
-            var result = await Application.Current.MainPage.DisplayActionSheet("Cancel? \n You have like to save this manifest as a draft or delete?",null,null, "Delete manifest", "Save as draft");
-            if (result== "Delete manifest")
+            try
             {
-                await Application.Current.MainPage.Navigation.PopModalAsync();
+                var result = await Application.Current.MainPage.DisplayActionSheet("Cancel? \n You have like to save this manifest as a draft or delete?", null, null, "Delete manifest", "Save as draft");
+                if (result == "Delete manifest")
+                {
+                    await Application.Current.MainPage.Navigation.PopModalAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
             }
         }
 
@@ -477,27 +514,71 @@ namespace KegID.ViewModel
 
         private async void ScanKegsCommadRecieverAsync()
         {
-            if (!string.IsNullOrEmpty(PartnerModel.PartnerId))
+            try
             {
-                await Application.Current.MainPage.Navigation.PushModalAsync(new ScanKegsView());
-                SimpleIoc.Default.GetInstance<ScanKegsViewModel>().AssignInitialValue(Barcode);
+                if (!string.IsNullOrEmpty(PartnerModel?.PartnerId))
+                {
+                    await Application.Current.MainPage.Navigation.PushModalAsync(new ScanKegsView());
+                    SimpleIoc.Default.GetInstance<ScanKegsViewModel>().AssignInitialValue(Barcode);
+                }
+                else
+                    await Application.Current.MainPage.DisplayAlert("Error", "Please select a destination first.", "Ok");
             }
-            else
-                await Application.Current.MainPage.DisplayAlert("Error", "Please select a destination first.", "Ok");
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
         }
 
         internal void AssignInitialValue(string _kegId, string _barcode, string _addKegs, string _destination,string _partnerId, bool isSaveDraftVisible)
         {
-            Barcode = _barcode;
-            ManifestId = !string.IsNullOrEmpty(_kegId) ? _kegId : Uuid.GetUuId();
-            AddKegs = !string.IsNullOrEmpty(_addKegs) ? string.Format("{0} Item", _addKegs) : "Add Kegs";
-            if (!string.IsNullOrEmpty(_destination))
+            try
             {
-                Destination = _destination;
-                PartnerModel.PartnerId = _partnerId;
-                IsRequiredVisible = false;
+                Barcode = _barcode;
+                ManifestId = !string.IsNullOrEmpty(_kegId) ? _kegId : Uuid.GetUuId();
+                AddKegs = !string.IsNullOrEmpty(_addKegs) ? string.Format("{0} Item", _addKegs) : "Add Kegs";
+                if (!string.IsNullOrEmpty(_destination))
+                {
+                    Destination = _destination;
+                    PartnerModel.PartnerId = _partnerId;
+                    IsRequiredVisible = false;
+                }
+                IsSaveDraftVisible = isSaveDraftVisible;
             }
-            IsSaveDraftVisible = isSaveDraftVisible;
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
+
+        public override void Cleanup()
+        {
+            try
+            {
+                Barcode = string.Empty;
+                AddKegs = "Add Kegs";
+                TagsStr = "Add info";
+                try
+                {
+                    PartnerModel = null;
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
+                IsSaveDraftVisible = false;
+                IsSubmitVisible = false;
+                IsRequiredVisible = true;
+                Destination = "Select a location";
+                ManifestId = Uuid.GetUuId();
+                Tags = null;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+
+            base.Cleanup();
         }
 
         #endregion

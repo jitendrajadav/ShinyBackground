@@ -73,10 +73,13 @@ namespace KegID.ViewModel
 
         internal void AssignInitialValue(double _lat, double _lon, string _lable, string _address)
         {
-            Position.Lat = _lat;
-            Position.Lon = _lon;
-            Position.Label = _lable;
-            Position.Address = _address;
+            Position = new LocationInfo
+            {
+                Lat = _lat,
+                Lon = _lon,
+                Label = _lable,
+                Address = _address
+            };
         }
 
         #endregion

@@ -2,6 +2,7 @@
 using KegID.Common;
 using KegID.Model;
 using KegID.Services;
+using KegID.SQLiteClient;
 using KegID.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -165,11 +166,13 @@ namespace KegID.Views
                 case TagsTypeEnum.AssetType:
                     var assetType = await LoadAssetTypeAsync();
                     valueEntry.ItemsSource = assetType.ToList();
+                    valueEntry.ItemDisplayBinding = new Binding("AssetType");
                     break;
 
                 case TagsTypeEnum.Size:
                     var assetSize = await LoadAssetSizeAsync();
                     valueEntry.ItemsSource = assetSize.ToList();
+                    valueEntry.ItemDisplayBinding = new Binding("AssetSize");
                     break;
 
                 case TagsTypeEnum.Contents:
@@ -205,16 +208,14 @@ namespace KegID.Views
             grdTag.Children.Add(removeButton, 2, grdTag.RowDefinitions.Count - 1);
         }
 
-        private async Task<IList<string>> LoadAssetSizeAsync()
+        private async Task<IList<AssetSizeModel>> LoadAssetSizeAsync()
         {
-            var service = SimpleIoc.Default.GetInstance<IMoveService>();
-            return await service.GetAssetSizeAsync(AppSettings.User.SessionId, false);
+            return await SQLiteServiceClient.Db.Table<AssetSizeModel>().ToListAsync();
         }
 
-        private async Task<IList<string>> LoadAssetTypeAsync()
+        private async Task<IList<AssetTypeModel>> LoadAssetTypeAsync()
         {
-            var service = SimpleIoc.Default.GetInstance<IMoveService>();
-            return await service.GetAssetTypeAsync(AppSettings.User.SessionId, false);
+            return await SQLiteServiceClient.Db.Table<AssetTypeModel>().ToListAsync();
         }
 
         void OnAddTagsClicked(object sender, EventArgs e)

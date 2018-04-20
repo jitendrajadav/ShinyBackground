@@ -14,13 +14,13 @@ namespace KegID.Common
         public static async Task<ManifestModel> GetManifestDraft(EventTypeEnum eventTypeEnum, string manifestId, IList<Barcode> barcodeCollection, 
             List<Tag> tags, PartnerModel partnerModel, List<NewPallet> newPallets, List<NewBatch> batches, List<string> closedBatches, long validationStatus, string contents = "")
         {
+            ManifestModel manifestModel = null;
+            ValidateBarcodeModel validateBarcodeModel = null;
+            List<ManifestItem> manifestItemlst = new List<ManifestItem>();
+            ManifestItem manifestItem = null;
+
             try
             {
-                ManifestModel manifestModel = null;
-                ValidateBarcodeModel validateBarcodeModel = null;
-                List<ManifestItem> manifestItemlst = new List<ManifestItem>();
-                ManifestItem manifestItem = null;
-
                 foreach (var item in barcodeCollection)
                 {
                     string barcodeId = item.Id;
@@ -81,6 +81,13 @@ namespace KegID.Common
             {
                 Debug.WriteLine(ex.Message);
                 return null;
+            }
+            finally
+            {
+                //manifestItem = null;
+                //manifestItemlst = null;
+                //validateBarcodeModel = null;
+                //manifestModel = null;
             }
         }
     }

@@ -94,7 +94,7 @@ namespace KegID.Model
         public string DefectType { get; set; }
         public DateTime DueDate { get; set; }
         public bool IsActivated { get; set; }
-        public int ActivationMethod { get; set; }
+        public string ActivationMethod { get; set; }
         public string Message { get; set; }
         public string OwnerId { get; set; }
         public string OwnerName { get; set; }

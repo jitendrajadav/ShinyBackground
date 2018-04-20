@@ -47,7 +47,7 @@
                 
                 <Grid.RowSpacing>
                     <OnPlatform x:TypeArguments="x:Double">
-                        <On Platform="iOS" Value="5" />
+                        <On Platform="iOS" Value="2" />
                         <On Platform="Android, WinPhone, Windows" Value="0" />
                     </OnPlatform>
                 </Grid.RowSpacing>

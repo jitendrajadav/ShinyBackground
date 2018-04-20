@@ -390,12 +390,13 @@ namespace KegID.ViewModel
                     break;
             }
 
-            if (BarcodeCollection.Any(x=>x.PartnerCount > 1))
+            if (BarcodeCollection.Any(x => x.PartnerCount > 1))
                 await NavigateToValidatePartner(BarcodeCollection.Where(x => x.PartnerCount > 1).ToList());
             else
+            {
                 await Application.Current.MainPage.Navigation.PopModalAsync();
-
-            TagsStr = default(string);
+                Cleanup();
+            }
         }
 
         internal void AssignInitialValue(string _barcode)
@@ -442,6 +443,7 @@ namespace KegID.ViewModel
         public override void Cleanup()
         {
             BarcodeCollection.Clear();
+            TagsStr = default(string);
             base.Cleanup();
         }
 
