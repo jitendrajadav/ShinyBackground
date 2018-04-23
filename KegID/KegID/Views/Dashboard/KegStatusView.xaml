@@ -253,7 +253,7 @@
                         HorizontalOptions="FillAndExpand"
                         ItemDisplayBinding="{Binding Name}"
                         ItemsSource="{Binding MaintenanceCollection}"
-                        SelectedItem="{Binding SelectedMaintenance,Mode=TwoWay}"/>
+                        SelectedItem="{Binding SelectedMaintenance}"/>
 
                     <Picker
                         Grid.Column="1"
@@ -264,7 +264,7 @@
                         Title="Remove alert"
                         ItemDisplayBinding="{Binding Name}"
                         ItemsSource="{Binding RemoveMaintenanceCollection}"
-                        SelectedItem="{Binding RemoveSelecetedMaintenance,Mode=TwoWay}"/>
+                        SelectedItem="{Binding RemoveSelecetedMaintenance}"/>
 
                     <ListView
                         VerticalOptions="FillAndExpand"

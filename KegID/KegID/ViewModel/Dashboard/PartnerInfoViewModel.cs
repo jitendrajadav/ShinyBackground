@@ -455,7 +455,7 @@ namespace KegID.ViewModel
                 // Make Phone Call
                 var phoneCallTask = CrossMessaging.Current.PhoneDialer;
                 if (phoneCallTask.CanMakePhoneCall)
-                    phoneCallTask.MakePhoneCall("+272193343499");
+                    phoneCallTask.MakePhoneCall(translatedNumber);
             }
         }
 
