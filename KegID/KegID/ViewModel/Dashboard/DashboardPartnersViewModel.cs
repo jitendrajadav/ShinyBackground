@@ -19,11 +19,11 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        public IMoveService _moveService { get; set; }
+        public IDashboardService _dashboardService { get; set; }
 
         private const int PageSize = 20;
         public string PartnerId { get; set; }
-        public IList<PartnerModel> AllPartners { get; set; }
+        public IList<PossessorResponseModel> AllPartners { get; set; }
 
         #region IsWorking
 
@@ -270,13 +270,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string PartnerCollectionPropertyName = "PartnerCollection";
 
-        private ObservableCollection<PartnerModel> _PartnerCollection = null;
+        private ObservableCollection<PossessorResponseModel> _PartnerCollection = null;
 
         /// <summary>
         /// Sets and gets the PartnerCollection property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public ObservableCollection<PartnerModel> PartnerCollection
+        public ObservableCollection<PossessorResponseModel> PartnerCollection
         {
             get
             {
@@ -337,7 +337,7 @@ namespace KegID.ViewModel
 
         public RelayCommand InternalCommand { get;}
         public RelayCommand AlphabeticalCommand { get; }
-        public RelayCommand<PartnerModel> ItemTappedCommand { get;}
+        public RelayCommand<PossessorResponseModel> ItemTappedCommand { get;}
         public RelayCommand AddNewPartnerCommand { get; }
         public RelayCommand BackCommand { get; }
         public RelayCommand TextChangedCommand { get;}
@@ -347,13 +347,13 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public DashboardPartnersViewModel(IMoveService moveService)
+        public DashboardPartnersViewModel(IDashboardService dashboardService)
         {
-            _moveService = moveService;
+            _dashboardService = dashboardService;
 
             InternalCommand = new RelayCommand(InternalCommandReciever);
             AlphabeticalCommand = new RelayCommand(AlphabeticalCommandReciever);
-            ItemTappedCommand = new RelayCommand<PartnerModel>((model) => ItemTappedCommandRecieverAsync(model));
+            ItemTappedCommand = new RelayCommand<PossessorResponseModel>((model) => ItemTappedCommandRecieverAsync(model));
             AddNewPartnerCommand = new RelayCommand(AddNewPartnerCommandRecieverAsync);
             BackCommand = new RelayCommand(BackCommandRecieverAsync);
             TextChangedCommand = new RelayCommand(TextChangedCommandRecieverAsync);
@@ -374,22 +374,22 @@ namespace KegID.ViewModel
 
         private async Task LoadPartnersAsync()
         {
-            AllPartners = await SQLiteServiceClient.Db.Table<PartnerModel>().ToListAsync();
+            //AllPartners = await SQLiteServiceClient.Db.Table<PossessorResponseModel>().ToListAsync();
             try
             {
-                if (AllPartners.Count > 0)
-                    PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners.OrderBy(x => x.FullName));
-                else
+                //if (AllPartners.Count > 0)
+                //    PartnerCollection = new ObservableCollection<PossessorResponseModel>(AllPartners.OrderBy(x => x.Location.FullName));
+                //else
+                //{
+                Loader.StartLoading();
+                var value = await _dashboardService.GetDashboardPartnersListAsync(AppSettings.User.CompanyId, AppSettings.User.SessionId);
+                if (value.StatusCode == System.Net.HttpStatusCode.OK)
                 {
-                    Loader.StartLoading();
-                    var value = await _moveService.GetPartnersListAsync(AppSettings.User.SessionId);
-                    if (value.StatusCode == System.Net.HttpStatusCode.OK)
-                    {
-                        AllPartners = value.PartnerModel.Where(x => x.FullName != string.Empty).ToList();
-                        PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners.OrderBy(x => x.FullName));
-                        await SQLiteServiceClient.Db.InsertAllAsync(AllPartners);
-                    }
+                    AllPartners = value.PossessorResponseModel.Where(x => x.Location.FullName != string.Empty).ToList();
+                    PartnerCollection = new ObservableCollection<PossessorResponseModel>(AllPartners.OrderByDescending(x => x.KegsHeld));
+                    //await SQLiteServiceClient.Db.InsertAllAsync(AllPartners);
                 }
+                //}
             }
             catch (Exception ex)
             {
@@ -404,7 +404,7 @@ namespace KegID.ViewModel
         private void KegsHeldCommandReciever()
         {
             InitialSetting();
-            PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners.OrderBy(x => x.FullName));
+            PartnerCollection = new ObservableCollection<PossessorResponseModel>(AllPartners.OrderByDescending(x => x.KegsHeld));
         }
 
         private void InitialSetting()
@@ -423,8 +423,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                var result = AllPartners.Where(x => x.FullName.ToLower().Contains(PartnerName.ToLower()));
-                PartnerCollection = new ObservableCollection<PartnerModel>(result);
+                var result = AllPartners.Where(x => x.Location.FullName.ToLower().Contains(PartnerName.ToLower()));
+                PartnerCollection = new ObservableCollection<PossessorResponseModel>(result);
             }
             catch (Exception ex)
             {
@@ -432,12 +432,12 @@ namespace KegID.ViewModel
             }
         }
 
-        private async void ItemTappedCommandRecieverAsync(PartnerModel model)
+        private async void ItemTappedCommandRecieverAsync(PossessorResponseModel model)
         {
             if (model != null)
             {
-                PartnerId = model.PartnerId;
-                SimpleIoc.Default.GetInstance<PartnerInfoViewModel>().PartnerModel = model;
+                PartnerId = model.Location.PartnerId;
+                SimpleIoc.Default.GetInstance<PartnerInfoViewModel>().PartnerModel = model.Location;
                 await Application.Current.MainPage.Navigation.PushModalAsync(new PartnerInfoView());
                 Cleanup();
             }
@@ -445,7 +445,7 @@ namespace KegID.ViewModel
 
         private void AlphabeticalCommandReciever()
         {
-            PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners.OrderBy(x => x.FullName));
+            PartnerCollection = new ObservableCollection<PossessorResponseModel>(AllPartners.OrderBy(x => x.Location.FullName));
 
             AlphabeticalBackgroundColor = "#4E6388";
             AlphabeticalTextColor = "White";
@@ -459,7 +459,7 @@ namespace KegID.ViewModel
 
         private void InternalCommandReciever()
         {
-            PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners);
+            PartnerCollection = new ObservableCollection<PossessorResponseModel>(AllPartners);
 
             InternalBackgroundColor = "#4E6388";
             InternalTextColor = "White";

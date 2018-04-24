@@ -9,6 +9,19 @@ namespace KegID.Services
 {
     public class DashboardService : IDashboardService
     {
+        public async Task<PossessorModel> GetDashboardPartnersListAsync(string ownerId, string sessionId)
+        {
+            PossessorModel model = new PossessorModel();
+
+            string url = string.Format(Configuration.GetPossessorByownerId, ownerId, sessionId);
+            var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
+
+            model.PossessorResponseModel = DeserializeObject<IList<PossessorResponseModel>>(value.Response, GetJsonSetting());
+            model.StatusCode = value.StatusCode;
+
+            return model;
+        }
+
         public async Task<IList<string>> GetAssetVolumeAsync(string sessionId, bool assignableOnly)
         {
             string url = string.Format(Configuration.GetAssetVolume, sessionId,assignableOnly);

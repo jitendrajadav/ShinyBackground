@@ -9,6 +9,7 @@ using Microsoft.AppCenter.Analytics;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -170,13 +171,17 @@ namespace KegID.ViewModel
                 {
                     try
                     {
-                        AppSettings.User = new Model.UserInfoModel
+                        var overDues = model.LoginModel.Preferences.Where(x => x.PreferenceName == "OVERDUE_DAYS").Select(x => x.PreferenceValue).FirstOrDefault();
+                        var atRisk = model.LoginModel.Preferences.Where(x => x.PreferenceName == "AT_RISK_DAYS").Select(x => x.PreferenceValue).FirstOrDefault();
+                        AppSettings.User = new UserInfoModel
                         {
                             SessionId = model.LoginModel.SessionId,
                             CompanyId = model.LoginModel.CompanyId,
                             MasterCompanyId = model.LoginModel.MasterCompanyId,
                             UserId = model.LoginModel.UserId,
-                            SessionExpires = model.LoginModel.SessionExpires
+                            SessionExpires = model.LoginModel.SessionExpires,
+                            Overdue_days = !string.IsNullOrEmpty(overDues) ? Convert.ToInt64(overDues) : 0,
+                            At_risk_days = !string.IsNullOrEmpty(atRisk) ? Convert.ToInt64(atRisk) : 0
                         };
                     }
                     catch (Exception ex)

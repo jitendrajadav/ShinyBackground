@@ -263,13 +263,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string PartnerModelPropertyName = "PartnerModel";
 
-        private PartnerModel _PartnerModel = null;
+        private PossessorLocation _PartnerModel = null;
 
         /// <summary>
         /// Sets and gets the PartnerModel property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public PartnerModel PartnerModel
+        public PossessorLocation PartnerModel
         {
             get
             {

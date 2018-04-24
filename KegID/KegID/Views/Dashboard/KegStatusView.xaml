@@ -52,6 +52,7 @@
                 />
 
             <controls:TintedImage 
+                IsVisible="{Binding KegHasAlert}"
                 TintColor="#FAD283"
                 x:Name="imgInvalidTools"
                 Grid.Row="1"

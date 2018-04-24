@@ -639,6 +639,40 @@ namespace KegID.ViewModel
 
         #endregion
 
+        #region KegHasAlert
+
+        /// <summary>
+        /// The <see cref="KegHasAlert" /> property's name.
+        /// </summary>
+        public const string KegHasAlertPropertyName = "KegHasAlert";
+
+        private bool _KegHasAlert = false;
+
+        /// <summary>
+        /// Sets and gets the KegHasAlert property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public bool KegHasAlert
+        {
+            get
+            {
+                return _KegHasAlert;
+            }
+
+            set
+            {
+                if (_KegHasAlert == value)
+                {
+                    return;
+                }
+
+                _KegHasAlert = value;
+                RaisePropertyChanged(KegHasAlertPropertyName);
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Commands
@@ -689,7 +723,7 @@ namespace KegID.ViewModel
                 var kegStatus = await DashboardService.GetKegStatusAsync(KegId, AppSettings.User.SessionId);
 
                 var addMaintenanceCollection = await SQLiteServiceClient.Db.Table<MaintainTypeReponseModel>().ToListAsync();
-
+                KegHasAlert = kegStatus.MaintenanceAlerts.Count > 0 ? true : false;
                 try
                 {
                     foreach (var item in addMaintenanceCollection)

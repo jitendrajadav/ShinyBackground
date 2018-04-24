@@ -116,20 +116,65 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <StackLayout Spacing="0">
+                            <Grid
+                                RowSpacing="0"
+                                ColumnSpacing="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="85*"/>
+                                    <ColumnDefinition Width="15*"/>
+                                </Grid.ColumnDefinitions>
+                                
                                 <Label 
                                     TextColor="{StaticResource selectTextColor}"
-                                    Text="{Binding FullName}"
+                                    Text="{Binding Path=Location.FullName}"
                                     FontSize="{StaticResource ListViewTitleFont}"/>
                                 <Label 
+                                    Grid.Row="1"
                                     TextColor="{StaticResource lightGrayColor}" 
-                                    Text="{Binding Address}" 
+                                    Text="{Binding Path=Location.Address}" 
                                     FontSize="{StaticResource ListViewDetailFont}"/>
-                                <Label 
+                                <Label
+                                    Grid.Row="2"
                                     TextColor="{StaticResource lightGrayColor}" 
-                                    Text="{Binding PartnerTypeName}" 
+                                    Text="{Binding Path=Location.PartnerTypeName}" 
                                     FontSize="{StaticResource ListViewDetailFont}"/>
-                            </StackLayout>
+
+                                <Image 
+                                    IsVisible="{Binding HasOverdueKegs}"
+                                    Grid.RowSpan="2"
+                                    Grid.Column="1"
+                                    HeightRequest="30"
+                                    WidthRequest="30"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="Center">
+                                    <Image.Source>
+                                        <OnPlatform x:TypeArguments="FileImageSource">
+                                            <OnPlatform.iOS>
+                                                <FileImageSource File="warn.png"/>
+                                            </OnPlatform.iOS>
+                                            <OnPlatform.Android>
+                                                <FileImageSource File="warn.png"/>
+                                            </OnPlatform.Android>
+                                            <OnPlatform.WinPhone>
+                                                <FileImageSource File="Assets/warn.png"/>
+                                            </OnPlatform.WinPhone>
+                                        </OnPlatform>
+                                    </Image.Source>
+                                </Image>
+                                
+                                <Label
+                                    Grid.Row="2"
+                                    Grid.Column="1"
+                                    TextColor="{StaticResource lightGrayColor}" 
+                                    Text="{Binding KegsHeld,StringFormat='{0} Kegs'}" 
+                                    FontSize="{StaticResource ListViewDetailFont}"/>
+                            </Grid>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>

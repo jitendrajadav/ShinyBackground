@@ -57,11 +57,13 @@
 
         public const string PostMaintenanceAlertUrl = ServiceUrl + "MaintenanceAlert/?sessionId={0}";
         public const string PostMaintenanceDeleteAlertUrl = ServiceUrl + "MaintenanceAlert/DeleteAlert/?sessionId={0}";
-        
+
         /// <summary>
         /// Move Service Url
         /// </summary>
         public const string GetPartnerBySesssionIdUrl = ServiceUrl + "Partner/?sessionId={0}";
+        public const string GetPossessorByownerId = ServiceUrl + "Possessor?ownerId={0}&sessionId={1}";
+        
         public const string GetValidateBarcodeUrl = ServiceUrl + "validation/?barcode={0}&sessionId={1}";
         public const string GetBrandUrl = ServiceUrl + "brand/?sessionId={0}";
         public const string GetManifestUrl = ServiceUrl + "Manifest/{0}?sessionId={1}";
