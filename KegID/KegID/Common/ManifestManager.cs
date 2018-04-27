@@ -34,21 +34,21 @@ namespace KegID.Common
                         ValidationStatus = validationStatus,
                         KegId = validateBarcodeModel.Kegs.Partners.FirstOrDefault().Kegs.FirstOrDefault().KegId,
                         Tags = tags,
-                        KegStatus = new List<KegStatus>()
-                        {
-                            new KegStatus()
-                            {
-                                KegId= validateBarcodeModel.Kegs.Partners.FirstOrDefault().Kegs.FirstOrDefault().KegId,
-                                Barcode=barcodeResult.Barcode,
-                                AltBarcode=validateBarcodeModel.Kegs.Partners.FirstOrDefault().Kegs.FirstOrDefault().AltBarcode,
-                                Contents = contents,
-                                Batch =validateBarcodeModel.Kegs.Partners.FirstOrDefault().Kegs.FirstOrDefault().Batch.ToString(),
-                                Size = tags.Any(x=>x.Property == "Size") ? tags.Where(x=>x.Property == "Size").Select(x=>x.Value).FirstOrDefault():string.Empty,
-                                Alert = validateBarcodeModel.Kegs.Partners.FirstOrDefault().Kegs.FirstOrDefault().Alert,
-                                Location = validateBarcodeModel.Kegs.Locations.FirstOrDefault(),
-                                OwnerName = partnerModel.FullName,
-                            }
-                        },
+                        //KegStatus = new List<KegStatus>()
+                        //{
+                        //    new KegStatus()
+                        //    {
+                        //        KegId = validateBarcodeModel.Kegs.Partners.FirstOrDefault().Kegs.FirstOrDefault().KegId,
+                        //        Barcode = barcodeResult.Barcode,
+                        //        AltBarcode = validateBarcodeModel.Kegs.Partners.FirstOrDefault().Kegs.FirstOrDefault().AltBarcode??string.Empty,
+                        //        Contents = contents,
+                        //        Batch = validateBarcodeModel.Kegs.Partners.FirstOrDefault().Kegs.FirstOrDefault().Batch.ToString(),
+                        //        Size = tags.Any(x=>x.Property == "Size") ? tags.Where(x=>x.Property == "Size").Select(x=>x.Value).FirstOrDefault():string.Empty,
+                        //        Alert = validateBarcodeModel.Kegs.Partners.FirstOrDefault().Kegs.FirstOrDefault().Alert,
+                        //        Location = validateBarcodeModel.Kegs.Locations.FirstOrDefault(),
+                        //        OwnerName = partnerModel.FullName,
+                        //    }
+                        //},
                     };
                     manifestItemlst.Add(manifestItem);
                     barcodeId = string.Empty;

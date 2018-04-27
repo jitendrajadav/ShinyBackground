@@ -3,8 +3,10 @@ using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
 using KegID.Model;
 using KegID.Services;
+using KegID.SQLiteClient;
 using KegID.Views;
 using Rg.Plugins.Popup.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -86,7 +88,41 @@ namespace KegID.ViewModel
         }
 
         #endregion
-        
+
+        #region AssetTypeCollection
+
+        /// <summary>
+        /// The <see cref="AssetTypeCollection" /> property's name.
+        /// </summary>
+        public const string AssetTypeCollectionPropertyName = "AssetTypeCollection";
+
+        private IList<string> _AssetTypeCollection = null;
+
+        /// <summary>
+        /// Sets and gets the AssetTypeCollection property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public IList<string> AssetTypeCollection
+        {
+            get
+            {
+                return _AssetTypeCollection;
+            }
+
+            set
+            {
+                if (_AssetTypeCollection == value)
+                {
+                    return;
+                }
+
+                _AssetTypeCollection = value;
+                RaisePropertyChanged(AssetTypeCollectionPropertyName);
+            }
+        }
+
+        #endregion
+
         #region SizeCollection
 
         /// <summary>
@@ -281,14 +317,28 @@ namespace KegID.ViewModel
             BarcodeScanCommand = new RelayCommand(BarcodeScanCommandRecieverAsync);
             SaveCommand = new RelayCommand(SaveCommandRecieverAsync);
             CancelCommand = new RelayCommand(CancelCommandRecieverAsync);
-            SizeCollection = new List<string>() { "1/2 bbl", "1/4 bbl", "1/6 bbl", "30 L", "40 L", "50 L" };
+            //SizeCollection = new List<string>() { "1/2 bbl", "1/4 bbl", "1/6 bbl", "30 L", "40 L", "50 L" };
             LabelItemTappedCommand = new RelayCommand<Barcode>(execute: (model) => LabelItemTappedCommandRecieverAsync(model));
             IconItemTappedCommand = new RelayCommand<Barcode>(execute: (model) => IconItemTappedCommandRecieverAsync(model));
+            LoadAssetSizeAsync();
+            LoadAssetTypeAsync();
         }
 
         #endregion
 
         #region Methods
+
+        private async void LoadAssetSizeAsync()
+        {
+            var value = await SQLiteServiceClient.Db.Table<AssetSizeModel>().ToListAsync();
+            SizeCollection = value.Select(x => x.AssetSize).ToList();
+        }
+
+        private async void LoadAssetTypeAsync()
+        {
+            var value = await SQLiteServiceClient.Db.Table<AssetTypeModel>().ToListAsync();
+            AssetTypeCollection = value.Select(x=>x.AssetType).ToList();
+        }
 
         private async void IconItemTappedCommandRecieverAsync(Barcode model)
         {

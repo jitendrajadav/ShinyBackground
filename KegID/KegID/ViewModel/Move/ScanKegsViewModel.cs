@@ -379,7 +379,8 @@ namespace KegID.ViewModel
             switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack[Application.Current.MainPage.Navigation.ModalStack.Count - 2].GetType().Name))
             {
                 case ViewTypeEnum.MoveView:
-                    SimpleIoc.Default.GetInstance<MoveViewModel>().AssingScanKegsValue(BarcodeCollection);
+                    if (!BarcodeCollection.Any(x => x.PartnerCount > 1))
+                        SimpleIoc.Default.GetInstance<MoveViewModel>().AssingScanKegsValue(BarcodeCollection.ToList(),Tags, SelectedBrand.BrandName);
                     break;
 
                 case ViewTypeEnum.PalletizeView:
@@ -412,7 +413,8 @@ namespace KegID.ViewModel
             {
                 var value = await BarcodeScanner.ValidateBarcodeInsertIntoLocalDB(_moveService, ManaulBarcode, Tags, TagsStr);
                 ManaulBarcode = string.Empty;
-                BarcodeCollection.Add(value);
+                if (value != null)
+                    BarcodeCollection.Add(value);
             }
         }
 
@@ -431,6 +433,8 @@ namespace KegID.ViewModel
         {
             BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = GetIconByPlatform.GetIcon("validationquestion.png");
             BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().PartnerCount = 1;
+            SimpleIoc.Default.GetInstance<MoveViewModel>().AssingScanKegsValue(BarcodeCollection.ToList(),Tags, SelectedBrand.BrandName);
+            Cleanup();
         }
 
         internal void AssignAddTagsValue(List<Tag> _tags, string _tagsStr)
@@ -442,9 +446,10 @@ namespace KegID.ViewModel
 
         public override void Cleanup()
         {
+            base.Cleanup();
             BarcodeCollection.Clear();
             TagsStr = default(string);
-            base.Cleanup();
+            SelectedBrand = null;
         }
 
 

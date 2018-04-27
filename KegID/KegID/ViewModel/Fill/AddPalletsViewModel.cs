@@ -11,7 +11,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Rg.Plugins.Popup.Extensions;
 
 namespace KegID.ViewModel
 {
@@ -222,14 +221,14 @@ namespace KegID.ViewModel
                     palletItem = new TItem
                     {
                         Barcode = item.Id,
-                        //palletItem.BatchId = SimpleIoc.Default.GetInstance<FillViewModel>().NewBatchModel.BatchId;
+                        //palletItem. = SimpleIoc.Default.GetInstance<FillViewModel>().NewBatchModel.BatchId,
                         //palletItem.Contents = "";
                         //palletItem.HeldOnPalletId = "";
                         //palletItem.KegId = "";
                         //palletItem.PalletId = "";
                         ScanDate = DateTime.Today,
                         //palletItem.SkuId = "";
-                        ValidationStatus = 4,
+                        //ValidationStatus = 4,
                         Tags = tags
                     };
 
@@ -264,7 +263,7 @@ namespace KegID.ViewModel
             Loader.StartLoading();
 
             var model = await ManifestManager.GetManifestDraft(EventTypeEnum.FILL_MANIFEST, Uuid.GetUuId(),
-                    barcodes, tags, partnerModel, newPallets,new List<NewBatch>(), closedBatches, 4);
+                    barcodes, tags, partnerModel, newPallets, new List<NewBatch>(), closedBatches, 4);
 
             if (model != null)
             {
@@ -361,6 +360,7 @@ namespace KegID.ViewModel
             base.Cleanup();
             PalletCollection.Clear();
             Kegs = default(string);
+            SimpleIoc.Default.GetInstance<FillScanViewModel>().Cleanup();
         }
 
         #endregion

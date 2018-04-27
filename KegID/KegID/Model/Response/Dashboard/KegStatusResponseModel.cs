@@ -87,7 +87,7 @@ namespace KegID.Model
     {
         public string KegId { get; set; }
         public string Barcode { get; set; }
-        public int Id { get; set; }
+        public long Id { get; set; }
         public int TypeId { get; set; }
         public string Name { get; set; }
         public string TypeName { get; set; }

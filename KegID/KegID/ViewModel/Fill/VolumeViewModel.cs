@@ -1,6 +1,9 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
+using KegID.Model;
+using KegID.SQLiteClient;
 using System.Collections.Generic;
+using System.Linq;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -56,12 +59,18 @@ namespace KegID.ViewModel
         public VolumeViewModel()
         {
             ItemTappedCommand = new RelayCommand<string>((model)=>ItemTappedCommandRecieverAsync(model));
-            VolumeCollection = new List<string>() { "bbl", "hl", "gal" };
+            //VolumeCollection = new List<string>() { "bbl", "hl", "gal" };
+            LoadAssetVolumeAsync();
         }
 
         #endregion
 
         #region Methods
+        private async void LoadAssetVolumeAsync()
+        {
+            var value = await SQLiteServiceClient.Db.Table<AssetVolumeModel>().ToListAsync();
+            VolumeCollection = value.Select(x => x.AssetVolume).ToList();
+        }
 
         private async void ItemTappedCommandRecieverAsync(string model)
         {

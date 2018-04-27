@@ -173,29 +173,33 @@ namespace KegID.Common
         public static async Task<Barcode> ValidateBarcodeInsertIntoLocalDB(IMoveService _moveService,string _barcodeId, List<Tag> _tags, string _tagsStr)
         {
             ValidateBarcodeModel validateBarcodeModel = await _moveService.GetValidateBarcodeAsync(AppSettings.User.SessionId, _barcodeId);
+            Barcode barcode = null;
 
-            Barcode barcode = new Barcode
+            if (validateBarcodeModel.Kegs != null)
             {
-                Id = _barcodeId,
-                Tags = _tags,
-                TagsStr = _tagsStr,
-                PartnerCount = validateBarcodeModel.Kegs.Partners.Count,
-                Icon = validateBarcodeModel.Kegs.Partners.Count > 1 ? GetIconByPlatform.GetIcon("validationerror.png") : GetIconByPlatform.GetIcon("validationquestion.png"),
-            };
+                barcode = new Barcode
+                {
+                    Id = _barcodeId,
+                    Tags = _tags,
+                    TagsStr = _tagsStr,
+                    PartnerCount = validateBarcodeModel.Kegs.Partners.Count,
+                    Icon = validateBarcodeModel.Kegs.Partners.Count > 1 ? GetIconByPlatform.GetIcon("validationerror.png") : GetIconByPlatform.GetIcon("validationquestion.png"),
+                };
 
-            BarcodeModel barcodeModel = new BarcodeModel()
-            {
-                Barcode = _barcodeId,
-                BarcodeJson = JsonConvert.SerializeObject(validateBarcodeModel)
-            };
-            try
-            {
-                // The item does not exists in the database so lets insert it
-                await SQLiteServiceClient.Db.InsertAsync(barcodeModel);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
+                BarcodeModel barcodeModel = new BarcodeModel()
+                {
+                    Barcode = _barcodeId,
+                    BarcodeJson = JsonConvert.SerializeObject(validateBarcodeModel)
+                };
+                try
+                {
+                    // The item does not exists in the database so lets insert it
+                    await SQLiteServiceClient.Db.InsertAsync(barcodeModel);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                } 
             }
 
             return barcode;

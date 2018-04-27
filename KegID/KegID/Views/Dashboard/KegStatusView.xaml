@@ -244,8 +244,9 @@
                         Grid.Row="18"
                         HorizontalOptions="Start"
                         Command="{Binding MoveKegCommand}"/>
-                    
+
                     <Picker
+                        x:Name="picker"
                         Grid.Column="0"
                         BackgroundColor="Transparent"
                         TextColor="{StaticResource selectTextColor}"
@@ -254,7 +255,14 @@
                         HorizontalOptions="FillAndExpand"
                         ItemDisplayBinding="{Binding Name}"
                         ItemsSource="{Binding MaintenanceCollection}"
-                        SelectedItem="{Binding SelectedMaintenance}"/>
+                        SelectedItem="{Binding SelectedMaintenance}">
+                        <Picker.Behaviors>
+                            <behaviors:EventToCommandBehavior
+                                EventName="Unfocused"
+                                Command="{Binding AddAlertCommand}"/>
+                        </Picker.Behaviors>
+
+                    </Picker>
 
                     <Picker
                         Grid.Column="1"
@@ -265,7 +273,13 @@
                         Title="Remove alert"
                         ItemDisplayBinding="{Binding Name}"
                         ItemsSource="{Binding RemoveMaintenanceCollection}"
-                        SelectedItem="{Binding RemoveSelecetedMaintenance}"/>
+                        SelectedItem="{Binding RemoveSelecetedMaintenance}">
+                        <Picker.Behaviors>
+                            <behaviors:EventToCommandBehavior
+                                EventName="Unfocused"
+                                Command="{Binding RemoveAlertCommand}"/>
+                        </Picker.Behaviors>
+                    </Picker>
 
                     <ListView
                         VerticalOptions="FillAndExpand"

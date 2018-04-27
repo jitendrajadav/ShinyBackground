@@ -26,6 +26,6 @@ namespace KegID.Model
     public class DeleteMaintenanceAlertRequestModel
     {
         public string KegId { get; set; }
-        public int TypeId { get; set; }
+        public long TypeId { get; set; }
     }
 }

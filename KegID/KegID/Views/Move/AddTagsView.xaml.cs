@@ -165,14 +165,14 @@ namespace KegID.Views
                     break;
                 case TagsTypeEnum.AssetType:
                     var assetType = await LoadAssetTypeAsync();
-                    valueEntry.ItemsSource = assetType.ToList();
-                    valueEntry.ItemDisplayBinding = new Binding("AssetType");
+                    valueEntry.ItemsSource = assetType.Select(x=>x.AssetType).ToList();
+                    //valueEntry.ItemDisplayBinding = new Binding("AssetType");
                     break;
 
                 case TagsTypeEnum.Size:
                     var assetSize = await LoadAssetSizeAsync();
-                    valueEntry.ItemsSource = assetSize.ToList();
-                    valueEntry.ItemDisplayBinding = new Binding("AssetSize");
+                    valueEntry.ItemsSource = assetSize.Select(x=>x.AssetSize).ToList();
+                    //valueEntry.ItemDisplayBinding = new Binding("AssetSize");
                     break;
 
                 case TagsTypeEnum.Contents:

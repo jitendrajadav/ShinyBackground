@@ -7,9 +7,9 @@ namespace KegID.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class KegStatusView : ContentPage
 	{
-		public KegStatusView ()
+        public KegStatusView ()
 		{
 			InitializeComponent ();
-		}
-	}
+        }
+    }
 }

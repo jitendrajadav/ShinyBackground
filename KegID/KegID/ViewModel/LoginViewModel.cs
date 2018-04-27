@@ -196,6 +196,7 @@ namespace KegID.ViewModel
                         await SQLiteServiceClient.Db.InsertAllAsync(maintenance.MaintainTypeReponseModel);
                         await LoadAssetSizeAsync();
                         await LoadAssetTypeAsync();
+                        await LoadAssetVolumeAsync();
                     }
                     catch (Exception ex)
                     {
@@ -270,6 +271,32 @@ namespace KegID.ViewModel
             finally
             {
                 assetTypeModels = null;
+                service = null;
+            }
+        }
+
+        private async Task LoadAssetVolumeAsync()
+        {
+            List<AssetVolumeModel> assetVolumeModel = null;
+            var service = SimpleIoc.Default.GetInstance<IDashboardService>();
+            try
+            {
+                var model = await service.GetAssetVolumeAsync(AppSettings.User.SessionId, false);
+
+                assetVolumeModel = new List<AssetVolumeModel>();
+                foreach (var item in model)
+                {
+                    assetVolumeModel.Add(new AssetVolumeModel { AssetVolume = item });
+                }
+                await SQLiteServiceClient.Db.InsertAllAsync(assetVolumeModel);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            finally
+            {
+                assetVolumeModel = null;
                 service = null;
             }
         }

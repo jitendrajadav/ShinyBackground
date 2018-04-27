@@ -40,7 +40,7 @@ namespace KegID.Model
     {
         public string Barcode { get; set; }
         public DateTime ScanDate { get; set; }
-        public long ValidationStatus { get; set; }
+        //public long ValidationStatus { get; set; }
         public List<Tag> Tags { get; set; }
         //public string Contents { get; set; }
         //public string KegId { get; set; }
@@ -92,9 +92,9 @@ namespace KegID.Model
     {
         public string Property { get; set; }
         public string Value { get; set; }
-        public string PropertyName { get; set; }
-        public string PropertyValue { get; set; }
-        public string Name { get; set; }
+        //public string PropertyName { get; set; }
+        //public string PropertyValue { get; set; }
+        //public string Name { get; set; }
     }
 
 }

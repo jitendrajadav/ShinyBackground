@@ -101,6 +101,7 @@
                 <Setter Property="HorizontalTextAlignment" Value="Start" />
                 <Setter Property="VerticalTextAlignment" Value="Center"/>
                 <Setter Property="TextColor" Value="Black"/>
+                <Setter Property="VerticalOptions" Value="Center"/>
                 <Setter Property="FontSize" Value="{StaticResource LableFontSize}"/>
             </Style>
             

@@ -335,7 +335,8 @@ namespace KegID.ViewModel
         public RelayCommand PalletsCommand { get; }
         public RelayCommand FillCommand { get; }
         public RelayCommand ManifestCommand { get; }
-        public RelayCommand InventoryCommand { get; }
+        public RelayCommand StockCommand { get; }
+        public RelayCommand EmptyCommand { get; }
         public RelayCommand PartnerCommand { get; }
         public RelayCommand KegsCommand { get; }
         public RelayCommand InUsePartnerCommand { get; }
@@ -357,14 +358,14 @@ namespace KegID.ViewModel
             PalletsCommand = new RelayCommand(PalletsCommandRecieverAsync);
             FillCommand = new RelayCommand(FillCommandRecieverAsync);
             ManifestCommand = new RelayCommand(ManifestCommandRecieverAsync);
-            InventoryCommand = new RelayCommand(InventoryCommandRecieverAsync);
+            StockCommand = new RelayCommand(StockCommandRecieverAsync);
+            EmptyCommand = new RelayCommand(EmptyCommandRecieverAsync);
             PartnerCommand = new RelayCommand(PartnerCommandRecieverAsync);
             KegsCommand = new RelayCommand(KegsCommandRecieverAsync);
             InUsePartnerCommand = new RelayCommand(InUsePartnerCommandRecieverAsync);
             RefreshDashboardRecieverAsync();
             CheckDraftmaniFestsAsync();
         }
-
 
         #endregion
 
@@ -391,7 +392,12 @@ namespace KegID.ViewModel
             await Application.Current.MainPage.Navigation.PushModalAsync(new DashboardPartnersView());
         }
 
-        private async void InventoryCommandRecieverAsync()
+        private async void StockCommandRecieverAsync()
+        {
+            await Application.Current.MainPage.Navigation.PushModalAsync(new InventoryView());
+        }
+
+        private async void EmptyCommandRecieverAsync()
         {
             await Application.Current.MainPage.Navigation.PushModalAsync(new InventoryView());
         }

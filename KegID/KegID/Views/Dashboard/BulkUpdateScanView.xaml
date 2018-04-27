@@ -86,13 +86,8 @@
                     Grid.Row="1"
                     Grid.ColumnSpan="3"
                     HorizontalOptions="FillAndExpand"
+                    ItemsSource="{Binding AssetTypeCollection}"
                     SelectedItem="{Binding SelectedItemType,Mode=TwoWay}">
-                    <Picker.ItemsSource>
-                        <x:Array Type="{x:Type x:String}">
-                            <x:String>Keg</x:String>
-                            <x:String>Tap Handle</x:String>
-                        </x:Array>
-                    </Picker.ItemsSource>
                 </Picker>
 
                 <Picker

@@ -85,6 +85,7 @@
                 Text="{Binding ManifestId,StringFormat='Pallet #: {0}',Converter={StaticResource StringToLast8CharacterConverter}}"
                 Style="{StaticResource LabelBannerStyle}"
                 VerticalOptions="Center"
+                VerticalTextAlignment="Center"
                 HorizontalOptions="Start" />
 
             <Label 

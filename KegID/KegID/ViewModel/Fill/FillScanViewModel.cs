@@ -22,6 +22,8 @@ namespace KegID.ViewModel
 
         public IMoveService _moveService { get; set; }
 
+        public string BatchId { get; set; }
+
         #region ManifestId
 
         /// <summary>
@@ -300,7 +302,7 @@ namespace KegID.ViewModel
 
         internal async void AssignValidateBarcodeValueAsync()
         {
-            SimpleIoc.Default.GetInstance<AddPalletsViewModel>().AssignFillScanValue(BarcodeCollection, ManifestId);
+            SimpleIoc.Default.GetInstance<AddPalletsViewModel>().AssignFillScanValue(BarcodeCollection, BatchId);
 
             await Application.Current.MainPage.Navigation.PopPopupAsync();
 
@@ -309,8 +311,9 @@ namespace KegID.ViewModel
             else
             {
                 await Application.Current.MainPage.Navigation.PushModalAsync(new FillScanReviewView());
-                SimpleIoc.Default.GetInstance<FillScanReviewViewModel>().AssignInitialValue(ManifestId, BarcodeCollection.Count);
+                SimpleIoc.Default.GetInstance<FillScanReviewViewModel>().AssignInitialValue(BatchId, BarcodeCollection.Count);
             }
+            //Cleanup();
         }
 
         public async void GenerateManifestIdAsync(PalletModel palletModel)
@@ -346,7 +349,8 @@ namespace KegID.ViewModel
                     }
                     barCode = prefix.ToString().PadLeft(9, '0') + lastCharOfYear + dayOfYear + secondsInDayTillNow + (millisecond / 100);
                     var checksumDigit = Utils.CalculateCheckDigit(barCode);
-                    ManifestId = "Pallet #"+ barCode + checksumDigit;
+                    BatchId = barCode + checksumDigit;
+                    ManifestId = "Pallet #"+ BatchId;
                 }
             }
         }
@@ -421,7 +425,7 @@ namespace KegID.ViewModel
             else
             {
                await Application.Current.MainPage.Navigation.PushModalAsync(new FillScanReviewView());
-                SimpleIoc.Default.GetInstance<FillScanReviewViewModel>().AssignInitialValue(ManifestId, BarcodeCollection.Count);
+                SimpleIoc.Default.GetInstance<FillScanReviewViewModel>().AssignInitialValue(BatchId, BarcodeCollection.Count);
             }
         }
 
@@ -441,7 +445,7 @@ namespace KegID.ViewModel
             if (result.Count > 0)
                 await NavigateToValidatePartner(result.ToList());
             else
-                await SimpleIoc.Default.GetInstance<AddPalletsViewModel>().AssignValueToAddPalletAsync(ManifestId, BarcodeCollection);
+                await SimpleIoc.Default.GetInstance<AddPalletsViewModel>().AssignValueToAddPalletAsync(BatchId, BarcodeCollection);
         }
 
         private async void CancelCommandRecieverAsync()
@@ -475,6 +479,14 @@ namespace KegID.ViewModel
         {
             BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = GetIconByPlatform.GetIcon("validationquestion.png");
             BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().PartnerCount = 1;
+        }
+
+        public override void Cleanup()
+        {
+            BarcodeCollection.Clear();
+            Tags = null;
+            TagsStr = string.Empty;
+            base.Cleanup();
         }
 
         #endregion

@@ -195,7 +195,7 @@
                         FontSize="Medium"
                         Text="{Binding Stock}">
                         <Label.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding Path=BindingContext.InventoryCommand, 
+                            <TapGestureRecognizer Command="{Binding Path=BindingContext.StockCommand, 
                                                         Source={x:Reference Name=lblInventory}}"
                                                          CommandParameter="{Binding}"/>
                         </Label.GestureRecognizers>
@@ -229,7 +229,7 @@
                         FontSize="Medium"
                         Text="{Binding Empty}">
                         <Label.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding Path=BindingContext.InventoryCommand, 
+                            <TapGestureRecognizer Command="{Binding Path=BindingContext.EmptyCommand, 
                                                         Source={x:Reference Name=lblEmpty}}"
                                                          CommandParameter="{Binding}"/>
                         </Label.GestureRecognizers>

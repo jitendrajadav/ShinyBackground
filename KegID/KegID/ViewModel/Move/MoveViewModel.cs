@@ -19,6 +19,13 @@ namespace KegID.ViewModel
 
         public IMoveService _moveService { get; set; }
         public string Barcode { get; set; }
+        public IList<Barcode> Barcodes
+        {
+            get;
+
+            set;
+        }
+        public string Contents { get; set; }
 
         #region ManifestId
 
@@ -372,9 +379,8 @@ namespace KegID.ViewModel
                 Loader.StartLoading();
 
                 manifestPostModel = await ManifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.MOVE_MANIFEST, manifestId: ManifestId,
-                    barcodeCollection: @default.GetInstance<ScanKegsViewModel>().BarcodeCollection, tags: @default.GetInstance<ScanKegsViewModel>().Tags,
-                    partnerModel: PartnerModel, newPallets: new List<NewPallet>(), batches: new List<NewBatch>(), closedBatches: new List<string>(), validationStatus: 2 ,
-                    contents: @default.GetInstance<ScanKegsViewModel>().SelectedBrand.BrandName);
+                    barcodeCollection: Barcodes, tags: Tags, partnerModel: PartnerModel, newPallets: new List<NewPallet>(), 
+                    batches: new List<NewBatch>(), closedBatches: new List<string>(), validationStatus: 2 ,contents: Contents);
                 
                 if (manifestPostModel != null)
                 {
@@ -448,6 +454,7 @@ namespace KegID.ViewModel
                 }
                 catch (Exception ex)
                 {
+                    var Result = await SQLiteServiceClient.Db.UpdateAsync(draftManifestModel);
                     Debug.WriteLine(ex.Message);
                 }
 
@@ -469,14 +476,17 @@ namespace KegID.ViewModel
             }
         }
 
-        internal void AssingScanKegsValue(IList<Barcode> _barcodes)
+        internal void AssingScanKegsValue(List<Barcode> _barcodes, List<Tag> _tags,string _contents)
         {
             try
             {
-                if (_barcodes.Count > 1)
-                    AddKegs = string.Format("{0} Items", _barcodes.Count);
-                else if (_barcodes.Count == 1)
-                    AddKegs = string.Format("{0} Item", _barcodes.Count);
+                Contents = _contents;
+                Tags = _tags;
+                Barcodes = _barcodes;
+                if (Barcodes.Count > 1)
+                    AddKegs = string.Format("{0} Items", Barcodes.Count);
+                else if (Barcodes.Count == 1)
+                    AddKegs = string.Format("{0} Item", Barcodes.Count);
                 if (!IsSubmitVisible)
                     IsSubmitVisible = true;
             }

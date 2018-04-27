@@ -21,6 +21,7 @@ namespace KegID.ViewModel
         public IDashboardService DashboardService { get; set; }
 
         public LocationInfo Posision { get; set; }
+        public List<MaintenanceAlert> Alerts { get; set; }
 
         #region Owner
 
@@ -493,7 +494,7 @@ namespace KegID.ViewModel
 
                 _SelectedMaintenance = value;
                 if (_SelectedMaintenance != null)
-                    AddAlertPerticularKegAsync(_SelectedMaintenance);
+                    //AddAlertPerticularKegAsync(_SelectedMaintenance);
                 RaisePropertyChanged(SelectedMaintenancePropertyName);
             }
         }
@@ -564,7 +565,7 @@ namespace KegID.ViewModel
 
                 _RemoveSelecetedMaintenance = value;
                 if (_RemoveSelecetedMaintenance != null)
-                    RemoveAlertPerticularKegAsync(_RemoveSelecetedMaintenance);
+                    //RemoveAlertPerticularKegAsync(_RemoveSelecetedMaintenance);
                 RaisePropertyChanged(RemoveSelecetedMaintenancePropertyName);
             }
         }
@@ -682,7 +683,9 @@ namespace KegID.ViewModel
         public RelayCommand InvalidToolsCommand { get; }
         public RelayCommand CurrentLocationCommand { get; }
         public RelayCommand MoveKegCommand { get; }
-
+        public RelayCommand AddAlertCommand { get; }
+        public RelayCommand RemoveAlertCommand { get; }
+        
         #endregion
 
         #region Constructor
@@ -695,6 +698,8 @@ namespace KegID.ViewModel
             InvalidToolsCommand = new RelayCommand(InvalidToolsCommandRecieverAsync);
             CurrentLocationCommand = new RelayCommand(CurrentLocationCommandRecieverAsync);
             MoveKegCommand = new RelayCommand(MoveKegCommandRecieverAsync);
+            AddAlertCommand = new RelayCommand(AddAlertCommandRecieverAsync);
+            RemoveAlertCommand = new RelayCommand(RemoveAlertCommandRecieverAsync);
         }
 
         #endregion
@@ -724,6 +729,7 @@ namespace KegID.ViewModel
 
                 var addMaintenanceCollection = await SQLiteServiceClient.Db.Table<MaintainTypeReponseModel>().ToListAsync();
                 KegHasAlert = kegStatus.MaintenanceAlerts.Count > 0 ? true : false;
+                Alerts = kegStatus.MaintenanceAlerts;
                 try
                 {
                     foreach (var item in addMaintenanceCollection)
@@ -770,7 +776,11 @@ namespace KegID.ViewModel
 
         private async void KegsCommandRecieverAsync()
         {
-          await Application.Current.MainPage.Navigation.PopModalAsync();
+            await Application.Current.MainPage.Navigation.PopModalAsync();
+            KegHasAlert = false;
+            Alerts = null;
+            MaintenanceCollection.Clear();
+            RemoveMaintenanceCollection.Clear();
         }
 
         private async void EditCommandRecieverAsync()
@@ -781,18 +791,18 @@ namespace KegID.ViewModel
 
         private async void InvalidToolsCommandRecieverAsync()
         {
-            MaintenanceAlertModel model = null;
+            //MaintenanceAlertModel model = null;
             string maintenanceStr = string.Empty;
 
             try
             {
-                Loader.StartLoading();
-                model = await DashboardService.GetKegMaintenanceAlertAsync(KegId, AppSettings.User.SessionId);
-                if (model != null)
+                //Loader.StartLoading();
+                //model = await DashboardService.GetKegMaintenanceAlertAsync(KegId, AppSettings.User.SessionId);
+                if (Alerts != null)
                 {
-                    foreach (var item in model.MaintenanceAlertResponseModel)
+                    foreach (var item in Alerts)
                     {
-                        maintenanceStr += "-" + item.MaintenanceType.Name + "\n";
+                        maintenanceStr += "-" + item.Name + "\n";
                     }
 
                     await Application.Current.MainPage.DisplayAlert("Warning", Resources["dialog_maintenance_performed_message"] + "\n" + maintenanceStr, "Ok");
@@ -804,9 +814,9 @@ namespace KegID.ViewModel
             }
             finally
             {
-                model = null;
+                Alerts = null;
                 maintenanceStr = default(string);
-                Loader.StopLoading();
+                //Loader.StopLoading();
             }
         }
 
@@ -816,33 +826,124 @@ namespace KegID.ViewModel
             await Application.Current.MainPage.Navigation.PushModalAsync(new PartnerInfoMapView());
         }
 
-        private async void AddAlertPerticularKegAsync(MaintenanceAlert _model)
+        //private async void AddAlertPerticularKegAsync(MaintenanceAlert _model)
+        //{
+        //    List<long> neededTypes = MaintenanceCollection.Where(x => x.Id == _model.Id).Select(x => x.Id).ToList();
+        //    var model = new AddMaintenanceAlertRequestModel
+        //    {
+        //        AlertCc = "",
+        //        DueDate = _model.DueDate,
+        //        KegId = KegId,
+        //        Message = _model.Message,
+        //        NeededTypes = neededTypes,
+        //        ReminderDays = 5
+        //    };
+
+        //    Loader.StartLoading();
+        //    var result = await DashboardService.PostMaintenanceAlertAsync(model, AppSettings.User.SessionId, Configuration.PostedMaintenanceAlert);
+
+        //    if (result.StatusCode == System.Net.HttpStatusCode.OK)
+        //    {
+        //        SelectedMaintenance = null;
+        //        await Application.Current.MainPage.DisplayAlert("Alert", "Alert adedd successfuly", "Ok");
+        //        try
+        //        {
+        //            foreach (var item in result.AddMaintenanceAlertResponseModel)
+        //            {
+        //                var removal = MaintenanceCollection.Where(x => x.Id == item.MaintenanceType.Id).FirstOrDefault();
+        //                if (removal != null)
+        //                {
+        //                    MaintenanceCollection.Remove(removal);
+        //                    RemoveMaintenanceCollection.Add(removal);
+        //                }
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            Debug.WriteLine(ex.Message);
+        //        }
+        //        finally
+        //        {
+        //            Loader.StopLoading();
+        //        }
+        //    }
+        //}
+
+        private async void AddAlertCommandRecieverAsync()
         {
-            List<int> neededTypes = MaintenanceCollection.Where(x => x.Id == _model.Id).Select(x => x.Id).ToList();
-            var model = new AddMaintenanceAlertRequestModel
+            if (SelectedMaintenance != null)
             {
-                AlertCc = "",
-                DueDate = _model.DueDate,
-                KegId = KegId,
-                Message = _model.Message,
-                NeededTypes = neededTypes.ConvertAll(i => (long)i),
-                ReminderDays = 5
-            };
+                List<long> neededTypes = MaintenanceCollection.Where(x => x.Id == SelectedMaintenance.Id).Select(x => x.Id).ToList();
+                var model = new AddMaintenanceAlertRequestModel
+                {
+                    AlertCc = "",
+                    DueDate = SelectedMaintenance.DueDate,
+                    KegId = KegId,
+                    Message = SelectedMaintenance.Message,
+                    NeededTypes = neededTypes,
+                    ReminderDays = 5
+                };
 
-            Loader.StartLoading();
-            var result = await DashboardService.PostMaintenanceAlertAsync(model, AppSettings.User.SessionId, Configuration.PostedMaintenanceAlert);
+                Loader.StartLoading();
+                var result = await DashboardService.PostMaintenanceAlertAsync(model, AppSettings.User.SessionId, Configuration.PostedMaintenanceAlert);
 
-            if (result.StatusCode == System.Net.HttpStatusCode.OK)
+                if (result.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    Loader.StopLoading();
+                    await Application.Current.MainPage.DisplayAlert("Alert", "Alert adedd successfuly", "Ok");
+                    try
+                    {
+                        foreach (var item in result.AddMaintenanceAlertResponseModel)
+                        {
+                            var removal = MaintenanceCollection.Where(x => x.Id == item.MaintenanceType.Id).FirstOrDefault();
+                            if (removal != null)
+                            {
+                                MaintenanceCollection.Remove(removal);
+                                RemoveMaintenanceCollection.Add(removal);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine(ex.Message);
+                    }
+                    finally
+                    {
+                        Loader.StopLoading();
+                        SelectedMaintenance = null;
+                    }
+                } 
+            }
+        }
+
+        private async void RemoveAlertCommandRecieverAsync()
+        {
+            if (RemoveSelecetedMaintenance != null)
             {
-                SelectedMaintenance = null;
-                await Application.Current.MainPage.DisplayAlert("Alert", "Alert adedd successfuly", "Ok");
+                var neededTypes = RemoveMaintenanceCollection.Where(x => x.Id == RemoveSelecetedMaintenance.Id).Select(x => x.Id).FirstOrDefault();
+                Loader.StartLoading();
+                var model = new DeleteMaintenanceAlertRequestModel
+                {
+                    KegId = KegId,
+                    TypeId = neededTypes,
+                };
                 try
                 {
-                    foreach (var item in result.AddMaintenanceAlertResponseModel)
+                    var result = await DashboardService.PostMaintenanceDeleteAlertUrlAsync(model, AppSettings.User.SessionId, Configuration.DeleteTypeMaintenanceAlert);
+                    if (result.StatusCode == System.Net.HttpStatusCode.OK)
                     {
-                        var removal = MaintenanceCollection.Where(x => x.Id == item.MaintenanceType.Id).FirstOrDefault();
-                        if (removal != null)
-                            MaintenanceCollection.Remove(removal);
+                        Loader.StopLoading();
+                        await Application.Current.MainPage.DisplayAlert("Alert", "Alert removed successfuly", "Ok");
+                        foreach (var item in result.AddMaintenanceAlertResponseModel)
+                        {
+                            var removedItem = RemoveMaintenanceCollection.Where(x => x.Id != item.MaintenanceType.Id).First();
+                            if (removedItem != null)
+                            {
+                                RemoveMaintenanceCollection.Remove(removedItem);
+                                MaintenanceCollection.Add(removedItem);
+                            }
+                            break;
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -852,54 +953,59 @@ namespace KegID.ViewModel
                 finally
                 {
                     Loader.StopLoading();
-                }
-            }
-        }
-
-        private async void RemoveAlertPerticularKegAsync(MaintenanceAlert _model)
-        {
-            var neededTypes = RemoveMaintenanceCollection.Where(x=>x.Id == _model.Id).Select(x => x.Id).FirstOrDefault();
-            //var model = new DeleteMaintenanceAlertRequestModel
-            //{
-            //    AlertCc = "",
-            //    DueDate = DateTime.Now,
-            //    KegId = KegId,
-            //    Message = _model.Message,
-            //    NeededTypes = neededTypes,
-            //    ReminderDays = 10
-            //};
-            //var resutl = await DashboardService.PostMaintenanceDeleteAlertUrlAsync(model, AppSettings.User.SessionId, Configuration.PostedMaintenanceAlert);
-            Loader.StartLoading();
-            var model = new DeleteMaintenanceAlertRequestModel
-            {
-                KegId = KegId,
-                TypeId = neededTypes,
-            };
-            try
-            {
-                var result = await DashboardService.PostMaintenanceDeleteAlertUrlAsync(model, AppSettings.User.SessionId, Configuration.DeleteTypeMaintenanceAlert);
-                if (result.StatusCode == System.Net.HttpStatusCode.OK)
-                {
                     RemoveSelecetedMaintenance = null;
-
-                    await Application.Current.MainPage.DisplayAlert("Alert", "Alert removed successfuly", "Ok");
-                    foreach (var item in result.AddMaintenanceAlertResponseModel)
-                    {
-                        var removedItem = RemoveMaintenanceCollection.Where(x => x.Id != item.MaintenanceType.Id).FirstOrDefault();
-                        if (removedItem != null)
-                            RemoveMaintenanceCollection.Remove(removedItem);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
-            finally
-            {
-                Loader.StopLoading();
+                } 
             }
         }
+
+        //private async void RemoveAlertPerticularKegAsync(MaintenanceAlert _model)
+        //{
+        //    var neededTypes = RemoveMaintenanceCollection.Where(x=>x.Id == _model.Id).Select(x => x.Id).FirstOrDefault();
+        //    //var model = new DeleteMaintenanceAlertRequestModel
+        //    //{
+        //    //    AlertCc = "",
+        //    //    DueDate = DateTime.Now,
+        //    //    KegId = KegId,
+        //    //    Message = _model.Message,
+        //    //    NeededTypes = neededTypes,
+        //    //    ReminderDays = 10
+        //    //};
+        //    //var resutl = await DashboardService.PostMaintenanceDeleteAlertUrlAsync(model, AppSettings.User.SessionId, Configuration.PostedMaintenanceAlert);
+        //    Loader.StartLoading();
+        //    var model = new DeleteMaintenanceAlertRequestModel
+        //    {
+        //        KegId = KegId,
+        //        TypeId = neededTypes,
+        //    };
+        //    try
+        //    {
+        //        var result = await DashboardService.PostMaintenanceDeleteAlertUrlAsync(model, AppSettings.User.SessionId, Configuration.DeleteTypeMaintenanceAlert);
+        //        if (result.StatusCode == System.Net.HttpStatusCode.OK)
+        //        {
+        //            RemoveSelecetedMaintenance = null;
+
+        //            await Application.Current.MainPage.DisplayAlert("Alert", "Alert removed successfuly", "Ok");
+        //            foreach (var item in result.AddMaintenanceAlertResponseModel)
+        //            {
+        //                var removedItem = RemoveMaintenanceCollection.Where(x => x.Id != item.MaintenanceType.Id).First();
+        //                if (removedItem != null)
+        //                {
+        //                    RemoveMaintenanceCollection.Remove(removedItem);
+        //                    MaintenanceCollection.Add(removedItem);
+        //                }
+        //                break;
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Debug.WriteLine(ex.Message);
+        //    }
+        //    finally
+        //    {
+        //        Loader.StopLoading();
+        //    }
+        //}
 
         #endregion
 

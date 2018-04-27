@@ -164,6 +164,7 @@
                         Text="{Binding Resources[label_alcohol_content]}"/>
 
                     <Entry 
+                        Keyboard="Numeric"
                         Grid.Row="6"
                         Grid.Column="1"
                         Grid.ColumnSpan="2"

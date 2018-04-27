@@ -88,13 +88,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string BrewDatePropertyName = "BrewDate";
 
-        private string _BrewDate = string.Empty;
+        private DateTime _BrewDate = DateTime.Now;
 
         /// <summary>
         /// Sets and gets the BrewDate property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public string BrewDate
+        public DateTime BrewDate
         {
             get
             {
@@ -122,13 +122,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string VolumeDigitPropertyName = "VolumeDigit";
 
-        private string _VolumeDigit = default(string);
+        private long _VolumeDigit = default(long);
 
         /// <summary>
         /// Sets and gets the VolumeDigit property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public string VolumeDigit
+        public long VolumeDigit
         {
             get
             {
@@ -224,13 +224,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string BestByDatePropertyName = "BestByDate";
 
-        private string _BestByDate = string.Empty;
+        private DateTime _BestByDate = DateTime.Now;
 
         /// <summary>
         /// Sets and gets the BestByDate property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public string BestByDate
+        public DateTime BestByDate
         {
             get
             {
@@ -258,13 +258,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string AlcoholContentPropertyName = "AlcoholContent";
 
-        private string _AlcoholContent = default(string);
+        private double _AlcoholContent = default(double);
 
         /// <summary>
         /// Sets and gets the AlcoholContent property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public string AlcoholContent
+        public double AlcoholContent
         {
             get
             {
@@ -462,13 +462,13 @@ namespace KegID.ViewModel
         private async void DoneCommandRecieverAsync()
         {
             NewBatchModel.Tags = Tags;
-            NewBatchModel.Abv = Convert.ToInt64(AlcoholContent);
+            NewBatchModel.Abv = AlcoholContent;
             NewBatchModel.BatchCode = BatchCode;
             NewBatchModel.BatchId = Uuid.GetUuId();
-            NewBatchModel.BestBeforeDate = BestByDate;
+            NewBatchModel.BestBeforeDate = BestByDate.ToShortDateString();
             NewBatchModel.BrandName = BrandButtonTitle;
-            NewBatchModel.BrewDate = BrewDate;
-            NewBatchModel.BrewedVolume = Convert.ToInt64(VolumeDigit);
+            NewBatchModel.BrewDate = BrewDate.ToShortDateString();
+            NewBatchModel.BrewedVolume = VolumeDigit;
             NewBatchModel.BrewedVolumeUom = VolumeChar;
             NewBatchModel.CompanyId = AppSettings.User.CompanyId;
             NewBatchModel.CompletedDate = DateTime.Today.ToString();
@@ -480,7 +480,7 @@ namespace KegID.ViewModel
             NewBatchModel.SourceKey = "";
 
             //var result = await _fillService.PostBatchAsync(batchRequestModel, Configuration.SessionId, Configuration.NewBatch);
-            SimpleIoc.Default.GetInstance<FillViewModel>().NewBatchModel.BrandName = BrandButtonTitle + BatchCode;
+            SimpleIoc.Default.GetInstance<FillViewModel>().BatchButtonTitle = BrandButtonTitle + BatchCode;
             await Application.Current.MainPage.Navigation.PopModalAsync();
             await Application.Current.MainPage.Navigation.PopModalAsync();
         }

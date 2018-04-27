@@ -98,8 +98,6 @@ namespace KegID.ViewModel
 
         public RelayCommand SubmitCommand { get;}
         public RelayCommand BackCommand { get;}
-
-
         public RelayCommand BarcodeScanCommand { get;}
         public RelayCommand BarcodeManualCommand { get;}
         public RelayCommand<Barcode> IconItemTappedCommand { get;}
