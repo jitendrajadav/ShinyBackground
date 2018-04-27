@@ -212,7 +212,7 @@
                 <Grid.HeightRequest>
                     <OnPlatform x:TypeArguments="x:Double">
                         <On Platform="iOS" Value="35" />
-                        <On Platform="Android, WinPhone, Windows, UWP" Value="35" />
+                        <On Platform="Android, WinPhone, Windows, UWP" Value="40" />
                     </OnPlatform>
                 </Grid.HeightRequest>
                 
