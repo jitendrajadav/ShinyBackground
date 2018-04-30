@@ -1,7 +1,5 @@
 ﻿using GalaSoft.MvvmLight.Ioc;
-using KegID.Common;
 using KegID.Model;
-using KegID.Services;
 using KegID.SQLiteClient;
 using KegID.ViewModel;
 using System;
