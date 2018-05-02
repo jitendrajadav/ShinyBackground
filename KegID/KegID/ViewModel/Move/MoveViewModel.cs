@@ -393,7 +393,7 @@ namespace KegID.ViewModel
                         {
                             @default.GetInstance<ManifestDetailViewModel>().AssignInitialValue(manifest);
                             Loader.StopLoading();
-                            await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestDetailView());
+                            await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestDetailView(), animated: false);
                         }
                         else
                         {
@@ -459,7 +459,7 @@ namespace KegID.ViewModel
                 }
 
                 Loader.StopLoading();
-                await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestsView());
+                await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestsView(), animated: false);
                 await @default.GetInstance<ManifestsViewModel>().LoadDraftManifestAsync();
             }
             catch (Exception ex)
@@ -518,9 +518,9 @@ namespace KegID.ViewModel
             }
         }
 
-        private async void SelectLocationCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView());
+        private async void SelectLocationCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView(), animated: false);
 
-        private async void MoreInfoCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView());
+        private async void MoreInfoCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView(), animated: false);
 
         private async void ScanKegsCommadRecieverAsync()
         {
@@ -528,7 +528,7 @@ namespace KegID.ViewModel
             {
                 if (!string.IsNullOrEmpty(PartnerModel?.PartnerId))
                 {
-                    await Application.Current.MainPage.Navigation.PushModalAsync(new ScanKegsView());
+                    await Application.Current.MainPage.Navigation.PushModalAsync(new ScanKegsView(), animated: false);
                     SimpleIoc.Default.GetInstance<ScanKegsViewModel>().AssignInitialValue(Barcode);
                 }
                 else

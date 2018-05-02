@@ -451,12 +451,12 @@ namespace KegID.ViewModel
 
         private async void VolumeCharCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new VolumeView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new VolumeView(), animated: false);
         }
 
         private async void BrandCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new BrandView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new BrandView(), animated: false);
         }
 
         private async void DoneCommandRecieverAsync()
@@ -492,7 +492,7 @@ namespace KegID.ViewModel
 
         private async void AddTagsCommandRecieverAsync()
         {
-           await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView());
+           await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView(), animated: false);
         }
 
         internal void AssignAddTagsValue(List<Tag> _tags, string _tagsStr)

@@ -905,13 +905,13 @@ namespace KegID.ViewModel
         private async void BillingAddressCommandRecieverAsync()
         {
             SimpleIoc.Default.GetInstance<EditAddressViewModel>().AddressTitle = "Billing Address";
-            await Application.Current.MainPage.Navigation.PushModalAsync(new EditAddressView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new EditAddressView(), animated: false);
         }
 
         private async void ShippingAddressCommandRecieverAsync()
         {
             SimpleIoc.Default.GetInstance<EditAddressViewModel>().AddressTitle = "Shipping Address";
-            await Application.Current.MainPage.Navigation.PushModalAsync(new EditAddressView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new EditAddressView(), animated: false);
         }
 
         private async void CalcelCommandRecieverAsync()

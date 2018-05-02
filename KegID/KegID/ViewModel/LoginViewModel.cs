@@ -188,7 +188,7 @@ namespace KegID.ViewModel
                     {
                         Debug.WriteLine(ex.Message);
                     }
-                    await Application.Current.MainPage.Navigation.PushModalAsync(new MainPage());
+                    await Application.Current.MainPage.Navigation.PushModalAsync(page: new MainPage(),animated: false);
                     try
                     {
                         var value = await SQLiteServiceClient.Db.InsertAllAsync(model.LoginModel.Preferences);
@@ -207,6 +207,8 @@ namespace KegID.ViewModel
                 {
                   await Application.Current.MainPage.DisplayAlert("Error","Error while login please check","Ok");
                 }
+                Application.Current.MainPage = new MainPage();
+                await Application.Current.MainPage.Navigation.PopToRootAsync(true);
             }
             catch (Exception ex)
             {
@@ -222,7 +224,7 @@ namespace KegID.ViewModel
         internal async void InvalideServiceCallAsync()
         {
             AppSettings.RemoveUserData();
-            await Application.Current.MainPage.Navigation.PushModalAsync(new LoginView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new LoginView(), animated: false);
         }
 
         private async Task LoadAssetSizeAsync()

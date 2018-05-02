@@ -110,6 +110,7 @@
     <Compile Include="Renderers\CustomButtonRenderer.cs" />
     <Compile Include="Renderers\CustomMapRenderer.cs" />
     <Compile Include="Renderers\BlueNavigationRenderer.cs" />
+    <Compile Include="Renderers\ExtendedViewCellRenderer.cs" />
     <Compile Include="Renderers\NativeiOSListViewCell.cs" />
     <Compile Include="Renderers\NativeiOSListViewRenderer.cs" />
     <Compile Include="Renderers\NativeiOSListViewSource.cs" />
@@ -446,6 +447,16 @@
   <ItemGroup>
     <BundleResource Include="..\KegID\Assets\triangle.png">
       <Link>Resources\triangle.png</Link>
+    </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\KegID\Assets\validationok.png">
+      <Link>Resources\validationok.png</Link>
+    </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\KegID\Assets\collectionscloud.png">
+      <Link>Resources\collectionscloud.png</Link>
     </BundleResource>
   </ItemGroup>
 </Project>

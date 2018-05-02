@@ -708,7 +708,7 @@ namespace KegID.ViewModel
 
         private async void MoveKegCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new MoveView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new MoveView(), animated: false);
             SimpleIoc.Default.GetInstance<MoveViewModel>().AssignInitialValue(KegId,Barcode,"1",string.Empty,string.Empty,true);
         }
 
@@ -786,7 +786,7 @@ namespace KegID.ViewModel
         private async void EditCommandRecieverAsync()
         {
             SimpleIoc.Default.GetInstance<EditKegViewModel>().AssingInitialValue(KegId,Barcode, Owner, TypeName,SizeName);
-            await Application.Current.MainPage.Navigation.PushModalAsync(new EditKegView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new EditKegView(), animated: false);
         }
 
         private async void InvalidToolsCommandRecieverAsync()
@@ -823,7 +823,7 @@ namespace KegID.ViewModel
         private async void CurrentLocationCommandRecieverAsync()
         {
             SimpleIoc.Default.GetInstance<PartnerInfoMapViewModel>().AssignInitialValue(Posision.Lat, Posision.Lon, Posision.Label, Posision.Address);
-            await Application.Current.MainPage.Navigation.PushModalAsync(new PartnerInfoMapView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new PartnerInfoMapView(), animated: false);
         }
 
         //private async void AddAlertPerticularKegAsync(MaintenanceAlert _model)

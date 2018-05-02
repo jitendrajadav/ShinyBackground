@@ -77,7 +77,7 @@ namespace KegID.ViewModel
 
         private async void ItemTappedCommandRecieverAsync(KegSearchResponseModel model)
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new KegStatusView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new KegStatusView(), animated: false);
             await SimpleIoc.Default.GetInstance<KegStatusViewModel>().LoadMaintenanceHistoryAsync(model.KegId, model.Contents, 4, model.Owner.FullName, model.Barcode, model.TypeName, model.SizeName);
         }
 

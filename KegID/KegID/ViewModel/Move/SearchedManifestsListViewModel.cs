@@ -91,7 +91,7 @@ namespace KegID.ViewModel
                     SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().AssignInitialValue(manifest);
 
                     Loader.StopLoading();
-                    await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestDetailView());
+                    await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestDetailView(), animated: false);
                 }
             }
             catch (Exception ex)

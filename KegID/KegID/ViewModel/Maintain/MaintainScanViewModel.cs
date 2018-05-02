@@ -119,43 +119,48 @@ namespace KegID.ViewModel
             LabelItemTappedCommand = new RelayCommand<Barcode>((model) => LabelItemTappedCommandRecieverAsync(model));
             IconItemTappedCommand = new RelayCommand<Barcode>((model) => IconItemTappedCommandRecieverAsync(model));
 
-            LoadMaintenanceTypeAsync();
+            LoadMaintenanceType();
         }
 
         #endregion
 
         #region Methods
-
-        private async void LoadMaintenanceTypeAsync()
+        private async void LoadMaintenanceType()
         {
             MaintainTypeReponseModel = await SQLiteServiceClient.Db.Table<MaintainTypeReponseModel>().ToListAsync();
-
             if (MaintainTypeReponseModel.Count == 0)
             {
-                var model = await _maintainService.GetMaintainTypeAsync(AppSettings.User.SessionId);
-                try
-                {
-                    // The item does not exists in the database so lets insert it
-                    await SQLiteServiceClient.Db.InsertAllAsync(model.MaintainTypeReponseModel);
-                    MaintainTypeReponseModel = model.MaintainTypeReponseModel;
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.Message);
-                }
+                MaintainTypeReponseModel = await LoadMaintenanceTypeAsync();
             }
+        }
+
+        public async Task<IList<MaintainTypeReponseModel>> LoadMaintenanceTypeAsync()
+        {
+            var model = await _maintainService.GetMaintainTypeAsync(AppSettings.User.SessionId);
+            try
+            {
+                // The item does not exists in the database so lets insert it
+                await SQLiteServiceClient.Db.InsertAllAsync(model.MaintainTypeReponseModel);
+                MaintainTypeReponseModel = model.MaintainTypeReponseModel;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            return MaintainTypeReponseModel;
         }
 
         internal void AssignValidatedValue(Partner model)
         {
+            BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Partners.Clear();
             BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = GetIconByPlatform.GetIcon("validationquestion.png");
-            BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().PartnerCount = 1;
+            BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Partners.Add(model);
         }
 
         private async void LabelItemTappedCommandRecieverAsync(Barcode model)
         {
 
-            if (model.PartnerCount > 1)
+            if (model.Partners.Count > 1)
             {
                 List<Barcode> modelList = new List<Barcode>
                     {
@@ -165,13 +170,13 @@ namespace KegID.ViewModel
             }
             else
             {
-                await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView());
+                await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView(), animated: false);
             }
         }
 
         private async void IconItemTappedCommandRecieverAsync(Barcode model)
         {
-            if (model.PartnerCount > 1)
+            if (model.Partners.Count > 1)
             {
                 List<Barcode> modelList = new List<Barcode>
                     {
@@ -181,7 +186,7 @@ namespace KegID.ViewModel
             }
             else
             {
-                await Application.Current.MainPage.Navigation.PushModalAsync(new ScanInfoView());
+                await Application.Current.MainPage.Navigation.PushModalAsync(new ScanInfoView(), animated: false);
                 SimpleIoc.Default.GetInstance<ScanInfoViewModel>().AssignInitialValue(model.Id);
             }
         }
@@ -221,7 +226,7 @@ namespace KegID.ViewModel
 
         public async void SubmitCommandRecieverAsync()
         {
-            var result = BarcodeCollection.Where(x => x.PartnerCount > 1).ToList();
+            var result = BarcodeCollection.Where(x => x.Partners.Count > 1).ToList();
             if (result.Count > 0)
                 await NavigateToValidatePartner(result.ToList());
             else
@@ -256,7 +261,7 @@ namespace KegID.ViewModel
                     {
                         MaintenanceDoneRequestModel = new MaintenanceDoneRequestModel()
                     };
-                    model.MaintenanceDoneRequestModel.ActionsPerformed = SimpleIoc.Default.GetInstance<MaintainViewModel>().MaintenancePerformed.ToList();
+                    model.MaintenanceDoneRequestModel.ActionsPerformed = SimpleIoc.Default.GetInstance<MaintainViewModel>().MaintainTypeCollection.Where(x=>x.IsToggled == true).Select(y=>y.Id).ToList();
                     model.MaintenanceDoneRequestModel.DatePerformed = DateTimeOffset.Now.AddDays(-2);
                     model.MaintenanceDoneRequestModel.Kegs = kegs;
                     model.MaintenanceDoneRequestModel.LocationId = SimpleIoc.Default.GetInstance<MaintainViewModel>().PartnerModel.PartnerId;
@@ -275,7 +280,7 @@ namespace KegID.ViewModel
                         SimpleIoc.Default.GetInstance<MaintainDetailViewModel>().LoadInfo(BarcodeCollection);
 
                         Loader.StopLoading();
-                        await Application.Current.MainPage.Navigation.PushModalAsync(new MaintainDetailView());
+                        await Application.Current.MainPage.Navigation.PushModalAsync(new MaintainDetailView(), animated: false);
                     }
                     else
                     {

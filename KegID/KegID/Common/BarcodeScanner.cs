@@ -94,7 +94,7 @@ namespace KegID.Common
                 }
             });
 
-            await Application.Current.MainPage.Navigation.PushModalAsync(scanPage);
+            await Application.Current.MainPage.Navigation.PushModalAsync(scanPage, animated: false);
         }
 
         public static async Task BarcodeScanSingleAsync(IMoveService _moveService, List<Tag> _tags, string _tagsStr)
@@ -167,7 +167,7 @@ namespace KegID.Common
                 }
             });
 
-            await Application.Current.MainPage.Navigation.PushModalAsync(scanPage);
+            await Application.Current.MainPage.Navigation.PushModalAsync(scanPage, animated: false);
         }
 
         public static async Task<Barcode> ValidateBarcodeInsertIntoLocalDB(IMoveService _moveService,string _barcodeId, List<Tag> _tags, string _tagsStr)
@@ -182,8 +182,9 @@ namespace KegID.Common
                     Id = _barcodeId,
                     Tags = _tags,
                     TagsStr = _tagsStr,
-                    PartnerCount = validateBarcodeModel.Kegs.Partners.Count,
-                    Icon = validateBarcodeModel.Kegs.Partners.Count > 1 ? GetIconByPlatform.GetIcon("validationerror.png") : GetIconByPlatform.GetIcon("validationquestion.png"),
+                    Partners = validateBarcodeModel.Kegs.Partners,
+                    Icon = validateBarcodeModel.Kegs.Partners.Count > 1 ? GetIconByPlatform.GetIcon("validationquestion.png") :
+                    validateBarcodeModel.Kegs.Partners.Count == 0 ? GetIconByPlatform.GetIcon("validationerror.png") : GetIconByPlatform.GetIcon("validationok.png"),
                 };
 
                 BarcodeModel barcodeModel = new BarcodeModel()

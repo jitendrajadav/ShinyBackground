@@ -342,7 +342,7 @@ namespace KegID.ViewModel
 
         private async void IconItemTappedCommandRecieverAsync(Barcode model)
         {
-            if (model.PartnerCount > 1)
+            if (model.Partners.Count > 1)
             {
                 List<Barcode> modelList = new List<Barcode>
                     {
@@ -352,14 +352,14 @@ namespace KegID.ViewModel
             }
             else
             {
-                await Application.Current.MainPage.Navigation.PushModalAsync(new ScanInfoView());
+                await Application.Current.MainPage.Navigation.PushModalAsync(new ScanInfoView(), animated: false);
                 SimpleIoc.Default.GetInstance<ScanInfoViewModel>().AssignInitialValue(model.Id);
             }
         }
 
         private async void LabelItemTappedCommandRecieverAsync(Barcode model)
         {
-            if (model.PartnerCount > 1)
+            if (model.Partners.Count > 1)
             {
                 List<Barcode> modelList = new List<Barcode>
                     {
@@ -370,7 +370,7 @@ namespace KegID.ViewModel
             else
             {
                 //IsFromScanned = true;
-                await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView());
+                await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView(), animated: false);
             }
         }
 
@@ -382,7 +382,7 @@ namespace KegID.ViewModel
 
         private async void AddTagsCommandRecieverAsync()
         {
-           await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView());
+           await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView(), animated: false);
         }
 
         private async void BarcodeManualCommandRecieverAsync()

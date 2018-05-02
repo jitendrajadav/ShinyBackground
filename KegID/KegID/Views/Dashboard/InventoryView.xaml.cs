@@ -10,6 +10,6 @@ namespace KegID.Views
 		public InventoryView ()
 		{
 			InitializeComponent ();
-		}
-	}
+        }
+    }
 }

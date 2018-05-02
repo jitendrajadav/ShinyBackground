@@ -321,16 +321,16 @@ namespace KegID.ViewModel
 
         private async void EditPalletCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new PalletizeView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new PalletizeView(), animated: false);
             //SimpleIoc.Default.GetInstance<PalletizeViewModel>().AssingInitialValue(ManifestId,StockLocation,TargetLocation) ;
         }
 
         private async void MovePalletCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new MoveView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new MoveView(), animated: false);
         }
 
-        private async void GridTappedCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new ContentTagsView());
+        private async void GridTappedCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new ContentTagsView(), animated: false);
 
         private void ShareCommandReciever()
         {

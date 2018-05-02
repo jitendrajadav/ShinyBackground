@@ -294,13 +294,13 @@ namespace KegID.ViewModel
                 if (IsPalletze)
                 {
                     SimpleIoc.Default.GetInstance<AddPalletsViewModel>().AddPalletsTitle = "Filling " + SizeButtonTitle + " kegs with " + BatchButtonTitle + "\n" + DestinationTitle;
-                    await Application.Current.MainPage.Navigation.PushModalAsync(new AddPalletsView());
+                    await Application.Current.MainPage.Navigation.PushModalAsync(new AddPalletsView(), animated: false);
                 }
                 else
                 {
                     SimpleIoc.Default.GetInstance<FillScanViewModel>().IsPalletze = IsPalletze;
                     SimpleIoc.Default.GetInstance<FillScanViewModel>().ManifestId = "Filling " + SizeButtonTitle + " kegs with " + BatchButtonTitle + " " + DestinationTitle;
-                    await Application.Current.MainPage.Navigation.PushModalAsync(new FillScanView());
+                    await Application.Current.MainPage.Navigation.PushModalAsync(new FillScanView(), animated: false);
                 }
             }
             else
@@ -315,9 +315,9 @@ namespace KegID.ViewModel
             await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView());
         }
 
-        private async void BatchCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new BatchView());
+        private async void BatchCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new BatchView(), animated: false);
 
-        private async void SizeCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new SizeView());
+        private async void SizeCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new SizeView(), animated: false);
 
         #endregion
     }

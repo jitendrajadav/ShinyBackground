@@ -438,7 +438,7 @@ namespace KegID.ViewModel
             {
                 PartnerId = model.Location.PartnerId;
                 SimpleIoc.Default.GetInstance<PartnerInfoViewModel>().PartnerModel = model.Location;
-                await Application.Current.MainPage.Navigation.PushModalAsync(new PartnerInfoView());
+                await Application.Current.MainPage.Navigation.PushModalAsync(new PartnerInfoView(), animated: false);
                 Cleanup();
             }
         }
@@ -475,7 +475,7 @@ namespace KegID.ViewModel
 
         private async void AddNewPartnerCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new AddPartnerView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new AddPartnerView(), animated: false);
         }
 
         public override void Cleanup()

@@ -301,17 +301,17 @@ namespace KegID.ViewModel
 
         private async void PartnerCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView(), animated: false);
         }
 
         private async void SizeCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new SizeView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new SizeView(), animated: false);
         }
 
         private async void AddTagsCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView(), animated: false);
         }
 
         internal void AssingInitialValue(string _kegId,string _barcode, string _owner, string _typeName, string _sizeName)

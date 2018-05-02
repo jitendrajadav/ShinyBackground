@@ -51,9 +51,13 @@ namespace KegID
             #endregion
 
             if (AppSettings.User != null)
+            {
                 MainPage = new MainPage();
+            }
             else
-            MainPage = new LoginView();
+            {
+                MainPage = new LoginView();
+            }
 
             // for Nagivation use will check later...
             //MainPage = new NavigationPage(new LoginView())

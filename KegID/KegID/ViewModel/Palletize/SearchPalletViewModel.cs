@@ -241,7 +241,7 @@ namespace KegID.ViewModel
 
         private async void LocationCreatedCommandRecieverAsync()
         {
-          await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView());
+          await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView(), animated: false);
         }
 
         private async void HomeCommandRecieverAsync()
@@ -251,7 +251,7 @@ namespace KegID.ViewModel
         private async void SearchCommandRecieverAsync()
         {
             SimpleIoc.Default.GetInstance<PalletSearchedListViewModel>().GetPalletSearchAsync(PartnerModel?.PartnerId,FromDate.ToShortDateString(),ToDate.ToShortDateString(),string.Empty,string.Empty);
-            await Application.Current.MainPage.Navigation.PushModalAsync(new PalletSearchedListView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new PalletSearchedListView(), animated: false);
         }
 
         #endregion

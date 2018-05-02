@@ -310,7 +310,7 @@ namespace KegID.ViewModel
                 await Application.Current.MainPage.Navigation.PopModalAsync();
             else
             {
-                await Application.Current.MainPage.Navigation.PushModalAsync(new FillScanReviewView());
+                await Application.Current.MainPage.Navigation.PushModalAsync(new FillScanReviewView(), animated: false);
                 SimpleIoc.Default.GetInstance<FillScanReviewViewModel>().AssignInitialValue(BatchId, BarcodeCollection.Count);
             }
             //Cleanup();
@@ -369,7 +369,7 @@ namespace KegID.ViewModel
         private async void LabelItemTappedCommandRecieverAsync(Barcode model)
         {
 
-            if (model.PartnerCount > 1)
+            if (model.Partners.Count > 1)
             {
                 List<Barcode> modelList = new List<Barcode>
                     {
@@ -379,13 +379,13 @@ namespace KegID.ViewModel
             }
             else
             {
-                await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView());
+                await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView(), animated: false);
             }
         }
 
         private async void IconItemTappedCommandRecieverAsync(Barcode model)
         {
-            if (model.PartnerCount > 1)
+            if (model.Partners.Count > 1)
             {
                 List<Barcode> modelList = new List<Barcode>
                     {
@@ -395,14 +395,14 @@ namespace KegID.ViewModel
             }
             else
             {
-                await Application.Current.MainPage.Navigation.PushModalAsync(new ScanInfoView());
+                await Application.Current.MainPage.Navigation.PushModalAsync(new ScanInfoView(), animated: false);
                 SimpleIoc.Default.GetInstance<ScanInfoViewModel>().AssignInitialValue(model.Id);
             }
         }
 
         private async Task NavigateToValidatePartner(List<Barcode> model)
         {
-            await Application.Current.MainPage.Navigation.PushPopupAsync(new ValidateBarcodeView());
+            await Application.Current.MainPage.Navigation.PushPopupAsync(new ValidateBarcodeView(), animate: false);
             await SimpleIoc.Default.GetInstance<ValidateBarcodeViewModel>().LoadBarcodeValue(model);
         }
 
@@ -419,12 +419,12 @@ namespace KegID.ViewModel
 
         private async void SubmitCommandRecieverAsync()
         {
-            var result = BarcodeCollection.Where(x => x.PartnerCount > 1).ToList();
+            var result = BarcodeCollection.Where(x => x.Partners.Count > 1).ToList();
             if (result.Count > 0)
                 await NavigateToValidatePartner(result.ToList());
             else
             {
-               await Application.Current.MainPage.Navigation.PushModalAsync(new FillScanReviewView());
+               await Application.Current.MainPage.Navigation.PushModalAsync(new FillScanReviewView(), animated: false);
                 SimpleIoc.Default.GetInstance<FillScanReviewViewModel>().AssignInitialValue(BatchId, BarcodeCollection.Count);
             }
         }
@@ -441,7 +441,7 @@ namespace KegID.ViewModel
 
         private async Task ValidateBarcode()
         {
-            var result = BarcodeCollection.Where(x => x.PartnerCount > 1).ToList();
+            var result = BarcodeCollection.Where(x => x.Partners.Count > 1).ToList();
             if (result.Count > 0)
                 await NavigateToValidatePartner(result.ToList());
             else
@@ -472,13 +472,14 @@ namespace KegID.ViewModel
 
         private async void AddTagsCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView(), animated: false);
         }
 
         internal void AssignValidatedValue(Partner model)
         {
+            BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Partners.Clear();
             BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = GetIconByPlatform.GetIcon("validationquestion.png");
-            BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().PartnerCount = 1;
+            BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Partners.Add(model);
         }
 
         public override void Cleanup()

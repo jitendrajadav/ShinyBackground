@@ -86,7 +86,7 @@ namespace KegID.ViewModel
 
         private async void ItemTappedCommandRecieverAsync(SearchPalletResponseModel model)
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new PalletizeDetailView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new PalletizeDetailView(), animated: false);
             SimpleIoc.Default.GetInstance<PalletizeDetailViewModel>().AssingIntialValueAsync(model, true);
         }
 

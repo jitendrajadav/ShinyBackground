@@ -113,7 +113,7 @@ namespace KegID.ViewModel
         private async void SearchCommandRecieverAsync()
         {
             SimpleIoc.Default.GetInstance<KegSearchedListViewModel>().LoadKegSearchAsync(Barcode);
-            await Application.Current.MainPage.Navigation.PushModalAsync(new KegSearchedListView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new KegSearchedListView(), animated: false);
         }
 
         private async void HomeCommandRecieverAsync()
@@ -128,7 +128,7 @@ namespace KegID.ViewModel
 
         private async void BulkUpdateCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new BulkUpdateScanView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new BulkUpdateScanView(), animated: false);
         }
 
         internal async void AssingSuccessMsgAsync()
@@ -141,7 +141,7 @@ namespace KegID.ViewModel
         internal async void AssignBarcodeScannerValueAsync(Barcode barcodes)
         {
             SimpleIoc.Default.GetInstance<KegSearchedListViewModel>().LoadKegSearchAsync(barcodes.Id);
-            await Application.Current.MainPage.Navigation.PushModalAsync(new KegSearchedListView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new KegSearchedListView(), animated: false);
         }
 
         #endregion

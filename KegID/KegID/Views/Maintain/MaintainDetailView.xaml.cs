@@ -2,6 +2,7 @@
 using GalaSoft.MvvmLight.Ioc;
 using KegID.ViewModel;
 using System.Diagnostics;
+using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -20,12 +21,12 @@ namespace KegID.Views
         {
             try
             {
-                foreach (var item in SimpleIoc.Default.GetInstance<MaintainViewModel>().MaintenancePerformedCollection)
+                foreach (var item in SimpleIoc.Default.GetInstance<MaintainViewModel>().MaintainTypeCollection.Where(x=>x.IsToggled == true))
                 {
                     Label PerformedLabel = new Label()
                     {
                         VerticalOptions = LayoutOptions.Center,
-                        Text = item,
+                        Text = item.Name,
                         Style = (Style)Application.Current.Resources["LabelTitleStyle"],
                         TextColor = Color.Black
                     };

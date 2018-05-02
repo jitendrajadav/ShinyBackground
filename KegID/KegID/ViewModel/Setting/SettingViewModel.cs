@@ -76,13 +76,13 @@ namespace KegID.ViewModel
         private async void PrinterSettingCommandRecieverAsync()
         {
             await Application.Current.MainPage.Navigation.PopPopupAsync();
-            await Application.Current.MainPage.Navigation.PushModalAsync(new PrinterSettingView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new PrinterSettingView(), animated: false);
         }
 
         private async void WhatsNewCommandRecieverAsync()
         {
             await Application.Current.MainPage.Navigation.PopPopupAsync();
-            await Application.Current.MainPage.Navigation.PushModalAsync(new WhatIsNewView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new WhatIsNewView(), animated: false);
         }
 
         private async void SupportCommandRecieverAsync()

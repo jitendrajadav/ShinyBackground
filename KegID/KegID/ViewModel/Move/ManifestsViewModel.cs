@@ -318,7 +318,7 @@ namespace KegID.ViewModel
         private async void ItemTappedCommandRecieverAsync(ManifestModel model)
         {
             SimpleIoc.Default.GetInstance<MoveViewModel>().AssignInitialValue(model.ManifestId, model.ManifestItems.Count > 0 ? model.ManifestItems.FirstOrDefault().Barcode:string.Empty, model.ManifestItemsCount > 0 ? model.ManifestItemsCount.ToString() : string.Empty, model.OwnerName, model.ReceiverId, true);
-            await Application.Current.MainPage.Navigation.PushModalAsync(new MoveView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new MoveView(), animated: false);
         }
 
         private async void HomeCommandRecieverAsync()
@@ -326,7 +326,7 @@ namespace KegID.ViewModel
             await Application.Current.MainPage.Navigation.PopModalAsync();
         }
 
-        private async void ActionSearchCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new SearchManifestsView());
+        private async void ActionSearchCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new SearchManifestsView(), animated: false);
 
         private void QueuedCommandReciever()
         {

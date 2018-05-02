@@ -374,38 +374,38 @@ namespace KegID.ViewModel
         private async void MoveCommandRecieverAsync()
         {
             SimpleIoc.Default.GetInstance<MoveViewModel>().ManifestId = Uuid.GetUuId();
-            await Application.Current.MainPage.Navigation.PushModalAsync(new MoveView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new MoveView(), animated: false);
         }
 
         private async void InUsePartnerCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new DashboardPartnersView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new DashboardPartnersView(), animated: false);
         }
 
         private async void KegsCommandRecieverAsync()
         {
-          await Application.Current.MainPage.Navigation.PushModalAsync(new KegSearchView());
+          await Application.Current.MainPage.Navigation.PushModalAsync(new KegSearchView(), animated: false);
         }
 
         private async void PartnerCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new DashboardPartnersView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new DashboardPartnersView(), animated: false);
         }
 
         private async void StockCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new InventoryView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new InventoryView(), animated: false);
         }
 
         private async void EmptyCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new InventoryView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new InventoryView(), animated: false);
         }
 
         private async void ManifestCommandRecieverAsync()
         {
             //SimpleIoc.Default.GetInstance<MoveViewModel>().ManifestId = Uuid.GetUuId();
-            await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestsView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestsView(), animated: false);
             await SimpleIoc.Default.GetInstance<ManifestsViewModel>().LoadDraftManifestAsync();
             //CheckDraftmaniFests();
         }
@@ -420,20 +420,24 @@ namespace KegID.ViewModel
             }
         }
 
-        private async void FillCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new FillView());
+        private async void FillCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new FillView(), animated: false);
 
         private async void PalletizeCommandRecieverAsync()
         {
             SimpleIoc.Default.GetInstance<PalletizeViewModel>().GenerateManifestIdAsync(null);
-            await Application.Current.MainPage.Navigation.PushModalAsync(new PalletizeView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new PalletizeView(), animated: false);
         }
 
         private async void PalletsCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new SearchPalletView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new SearchPalletView(), animated: false);
         }
 
-        private async void MaintainCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new MaintainView());
+        private async void MaintainCommandRecieverAsync()
+        {
+            await SimpleIoc.Default.GetInstance<MaintainViewModel>().LoadMaintenanceTypeAsync();
+            await Application.Current.MainPage.Navigation.PushModalAsync(new MaintainView(), animated: false);
+        }
 
         public async void RefreshDashboardRecieverAsync(bool refresh = false)
         {

@@ -188,7 +188,7 @@ namespace KegID.ViewModel
         private async void ItemTappedCommandRecieverAsync(PalletModel model)
         {
             SimpleIoc.Default.GetInstance<FillScanViewModel>().GenerateManifestIdAsync(model);
-            await Application.Current.MainPage.Navigation.PushModalAsync(new FillScanView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new FillScanView(), animated: false);
         }
 
         private async void FillKegsCommandRecieverAsync()
@@ -279,7 +279,7 @@ namespace KegID.ViewModel
                             SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().AssignInitialValue(manifest);
 
                             Loader.StopLoading();
-                            await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestDetailView());
+                            await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestDetailView(), animated: false);
                         }
                         else
                         {
@@ -313,7 +313,7 @@ namespace KegID.ViewModel
         private async void FillScanCommandRecieverAsync()
         {
             SimpleIoc.Default.GetInstance<FillScanViewModel>().GenerateManifestIdAsync(null);
-            await Application.Current.MainPage.Navigation.PushModalAsync(new FillScanView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new FillScanView(), animated: false);
         }
 
         internal async Task AssignValueToAddPalletAsync(string manifestId, IList<Barcode> barcodes)

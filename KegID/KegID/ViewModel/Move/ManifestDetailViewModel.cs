@@ -206,7 +206,7 @@ namespace KegID.ViewModel
 
         #region Methods
 
-        private async void GridTappedCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new ContentTagsView());
+        private async void GridTappedCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new ContentTagsView(), animated: false);
 
         private void ShareCommandReciever()
         {

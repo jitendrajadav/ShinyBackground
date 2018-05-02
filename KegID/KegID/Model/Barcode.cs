@@ -6,6 +6,7 @@ namespace KegID.Model
 {
     public class Barcode : ViewModelBase
     {
+        public bool IsScanned { get; set; }
         public string Id { get; internal set; }
         
         #region Icon
@@ -41,7 +42,7 @@ namespace KegID.Model
 
         #endregion
         public List<Tag> Tags { get; set; }
-        public int PartnerCount { get; set; }
+        public List<Partner> Partners { get; set; }
         public string PalletId { get; set; }
         public DateTime ScanDate { get; set; }
         public long ValidationStatus { get; set; }

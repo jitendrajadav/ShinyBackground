@@ -434,7 +434,7 @@ namespace KegID.ViewModel
                     SimpleIoc.Default.GetInstance<PalletizeDetailViewModel>().LoadInfo(value);
 
                     Loader.StopLoading();
-                    await Application.Current.MainPage.Navigation.PushModalAsync(new PalletizeDetailView());
+                    await Application.Current.MainPage.Navigation.PushModalAsync(new PalletizeDetailView(), animated: false);
                 }
                 else
                 {
@@ -479,23 +479,23 @@ namespace KegID.ViewModel
 
         private async void AddKegsCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new ScanKegsView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new ScanKegsView(), animated: false);
         }
 
         private async void AddTagsCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView(), animated: false);
         }
 
         private async void PartnerCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView(), animated: false);
         }
 
         private async void TargetLocationPartnerCommandRecieverAsync()
         {
             TargetLocationPartner = true;
-            await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView(), animated: false);
         }
 
         private async void CancelCommandRecieverAsync()

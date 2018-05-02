@@ -406,18 +406,18 @@ namespace KegID.ViewModel
         private async void SendKegsCommandRecieverAsync()
         {
             SimpleIoc.Default.GetInstance<MoveViewModel>().AssignInitialValue(string.Empty, string.Empty, string.Empty, PartnerModel.FullName, PartnerModel.PartnerId, true);
-            await Application.Current.MainPage.Navigation.PushModalAsync(new MoveView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new MoveView(), animated: false);
         }
 
         private async void ShipToCommandRecieverAsync()
         {
             SimpleIoc.Default.GetInstance<PartnerInfoMapViewModel>().AssignInitialValue(PartnerInfoModel.Lat, PartnerInfoModel.Lon,PartnerInfoModel.BillAddress.City, PartnerInfoModel.BillAddress.Line1);
-            await Application.Current.MainPage.Navigation.PushModalAsync(new PartnerInfoMapView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new PartnerInfoMapView(), animated: false);
         }
 
         private async void KegsCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new KegsView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new KegsView(), animated: false);
         }
         private void PhoneNumberCommandReciever()
         {
@@ -461,7 +461,7 @@ namespace KegID.ViewModel
 
         private async void EditCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new AddPartnerView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new AddPartnerView(), animated: false);
             SimpleIoc.Default.GetInstance<AddPartnerViewModel>().LoadPartnerAsync(PartnerInfoModel);
         }
 

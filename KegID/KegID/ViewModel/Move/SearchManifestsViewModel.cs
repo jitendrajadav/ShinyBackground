@@ -287,18 +287,18 @@ namespace KegID.ViewModel
         {
             var value = await _moveService.GetManifestSearchAsync(AppSettings.User.SessionId, TrackingNumber, Barcode, ManifestSender, ManifestDestination, Referencekey, FromDate.ToString("MM/dd/yyyy", CultureInfo.CreateSpecificCulture("en-US")), ToDate.ToString("MM/dd/yyyy", CultureInfo.CreateSpecificCulture("en-US")));
             SimpleIoc.Default.GetInstance<SearchedManifestsListViewModel>().SearchManifestsCollection = value.ManifestSearchResponseModel;
-            await Application.Current.MainPage.Navigation.PushModalAsync(new SearchedManifestsListView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new SearchedManifestsListView(), animated: false);
         }
 
         private async void ManifestDestinationCommandRecieverAsync()
         {
             IsManifestDestination = true;
-            await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView(), animated: false);
         }
 
         private async void ManifestSenderCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView(), animated: false);
         }
 
         private async void ManifestsCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PopModalAsync();

@@ -176,9 +176,11 @@
     <Compile Include="DependencyServices\SQLiteAndroid.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="PeriodicService.cs" />
+    <Compile Include="Renderers\BottomTabbedPageRenderer.cs" />
     <Compile Include="Renderers\ContentPageRenderer.cs" />
     <Compile Include="Renderers\CustomButtonRenderer.cs" />
     <Compile Include="Renderers\CustomMapRenderer.cs" />
+    <Compile Include="Renderers\ExtendedViewCellRenderer.cs" />
     <Compile Include="Renderers\NativeAndroidListViewAdapter.cs" />
     <Compile Include="Renderers\NativeAndroidListViewRenderer.cs" />
     <Compile Include="Renderers\ScannerViewRenderer.cs" />
@@ -434,6 +436,19 @@
   <ItemGroup>
     <AndroidResource Include="..\KegID\Assets\triangle.png">
       <Link>Resources\drawable\triangle.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProguardConfiguration Include="proguard_custom.cfg" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\KegID\Assets\validationok.png">
+      <Link>Resources\drawable\validationok.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\KegID\Assets\collectionscloud.png">
+      <Link>Resources\drawable\collectionscloud.png</Link>
     </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

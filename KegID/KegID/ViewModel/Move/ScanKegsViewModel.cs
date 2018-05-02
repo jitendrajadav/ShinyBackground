@@ -330,8 +330,7 @@ namespace KegID.ViewModel
 
         private async void LabelItemTappedCommandRecieverAsync(Barcode model)
         {
-
-            if (model.PartnerCount > 1)
+            if (model.Partners.Count > 1)
             {
                 List<Barcode> modelList = new List<Barcode>
                     {
@@ -342,13 +341,13 @@ namespace KegID.ViewModel
             else
             {
                 IsFromScanned = true;
-                await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView());
+                await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView(), animated: false);
             }
         }
 
         private async void IconItemTappedCommandRecieverAsync(Barcode model)
         {
-            if (model.PartnerCount > 1)
+            if (model.Partners.Count > 1)
             {
                 List<Barcode> modelList = new List<Barcode>
                     {
@@ -358,7 +357,7 @@ namespace KegID.ViewModel
             }
             else
             {
-                await Application.Current.MainPage.Navigation.PushModalAsync(new ScanInfoView());
+                await Application.Current.MainPage.Navigation.PushModalAsync(new ScanInfoView(), animated: false);
                 SimpleIoc.Default.GetInstance<ScanInfoViewModel>().AssignInitialValue(model.Id);
             }
         }
@@ -371,7 +370,7 @@ namespace KegID.ViewModel
 
         private async void AddTagsCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView(), animated: false);
         }
 
         private async void DoneCommandRecieverAsync()
@@ -379,7 +378,7 @@ namespace KegID.ViewModel
             switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack[Application.Current.MainPage.Navigation.ModalStack.Count - 2].GetType().Name))
             {
                 case ViewTypeEnum.MoveView:
-                    if (!BarcodeCollection.Any(x => x.PartnerCount > 1))
+                    if (!BarcodeCollection.Any(x => x.Partners.Count > 1))
                         SimpleIoc.Default.GetInstance<MoveViewModel>().AssingScanKegsValue(BarcodeCollection.ToList(),Tags, SelectedBrand.BrandName);
                     break;
 
@@ -391,8 +390,8 @@ namespace KegID.ViewModel
                     break;
             }
 
-            if (BarcodeCollection.Any(x => x.PartnerCount > 1))
-                await NavigateToValidatePartner(BarcodeCollection.Where(x => x.PartnerCount > 1).ToList());
+            if (BarcodeCollection.Any(x => x.Partners.Count > 1))
+                await NavigateToValidatePartner(BarcodeCollection.Where(x => x.Partners.Count > 1).ToList());
             else
             {
                 await Application.Current.MainPage.Navigation.PopModalAsync();
@@ -408,13 +407,14 @@ namespace KegID.ViewModel
 
         private async void BarcodeManualCommandRecieverAsync()
         {
-            var isNew = BarcodeCollection.ToList().Any(x => x.Id == ManaulBarcode);
+            BarcodeCollection.Add(new Barcode { Id = ManaulBarcode, TagsStr = TagsStr, Icon = "collectionscloud.png" });
+            var isNew = BarcodeCollection.ToList().Any(x => x.Id == ManaulBarcode && x.IsScanned == true);
             if (!isNew)
             {
                 var value = await BarcodeScanner.ValidateBarcodeInsertIntoLocalDB(_moveService, ManaulBarcode, Tags, TagsStr);
                 ManaulBarcode = string.Empty;
                 if (value != null)
-                    BarcodeCollection.Add(value);
+                    BarcodeCollection.Where(x=>x.Id== value.Id).FirstOrDefault().Icon = value.Icon;
             }
         }
 
@@ -431,8 +431,9 @@ namespace KegID.ViewModel
 
         internal void AssignValidatedValue(Partner model)
         {
-            BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = GetIconByPlatform.GetIcon("validationquestion.png");
-            BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().PartnerCount = 1;
+            BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Partners.Clear();
+            BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = GetIconByPlatform.GetIcon("validationok.png");
+            BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Partners.Add(model);
             SimpleIoc.Default.GetInstance<MoveViewModel>().AssingScanKegsValue(BarcodeCollection.ToList(),Tags, SelectedBrand.BrandName);
             Cleanup();
         }
@@ -451,7 +452,6 @@ namespace KegID.ViewModel
             TagsStr = default(string);
             SelectedBrand = null;
         }
-
 
         #endregion
     }

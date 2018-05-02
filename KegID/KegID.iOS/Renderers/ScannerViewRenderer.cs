@@ -113,7 +113,9 @@ namespace KegID.iOS.Renderers
                 {
                     if (error != null)
                     {
+#pragma warning disable CS0618 // Type or member is obsolete
                         new UIAlertView("Failed to connect", error.Description, null, "OK", null).Show();
+#pragma warning restore CS0618 // Type or member is obsolete
 
                         ////Create Alert
                         //var okAlertController = UIAlertController.Create("OK Alert", "This is a sample alert with an OK button.", UIAlertControllerStyle.Alert);

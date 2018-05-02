@@ -34,7 +34,7 @@ namespace KegID.Views
                     });
                 };
 
-                await Navigation.PushModalAsync(scanPage);
+                await Navigation.PushModalAsync(scanPage, animated: false);
             };
 
 
@@ -69,7 +69,7 @@ namespace KegID.Views
                         DisplayAlert("Scanned Barcode", result.Text, "OK");
                     });
                 };
-                await Navigation.PushModalAsync(scanPage);
+                await Navigation.PushModalAsync(scanPage, animated: false);
             };
 
 
@@ -84,7 +84,7 @@ namespace KegID.Views
                     Device.BeginInvokeOnMainThread(() =>
                        DisplayAlert("Scanned Barcode", result.Text, "OK"));
 
-                await Navigation.PushModalAsync(scanPage);
+                await Navigation.PushModalAsync(scanPage, animated: false);
             };
 
             buttonScanCustomPage = new Button
@@ -94,7 +94,7 @@ namespace KegID.Views
             };
             buttonScanCustomPage.Clicked += async delegate {
                 var customScanPage = new CustomScanPage();
-                await Navigation.PushModalAsync(customScanPage);
+                await Navigation.PushModalAsync(customScanPage, animated: false);
             };
 
 
@@ -104,7 +104,7 @@ namespace KegID.Views
                 AutomationId = "barcodeGenerator",
             };
             buttonGenerateBarcode.Clicked += async delegate {
-                await Navigation.PushModalAsync(new BarcodePage());
+                await Navigation.PushModalAsync(new BarcodePage(), animated: false);
             };
 
             var stack = new StackLayout();

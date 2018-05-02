@@ -49,28 +49,16 @@
                 Style="{StaticResource LabelTitleStyle}"
                 Text="{Binding Resources[label_maintenance_items]}"/>
             
-            <ScrollView
-                Grid.Row="3">
+            <!--<ScrollView
+                Grid.Row="3">-->
             
                 <Grid
                     ColumnSpacing="0"
+                    Grid.Row="3"
                     Margin="10,10,10,0">
 
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -82,157 +70,58 @@
                         <ColumnDefinition Width="80*"/>
                     </Grid.ColumnDefinitions>
 
-                    <Switch 
-                        HeightRequest="30"
-                        VerticalOptions="Center"
+                    <ListView
+                        Margin="10,0,10,0"
+                        x:Name="lstMaintainType"
                         Grid.Row="0"
-                        IsToggled="{Binding BentChime}"
-                        Grid.Column="0"/>
-
-                    <Label
-                        VerticalOptions="Center"
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        Style="{StaticResource LabelNormalStyle}"
-                        Text="{Binding Resources[label_bent_chime]}"/>
-
-                    <BoxView
-                        Grid.Row="1"
                         Grid.ColumnSpan="2"
-                        BackgroundColor="{StaticResource lightGrayColor}"
-                        HeightRequest="1"
-                        HorizontalOptions="FillAndExpand"/>
+                        SeparatorVisibility="Default"
+                        SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
+                        HasUnevenRows="True"
+                        CachingStrategy="RecycleElement"
+                        ItemsSource="{Binding MaintainTypeCollection}">
+                    <!--SelectedItem="{Binding SelectedMaintainType}"-->
+                        
+                    <ListView.Behaviors>
+                            <behaviors:EventToCommandBehavior
+                            EventName="ItemTapped" 
+                            Command="{Binding ItemTappedCommand}"
+                            Converter="{StaticResource ItemTappedConverter}"/>
+                        </ListView.Behaviors>
 
-                    <Switch 
-                        HeightRequest="30"
-                        VerticalOptions="Center"
-                        Grid.Row="2"
-                        BackgroundColor="White"
-                        IsToggled="{Binding BentNeck}"
-                        Grid.Column="0"/>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                            <control:ExtendedViewCell SelectedBackgroundColor="Transparent">
+                                <ViewCell.View>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
 
-                    <Label
-                        Grid.Row="2"
-                        Grid.Column="1"
-                        Style="{StaticResource LabelNormalStyle}"
-                        Text="{Binding Resources[label_bent_neck]}"/>
+                                        <Switch 
+                                            HeightRequest="30"
+                                            VerticalOptions="Center"
+                                            Grid.Row="0"
+                                            IsToggled="{Binding IsToggled}"
+                                            Grid.Column="0"/>
 
-                    <BoxView
-                        Grid.Row="3"
-                        Grid.ColumnSpan="2"
-                        BackgroundColor="{StaticResource lightGrayColor}"
-                        HeightRequest="1"
-                        VerticalOptions="Center"
-                        HorizontalOptions="FillAndExpand"/>
+                                        <Label
+                                            Grid.Column="1"
+                                            FontSize="{StaticResource TitleFont}"
+                                            TextColor="{StaticResource selectTextColor}"
+                                            Text="{Binding Name}"/>
+                                    </Grid>
+                                </ViewCell.View>
+                            </control:ExtendedViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
 
-                    <Switch 
-                        HeightRequest="30"
-                        VerticalOptions="Center"
-                        Grid.Row="4"
-                        IsToggled="{Binding DamagedSpear}"
-                        Grid.Column="0"/>
-
-                    <Label
-                        Grid.Row="4"
-                        Grid.Column="1"
-                        Style="{StaticResource LabelNormalStyle}"
-                        Text="{Binding Resources[label_damaged_spear]}"/>
-
-                    <BoxView
-                        Grid.Row="5"
-                        Grid.ColumnSpan="2"
-                        BackgroundColor="{StaticResource lightGrayColor}"
-                        HeightRequest="1"
-                        VerticalOptions="Center"
-                        HorizontalOptions="FillAndExpand"/>
-
-                    <Switch 
-                        HeightRequest="30"
-                        VerticalOptions="Center"
-                        Grid.Row="6"
-                        IsToggled="{Binding DeepCleaning}"
-                        Grid.Column="0"/>
-
-                    <Label
-                        Grid.Row="6"
-                        Style="{StaticResource LabelNormalStyle}"
-                        Grid.Column="1"
-                        Text="{Binding Resources[label_deep_cleaning]}"/>
-
-                    <BoxView
-                        Grid.Row="7"
-                        Grid.ColumnSpan="2"
-                        BackgroundColor="{StaticResource lightGrayColor}"
-                        HeightRequest="1"
-                        VerticalOptions="Center"
-                        HorizontalOptions="FillAndExpand"/>
-
-                    <Switch 
-                        HeightRequest="30"
-                        VerticalOptions="Center"
-                        Grid.Row="8"
-                        IsToggled="{Binding FaultySeal}"
-                        Grid.Column="0"/>
-
-                    <Label
-                        Grid.Row="8"
-                        Grid.Column="1"
-                        Style="{StaticResource LabelNormalStyle}"
-                        Text="{Binding Resources[label_faulty_seal]}"/>
-
-                    <BoxView
-                        Grid.Row="9"
-                        Grid.ColumnSpan="2"
-                        BackgroundColor="{StaticResource lightGrayColor}"
-                        HeightRequest="1"
-                        VerticalOptions="Center"
-                        HorizontalOptions="FillAndExpand"/>
-
-                    <Switch 
-                        HeightRequest="30"
-                        VerticalOptions="Center"
-                        Grid.Row="10"
-                        IsToggled="{Binding FaultyValve}"
-                        Grid.Column="0"/>
-
-                    <Label
-                        Grid.Row="10"
-                        Grid.Column="1"
-                        Style="{StaticResource LabelNormalStyle}"
-                        Text="{Binding Resources[label_faulty_valve]}"/>
-
-                    <BoxView
-                        Grid.Row="11"
-                        Grid.ColumnSpan="2"
-                        BackgroundColor="{StaticResource lightGrayColor}"
-                        HeightRequest="1"
-                        VerticalOptions="Center"
-                        HorizontalOptions="FillAndExpand"/>
-
-                    <Switch 
-                        HeightRequest="30"
-                        VerticalOptions="Center"
-                        Grid.Row="12"
-                        IsToggled="{Binding ValveInspection}"
-                        Grid.Column="0"/>
-
-                    <Label
-                        Grid.Row="12"
-                        Grid.Column="1"
-                        Style="{StaticResource LabelNormalStyle}"
-                        Text="{Binding Resources[label_valve_inspection]}"/>
-
-                    <BoxView
-                        Grid.Row="13"
-                        Grid.ColumnSpan="2"
-                        BackgroundColor="{StaticResource lightGrayColor}"
-                        HeightRequest="1"
-                        VerticalOptions="Center"
-                        HorizontalOptions="FillAndExpand"/>
+                    </ListView>
 
                     <Label
                         Grid.Column="0"
-                        Grid.Row="14"
+                        Grid.Row="1"
                         Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Resources[label_notes]}"/>
 
@@ -241,26 +130,26 @@
                         Grid.Column="0"
                         Text="{Binding Notes}"
                         HeightRequest="{StaticResource BottomAppBarButtonHeight}"
-                        Grid.Row="15"
+                        Grid.Row="2"
                         Placeholder="{Binding Resources[hint_enter_notes_here]}"/>
 
                     <Label
                         Text="{Binding Resources[label_destination]}"
                         Style="{StaticResource LabelNormalStyle}"
                         Grid.ColumnSpan="2"
-                        Grid.Row="16"/>
+                        Grid.Row="3"/>
 
                     <Button
+                        Margin="0,0,0,20"
                         Grid.Column="0"
-                        Grid.Row="17"
+                        Grid.Row="4"
                         Grid.ColumnSpan="2"
-                        Margin="0"
                         Style="{StaticResource TopButtonTitleStyle}"
                         Command="{Binding PartnerCommand}"
                         Text="{Binding Path=PartnerModel.FullName}"/>
                 </Grid>
 
-            </ScrollView>
+            <!--</ScrollView>-->
             
             <Button
                 Margin="{StaticResource BottomAppBarButtonMargin}"

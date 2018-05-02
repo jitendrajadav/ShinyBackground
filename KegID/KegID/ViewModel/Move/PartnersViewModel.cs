@@ -435,12 +435,12 @@ namespace KegID.ViewModel
 
         private async void AddNewPartnerCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new AddPartnerView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new AddPartnerView(), animated: false);
         }
 
         private async void SearchPartnerCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new SearchPartnersView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new SearchPartnersView(), animated: false);
         }
 
         public override void Cleanup()

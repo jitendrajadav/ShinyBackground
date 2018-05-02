@@ -84,7 +84,7 @@ namespace KegID.ViewModel
 
         private async void AddBatchCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new AddBatchView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new AddBatchView(), animated: false);
         }
 
         private async void ItemTappedCommandRecieverAsync(BatchModel model)

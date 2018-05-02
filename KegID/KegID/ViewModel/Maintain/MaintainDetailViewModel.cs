@@ -81,40 +81,6 @@ namespace KegID.ViewModel
 
         #endregion
 
-        #region MaintenanceCollection
-
-        /// <summary>
-        /// The <see cref="MaintenanceCollection" /> property's name.
-        /// </summary>
-        public const string MaintenanceCollectionPropertyName = "MaintenanceCollection";
-
-        private IList<string> _MaintenanceCollection = null;
-
-        /// <summary>
-        /// Sets and gets the MaintenanceCollection property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public IList<string> MaintenanceCollection
-        {
-            get
-            {
-                return _MaintenanceCollection;
-            }
-
-            set
-            {
-                if (_MaintenanceCollection == value)
-                {
-                    return;
-                }
-
-                _MaintenanceCollection = value;
-                RaisePropertyChanged(MaintenanceCollectionPropertyName);
-            }
-        }
-
-        #endregion
-
         #region ItemCount
 
         /// <summary>
@@ -204,7 +170,7 @@ namespace KegID.ViewModel
 
         #region Methods
 
-        private async void GridTappedCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new ContentTagsView());
+        private async void GridTappedCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new ContentTagsView(), animated: false);
 
         private async void HomeCommandCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PopModalAsync();
 
@@ -213,7 +179,6 @@ namespace KegID.ViewModel
             TrackingNo = Uuid.GetUuId();
 
             StockLocation = SimpleIoc.Default.GetInstance<MaintainViewModel>().PartnerModel.FullName + "\n" + SimpleIoc.Default.GetInstance<MaintainViewModel>().PartnerModel.PartnerTypeName;
-            MaintenanceCollection = SimpleIoc.Default.GetInstance<MaintainViewModel>().MaintenancePerformedCollection;
             ItemCount = barcodeCollection.Count;
             SimpleIoc.Default.GetInstance<ContentTagsViewModel>().ContentCollection = barcodeCollection.Select(x => x.Id).ToList();
 
