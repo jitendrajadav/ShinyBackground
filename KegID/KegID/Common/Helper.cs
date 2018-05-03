@@ -1,5 +1,4 @@
 ﻿using KegID.Model;
-using KegID.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Plugin.Connectivity;
@@ -41,11 +40,14 @@ namespace KegID.Common
 
             try
             {
-                    var response = await client.GetAsync(uri);
-                    if (response.IsSuccessStatusCode)
-                        kegIDResponse.Response = await response.Content.ReadAsStringAsync();
-                    kegIDResponse.StatusCode = response.StatusCode;
-                
+                var response = await client.GetAsync(uri);
+                if (response.IsSuccessStatusCode)
+                {
+                    kegIDResponse.Response = await response.Content.ReadAsStringAsync();
+                }
+
+                kegIDResponse.StatusCode = response.StatusCode;
+
             }
             catch (Exception ex)
             {
@@ -72,7 +74,10 @@ namespace KegID.Common
                 response = await client.SendAsync(requestMessage);
 
                 if (response.IsSuccessStatusCode)
+                {
                     kegIDResponse.Response = await response.Content.ReadAsStringAsync();
+                }
+
                 kegIDResponse.StatusCode = response.StatusCode;
             }
             catch (Exception ex)
@@ -95,7 +100,10 @@ namespace KegID.Common
                 response = await client.PostAsync(uri, content);
 
                 if (response.IsSuccessStatusCode)
+                {
                     kegIDResponse.Response = await response.Content.ReadAsStringAsync();
+                }
+
                 kegIDResponse.StatusCode = response.StatusCode;
 
             }

@@ -9,6 +9,19 @@ namespace KegID.Services
 {
     public class MoveService : IMoveService
     {
+        public async Task<OwnerResponseModel> GetOwnerAsync(string sessionId)
+        {
+            OwnerResponseModel model = new OwnerResponseModel();
+
+            string url = string.Format(Configuration.GetOwner, sessionId);
+            var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
+
+            model.OwnerModel = DeserializeObject<IList<OwnerModel>>(value.Response, GetJsonSetting());
+            model.StatusCode = value.StatusCode;
+
+            return model;
+        }
+
         public async Task<BrandResponseModel> GetBrandListAsync(string sessionId)
         {
             BrandResponseModel brandResponseModel = new BrandResponseModel();
@@ -154,6 +167,5 @@ namespace KegID.Services
             return partnerResponseModel;
         }
 
-       
     }
 }

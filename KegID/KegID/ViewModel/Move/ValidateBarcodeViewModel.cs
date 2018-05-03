@@ -115,7 +115,7 @@ namespace KegID.ViewModel
             switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack.LastOrDefault().GetType().Name))
             {
                 case ViewTypeEnum.ScanKegsView:
-                    SimpleIoc.Default.GetInstance<ScanKegsViewModel>().AssignValidatedValue(model);
+                    SimpleIoc.Default.GetInstance<ScanKegsViewModel>().AssignValidatedValueAsync(model);
                     break;
 
                 case ViewTypeEnum.FillScanView:
@@ -133,10 +133,10 @@ namespace KegID.ViewModel
             {
                 switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack.LastOrDefault().GetType().Name))
                 {
-                    case ViewTypeEnum.ScanKegsView:
-                        await Application.Current.MainPage.Navigation.PopPopupAsync();
-                        await Application.Current.MainPage.Navigation.PopModalAsync();
-                        break;
+                    //case ViewTypeEnum.ScanKegsView:
+                    //    await Application.Current.MainPage.Navigation.PopPopupAsync();
+                    //    await Application.Current.MainPage.Navigation.PopModalAsync();
+                    //    break;
 
                     case ViewTypeEnum.FillScanView:
                         SimpleIoc.Default.GetInstance<FillScanViewModel>().AssignValidateBarcodeValueAsync();

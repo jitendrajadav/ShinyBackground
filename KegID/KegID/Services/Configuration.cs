@@ -51,7 +51,8 @@
         public const string GetAssetSize = ServiceUrl + "AssetSize/?sessionId={0}&assignableOnly={1}";
         public const string GetAssetType = ServiceUrl + "AssetType/?sessionId={0}&assignableOnly={1}";
         public const string GetAssetVolume = ServiceUrl + "AssetVolume/?sessionId={0}&assignableOnly={1}";
-
+        public const string GetOwner = ServiceUrl + "Owner/?sessionId={0}";
+        
         public const string PostKegsUrl = ServiceUrl + "Kegs/?sessionId={0}";
         public const string PostKegUrl = ServiceUrl + "Keg/?sessionId={0}";
 

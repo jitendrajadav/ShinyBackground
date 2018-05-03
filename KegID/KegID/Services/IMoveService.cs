@@ -6,6 +6,7 @@ namespace KegID.Services
 {
     public interface IMoveService
     {
+        Task<OwnerResponseModel> GetOwnerAsync(string sessionId);
         Task<PartnerResponseModel> GetPartnersListAsync(string sessionId);
         Task<ValidateBarcodeModel> GetValidateBarcodeAsync(string sessionId, string barcode);
         Task<BrandResponseModel> GetBrandListAsync(string sessionId);

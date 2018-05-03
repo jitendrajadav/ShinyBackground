@@ -16,6 +16,7 @@
         SearchManifestsView,
         SearchPartnersView,
         ValidateBarcodeView,
+        AssignSizesView,
         DashboardView,
         DashboardPartnersView,
         InventoryView,

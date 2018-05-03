@@ -179,12 +179,13 @@ namespace KegID.Common
             {
                 barcode = new Barcode
                 {
-                    Id = _barcodeId,
-                    Tags = _tags,
-                    TagsStr = _tagsStr,
+                    //Id = _barcodeId,
+                    //Tags = _tags,
+                    //TagsStr = _tagsStr,
                     Partners = validateBarcodeModel.Kegs.Partners,
                     Icon = validateBarcodeModel.Kegs.Partners.Count > 1 ? GetIconByPlatform.GetIcon("validationquestion.png") :
                     validateBarcodeModel.Kegs.Partners.Count == 0 ? GetIconByPlatform.GetIcon("validationerror.png") : GetIconByPlatform.GetIcon("validationok.png"),
+                    MaintenanceItems = validateBarcodeModel.Kegs.MaintenanceItems
                 };
 
                 BarcodeModel barcodeModel = new BarcodeModel()

@@ -19,7 +19,7 @@ namespace KegID.ViewModel
     public class ScanKegsViewModel : BaseViewModel
     {
         #region Properties
-
+        public bool HasDone { get; set; }
         public bool IsFromScanned { get; set; }
         public IMoveService _moveService { get; set; }
 
@@ -357,8 +357,31 @@ namespace KegID.ViewModel
             }
             else
             {
-                await Application.Current.MainPage.Navigation.PushModalAsync(new ScanInfoView(), animated: false);
-                SimpleIoc.Default.GetInstance<ScanInfoViewModel>().AssignInitialValue(model.Id);
+                if (model.Partners?.FirstOrDefault()?.Kegs.FirstOrDefault().MaintenanceItems?.Count > 0)
+                {
+                    string strAlert = string.Empty;
+                    for (int i = 0; i < model.MaintenanceItems.Count; i++)
+                    {
+                        strAlert += "-" + model.MaintenanceItems[i].Name + "\n";
+                        if (model.Partners.FirstOrDefault().Kegs.FirstOrDefault().MaintenanceItems.Count == i)
+                        {
+                            break;
+                        }
+                    }
+                    await Application.Current.MainPage.DisplayAlert("Warning", "This keg needs the following maintenance performed:\n" + strAlert, "Ok");
+                }
+                else
+                {
+                    if (model.Icon == "validationerror.png")
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Warning", "This scan could not be verified", "Keep","Delete");
+                    }
+                    else
+                    {
+                        await Application.Current.MainPage.Navigation.PushModalAsync(new ScanInfoView(), animated: false);
+                        SimpleIoc.Default.GetInstance<ScanInfoViewModel>().AssignInitialValue(model);
+                    }
+                }
             }
         }
 
@@ -375,27 +398,61 @@ namespace KegID.ViewModel
 
         private async void DoneCommandRecieverAsync()
         {
-            switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack[Application.Current.MainPage.Navigation.ModalStack.Count - 2].GetType().Name))
+            HasDone = true;
+            var alert = BarcodeCollection.Where(x => x.Icon == "validationerror.png").ToList();
+
+            if (alert.Count > 0)
             {
-                case ViewTypeEnum.MoveView:
-                    if (!BarcodeCollection.Any(x => x.Partners.Count > 1))
-                        SimpleIoc.Default.GetInstance<MoveViewModel>().AssingScanKegsValue(BarcodeCollection.ToList(),Tags, SelectedBrand.BrandName);
-                    break;
+                string strBarcode = alert.FirstOrDefault().Id;
+                var option = await Application.Current.MainPage.DisplayActionSheet("Warnig \n No keg with a barcode of" + strBarcode + "could be found",
+                    null, null, "Remove unverified scans", "Assign sizes", "Countinue with current scans", "Stay here");
+                switch (option)
+                {
+                    case "Remove unverified scans":
+                        BarcodeCollection.Remove(alert.FirstOrDefault());
+                        await Application.Current.MainPage.Navigation.PopModalAsync();
+                        Cleanup();
 
-                case ViewTypeEnum.PalletizeView:
-                    SimpleIoc.Default.GetInstance<PalletizeViewModel>().AssingScanKegsValue(BarcodeCollection);
-                    break;
+                        break;
+                    case "Assign sizes":
+                        SimpleIoc.Default.GetInstance<AssignSizesViewModel>().AssignInitialValue(_tags: alert.FirstOrDefault().Tags, _partner: alert.FirstOrDefault().Partners.FirstOrDefault());
+                        await Application.Current.MainPage.Navigation.PushModalAsync(new AssignSizesView(), animated: false);
+                        break;
 
-                default:
-                    break;
+                    case "Countinue with current scans":
+                        break;
+
+                    case "Stay here":
+                        break;
+                    default:
+                        break;
+                }
+
             }
-
-            if (BarcodeCollection.Any(x => x.Partners.Count > 1))
-                await NavigateToValidatePartner(BarcodeCollection.Where(x => x.Partners.Count > 1).ToList());
             else
             {
-                await Application.Current.MainPage.Navigation.PopModalAsync();
-                Cleanup();
+                switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack[Application.Current.MainPage.Navigation.ModalStack.Count - 2].GetType().Name))
+                {
+                    case ViewTypeEnum.MoveView:
+                        if (!BarcodeCollection.Any(x => x.Partners.Count > 1))
+                            SimpleIoc.Default.GetInstance<MoveViewModel>().AssingScanKegsValue(BarcodeCollection.ToList(), Tags, SelectedBrand.BrandName);
+                        break;
+
+                    case ViewTypeEnum.PalletizeView:
+                        SimpleIoc.Default.GetInstance<PalletizeViewModel>().AssingScanKegsValue(BarcodeCollection);
+                        break;
+
+                    default:
+                        break;
+                }
+
+                if (BarcodeCollection.Any(x => x.Partners.Count > 1))
+                    await NavigateToValidatePartner(BarcodeCollection.Where(x => x.Partners.Count > 1).ToList());
+                else
+                {
+                    await Application.Current.MainPage.Navigation.PopModalAsync();
+                    Cleanup();
+                } 
             }
         }
 
@@ -407,14 +464,20 @@ namespace KegID.ViewModel
 
         private async void BarcodeManualCommandRecieverAsync()
         {
-            BarcodeCollection.Add(new Barcode { Id = ManaulBarcode, TagsStr = TagsStr, Icon = "collectionscloud.png" });
-            var isNew = BarcodeCollection.ToList().Any(x => x.Id == ManaulBarcode && x.IsScanned == true);
+            var isNew = BarcodeCollection.ToList().Any(x => x.Id == ManaulBarcode);
             if (!isNew)
             {
+                BarcodeCollection.Add(new Barcode { Id = ManaulBarcode, TagsStr = TagsStr, Icon = "collectionscloud.png" });
+
                 var value = await BarcodeScanner.ValidateBarcodeInsertIntoLocalDB(_moveService, ManaulBarcode, Tags, TagsStr);
                 ManaulBarcode = string.Empty;
                 if (value != null)
-                    BarcodeCollection.Where(x=>x.Id== value.Id).FirstOrDefault().Icon = value.Icon;
+                {
+                    var barode = BarcodeCollection.Where(x => x.Id == value.Id).FirstOrDefault();
+                    barode.Icon = value.Icon;
+                    barode.Partners = value.Partners;
+                    barode.MaintenanceItems = value.MaintenanceItems;
+                }
             }
         }
 
@@ -429,13 +492,31 @@ namespace KegID.ViewModel
                 BarcodeCollection.Add(item);
         }
 
-        internal void AssignValidatedValue(Partner model)
+        internal async void AssignValidatedValueAsync(Partner model)
         {
             BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Partners.Clear();
-            BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = GetIconByPlatform.GetIcon("validationok.png");
+            if (model.Kegs.FirstOrDefault().MaintenanceItems?.Count > 0)
+            {
+                BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = GetIconByPlatform.GetIcon("validationok.png");
+            }
+            else
+            {
+                BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = GetIconByPlatform.GetIcon("validationok.png");
+            }
+
             BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Partners.Add(model);
-            SimpleIoc.Default.GetInstance<MoveViewModel>().AssingScanKegsValue(BarcodeCollection.ToList(),Tags, SelectedBrand.BrandName);
-            Cleanup();
+            SimpleIoc.Default.GetInstance<MoveViewModel>().AssingScanKegsValue(_barcodes: BarcodeCollection.ToList(), _tags: Tags, _contents: SelectedBrand.BrandName);
+
+            if (HasDone)
+            {
+                await Application.Current.MainPage.Navigation.PopPopupAsync();
+                await Application.Current.MainPage.Navigation.PopModalAsync();
+                Cleanup();
+            }
+            else
+            {
+                await Application.Current.MainPage.Navigation.PopPopupAsync();
+            }
         }
 
         internal void AssignAddTagsValue(List<Tag> _tags, string _tagsStr)
@@ -451,6 +532,7 @@ namespace KegID.ViewModel
             BarcodeCollection.Clear();
             TagsStr = default(string);
             SelectedBrand = null;
+            HasDone = false;
         }
 
         #endregion

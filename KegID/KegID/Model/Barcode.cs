@@ -51,5 +51,9 @@ namespace KegID.Model
         public bool IsActive { get; set; }
         public string RemovedManifest { get; set; }
         public string TagsStr { get; set; }
+        public List<MaintenanceItem> MaintenanceItems { get; internal set; }
+        public string Ownername { get; internal set; }
+        public string Batch { get; internal set; }
+        public string Location { get; internal set; }
     }
 }

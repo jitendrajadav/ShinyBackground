@@ -197,6 +197,7 @@ namespace KegID.ViewModel
                         await LoadAssetSizeAsync();
                         await LoadAssetTypeAsync();
                         await LoadAssetVolumeAsync();
+                        await LoadOwnerAsync();
                     }
                     catch (Exception ex)
                     {
@@ -220,6 +221,7 @@ namespace KegID.ViewModel
                 Analytics.TrackEvent("Loged In");
             }
         }
+
 
         internal async void InvalideServiceCallAsync()
         {
@@ -300,6 +302,21 @@ namespace KegID.ViewModel
             {
                 assetVolumeModel = null;
                 service = null;
+            }
+        }
+
+        private async Task LoadOwnerAsync()
+        {
+            try
+            {
+                await SQLiteServiceClient.Db.InsertAllAsync(items: (await SimpleIoc.Default.GetInstance<IMoveService>().GetOwnerAsync(AppSettings.User.SessionId)).OwnerModel);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            finally
+            {
             }
         }
 

@@ -236,16 +236,16 @@ namespace KegID.ViewModel
             await Application.Current.MainPage.Navigation.PopModalAsync();
         }
 
-        internal async void AssignInitialValue(string _barcode)
+        internal void AssignInitialValue(Barcode _barcode)
         {
-            var value = await SQLiteServiceClient.Db.Table<ValidatePartnerModel>().Where(x => x.Barcode == _barcode).ToListAsync();
+            //var value = await SQLiteServiceClient.Db.Table<ValidatePartnerModel>().Where(x => x.Barcode == _barcode).ToListAsync();
 
-            Barcode = string.Format(" Barcode {0} ", _barcode);
-            Ownername = value.FirstOrDefault().FullName;
-            Size = value.FirstOrDefault().Size;
-            Contents = value.FirstOrDefault().Contents;
-            Batch = value.FirstOrDefault().Batch;
-            Location = value.FirstOrDefault().Location;
+            Barcode = string.Format(" Barcode {0} ", _barcode.Id);
+            Ownername = _barcode.Ownername;
+            Size = _barcode.Tags[2].Value;
+            Contents = _barcode.Contents;
+            Batch = _barcode.Batch;
+            Location = _barcode.Location;
         }
 
         #endregion

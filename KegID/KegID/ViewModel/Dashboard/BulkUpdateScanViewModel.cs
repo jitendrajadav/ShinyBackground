@@ -353,7 +353,7 @@ namespace KegID.ViewModel
             else
             {
                 await Application.Current.MainPage.Navigation.PushModalAsync(new ScanInfoView(), animated: false);
-                SimpleIoc.Default.GetInstance<ScanInfoViewModel>().AssignInitialValue(model.Id);
+                SimpleIoc.Default.GetInstance<ScanInfoViewModel>().AssignInitialValue(model);
             }
         }
 

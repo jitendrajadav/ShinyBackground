@@ -1746,4 +1746,16 @@
   <data name="title_review" xml:space="preserve">
     <value>Review</value>
   </data>
+  <data name="title_assign_sizes" xml:space="preserve">
+    <value>Assign Sizes</value>
+  </data>
+  <data name="title_apply_to_all" xml:space="preserve">
+    <value>Apply to all</value>
+  </data>
+  <data name="title_owner" xml:space="preserve">
+    <value>Owner</value>
+  </data>
+  <data name="title_unknown_scans" xml:space="preserve">
+    <value>Unknow Scans:</value>
+  </data>
 </root>

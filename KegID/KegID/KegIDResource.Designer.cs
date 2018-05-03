@@ -4381,6 +4381,24 @@ namespace KegID {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Apply to all.
+        /// </summary>
+        internal static string title_apply_to_all {
+            get {
+                return ResourceManager.GetString("title_apply_to_all", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Assign Sizes.
+        /// </summary>
+        internal static string title_assign_sizes {
+            get {
+                return ResourceManager.GetString("title_assign_sizes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add Batch.
         /// </summary>
         internal static string title_batch_add {
@@ -4651,6 +4669,15 @@ namespace KegID {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Owner.
+        /// </summary>
+        internal static string title_owner {
+            get {
+                return ResourceManager.GetString("title_owner", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add Pallets.
         /// </summary>
         internal static string title_pallet_add {
@@ -4890,6 +4917,15 @@ namespace KegID {
         internal static string title_stock_summary {
             get {
                 return ResourceManager.GetString("title_stock_summary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unknow Scans:.
+        /// </summary>
+        internal static string title_unknown_scans {
+            get {
+                return ResourceManager.GetString("title_unknown_scans", resourceCulture);
             }
         }
         

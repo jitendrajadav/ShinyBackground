@@ -29,6 +29,7 @@ namespace KegID.ViewModel
             SimpleIoc.Default.Register<SearchPartnersViewModel>();
             SimpleIoc.Default.Register<AddTagsViewModel>();
             SimpleIoc.Default.Register<ScanKegsViewModel>();
+            SimpleIoc.Default.Register<AssignSizesViewModel>();
             #endregion
 
             #region Account
@@ -374,6 +375,24 @@ namespace KegID.ViewModel
             get
             {
                 return SimpleIoc.Default.GetInstance<ContentTagsViewModel>();
+            }
+        }
+
+        #endregion
+
+        #region AssignSizes
+
+        /// <summary>
+        /// Gets the AssignSizes property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public AssignSizesViewModel AssignSizes
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<AssignSizesViewModel>();
             }
         }
 
