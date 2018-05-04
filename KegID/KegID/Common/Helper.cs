@@ -1,4 +1,5 @@
 ﻿using KegID.Model;
+using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Plugin.Connectivity;
@@ -165,7 +166,7 @@ namespace KegID.Common
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                 Crashes.TrackError(ex);
                 return type;
             }
         }

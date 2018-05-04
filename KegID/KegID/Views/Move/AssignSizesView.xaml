@@ -39,7 +39,7 @@
                 HorizontalOptions="FillAndExpand"/>
 
             <Grid
-                Margin="0,5,0,0"
+                Margin="10,5,0,0"
                 Grid.Row="2">
 
                 <Grid.RowSpacing>
@@ -62,10 +62,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
@@ -78,6 +75,7 @@
                     Style="{StaticResource TopButtonTitleStyle}"
                     Text="{Binding Resources[title_apply_to_all]}"
                     Grid.Row="0"
+                    Grid.ColumnSpan="2"
                     Command="{Binding ApplyToAllCommand}"/>
                 
                 <Label
@@ -146,42 +144,69 @@
                     VerticalOptions="Center"
                     Grid.ColumnSpan="2"
                     Text="{Binding Resources[title_unknown_scans]}"/>
-
-                <Label
-                    Style="{StaticResource LabelNormalStyle}"
-                    Text="{Binding BarcodeId}"
+                
+                <ListView
+                    Margin="10,0,10,0"
+                    x:Name="lstMaintenaceAlert"
                     Grid.Row="5"
-                    />
-                
-                <Picker
-                    ItemsSource="{Binding UTypeCollection}"
-                    TextColor="{StaticResource selectTextColor}"
-                    Grid.Column="1"
-                    Grid.Row="6"
-                    Title="{Binding Resources[hint_select_content]}"
-                    ItemDisplayBinding="{Binding AssetType}"
-                    SelectedItem="{Binding SelectedUType}"
-                    />
-                
-                <Picker
-                    ItemsSource="{Binding USizeCollection}"
-                    TextColor="{StaticResource selectTextColor}"
-                    Grid.Column="1"
-                    Grid.Row="7"
-                    Title="{Binding Resources[hint_select_content]}"
-                    ItemDisplayBinding="{Binding AssetSize}"
-                    SelectedItem="{Binding SelectedUSize}"
-                    />
-                
-                <Picker
-                    ItemsSource="{Binding UOwnerCollection}"
-                    TextColor="{StaticResource selectTextColor}"
-                    Grid.Column="1"
-                    Grid.Row="8"
-                    Title="{Binding Resources[hint_select_content]}"
-                    ItemDisplayBinding="{Binding FullName}"
-                    SelectedItem="{Binding SelectedUOwner}"
-                    />
+                    Grid.ColumnSpan="2"
+                    SeparatorVisibility="Default"
+                    SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
+                    HasUnevenRows="True"
+                    CachingStrategy="RecycleElement"
+                    ItemsSource="{Binding MaintenaceCollection}">
+
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid 
+                                    RowSpacing="0"
+                                    ColumnSpacing="0">
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                   
+                                    <Label
+                                        Style="{StaticResource LabelNormalStyle}"
+                                        Text="{Binding BarcodeId}"
+                                        Grid.Row="0"
+                                        />
+
+                                    <Picker
+                                        ItemsSource="{Binding Path=MaintenaceCollection.UTypeCollection}"
+                                        TextColor="{StaticResource selectTextColor}"
+                                        Grid.Row="1"
+                                        Title="{Binding Resources[label_partnerinfo_type]}"
+                                        ItemDisplayBinding="{Binding AssetType}"
+                                        SelectedItem="{Binding SelectedUType}"
+                                        />
+
+                                    <Picker
+                                        ItemsSource="{Binding Path=MaintenaceCollection.USizeCollection}"
+                                        TextColor="{StaticResource selectTextColor}"
+                                        Grid.Row="2"
+                                        Title="{Binding Resources[tag_size]}"
+                                        ItemDisplayBinding="{Binding AssetSize}"
+                                        SelectedItem="{Binding SelectedUSize}"
+                                        />
+
+                                    <Picker
+                                        ItemsSource="{Binding Path=MaintenaceCollection.UOwnerCollection}"
+                                        TextColor="{StaticResource selectTextColor}"
+                                        Grid.Row="3"
+                                        Title="{Binding Resources[title_owner]}"
+                                        ItemDisplayBinding="{Binding FullName}"
+                                        SelectedItem="{Binding SelectedUOwner}"
+                                        />
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
 
             </Grid>
             

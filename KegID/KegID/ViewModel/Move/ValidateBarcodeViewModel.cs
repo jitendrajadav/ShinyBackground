@@ -9,7 +9,7 @@ using KegID.SQLiteClient;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
 using System;
-using System.Diagnostics;
+using Microsoft.AppCenter.Crashes;
 
 namespace KegID.ViewModel
 {
@@ -172,7 +172,7 @@ namespace KegID.ViewModel
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                 Crashes.TrackError(ex);
             }
             finally
             {

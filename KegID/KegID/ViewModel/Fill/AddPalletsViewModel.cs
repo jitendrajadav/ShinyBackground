@@ -9,8 +9,8 @@ using System;
 using KegID.Services;
 using System.Collections.Generic;
 using System.Linq;
-using System.Diagnostics;
 using System.Threading.Tasks;
+using Microsoft.AppCenter.Crashes;
 
 namespace KegID.ViewModel
 {
@@ -289,7 +289,7 @@ namespace KegID.ViewModel
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine(ex.Message);
+                     Crashes.TrackError(ex);
                 }
                 finally
                 {

@@ -8,11 +8,11 @@ using Xamarin.Forms;
 using System.Collections.Generic;
 using System;
 using KegID.SQLiteClient;
-using System.Diagnostics;
 using KegID.Common;
 using GalaSoft.MvvmLight.Ioc;
 using System.Threading.Tasks;
 using Rg.Plugins.Popup.Extensions;
+using Microsoft.AppCenter.Crashes;
 
 namespace KegID.ViewModel
 {
@@ -274,6 +274,7 @@ namespace KegID.ViewModel
         public RelayCommand<Barcode> IconItemTappedCommand { get; }
         public RelayCommand<Barcode> LabelItemTappedCommand { get; }
 
+
         #endregion
 
         #region Constructor
@@ -318,7 +319,7 @@ namespace KegID.ViewModel
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                 Crashes.TrackError(ex);
                 return null;
             }
             finally
@@ -401,10 +402,10 @@ namespace KegID.ViewModel
             HasDone = true;
             var alert = BarcodeCollection.Where(x => x.Icon == "validationerror.png").ToList();
 
-            if (alert.Count > 0)
+            if (alert.Count > 0 && !alert.FirstOrDefault().HasMaintenaceVerified)
             {
                 string strBarcode = alert.FirstOrDefault().Id;
-                var option = await Application.Current.MainPage.DisplayActionSheet("Warnig \n No keg with a barcode of" + strBarcode + "could be found",
+                var option = await Application.Current.MainPage.DisplayActionSheet("No keg with a barcode of \n" + strBarcode + " could be found",
                     null, null, "Remove unverified scans", "Assign sizes", "Countinue with current scans", "Stay here");
                 switch (option)
                 {
@@ -415,11 +416,11 @@ namespace KegID.ViewModel
 
                         break;
                     case "Assign sizes":
-                        SimpleIoc.Default.GetInstance<AssignSizesViewModel>().AssignInitialValue(_tags: alert.FirstOrDefault().Tags, _partner: alert.FirstOrDefault().Partners.FirstOrDefault());
+                        SimpleIoc.Default.GetInstance<AssignSizesViewModel>().AssignInitialValueAsync(alert);
                         await Application.Current.MainPage.Navigation.PushModalAsync(new AssignSizesView(), animated: false);
                         break;
-
                     case "Countinue with current scans":
+                        await NavigateNextPage();
                         break;
 
                     case "Stay here":
@@ -427,32 +428,44 @@ namespace KegID.ViewModel
                     default:
                         break;
                 }
-
             }
             else
             {
-                switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack[Application.Current.MainPage.Navigation.ModalStack.Count - 2].GetType().Name))
-                {
-                    case ViewTypeEnum.MoveView:
-                        if (!BarcodeCollection.Any(x => x.Partners.Count > 1))
-                            SimpleIoc.Default.GetInstance<MoveViewModel>().AssingScanKegsValue(BarcodeCollection.ToList(), Tags, SelectedBrand.BrandName);
-                        break;
+                await NavigateNextPage();
+            }
+        }
 
-                    case ViewTypeEnum.PalletizeView:
-                        SimpleIoc.Default.GetInstance<PalletizeViewModel>().AssingScanKegsValue(BarcodeCollection);
-                        break;
+        private async Task NavigateNextPage()
+        {
+            switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack[Application.Current.MainPage.Navigation.ModalStack.Count - 2].GetType().Name))
+            {
+                case ViewTypeEnum.MoveView:
+                    if (!BarcodeCollection.Any(x => x.Partners?.Count > 1))
+                        SimpleIoc.Default.GetInstance<MoveViewModel>().AssingScanKegsValue(BarcodeCollection.ToList(), Tags, SelectedBrand.BrandName);
+                    break;
 
-                    default:
-                        break;
-                }
+                case ViewTypeEnum.PalletizeView:
+                    SimpleIoc.Default.GetInstance<PalletizeViewModel>().AssingScanKegsValue(BarcodeCollection);
+                    break;
 
-                if (BarcodeCollection.Any(x => x.Partners.Count > 1))
-                    await NavigateToValidatePartner(BarcodeCollection.Where(x => x.Partners.Count > 1).ToList());
-                else
-                {
-                    await Application.Current.MainPage.Navigation.PopModalAsync();
-                    Cleanup();
-                } 
+                default:
+                    break;
+            }
+
+            if (BarcodeCollection.Any(x => x.Partners?.Count > 1))
+                await NavigateToValidatePartner(BarcodeCollection.Where(x => x.Partners?.Count > 1).ToList());
+            else
+            {
+                await Application.Current.MainPage.Navigation.PopModalAsync();
+                Cleanup();
+            }
+        }
+
+        internal void AssignSizesValue(List<Barcode> verifiedBarcodes)
+        {
+            foreach (var item in verifiedBarcodes)
+            {
+                BarcodeCollection.Where(x => x.Id == item.Id).FirstOrDefault().HasMaintenaceVerified = item.HasMaintenaceVerified;
             }
         }
 
@@ -477,6 +490,7 @@ namespace KegID.ViewModel
                     barode.Icon = value.Icon;
                     barode.Partners = value.Partners;
                     barode.MaintenanceItems = value.MaintenanceItems;
+                    barode.Tags = value.Tags;
                 }
             }
         }

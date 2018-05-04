@@ -6,6 +6,7 @@ using KegID.Services;
 using KegID.SQLiteClient;
 using KegID.Views;
 using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -186,7 +187,7 @@ namespace KegID.ViewModel
                     }
                     catch (Exception ex)
                     {
-                        Debug.WriteLine(ex.Message);
+                         Crashes.TrackError(ex);
                     }
                     await Application.Current.MainPage.Navigation.PushModalAsync(page: new MainPage(),animated: false);
                     try
@@ -201,7 +202,7 @@ namespace KegID.ViewModel
                     }
                     catch (Exception ex)
                     {
-                        Debug.WriteLine(ex.Message);
+                         Crashes.TrackError(ex);
                     }
                 }
                 else
@@ -213,7 +214,7 @@ namespace KegID.ViewModel
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                 Crashes.TrackError(ex);
             }
             finally
             {
@@ -245,7 +246,7 @@ namespace KegID.ViewModel
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                 Crashes.TrackError(ex);
             }
             finally
             {
@@ -270,7 +271,7 @@ namespace KegID.ViewModel
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                 Crashes.TrackError(ex);
             }
             finally
             {
@@ -296,7 +297,7 @@ namespace KegID.ViewModel
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                 Crashes.TrackError(ex);
             }
             finally
             {
@@ -313,7 +314,7 @@ namespace KegID.ViewModel
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                 Crashes.TrackError(ex);
             }
             finally
             {

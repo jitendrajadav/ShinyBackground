@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Command;
@@ -11,6 +10,7 @@ using KegID.Model;
 using KegID.Services;
 using KegID.SQLiteClient;
 using KegID.Views;
+using Microsoft.AppCenter.Crashes;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -741,7 +741,7 @@ namespace KegID.ViewModel
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine(ex.Message);
+                     Crashes.TrackError(ex);
                 }
 
                 RemoveMaintenanceCollection = new ObservableCollection<MaintenanceAlert>( kegStatus.MaintenanceAlerts);
@@ -766,7 +766,7 @@ namespace KegID.ViewModel
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                 Crashes.TrackError(ex);
             }
             finally
             {
@@ -810,7 +810,7 @@ namespace KegID.ViewModel
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                 Crashes.TrackError(ex);
             }
             finally
             {
@@ -860,7 +860,7 @@ namespace KegID.ViewModel
         //        }
         //        catch (Exception ex)
         //        {
-        //            Debug.WriteLine(ex.Message);
+        //             Crashes.TrackError(ex);
         //        }
         //        finally
         //        {
@@ -905,7 +905,7 @@ namespace KegID.ViewModel
                     }
                     catch (Exception ex)
                     {
-                        Debug.WriteLine(ex.Message);
+                         Crashes.TrackError(ex);
                     }
                     finally
                     {
@@ -948,7 +948,7 @@ namespace KegID.ViewModel
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine(ex.Message);
+                     Crashes.TrackError(ex);
                 }
                 finally
                 {
@@ -999,7 +999,7 @@ namespace KegID.ViewModel
         //    }
         //    catch (Exception ex)
         //    {
-        //        Debug.WriteLine(ex.Message);
+        //         Crashes.TrackError(ex);
         //    }
         //    finally
         //    {

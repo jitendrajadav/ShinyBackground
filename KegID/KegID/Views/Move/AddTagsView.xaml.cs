@@ -2,9 +2,9 @@
 using KegID.Model;
 using KegID.SQLiteClient;
 using KegID.ViewModel;
+using Microsoft.AppCenter.Crashes;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -267,7 +267,7 @@ namespace KegID.Views
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                 Crashes.TrackError(ex);
             }
         }
 
@@ -349,7 +349,7 @@ namespace KegID.Views
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                 Crashes.TrackError(ex);
             }
             finally
             {

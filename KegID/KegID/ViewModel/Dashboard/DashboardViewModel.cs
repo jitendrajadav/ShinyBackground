@@ -5,9 +5,9 @@ using KegID.Model;
 using KegID.Services;
 using KegID.SQLiteClient;
 using KegID.Views;
+using Microsoft.AppCenter.Crashes;
 using Rg.Plugins.Popup.Extensions;
 using System;
-using System.Diagnostics;
 using System.Globalization;
 using Xamarin.Forms;
 
@@ -460,7 +460,7 @@ namespace KegID.ViewModel
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                 Crashes.TrackError(ex);
             }
             finally
             {

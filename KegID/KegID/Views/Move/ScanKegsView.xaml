@@ -267,7 +267,13 @@
                                         TextColor="{StaticResource lightGrayColor}"
                                         Grid.Row="1"
                                         FontSize="{StaticResource ListViewDetailFont}"
-                                        Text="{Binding TagsStr}"/>
+                                        Text="{Binding TagsStr}">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Path=BindingContext.LabelItemTappedCommand, 
+                                                        Source={x:Reference Name=lstBarcode}}"
+                                                         CommandParameter="{Binding}"/>
+                                        </Label.GestureRecognizers>
+                                    </Label>
                                 </Grid>
                             </ViewCell>
                         </DataTemplate>

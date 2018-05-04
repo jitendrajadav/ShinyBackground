@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using System.Linq;
 using KegID.SQLiteClient;
-using System.Diagnostics;
 using System;
+using Microsoft.AppCenter.Crashes;
 
 namespace KegID.ViewModel
 {
@@ -115,7 +115,7 @@ namespace KegID.ViewModel
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                 Crashes.TrackError(ex);
             }
             finally
             {

@@ -1,9 +1,9 @@
-﻿using Plugin.Geolocator;
+﻿using Microsoft.AppCenter.Crashes;
+using Plugin.Geolocator;
 using Plugin.Geolocator.Abstractions;
 using Plugin.Permissions.Abstractions;
 using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -46,7 +46,7 @@ namespace KegID.Common
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                 Crashes.TrackError(ex);
                 await Application.Current.MainPage.DisplayAlert("Uh oh", "Something went wrong, but don't worry we captured for analysis! Thanks.", "OK");
             }
             finally
@@ -92,7 +92,6 @@ namespace KegID.Common
                 position.Timestamp, position.Latitude, position.Longitude,
                 position.Altitude, position.AltitudeAccuracy, position.Accuracy, position.Heading, position.Speed);
 
-            Debug.WriteLine(output);
             return position;
         }
 
@@ -123,7 +122,7 @@ namespace KegID.Common
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                 Crashes.TrackError(ex);
                 await Application.Current.MainPage.DisplayAlert("Uh oh", "Something went wrong, but don't worry we captured for analysis! Thanks.", "OK");
             }
             finally
@@ -173,7 +172,7 @@ namespace KegID.Common
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                 Crashes.TrackError(ex);
                 await Application.Current.MainPage.DisplayAlert("Uh oh", "Something went wrong, but don't worry we captured for analysis! Thanks.", "OK");
             }
         }
@@ -224,7 +223,7 @@ namespace KegID.Common
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                 Crashes.TrackError(ex);
                 await Application.Current.MainPage.DisplayAlert("Uh oh", "Something went wrong, but don't worry we captured for analysis! Thanks.", "OK");
             }
             finally

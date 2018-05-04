@@ -1,6 +1,6 @@
-﻿using Plugin.Permissions;
+﻿using Microsoft.AppCenter.Crashes;
+using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -63,7 +63,7 @@ namespace KegID.Common
                 }
                 catch (System.Exception ex)
                 {
-                    Debug.WriteLine(ex.Message);
+                     Crashes.TrackError(ex);
                 }
             }
 

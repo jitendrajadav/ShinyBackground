@@ -1,7 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Ioc;
 using KegID.Model;
 using KegID.SQLiteClient;
+using Microsoft.AppCenter.Crashes;
+using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
@@ -9,35 +16,37 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        #region BarcodeId
+        public List<Barcode> VerifiedBarcodes { get; set; }
+
+        #region MaintenaceCollection
 
         /// <summary>
-        /// The <see cref="BarcodeId" /> property's name.
+        /// The <see cref="MaintenaceCollection" /> property's name.
         /// </summary>
-        public const string BarcodeIdPropertyName = "BarcodeId";
+        public const string MaintenaceCollectionPropertyName = "MaintenaceCollection";
 
-        private string _BarcodeId = default(string);
+        private ObservableCollection<MoveMaintenanceAlertModel> _maintenaceCollection = null;
 
         /// <summary>
-        /// Sets and gets the BarcodeId property.
+        /// Sets and gets the MaintenaceCollection property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public string BarcodeId
+        public ObservableCollection<MoveMaintenanceAlertModel> MaintenaceCollection
         {
             get
             {
-                return _BarcodeId;
+                return _maintenaceCollection;
             }
 
             set
             {
-                if (_BarcodeId == value)
+                if (_maintenaceCollection == value)
                 {
                     return;
                 }
 
-                _BarcodeId = value;
-                RaisePropertyChanged(BarcodeIdPropertyName);
+                _maintenaceCollection = value;
+                RaisePropertyChanged(MaintenaceCollectionPropertyName);
             }
         }
 
@@ -247,271 +256,106 @@ namespace KegID.ViewModel
 
         #endregion
 
-        #region UTypeCollection
-
-        /// <summary>
-        /// The <see cref="UTypeCollection" /> property's name.
-        /// </summary>
-        public const string UTypeCollectionPropertyName = "UTypeCollection";
-
-        private IList<AssetTypeModel> _uTypeCollection = null;
-
-        /// <summary>
-        /// Sets and gets the UTypeCollection property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public IList<AssetTypeModel> UTypeCollection
-        {
-            get
-            {
-                return _uTypeCollection;
-            }
-
-            set
-            {
-                if (_uTypeCollection == value)
-                {
-                    return;
-                }
-
-                _uTypeCollection = value;
-                RaisePropertyChanged(UTypeCollectionPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region SelectedUType
-
-        /// <summary>
-        /// The <see cref="SelectedUType" /> property's name.
-        /// </summary>
-        public const string SelectedUTypePropertyName = "SelectedUType";
-
-        private AssetTypeModel _selectedUType = null;
-
-        /// <summary>
-        /// Sets and gets the SelectedUType property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public AssetTypeModel SelectedUType
-        {
-            get
-            {
-                return _selectedUType;
-            }
-
-            set
-            {
-                if (_selectedUType == value)
-                {
-                    return;
-                }
-
-                _selectedUType = value;
-                RaisePropertyChanged(SelectedUTypePropertyName);
-            }
-        }
-
-        #endregion
-
-        #region USizeCollection
-
-        /// <summary>
-        /// The <see cref="USizeCollection" /> property's name.
-        /// </summary>
-        public const string USizeCollectionPropertyName = "USizeCollection";
-
-        private IList<AssetSizeModel> _uSizeCollection = null;
-
-        /// <summary>
-        /// Sets and gets the USizeCollection property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public IList<AssetSizeModel> USizeCollection
-        {
-            get
-            {
-                return _uSizeCollection;
-            }
-
-            set
-            {
-                if (_uSizeCollection == value)
-                {
-                    return;
-                }
-
-                _uSizeCollection = value;
-                RaisePropertyChanged(USizeCollectionPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region SelectedUSize
-
-        /// <summary>
-        /// The <see cref="SelectedUSize" /> property's name.
-        /// </summary>
-        public const string SelectedUSizePropertyName = "SelectedUSize";
-
-        private AssetSizeModel _selectedUSize = null;
-
-        /// <summary>
-        /// Sets and gets the SelectedUSize property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public AssetSizeModel SelectedUSize
-        {
-            get
-            {
-                return _selectedUSize;
-            }
-
-            set
-            {
-                if (_selectedUSize == value)
-                {
-                    return;
-                }
-
-                _selectedUSize = value;
-                RaisePropertyChanged(SelectedUSizePropertyName);
-            }
-        }
-
-        #endregion
-
-        #region UOwnerCollection
-
-        /// <summary>
-        /// The <see cref="UOwnerCollection" /> property's name.
-        /// </summary>
-        public const string UOwnerCollectionPropertyName = "UOwnerCollection";
-
-        private IList<OwnerModel> _uOwnerCollection = null;
-
-        /// <summary>
-        /// Sets and gets the UOwnerCollection property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public IList<OwnerModel> UOwnerCollection
-        {
-            get
-            {
-                return _uOwnerCollection;
-            }
-
-            set
-            {
-                if (_uOwnerCollection == value)
-                {
-                    return;
-                }
-
-                _uOwnerCollection = value;
-                RaisePropertyChanged(UOwnerCollectionPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region SelectedUOwner
-
-        /// <summary>
-        /// The <see cref="SelectedUOwner" /> property's name.
-        /// </summary>
-        public const string SelectedUOwnerPropertyName = "SelectedUOwner";
-
-        private OwnerModel _selectedUOwner = null;
-
-        /// <summary>
-        /// Sets and gets the SelectedUOwner property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public OwnerModel SelectedUOwner
-        {
-            get
-            {
-                return _selectedUOwner;
-            }
-
-            set
-            {
-                if (_selectedUOwner == value)
-                {
-                    return;
-                }
-
-                _selectedUOwner = value;
-                RaisePropertyChanged(SelectedUOwnerPropertyName);
-            }
-        }
-
-        #endregion
-
         #endregion
 
         #region Commands
 
         public RelayCommand ApplyToAllCommand { get; }
+        public RelayCommand DoneCommand { get; }
 
         #endregion
 
         #region Constructor
 
-        public AssignSizesViewModel()
-        {
-            ApplyToAllCommand = new RelayCommand(ApplyToAllCommandReciever);
-        }
-
         #endregion
 
         #region Methods
 
+        public AssignSizesViewModel()
+        {
+            ApplyToAllCommand = new RelayCommand(ApplyToAllCommandReciever);
+            DoneCommand = new RelayCommand(DoneCommandReciever);
+            MaintenaceCollection = new ObservableCollection<MoveMaintenanceAlertModel>();
+        }
+
+        private void MaintenanceVerified()
+        {
+            VerifiedBarcodes.FirstOrDefault().HasMaintenaceVerified = true;
+        }
+
+        private void DoneCommandReciever()
+        {
+            SimpleIoc.Default.GetInstance<ScanKegsViewModel>().AssignSizesValue(VerifiedBarcodes);
+            Application.Current.MainPage.Navigation.PopModalAsync();
+        }
+
         private void ApplyToAllCommandReciever()
         {
-            if (SelectedType != null)
-            {
-                SelectedUType = SelectedType; 
-            }
-            if (SelectedSize != null)
-            {
-                SelectedUSize = SelectedSize; 
-            }
-            if (SelectedOwner != null)
-            {
-                SelectedUOwner = SelectedOwner; 
-            }
+            //if (SelectedType != null)
+            //{
+            //    SelectedUType = SelectedType; 
+            //}
+            //if (SelectedSize != null)
+            //{
+            //    SelectedUSize = SelectedSize; 
+            //}
+            //if (SelectedOwner != null)
+            //{
+            //    SelectedUOwner = SelectedOwner; 
+            //}
         }
 
-        private async void LoadOwnderAsync()
+        private async Task LoadOwnderAsync()
         {
             OwnerCollection = await SQLiteServiceClient.Db.Table<OwnerModel>().ToListAsync();
-            UOwnerCollection = OwnerCollection;
+            SelectedOwner = OwnerCollection.OrderBy(x=>x.FullName).FirstOrDefault();
         }
 
-        private async void LoadAssetSizeAsync()
+        private async Task LoadAssetSizeAsync()
         {
             SizeCollection = await SQLiteServiceClient.Db.Table<AssetSizeModel>().ToListAsync();
-            USizeCollection = SizeCollection;
         }
 
-        private async void LoadAssetTypeAsync()
+        private async Task LoadAssetTypeAsync()
         {
             TypeCollection = await SQLiteServiceClient.Db.Table<AssetTypeModel>().ToListAsync();
-            UTypeCollection = TypeCollection;
         }
 
-        internal void AssignInitialValue(List<Tag> _tags, Partner _partner)
+        internal async void AssignInitialValueAsync(List<Barcode> _alerts)
         {
-            LoadOwnderAsync();
-            LoadAssetSizeAsync();
-            LoadAssetTypeAsync();
-            SelectedUOwner.FullName = _partner.FullName;
-            SelectedUType.AssetType = _tags[2].Value;
-            SelectedUSize.AssetSize = _tags[3].Value;
+            try
+            {
+                VerifiedBarcodes = _alerts;
+                await LoadOwnderAsync();
+                await LoadAssetSizeAsync();
+                await LoadAssetTypeAsync();
+
+                foreach (var item in _alerts)
+                {
+                    var selectedOwner = OwnerCollection.Where(x => x.FullName == item?.Partners?.FirstOrDefault()?.FullName).FirstOrDefault();
+                    var selectedSize = SizeCollection.Where(x => x.AssetSize == item.Tags[2]?.Value).FirstOrDefault();
+                    var selectedType = TypeCollection.Where(x => x.AssetType == item.Tags[3]?.Value).FirstOrDefault();
+
+                    MaintenaceCollection.Add(
+                        new MoveMaintenanceAlertModel
+                        {
+                            UOwnerCollection = OwnerCollection.ToList(),
+                            USizeCollection = SizeCollection.ToList(),
+                            UTypeCollection = TypeCollection.ToList(),
+                            BarcodeId = item.Id,
+                            SelectedUOwner = selectedOwner,
+                            SelectedUSize = selectedSize,
+                            SelectedUType = selectedType
+                        });
+                }
+                //SelectedUOwner = UOwnerCollection.Where(x => x.FullName == _alerts.FirstOrDefault().Partners.FirstOrDefault()?.FullName).FirstOrDefault();
+                //SelectedUType = UTypeCollection.Where(x => x.AssetType == _alerts.FirstOrDefault().Tags[2]?.Value).FirstOrDefault();
+                //SelectedUSize = USizeCollection.Where(x => x.AssetSize == _alerts.FirstOrDefault().Tags[3]?.Value).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         #endregion

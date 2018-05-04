@@ -6,6 +6,7 @@ namespace KegID.Model
 {
     public class Barcode : ViewModelBase
     {
+        public bool HasMaintenaceVerified { get; set; }
         public bool IsScanned { get; set; }
         public string Id { get; internal set; }
         

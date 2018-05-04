@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Diagnostics;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
 using KegID.Services;
 using KegID.Views;
+using Microsoft.AppCenter.Crashes;
 using Rg.Plugins.Popup.Extensions;
 using Xamarin.Forms;
 
@@ -61,7 +61,7 @@ namespace KegID.ViewModel
                     }
                     catch (Exception ex)
                     {
-                        Debug.WriteLine(ex.Message);
+                         Crashes.TrackError(ex);
                     }
                     await Application.Current.MainPage.Navigation.PopPopupAsync();
                     await Application.Current.MainPage.Navigation.PopModalAsync();
@@ -69,7 +69,7 @@ namespace KegID.ViewModel
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                 Crashes.TrackError(ex);
             }
         }
 

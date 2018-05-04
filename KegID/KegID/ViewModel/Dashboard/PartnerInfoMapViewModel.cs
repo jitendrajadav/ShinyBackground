@@ -1,7 +1,7 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using KegID.Model;
+using Microsoft.AppCenter.Crashes;
 using System;
-using System.Diagnostics;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -29,7 +29,7 @@ namespace KegID.ViewModel
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                 Crashes.TrackError(ex);
             }            
             #region Old code
             //var Suggestions = new List<Suggestion>

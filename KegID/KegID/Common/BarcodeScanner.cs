@@ -3,6 +3,7 @@ using KegID.Model;
 using KegID.Services;
 using KegID.SQLiteClient;
 using KegID.ViewModel;
+using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -179,9 +180,9 @@ namespace KegID.Common
             {
                 barcode = new Barcode
                 {
-                    //Id = _barcodeId,
-                    //Tags = _tags,
-                    //TagsStr = _tagsStr,
+                    Id = _barcodeId,
+                    Tags = _tags,
+                    TagsStr = _tagsStr,
                     Partners = validateBarcodeModel.Kegs.Partners,
                     Icon = validateBarcodeModel.Kegs.Partners.Count > 1 ? GetIconByPlatform.GetIcon("validationquestion.png") :
                     validateBarcodeModel.Kegs.Partners.Count == 0 ? GetIconByPlatform.GetIcon("validationerror.png") : GetIconByPlatform.GetIcon("validationok.png"),
@@ -200,7 +201,7 @@ namespace KegID.Common
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine(ex.Message);
+                     Crashes.TrackError(ex);
                 } 
             }
 

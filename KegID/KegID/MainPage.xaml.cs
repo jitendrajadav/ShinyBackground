@@ -1,5 +1,5 @@
-﻿using System;
-using System.Diagnostics;
+﻿using Microsoft.AppCenter.Crashes;
+using System;
 using Xamarin.Forms;
 
 namespace KegID
@@ -14,7 +14,7 @@ namespace KegID
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                 Crashes.TrackError(ex);
             }
 		}
 	}

@@ -1,17 +1,17 @@
 ﻿using KegID.Model;
 using KegID.SQLiteClient;
+using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace KegID.Common
 {
-    public static class  ManifestManager
+    public static class ManifestManager
     {
-        public static async Task<ManifestModel> GetManifestDraft(EventTypeEnum eventTypeEnum, string manifestId, IList<Barcode> barcodeCollection, 
+        public static async Task<ManifestModel> GetManifestDraft(EventTypeEnum eventTypeEnum, string manifestId, IList<Barcode> barcodeCollection,
             List<Tag> tags, PartnerModel partnerModel, List<NewPallet> newPallets, List<NewBatch> batches, List<string> closedBatches, long validationStatus, string contents = "")
         {
             ManifestModel manifestModel = null;
@@ -32,7 +32,7 @@ namespace KegID.Common
                         Barcode = barcodeResult.Barcode,
                         ScanDate = DateTime.Today,
                         ValidationStatus = validationStatus,
-                        KegId = validateBarcodeModel.Kegs.Partners.FirstOrDefault().Kegs.FirstOrDefault().KegId,
+                        KegId = validateBarcodeModel.Kegs?.Partners?.FirstOrDefault()?.Kegs?.FirstOrDefault().KegId,
                         Tags = tags,
                         //KegStatus = new List<KegStatus>()
                         //{
@@ -79,7 +79,7 @@ namespace KegID.Common
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                Crashes.TrackError(ex);
                 return null;
             }
             finally

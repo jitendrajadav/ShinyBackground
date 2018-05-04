@@ -1,7 +1,7 @@
 ﻿using KegID.Model;
+using Microsoft.AppCenter.Crashes;
 using SQLite.Net.Async;
 using System;
-using System.Diagnostics;
 using System.Threading;
 using Xamarin.Forms;
 
@@ -30,7 +30,7 @@ namespace KegID.SQLiteClient
                     }
                     catch (Exception ex)
                     {
-                        Debug.WriteLine(ex.Message);
+                         Crashes.TrackError(ex);
                     }
                 }
 
@@ -48,7 +48,7 @@ namespace KegID.SQLiteClient
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                 Crashes.TrackError(ex);
             }
         }
     }

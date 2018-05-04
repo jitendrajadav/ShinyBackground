@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Command;
@@ -11,6 +10,7 @@ using KegID.Model;
 using KegID.Services;
 using KegID.SQLiteClient;
 using KegID.Views;
+using Microsoft.AppCenter.Crashes;
 using Rg.Plugins.Popup.Extensions;
 using Xamarin.Forms;
 
@@ -145,7 +145,7 @@ namespace KegID.ViewModel
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                 Crashes.TrackError(ex);
             }
             return MaintainTypeReponseModel;
         }
@@ -290,7 +290,7 @@ namespace KegID.ViewModel
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine(ex.Message);
+                     Crashes.TrackError(ex);
                 }
                 finally
                 {

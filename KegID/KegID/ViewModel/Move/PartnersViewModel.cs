@@ -9,8 +9,8 @@ using Xamarin.Forms;
 using System.Linq;
 using System.Collections.Generic;
 using KegID.Model;
-using System.Diagnostics;
 using System;
+using Microsoft.AppCenter.Crashes;
 
 namespace KegID.ViewModel
 {
@@ -307,7 +307,7 @@ namespace KegID.ViewModel
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                 Crashes.TrackError(ex);
             }
         }
 
@@ -379,7 +379,7 @@ namespace KegID.ViewModel
                         }
                         catch (Exception ex)
                         {
-                            Debug.WriteLine(ex.Message);
+                             Crashes.TrackError(ex);
                         }
                         if (BrewerStockOn)
                             PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners.Where(x => x.PartnerTypeName == "Brewer - Stock").ToList());
@@ -391,7 +391,7 @@ namespace KegID.ViewModel
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                 Crashes.TrackError(ex);
             }
             finally
             {

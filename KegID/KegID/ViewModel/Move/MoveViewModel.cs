@@ -5,10 +5,10 @@ using KegID.Model;
 using KegID.Services;
 using KegID.SQLiteClient;
 using KegID.Views;
+using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -403,7 +403,7 @@ namespace KegID.ViewModel
                     }
                     catch (Exception ex)
                     {
-                        Debug.WriteLine(ex.Message);
+                         Crashes.TrackError(ex);
                     }
                     finally
                     {
@@ -417,7 +417,7 @@ namespace KegID.ViewModel
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                 Crashes.TrackError(ex);
             }
             finally
             {
@@ -455,7 +455,7 @@ namespace KegID.ViewModel
                 catch (Exception ex)
                 {
                     var Result = await SQLiteServiceClient.Db.UpdateAsync(draftManifestModel);
-                    Debug.WriteLine(ex.Message);
+                     Crashes.TrackError(ex);
                 }
 
                 Loader.StopLoading();
@@ -464,7 +464,7 @@ namespace KegID.ViewModel
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                 Crashes.TrackError(ex);
             }
             finally
             {
@@ -492,7 +492,7 @@ namespace KegID.ViewModel
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                 Crashes.TrackError(ex);
             }
         }
 
@@ -514,7 +514,7 @@ namespace KegID.ViewModel
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                 Crashes.TrackError(ex);
             }
         }
 
@@ -536,7 +536,7 @@ namespace KegID.ViewModel
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                 Crashes.TrackError(ex);
             }
         }
 
@@ -557,7 +557,7 @@ namespace KegID.ViewModel
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                 Crashes.TrackError(ex);
             }
         }
 
@@ -574,7 +574,7 @@ namespace KegID.ViewModel
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine(ex.Message);
+                     Crashes.TrackError(ex);
                 }
                 IsSaveDraftVisible = false;
                 IsSubmitVisible = false;
@@ -585,7 +585,7 @@ namespace KegID.ViewModel
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                 Crashes.TrackError(ex);
             }
 
             base.Cleanup();
