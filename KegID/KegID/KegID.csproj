@@ -25,16 +25,16 @@
     <PackageReference Include="MvvmLightLibsStd10" Version="5.4.1" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="Plugin.CrossPlatformTintedImage" Version="1.0.0" />
-    <PackageReference Include="Plugin.Permissions" Version="2.2.1" />
+    <PackageReference Include="Plugin.Permissions" Version="3.0.0.8" />
     <PackageReference Include="Plugin.Share" Version="7.1.1" />
     <PackageReference Include="Rg.Plugins.Popup" Version="1.0.4" />
     <PackageReference Include="sqlite-net-pcl" Version="1.5.166-beta" />
     <PackageReference Include="SQLite.Net-PCL" Version="3.1.1" />
     <PackageReference Include="SQLite.Net.Async-PCL" Version="3.1.1" />
     <PackageReference Include="Xam.Plugin.Connectivity" Version="3.1.1" />
-    <PackageReference Include="Xam.Plugin.Geolocator" Version="4.2.0" />
+    <PackageReference Include="Xam.Plugin.Geolocator" Version="4.5.0.1" />
     <PackageReference Include="Xam.Plugins.Messaging" Version="5.2.0" />
-    <PackageReference Include="Xam.Plugins.Settings" Version="3.1.1" />
+    <PackageReference Include="Xam.Plugins.Settings" Version="4.0.0.7" />
     <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.3.6" />
     <PackageReference Include="Xamarin.Forms" Version="2.5.1.527436" />
     <PackageReference Include="Xamarin.Forms.Maps" Version="2.5.1.527436" />

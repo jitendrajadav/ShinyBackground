@@ -1,4 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Ioc;
+using KegID.ViewModel;
 using System.Collections.Generic;
 
 namespace KegID.Model
@@ -99,8 +101,14 @@ namespace KegID.Model
                 {
                     return;
                 }
-               
                 _selectedUType = value;
+
+                if (!_selectedUType.HasInitial)
+                {
+                    SimpleIoc.Default.GetInstance<AssignSizesViewModel>().MaintenanceVerified();
+                    _selectedUType.HasInitial = true;
+                }
+
                 RaisePropertyChanged(SelectedUTypePropertyName);
             }
         }
@@ -168,6 +176,13 @@ namespace KegID.Model
                     return;
                 }
                 _selectedUSize = value;
+
+                if (!_selectedUSize.HasInitial)
+                {
+                    _selectedUSize.HasInitial = true;
+                    SimpleIoc.Default.GetInstance<AssignSizesViewModel>().MaintenanceVerified();
+                }
+
                 RaisePropertyChanged(SelectedUSizePropertyName);
             }
         }
@@ -235,6 +250,12 @@ namespace KegID.Model
                     return;
                 }
                 _selectedUOwner = value;
+
+                if (!_selectedUOwner.HasInitial)
+                {
+                    SimpleIoc.Default.GetInstance<AssignSizesViewModel>().MaintenanceVerified();
+                    _selectedUOwner.HasInitial = true;
+                }
                 RaisePropertyChanged(SelectedUOwnerPropertyName);
             }
         }

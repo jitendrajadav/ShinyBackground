@@ -177,7 +177,7 @@
                                         />
 
                                     <Picker
-                                        ItemsSource="{Binding Path=MaintenaceCollection.UTypeCollection}"
+                                        ItemsSource="{Binding UTypeCollection}"
                                         TextColor="{StaticResource selectTextColor}"
                                         Grid.Row="1"
                                         Title="{Binding Resources[label_partnerinfo_type]}"
@@ -186,7 +186,7 @@
                                         />
 
                                     <Picker
-                                        ItemsSource="{Binding Path=MaintenaceCollection.USizeCollection}"
+                                        ItemsSource="{Binding USizeCollection}"
                                         TextColor="{StaticResource selectTextColor}"
                                         Grid.Row="2"
                                         Title="{Binding Resources[tag_size]}"
@@ -195,7 +195,7 @@
                                         />
 
                                     <Picker
-                                        ItemsSource="{Binding Path=MaintenaceCollection.UOwnerCollection}"
+                                        ItemsSource="{Binding UOwnerCollection}"
                                         TextColor="{StaticResource selectTextColor}"
                                         Grid.Row="3"
                                         Title="{Binding Resources[title_owner]}"

@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using SQLite.Net.Attributes;
+using System.Collections.Generic;
 
 namespace KegID.Model
 {
     public class InventoryResponseModel 
     {
+        [PrimaryKey, AutoIncrement]
+        public int Id { get; set; }
         public string OwnerName { get; set; }
         public string Status { get; set; }
         public string Contents { get; set; }

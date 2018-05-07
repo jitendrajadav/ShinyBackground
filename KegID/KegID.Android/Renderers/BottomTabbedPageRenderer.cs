@@ -31,7 +31,7 @@ namespace KegID.Droid.Renderers
 
             for (int i = 0; i < ChildCount; ++i)
             {
-                Android.Views.View view = (Android.Views.View)GetChildAt(i);
+                Android.Views.View view = GetChildAt(i);
                 if (view is TabLayout) tabLayout = (TabLayout)view;
                 else if (view is ViewPager) viewPager = (ViewPager)view;
             }

@@ -278,7 +278,7 @@ namespace KegID.ViewModel
             MaintenaceCollection = new ObservableCollection<MoveMaintenanceAlertModel>();
         }
 
-        private void MaintenanceVerified()
+        public void MaintenanceVerified()
         {
             VerifiedBarcodes.FirstOrDefault().HasMaintenaceVerified = true;
         }
@@ -291,18 +291,27 @@ namespace KegID.ViewModel
 
         private void ApplyToAllCommandReciever()
         {
-            //if (SelectedType != null)
-            //{
-            //    SelectedUType = SelectedType; 
-            //}
-            //if (SelectedSize != null)
-            //{
-            //    SelectedUSize = SelectedSize; 
-            //}
-            //if (SelectedOwner != null)
-            //{
-            //    SelectedUOwner = SelectedOwner; 
-            //}
+            if (SelectedType != null)
+            {
+                foreach (var item in MaintenaceCollection)
+                {
+                    item.SelectedUType = SelectedType;
+                }
+            }
+            if (SelectedSize != null)
+            {
+                foreach (var item in MaintenaceCollection)
+                {
+                    item.SelectedUSize = SelectedSize;
+                }
+            }
+            if (SelectedOwner != null)
+            {
+                foreach (var item in MaintenaceCollection)
+                {
+                    item.SelectedUOwner = SelectedOwner;
+                }
+            }
         }
 
         private async Task LoadOwnderAsync()
@@ -326,15 +335,31 @@ namespace KegID.ViewModel
             try
             {
                 VerifiedBarcodes = _alerts;
+
                 await LoadOwnderAsync();
                 await LoadAssetSizeAsync();
                 await LoadAssetTypeAsync();
 
                 foreach (var item in _alerts)
                 {
-                    var selectedOwner = OwnerCollection.Where(x => x.FullName == item?.Partners?.FirstOrDefault()?.FullName).FirstOrDefault();
-                    var selectedSize = SizeCollection.Where(x => x.AssetSize == item.Tags[2]?.Value).FirstOrDefault();
-                    var selectedType = TypeCollection.Where(x => x.AssetType == item.Tags[3]?.Value).FirstOrDefault();
+                    AssetTypeModel selectedType = null;
+                    AssetSizeModel selectedSize = null;
+                    OwnerModel selectedOwner = OwnerCollection.Where(x => x.FullName == item?.Partners?.FirstOrDefault()?.FullName).FirstOrDefault();
+
+                    if (selectedOwner!= null)
+                    {
+                        selectedOwner.HasInitial = true;
+                    }
+                    if (item.Tags.Count > 2)
+                    {
+                        selectedType = TypeCollection.Where(x => x.AssetType == item.Tags?[2]?.Value).FirstOrDefault();
+                        selectedType.HasInitial = true;
+                    }
+                    if (item.Tags.Count > 3)
+                    {
+                        selectedSize = SizeCollection.Where(x => x.AssetSize == item.Tags?[3]?.Value).FirstOrDefault();
+                        selectedSize.HasInitial = true;
+                    }
 
                     MaintenaceCollection.Add(
                         new MoveMaintenanceAlertModel
@@ -343,14 +368,11 @@ namespace KegID.ViewModel
                             USizeCollection = SizeCollection.ToList(),
                             UTypeCollection = TypeCollection.ToList(),
                             BarcodeId = item.Id,
-                            SelectedUOwner = selectedOwner,
-                            SelectedUSize = selectedSize,
-                            SelectedUType = selectedType
+                            SelectedUOwner = selectedOwner ?? selectedOwner,
+                            SelectedUSize = selectedSize ?? selectedSize,
+                            SelectedUType = selectedType ?? selectedType
                         });
                 }
-                //SelectedUOwner = UOwnerCollection.Where(x => x.FullName == _alerts.FirstOrDefault().Partners.FirstOrDefault()?.FullName).FirstOrDefault();
-                //SelectedUType = UTypeCollection.Where(x => x.AssetType == _alerts.FirstOrDefault().Tags[2]?.Value).FirstOrDefault();
-                //SelectedUSize = USizeCollection.Where(x => x.AssetSize == _alerts.FirstOrDefault().Tags[3]?.Value).FirstOrDefault();
             }
             catch (Exception ex)
             {

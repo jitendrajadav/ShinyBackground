@@ -9,6 +9,7 @@ namespace KegID.Model
         public int Id { get; set; }
         public string PartnerId { get; set; }
         public string FullName { get; set; }
+        public bool HasInitial { get; set; }
     }
 
     public class OwnerResponseModel : KegIDResponse

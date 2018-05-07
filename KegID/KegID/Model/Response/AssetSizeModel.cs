@@ -7,6 +7,7 @@ namespace KegID.Model
         [PrimaryKey,AutoIncrement]
         public int Id { get; set; }
         public string AssetSize { get; set; }
+        public bool HasInitial { get; set; }
     }
 
     public class AssetTypeModel
@@ -14,6 +15,7 @@ namespace KegID.Model
         [PrimaryKey,AutoIncrement]
         public int Id { get; set; }
         public string AssetType { get; set; }
+        public bool HasInitial { get; set; }
     }
 
     public class AssetVolumeModel

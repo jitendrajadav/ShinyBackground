@@ -4,7 +4,8 @@
              xmlns:local="clr-namespace:KegID"
              x:Class="KegID.Views.InventoryView"
              BackgroundColor="{StaticResource pageBGColor}"
-             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Inventory}">
+             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Inventory}"
+            >
 
     <ContentPage Title="{Binding Resources[label_stock]}">
         <Grid>
@@ -78,6 +79,7 @@
                         <ViewCell>
 
                             <Grid 
+                                BackgroundColor="Transparent"
                                 HorizontalOptions="FillAndExpand">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="45*"/>
@@ -182,7 +184,8 @@
 
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <ViewCell>
+                        <ViewCell
+                            x:Name="invViewCell">
 
                             <Grid 
                                 HorizontalOptions="FillAndExpand">

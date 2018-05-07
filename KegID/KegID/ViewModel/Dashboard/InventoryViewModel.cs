@@ -2,6 +2,7 @@
 using KegID.Common;
 using KegID.Model;
 using KegID.Services;
+using KegID.SQLiteClient;
 using Microsoft.AppCenter.Crashes;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,8 @@ namespace KegID.ViewModel
     public class InventoryViewModel : BaseViewModel
     {
         #region Properties
+        public int CurrentPage { get; internal set; }
+
         public IDashboardService _dashboardService { get; set; }
 
         #region StockInventoryCollection
@@ -96,7 +99,6 @@ namespace KegID.ViewModel
         {
             _dashboardService = dashboardService;
             HomeCommand = new RelayCommand(HomeCommandRecieverAsync);
-            InventoryCommandRecieverAsync();
         }
 
         #endregion
@@ -108,22 +110,41 @@ namespace KegID.ViewModel
             await Application.Current.MainPage.Navigation.PopModalAsync();
         }
 
-        private async void InventoryCommandRecieverAsync()
+        public async void InventoryCommandRecieverAsync()
         {
+            InventoryDetailModel model = null;
             try
             {
                 Loader.StartLoading();
-                var value = await _dashboardService.GetInventoryAsync(AppSettings.User.SessionId);
-                StockInventoryCollection = value.InventoryResponseModel.Where(x => x.Status != "Empty").ToList();
-                EnptyInventoryCollection = value.InventoryResponseModel.Where(x => x.Status == "Empty").ToList();
+                model = await _dashboardService.GetInventoryAsync(AppSettings.User.SessionId);
+                await SQLiteServiceClient.Db.InsertAllAsync(model.InventoryResponseModel);
+
+                StockInventoryCollection = model.InventoryResponseModel.Where(x => x.Status != "Empty").ToList();
+                EnptyInventoryCollection = model.InventoryResponseModel.Where(x => x.Status == "Empty").ToList();
             }
             catch (Exception ex)
             {
-                 Crashes.TrackError(ex);
+                Crashes.TrackError(ex);
             }
             finally
             {
+                model = null;
                 Loader.StopLoading();
+            }
+        }
+
+        internal async void InitialAssignValueAsync(int currentPage)
+        {
+            CurrentPage = currentPage;
+            var model = await SQLiteServiceClient.Db.Table<InventoryResponseModel>().ToListAsync();
+            if (model.Count > 0)
+            {
+                StockInventoryCollection = model.Where(x => x.Status != "Empty").ToList();
+                EnptyInventoryCollection = model.Where(x => x.Status == "Empty").ToList();
+            }
+            else
+            {
+               InventoryCommandRecieverAsync();
             }
         }
         #endregion

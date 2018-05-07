@@ -394,11 +394,13 @@ namespace KegID.ViewModel
 
         private async void StockCommandRecieverAsync()
         {
+            SimpleIoc.Default.GetInstance<InventoryViewModel>().InitialAssignValueAsync(currentPage: 0);
             await Application.Current.MainPage.Navigation.PushModalAsync(new InventoryView(), animated: false);
         }
 
         private async void EmptyCommandRecieverAsync()
         {
+            SimpleIoc.Default.GetInstance<InventoryViewModel>().InitialAssignValueAsync(currentPage: 1);
             await Application.Current.MainPage.Navigation.PushModalAsync(new InventoryView(), animated: false);
         }
 
