@@ -400,64 +400,85 @@ namespace KegID.ViewModel
         private async void DoneCommandRecieverAsync()
         {
             HasDone = true;
-            var alert = BarcodeCollection.Where(x => x.Icon == "validationerror.png").ToList();
+            var alert = BarcodeCollection.Where(x => x.Icon == "maintenace.png").ToList();
 
             if (alert.Count > 0 && !alert.FirstOrDefault().HasMaintenaceVerified)
             {
-                string strBarcode = alert.FirstOrDefault().Id;
-                var option = await Application.Current.MainPage.DisplayActionSheet("No keg with a barcode of \n" + strBarcode + " could be found",
-                    null, null, "Remove unverified scans", "Assign sizes", "Countinue with current scans", "Stay here");
-                switch (option)
+                try
                 {
-                    case "Remove unverified scans":
-                        BarcodeCollection.Remove(alert.FirstOrDefault());
-                        await Application.Current.MainPage.Navigation.PopModalAsync();
-                        Cleanup();
+                    string strBarcode = alert.FirstOrDefault().Id;
+                    var option = await Application.Current.MainPage.DisplayActionSheet("No keg with a barcode of \n" + strBarcode + " could be found",
+                        null, null, "Remove unverified scans", "Assign sizes", "Countinue with current scans", "Stay here");
+                    switch (option)
+                    {
+                        case "Remove unverified scans":
+                            BarcodeCollection.Remove(alert.FirstOrDefault());
+                            await Application.Current.MainPage.Navigation.PopModalAsync();
+                            Cleanup();
 
-                        break;
-                    case "Assign sizes":
-                        SimpleIoc.Default.GetInstance<AssignSizesViewModel>().AssignInitialValueAsync(alert);
-                        await Application.Current.MainPage.Navigation.PushModalAsync(new AssignSizesView(), animated: false);
-                        break;
-                    case "Countinue with current scans":
-                        await NavigateNextPage();
-                        break;
+                            break;
+                        case "Assign sizes":
+                            SimpleIoc.Default.GetInstance<AssignSizesViewModel>().AssignInitialValueAsync(alert);
+                            await Application.Current.MainPage.Navigation.PushModalAsync(new AssignSizesView(), animated: false);
+                            break;
+                        case "Countinue with current scans":
+                            await NavigateNextPage();
+                            break;
 
-                    case "Stay here":
-                        break;
-                    default:
-                        break;
+                        case "Stay here":
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Crashes.TrackError(ex);
                 }
             }
             else
             {
-                await NavigateNextPage();
+                try
+                {
+                    await NavigateNextPage();
+                }
+                catch (Exception ex)
+                {
+                    Crashes.TrackError(ex);
+                }
             }
         }
 
         private async Task NavigateNextPage()
         {
-            switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack[Application.Current.MainPage.Navigation.ModalStack.Count - 2].GetType().Name))
+            try
             {
-                case ViewTypeEnum.MoveView:
-                    if (!BarcodeCollection.Any(x => x.Partners?.Count > 1))
-                        SimpleIoc.Default.GetInstance<MoveViewModel>().AssingScanKegsValue(BarcodeCollection.ToList(), Tags, SelectedBrand.BrandName);
-                    break;
+                switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack[Application.Current.MainPage.Navigation.ModalStack.Count - 2].GetType().Name))
+                {
+                    case ViewTypeEnum.MoveView:
+                        if (!BarcodeCollection.Any(x => x.Partners?.Count > 1))
+                            SimpleIoc.Default.GetInstance<MoveViewModel>().AssingScanKegsValue(BarcodeCollection.ToList(), Tags, SelectedBrand?.BrandName);
+                        break;
 
-                case ViewTypeEnum.PalletizeView:
-                    SimpleIoc.Default.GetInstance<PalletizeViewModel>().AssingScanKegsValue(BarcodeCollection);
-                    break;
+                    case ViewTypeEnum.PalletizeView:
+                        SimpleIoc.Default.GetInstance<PalletizeViewModel>().AssingScanKegsValue(BarcodeCollection);
+                        break;
 
-                default:
-                    break;
+                    default:
+                        break;
+                }
+
+                if (BarcodeCollection.Any(x => x.Partners?.Count > 1))
+                    await NavigateToValidatePartner(BarcodeCollection.Where(x => x.Partners?.Count > 1).ToList());
+                else
+                {
+                    await Application.Current.MainPage.Navigation.PopModalAsync();
+                    Cleanup();
+                }
             }
-
-            if (BarcodeCollection.Any(x => x.Partners?.Count > 1))
-                await NavigateToValidatePartner(BarcodeCollection.Where(x => x.Partners?.Count > 1).ToList());
-            else
+            catch (Exception ex)
             {
-                await Application.Current.MainPage.Navigation.PopModalAsync();
-                Cleanup();
+                Crashes.TrackError(ex);
             }
         }
 

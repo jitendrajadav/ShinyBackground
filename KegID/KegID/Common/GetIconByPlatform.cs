@@ -15,9 +15,6 @@ namespace KegID.Common
                 case Device.Android:
                     value = image;
                     break;
-                case Device.WinPhone:
-                    value = "Assets/" + image;
-                    break;
                 case Device.UWP:
                     value = "Assets/" + image;
                     break;

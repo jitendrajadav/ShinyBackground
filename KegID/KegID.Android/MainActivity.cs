@@ -1,7 +1,6 @@
 ﻿
 using Acr.UserDialogs;
 using Android.App;
-using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
@@ -36,15 +35,16 @@ namespace KegID.Droid
             TintedImageRenderer.Init();
             LoadApplication(new App());
 
-            var alarmIntent = new Intent(this, typeof(BackgroundReceiver));
+            //Commented for Background Services
+            //var alarmIntent = new Intent(this, type: typeof(BackgroundReceiver));
 
-            var pending = PendingIntent.GetBroadcast(this, 0, alarmIntent, PendingIntentFlags.UpdateCurrent);
+            //var pending = PendingIntent.GetBroadcast(this, 0, alarmIntent, PendingIntentFlags.UpdateCurrent);
 
-            var alarmManager = GetSystemService(AlarmService).JavaCast<AlarmManager>();
-            alarmManager.Set(AlarmType.ElapsedRealtime, SystemClock.ElapsedRealtime() + 3 * 1000, pending);
+            //var alarmManager = GetSystemService(AlarmService).JavaCast<AlarmManager>();
+            //alarmManager.Set(AlarmType.ElapsedRealtime, SystemClock.ElapsedRealtime() + 3 * 1000, pending);
 
-            var intent = new Intent(this, typeof(PeriodicService));
-            StartService(intent);
+            //var intent = new Intent(this, typeof(PeriodicService));
+            //StartService(intent);
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)

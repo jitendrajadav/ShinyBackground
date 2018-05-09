@@ -50,7 +50,7 @@
     <AndroidSupportedAbis />
     <JavaMaximumHeapSize>1G</JavaMaximumHeapSize>
     <AndroidEnableSGenConcurrent>false</AndroidEnableSGenConcurrent>
-    <EnableProguard>false</EnableProguard>
+    <EnableProguard>true</EnableProguard>
     <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
     <AndroidEnableMultiDex>false</AndroidEnableMultiDex>
     <AndroidLinkMode>SdkOnly</AndroidLinkMode>
@@ -111,6 +111,9 @@
     <PackageReference Include="Rg.Plugins.Popup">
       <Version>1.0.4</Version>
     </PackageReference>
+    <PackageReference Include="runtime.win10-arm64.runtime.native.System.IO.Compression">
+      <Version>4.3.1</Version>
+    </PackageReference>
     <PackageReference Include="sqlite-net-pcl">
       <Version>1.5.166-beta</Version>
     </PackageReference>
@@ -154,10 +157,10 @@
       <Version>2.3.6</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms">
-      <Version>2.5.1.527436</Version>
+      <Version>3.0.0.446417</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms.Maps">
-      <Version>2.5.1.527436</Version>
+      <Version>3.0.0.446417</Version>
     </PackageReference>
     <PackageReference Include="ZXing.Net.Mobile">
       <Version>2.4.1</Version>
@@ -190,6 +193,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProguardConfiguration Include="proguard_custom.cfg" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <AndroidResource Include="Resources\layout\NativeAndroidListViewCell.axml">
@@ -439,9 +443,6 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <ProguardConfiguration Include="proguard_custom.cfg" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="..\KegID\Assets\validationok.png">
       <Link>Resources\drawable\validationok.png</Link>
     </AndroidResource>
@@ -449,6 +450,11 @@
   <ItemGroup>
     <AndroidResource Include="..\KegID\Assets\collectionscloud.png">
       <Link>Resources\drawable\collectionscloud.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\KegID\Assets\maintenace.png">
+      <Link>Resources\drawable\maintenace.png</Link>
     </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

@@ -195,6 +195,9 @@
     <PackageReference Include="Rg.Plugins.Popup">
       <Version>1.0.4</Version>
     </PackageReference>
+    <PackageReference Include="runtime.win10-arm64.runtime.native.System.IO.Compression">
+      <Version>4.3.1</Version>
+    </PackageReference>
     <PackageReference Include="sqlite-net-pcl">
       <Version>1.5.166-beta</Version>
     </PackageReference>
@@ -220,10 +223,10 @@
       <Version>2.3.6</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms">
-      <Version>2.5.1.527436</Version>
+      <Version>3.0.0.446417</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms.Maps">
-      <Version>2.5.1.527436</Version>
+      <Version>3.0.0.446417</Version>
     </PackageReference>
     <PackageReference Include="ZXing.Net.Mobile">
       <Version>2.4.1</Version>
@@ -457,6 +460,11 @@
   <ItemGroup>
     <BundleResource Include="..\KegID\Assets\collectionscloud.png">
       <Link>Resources\collectionscloud.png</Link>
+    </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\KegID\Assets\maintenace.png">
+      <Link>Resources\maintenace.png</Link>
     </BundleResource>
   </ItemGroup>
 </Project>

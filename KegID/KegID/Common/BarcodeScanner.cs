@@ -185,7 +185,7 @@ namespace KegID.Common
                     TagsStr = _tagsStr,
                     Partners = validateBarcodeModel.Kegs.Partners,
                     Icon = validateBarcodeModel.Kegs.Partners.Count > 1 ? GetIconByPlatform.GetIcon("validationquestion.png") :
-                    validateBarcodeModel.Kegs.Partners.Count == 0 ? GetIconByPlatform.GetIcon("validationerror.png") : GetIconByPlatform.GetIcon("validationok.png"),
+                    validateBarcodeModel.Kegs.Partners.Count == 0 ? GetIconByPlatform.GetIcon("maintenace.png") : GetIconByPlatform.GetIcon("validationok.png"),
                     MaintenanceItems = validateBarcodeModel.Kegs.MaintenanceItems
                 };
 

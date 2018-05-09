@@ -4,18 +4,18 @@ using Xamarin.Forms;
 
 namespace KegID.Droid
 {
-    [BroadcastReceiver]
-    public class BackgroundReceiver : BroadcastReceiver
-    {
-        public override void OnReceive(Context context, Intent intent)
-        {
-            PowerManager pm = (PowerManager)context.GetSystemService(Context.PowerService);
-            PowerManager.WakeLock wakeLock = pm.NewWakeLock(WakeLockFlags.Partial, "BackgroundReceiver");
-            wakeLock.Acquire();
+    //[BroadcastReceiver]
+    //public class BackgroundReceiver : BroadcastReceiver
+    //{
+    //    public override void OnReceive(Context context, Intent intent)
+    //    {
+    //        PowerManager pm = (PowerManager)context.GetSystemService(Context.PowerService);
+    //        PowerManager.WakeLock wakeLock = pm.NewWakeLock(WakeLockFlags.Partial, "BackgroundReceiver");
+    //        wakeLock.Acquire();
 
-            MessagingCenter.Send<object, string>(this, "UpdateLabel", "Hello from Android");
+    //        MessagingCenter.Send<object, string>(this, "UpdateLabel", "Hello from Android");
 
-            wakeLock.Release();
-        }
-    }
+    //        wakeLock.Release();
+    //    }
+    //}
 }
