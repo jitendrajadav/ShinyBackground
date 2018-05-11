@@ -76,7 +76,14 @@ namespace KegID.ViewModel
 
         private async void SearchManifestsCommandRecieverAsync()
         {
-          await Application.Current.MainPage.Navigation.PopModalAsync();
+            try
+            {
+                await Application.Current.MainPage.Navigation.PopModalAsync();
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void ItemTappedCommandRecieverAsync(ManifestSearchResponseModel model)

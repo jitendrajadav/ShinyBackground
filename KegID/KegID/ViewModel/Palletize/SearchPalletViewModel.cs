@@ -3,6 +3,7 @@ using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using KegID.Model;
 using KegID.Views;
+using Microsoft.AppCenter.Crashes;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -241,17 +242,38 @@ namespace KegID.ViewModel
 
         private async void LocationCreatedCommandRecieverAsync()
         {
-          await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView(), animated: false);
+            try
+            {
+                await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView(), animated: false);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void HomeCommandRecieverAsync()
         {
-           await Application.Current.MainPage.Navigation.PopModalAsync();
+            try
+            {
+                await Application.Current.MainPage.Navigation.PopModalAsync();
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
         private async void SearchCommandRecieverAsync()
         {
-            SimpleIoc.Default.GetInstance<PalletSearchedListViewModel>().GetPalletSearchAsync(PartnerModel?.PartnerId,FromDate.ToShortDateString(),ToDate.ToShortDateString(),string.Empty,string.Empty);
-            await Application.Current.MainPage.Navigation.PushModalAsync(new PalletSearchedListView(), animated: false);
+            try
+            {
+                SimpleIoc.Default.GetInstance<PalletSearchedListViewModel>().GetPalletSearchAsync(PartnerModel?.PartnerId, FromDate.ToShortDateString(), ToDate.ToShortDateString(), string.Empty, string.Empty);
+                await Application.Current.MainPage.Navigation.PushModalAsync(new PalletSearchedListView(), animated: false);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         #endregion

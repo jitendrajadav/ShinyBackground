@@ -8,6 +8,7 @@ using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Xamarin.Forms;
+using System;
 
 namespace KegID
 {
@@ -16,6 +17,7 @@ namespace KegID
         public static string CurrentLanguage = "EN";
 
         private static ViewModelLocator _locator;
+        private readonly BackgroundPage _backgroundPage;
 
         public static ViewModelLocator Locator
         {
@@ -50,6 +52,16 @@ namespace KegID
 
             #endregion
 
+            //_backgroundPage = new BackgroundPage();
+
+            //var tabbedPage = new TabbedPage();
+            //tabbedPage.Children.Add(_backgroundPage);
+            //tabbedPage.Children.Add(new LongRunningPage());
+            //tabbedPage.Children.Add(new DownloadPage());
+
+            //MainPage = tabbedPage;
+
+
             if (AppSettings.User != null)
             {
                 MainPage = new MainPage();
@@ -76,17 +88,39 @@ namespace KegID
             // Handle when your app starts
             SQLiteServiceClient.Instance.CreateDbIfNotExist();
             Geolocation.GetGPS();
-           //var value= Geolocation.GetCurrentLocation();
+            //var value= Geolocation.GetCurrentLocation();
+            LoadPersistedValues();
         }
 
         protected override void OnSleep ()
 		{
-			// Handle when your app sleeps
-		}
+            // Handle when your app sleeps
+            Current.Properties["SleepDate"] = DateTime.Now.ToString("O");
+            Current.Properties["FirstName"] = _backgroundPage.FirstName;
+        }
 
-		protected override void OnResume ()
+        protected override void OnResume ()
 		{
-			// Handle when your app resumes
-		}
-	}
+            // Handle when your app resumes
+            LoadPersistedValues();
+        }
+
+        private void LoadPersistedValues()
+        {
+            if (Current.Properties.ContainsKey("SleepDate"))
+            {
+                var value = (string)Current.Properties["SleepDate"];
+                if (DateTime.TryParse(value, out DateTime sleepDate))
+                {
+                    _backgroundPage.SleepDate = sleepDate;
+                }
+            }
+
+            if (Current.Properties.ContainsKey("FirstName"))
+            {
+                var firstName = (string)Current.Properties["FirstName"];
+                _backgroundPage.FirstName = firstName;
+            }
+        }
+    }
 }

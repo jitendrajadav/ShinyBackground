@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using KegID.Model;
+using Microsoft.AppCenter.Crashes;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -303,36 +304,50 @@ namespace KegID.ViewModel
         #region Methods
         private async void DoneCommandRecieverAsync()
         {
-            Address address = new Address()
+            try
             {
-                Line1 = Line1,
-                Line2 = Line2,
-                Line3 = Line3,
-                City = City,
-                State = State,
-                PostalCode = PostalCode,
-                Country = Country
-            };
+                Address address = new Address()
+                {
+                    Line1 = Line1,
+                    Line2 = Line2,
+                    Line3 = Line3,
+                    City = City,
+                    State = State,
+                    PostalCode = PostalCode,
+                    Country = Country
+                };
 
-            if (AddressTitle.Contains("Shipping"))
-                SimpleIoc.Default.GetInstance<AddPartnerViewModel>().ShipAddress = address;
-            else
-                SimpleIoc.Default.GetInstance<AddPartnerViewModel>().BillAddress = address;
+                if (AddressTitle.Contains("Shipping"))
+                    SimpleIoc.Default.GetInstance<AddPartnerViewModel>().ShipAddress = address;
+                else
+                    SimpleIoc.Default.GetInstance<AddPartnerViewModel>().BillAddress = address;
 
-            await Application.Current.MainPage.Navigation.PopModalAsync();
+                await Application.Current.MainPage.Navigation.PopModalAsync();
 
-            CleanupData();
+                CleanupData();
+            }
+            catch (System.Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private void CleanupData()
         {
-            Line1 = default(string);
-            Line2 = default(string);
-            Line3 = default(string);
-            City = default(string); 
-            State = default(string);
-            PostalCode = default(string);
-            Country = default(string);
+            try
+            {
+                Line1 = default(string);
+                Line2 = default(string);
+                Line3 = default(string);
+                City = default(string);
+                State = default(string);
+                PostalCode = default(string);
+                Country = default(string);
+            }
+            catch (System.Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void BackCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PopModalAsync();

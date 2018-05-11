@@ -6,6 +6,7 @@ using KegID.Common;
 using KegID.Model;
 using KegID.Services;
 using KegID.Views;
+using Microsoft.AppCenter.Crashes;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -107,21 +108,42 @@ namespace KegID.ViewModel
 
         private async void PartnerInfoCommandRecieverAsync()
         {
-           await Application.Current.MainPage.Navigation.PopModalAsync();
+            try
+            {
+                await Application.Current.MainPage.Navigation.PopModalAsync();
+            }
+            catch (System.Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void ItemTappedCommandRecieverAsync(KegPossessionResponseModel model)
         {
-            //SimpleIoc.Default.GetInstance<KegStatusViewModel>().KegStatusModel = model;
-            await Application.Current.MainPage.Navigation.PushModalAsync(new KegStatusView(), animated: false);
-            await SimpleIoc.Default.GetInstance<KegStatusViewModel>().LoadMaintenanceHistoryAsync(model.KegId,model.Contents,model.HeldDays,model.PossessorName,model.Barcode,model.TypeName,model.SizeName);
+            try
+            {
+                //SimpleIoc.Default.GetInstance<KegStatusViewModel>().KegStatusModel = model;
+                await Application.Current.MainPage.Navigation.PushModalAsync(new KegStatusView(), animated: false);
+                await SimpleIoc.Default.GetInstance<KegStatusViewModel>().LoadMaintenanceHistoryAsync(model.KegId, model.Contents, model.HeldDays, model.PossessorName, model.Barcode, model.TypeName, model.SizeName);
+            }
+            catch (System.Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void LoadKegPossessionAsync()
         {
-            var value = await _dashboardService.GetKegPossessionAsync(AppSettings.User.SessionId, SimpleIoc.Default.GetInstance<DashboardPartnersViewModel>().PartnerId);
-            KegPossessionCollection = value.KegPossessionResponseModel;
-            KegsTitle = KegPossessionCollection.FirstOrDefault().PossessorName;
+            try
+            {
+                var value = await _dashboardService.GetKegPossessionAsync(AppSettings.User.SessionId, SimpleIoc.Default.GetInstance<DashboardPartnersViewModel>().PartnerId);
+                KegPossessionCollection = value.KegPossessionResponseModel;
+                KegsTitle = KegPossessionCollection.FirstOrDefault().PossessorName;
+            }
+            catch (System.Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         #endregion

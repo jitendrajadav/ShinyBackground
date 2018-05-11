@@ -7,7 +7,6 @@ using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -171,7 +170,7 @@ namespace KegID.Common
             await Application.Current.MainPage.Navigation.PushModalAsync(scanPage, animated: false);
         }
 
-        public static async Task<Barcode> ValidateBarcodeInsertIntoLocalDB(IMoveService _moveService,string _barcodeId, List<Tag> _tags, string _tagsStr)
+        public static async Task<Barcode> ValidateBarcodeInsertIntoLocalDB(IMoveService _moveService, string _barcodeId, List<Tag> _tags, string _tagsStr)
         {
             ValidateBarcodeModel validateBarcodeModel = await _moveService.GetValidateBarcodeAsync(AppSettings.User.SessionId, _barcodeId);
             Barcode barcode = null;
@@ -185,7 +184,7 @@ namespace KegID.Common
                     TagsStr = _tagsStr,
                     Partners = validateBarcodeModel.Kegs.Partners,
                     Icon = validateBarcodeModel.Kegs.Partners.Count > 1 ? GetIconByPlatform.GetIcon("validationquestion.png") :
-                    validateBarcodeModel.Kegs.Partners.Count == 0 ? GetIconByPlatform.GetIcon("maintenace.png") : GetIconByPlatform.GetIcon("validationok.png"),
+                    validateBarcodeModel.Kegs.Partners.Count == 0 ? GetIconByPlatform.GetIcon("validationerror.png") : GetIconByPlatform.GetIcon("validationok.png"),
                     MaintenanceItems = validateBarcodeModel.Kegs.MaintenanceItems
                 };
 
@@ -201,8 +200,8 @@ namespace KegID.Common
                 }
                 catch (Exception ex)
                 {
-                     Crashes.TrackError(ex);
-                } 
+                    Crashes.TrackError(ex);
+                }
             }
 
             return barcode;

@@ -402,20 +402,35 @@ namespace KegID.ViewModel
 
         private void KegsHeldCommandReciever()
         {
-            InitialSetting();
-            PartnerCollection = new ObservableCollection<PossessorResponseModel>(AllPartners.OrderByDescending(x => x.KegsHeld));
+            try
+            {
+                InitialSetting();
+                PartnerCollection = new ObservableCollection<PossessorResponseModel>(AllPartners.OrderByDescending(x => x.KegsHeld));
+
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private void InitialSetting()
         {
-            KegsHeldBackgroundColor = "#4E6388";
-            KegsHeldTextColor = "White";
+            try
+            {
+                KegsHeldBackgroundColor = "#4E6388";
+                KegsHeldTextColor = "White";
 
-            AlphabeticalBackgroundColor = "White";
-            AlphabeticalTextColor = "#4E6388";
+                AlphabeticalBackgroundColor = "White";
+                AlphabeticalTextColor = "#4E6388";
 
-            InternalBackgroundColor = "White";
-            InternalTextColor = "#4E6388";
+                InternalBackgroundColor = "White";
+                InternalTextColor = "#4E6388";
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private void TextChangedCommandRecieverAsync()
@@ -433,48 +448,76 @@ namespace KegID.ViewModel
 
         private async void ItemTappedCommandRecieverAsync(PossessorResponseModel model)
         {
-            if (model != null)
+            try
             {
-                PartnerId = model.Location.PartnerId;
-                SimpleIoc.Default.GetInstance<PartnerInfoViewModel>().PartnerModel = model.Location;
-                await Application.Current.MainPage.Navigation.PushModalAsync(new PartnerInfoView(), animated: false);
-                Cleanup();
+                if (model != null)
+                {
+                    PartnerId = model.Location.PartnerId;
+                    SimpleIoc.Default.GetInstance<PartnerInfoViewModel>().PartnerModel = model.Location;
+                    await Application.Current.MainPage.Navigation.PushModalAsync(new PartnerInfoView(), animated: false);
+                    Cleanup();
+                }
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
             }
         }
 
         private void AlphabeticalCommandReciever()
         {
-            PartnerCollection = new ObservableCollection<PossessorResponseModel>(AllPartners.OrderBy(x => x.Location.FullName));
+            try
+            {
+                PartnerCollection = new ObservableCollection<PossessorResponseModel>(AllPartners.OrderBy(x => x.Location.FullName));
 
-            AlphabeticalBackgroundColor = "#4E6388";
-            AlphabeticalTextColor = "White";
+                AlphabeticalBackgroundColor = "#4E6388";
+                AlphabeticalTextColor = "White";
 
-            InternalBackgroundColor = "White";
-            InternalTextColor = "#4E6388";
+                InternalBackgroundColor = "White";
+                InternalTextColor = "#4E6388";
 
-            KegsHeldBackgroundColor = "White";
-            KegsHeldTextColor = "#4E6388";
+                KegsHeldBackgroundColor = "White";
+                KegsHeldTextColor = "#4E6388";
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private void InternalCommandReciever()
         {
-            PartnerCollection = new ObservableCollection<PossessorResponseModel>(AllPartners);
+            try
+            {
+                PartnerCollection = new ObservableCollection<PossessorResponseModel>(AllPartners);
 
-            InternalBackgroundColor = "#4E6388";
-            InternalTextColor = "White";
+                InternalBackgroundColor = "#4E6388";
+                InternalTextColor = "White";
 
-            AlphabeticalBackgroundColor = "White";
-            AlphabeticalTextColor = "#4E6388";
+                AlphabeticalBackgroundColor = "White";
+                AlphabeticalTextColor = "#4E6388";
 
-            KegsHeldBackgroundColor = "White";
-            KegsHeldTextColor = "#4E6388";
+                KegsHeldBackgroundColor = "White";
+                KegsHeldTextColor = "#4E6388";
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void BackCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PopModalAsync();
 
         private async void AddNewPartnerCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new AddPartnerView(), animated: false);
+            try
+            {
+                await Application.Current.MainPage.Navigation.PushModalAsync(new AddPartnerView(), animated: false);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         public override void Cleanup()

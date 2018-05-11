@@ -45,7 +45,14 @@ namespace KegID.ViewModel
 
         private void RefreshSettingCommandRecieverAsync()
         {
-            SimpleIoc.Default.GetInstance<DashboardViewModel>().RefreshDashboardRecieverAsync(true);
+            try
+            {
+                SimpleIoc.Default.GetInstance<DashboardViewModel>().RefreshDashboardRecieverAsync(true);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void LogOutSettingCommandRecieverAsync()
@@ -75,24 +82,45 @@ namespace KegID.ViewModel
 
         private async void PrinterSettingCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PopPopupAsync();
-            await Application.Current.MainPage.Navigation.PushModalAsync(new PrinterSettingView(), animated: false);
+            try
+            {
+                await Application.Current.MainPage.Navigation.PopPopupAsync();
+                await Application.Current.MainPage.Navigation.PushModalAsync(new PrinterSettingView(), animated: false);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void WhatsNewCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PopPopupAsync();
-            await Application.Current.MainPage.Navigation.PushModalAsync(new WhatIsNewView(), animated: false);
+            try
+            {
+                await Application.Current.MainPage.Navigation.PopPopupAsync();
+                await Application.Current.MainPage.Navigation.PushModalAsync(new WhatIsNewView(), animated: false);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void SupportCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PopPopupAsync();
-            // You can remove the switch to UI Thread if you are already in the UI Thread.
-            Device.BeginInvokeOnMainThread(() =>
+            try
             {
-                Device.OpenUri(new Uri("https://www.slg.com/"));
-            });
+                await Application.Current.MainPage.Navigation.PopPopupAsync();
+                // You can remove the switch to UI Thread if you are already in the UI Thread.
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    Device.OpenUri(new Uri("https://www.slg.com/"));
+                });
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         #endregion

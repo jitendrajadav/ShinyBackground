@@ -187,13 +187,27 @@ namespace KegID.ViewModel
 
         private async void ItemTappedCommandRecieverAsync(PalletModel model)
         {
-            SimpleIoc.Default.GetInstance<FillScanViewModel>().GenerateManifestIdAsync(model);
-            await Application.Current.MainPage.Navigation.PushModalAsync(new FillScanView(), animated: false);
+            try
+            {
+                SimpleIoc.Default.GetInstance<FillScanViewModel>().GenerateManifestIdAsync(model);
+                await Application.Current.MainPage.Navigation.PushModalAsync(new FillScanView(), animated: false);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void FillKegsCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PopModalAsync();
+            try
+            {
+                await Application.Current.MainPage.Navigation.PopModalAsync();
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         public async void SubmitCommandRecieverAsync()
@@ -312,55 +326,84 @@ namespace KegID.ViewModel
 
         private async void FillScanCommandRecieverAsync()
         {
-            SimpleIoc.Default.GetInstance<FillScanViewModel>().GenerateManifestIdAsync(null);
-            await Application.Current.MainPage.Navigation.PushModalAsync(new FillScanView(), animated: false);
+            try
+            {
+                SimpleIoc.Default.GetInstance<FillScanViewModel>().GenerateManifestIdAsync(null);
+                await Application.Current.MainPage.Navigation.PushModalAsync(new FillScanView(), animated: false);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         internal async Task AssignValueToAddPalletAsync(string manifestId, IList<Barcode> barcodes)
         {
-            if (!PalletCollection.Any(x => x.ManifestId == manifestId))
+            try
             {
-                PalletCollection.Add(new PalletModel() { Barcode = barcodes, Count = barcodes.Count(), ManifestId = manifestId });
 
-                if (PalletCollection.Sum(x => x.Count) > 1)
-                    Kegs = string.Format("({0} Kegs)", PalletCollection.Sum(x => x.Count));
+                if (!PalletCollection.Any(x => x.ManifestId == manifestId))
+                {
+                    PalletCollection.Add(new PalletModel() { Barcode = barcodes, Count = barcodes.Count(), ManifestId = manifestId });
+
+                    if (PalletCollection.Sum(x => x.Count) > 1)
+                        Kegs = string.Format("({0} Kegs)", PalletCollection.Sum(x => x.Count));
+                    else
+                        Kegs = string.Format("({0} Keg)", PalletCollection.Sum(x => x.Count));
+                }
                 else
-                    Kegs = string.Format("({0} Keg)", PalletCollection.Sum(x => x.Count));
+                {
+                    PalletCollection.Where(x => x.ManifestId == manifestId).FirstOrDefault().Barcode = barcodes;
+                    PalletCollection.Where(x => x.ManifestId == manifestId).FirstOrDefault().Count = barcodes.Count;
+
+                    if (PalletCollection.Sum(x => x.Count) > 1)
+                        Kegs = string.Format("({0} Kegs)", PalletCollection.Sum(x => x.Count));
+                    else
+                        Kegs = string.Format("({0} Keg)", PalletCollection.Sum(x => x.Count));
+                }
+                await Application.Current.MainPage.Navigation.PopModalAsync();
             }
-            else
+            catch (Exception ex)
             {
-                PalletCollection.Where(x => x.ManifestId == manifestId).FirstOrDefault().Barcode = barcodes;
-                PalletCollection.Where(x => x.ManifestId == manifestId).FirstOrDefault().Count = barcodes.Count;
-
-                if (PalletCollection.Sum(x => x.Count) > 1)
-                    Kegs = string.Format("({0} Kegs)", PalletCollection.Sum(x => x.Count));
-                else
-                    Kegs = string.Format("({0} Keg)", PalletCollection.Sum(x => x.Count));
+                Crashes.TrackError(ex);
             }
-            await Application.Current.MainPage.Navigation.PopModalAsync();
         }
 
         internal void AssignFillScanValue(IList<Barcode> _barcodes, string _manifest)
         {
-            PalletCollection.Add(new PalletModel()
+            try
             {
-                Barcode = _barcodes,
-                Count = _barcodes.Count(),
-                ManifestId = _manifest
-            });
+                PalletCollection.Add(new PalletModel()
+                {
+                    Barcode = _barcodes,
+                    Count = _barcodes.Count(),
+                    ManifestId = _manifest
+                });
 
-            if (PalletCollection.Sum(x => x.Count) > 1)
-                Kegs = string.Format("({0} Kegs)", PalletCollection.Sum(x => x.Count));
-            else
-                Kegs = string.Format("({0} Keg)", PalletCollection.Sum(x => x.Count));
+                if (PalletCollection.Sum(x => x.Count) > 1)
+                    Kegs = string.Format("({0} Kegs)", PalletCollection.Sum(x => x.Count));
+                else
+                    Kegs = string.Format("({0} Keg)", PalletCollection.Sum(x => x.Count));
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         public override void Cleanup()
         {
-            base.Cleanup();
-            PalletCollection.Clear();
-            Kegs = default(string);
-            SimpleIoc.Default.GetInstance<FillScanViewModel>().Cleanup();
+            try
+            {
+                base.Cleanup();
+                PalletCollection.Clear();
+                Kegs = default(string);
+                SimpleIoc.Default.GetInstance<FillScanViewModel>().Cleanup();
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         #endregion

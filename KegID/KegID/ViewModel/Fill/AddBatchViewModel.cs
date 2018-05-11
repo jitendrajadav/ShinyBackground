@@ -3,6 +3,7 @@ using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
 using KegID.Model;
 using KegID.Views;
+using Microsoft.AppCenter.Crashes;
 using System;
 using System.Collections.Generic;
 using Xamarin.Forms;
@@ -451,54 +452,96 @@ namespace KegID.ViewModel
 
         private async void VolumeCharCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new VolumeView(), animated: false);
+            try
+            {
+                await Application.Current.MainPage.Navigation.PushModalAsync(new VolumeView(), animated: false);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void BrandCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new BrandView(), animated: false);
+            try
+            {
+                await Application.Current.MainPage.Navigation.PushModalAsync(new BrandView(), animated: false);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void DoneCommandRecieverAsync()
         {
-            NewBatchModel.Tags = Tags;
-            NewBatchModel.Abv = AlcoholContent;
-            NewBatchModel.BatchCode = BatchCode;
-            NewBatchModel.BatchId = Uuid.GetUuId();
-            NewBatchModel.BestBeforeDate = BestByDate.ToShortDateString();
-            NewBatchModel.BrandName = BrandButtonTitle;
-            NewBatchModel.BrewDate = BrewDate.ToShortDateString();
-            NewBatchModel.BrewedVolume = VolumeDigit;
-            NewBatchModel.BrewedVolumeUom = VolumeChar;
-            NewBatchModel.CompanyId = AppSettings.User.CompanyId;
-            NewBatchModel.CompletedDate = DateTime.Today.ToString();
-            NewBatchModel.IsCompleted = true;
-            NewBatchModel.PackageDate = PackageDate.ToString();
-            NewBatchModel.PackagedVolume = 12;
-            NewBatchModel.PackagedVolumeUom = "";
-            NewBatchModel.RecipeId = AppSettings.User.CompanyId;
-            NewBatchModel.SourceKey = "";
+            try
+            {
+                NewBatchModel.Tags = Tags;
+                NewBatchModel.Abv = AlcoholContent;
+                NewBatchModel.BatchCode = BatchCode;
+                NewBatchModel.BatchId = Uuid.GetUuId();
+                NewBatchModel.BestBeforeDate = BestByDate.ToShortDateString();
+                NewBatchModel.BrandName = BrandButtonTitle;
+                NewBatchModel.BrewDate = BrewDate.ToShortDateString();
+                NewBatchModel.BrewedVolume = VolumeDigit;
+                NewBatchModel.BrewedVolumeUom = VolumeChar;
+                NewBatchModel.CompanyId = AppSettings.User.CompanyId;
+                NewBatchModel.CompletedDate = DateTime.Today.ToString();
+                NewBatchModel.IsCompleted = true;
+                NewBatchModel.PackageDate = PackageDate.ToString();
+                NewBatchModel.PackagedVolume = 12;
+                NewBatchModel.PackagedVolumeUom = "";
+                NewBatchModel.RecipeId = AppSettings.User.CompanyId;
+                NewBatchModel.SourceKey = "";
 
-            //var result = await _fillService.PostBatchAsync(batchRequestModel, Configuration.SessionId, Configuration.NewBatch);
-            SimpleIoc.Default.GetInstance<FillViewModel>().BatchButtonTitle = BrandButtonTitle + BatchCode;
-            await Application.Current.MainPage.Navigation.PopModalAsync();
-            await Application.Current.MainPage.Navigation.PopModalAsync();
+                //var result = await _fillService.PostBatchAsync(batchRequestModel, Configuration.SessionId, Configuration.NewBatch);
+                SimpleIoc.Default.GetInstance<FillViewModel>().BatchButtonTitle = BrandButtonTitle + BatchCode;
+                await Application.Current.MainPage.Navigation.PopModalAsync();
+                await Application.Current.MainPage.Navigation.PopModalAsync();
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void CancelCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PopModalAsync();
+            try
+            {
+                await Application.Current.MainPage.Navigation.PopModalAsync();
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void AddTagsCommandRecieverAsync()
         {
-           await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView(), animated: false);
+            try
+            {
+                await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView(), animated: false);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         internal void AssignAddTagsValue(List<Tag> _tags, string _tagsStr)
         {
-            Tags = _tags;
-            TagsStr = _tagsStr;
+            try
+            {
+                Tags = _tags;
+                TagsStr = _tagsStr;
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         #endregion

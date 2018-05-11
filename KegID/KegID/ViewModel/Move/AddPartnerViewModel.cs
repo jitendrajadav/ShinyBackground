@@ -904,22 +904,43 @@ namespace KegID.ViewModel
 
         private async void BillingAddressCommandRecieverAsync()
         {
-            SimpleIoc.Default.GetInstance<EditAddressViewModel>().AddressTitle = "Billing Address";
-            await Application.Current.MainPage.Navigation.PushModalAsync(new EditAddressView(), animated: false);
+            try
+            {
+                SimpleIoc.Default.GetInstance<EditAddressViewModel>().AddressTitle = "Billing Address";
+                await Application.Current.MainPage.Navigation.PushModalAsync(new EditAddressView(), animated: false);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void ShippingAddressCommandRecieverAsync()
         {
-            SimpleIoc.Default.GetInstance<EditAddressViewModel>().AddressTitle = "Shipping Address";
-            await Application.Current.MainPage.Navigation.PushModalAsync(new EditAddressView(), animated: false);
+            try
+            {
+                SimpleIoc.Default.GetInstance<EditAddressViewModel>().AddressTitle = "Shipping Address";
+                await Application.Current.MainPage.Navigation.PushModalAsync(new EditAddressView(), animated: false);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void CalcelCommandRecieverAsync()
         {
-           var result = await Application.Current.MainPage.DisplayAlert("Cancel?","Are you sure you want to cancel?","Stay here","Leave");
-            if (!result)
+            try
             {
-                await Application.Current.MainPage.Navigation.PopModalAsync(); 
+                var result = await Application.Current.MainPage.DisplayAlert("Cancel?", "Are you sure you want to cancel?", "Stay here", "Leave");
+                if (!result)
+                {
+                    await Application.Current.MainPage.Navigation.PopModalAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
             }
         }
 

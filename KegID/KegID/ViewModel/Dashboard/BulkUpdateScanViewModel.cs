@@ -5,6 +5,7 @@ using KegID.Model;
 using KegID.Services;
 using KegID.SQLiteClient;
 using KegID.Views;
+using Microsoft.AppCenter.Crashes;
 using Rg.Plugins.Popup.Extensions;
 using System;
 using System.Collections.Generic;
@@ -330,141 +331,220 @@ namespace KegID.ViewModel
 
         private async void LoadAssetSizeAsync()
         {
-            var value = await SQLiteServiceClient.Db.Table<AssetSizeModel>().ToListAsync();
-            SizeCollection = value.Select(x => x.AssetSize).ToList();
+            try
+            {
+                var value = await SQLiteServiceClient.Db.Table<AssetSizeModel>().ToListAsync();
+                SizeCollection = value.Select(x => x.AssetSize).ToList();
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void LoadAssetTypeAsync()
         {
-            var value = await SQLiteServiceClient.Db.Table<AssetTypeModel>().ToListAsync();
-            AssetTypeCollection = value.Select(x=>x.AssetType).ToList();
+            try
+            {
+                var value = await SQLiteServiceClient.Db.Table<AssetTypeModel>().ToListAsync();
+                AssetTypeCollection = value.Select(x => x.AssetType).ToList();
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void IconItemTappedCommandRecieverAsync(Barcode model)
         {
-            if (model.Partners.Count > 1)
+            try
             {
-                List<Barcode> modelList = new List<Barcode>
+                if (model.Partners.Count > 1)
+                {
+                    List<Barcode> modelList = new List<Barcode>
                     {
                         model
                     };
-                await NavigateToValidatePartner(modelList);
+                    await NavigateToValidatePartner(modelList);
+                }
+                else
+                {
+                    await Application.Current.MainPage.Navigation.PushModalAsync(new ScanInfoView(), animated: false);
+                    SimpleIoc.Default.GetInstance<ScanInfoViewModel>().AssignInitialValue(model);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                await Application.Current.MainPage.Navigation.PushModalAsync(new ScanInfoView(), animated: false);
-                SimpleIoc.Default.GetInstance<ScanInfoViewModel>().AssignInitialValue(model);
+                Crashes.TrackError(ex);
             }
         }
 
         private async void LabelItemTappedCommandRecieverAsync(Barcode model)
         {
-            if (model.Partners.Count > 1)
+            try
             {
-                List<Barcode> modelList = new List<Barcode>
+                if (model.Partners.Count > 1)
+                {
+                    List<Barcode> modelList = new List<Barcode>
                     {
                         model
                     };
-                await NavigateToValidatePartner(modelList);
+                    await NavigateToValidatePartner(modelList);
+                }
+                else
+                {
+                    //IsFromScanned = true;
+                    await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView(), animated: false);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                //IsFromScanned = true;
-                await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView(), animated: false);
+                Crashes.TrackError(ex);
             }
         }
 
         private static async Task NavigateToValidatePartner(List<Barcode> model)
         {
-            await Application.Current.MainPage.Navigation.PushPopupAsync(new ValidateBarcodeView());
-            await SimpleIoc.Default.GetInstance<ValidateBarcodeViewModel>().LoadBarcodeValue(model);
+            try
+            {
+                await Application.Current.MainPage.Navigation.PushPopupAsync(new ValidateBarcodeView());
+                await SimpleIoc.Default.GetInstance<ValidateBarcodeViewModel>().LoadBarcodeValue(model);
+
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void AddTagsCommandRecieverAsync()
         {
-           await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView(), animated: false);
+            try
+            {
+                await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView(), animated: false);
+
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void BarcodeManualCommandRecieverAsync()
         {
-            var isNew = BarcodeCollection.ToList().Any(x => x.Id == ManaulBarcode);
-            if (!isNew)
+            try
             {
-                var barcodes = await BarcodeScanner.ValidateBarcodeInsertIntoLocalDB(_moveService, ManaulBarcode, Tags, TagsStr);
-                ManaulBarcode = string.Empty;
-                BarcodeCollection.Add(barcodes);
+                var isNew = BarcodeCollection.ToList().Any(x => x.Id == ManaulBarcode);
+                if (!isNew)
+                {
+                    var barcodes = await BarcodeScanner.ValidateBarcodeInsertIntoLocalDB(_moveService, ManaulBarcode, Tags, TagsStr);
+                    ManaulBarcode = string.Empty;
+                    BarcodeCollection.Add(barcodes);
+                }
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
             }
         }
 
         private async void BarcodeScanCommandRecieverAsync()
         {
-           await BarcodeScanner.BarcodeScanAsync(_moveService,Tags,TagsStr);
+            try
+            {
+                await BarcodeScanner.BarcodeScanAsync(_moveService, Tags, TagsStr);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void SaveCommandRecieverAsync()
         {
-            if (BarcodeCollection.Count > 0)
+            try
             {
-                var model = new KegBulkUpdateItemRequestModel();
-                var MassUpdateKegKegs = new List<MassUpdateKeg>();
-                MassUpdateKeg MassUpdateKeg = null;
-                var val = await _dashboardService.GetAssetVolumeAsync(AppSettings.User.SessionId, false);
-                foreach (var item in BarcodeCollection)
+                if (BarcodeCollection.Count > 0)
                 {
-                    MassUpdateKeg = new MassUpdateKeg
+                    var model = new KegBulkUpdateItemRequestModel();
+                    var MassUpdateKegKegs = new List<MassUpdateKeg>();
+                    MassUpdateKeg MassUpdateKeg = null;
+                    var val = await _dashboardService.GetAssetVolumeAsync(AppSettings.User.SessionId, false);
+                    foreach (var item in BarcodeCollection)
                     {
-                        //AssetProfile = "",
-                        //Colors = "",
-                        //Coupling = "",
-                        //FixedContents = "",
-                        //LeasingCompany = "",
-                        //Location = "",
-                        //LocationDate = DateTime.Now.ToShortDateString(),
-                        //ManufactureDate = DateTime.Now.ToShortDateString(),
-                        //ManufactureLocation = "",
-                        //Manufacturer = "",
-                        //Markings = "",
-                        //Material = "",
-                        //Measure = "",
-                        //OwnerName = "",
-                        //PurchaseDate = DateTime.Now.ToShortDateString(),
-                        //PurchaseOrder = "",
-                        //PurchasePrice = "",
-                        //SkuCode = "",
-                        //Volume = item.Tags?.FirstOrDefault().Value
-                        AssetSize = SelectedItemSize,
-                        AssetType = SelectedItemType,
-                        Barcode = item.Id,
-                        Tags = item.Tags,
-                        AssetVolume = item.Tags?.FirstOrDefault().Value,
-                        KegId = Uuid.GetUuId(),
-                        OwnerId = AppSettings.User.CompanyId,
-                        OwnerSkuId = "",
-                        ProfileId = "",
-                    };
+                        MassUpdateKeg = new MassUpdateKeg
+                        {
+                            //AssetProfile = "",
+                            //Colors = "",
+                            //Coupling = "",
+                            //FixedContents = "",
+                            //LeasingCompany = "",
+                            //Location = "",
+                            //LocationDate = DateTime.Now.ToShortDateString(),
+                            //ManufactureDate = DateTime.Now.ToShortDateString(),
+                            //ManufactureLocation = "",
+                            //Manufacturer = "",
+                            //Markings = "",
+                            //Material = "",
+                            //Measure = "",
+                            //OwnerName = "",
+                            //PurchaseDate = DateTime.Now.ToShortDateString(),
+                            //PurchaseOrder = "",
+                            //PurchasePrice = "",
+                            //SkuCode = "",
+                            //Volume = item.Tags?.FirstOrDefault().Value
+                            AssetSize = SelectedItemSize,
+                            AssetType = SelectedItemType,
+                            Barcode = item.Id,
+                            Tags = item.Tags,
+                            AssetVolume = item.Tags?.FirstOrDefault().Value,
+                            KegId = Uuid.GetUuId(),
+                            OwnerId = AppSettings.User.CompanyId,
+                            OwnerSkuId = "",
+                            ProfileId = "",
+                        };
 
-                    MassUpdateKegKegs.Add(MassUpdateKeg);
+                        MassUpdateKegKegs.Add(MassUpdateKeg);
+                    }
+                    model.Kegs = MassUpdateKegKegs;
+
+                    var value = await _dashboardService.PostKegUploadAsync(model, AppSettings.User.SessionId, Configuration.MassUpdateKegList);
+                    if (value.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        await Application.Current.MainPage.Navigation.PopModalAsync();
+                        SimpleIoc.Default.GetInstance<KegSearchViewModel>().AssingSuccessMsgAsync();
+                    }
                 }
-                model.Kegs = MassUpdateKegKegs;
-
-                var value = await _dashboardService.PostKegUploadAsync(model, AppSettings.User.SessionId, Configuration.MassUpdateKegList);
-                if (value.StatusCode == System.Net.HttpStatusCode.OK)
-                {
-                    await Application.Current.MainPage.Navigation.PopModalAsync();
-                    SimpleIoc.Default.GetInstance<KegSearchViewModel>().AssingSuccessMsgAsync();
-                } 
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
             }
         }
 
         private async void CancelCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PopModalAsync();
+            try
+            {
+                await Application.Current.MainPage.Navigation.PopModalAsync();
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         internal void AssignAddTagsValue(List<Tag> _tags, string _tagsStr)
         {
-            Tags = _tags;
-            TagsStr = _tagsStr;
+            try
+            {
+                Tags = _tags;
+                TagsStr = _tagsStr;
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         #endregion

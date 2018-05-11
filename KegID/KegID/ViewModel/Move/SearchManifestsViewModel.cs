@@ -4,6 +4,7 @@ using KegID.Common;
 using KegID.Model;
 using KegID.Services;
 using KegID.Views;
+using Microsoft.AppCenter.Crashes;
 using System;
 using System.Globalization;
 using Xamarin.Forms;
@@ -285,33 +286,61 @@ namespace KegID.ViewModel
 
         private async void SearchCommandRecieverAsync()
         {
-            var value = await _moveService.GetManifestSearchAsync(AppSettings.User.SessionId, TrackingNumber, Barcode, ManifestSender, ManifestDestination, Referencekey, FromDate.ToString("MM/dd/yyyy", CultureInfo.CreateSpecificCulture("en-US")), ToDate.ToString("MM/dd/yyyy", CultureInfo.CreateSpecificCulture("en-US")));
-            SimpleIoc.Default.GetInstance<SearchedManifestsListViewModel>().SearchManifestsCollection = value.ManifestSearchResponseModel;
-            await Application.Current.MainPage.Navigation.PushModalAsync(new SearchedManifestsListView(), animated: false);
+            try
+            {
+                var value = await _moveService.GetManifestSearchAsync(AppSettings.User.SessionId, TrackingNumber, Barcode, ManifestSender, ManifestDestination, Referencekey, FromDate.ToString("MM/dd/yyyy", CultureInfo.CreateSpecificCulture("en-US")), ToDate.ToString("MM/dd/yyyy", CultureInfo.CreateSpecificCulture("en-US")));
+                SimpleIoc.Default.GetInstance<SearchedManifestsListViewModel>().SearchManifestsCollection = value.ManifestSearchResponseModel;
+                await Application.Current.MainPage.Navigation.PushModalAsync(new SearchedManifestsListView(), animated: false);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void ManifestDestinationCommandRecieverAsync()
         {
-            IsManifestDestination = true;
-            await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView(), animated: false);
+            try
+            {
+                IsManifestDestination = true;
+                await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView(), animated: false);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void ManifestSenderCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView(), animated: false);
+            try
+            {
+                await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView(), animated: false);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void ManifestsCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PopModalAsync();
 
         internal void AssignPartnerValue(PartnerModel model)
         {
-            if (IsManifestDestination)
+            try
             {
-                IsManifestDestination = false;
-                ManifestDestination = model.FullName;
+                if (IsManifestDestination)
+                {
+                    IsManifestDestination = false;
+                    ManifestDestination = model.FullName;
+                }
+                else
+                    ManifestSender = model.FullName;
             }
-            else
-                ManifestSender = model.FullName;
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         #endregion

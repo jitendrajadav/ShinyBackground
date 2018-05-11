@@ -112,50 +112,64 @@ namespace KegID.ViewModel
 
         private async void ItemTappedCommandRecieverAsync(Partner model)
         {
-            switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack.LastOrDefault().GetType().Name))
-            {
-                case ViewTypeEnum.ScanKegsView:
-                    SimpleIoc.Default.GetInstance<ScanKegsViewModel>().AssignValidatedValueAsync(model);
-                    break;
-
-                case ViewTypeEnum.FillScanView:
-                    SimpleIoc.Default.GetInstance<FillScanViewModel>().AssignValidatedValue(model);
-                    break;
-
-                case ViewTypeEnum.MaintainScanView:
-                    SimpleIoc.Default.GetInstance<MaintainScanViewModel>().AssignValidatedValue(model);
-                    break;
-            }
-
-            Models.RemoveAt(0);
-
-            if (Models.Count == 0)
+            try
             {
                 switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack.LastOrDefault().GetType().Name))
                 {
-                    //case ViewTypeEnum.ScanKegsView:
-                    //    await Application.Current.MainPage.Navigation.PopPopupAsync();
-                    //    await Application.Current.MainPage.Navigation.PopModalAsync();
-                    //    break;
+                    case ViewTypeEnum.ScanKegsView:
+                        SimpleIoc.Default.GetInstance<ScanKegsViewModel>().AssignValidatedValueAsync(model);
+                        break;
 
                     case ViewTypeEnum.FillScanView:
-                        SimpleIoc.Default.GetInstance<FillScanViewModel>().AssignValidateBarcodeValueAsync();
+                        SimpleIoc.Default.GetInstance<FillScanViewModel>().AssignValidatedValue(model);
                         break;
 
                     case ViewTypeEnum.MaintainScanView:
-                        await Application.Current.MainPage.Navigation.PopPopupAsync();
-                        SimpleIoc.Default.GetInstance<MaintainScanViewModel>().SubmitCommandRecieverAsync();
+                        SimpleIoc.Default.GetInstance<MaintainScanViewModel>().AssignValidatedValue(model);
                         break;
                 }
+
+                Models.RemoveAt(0);
+
+                if (Models.Count == 0)
+                {
+                    switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack.LastOrDefault().GetType().Name))
+                    {
+                        //case ViewTypeEnum.ScanKegsView:
+                        //    await Application.Current.MainPage.Navigation.PopPopupAsync();
+                        //    await Application.Current.MainPage.Navigation.PopModalAsync();
+                        //    break;
+
+                        case ViewTypeEnum.FillScanView:
+                            SimpleIoc.Default.GetInstance<FillScanViewModel>().AssignValidateBarcodeValueAsync();
+                            break;
+
+                        case ViewTypeEnum.MaintainScanView:
+                            await Application.Current.MainPage.Navigation.PopPopupAsync();
+                            SimpleIoc.Default.GetInstance<MaintainScanViewModel>().SubmitCommandRecieverAsync();
+                            break;
+                    }
+                }
+                else
+                    await ValidateScannedBarcode();
             }
-            else
-                await ValidateScannedBarcode();
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         public async Task LoadBarcodeValue(List<Barcode> _models)
         {
-            Models = _models;
-            await ValidateScannedBarcode();
+            try
+            {
+                Models = _models;
+                await ValidateScannedBarcode();
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async Task ValidateScannedBarcode()

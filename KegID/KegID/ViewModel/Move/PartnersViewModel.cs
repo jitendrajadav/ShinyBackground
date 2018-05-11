@@ -313,43 +313,50 @@ namespace KegID.ViewModel
 
         private async void ItemTappedCommandRecieverAsync(PartnerModel model)
         {
-            if (model != null)
+            try
             {
-                switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack[Application.Current.MainPage.Navigation.ModalStack.Count - 2].GetType().Name))
+                if (model != null)
                 {
-                    case ViewTypeEnum.SearchManifestsView:
-                        SimpleIoc.Default.GetInstance<SearchManifestsViewModel>().AssignPartnerValue(model);
-                        break;
+                    switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack[Application.Current.MainPage.Navigation.ModalStack.Count - 2].GetType().Name))
+                    {
+                        case ViewTypeEnum.SearchManifestsView:
+                            SimpleIoc.Default.GetInstance<SearchManifestsViewModel>().AssignPartnerValue(model);
+                            break;
 
-                    case ViewTypeEnum.MoveView:
-                        SimpleIoc.Default.GetInstance<MoveViewModel>().PartnerModel = model;
-                        break;
+                        case ViewTypeEnum.MoveView:
+                            SimpleIoc.Default.GetInstance<MoveViewModel>().PartnerModel = model;
+                            break;
 
-                    case ViewTypeEnum.FillView:
-                        SimpleIoc.Default.GetInstance<FillViewModel>().PartnerModel = model;
-                        break;
+                        case ViewTypeEnum.FillView:
+                            SimpleIoc.Default.GetInstance<FillViewModel>().PartnerModel = model;
+                            break;
 
-                    case ViewTypeEnum.PalletizeView:
-                        SimpleIoc.Default.GetInstance<PalletizeViewModel>().AssignPartnerValue(model);
-                        break;
+                        case ViewTypeEnum.PalletizeView:
+                            SimpleIoc.Default.GetInstance<PalletizeViewModel>().AssignPartnerValue(model);
+                            break;
 
-                    case ViewTypeEnum.MaintainView:
-                        SimpleIoc.Default.GetInstance<MaintainViewModel>().PartnerModel = model;
-                        break;
+                        case ViewTypeEnum.MaintainView:
+                            SimpleIoc.Default.GetInstance<MaintainViewModel>().PartnerModel = model;
+                            break;
 
-                    case ViewTypeEnum.EditKegView:
-                        SimpleIoc.Default.GetInstance<EditKegViewModel>().PartnerModel = model;
-                        break;
+                        case ViewTypeEnum.EditKegView:
+                            SimpleIoc.Default.GetInstance<EditKegViewModel>().PartnerModel = model;
+                            break;
 
-                    case ViewTypeEnum.SearchPalletView:
-                        SimpleIoc.Default.GetInstance<SearchPalletViewModel>().PartnerModel = model;
-                        break;
+                        case ViewTypeEnum.SearchPalletView:
+                            SimpleIoc.Default.GetInstance<SearchPalletViewModel>().PartnerModel = model;
+                            break;
 
-                    default:
-                        break;
+                        default:
+                            break;
+                    }
+                    await Application.Current.MainPage.Navigation.PopModalAsync();
+                    Cleanup();
                 }
-                await Application.Current.MainPage.Navigation.PopModalAsync();
-                Cleanup();
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
             }
         }
 
@@ -401,53 +408,95 @@ namespace KegID.ViewModel
 
         private void AlphabeticalCommandReciever()
         {
-            if (BrewerStockOn)
-                PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners.OrderBy(x => x.FullName).Where(x => x.PartnerTypeName == "Brewer - Stock").ToList());
-            else
-                PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners.OrderBy(x => x.FullName));
+            try
+            {
+                if (BrewerStockOn)
+                    PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners.OrderBy(x => x.FullName).Where(x => x.PartnerTypeName == "Brewer - Stock").ToList());
+                else
+                    PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners.OrderBy(x => x.FullName));
 
-            AlphabeticalBackgroundColor = "#4E6388";
-            AlphabeticalTextColor = "White";
+                AlphabeticalBackgroundColor = "#4E6388";
+                AlphabeticalTextColor = "White";
 
-            InternalBackgroundColor = "White";
-            InternalTextColor = "#4E6388";
+                InternalBackgroundColor = "White";
+                InternalTextColor = "#4E6388";
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private void InternalCommandReciever()
         {
-            if (BrewerStockOn)
-                PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners.Where(x => x.PartnerTypeName == "Brewer - Stock").ToList());
-            else
-                PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners);
+            try
+            {
+                if (BrewerStockOn)
+                    PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners.Where(x => x.PartnerTypeName == "Brewer - Stock").ToList());
+                else
+                    PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners);
 
-            InternalBackgroundColor = "#4E6388";
-            InternalTextColor = "White";
+                InternalBackgroundColor = "#4E6388";
+                InternalTextColor = "White";
 
-            AlphabeticalBackgroundColor = "White";
-            AlphabeticalTextColor = "#4E6388";
+                AlphabeticalBackgroundColor = "White";
+                AlphabeticalTextColor = "#4E6388";
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void BackCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PopModalAsync();
-            Cleanup();
+            try
+            {
+                await Application.Current.MainPage.Navigation.PopModalAsync();
+                Cleanup();
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void AddNewPartnerCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new AddPartnerView(), animated: false);
+            try
+            {
+                await Application.Current.MainPage.Navigation.PushModalAsync(new AddPartnerView(), animated: false);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void SearchPartnerCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new SearchPartnersView(), animated: false);
+            try
+            {
+                await Application.Current.MainPage.Navigation.PushModalAsync(new SearchPartnersView(), animated: false);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         public override void Cleanup()
         {
-            base.Cleanup();
-            BrewerStockOn = false;
-            PartnerCollection = null;
+            try
+            {
+                base.Cleanup();
+                BrewerStockOn = false;
+                PartnerCollection = null;
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         #endregion

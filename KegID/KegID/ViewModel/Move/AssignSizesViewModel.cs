@@ -280,54 +280,96 @@ namespace KegID.ViewModel
 
         public void MaintenanceVerified()
         {
-            VerifiedBarcodes.FirstOrDefault().HasMaintenaceVerified = true;
+            try
+            {
+                VerifiedBarcodes.FirstOrDefault().HasMaintenaceVerified = true;
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private void DoneCommandReciever()
         {
-            SimpleIoc.Default.GetInstance<ScanKegsViewModel>().AssignSizesValue(VerifiedBarcodes);
-            Application.Current.MainPage.Navigation.PopModalAsync();
+            try
+            {
+                SimpleIoc.Default.GetInstance<ScanKegsViewModel>().AssignSizesValue(VerifiedBarcodes);
+                Application.Current.MainPage.Navigation.PopModalAsync();
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private void ApplyToAllCommandReciever()
         {
-            if (SelectedType != null)
+            try
             {
-                foreach (var item in MaintenaceCollection)
+                if (SelectedType != null)
                 {
-                    item.SelectedUType = SelectedType;
+                    foreach (var item in MaintenaceCollection)
+                    {
+                        item.SelectedUType = SelectedType;
+                    }
+                }
+                if (SelectedSize != null)
+                {
+                    foreach (var item in MaintenaceCollection)
+                    {
+                        item.SelectedUSize = SelectedSize;
+                    }
+                }
+                if (SelectedOwner != null)
+                {
+                    foreach (var item in MaintenaceCollection)
+                    {
+                        item.SelectedUOwner = SelectedOwner;
+                    }
                 }
             }
-            if (SelectedSize != null)
+            catch (Exception ex)
             {
-                foreach (var item in MaintenaceCollection)
-                {
-                    item.SelectedUSize = SelectedSize;
-                }
-            }
-            if (SelectedOwner != null)
-            {
-                foreach (var item in MaintenaceCollection)
-                {
-                    item.SelectedUOwner = SelectedOwner;
-                }
+                Crashes.TrackError(ex);
             }
         }
 
         private async Task LoadOwnderAsync()
         {
-            OwnerCollection = await SQLiteServiceClient.Db.Table<OwnerModel>().ToListAsync();
-            SelectedOwner = OwnerCollection.OrderBy(x=>x.FullName).FirstOrDefault();
+            try
+            {
+                OwnerCollection = await SQLiteServiceClient.Db.Table<OwnerModel>().ToListAsync();
+                SelectedOwner = OwnerCollection.OrderBy(x => x.FullName).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async Task LoadAssetSizeAsync()
         {
-            SizeCollection = await SQLiteServiceClient.Db.Table<AssetSizeModel>().ToListAsync();
+            try
+            {
+                SizeCollection = await SQLiteServiceClient.Db.Table<AssetSizeModel>().ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async Task LoadAssetTypeAsync()
         {
-            TypeCollection = await SQLiteServiceClient.Db.Table<AssetTypeModel>().ToListAsync();
+            try
+            {
+                TypeCollection = await SQLiteServiceClient.Db.Table<AssetTypeModel>().ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         internal async void AssignInitialValueAsync(List<Barcode> _alerts)

@@ -2274,6 +2274,8 @@ namespace KegID.Droid
 			global::Microsoft.AppCenter.Distribute.Resource.String.appcenter_distribute_update_failed_dialog_title = global::KegID.Droid.Resource.String.appcenter_distribute_update_failed_dialog_title;
 			global::Microsoft.AppCenter.Push.Android.Resource.Drawable.ic_stat_notify_dot = global::KegID.Droid.Resource.Drawable.ic_stat_notify_dot;
 			global::Microsoft.AppCenter.Push.Android.Resource.String.library_name = global::KegID.Droid.Resource.String.library_name;
+			global::ModernHttpClient.Resource.String.library_name = global::KegID.Droid.Resource.String.library_name;
+			global::Splat.Resource.String.library_name = global::KegID.Droid.Resource.String.library_name;
 			global::SQLite.Net.Platform.XamarinAndroid.Resource.String.ApplicationName = global::KegID.Droid.Resource.String.ApplicationName;
 			global::SQLite.Net.Platform.XamarinAndroid.Resource.String.Hello = global::KegID.Droid.Resource.String.Hello;
 			global::Xamarin.Forms.Platform.Android.Resource.Attribute.actionBarSize = global::KegID.Droid.Resource.Attribute.actionBarSize;

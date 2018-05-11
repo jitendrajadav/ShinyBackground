@@ -10,6 +10,7 @@ using KegID.Model;
 using KegID.Services;
 using KegID.SQLiteClient;
 using KegID.Views;
+using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
 using Xamarin.Forms;
 
@@ -317,45 +318,80 @@ namespace KegID.ViewModel
 
         private async void ItemTappedCommandRecieverAsync(ManifestModel model)
         {
-            SimpleIoc.Default.GetInstance<MoveViewModel>().AssignInitialValue(model.ManifestId, model.ManifestItems.Count > 0 ? model.ManifestItems.FirstOrDefault().Barcode:string.Empty, model.ManifestItemsCount > 0 ? model.ManifestItemsCount.ToString() : string.Empty, model.OwnerName, model.ReceiverId, true);
-            await Application.Current.MainPage.Navigation.PushModalAsync(new MoveView(), animated: false);
+            try
+            {
+                SimpleIoc.Default.GetInstance<MoveViewModel>().AssignInitialValue(model.ManifestId, model.ManifestItems.Count > 0 ? model.ManifestItems.FirstOrDefault().Barcode : string.Empty, model.ManifestItemsCount > 0 ? model.ManifestItemsCount.ToString() : string.Empty, model.OwnerName, model.ReceiverId, true);
+                await Application.Current.MainPage.Navigation.PushModalAsync(new MoveView(), animated: false);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void HomeCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PopModalAsync();
+            try
+            {
+                await Application.Current.MainPage.Navigation.PopModalAsync();
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void ActionSearchCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new SearchManifestsView(), animated: false);
 
         private void QueuedCommandReciever()
         {
-            QueuedTextColor = "White";
-            QueuedBackgroundColor = "#4E6388";
-            DraftTextColor = "#4E6388";
-            DraftBackgroundColor = "Transparent";
-            RecentTextColor= "#4E6388";
-            RecentBackgroundColor = "Transparent";
+            try
+            {
+                QueuedTextColor = "White";
+                QueuedBackgroundColor = "#4E6388";
+                DraftTextColor = "#4E6388";
+                DraftBackgroundColor = "Transparent";
+                RecentTextColor = "#4E6388";
+                RecentBackgroundColor = "Transparent";
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private void DraftCommandReciever()
         {
-            DraftTextColor = "White";
-            DraftBackgroundColor = "#4E6388";
-            QueuedTextColor = "#4E6388";
-            QueuedBackgroundColor = "Transparent";
-            RecentTextColor = "#4E6388";
-            RecentBackgroundColor = "Transparent";
+            try
+            {
+                DraftTextColor = "White";
+                DraftBackgroundColor = "#4E6388";
+                QueuedTextColor = "#4E6388";
+                QueuedBackgroundColor = "Transparent";
+                RecentTextColor = "#4E6388";
+                RecentBackgroundColor = "Transparent";
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private void RecentCommandReciever()
         {
-            RecentTextColor = "White";
-            RecentBackgroundColor = "#4E6388";
-            QueuedTextColor = "#4E6388";
-            QueuedBackgroundColor = "Transparent";
-            DraftTextColor = "#4E6388";
-            DraftBackgroundColor = "Transparent";
+            try
+            {
+                RecentTextColor = "White";
+                RecentBackgroundColor = "#4E6388";
+                QueuedTextColor = "#4E6388";
+                QueuedBackgroundColor = "Transparent";
+                DraftTextColor = "#4E6388";
+                DraftBackgroundColor = "Transparent";
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         #endregion

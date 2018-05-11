@@ -171,11 +171,18 @@ namespace KegID.ViewModel
 
         private async void ItemTappedCommandRecieverAsync(PartnerModel model)
         {
-            if (model != null)
+            try
             {
-                SimpleIoc.Default.GetInstance<MoveViewModel>().PartnerModel = model;
-                await Application.Current.MainPage.Navigation.PopModalAsync();
-                await Application.Current.MainPage.Navigation.PopModalAsync();
+                if (model != null)
+                {
+                    SimpleIoc.Default.GetInstance<MoveViewModel>().PartnerModel = model;
+                    await Application.Current.MainPage.Navigation.PopModalAsync();
+                    await Application.Current.MainPage.Navigation.PopModalAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
             }
         }
 

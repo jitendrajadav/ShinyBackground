@@ -107,7 +107,14 @@ namespace KegID.ViewModel
 
         private async void HomeCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PopModalAsync();
+            try
+            {
+                await Application.Current.MainPage.Navigation.PopModalAsync();
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         public async void InventoryCommandRecieverAsync()
@@ -135,16 +142,23 @@ namespace KegID.ViewModel
 
         internal async void InitialAssignValueAsync(int currentPage)
         {
-            CurrentPage = currentPage;
-            var model = await SQLiteServiceClient.Db.Table<InventoryResponseModel>().ToListAsync();
-            if (model.Count > 0)
+            try
             {
-                StockInventoryCollection = model.Where(x => x.Status != "Empty").ToList();
-                EnptyInventoryCollection = model.Where(x => x.Status == "Empty").ToList();
+                CurrentPage = currentPage;
+                var model = await SQLiteServiceClient.Db.Table<InventoryResponseModel>().ToListAsync();
+                if (model.Count > 0)
+                {
+                    StockInventoryCollection = model.Where(x => x.Status != "Empty").ToList();
+                    EnptyInventoryCollection = model.Where(x => x.Status == "Empty").ToList();
+                }
+                else
+                {
+                    InventoryCommandRecieverAsync();
+                }
             }
-            else
+            catch (Exception ex)
             {
-               InventoryCommandRecieverAsync();
+                Crashes.TrackError(ex);
             }
         }
         #endregion

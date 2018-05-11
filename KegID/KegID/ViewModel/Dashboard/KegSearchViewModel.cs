@@ -6,6 +6,7 @@ using KegID.Common;
 using KegID.Model;
 using KegID.Services;
 using KegID.Views;
+using Microsoft.AppCenter.Crashes;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -112,36 +113,78 @@ namespace KegID.ViewModel
 
         private async void SearchCommandRecieverAsync()
         {
-            SimpleIoc.Default.GetInstance<KegSearchedListViewModel>().LoadKegSearchAsync(Barcode);
-            await Application.Current.MainPage.Navigation.PushModalAsync(new KegSearchedListView(), animated: false);
+            try
+            {
+                SimpleIoc.Default.GetInstance<KegSearchedListViewModel>().LoadKegSearchAsync(Barcode);
+                await Application.Current.MainPage.Navigation.PushModalAsync(new KegSearchedListView(), animated: false);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void HomeCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PopModalAsync();
+            try
+            {
+                await Application.Current.MainPage.Navigation.PopModalAsync();
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void BarcodeScanCommandRecieverAsync()
         {
-            await BarcodeScanner.BarcodeScanSingleAsync(_moveService, null, string.Empty);
+            try
+            {
+                await BarcodeScanner.BarcodeScanSingleAsync(_moveService, null, string.Empty);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void BulkUpdateCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new BulkUpdateScanView(), animated: false);
+            try
+            {
+                await Application.Current.MainPage.Navigation.PushModalAsync(new BulkUpdateScanView(), animated: false);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         internal async void AssingSuccessMsgAsync()
         {
-            KegsSuccessMsg = "Kegs successfully updated";
-            await Task.Delay(new TimeSpan(0, 0, 5));
-            KegsSuccessMsg = string.Empty;
+            try
+            {
+                KegsSuccessMsg = "Kegs successfully updated";
+                await Task.Delay(new TimeSpan(0, 0, 5));
+                KegsSuccessMsg = string.Empty;
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         internal async void AssignBarcodeScannerValueAsync(Barcode barcodes)
         {
-            SimpleIoc.Default.GetInstance<KegSearchedListViewModel>().LoadKegSearchAsync(barcodes.Id);
-            await Application.Current.MainPage.Navigation.PushModalAsync(new KegSearchedListView(), animated: false);
+            try
+            {
+                SimpleIoc.Default.GetInstance<KegSearchedListViewModel>().LoadKegSearchAsync(barcodes.Id);
+                await Application.Current.MainPage.Navigation.PushModalAsync(new KegSearchedListView(), animated: false);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         #endregion

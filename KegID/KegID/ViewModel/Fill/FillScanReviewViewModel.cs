@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
+using Microsoft.AppCenter.Crashes;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -168,19 +169,33 @@ namespace KegID.ViewModel
 
         private void SubmitCommandReciever()
         {
-            SimpleIoc.Default.GetInstance<AddPalletsViewModel>().SubmitCommandRecieverAsync();
+            try
+            {
+                SimpleIoc.Default.GetInstance<AddPalletsViewModel>().SubmitCommandRecieverAsync();
+            }
+            catch (System.Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void ScanCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PopModalAsync();
 
         internal void AssignInitialValue(string _manifestId,int _count)
         {
-            var partner = SimpleIoc.Default.GetInstance<FillViewModel>().PartnerModel;
-            var content = SimpleIoc.Default.GetInstance<FillViewModel>().BatchButtonTitle;
-            TrackingNumber = Uuid.GetUuId();
-            ManifestTo = partner.FullName + "\n" + partner.PartnerTypeCode;
-            ItemCount = _count;
-            Contents = !string.IsNullOrEmpty(content) ? content : "No contens";
+            try
+            {
+                var partner = SimpleIoc.Default.GetInstance<FillViewModel>().PartnerModel;
+                var content = SimpleIoc.Default.GetInstance<FillViewModel>().BatchButtonTitle;
+                TrackingNumber = Uuid.GetUuId();
+                ManifestTo = partner.FullName + "\n" + partner.PartnerTypeCode;
+                ItemCount = _count;
+                Contents = !string.IsNullOrEmpty(content) ? content : "No contens";
+            }
+            catch (System.Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         #endregion

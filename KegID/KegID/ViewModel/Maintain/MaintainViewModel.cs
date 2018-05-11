@@ -2,6 +2,7 @@
 using GalaSoft.MvvmLight.Ioc;
 using KegID.Model;
 using KegID.Views;
+using Microsoft.AppCenter.Crashes;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -495,22 +496,44 @@ namespace KegID.ViewModel
 
         public async Task LoadMaintenanceTypeAsync()
         {
-            MaintainTypeCollection = await SimpleIoc.Default.GetInstance<MaintainScanViewModel>().LoadMaintenanceTypeAsync();
+            try
+            {
+                MaintainTypeCollection = await SimpleIoc.Default.GetInstance<MaintainScanViewModel>().LoadMaintenanceTypeAsync();
+            }
+            catch (System.Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void HomeCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PopModalAsync();
 
         private async void PartnerCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView(), animated: false);
+            try
+            {
+                await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView(), animated: false);
+            }
+            catch (System.Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
         private async void NextCommandRecieverAsync()
         {
-           var flag= MaintainTypeCollection.Where(x => x.IsToggled == true);
-            if (flag != null)
-                await Application.Current.MainPage.Navigation.PushModalAsync(new MaintainScanView(), animated: false);
-            else
-              await Application.Current.MainPage.DisplayAlert("Error","Please select at least one maintenance item to perform.","Ok");
+            try
+            {
+                var flag = MaintainTypeCollection.Where(x => x.IsToggled == true);
+                if (flag != null)
+                    await Application.Current.MainPage.Navigation.PushModalAsync(new MaintainScanView(), animated: false);
+                else
+                    await Application.Current.MainPage.DisplayAlert("Error", "Please select at least one maintenance item to perform.", "Ok");
+
+            }
+            catch (System.Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         #endregion

@@ -10,6 +10,7 @@ using KegID.Model;
 using KegID.Services;
 using KegID.SQLiteClient;
 using KegID.Views;
+using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
 using Rg.Plugins.Popup.Extensions;
 using Xamarin.Forms;
@@ -302,56 +303,70 @@ namespace KegID.ViewModel
 
         internal async void AssignValidateBarcodeValueAsync()
         {
-            SimpleIoc.Default.GetInstance<AddPalletsViewModel>().AssignFillScanValue(BarcodeCollection, BatchId);
-
-            await Application.Current.MainPage.Navigation.PopPopupAsync();
-
-            if (IsPalletze)
-                await Application.Current.MainPage.Navigation.PopModalAsync();
-            else
+            try
             {
-                await Application.Current.MainPage.Navigation.PushModalAsync(new FillScanReviewView(), animated: false);
-                SimpleIoc.Default.GetInstance<FillScanReviewViewModel>().AssignInitialValue(BatchId, BarcodeCollection.Count);
+                SimpleIoc.Default.GetInstance<AddPalletsViewModel>().AssignFillScanValue(BarcodeCollection, BatchId);
+
+                await Application.Current.MainPage.Navigation.PopPopupAsync();
+
+                if (IsPalletze)
+                    await Application.Current.MainPage.Navigation.PopModalAsync();
+                else
+                {
+                    await Application.Current.MainPage.Navigation.PushModalAsync(new FillScanReviewView(), animated: false);
+                    SimpleIoc.Default.GetInstance<FillScanReviewViewModel>().AssignInitialValue(BatchId, BarcodeCollection.Count);
+                }
+                //Cleanup();
             }
-            //Cleanup();
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         public async void GenerateManifestIdAsync(PalletModel palletModel)
         {
-            DateTime now = DateTime.Now;
-            string barCode;
-            long prefix = 0;
-            var lastCharOfYear = now.Year.ToString().ToCharArray().LastOrDefault().ToString();
-            var dayOfYear = now.DayOfYear;
-            var secondsInDayTillNow = SecondsInDayTillNow();
-            var millisecond = now.Millisecond;
-
-            if (IsPalletze)
+            try
             {
-                if (palletModel != null)
-                {
-                    ManifestId = palletModel.ManifestId;
-                    BarcodeCollection = new ObservableCollection<Barcode>(palletModel.Barcode);
-                }
-                else
-                {
-                    BarcodeCollection.Clear();
-                    var preference = await SQLiteServiceClient.Db.Table<Preference>().Where(x => x.PreferenceName == "DashboardPreferences").ToListAsync();
+                DateTime now = DateTime.Now;
+                string barCode;
+                long prefix = 0;
+                var lastCharOfYear = now.Year.ToString().ToCharArray().LastOrDefault().ToString();
+                var dayOfYear = now.DayOfYear;
+                var secondsInDayTillNow = SecondsInDayTillNow();
+                var millisecond = now.Millisecond;
 
-                    foreach (var item in preference)
+                if (IsPalletze)
+                {
+                    if (palletModel != null)
                     {
-                        if (item.PreferenceValue.Contains("OldestKegs"))
-                        {
-                            var preferenceValue = JsonConvert.DeserializeObject<PreferenceValueResponseModel>(item.PreferenceValue);
-                            var value = preferenceValue.SelectedWidgets.Where(x => x.Id == "OldestKegs").FirstOrDefault();
-                            prefix = value.Pos.Y;
-                        }
+                        ManifestId = palletModel.ManifestId;
+                        BarcodeCollection = new ObservableCollection<Barcode>(palletModel.Barcode);
                     }
-                    barCode = prefix.ToString().PadLeft(9, '0') + lastCharOfYear + dayOfYear + secondsInDayTillNow + (millisecond / 100);
-                    var checksumDigit = Utils.CalculateCheckDigit(barCode);
-                    BatchId = barCode + checksumDigit;
-                    ManifestId = "Pallet #"+ BatchId;
+                    else
+                    {
+                        BarcodeCollection.Clear();
+                        var preference = await SQLiteServiceClient.Db.Table<Preference>().Where(x => x.PreferenceName == "DashboardPreferences").ToListAsync();
+
+                        foreach (var item in preference)
+                        {
+                            if (item.PreferenceValue.Contains("OldestKegs"))
+                            {
+                                var preferenceValue = JsonConvert.DeserializeObject<PreferenceValueResponseModel>(item.PreferenceValue);
+                                var value = preferenceValue.SelectedWidgets.Where(x => x.Id == "OldestKegs").FirstOrDefault();
+                                prefix = value.Pos.Y;
+                            }
+                        }
+                        barCode = prefix.ToString().PadLeft(9, '0') + lastCharOfYear + dayOfYear + secondsInDayTillNow + (millisecond / 100);
+                        var checksumDigit = PermissionsUtils.CalculateCheckDigit(barCode);
+                        BatchId = barCode + checksumDigit;
+                        ManifestId = "Pallet #" + BatchId;
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
             }
         }
 
@@ -368,64 +383,98 @@ namespace KegID.ViewModel
 
         private async void LabelItemTappedCommandRecieverAsync(Barcode model)
         {
-
-            if (model.Partners.Count > 1)
+            try
             {
-                List<Barcode> modelList = new List<Barcode>
+                if (model.Partners.Count > 1)
+                {
+                    List<Barcode> modelList = new List<Barcode>
                     {
                         model
                     };
-                await NavigateToValidatePartner(modelList);
+                    await NavigateToValidatePartner(modelList);
+                }
+                else
+                {
+                    await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView(), animated: false);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView(), animated: false);
+                Crashes.TrackError(ex);
             }
         }
 
         private async void IconItemTappedCommandRecieverAsync(Barcode model)
         {
-            if (model.Partners.Count > 1)
+            try
             {
-                List<Barcode> modelList = new List<Barcode>
+                if (model.Partners.Count > 1)
+                {
+                    List<Barcode> modelList = new List<Barcode>
                     {
                         model
                     };
-                await NavigateToValidatePartner(modelList);
+                    await NavigateToValidatePartner(modelList);
+                }
+                else
+                {
+                    await Application.Current.MainPage.Navigation.PushModalAsync(new ScanInfoView(), animated: false);
+                    SimpleIoc.Default.GetInstance<ScanInfoViewModel>().AssignInitialValue(_barcode: model);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                await Application.Current.MainPage.Navigation.PushModalAsync(new ScanInfoView(), animated: false);
-                SimpleIoc.Default.GetInstance<ScanInfoViewModel>().AssignInitialValue(_barcode: model);
+                Crashes.TrackError(ex);
             }
         }
 
         private async Task NavigateToValidatePartner(List<Barcode> model)
         {
-            await Application.Current.MainPage.Navigation.PushPopupAsync(new ValidateBarcodeView(), animate: false);
-            await SimpleIoc.Default.GetInstance<ValidateBarcodeViewModel>().LoadBarcodeValue(model);
+            try
+            {
+                await Application.Current.MainPage.Navigation.PushPopupAsync(new ValidateBarcodeView(), animate: false);
+                await SimpleIoc.Default.GetInstance<ValidateBarcodeViewModel>().LoadBarcodeValue(model);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void BarcodeManualCommandRecieverAsync()
         {
-            var isNew = BarcodeCollection.ToList().Any(x => x.Id == ManaulBarcode);
-            if (!isNew)
+            try
             {
-                var value = await BarcodeScanner.ValidateBarcodeInsertIntoLocalDB(_moveService, ManaulBarcode, Tags, TagsStr);
-                ManaulBarcode = string.Empty;
-                BarcodeCollection.Add(value);
+                var isNew = BarcodeCollection.ToList().Any(x => x.Id == ManaulBarcode);
+                if (!isNew)
+                {
+                    var value = await BarcodeScanner.ValidateBarcodeInsertIntoLocalDB(_moveService, ManaulBarcode, Tags, TagsStr);
+                    ManaulBarcode = string.Empty;
+                    BarcodeCollection.Add(value);
+                }
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
             }
         }
 
         private async void SubmitCommandRecieverAsync()
         {
-            var result = BarcodeCollection.Where(x => x.Partners.Count > 1).ToList();
-            if (result.Count > 0)
-                await NavigateToValidatePartner(result.ToList());
-            else
+            try
             {
-               await Application.Current.MainPage.Navigation.PushModalAsync(new FillScanReviewView(), animated: false);
-                SimpleIoc.Default.GetInstance<FillScanReviewViewModel>().AssignInitialValue(BatchId, BarcodeCollection.Count);
+                var result = BarcodeCollection.Where(x => x.Partners.Count > 1).ToList();
+                if (result.Count > 0)
+                    await NavigateToValidatePartner(result.ToList());
+                else
+                {
+                    await Application.Current.MainPage.Navigation.PushModalAsync(new FillScanReviewView(), animated: false);
+                    SimpleIoc.Default.GetInstance<FillScanReviewViewModel>().AssignInitialValue(BatchId, BarcodeCollection.Count);
+                }
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
             }
         }
 
@@ -441,53 +490,109 @@ namespace KegID.ViewModel
 
         private async Task ValidateBarcode()
         {
-            var result = BarcodeCollection.Where(x => x.Partners.Count > 1).ToList();
-            if (result.Count > 0)
-                await NavigateToValidatePartner(result.ToList());
-            else
-                await SimpleIoc.Default.GetInstance<AddPalletsViewModel>().AssignValueToAddPalletAsync(BatchId, BarcodeCollection);
+            try
+            {
+                var result = BarcodeCollection.Where(x => x.Partners.Count > 1).ToList();
+                if (result.Count > 0)
+                    await NavigateToValidatePartner(result.ToList());
+                else
+                    await SimpleIoc.Default.GetInstance<AddPalletsViewModel>().AssignValueToAddPalletAsync(BatchId, BarcodeCollection);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void CancelCommandRecieverAsync()
         {
-           await Application.Current.MainPage.Navigation.PopModalAsync();
+            try
+            {
+                await Application.Current.MainPage.Navigation.PopModalAsync();
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void BarcodeScanCommandRecieverAsync()
         {
-             await BarcodeScanner.BarcodeScanAsync(_moveService, Tags, TagsStr);
+            try
+            {
+                await BarcodeScanner.BarcodeScanAsync(_moveService, Tags, TagsStr);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         internal void AssignBarcodeScannerValue(List<Barcode> barcodes)
         {
-            foreach (var item in barcodes)
-                BarcodeCollection.Add(item);
+            try
+            {
+                foreach (var item in barcodes)
+                    BarcodeCollection.Add(item);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         internal void AssignAddTagsValue(List<Tag> _tags, string _tagsStr)
         {
-            Tags = _tags;
-            TagsStr = _tagsStr;
+            try
+            {
+                Tags = _tags;
+                TagsStr = _tagsStr;
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void AddTagsCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView(), animated: false);
+            try
+            {
+                await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView(), animated: false);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         internal void AssignValidatedValue(Partner model)
         {
-            BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Partners.Clear();
-            BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = GetIconByPlatform.GetIcon("validationquestion.png");
-            BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Partners.Add(model);
+            try
+            {
+                BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Partners.Clear();
+                BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = GetIconByPlatform.GetIcon("validationquestion.png");
+                BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Partners.Add(model);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         public override void Cleanup()
         {
-            BarcodeCollection.Clear();
-            Tags = null;
-            TagsStr = string.Empty;
-            base.Cleanup();
+            try
+            {
+                BarcodeCollection.Clear();
+                Tags = null;
+                TagsStr = string.Empty;
+                base.Cleanup();
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         #endregion

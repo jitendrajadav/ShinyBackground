@@ -2,6 +2,7 @@
 using GalaSoft.MvvmLight.Ioc;
 using KegID.Model;
 using KegID.Views;
+using Microsoft.AppCenter.Crashes;
 using Plugin.Share;
 using System;
 using System.Linq;
@@ -210,27 +211,41 @@ namespace KegID.ViewModel
 
         private void ShareCommandReciever()
         {
-            CrossShare.Current.Share(message: new Plugin.Share.Abstractions.ShareMessage
+            try
             {
-                Text = "Share",
-                Title = "Share",
-                Url = "https://www.slg.com/"
-            });
+                CrossShare.Current.Share(message: new Plugin.Share.Abstractions.ShareMessage
+                {
+                    Text = "Share",
+                    Title = "Share",
+                    Url = "https://www.slg.com/"
+                });
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void ManifestsCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PopModalAsync();
 
         internal void AssignInitialValue(ManifestResponseModel manifest)
         {
-            TrackingNumber = manifest.TrackingNumber;
+            try
+            {
+                TrackingNumber = manifest.TrackingNumber;
 
-            ManifestTo = manifest.CreatorCompany.FullName + "\n" + manifest.CreatorCompany.PartnerTypeName;
+                ManifestTo = manifest.CreatorCompany.FullName + "\n" + manifest.CreatorCompany.PartnerTypeName;
 
-            ShippingDate = Convert.ToDateTime(manifest.ShipDate);
-            ItemCount = manifest.ManifestItems.Count;
-            SimpleIoc.Default.GetInstance<ContentTagsViewModel>().ContentCollection = manifest.ManifestItems.Select(x => x.Barcode).ToList();
+                ShippingDate = Convert.ToDateTime(manifest.ShipDate);
+                ItemCount = manifest.ManifestItems.Count;
+                SimpleIoc.Default.GetInstance<ContentTagsViewModel>().ContentCollection = manifest.ManifestItems.Select(x => x.Barcode).ToList();
 
-            Contents = !string.IsNullOrEmpty(manifest.ManifestItems.FirstOrDefault().Contents) ? manifest.ManifestItems.FirstOrDefault().Contents : "No contens";
+                Contents = !string.IsNullOrEmpty(manifest.ManifestItems.FirstOrDefault().Contents) ? manifest.ManifestItems.FirstOrDefault().Contents : "No contens";
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         #endregion

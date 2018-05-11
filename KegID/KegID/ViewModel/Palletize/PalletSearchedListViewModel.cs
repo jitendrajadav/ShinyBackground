@@ -4,6 +4,7 @@ using KegID.Common;
 using KegID.Model;
 using KegID.Services;
 using KegID.Views;
+using Microsoft.AppCenter.Crashes;
 using System.Collections.Generic;
 using Xamarin.Forms;
 
@@ -74,20 +75,41 @@ namespace KegID.ViewModel
 
         private async void BackCommandRecieverAsync()
         {
-           await Application.Current.MainPage.Navigation.PopModalAsync();
+            try
+            {
+                await Application.Current.MainPage.Navigation.PopModalAsync();
+            }
+            catch (System.Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         internal async void GetPalletSearchAsync(string partnerId,string fromDate, string toDate,string kegs,string kegOwnerId)
         {
-            //needs to assing partnerId??string.Empty once backend is ready...
-            var value = await _dashboardService.GetPalletSearchAsync(AppSettings.User.SessionId, string.Empty, fromDate, toDate, kegs, kegOwnerId);
-            PalletSearchCollection = value.SearchPalletResponseModel;
+            try
+            {
+                //needs to assing partnerId??string.Empty once backend is ready...
+                var value = await _dashboardService.GetPalletSearchAsync(AppSettings.User.SessionId, string.Empty, fromDate, toDate, kegs, kegOwnerId);
+                PalletSearchCollection = value.SearchPalletResponseModel;
+            }
+            catch (System.Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void ItemTappedCommandRecieverAsync(SearchPalletResponseModel model)
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new PalletizeDetailView(), animated: false);
-            SimpleIoc.Default.GetInstance<PalletizeDetailViewModel>().AssingIntialValueAsync(model, true);
+            try
+            {
+                await Application.Current.MainPage.Navigation.PushModalAsync(new PalletizeDetailView(), animated: false);
+                SimpleIoc.Default.GetInstance<PalletizeDetailViewModel>().AssingIntialValueAsync(model, true);
+            }
+            catch (System.Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         #endregion

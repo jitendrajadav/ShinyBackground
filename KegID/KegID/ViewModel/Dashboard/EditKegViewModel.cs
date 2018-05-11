@@ -3,6 +3,7 @@ using KegID.Common;
 using KegID.Model;
 using KegID.Services;
 using KegID.Views;
+using Microsoft.AppCenter.Crashes;
 using System;
 using System.Collections.Generic;
 using Xamarin.Forms;
@@ -253,80 +254,130 @@ namespace KegID.ViewModel
 
         private async void CancelCommandRecieverAsync()
         {
-            var message = Resources["dialog_cancel_message"];
-            bool accept = await Application.Current.MainPage.DisplayAlert("Cancel?", Resources["dialog_cancel_message"], "Stay here","Leave");
-            if (!accept)
+            try
             {
-                await Application.Current.MainPage.Navigation.PopModalAsync();
+                var message = Resources["dialog_cancel_message"];
+                bool accept = await Application.Current.MainPage.DisplayAlert("Cancel?", Resources["dialog_cancel_message"], "Stay here", "Leave");
+                if (!accept)
+                {
+                    await Application.Current.MainPage.Navigation.PopModalAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
             }
         }
 
         private async void SaveCommandRecieverAsync()
         {
-            var vlaue1 = SelectedItemType;
-            var vlaue5 = TagsStr;
-
-            var model = new KegRequestModel
+            try
             {
-                KegId = KegId,
-                Barcode = Barcode,
-                OwnerId = PartnerModel.PartnerId,
-                AltBarcode = Barcode,
-                Notes = "",
-                ReferenceKey = "",
-                ProfileId = "",
-                AssetType = "",
-                AssetSize = "",
-                AssetVolume = "",
-                AssetDescription = "",
-                OwnerSkuId = "",
-                FixedContents = "",
-                Tags = Tags,
-                MaintenanceAlertIds = new List<string>(),
-                LessorId = "",
-                PurchaseDate = DateTime.Now,
-                PurchasePrice = 0,
-                PurchaseOrder = "",
-                ManufacturerName = "",
-                ManufacturerId = "",
-                ManufactureLocation = "",
-                ManufactureDate = DateTimeOffset.Now,
-                Material = "",
-                Markings = "",
-                Colors = ""
-            };
+                var vlaue1 = SelectedItemType;
+                var vlaue5 = TagsStr;
 
-          var Result = await DashboardService.PostKegAsync(model, AppSettings.User.SessionId, Configuration.NewKeg);
+                var model = new KegRequestModel
+                {
+                    KegId = KegId,
+                    Barcode = Barcode,
+                    OwnerId = PartnerModel.PartnerId,
+                    AltBarcode = Barcode,
+                    Notes = "",
+                    ReferenceKey = "",
+                    ProfileId = "",
+                    AssetType = "",
+                    AssetSize = "",
+                    AssetVolume = "",
+                    AssetDescription = "",
+                    OwnerSkuId = "",
+                    FixedContents = "",
+                    Tags = Tags,
+                    MaintenanceAlertIds = new List<string>(),
+                    LessorId = "",
+                    PurchaseDate = DateTime.Now,
+                    PurchasePrice = 0,
+                    PurchaseOrder = "",
+                    ManufacturerName = "",
+                    ManufacturerId = "",
+                    ManufactureLocation = "",
+                    ManufactureDate = DateTimeOffset.Now,
+                    Material = "",
+                    Markings = "",
+                    Colors = ""
+                };
+
+                var Result = await DashboardService.PostKegAsync(model, AppSettings.User.SessionId, Configuration.NewKeg);
+
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void PartnerCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView(), animated: false);
+            try
+            {
+                await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView(), animated: false);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void SizeCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new SizeView(), animated: false);
+            try
+            {
+                await Application.Current.MainPage.Navigation.PushModalAsync(new SizeView(), animated: false);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void AddTagsCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView(), animated: false);
+            try
+            {
+                await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView(), animated: false);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         internal void AssingInitialValue(string _kegId,string _barcode, string _owner, string _typeName, string _sizeName)
         {
-            KegId = _kegId;
-            Barcode = _barcode;
-            Owner = _owner;
-            SelectedItemType = _typeName;
-            Size = _sizeName;
+            try
+            {
+                KegId = _kegId;
+                Barcode = _barcode;
+                Owner = _owner;
+                SelectedItemType = _typeName;
+                Size = _sizeName;
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         internal void AssignAddTagsValue(List<Tag> _tags, string _tagsStr)
         {
-            Tags = _tags;
-            TagsStr = _tagsStr;
+            try
+            {
+                Tags = _tags;
+                TagsStr = _tagsStr;
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         #endregion

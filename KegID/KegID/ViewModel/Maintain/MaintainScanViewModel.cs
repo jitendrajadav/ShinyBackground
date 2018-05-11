@@ -127,10 +127,17 @@ namespace KegID.ViewModel
         #region Methods
         private async void LoadMaintenanceType()
         {
-            MaintainTypeReponseModel = await SQLiteServiceClient.Db.Table<MaintainTypeReponseModel>().ToListAsync();
-            if (MaintainTypeReponseModel.Count == 0)
+            try
             {
-                MaintainTypeReponseModel = await LoadMaintenanceTypeAsync();
+                MaintainTypeReponseModel = await SQLiteServiceClient.Db.Table<MaintainTypeReponseModel>().ToListAsync();
+                if (MaintainTypeReponseModel.Count == 0)
+                {
+                    MaintainTypeReponseModel = await LoadMaintenanceTypeAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
             }
         }
 
@@ -152,76 +159,131 @@ namespace KegID.ViewModel
 
         internal void AssignValidatedValue(Partner model)
         {
-            BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Partners.Clear();
-            BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = GetIconByPlatform.GetIcon("validationquestion.png");
-            BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Partners.Add(model);
+            try
+            {
+                BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Partners.Clear();
+                BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = GetIconByPlatform.GetIcon("validationquestion.png");
+                BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Partners.Add(model);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void LabelItemTappedCommandRecieverAsync(Barcode model)
         {
-
-            if (model.Partners.Count > 1)
+            try
             {
-                List<Barcode> modelList = new List<Barcode>
+                if (model.Partners.Count > 1)
+                {
+                    List<Barcode> modelList = new List<Barcode>
                     {
                         model
                     };
-                await NavigateToValidatePartner(modelList);
+                    await NavigateToValidatePartner(modelList);
+                }
+                else
+                {
+                    await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView(), animated: false);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView(), animated: false);
+                Crashes.TrackError(ex);
             }
         }
 
         private async void IconItemTappedCommandRecieverAsync(Barcode model)
         {
-            if (model.Partners.Count > 1)
+            try
             {
-                List<Barcode> modelList = new List<Barcode>
+                if (model.Partners.Count > 1)
+                {
+                    List<Barcode> modelList = new List<Barcode>
                     {
                         model
                     };
-                await NavigateToValidatePartner(modelList);
+                    await NavigateToValidatePartner(modelList);
+                }
+                else
+                {
+                    await Application.Current.MainPage.Navigation.PushModalAsync(new ScanInfoView(), animated: false);
+                    SimpleIoc.Default.GetInstance<ScanInfoViewModel>().AssignInitialValue(model);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                await Application.Current.MainPage.Navigation.PushModalAsync(new ScanInfoView(), animated: false);
-                SimpleIoc.Default.GetInstance<ScanInfoViewModel>().AssignInitialValue(model);
+                Crashes.TrackError(ex);
             }
         }
 
         private static async Task NavigateToValidatePartner(List<Barcode> model)
         {
-            await Application.Current.MainPage.Navigation.PushPopupAsync(new ValidateBarcodeView());
-            await SimpleIoc.Default.GetInstance<ValidateBarcodeViewModel>().LoadBarcodeValue(model);
+            try
+            {
+                await Application.Current.MainPage.Navigation.PushPopupAsync(new ValidateBarcodeView());
+                await SimpleIoc.Default.GetInstance<ValidateBarcodeViewModel>().LoadBarcodeValue(model);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void BarcodeManualCommandRecieverAsync()
         {
-            var isNew = BarcodeCollection.ToList().Any(x => x.Id == ManaulBarcode);
-            if (!isNew)
+            try
             {
-                var value = await BarcodeScanner.ValidateBarcodeInsertIntoLocalDB(_moveService, ManaulBarcode, null, string.Empty);
-                ManaulBarcode = string.Empty;
-                BarcodeCollection.Add(value);
+                var isNew = BarcodeCollection.ToList().Any(x => x.Id == ManaulBarcode);
+                if (!isNew)
+                {
+                    var value = await BarcodeScanner.ValidateBarcodeInsertIntoLocalDB(_moveService, ManaulBarcode, null, string.Empty);
+                    ManaulBarcode = string.Empty;
+                    BarcodeCollection.Add(value);
+                }
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
             }
         }
 
         private async void BarcodeScanCommandRecieverAsync()
         {
-            await BarcodeScanner.BarcodeScanAsync(_moveService, null, string.Empty);
+            try
+            {
+                await BarcodeScanner.BarcodeScanAsync(_moveService, null, string.Empty);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         internal void AssignBarcodeScannerValue(List<Barcode> barcodes)
         {
-            foreach (var item in barcodes)
-                BarcodeCollection.Add(item);
+            try
+            {
+                foreach (var item in barcodes)
+                    BarcodeCollection.Add(item);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void BackCommandRecieverAsync()
         {
-           await Application.Current.MainPage.Navigation.PopModalAsync();
+            try
+            {
+                await Application.Current.MainPage.Navigation.PopModalAsync();
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         public async void SubmitCommandRecieverAsync()

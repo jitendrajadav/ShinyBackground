@@ -6,6 +6,7 @@ using KegID.DependencyServices;
 using KegID.Model;
 using KegID.Services;
 using KegID.Views;
+using Microsoft.AppCenter.Crashes;
 using Plugin.Messaging;
 using Xamarin.Forms;
 
@@ -362,63 +363,100 @@ namespace KegID.ViewModel
 
         private void ContactEmailCommandReciever()
         {
-
-            // Send Sms
-            //var smsMessenger = CrossMessaging.Current.SmsMessenger;
-            //if (smsMessenger.CanSendSms)
-            //    smsMessenger.SendSms("+27213894839493", "Well hello there from Xam.Messaging.Plugin");
-
-
-            var emailMessenger = CrossMessaging.Current.EmailMessenger;
-            if (emailMessenger.CanSendEmail)
+            try
             {
-                // Send simple e-mail to single receiver without attachments, bcc, cc etc.
-                emailMessenger.SendEmail("to.plugins@xamarin.com", "Xamarin Messaging Plugin", "Well hello there from Xam.Messaging.Plugin");
 
-                // Alternatively use EmailBuilder fluent interface to construct more complex e-mail with multiple recipients, bcc, attachments etc. 
-                var email = new EmailMessageBuilder()
-                  .To("to.plugins@xamarin.com")
-                  .Cc("cc.plugins@xamarin.com")
-                  .Bcc(new[] { "bcc1.plugins@xamarin.com", "bcc2.plugins@xamarin.com" })
-                  .Subject("Xamarin Messaging Plugin")
-                  .Body("Well hello there from Xam.Messaging.Plugin")
-                  .Build();
+                // Send Sms
+                //var smsMessenger = CrossMessaging.Current.SmsMessenger;
+                //if (smsMessenger.CanSendSms)
+                //    smsMessenger.SendSms("+27213894839493", "Well hello there from Xam.Messaging.Plugin");
 
-                emailMessenger.SendEmail(email);
+
+                var emailMessenger = CrossMessaging.Current.EmailMessenger;
+                if (emailMessenger.CanSendEmail)
+                {
+                    // Send simple e-mail to single receiver without attachments, bcc, cc etc.
+                    emailMessenger.SendEmail("to.plugins@xamarin.com", "Xamarin Messaging Plugin", "Well hello there from Xam.Messaging.Plugin");
+
+                    // Alternatively use EmailBuilder fluent interface to construct more complex e-mail with multiple recipients, bcc, attachments etc. 
+                    var email = new EmailMessageBuilder()
+                      .To("to.plugins@xamarin.com")
+                      .Cc("cc.plugins@xamarin.com")
+                      .Bcc(new[] { "bcc1.plugins@xamarin.com", "bcc2.plugins@xamarin.com" })
+                      .Subject("Xamarin Messaging Plugin")
+                      .Body("Well hello there from Xam.Messaging.Plugin")
+                      .Build();
+
+                    emailMessenger.SendEmail(email);
+                }
+
+                // Construct HTML email (iOS and Android only)
+                //var email = new EmailMessageBuilder()
+                //  .To("to.plugins@xamarin.com")
+                //  .Subject("Xamarin Messaging Plugin")
+                //  .BodyAsHtml("Well hello there from <a>Xam.Messaging.Plugin</a>")
+                //  .Build();
             }
-
-            // Construct HTML email (iOS and Android only)
-            //var email = new EmailMessageBuilder()
-            //  .To("to.plugins@xamarin.com")
-            //  .Subject("Xamarin Messaging Plugin")
-            //  .BodyAsHtml("Well hello there from <a>Xam.Messaging.Plugin</a>")
-            //  .Build();
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void LoadPartnerInfoAsync()
         {
-            PartnerInfoModel = await _dashboardService.GetPartnerInfoAsync(AppSettings.User.SessionId, SimpleIoc.Default.GetInstance<DashboardPartnersViewModel>().PartnerId);
-            KegsHeld = PartnerInfoModel.KegsHeld.ToString();
-            Notes = PartnerInfoModel.Notes;
-            Ref = PartnerInfoModel.ReferenceKey;
-            ContactEmail = PartnerInfoModel.ContactEmail;
+            try
+            {
+                PartnerInfoModel = await _dashboardService.GetPartnerInfoAsync(AppSettings.User.SessionId, SimpleIoc.Default.GetInstance<DashboardPartnersViewModel>().PartnerId);
+                KegsHeld = PartnerInfoModel.KegsHeld.ToString();
+                Notes = PartnerInfoModel.Notes;
+                Ref = PartnerInfoModel.ReferenceKey;
+                ContactEmail = PartnerInfoModel.ContactEmail;
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
+
         private async void SendKegsCommandRecieverAsync()
         {
-            SimpleIoc.Default.GetInstance<MoveViewModel>().AssignInitialValue(string.Empty, string.Empty, string.Empty, PartnerModel.FullName, PartnerModel.PartnerId, true);
-            await Application.Current.MainPage.Navigation.PushModalAsync(new MoveView(), animated: false);
+            try
+            {
+                SimpleIoc.Default.GetInstance<MoveViewModel>().AssignInitialValue(string.Empty, string.Empty, string.Empty, PartnerModel.FullName, PartnerModel.PartnerId, true);
+                await Application.Current.MainPage.Navigation.PushModalAsync(new MoveView(), animated: false);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void ShipToCommandRecieverAsync()
         {
-            SimpleIoc.Default.GetInstance<PartnerInfoMapViewModel>().AssignInitialValue(PartnerInfoModel.Lat, PartnerInfoModel.Lon,PartnerInfoModel.BillAddress.City, PartnerInfoModel.BillAddress.Line1);
-            await Application.Current.MainPage.Navigation.PushModalAsync(new PartnerInfoMapView(), animated: false);
+            try
+            {
+                SimpleIoc.Default.GetInstance<PartnerInfoMapViewModel>().AssignInitialValue(PartnerInfoModel.Lat, PartnerInfoModel.Lon, PartnerInfoModel.BillAddress.City, PartnerInfoModel.BillAddress.Line1);
+                await Application.Current.MainPage.Navigation.PushModalAsync(new PartnerInfoMapView(), animated: false);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void KegsCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new KegsView(), animated: false);
+            try
+            {
+                await Application.Current.MainPage.Navigation.PushModalAsync(new KegsView(), animated: false);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
+
         private void PhoneNumberCommandReciever()
         {
             OnTranslate(null,null);
@@ -426,48 +464,76 @@ namespace KegID.ViewModel
 
         void OnTranslate(object sender, EventArgs e)
         {
-            translatedNumber = PhoneTranslator.ToNumber(PartnerModel.PhoneNumber);
-            if (!string.IsNullOrWhiteSpace(translatedNumber))
+            try
             {
-                //callButton.IsEnabled = true;
-                //callButton.Text = "Call " + translatedNumber;
-                OnCall(null,null);
+                translatedNumber = PhoneTranslator.ToNumber(PartnerModel.PhoneNumber);
+                if (!string.IsNullOrWhiteSpace(translatedNumber))
+                {
+                    //callButton.IsEnabled = true;
+                    //callButton.Text = "Call " + translatedNumber;
+                    OnCall(null, null);
+                }
+                else
+                {
+                    //callButton.IsEnabled = false;
+                    //callButton.Text = "Call";
+                }
             }
-            else
+            catch (Exception ex)
             {
-                //callButton.IsEnabled = false;
-                //callButton.Text = "Call";
+                Crashes.TrackError(ex);
             }
         }
         async void OnCall(object sender, EventArgs e)
         {
-            if (!await Application.Current.MainPage.DisplayAlert(
-                "Dial a Number",
-                "Would you like to call " + translatedNumber + "?",
-                "Cancel",
-                "Call"))
+            try
             {
-                //// TODO: dial the phone
-                //var dialer = DependencyService.Get<IDialer>();
-                //if (dialer != null)
-                //    await dialer.DialAsync(translatedNumber);
+                if (!await Application.Current.MainPage.DisplayAlert(
+                        "Dial a Number",
+                        "Would you like to call " + translatedNumber + "?",
+                        "Cancel",
+                        "Call"))
+                {
+                    //// TODO: dial the phone
+                    //var dialer = DependencyService.Get<IDialer>();
+                    //if (dialer != null)
+                    //    await dialer.DialAsync(translatedNumber);
 
-                // Make Phone Call
-                var phoneCallTask = CrossMessaging.Current.PhoneDialer;
-                if (phoneCallTask.CanMakePhoneCall)
-                    phoneCallTask.MakePhoneCall(translatedNumber);
+                    // Make Phone Call
+                    var phoneCallTask = CrossMessaging.Current.PhoneDialer;
+                    if (phoneCallTask.CanMakePhoneCall)
+                        phoneCallTask.MakePhoneCall(translatedNumber);
+                }
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
             }
         }
 
         private async void EditCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new AddPartnerView(), animated: false);
-            SimpleIoc.Default.GetInstance<AddPartnerViewModel>().LoadPartnerAsync(PartnerInfoModel);
+            try
+            {
+                await Application.Current.MainPage.Navigation.PushModalAsync(new AddPartnerView(), animated: false);
+                SimpleIoc.Default.GetInstance<AddPartnerViewModel>().LoadPartnerAsync(PartnerInfoModel);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void PartnersCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PopModalAsync();
+            try
+            {
+                await Application.Current.MainPage.Navigation.PopModalAsync();
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         #endregion

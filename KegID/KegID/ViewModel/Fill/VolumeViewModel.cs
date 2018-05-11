@@ -2,6 +2,7 @@
 using GalaSoft.MvvmLight.Ioc;
 using KegID.Model;
 using KegID.SQLiteClient;
+using Microsoft.AppCenter.Crashes;
 using System.Collections.Generic;
 using System.Linq;
 using Xamarin.Forms;
@@ -68,14 +69,28 @@ namespace KegID.ViewModel
         #region Methods
         private async void LoadAssetVolumeAsync()
         {
-            var value = await SQLiteServiceClient.Db.Table<AssetVolumeModel>().ToListAsync();
-            VolumeCollection = value.Select(x => x.AssetVolume).ToList();
+            try
+            {
+                var value = await SQLiteServiceClient.Db.Table<AssetVolumeModel>().ToListAsync();
+                VolumeCollection = value.Select(x => x.AssetVolume).ToList();
+            }
+            catch (System.Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void ItemTappedCommandRecieverAsync(string model)
         {
-            SimpleIoc.Default.GetInstance<AddBatchViewModel>().VolumeChar = model;
-            await Application.Current.MainPage.Navigation.PopModalAsync();
+            try
+            {
+                SimpleIoc.Default.GetInstance<AddBatchViewModel>().VolumeChar = model;
+                await Application.Current.MainPage.Navigation.PopModalAsync();
+            }
+            catch (System.Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         #endregion

@@ -708,8 +708,15 @@ namespace KegID.ViewModel
 
         private async void MoveKegCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new MoveView(), animated: false);
-            SimpleIoc.Default.GetInstance<MoveViewModel>().AssignInitialValue(KegId,Barcode,"1",string.Empty,string.Empty,true);
+            try
+            {
+                await Application.Current.MainPage.Navigation.PushModalAsync(new MoveView(), animated: false);
+                SimpleIoc.Default.GetInstance<MoveViewModel>().AssignInitialValue(KegId, Barcode, "1", string.Empty, string.Empty, true);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         public async Task LoadMaintenanceHistoryAsync(string _kegId,string _contents,long _heldDays,string _possessorName, string _barcode,string _typeName,string _sizeName)
@@ -776,17 +783,31 @@ namespace KegID.ViewModel
 
         private async void KegsCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PopModalAsync();
-            KegHasAlert = false;
-            Alerts = null;
-            MaintenanceCollection.Clear();
-            RemoveMaintenanceCollection.Clear();
+            try
+            {
+                await Application.Current.MainPage.Navigation.PopModalAsync();
+                KegHasAlert = false;
+                Alerts = null;
+                MaintenanceCollection.Clear();
+                RemoveMaintenanceCollection.Clear();
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void EditCommandRecieverAsync()
         {
-            SimpleIoc.Default.GetInstance<EditKegViewModel>().AssingInitialValue(KegId,Barcode, Owner, TypeName,SizeName);
-            await Application.Current.MainPage.Navigation.PushModalAsync(new EditKegView(), animated: false);
+            try
+            {
+                SimpleIoc.Default.GetInstance<EditKegViewModel>().AssingInitialValue(KegId, Barcode, Owner, TypeName, SizeName);
+                await Application.Current.MainPage.Navigation.PushModalAsync(new EditKegView(), animated: false);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void InvalidToolsCommandRecieverAsync()
@@ -822,8 +843,15 @@ namespace KegID.ViewModel
 
         private async void CurrentLocationCommandRecieverAsync()
         {
-            SimpleIoc.Default.GetInstance<PartnerInfoMapViewModel>().AssignInitialValue(Posision.Lat, Posision.Lon, Posision.Label, Posision.Address);
-            await Application.Current.MainPage.Navigation.PushModalAsync(new PartnerInfoMapView(), animated: false);
+            try
+            {
+                SimpleIoc.Default.GetInstance<PartnerInfoMapViewModel>().AssignInitialValue(Posision.Lat, Posision.Lon, Posision.Label, Posision.Address);
+                await Application.Current.MainPage.Navigation.PushModalAsync(new PartnerInfoMapView(), animated: false);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         //private async void AddAlertPerticularKegAsync(MaintenanceAlert _model)

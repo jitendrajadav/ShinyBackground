@@ -23,187 +23,201 @@ namespace KegID.Views
 
         private async void LoadAddTagsAsync()
         {
-            if (Application.Current.MainPage.Navigation.ModalStack.Count > 1)
+            try
             {
-                switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack.LastOrDefault().GetType().Name))
+                if (Application.Current.MainPage.Navigation.ModalStack.Count > 1)
                 {
-                    case ViewTypeEnum.ScanKegsView:
-                    case ViewTypeEnum.FillScanView:
-                        if (SimpleIoc.Default.GetInstance<ScanKegsViewModel>().IsFromScanned)
-                        {
+                    switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack.LastOrDefault().GetType().Name))
+                    {
+                        case ViewTypeEnum.ScanKegsView:
+                        case ViewTypeEnum.FillScanView:
+                            if (SimpleIoc.Default.GetInstance<ScanKegsViewModel>().IsFromScanned)
+                            {
+                                await OnAddMoreTagsClickedAsync(TagsTypeEnum.BestByDate);
+                                await OnAddMoreTagsClickedAsync(TagsTypeEnum.ProductionDate);
+                                await OnAddMoreTagsClickedAsync(TagsTypeEnum.AssetType);
+                                await OnAddMoreTagsClickedAsync(TagsTypeEnum.Size);
+                                await OnAddMoreTagsClickedAsync(TagsTypeEnum.Contents);
+                                await OnAddMoreTagsClickedAsync(TagsTypeEnum.Batch);
+                            }
+                            else
+                            {
+                                await OnAddMoreTagsClickedAsync(TagsTypeEnum.BestByDate);
+                                await OnAddMoreTagsClickedAsync(TagsTypeEnum.ProductionDate);
+                                await OnAddMoreTagsClickedAsync(TagsTypeEnum.AssetType);
+                                await OnAddMoreTagsClickedAsync(TagsTypeEnum.Size);
+                            }
+                            break;
+                        case ViewTypeEnum.AddBatchView:
+                            OnAddTagsClicked(null, null);
+                            break;
+                        case ViewTypeEnum.EditKegView:
+                            await OnAddMoreTagsClickedAsync(TagsTypeEnum.Volume);
+                            await OnAddMoreTagsClickedAsync(TagsTypeEnum.Note);
+                            break;
+                        case ViewTypeEnum.MoveView:
                             await OnAddMoreTagsClickedAsync(TagsTypeEnum.BestByDate);
                             await OnAddMoreTagsClickedAsync(TagsTypeEnum.ProductionDate);
-                            await OnAddMoreTagsClickedAsync(TagsTypeEnum.AssetType);
-                            await OnAddMoreTagsClickedAsync(TagsTypeEnum.Size);
-                            await OnAddMoreTagsClickedAsync(TagsTypeEnum.Contents);
-                            await OnAddMoreTagsClickedAsync(TagsTypeEnum.Batch);
-                        }
-                        else
-                        {
-                            await OnAddMoreTagsClickedAsync(TagsTypeEnum.BestByDate);
-                            await OnAddMoreTagsClickedAsync(TagsTypeEnum.ProductionDate);
-                            await OnAddMoreTagsClickedAsync(TagsTypeEnum.AssetType);
-                            await OnAddMoreTagsClickedAsync(TagsTypeEnum.Size);
-                        }
-                        break;
-                    case ViewTypeEnum.AddBatchView:
-                        OnAddTagsClicked(null, null);
-                        break;
-                    case ViewTypeEnum.EditKegView:
-                        await OnAddMoreTagsClickedAsync(TagsTypeEnum.Volume);
-                        await OnAddMoreTagsClickedAsync(TagsTypeEnum.Note);
-                        break;
-                    case ViewTypeEnum.MoveView:
-                        await OnAddMoreTagsClickedAsync(TagsTypeEnum.BestByDate);
-                        await OnAddMoreTagsClickedAsync(TagsTypeEnum.ProductionDate);
-                        break;
-                    case ViewTypeEnum.BulkUpdateScanView:
-                        await OnAddMoreTagsClickedAsync(TagsTypeEnum.Volume);
-                        break;
+                            break;
+                        case ViewTypeEnum.BulkUpdateScanView:
+                            await OnAddMoreTagsClickedAsync(TagsTypeEnum.Volume);
+                            break;
+                    }
+                }
+                else if (Application.Current.MainPage.Navigation.ModalStack.LastOrDefault().GetType().Name == ViewTypeEnum.PalletizeView.ToString())
+                {
+                    await OnAddMoreTagsClickedAsync(TagsTypeEnum.Zone);
+                    await OnAddMoreTagsClickedAsync(TagsTypeEnum.Area);
+                    await OnAddMoreTagsClickedAsync(TagsTypeEnum.Slot);
+                    await OnAddMoreTagsClickedAsync(TagsTypeEnum.SSCC);
+                    await OnAddMoreTagsClickedAsync(TagsTypeEnum.Note);
+                    await OnAddMoreTagsClickedAsync(TagsTypeEnum.Batch);
+                    await OnAddMoreTagsClickedAsync(TagsTypeEnum.GTIN);
+                    await OnAddMoreTagsClickedAsync(TagsTypeEnum.ProductionDate);
+                    await OnAddMoreTagsClickedAsync(TagsTypeEnum.ExpiryDate);
+                }
+                else if (Application.Current.MainPage.Navigation.ModalStack.LastOrDefault().GetType().Name == ViewTypeEnum.MoveView.ToString())
+                {
+                    await OnAddMoreTagsClickedAsync(TagsTypeEnum.BestByDate);
+                    await OnAddMoreTagsClickedAsync(TagsTypeEnum.ProductionDate);
                 }
             }
-            else if (Application.Current.MainPage.Navigation.ModalStack.LastOrDefault().GetType().Name == ViewTypeEnum.PalletizeView.ToString())
+            catch (Exception ex)
             {
-                await OnAddMoreTagsClickedAsync(TagsTypeEnum.Zone);
-                await OnAddMoreTagsClickedAsync(TagsTypeEnum.Area);
-                await OnAddMoreTagsClickedAsync(TagsTypeEnum.Slot);
-                await OnAddMoreTagsClickedAsync(TagsTypeEnum.SSCC);
-                await OnAddMoreTagsClickedAsync(TagsTypeEnum.Note);
-                await OnAddMoreTagsClickedAsync(TagsTypeEnum.Batch);
-                await OnAddMoreTagsClickedAsync(TagsTypeEnum.GTIN);
-                await OnAddMoreTagsClickedAsync(TagsTypeEnum.ProductionDate);
-                await OnAddMoreTagsClickedAsync(TagsTypeEnum.ExpiryDate);
-            }
-            else if (Application.Current.MainPage.Navigation.ModalStack.LastOrDefault().GetType().Name == ViewTypeEnum.MoveView.ToString())
-            {
-                await OnAddMoreTagsClickedAsync(TagsTypeEnum.BestByDate);
-                await OnAddMoreTagsClickedAsync(TagsTypeEnum.ProductionDate);
+                Crashes.TrackError(ex);
             }
         }
 
         async Task OnAddMoreTagsClickedAsync(TagsTypeEnum title)
         {
-            dynamic valueEntry = null;
-            string customeTitle = string.Empty;
-
-            grdTag.RowDefinitions.Add(new RowDefinition { Height = new GridLength(0, GridUnitType.Auto) });
-
-            Label nameEntry = new Label()
+            try
             {
-                VerticalOptions = LayoutOptions.Center,
-            };
+                dynamic valueEntry = null;
+                string customeTitle = string.Empty;
 
-            customeTitle = title.ToString();
+                grdTag.RowDefinitions.Add(new RowDefinition { Height = new GridLength(0, GridUnitType.Auto) });
 
-            switch (title)
-            {
-                case TagsTypeEnum.BestByDate:
-                    customeTitle = "Best By Date";
-                    break;
-                case TagsTypeEnum.ProductionDate:
-                    customeTitle = "Production Date";
-                    break;
-                case TagsTypeEnum.ExpiryDate:
-                    customeTitle = "Expiry Date";
-                    break;
-                case TagsTypeEnum.AssetType:
-                    customeTitle = "Asset Type";
-                    break;
-                case TagsTypeEnum.Size:
-                    customeTitle = "Size";
-                    break;
-                case TagsTypeEnum.Contents:
-                    customeTitle = "Contents";
-                    break;
-                case TagsTypeEnum.Batch:
-                    customeTitle = "Batch";
-                    break;
+                Label nameEntry = new Label()
+                {
+                    VerticalOptions = LayoutOptions.Center,
+                };
+
+                customeTitle = title.ToString();
+
+                switch (title)
+                {
+                    case TagsTypeEnum.BestByDate:
+                        customeTitle = "Best By Date";
+                        break;
+                    case TagsTypeEnum.ProductionDate:
+                        customeTitle = "Production Date";
+                        break;
+                    case TagsTypeEnum.ExpiryDate:
+                        customeTitle = "Expiry Date";
+                        break;
+                    case TagsTypeEnum.AssetType:
+                        customeTitle = "Asset Type";
+                        break;
+                    case TagsTypeEnum.Size:
+                        customeTitle = "Size";
+                        break;
+                    case TagsTypeEnum.Contents:
+                        customeTitle = "Contents";
+                        break;
+                    case TagsTypeEnum.Batch:
+                        customeTitle = "Batch";
+                        break;
+                }
+                nameEntry.Text = customeTitle;
+                nameEntry.TextColor = Color.Black;
+                nameEntry.FontSize = 18;
+                nameEntry.LineBreakMode = LineBreakMode.TailTruncation;
+
+                switch (title)
+                {
+                    case TagsTypeEnum.BestByDate:
+                    case TagsTypeEnum.ProductionDate:
+                    case TagsTypeEnum.ExpiryDate:
+                        valueEntry = new DatePicker()
+                        {
+                            VerticalOptions = LayoutOptions.Center,
+                        };
+                        break;
+                    case TagsTypeEnum.AssetType:
+                    case TagsTypeEnum.Size:
+                    case TagsTypeEnum.Contents:
+                    case TagsTypeEnum.Batch:
+                        valueEntry = new Picker()
+                        {
+                            VerticalOptions = LayoutOptions.Center,
+                            Title = "Select " + customeTitle
+                        };
+                        break;
+                    case TagsTypeEnum.None:
+                        break;
+                    default:
+                        valueEntry = new Entry()
+                        {
+                            VerticalOptions = LayoutOptions.Center,
+                            AutomationId = "Value"
+                        };
+                        break;
+                }
+
+                switch (title)
+                {
+                    case TagsTypeEnum.BestByDate:
+                    case TagsTypeEnum.ProductionDate:
+                    case TagsTypeEnum.ExpiryDate:
+                        break;
+                    case TagsTypeEnum.AssetType:
+                        var assetType = await LoadAssetTypeAsync();
+                        valueEntry.ItemsSource = assetType.Select(x => x.AssetType).ToList();
+                        //valueEntry.ItemDisplayBinding = new Binding("AssetType");
+                        break;
+
+                    case TagsTypeEnum.Size:
+                        var assetSize = await LoadAssetSizeAsync();
+                        valueEntry.ItemsSource = assetSize.Select(x => x.AssetSize).ToList();
+                        //valueEntry.ItemDisplayBinding = new Binding("AssetSize");
+                        break;
+
+                    case TagsTypeEnum.Contents:
+                        var result = await SimpleIoc.Default.GetInstance<ScanKegsViewModel>().LoadBrandAsync();
+                        valueEntry.ItemsSource = result.ToList();
+                        valueEntry.ItemDisplayBinding = new Binding("BrandName");
+                        break;
+
+                    case TagsTypeEnum.Batch:
+                        var Batchresult = await SimpleIoc.Default.GetInstance<BatchViewModel>().LoadBatchAsync();
+                        valueEntry.ItemsSource = Batchresult.ToList();
+                        valueEntry.ItemDisplayBinding = new Binding("BrandName");
+                        break;
+
+                    default:
+                        break;
+                }
+
+                Button removeButton = new Button()
+                {
+                    BackgroundColor = Color.Transparent,
+                    VerticalOptions = LayoutOptions.Center,
+                    Text = "x",
+                    TextColor = (Color)Application.Current.Resources["selectTextColor"]
+                };
+                removeButton.Clicked += OnRemoveTagsClicked;
+
+                Grid.SetColumn(nameEntry, 0);
+                Grid.SetColumn(valueEntry, 1);
+                Grid.SetColumn(removeButton, 2);
+                grdTag.Children.Add(nameEntry, 0, grdTag.RowDefinitions.Count - 1);
+                grdTag.Children.Add(valueEntry, 1, grdTag.RowDefinitions.Count - 1);
+                grdTag.Children.Add(removeButton, 2, grdTag.RowDefinitions.Count - 1);
             }
-            nameEntry.Text = customeTitle;
-            nameEntry.TextColor = Color.Black;
-            nameEntry.FontSize = 18;
-            nameEntry.LineBreakMode = LineBreakMode.TailTruncation;
-
-            switch (title)
+            catch (Exception ex)
             {
-                case TagsTypeEnum.BestByDate:
-                case TagsTypeEnum.ProductionDate:
-                case TagsTypeEnum.ExpiryDate:
-                    valueEntry = new DatePicker()
-                    {
-                        VerticalOptions = LayoutOptions.Center,
-                    };
-                    break;
-                case TagsTypeEnum.AssetType:
-                case TagsTypeEnum.Size:
-                case TagsTypeEnum.Contents:
-                case TagsTypeEnum.Batch:
-                    valueEntry = new Picker()
-                    {
-                        VerticalOptions = LayoutOptions.Center,
-                        Title = "Select " + customeTitle
-                    };
-                    break;
-                case TagsTypeEnum.None:
-                    break;
-                default:
-                    valueEntry = new Entry()
-                    {
-                        VerticalOptions = LayoutOptions.Center,
-                        AutomationId = "Value"
-                    };
-                    break;
+                Crashes.TrackError(ex);
             }
-
-            switch (title)
-            {
-                case TagsTypeEnum.BestByDate:
-                case TagsTypeEnum.ProductionDate:
-                case TagsTypeEnum.ExpiryDate:
-                    break;
-                case TagsTypeEnum.AssetType:
-                    var assetType = await LoadAssetTypeAsync();
-                    valueEntry.ItemsSource = assetType.Select(x=>x.AssetType).ToList();
-                    //valueEntry.ItemDisplayBinding = new Binding("AssetType");
-                    break;
-
-                case TagsTypeEnum.Size:
-                    var assetSize = await LoadAssetSizeAsync();
-                    valueEntry.ItemsSource = assetSize.Select(x=>x.AssetSize).ToList();
-                    //valueEntry.ItemDisplayBinding = new Binding("AssetSize");
-                    break;
-
-                case TagsTypeEnum.Contents:
-                    var result = await SimpleIoc.Default.GetInstance<ScanKegsViewModel>().LoadBrandAsync();
-                    valueEntry.ItemsSource = result.ToList();
-                    valueEntry.ItemDisplayBinding = new Binding("BrandName");
-                    break;
-
-                case TagsTypeEnum.Batch:
-                    var Batchresult = await SimpleIoc.Default.GetInstance<BatchViewModel>().LoadBatchAsync();
-                    valueEntry.ItemsSource = Batchresult.ToList();
-                    valueEntry.ItemDisplayBinding = new Binding("BrandName");
-                    break;
-
-                default:
-                    break;
-            }
-
-            Button removeButton = new Button()
-            {
-                BackgroundColor = Color.Transparent,
-                VerticalOptions = LayoutOptions.Center,
-                Text = "x",
-                TextColor = (Color)Application.Current.Resources["selectTextColor"]
-            };
-            removeButton.Clicked += OnRemoveTagsClicked;
-
-            Grid.SetColumn(nameEntry, 0);
-            Grid.SetColumn(valueEntry, 1);
-            Grid.SetColumn(removeButton, 2);
-            grdTag.Children.Add(nameEntry, 0, grdTag.RowDefinitions.Count - 1);
-            grdTag.Children.Add(valueEntry, 1, grdTag.RowDefinitions.Count - 1);
-            grdTag.Children.Add(removeButton, 2, grdTag.RowDefinitions.Count - 1);
         }
 
         private async Task<IList<AssetSizeModel>> LoadAssetSizeAsync()
@@ -218,35 +232,42 @@ namespace KegID.Views
 
         void OnAddTagsClicked(object sender, EventArgs e)
         {
-            grdTag.RowDefinitions.Add(new RowDefinition { Height = new GridLength(0, GridUnitType.Auto) });
-
-            Entry propertyEntry = new Entry()
+            try
             {
-                VerticalOptions = LayoutOptions.Center,
-                AutomationId = "Property"
-            };
+                grdTag.RowDefinitions.Add(new RowDefinition { Height = new GridLength(0, GridUnitType.Auto) });
 
-            Entry valueEntry = new Entry()
+                Entry propertyEntry = new Entry()
+                {
+                    VerticalOptions = LayoutOptions.Center,
+                    AutomationId = "Property"
+                };
+
+                Entry valueEntry = new Entry()
+                {
+                    VerticalOptions = LayoutOptions.Center,
+                    AutomationId = "Value"
+                };
+
+                Button removeButton = new Button()
+                {
+                    BackgroundColor = Color.Transparent,
+                    VerticalOptions = LayoutOptions.Center,
+                    Text = "x",
+                    TextColor = (Color)Application.Current.Resources["selectTextColor"]
+                };
+                removeButton.Clicked += OnRemoveTagsClicked;
+
+                Grid.SetColumn(propertyEntry, 0);
+                Grid.SetColumn(valueEntry, 1);
+                Grid.SetColumn(removeButton, 2);
+                grdTag.Children.Add(propertyEntry, 0, grdTag.RowDefinitions.Count - 1);
+                grdTag.Children.Add(valueEntry, 1, grdTag.RowDefinitions.Count - 1);
+                grdTag.Children.Add(removeButton, 2, grdTag.RowDefinitions.Count - 1);
+            }
+            catch (Exception ex)
             {
-                VerticalOptions = LayoutOptions.Center,
-                AutomationId = "Value"
-            };
-
-            Button removeButton = new Button()
-            {
-                BackgroundColor = Color.Transparent,
-                VerticalOptions = LayoutOptions.Center,
-                Text = "x",
-                TextColor = (Color)Application.Current.Resources["selectTextColor"]
-            };
-            removeButton.Clicked += OnRemoveTagsClicked;
-
-            Grid.SetColumn(propertyEntry, 0);
-            Grid.SetColumn(valueEntry, 1);
-            Grid.SetColumn(removeButton, 2);
-            grdTag.Children.Add(propertyEntry, 0, grdTag.RowDefinitions.Count - 1);
-            grdTag.Children.Add(valueEntry, 1, grdTag.RowDefinitions.Count - 1);
-            grdTag.Children.Add(removeButton, 2, grdTag.RowDefinitions.Count - 1);
+                Crashes.TrackError(ex);
+            }
         }
 
         void OnRemoveTagsClicked(object sender, EventArgs e)

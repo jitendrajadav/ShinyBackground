@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using KegID.Model;
+using Microsoft.AppCenter.Crashes;
 using System.Collections.Generic;
 using Xamarin.Forms;
 
@@ -66,13 +67,27 @@ namespace KegID.ViewModel
 
         private async void LoadBrand()
         {
-            BrandCollection = await SimpleIoc.Default.GetInstance<ScanKegsViewModel>().LoadBrandAsync();
+            try
+            {
+                BrandCollection = await SimpleIoc.Default.GetInstance<ScanKegsViewModel>().LoadBrandAsync();
+            }
+            catch (System.Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void ItemTappedCommandRecieverAsync(BrandModel model)
         {
-            SimpleIoc.Default.GetInstance<AddBatchViewModel>().BrandModel = model;
-            await Application.Current.MainPage.Navigation.PopModalAsync();
+            try
+            {
+                SimpleIoc.Default.GetInstance<AddBatchViewModel>().BrandModel = model;
+                await Application.Current.MainPage.Navigation.PopModalAsync();
+            }
+            catch (System.Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         #endregion

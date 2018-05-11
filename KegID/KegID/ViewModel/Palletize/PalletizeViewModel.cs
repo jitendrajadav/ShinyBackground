@@ -354,7 +354,7 @@ namespace KegID.ViewModel
                     }
                 }
                 barCode = prefix.ToString().PadLeft(9, '0') + lastCharOfYear + dayOfYear + secondsInDayTillNow + (millisecond / 100);
-                var checksumDigit = Utils.CalculateCheckDigit(barCode);
+                var checksumDigit = PermissionsUtils.CalculateCheckDigit(barCode);
                 ManifestId = barCode + checksumDigit;
             }
             catch (Exception ex)
@@ -369,13 +369,20 @@ namespace KegID.ViewModel
 
         internal void AssignPartnerValue(PartnerModel model)
         {
-            if (TargetLocationPartner)
+            try
             {
-                TargetLocationPartner = false;
-                TargetLocation = model;
+                if (TargetLocationPartner)
+                {
+                    TargetLocationPartner = false;
+                    TargetLocation = model;
+                }
+                else
+                    StockLocation = model;
             }
-            else
-                StockLocation = model;
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private static int SecondsInDayTillNow()
@@ -469,7 +476,14 @@ namespace KegID.ViewModel
 
         private void BarcodeScanCommandReciever()
         {
-            SimpleIoc.Default.GetInstance<ScanKegsViewModel>().BarcodeScanCommandReciever();
+            try
+            {
+                SimpleIoc.Default.GetInstance<ScanKegsViewModel>().BarcodeScanCommandReciever();
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private void IsPalletVisibleCommandReciever()
@@ -479,40 +493,82 @@ namespace KegID.ViewModel
 
         private async void AddKegsCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new ScanKegsView(), animated: false);
+            try
+            {
+                await Application.Current.MainPage.Navigation.PushModalAsync(new ScanKegsView(), animated: false);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void AddTagsCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView(), animated: false);
+            try
+            {
+                await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView(), animated: false);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void PartnerCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView(), animated: false);
+            try
+            {
+                await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView(), animated: false);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void TargetLocationPartnerCommandRecieverAsync()
         {
-            TargetLocationPartner = true;
-            await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView(), animated: false);
+            try
+            {
+                TargetLocationPartner = true;
+                await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView(), animated: false);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void CancelCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PopModalAsync();
-            IsCameraVisible = false;
+            try
+            {
+                await Application.Current.MainPage.Navigation.PopModalAsync();
+                IsCameraVisible = false;
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         public override void Cleanup()
         {
-            base.Cleanup();
-            StockLocation = null;
-            TargetLocation = null;
-            AddInfoTitle = "Add info";
-            AddKegs = "Add Kegs";
-            IsSubmitVisible = false;
-            Tags = null;
+            try
+            {
+                base.Cleanup();
+                StockLocation = null;
+                TargetLocation = null;
+                AddInfoTitle = "Add info";
+                AddKegs = "Add Kegs";
+                IsSubmitVisible = false;
+                Tags = null;
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         #endregion

@@ -1,12 +1,15 @@
 ﻿
 using Acr.UserDialogs;
 using Android.App;
+using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
 using CarouselView.FormsPlugin.Android;
 using FFImageLoading.Forms.Droid;
 using KegID.Droid.DependencyServices;
+using KegID.Droid.Services;
+using KegID.Messages;
 using Plugin.CrossPlatformTintedImage.Android;
 using Plugin.Permissions;
 using Xamarin.Forms;
@@ -45,6 +48,33 @@ namespace KegID.Droid
 
             //var intent = new Intent(this, typeof(PeriodicService));
             //StartService(intent);
+
+            //New xamarin forms BG services
+            WireUpLongRunningTask();
+            WireUpLongDownloadTask();
+
+        }
+
+        void WireUpLongRunningTask()
+        {
+            MessagingCenter.Subscribe<StartLongRunningTaskMessage>(this, "StartLongRunningTaskMessage", message => {
+                var intent = new Intent(this, typeof(LongRunningTaskService));
+                StartService(intent);
+            });
+
+            MessagingCenter.Subscribe<StopLongRunningTaskMessage>(this, "StopLongRunningTaskMessage", message => {
+                var intent = new Intent(this, typeof(LongRunningTaskService));
+                StopService(intent);
+            });
+        }
+
+        void WireUpLongDownloadTask()
+        {
+            MessagingCenter.Subscribe<DownloadMessage>(this, "Download", message => {
+                var intent = new Intent(this, typeof(DownloaderService));
+                intent.PutExtra("url", message.Url);
+                StartService(intent);
+            });
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)

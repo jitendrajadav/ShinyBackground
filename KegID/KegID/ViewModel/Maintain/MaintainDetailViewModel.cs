@@ -5,6 +5,7 @@ using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
 using KegID.Model;
 using KegID.Views;
+using Microsoft.AppCenter.Crashes;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -176,13 +177,20 @@ namespace KegID.ViewModel
 
         internal void LoadInfo(IList<Barcode> barcodeCollection)
         {
-            TrackingNo = Uuid.GetUuId();
+            try
+            {
+                TrackingNo = Uuid.GetUuId();
 
-            StockLocation = SimpleIoc.Default.GetInstance<MaintainViewModel>().PartnerModel.FullName + "\n" + SimpleIoc.Default.GetInstance<MaintainViewModel>().PartnerModel.PartnerTypeName;
-            ItemCount = barcodeCollection.Count;
-            SimpleIoc.Default.GetInstance<ContentTagsViewModel>().ContentCollection = barcodeCollection.Select(x => x.Id).ToList();
+                StockLocation = SimpleIoc.Default.GetInstance<MaintainViewModel>().PartnerModel.FullName + "\n" + SimpleIoc.Default.GetInstance<MaintainViewModel>().PartnerModel.PartnerTypeName;
+                ItemCount = barcodeCollection.Count;
+                SimpleIoc.Default.GetInstance<ContentTagsViewModel>().ContentCollection = barcodeCollection.Select(x => x.Id).ToList();
 
-            Contents = string.Empty;
+                Contents = string.Empty;
+            }
+            catch (System.Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         #endregion

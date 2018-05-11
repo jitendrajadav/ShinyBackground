@@ -7,6 +7,7 @@ using KegID.Common;
 using KegID.Model;
 using KegID.Services;
 using KegID.Views;
+using Microsoft.AppCenter.Crashes;
 using Plugin.Share;
 using Xamarin.Forms;
 
@@ -321,53 +322,87 @@ namespace KegID.ViewModel
 
         private async void EditPalletCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new PalletizeView(), animated: false);
-            //SimpleIoc.Default.GetInstance<PalletizeViewModel>().AssingInitialValue(ManifestId,StockLocation,TargetLocation) ;
+            try
+            {
+                await Application.Current.MainPage.Navigation.PushModalAsync(new PalletizeView(), animated: false);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void MovePalletCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new MoveView(), animated: false);
+            try
+            {
+                await Application.Current.MainPage.Navigation.PushModalAsync(new MoveView(), animated: false);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void GridTappedCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new ContentTagsView(), animated: false);
 
         private void ShareCommandReciever()
         {
-            CrossShare.Current.Share(message: new Plugin.Share.Abstractions.ShareMessage
+            try
             {
-                Text = "Share",
-                Title = "Share",
-                Url = "https://www.slg.com/"
-            });
+                CrossShare.Current.Share(message: new Plugin.Share.Abstractions.ShareMessage
+                {
+                    Text = "Share",
+                    Title = "Share",
+                    Url = "https://www.slg.com/"
+                });
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void HomeCommandCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PopModalAsync();
 
         internal void LoadInfo(PalletResponseModel value)
         {
-            ManifestId = value.Barcode;
-            PartnerTypeName = value.StockLocation.PartnerTypeName;
-            StockLocation = value.StockLocation.FullName;
-            TargetLocation = value.StockLocation.FullName;
-            ShippingDate = value.BuildDate;
-            ItemCount = value.PalletItems.Count;
-            SimpleIoc.Default.GetInstance<ContentTagsViewModel>().ContentCollection = value.PalletItems.Select(selector: x => x.Barcode).ToList();
+            try
+            {
+                ManifestId = value.Barcode;
+                PartnerTypeName = value.StockLocation.PartnerTypeName;
+                StockLocation = value.StockLocation.FullName;
+                TargetLocation = value.StockLocation.FullName;
+                ShippingDate = value.BuildDate;
+                ItemCount = value.PalletItems.Count;
+                SimpleIoc.Default.GetInstance<ContentTagsViewModel>().ContentCollection = value.PalletItems.Select(selector: x => x.Barcode).ToList();
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         internal async void AssingIntialValueAsync(SearchPalletResponseModel model, bool v)
         {
-            var manifest = await _moveService.GetManifestAsync(AppSettings.User.SessionId, model.Barcode);
+            try
+            {
+                var manifest = await _moveService.GetManifestAsync(AppSettings.User.SessionId, model.Barcode);
 
-            Model = model;
-            IsFromDashboard = v;
-            ManifestId = model.Barcode;
-            PartnerTypeName = model.OwnerName;
-            StockLocation = model.LocationName;
-            TargetLocation = model.LocationName;
-            ShippingDate = model.BuildDate.Date;
-            ItemCount = (int)model.BuildCount;
-            SimpleIoc.Default.GetInstance<ContentTagsViewModel>().ContentCollection = new List<string> { model.Barcode };
+                Model = model;
+                IsFromDashboard = v;
+                ManifestId = model.Barcode;
+                PartnerTypeName = model.OwnerName;
+                StockLocation = model.LocationName;
+                TargetLocation = model.LocationName;
+                ShippingDate = model.BuildDate.Date;
+                ItemCount = (int)model.BuildCount;
+                SimpleIoc.Default.GetInstance<ContentTagsViewModel>().ContentCollection = new List<string> { model.Barcode };
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         #endregion

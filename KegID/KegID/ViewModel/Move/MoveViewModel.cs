@@ -498,8 +498,15 @@ namespace KegID.ViewModel
 
         internal void AssignAddTagsValue(List<Tag> _tags, string _tagsStr)
         {
-            Tags = _tags;
-            TagsStr = _tagsStr;
+            try
+            {
+                Tags = _tags;
+                TagsStr = _tagsStr;
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void CancelCommandRecieverAsync()

@@ -1,12 +1,15 @@
-﻿using GalaSoft.MvvmLight.Command;
+﻿using Fusillade;
+using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
+using KegID.Dtos;
 using KegID.Model;
 using KegID.Services;
 using KegID.SQLiteClient;
 using KegID.Views;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
+using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +18,7 @@ using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
+    //[ImplementPropertyChanged]
     public class LoginViewModel : BaseViewModel
     {
 
@@ -122,6 +126,7 @@ namespace KegID.ViewModel
 
         #endregion
 
+        public readonly ILoginService _loginService;
         public IAccountService AccountService { get; set; }
         public IMaintainService MaintainService { get; set; }
 
@@ -136,11 +141,12 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public LoginViewModel(IAccountService _accountService, IMaintainService _maintainService)
+        public LoginViewModel(IAccountService _accountService, IMaintainService _maintainService, ILoginService loginService)
         {
+            _loginService = loginService;
             AccountService = _accountService;
             MaintainService = _maintainService;
-            LoginCommand = new RelayCommand(LoginCommandRecieverAsync);
+            LoginCommand = new RelayCommand(LoginCommand1RecieverAsync);
             KegIDCommand = new RelayCommand(KegIDCommandReciever);
 
             Username = "test@kegid.com";
@@ -159,6 +165,35 @@ namespace KegID.ViewModel
             {
                 Device.OpenUri(new Uri("https://www.kegid.com/"));
             });
+        }
+
+        private async void LoginCommand1RecieverAsync()
+        {
+            try
+            {
+                Loader.StartLoading();
+                var login =  await _loginService
+                                            .GetLogin(Priority.Background,Username, Password)
+                                            .ConfigureAwait(false);
+                //CacheLogin(login);
+
+                Application.Current.MainPage = new MainPage();
+                await Application.Current.MainPage.Navigation.PopToRootAsync(true);
+            }
+            catch (Exception ex)
+            {
+                 Crashes.TrackError(ex);
+            }
+            finally
+            {
+                Loader.StopLoading();
+                Analytics.TrackEvent("Loged In");
+            }
+        }
+
+        private void CacheLogin(LoginDto login)
+        {
+
         }
 
         private async void LoginCommandRecieverAsync()
@@ -186,9 +221,9 @@ namespace KegID.ViewModel
                     }
                     catch (Exception ex)
                     {
-                         Crashes.TrackError(ex);
+                        Crashes.TrackError(ex);
                     }
-                    await Application.Current.MainPage.Navigation.PushModalAsync(page: new MainPage(),animated: false);
+                    await Application.Current.MainPage.Navigation.PushModalAsync(page: new MainPage(), animated: false);
                     try
                     {
                         var value = await SQLiteServiceClient.Db.InsertAllAsync(model.LoginModel.Preferences);
@@ -201,19 +236,19 @@ namespace KegID.ViewModel
                     }
                     catch (Exception ex)
                     {
-                         Crashes.TrackError(ex);
+                        Crashes.TrackError(ex);
                     }
                 }
                 else
                 {
-                  await Application.Current.MainPage.DisplayAlert("Error","Error while login please check","Ok");
+                    await Application.Current.MainPage.DisplayAlert("Error", "Error while login please check", "Ok");
                 }
                 Application.Current.MainPage = new MainPage();
                 await Application.Current.MainPage.Navigation.PopToRootAsync(true);
             }
             catch (Exception ex)
             {
-                 Crashes.TrackError(ex);
+                Crashes.TrackError(ex);
             }
             finally
             {
@@ -222,11 +257,17 @@ namespace KegID.ViewModel
             }
         }
 
-
         internal async void InvalideServiceCallAsync()
         {
-            AppSettings.RemoveUserData();
-            await Application.Current.MainPage.Navigation.PushModalAsync(new LoginView(), animated: false);
+            try
+            {
+                AppSettings.RemoveUserData();
+                await Application.Current.MainPage.Navigation.PushModalAsync(new LoginView(), animated: false);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async Task LoadAssetSizeAsync()

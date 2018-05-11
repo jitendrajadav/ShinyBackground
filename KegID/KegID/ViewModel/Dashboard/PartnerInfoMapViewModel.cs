@@ -68,18 +68,32 @@ namespace KegID.ViewModel
 
         private async void PartnerInfoCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PopModalAsync();
+            try
+            {
+                await Application.Current.MainPage.Navigation.PopModalAsync();
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         internal void AssignInitialValue(double _lat, double _lon, string _lable, string _address)
         {
-            Position = new LocationInfo
+            try
             {
-                Lat = _lat,
-                Lon = _lon,
-                Label = _lable,
-                Address = _address
-            };
+                Position = new LocationInfo
+                {
+                    Lat = _lat,
+                    Lon = _lon,
+                    Label = _lable,
+                    Address = _address
+                };
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         #endregion

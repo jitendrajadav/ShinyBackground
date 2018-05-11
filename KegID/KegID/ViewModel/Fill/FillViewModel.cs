@@ -2,6 +2,7 @@
 using GalaSoft.MvvmLight.Ioc;
 using KegID.Model;
 using KegID.Views;
+using Microsoft.AppCenter.Crashes;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -280,39 +281,60 @@ namespace KegID.ViewModel
 
         private async void CancelCommandRecieverAsync()
         {
-            var result = await Application.Current.MainPage.DisplayActionSheet("Cancel? \n You have like to save this manifest as a draft or delete?", null, null, "Delete manifest", "Save as draft");
-            if (result == "Delete manifest")
+            try
             {
-                await Application.Current.MainPage.Navigation.PopModalAsync();
+                var result = await Application.Current.MainPage.DisplayActionSheet("Cancel? \n You have like to save this manifest as a draft or delete?", null, null, "Delete manifest", "Save as draft");
+                if (result == "Delete manifest")
+                {
+                    await Application.Current.MainPage.Navigation.PopModalAsync();
+                }
+            }
+            catch (System.Exception ex)
+            {
+                Crashes.TrackError(ex);
             }
         }
 
         private async void NextCommandRecieverAsync()
         {
-            if (!BatchButtonTitle.Contains("Select batch"))
+            try
             {
-                if (IsPalletze)
+                if (!BatchButtonTitle.Contains("Select batch"))
                 {
-                    SimpleIoc.Default.GetInstance<AddPalletsViewModel>().AddPalletsTitle = "Filling " + SizeButtonTitle + " kegs with " + BatchButtonTitle + "\n" + DestinationTitle;
-                    await Application.Current.MainPage.Navigation.PushModalAsync(new AddPalletsView(), animated: false);
+                    if (IsPalletze)
+                    {
+                        SimpleIoc.Default.GetInstance<AddPalletsViewModel>().AddPalletsTitle = "Filling " + SizeButtonTitle + " kegs with " + BatchButtonTitle + "\n" + DestinationTitle;
+                        await Application.Current.MainPage.Navigation.PushModalAsync(new AddPalletsView(), animated: false);
+                    }
+                    else
+                    {
+                        SimpleIoc.Default.GetInstance<FillScanViewModel>().IsPalletze = IsPalletze;
+                        SimpleIoc.Default.GetInstance<FillScanViewModel>().ManifestId = "Filling " + SizeButtonTitle + " kegs with " + BatchButtonTitle + " " + DestinationTitle;
+                        await Application.Current.MainPage.Navigation.PushModalAsync(new FillScanView(), animated: false);
+                    }
                 }
                 else
                 {
-                    SimpleIoc.Default.GetInstance<FillScanViewModel>().IsPalletze = IsPalletze;
-                    SimpleIoc.Default.GetInstance<FillScanViewModel>().ManifestId = "Filling " + SizeButtonTitle + " kegs with " + BatchButtonTitle + " " + DestinationTitle;
-                    await Application.Current.MainPage.Navigation.PushModalAsync(new FillScanView(), animated: false);
+                    await Application.Current.MainPage.DisplayAlert("Error", "Batch is required.", "Ok");
                 }
             }
-            else
+            catch (System.Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "Batch is required.", "Ok");
+                Crashes.TrackError(ex);
             }
         }
 
         private async void DestinationCommandRecieverAsync()
         {
-            SimpleIoc.Default.GetInstance<PartnersViewModel>().BrewerStockOn = true;
-            await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView());
+            try
+            {
+                SimpleIoc.Default.GetInstance<PartnersViewModel>().BrewerStockOn = true;
+                await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView());
+            }
+            catch (System.Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void BatchCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new BatchView(), animated: false);

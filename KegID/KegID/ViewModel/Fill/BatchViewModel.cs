@@ -84,15 +84,29 @@ namespace KegID.ViewModel
 
         private async void AddBatchCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new AddBatchView(), animated: false);
+            try
+            {
+                await Application.Current.MainPage.Navigation.PushModalAsync(new AddBatchView(), animated: false);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void ItemTappedCommandRecieverAsync(BatchModel model)
         {
-            if (model != null)
+            try
             {
-                SimpleIoc.Default.GetInstance<FillViewModel>().NewBatchModel = model;
-                await Application.Current.MainPage.Navigation.PopModalAsync();
+                if (model != null)
+                {
+                    SimpleIoc.Default.GetInstance<FillViewModel>().NewBatchModel = model;
+                    await Application.Current.MainPage.Navigation.PopModalAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
             }
         }
 

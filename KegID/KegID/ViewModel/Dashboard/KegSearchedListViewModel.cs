@@ -4,6 +4,7 @@ using KegID.Common;
 using KegID.Model;
 using KegID.Services;
 using KegID.Views;
+using Microsoft.AppCenter.Crashes;
 using System.Collections.Generic;
 using Xamarin.Forms;
 
@@ -72,19 +73,40 @@ namespace KegID.ViewModel
 
         private async void KegSearchCommandRecieverAsync()
         {
-            await Application.Current.MainPage.Navigation.PopModalAsync();
+            try
+            {
+                await Application.Current.MainPage.Navigation.PopModalAsync();
+            }
+            catch (System.Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void ItemTappedCommandRecieverAsync(KegSearchResponseModel model)
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new KegStatusView(), animated: false);
-            await SimpleIoc.Default.GetInstance<KegStatusViewModel>().LoadMaintenanceHistoryAsync(model.KegId, model.Contents, 4, model.Owner.FullName, model.Barcode, model.TypeName, model.SizeName);
+            try
+            {
+                await Application.Current.MainPage.Navigation.PushModalAsync(new KegStatusView(), animated: false);
+                await SimpleIoc.Default.GetInstance<KegStatusViewModel>().LoadMaintenanceHistoryAsync(model.KegId, model.Contents, 4, model.Owner.FullName, model.Barcode, model.TypeName, model.SizeName);
+            }
+            catch (System.Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         internal async void LoadKegSearchAsync(string barcode)
         {
-            var value = await _dashboardService.GetKegSearchAsync(AppSettings.User.SessionId, barcode, true);
-            KegSearchCollection = value.KegSearchResponseModel;
+            try
+            {
+                var value = await _dashboardService.GetKegSearchAsync(AppSettings.User.SessionId, barcode, true);
+                KegSearchCollection = value.KegSearchResponseModel;
+            }
+            catch (System.Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         #endregion

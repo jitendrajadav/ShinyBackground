@@ -21,7 +21,7 @@ namespace KegID.Common
         {
             try
             {
-                var hasPermission = await Utils.CheckPermissions(Permission.Location);
+                var hasPermission = await PermissionsUtils.CheckPermissions(Permission.Location);
                 if (!hasPermission)
                     return;
 
@@ -99,7 +99,7 @@ namespace KegID.Common
         {
             try
             {
-                var hasPermission = await Utils.CheckPermissions(Permission.Location);
+                var hasPermission = await PermissionsUtils.CheckPermissions(Permission.Location);
                 if (!hasPermission)
                     return;
 
@@ -136,7 +136,7 @@ namespace KegID.Common
         {
             try
             {
-                var hasPermission = await Utils.CheckPermissions(Permission.Location);
+                var hasPermission = await PermissionsUtils.CheckPermissions(Permission.Location);
                 if (!hasPermission)
                     return;
 
@@ -205,7 +205,7 @@ namespace KegID.Common
                 if (savedPosition == null)
                     return;
 
-                var hasPermission = await Utils.CheckPermissions(Permission.Location);
+                var hasPermission = await PermissionsUtils.CheckPermissions(Permission.Location);
                 if (!hasPermission)
                     return;
 

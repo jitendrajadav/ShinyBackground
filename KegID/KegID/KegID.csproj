@@ -14,24 +14,40 @@
 
   <ItemGroup>
     <PackageReference Include="Acr.UserDialogs" Version="7.0.1" />
+    <PackageReference Include="akavache" Version="5.0.0" />
+    <PackageReference Include="akavache.core" Version="5.0.0" />
+    <PackageReference Include="akavache.sqlite3" Version="5.0.0" />
+    <PackageReference Include="AsyncErrorHandler.Fody" Version="1.1.0" />
     <PackageReference Include="CarouselView.FormsPlugin" Version="5.2.0" />
+    <PackageReference Include="Fody" Version="3.0.3" />
+    <PackageReference Include="FodyHelpers" Version="3.0.3" />
+    <PackageReference Include="fusillade" Version="1.0.0" />
     <PackageReference Include="Microsoft.AppCenter" Version="1.6.0" />
     <PackageReference Include="Microsoft.AppCenter.Analytics" Version="1.6.0" />
     <PackageReference Include="Microsoft.AppCenter.Crashes" Version="1.6.0" />
     <PackageReference Include="Microsoft.AppCenter.Distribute" Version="1.6.0" />
     <PackageReference Include="Microsoft.AppCenter.Push" Version="1.6.0" />
+    <PackageReference Include="Microsoft.Bcl" Version="1.1.10" />
+    <PackageReference Include="Microsoft.Bcl.Build" Version="1.0.21" />
     <PackageReference Include="Microsoft.CSharp" Version="4.4.1" />
     <PackageReference Include="Microsoft.Net.Http" Version="2.2.29" />
+    <PackageReference Include="modernhttpclient" Version="2.4.2" />
     <PackageReference Include="MvvmLightLibsStd10" Version="5.4.1" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="Plugin.CrossPlatformTintedImage" Version="1.0.0" />
     <PackageReference Include="Plugin.Permissions" Version="3.0.0.8" />
     <PackageReference Include="Plugin.Share" Version="7.1.1" />
+    <PackageReference Include="Polly" Version="6.0.1" />
+    <PackageReference Include="PropertyChanged.Fody" Version="2.5.6" />
+    <PackageReference Include="Punchclock" Version="2.1.0" />
+    <PackageReference Include="refit" Version="4.3.0" />
     <PackageReference Include="Rg.Plugins.Popup" Version="1.0.4" />
     <PackageReference Include="runtime.win10-arm64.runtime.native.System.IO.Compression" Version="4.3.1" />
+    <PackageReference Include="Splat" Version="4.0.0" />
     <PackageReference Include="sqlite-net-pcl" Version="1.5.166-beta" />
     <PackageReference Include="SQLite.Net-PCL" Version="3.1.1" />
     <PackageReference Include="SQLite.Net.Async-PCL" Version="3.1.1" />
+    <PackageReference Include="SQLitePCL.raw_basic" Version="0.8.6" />
     <PackageReference Include="Xam.Plugin.Connectivity" Version="3.1.1" />
     <PackageReference Include="Xam.Plugin.Geolocator" Version="4.5.0.1" />
     <PackageReference Include="Xam.Plugins.Messaging" Version="5.2.0" />
@@ -77,9 +93,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="BackgroundPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="DownloadPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="KegIDResource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>KegIDResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="LongRunningPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Dashboard\BulkUpdateScanView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>

@@ -6,7 +6,7 @@ using Xamarin.Forms;
 
 namespace KegID.Common
 {
-    public static class Utils
+    public static class PermissionsUtils
     {
         public static async Task<bool> CheckPermissions(Permission permission)
         {

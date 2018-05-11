@@ -2,6 +2,7 @@
 using GalaSoft.MvvmLight.Ioc;
 using KegID.Model;
 using KegID.SQLiteClient;
+using Microsoft.AppCenter.Crashes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -70,24 +71,38 @@ namespace KegID.ViewModel
 
         private async void LoadAssetSizeAsync()
         {
-            var value = await SQLiteServiceClient.Db.Table<AssetSizeModel>().ToListAsync();
-            SizeCollection = value.Select(x => x.AssetSize).ToList();
+            try
+            {
+                var value = await SQLiteServiceClient.Db.Table<AssetSizeModel>().ToListAsync();
+                SizeCollection = value.Select(x => x.AssetSize).ToList();
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void ItemTappedCommandRecieverAsync(string model)
         {
-            switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack[Application.Current.MainPage.Navigation.ModalStack.Count-2].GetType().Name))
+            try
             {
-                case ViewTypeEnum.FillView:
-                    SimpleIoc.Default.GetInstance<FillViewModel>().SizeButtonTitle = model;
-                    break;
-                case ViewTypeEnum.EditKegView:
-                    SimpleIoc.Default.GetInstance<EditKegViewModel>().Size = model;
-                    break;
-                default:
-                    break;
+                switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack[Application.Current.MainPage.Navigation.ModalStack.Count - 2].GetType().Name))
+                {
+                    case ViewTypeEnum.FillView:
+                        SimpleIoc.Default.GetInstance<FillViewModel>().SizeButtonTitle = model;
+                        break;
+                    case ViewTypeEnum.EditKegView:
+                        SimpleIoc.Default.GetInstance<EditKegViewModel>().Size = model;
+                        break;
+                    default:
+                        break;
+                }
+                await Application.Current.MainPage.Navigation.PopModalAsync();
             }
-            await Application.Current.MainPage.Navigation.PopModalAsync();
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         #endregion
