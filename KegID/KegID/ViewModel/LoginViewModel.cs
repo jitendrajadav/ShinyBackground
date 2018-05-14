@@ -1,4 +1,4 @@
-﻿using Fusillade;
+﻿//using Fusillade;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
@@ -9,7 +9,7 @@ using KegID.SQLiteClient;
 using KegID.Views;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
-using PropertyChanged;
+//using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -126,9 +126,9 @@ namespace KegID.ViewModel
 
         #endregion
 
-        public readonly ILoginService _loginService;
-        public IAccountService AccountService { get; set; }
-        public IMaintainService MaintainService { get; set; }
+        //public readonly ILoginService _loginService;
+        public readonly IAccountService AccountService;
+        public readonly IMaintainService MaintainService;
 
         #endregion
 
@@ -141,12 +141,12 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public LoginViewModel(IAccountService _accountService, IMaintainService _maintainService, ILoginService loginService)
+        public LoginViewModel(IAccountService _accountService, IMaintainService _maintainService)
         {
-            _loginService = loginService;
+            //_loginService = loginService;
             AccountService = _accountService;
             MaintainService = _maintainService;
-            LoginCommand = new RelayCommand(LoginCommand1RecieverAsync);
+            LoginCommand = new RelayCommand(LoginCommandRecieverAsync);
             KegIDCommand = new RelayCommand(KegIDCommandReciever);
 
             Username = "test@kegid.com";
@@ -167,29 +167,29 @@ namespace KegID.ViewModel
             });
         }
 
-        private async void LoginCommand1RecieverAsync()
-        {
-            try
-            {
-                Loader.StartLoading();
-                var login =  await _loginService
-                                            .GetLogin(Priority.Background,Username, Password)
-                                            .ConfigureAwait(false);
-                //CacheLogin(login);
+        //private async void LoginCommand1RecieverAsync()
+        //{
+        //    try
+        //    {
+        //        Loader.StartLoading();
+        //        var login =  await _loginService
+        //                                    .GetLogin(Priority.Background,Username, Password)
+        //                                    .ConfigureAwait(false);
+        //        //CacheLogin(login);
 
-                Application.Current.MainPage = new MainPage();
-                await Application.Current.MainPage.Navigation.PopToRootAsync(true);
-            }
-            catch (Exception ex)
-            {
-                 Crashes.TrackError(ex);
-            }
-            finally
-            {
-                Loader.StopLoading();
-                Analytics.TrackEvent("Loged In");
-            }
-        }
+        //        Application.Current.MainPage = new MainPage();
+        //        await Application.Current.MainPage.Navigation.PopToRootAsync(true);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //         Crashes.TrackError(ex);
+        //    }
+        //    finally
+        //    {
+        //        Loader.StopLoading();
+        //        Analytics.TrackEvent("Loged In");
+        //    }
+        //}
 
         private void CacheLogin(LoginDto login)
         {
