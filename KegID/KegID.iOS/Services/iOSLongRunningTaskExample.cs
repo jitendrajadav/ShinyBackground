@@ -12,7 +12,7 @@ namespace KegID.iOS.Services
         nint _taskId;
         CancellationTokenSource _cts;
 
-        public async Task Start()
+        public async Task Start(StartLongRunningTaskMessage startLongRunningTaskMessage)
         {
             _cts = new CancellationTokenSource();
 
@@ -22,7 +22,7 @@ namespace KegID.iOS.Services
             {
                 //INVOKE THE SHARED CODE
                 var counter = new TaskCounter();
-                await counter.RunCounter(_cts.Token);
+                await counter.RunCounter(_cts.Token, startLongRunningTaskMessage.Barcode);
 
             }
             catch (OperationCanceledException)

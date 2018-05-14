@@ -1,51 +1,34 @@
-﻿using KegID.Common;
+﻿using GalaSoft.MvvmLight.Ioc;
+using KegID.Common;
 using KegID.Model;
 using KegID.Services;
 using KegID.SQLiteClient;
 using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace KegID
 {
     public class TaskCounter
     {
-        public IMoveService MoveService { get; set; }
+        public readonly IMoveService MoveService;
 
-        //public TaskCounter(IMoveService _moveService)
-        //{
-        //    MoveService = _moveService;
-        //}
-
-        public async Task RunCounter(CancellationToken token)
+        public async Task RunCounter(CancellationToken token, string _barcode)
         {
             await Task.Run(async () => {
 
-                //for (long i = 0; i < long.MaxValue; i++)
-                //{
-                //    token.ThrowIfCancellationRequested();
-
-                //    await Task.Delay(250);
-                //    var message = new TickedMessage
-                //    {
-                //        Message = i.ToString()
-                //    };
-
-                //    Device.BeginInvokeOnMainThread(() => {
-                //        MessagingCenter.Send<TickedMessage>(message, "TickedMessage");
-                //    });
-                //}
-
+                await ValidateBarcodeInsertIntoLocalDB(_barcode);
 
             }, token);
         }
 
-        public async Task<Barcode> ValidateBarcodeInsertIntoLocalDB(string _barcodeId, List<Tag> _tags, string _tagsStr)
+        public async Task ValidateBarcodeInsertIntoLocalDB(string _barcodeId)
         {
-            ValidateBarcodeModel validateBarcodeModel = await MoveService.GetValidateBarcodeAsync(AppSettings.User.SessionId, _barcodeId);
+            var service = SimpleIoc.Default.GetInstance<IMoveService>();
+            ValidateBarcodeModel validateBarcodeModel = await service.GetValidateBarcodeAsync(AppSettings.User.SessionId, _barcodeId);
             Barcode barcode = null;
 
             if (validateBarcodeModel.Kegs != null)
@@ -53,8 +36,6 @@ namespace KegID
                 barcode = new Barcode
                 {
                     Id = _barcodeId,
-                    Tags = _tags,
-                    TagsStr = _tagsStr,
                     Partners = validateBarcodeModel.Kegs.Partners,
                     Icon = validateBarcodeModel.Kegs.Partners.Count > 1 ? GetIconByPlatform.GetIcon("validationquestion.png") :
                     validateBarcodeModel.Kegs.Partners.Count == 0 ? GetIconByPlatform.GetIcon("validationerror.png") : GetIconByPlatform.GetIcon("validationok.png"),
@@ -77,7 +58,9 @@ namespace KegID
                 }
             }
 
-            return barcode;
+            Device.BeginInvokeOnMainThread(() => {
+                MessagingCenter.Send<Barcode>(barcode, "BarcodeMessage");
+            }); ;
         }
 
     }

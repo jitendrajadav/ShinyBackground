@@ -65,7 +65,7 @@ namespace KegID.iOS
         {
             MessagingCenter.Subscribe<StartLongRunningTaskMessage>(this, "StartLongRunningTaskMessage", async message => {
                 longRunningTaskExample = new iOSLongRunningTaskExample();
-                await longRunningTaskExample.Start();
+                await longRunningTaskExample.Start(message);
             });
 
             MessagingCenter.Subscribe<StopLongRunningTaskMessage>(this, "StopLongRunningTaskMessage", message => {

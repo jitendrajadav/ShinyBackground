@@ -2274,6 +2274,8 @@ namespace KegID.Droid
 			global::Microsoft.AppCenter.Distribute.Resource.String.appcenter_distribute_update_failed_dialog_title = global::KegID.Droid.Resource.String.appcenter_distribute_update_failed_dialog_title;
 			global::Microsoft.AppCenter.Push.Android.Resource.Drawable.ic_stat_notify_dot = global::KegID.Droid.Resource.Drawable.ic_stat_notify_dot;
 			global::Microsoft.AppCenter.Push.Android.Resource.String.library_name = global::KegID.Droid.Resource.String.library_name;
+			global::SQLite.Net.Platform.XamarinAndroid.Resource.String.ApplicationName = global::KegID.Droid.Resource.String.ApplicationName;
+			global::SQLite.Net.Platform.XamarinAndroid.Resource.String.Hello = global::KegID.Droid.Resource.String.Hello;
 			global::Xamarin.Forms.Platform.Android.Resource.Attribute.actionBarSize = global::KegID.Droid.Resource.Attribute.actionBarSize;
 			global::ZXing.Net.Mobile.Forms.Android.Resource.Layout.zxingscanneractivitylayout = global::KegID.Droid.Resource.Layout.zxingscanneractivitylayout;
 			global::ZXing.Net.Mobile.Forms.Android.Resource.Layout.zxingscannerfragmentlayout = global::KegID.Droid.Resource.Layout.zxingscannerfragmentlayout;
@@ -6818,6 +6820,12 @@ namespace KegID.Droid
 		public partial class String
 		{
 			
+			// aapt resource value: 0x7f080050
+			public const int ApplicationName = 2131230800;
+			
+			// aapt resource value: 0x7f08004f
+			public const int Hello = 2131230799;
+			
 			// aapt resource value: 0x7f080028
 			public const int abc_action_bar_home_description = 2131230760;
 			
@@ -6911,62 +6919,62 @@ namespace KegID.Droid
 			// aapt resource value: 0x7f080046
 			public const int appbar_scrolling_view_behavior = 2131230790;
 			
-			// aapt resource value: 0x7f08004f
-			public const int appcenter_distribute_dialog_actioned_on_disabled_toast = 2131230799;
-			
-			// aapt resource value: 0x7f080050
-			public const int appcenter_distribute_download_progress_number_format = 2131230800;
-			
 			// aapt resource value: 0x7f080051
-			public const int appcenter_distribute_downloading_mandatory_update = 2131230801;
+			public const int appcenter_distribute_dialog_actioned_on_disabled_toast = 2131230801;
 			
 			// aapt resource value: 0x7f080052
-			public const int appcenter_distribute_install = 2131230802;
+			public const int appcenter_distribute_download_progress_number_format = 2131230802;
 			
 			// aapt resource value: 0x7f080053
-			public const int appcenter_distribute_install_ready_message = 2131230803;
+			public const int appcenter_distribute_downloading_mandatory_update = 2131230803;
 			
 			// aapt resource value: 0x7f080054
-			public const int appcenter_distribute_install_ready_title = 2131230804;
+			public const int appcenter_distribute_install = 2131230804;
 			
 			// aapt resource value: 0x7f080055
-			public const int appcenter_distribute_notification_category = 2131230805;
+			public const int appcenter_distribute_install_ready_message = 2131230805;
 			
 			// aapt resource value: 0x7f080056
-			public const int appcenter_distribute_unknown_sources_dialog_message = 2131230806;
+			public const int appcenter_distribute_install_ready_title = 2131230806;
 			
 			// aapt resource value: 0x7f080057
-			public const int appcenter_distribute_unknown_sources_dialog_settings = 2131230807;
+			public const int appcenter_distribute_notification_category = 2131230807;
 			
 			// aapt resource value: 0x7f080058
-			public const int appcenter_distribute_update_dialog_download = 2131230808;
+			public const int appcenter_distribute_unknown_sources_dialog_message = 2131230808;
 			
 			// aapt resource value: 0x7f080059
-			public const int appcenter_distribute_update_dialog_message_mandatory = 2131230809;
+			public const int appcenter_distribute_unknown_sources_dialog_settings = 2131230809;
 			
 			// aapt resource value: 0x7f08005a
-			public const int appcenter_distribute_update_dialog_message_optional = 2131230810;
+			public const int appcenter_distribute_update_dialog_download = 2131230810;
 			
 			// aapt resource value: 0x7f08005b
-			public const int appcenter_distribute_update_dialog_postpone = 2131230811;
+			public const int appcenter_distribute_update_dialog_message_mandatory = 2131230811;
 			
 			// aapt resource value: 0x7f08005c
-			public const int appcenter_distribute_update_dialog_title = 2131230812;
+			public const int appcenter_distribute_update_dialog_message_optional = 2131230812;
 			
 			// aapt resource value: 0x7f08005d
-			public const int appcenter_distribute_update_dialog_view_release_notes = 2131230813;
+			public const int appcenter_distribute_update_dialog_postpone = 2131230813;
 			
 			// aapt resource value: 0x7f08005e
-			public const int appcenter_distribute_update_failed_dialog_ignore = 2131230814;
+			public const int appcenter_distribute_update_dialog_title = 2131230814;
 			
 			// aapt resource value: 0x7f08005f
-			public const int appcenter_distribute_update_failed_dialog_message = 2131230815;
+			public const int appcenter_distribute_update_dialog_view_release_notes = 2131230815;
 			
 			// aapt resource value: 0x7f080060
-			public const int appcenter_distribute_update_failed_dialog_reinstall = 2131230816;
+			public const int appcenter_distribute_update_failed_dialog_ignore = 2131230816;
 			
 			// aapt resource value: 0x7f080061
-			public const int appcenter_distribute_update_failed_dialog_title = 2131230817;
+			public const int appcenter_distribute_update_failed_dialog_message = 2131230817;
+			
+			// aapt resource value: 0x7f080062
+			public const int appcenter_distribute_update_failed_dialog_reinstall = 2131230818;
+			
+			// aapt resource value: 0x7f080063
+			public const int appcenter_distribute_update_failed_dialog_title = 2131230819;
 			
 			// aapt resource value: 0x7f080047
 			public const int bottom_sheet_behavior = 2131230791;

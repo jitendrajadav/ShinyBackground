@@ -13,6 +13,7 @@ using GalaSoft.MvvmLight.Ioc;
 using System.Threading.Tasks;
 using Rg.Plugins.Popup.Extensions;
 using Microsoft.AppCenter.Crashes;
+using KegID.Messages;
 
 namespace KegID.ViewModel
 {
@@ -294,11 +295,39 @@ namespace KegID.ViewModel
             LabelItemTappedCommand = new RelayCommand<Barcode>((model) => LabelItemTappedCommandRecieverAsync(model));
             IconItemTappedCommand = new RelayCommand<Barcode>((model) => IconItemTappedCommandRecieverAsync(model));
             LoadBrand();
+
+            HandleReceivedMessages();
         }
 
         #endregion
 
         #region Methods
+        void HandleReceivedMessages()
+        {
+            MessagingCenter.Subscribe<Barcode>(this, "BarcodeMessage", message => {
+                Device.BeginInvokeOnMainThread(() => {
+                   var value = message;
+                    if (value != null)
+                    {
+                        var barode = BarcodeCollection.Where(x => x.Id == value.Id).FirstOrDefault();
+                        barode.Icon = value.Icon;
+                        barode.Partners = value.Partners;
+                        barode.MaintenanceItems = value.MaintenanceItems;
+                        barode.Tags = value.Tags;
+                    }
+                });
+            });
+
+            MessagingCenter.Subscribe<CancelledMessage>(this, "CancelledMessage", message => {
+                Device.BeginInvokeOnMainThread(() => {
+                    var value = "Cancelled";
+                    if (value == "Cancelled")
+                    {
+
+                    }
+                });
+            });
+        }
 
         public async void LoadBrand() => BrandCollection = await LoadBrandAsync();
 
@@ -545,25 +574,31 @@ namespace KegID.ViewModel
             }
         }
 
-        private async void BarcodeManualCommandRecieverAsync()
+        private void BarcodeManualCommandRecieverAsync()
         {
             try
             {
                 var isNew = BarcodeCollection.ToList().Any(x => x.Id == ManaulBarcode);
                 if (!isNew)
                 {
-                    BarcodeCollection.Add(new Barcode { Id = ManaulBarcode, TagsStr = TagsStr, Icon = Cloud });
-
-                    var value = await BarcodeScanner.ValidateBarcodeInsertIntoLocalDB(_moveService, ManaulBarcode, Tags, TagsStr);
-                    ManaulBarcode = string.Empty;
-                    if (value != null)
+                    BarcodeCollection.Add(new Barcode { Id = ManaulBarcode, Tags = Tags, TagsStr = TagsStr, Icon = Cloud });
+                    var message = new StartLongRunningTaskMessage
                     {
-                        var barode = BarcodeCollection.Where(x => x.Id == value.Id).FirstOrDefault();
-                        barode.Icon = value.Icon;
-                        barode.Partners = value.Partners;
-                        barode.MaintenanceItems = value.MaintenanceItems;
-                        barode.Tags = value.Tags;
-                    }
+                        Barcode = ManaulBarcode
+                    };
+                    MessagingCenter.Send(message, "StartLongRunningTaskMessage");
+                    ManaulBarcode = string.Empty;
+
+                    //var value = await BarcodeScanner.ValidateBarcodeInsertIntoLocalDB(_moveService, ManaulBarcode, Tags, TagsStr);
+                    //ManaulBarcode = string.Empty;
+                    //if (value != null)
+                    //{
+                    //    var barode = BarcodeCollection.Where(x => x.Id == value.Id).FirstOrDefault();
+                    //    barode.Icon = value.Icon;
+                    //    barode.Partners = value.Partners;
+                    //    barode.MaintenanceItems = value.MaintenanceItems;
+                    //    barode.Tags = value.Tags;
+                    //}
                 }
             }
             catch (Exception ex)

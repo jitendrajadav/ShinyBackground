@@ -17,7 +17,7 @@ namespace KegID
         public static string CurrentLanguage = "EN";
 
         private static ViewModelLocator _locator;
-        private readonly BackgroundPage _backgroundPage;
+        //private readonly BackgroundPage _backgroundPage;
 
         public static ViewModelLocator Locator
         {
@@ -96,7 +96,7 @@ namespace KegID
 		{
             // Handle when your app sleeps
             Current.Properties["SleepDate"] = DateTime.Now.ToString("O");
-            Current.Properties["FirstName"] = _backgroundPage.FirstName;
+            //Current.Properties["FirstName"] = _backgroundPage.FirstName;
         }
 
         protected override void OnResume ()
@@ -112,14 +112,14 @@ namespace KegID
                 var value = (string)Current.Properties["SleepDate"];
                 if (DateTime.TryParse(value, out DateTime sleepDate))
                 {
-                    _backgroundPage.SleepDate = sleepDate;
+                    //_backgroundPage.SleepDate = sleepDate;
                 }
             }
 
             if (Current.Properties.ContainsKey("FirstName"))
             {
                 var firstName = (string)Current.Properties["FirstName"];
-                _backgroundPage.FirstName = firstName;
+                //_backgroundPage.FirstName = firstName;
             }
         }
     }

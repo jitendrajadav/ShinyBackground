@@ -1,4 +1,5 @@
-﻿using UIKit;
+﻿using Microsoft.AppCenter.Crashes;
+using UIKit;
 
 namespace KegID.iOS
 {
@@ -9,7 +10,14 @@ namespace KegID.iOS
         {
             // if you want to use a different Application Delegate class from "AppDelegate"
             // you can specify it here.
-            UIApplication.Main(args, null, "AppDelegate");
+            try
+            {
+                UIApplication.Main(args, null, "AppDelegate");
+            }
+            catch (System.Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
     }
 }
