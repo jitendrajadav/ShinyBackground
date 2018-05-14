@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
+using KegID.Messages;
 using KegID.Model;
 using KegID.Services;
 using KegID.SQLiteClient;
@@ -19,6 +20,8 @@ namespace KegID.ViewModel
     public class BulkUpdateScanViewModel : BaseViewModel
     {
         #region Properties
+
+        private const string Cloud = "collectionscloud.png";
         public IMoveService _moveService { get; set; }
         public IDashboardService _dashboardService { get; set; }
 
@@ -318,16 +321,46 @@ namespace KegID.ViewModel
             BarcodeScanCommand = new RelayCommand(BarcodeScanCommandRecieverAsync);
             SaveCommand = new RelayCommand(SaveCommandRecieverAsync);
             CancelCommand = new RelayCommand(CancelCommandRecieverAsync);
-            //SizeCollection = new List<string>() { "1/2 bbl", "1/4 bbl", "1/6 bbl", "30 L", "40 L", "50 L" };
             LabelItemTappedCommand = new RelayCommand<Barcode>(execute: (model) => LabelItemTappedCommandRecieverAsync(model));
             IconItemTappedCommand = new RelayCommand<Barcode>(execute: (model) => IconItemTappedCommandRecieverAsync(model));
             LoadAssetSizeAsync();
             LoadAssetTypeAsync();
+            HandleReceivedMessages();
         }
 
         #endregion
 
         #region Methods
+
+        void HandleReceivedMessages()
+        {
+            MessagingCenter.Subscribe<BulkUpdateScanMessage>(this, "BulkUpdateScanMessage", message => {
+                Device.BeginInvokeOnMainThread(() => {
+                    var value = message;
+                    foreach (var item in value.Barcodes)
+                    {
+                        if (item != null)
+                        {
+                            var barode = BarcodeCollection.Where(x => x.Id == item.Id).FirstOrDefault();
+                            barode.Icon = item.Icon;
+                            barode.Partners = item.Partners;
+                            barode.MaintenanceItems = item.MaintenanceItems;
+                            barode.Tags = item.Tags;
+                        }
+                    }
+                });
+            });
+
+            MessagingCenter.Subscribe<CancelledMessage>(this, "CancelledMessage", message => {
+                Device.BeginInvokeOnMainThread(() => {
+                    var value = "Cancelled";
+                    if (value == "Cancelled")
+                    {
+
+                    }
+                });
+            });
+        }
 
         private async void LoadAssetSizeAsync()
         {
@@ -430,16 +463,25 @@ namespace KegID.ViewModel
             }
         }
 
-        private async void BarcodeManualCommandRecieverAsync()
+        private void BarcodeManualCommandRecieverAsync()
         {
             try
             {
                 var isNew = BarcodeCollection.ToList().Any(x => x.Id == ManaulBarcode);
                 if (!isNew)
                 {
-                    var barcodes = await BarcodeScanner.ValidateBarcodeInsertIntoLocalDB(_moveService, ManaulBarcode, Tags, TagsStr);
+                    BarcodeCollection.Add(new Barcode { Id = ManaulBarcode, Tags = null, TagsStr = string.Empty, Icon = Cloud });
+                    var message = new StartLongRunningTaskMessage
+                    {
+                        Barcode = new List<string>() { ManaulBarcode },
+                        Page = ViewTypeEnum.BulkUpdateScanView
+                    };
+                    MessagingCenter.Send(message, "StartLongRunningTaskMessage");
                     ManaulBarcode = string.Empty;
-                    BarcodeCollection.Add(barcodes);
+
+                    //var barcodes = await BarcodeScanner.ValidateBarcodeInsertIntoLocalDB(_moveService, ManaulBarcode, Tags, TagsStr);
+                    //ManaulBarcode = string.Empty;
+                    //BarcodeCollection.Add(barcodes);
                 }
             }
             catch (Exception ex)
@@ -452,7 +494,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                await BarcodeScanner.BarcodeScanAsync(_moveService, Tags, TagsStr);
+                await BarcodeScanner.BarcodeScanAsync(_moveService, Tags, TagsStr, ViewTypeEnum.BulkUpdateScanView);
             }
             catch (Exception ex)
             {

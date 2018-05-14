@@ -17,7 +17,7 @@ using Xamarin.Forms;
 namespace KegID.Droid
 {
     [Activity(Label = "KegID", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
-    public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
+    public class MainActivity : Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         protected override void OnCreate(Bundle bundle)
         {
@@ -59,7 +59,8 @@ namespace KegID.Droid
         {
             MessagingCenter.Subscribe<StartLongRunningTaskMessage>(this, "StartLongRunningTaskMessage", message => {
                 var intent = new Intent(this, typeof(LongRunningTaskService));
-                intent.PutExtra("Barcode", message.Barcode);
+                intent.PutStringArrayListExtra("Barcode", message.Barcode);
+                intent.PutExtra("Page", message.Page.ToString());
                 StartService(intent);
             });
 
@@ -84,8 +85,6 @@ namespace KegID.Droid
             ZXing.Net.Mobile.Android.PermissionsHandler.OnRequestPermissionsResult(requestCode, permissions, grantResults);
             PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
-
-
     }
 }
 

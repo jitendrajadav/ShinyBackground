@@ -302,18 +302,22 @@ namespace KegID.ViewModel
         #endregion
 
         #region Methods
+
         void HandleReceivedMessages()
         {
-            MessagingCenter.Subscribe<Barcode>(this, "BarcodeMessage", message => {
+            MessagingCenter.Subscribe<ScanKegsMessage>(this, "ScanKegsMessage", message => {
                 Device.BeginInvokeOnMainThread(() => {
                    var value = message;
-                    if (value != null)
+                    foreach (var item in value.Barcodes)
                     {
-                        var barode = BarcodeCollection.Where(x => x.Id == value.Id).FirstOrDefault();
-                        barode.Icon = value.Icon;
-                        barode.Partners = value.Partners;
-                        barode.MaintenanceItems = value.MaintenanceItems;
-                        barode.Tags = value.Tags;
+                        if (value != null)
+                        {
+                            var barode = BarcodeCollection.Where(x => x.Id == item.Id).FirstOrDefault();
+                            barode.Icon = item.Icon;
+                            barode.Partners = item.Partners;
+                            barode.MaintenanceItems = item.MaintenanceItems;
+                            barode.Tags = item.Tags;
+                        } 
                     }
                 });
             });
@@ -584,21 +588,11 @@ namespace KegID.ViewModel
                     BarcodeCollection.Add(new Barcode { Id = ManaulBarcode, Tags = Tags, TagsStr = TagsStr, Icon = Cloud });
                     var message = new StartLongRunningTaskMessage
                     {
-                        Barcode = ManaulBarcode
+                        Barcode = new List<string>() { ManaulBarcode },
+                        Page = ViewTypeEnum.ScanKegsView
                     };
                     MessagingCenter.Send(message, "StartLongRunningTaskMessage");
                     ManaulBarcode = string.Empty;
-
-                    //var value = await BarcodeScanner.ValidateBarcodeInsertIntoLocalDB(_moveService, ManaulBarcode, Tags, TagsStr);
-                    //ManaulBarcode = string.Empty;
-                    //if (value != null)
-                    //{
-                    //    var barode = BarcodeCollection.Where(x => x.Id == value.Id).FirstOrDefault();
-                    //    barode.Icon = value.Icon;
-                    //    barode.Partners = value.Partners;
-                    //    barode.MaintenanceItems = value.MaintenanceItems;
-                    //    barode.Tags = value.Tags;
-                    //}
                 }
             }
             catch (Exception ex)
@@ -611,7 +605,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                await BarcodeScanner.BarcodeScanAsync(_moveService, Tags, TagsStr);
+                await BarcodeScanner.BarcodeScanAsync(_moveService, Tags, TagsStr, ViewTypeEnum.ScanKegsView);
             }
             catch (Exception ex)
             {
@@ -619,7 +613,7 @@ namespace KegID.ViewModel
             }
         }
 
-        internal void AssignBarcodeScannerValue(List<Barcode> barcodes)
+        internal void AssignBarcodeScannerValue(IList<Barcode> barcodes)
         {
             try
             {

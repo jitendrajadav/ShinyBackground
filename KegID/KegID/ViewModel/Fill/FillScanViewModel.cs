@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
+using KegID.Messages;
 using KegID.Model;
 using KegID.Services;
 using KegID.SQLiteClient;
@@ -21,6 +22,7 @@ namespace KegID.ViewModel
     {
         #region Properties
 
+        private const string Cloud = "collectionscloud.png";
         public IMoveService _moveService { get; set; }
 
         public string BatchId { get; set; }
@@ -295,11 +297,43 @@ namespace KegID.ViewModel
             BarcodeManualCommand = new RelayCommand(BarcodeManualCommandRecieverAsync);
             LabelItemTappedCommand = new RelayCommand<Barcode>((model) => LabelItemTappedCommandRecieverAsync(model));
             IconItemTappedCommand = new RelayCommand<Barcode>((model) => IconItemTappedCommandRecieverAsync(model));
+
+            HandleReceivedMessages();
         }
 
         #endregion
 
         #region Methods
+
+        void HandleReceivedMessages()
+        {
+            MessagingCenter.Subscribe<FillScanMessage>(this, "FillScanMessage", message => {
+                Device.BeginInvokeOnMainThread(() => {
+                    var value = message;
+                    foreach (var item in value.Barcodes)
+                    {
+                        if (item != null)
+                        {
+                            var barode = BarcodeCollection.Where(x => x.Id == item.Id).FirstOrDefault();
+                            barode.Icon = item.Icon;
+                            barode.Partners = item.Partners;
+                            barode.MaintenanceItems = item.MaintenanceItems;
+                            barode.Tags = item.Tags;
+                        } 
+                    }
+                });
+            });
+
+            MessagingCenter.Subscribe<CancelledMessage>(this, "CancelledMessage", message => {
+                Device.BeginInvokeOnMainThread(() => {
+                    var value = "Cancelled";
+                    if (value == "Cancelled")
+                    {
+
+                    }
+                });
+            });
+        }
 
         internal async void AssignValidateBarcodeValueAsync()
         {
@@ -441,16 +475,25 @@ namespace KegID.ViewModel
             }
         }
 
-        private async void BarcodeManualCommandRecieverAsync()
+        private void BarcodeManualCommandRecieverAsync()
         {
             try
             {
                 var isNew = BarcodeCollection.ToList().Any(x => x.Id == ManaulBarcode);
                 if (!isNew)
                 {
-                    var value = await BarcodeScanner.ValidateBarcodeInsertIntoLocalDB(_moveService, ManaulBarcode, Tags, TagsStr);
+                    BarcodeCollection.Add(new Barcode { Id = ManaulBarcode, Tags = Tags, TagsStr = TagsStr, Icon = Cloud });
+                    var message = new StartLongRunningTaskMessage
+                    {
+                        Barcode = new List<string>() { ManaulBarcode },
+                        Page = ViewTypeEnum.FillScanView
+                    };
+                    MessagingCenter.Send(message, "StartLongRunningTaskMessage");
                     ManaulBarcode = string.Empty;
-                    BarcodeCollection.Add(value);
+
+                    //var value = await BarcodeScanner.ValidateBarcodeInsertIntoLocalDB(_moveService, ManaulBarcode, Tags, TagsStr,ViewTypeEnum.FillScanView);
+                    //ManaulBarcode = string.Empty;
+                    //BarcodeCollection.Add(value);
                 }
             }
             catch (Exception ex)
@@ -520,7 +563,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                await BarcodeScanner.BarcodeScanAsync(_moveService, Tags, TagsStr);
+                await BarcodeScanner.BarcodeScanAsync(_moveService, Tags, TagsStr, ViewTypeEnum.FillScanView);
             }
             catch (Exception ex)
             {
@@ -528,7 +571,7 @@ namespace KegID.ViewModel
             }
         }
 
-        internal void AssignBarcodeScannerValue(List<Barcode> barcodes)
+        internal void AssignBarcodeScannerValue(IList<Barcode> barcodes)
         {
             try
             {

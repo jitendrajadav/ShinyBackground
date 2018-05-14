@@ -1,10 +1,8 @@
 ﻿using GalaSoft.MvvmLight.Ioc;
+using KegID.Messages;
 using KegID.Model;
 using KegID.Services;
-using KegID.SQLiteClient;
 using KegID.ViewModel;
-using Microsoft.AppCenter.Crashes;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,10 +15,11 @@ namespace KegID.Common
     public static class BarcodeScanner
     {
         static ZXingScannerPage scanPage;
+        private const string Cloud = "collectionscloud.png";
 
-        public static async Task BarcodeScanAsync(IMoveService _moveService, List<Tag> _tags, string _tagsStr)
+        public static async Task BarcodeScanAsync(IMoveService _moveService, List<Tag> _tags, string _tagsStr, ViewTypeEnum _page)
         {
-            List<Barcode> barcodes = new List<Barcode>();
+            IList<Barcode> barcodes = new List<Barcode>();
             // Create our custom overlay
             var customOverlay = new Grid
             {
@@ -62,6 +61,7 @@ namespace KegID.Common
             done.Clicked += async delegate
             {
                 await Application.Current.MainPage.Navigation.PopModalAsync();
+
                 switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack.LastOrDefault().GetType().Name))
                 {
                     case ViewTypeEnum.ScanKegsView:
@@ -74,23 +74,30 @@ namespace KegID.Common
                         SimpleIoc.Default.GetInstance<MaintainScanViewModel>().AssignBarcodeScannerValue(barcodes);
                         break;
                 }
+
+                var message = new StartLongRunningTaskMessage
+                {
+                    Barcode = barcodes.Select(x => x.Id).ToList(),
+                    Page = _page
+                };
+                MessagingCenter.Send(message, "StartLongRunningTaskMessage");
             };
 
             customOverlay.Children.Add(torch, 0, 0);
             customOverlay.Children.Add(title, 0, 1);
             customOverlay.Children.Add(done, 0, 2);
 
-
             scanPage = new ZXingScannerPage(customOverlay: customOverlay);
             scanPage.OnScanResult += (result) =>
-            Device.BeginInvokeOnMainThread(async () =>
+            Device.BeginInvokeOnMainThread(() =>
             {
                 var check = barcodes.Any(x => x.Id == result.Text);
 
                 if (!check)
                 {
                     title.Text = "Last scan: " + result.Text;
-                    barcodes.Add(await ValidateBarcodeInsertIntoLocalDB(_moveService, result.Text, _tags, _tagsStr));
+                    barcodes.Add(new Barcode { Id = result.Text, Tags = _tags, TagsStr = _tagsStr, Icon = Cloud });
+                    //barcodes.Add(await ValidateBarcodeInsertIntoLocalDB(_moveService, result.Text, _tags, _tagsStr));
                 }
             });
 
@@ -170,42 +177,42 @@ namespace KegID.Common
             await Application.Current.MainPage.Navigation.PushModalAsync(scanPage, animated: false);
         }
 
-        public static async Task<Barcode> ValidateBarcodeInsertIntoLocalDB(IMoveService _moveService, string _barcodeId, List<Tag> _tags, string _tagsStr)
-        {
-            ValidateBarcodeModel validateBarcodeModel = await _moveService.GetValidateBarcodeAsync(AppSettings.User.SessionId, _barcodeId);
-            Barcode barcode = null;
+        //public static async Task<Barcode> ValidateBarcodeInsertIntoLocalDB(IMoveService _moveService, string _barcodeId, List<Tag> _tags, string _tagsStr)
+        //{
+        //    ValidateBarcodeModel validateBarcodeModel = await _moveService.GetValidateBarcodeAsync(AppSettings.User.SessionId, _barcodeId);
+        //    Barcode barcode = null;
 
-            if (validateBarcodeModel.Kegs != null)
-            {
-                barcode = new Barcode
-                {
-                    Id = _barcodeId,
-                    Tags = _tags,
-                    TagsStr = _tagsStr,
-                    Partners = validateBarcodeModel.Kegs.Partners,
-                    Icon = validateBarcodeModel.Kegs.Partners.Count > 1 ? GetIconByPlatform.GetIcon("validationquestion.png") :
-                    validateBarcodeModel.Kegs.Partners.Count == 0 ? GetIconByPlatform.GetIcon("validationerror.png") : GetIconByPlatform.GetIcon("validationok.png"),
-                    MaintenanceItems = validateBarcodeModel.Kegs.MaintenanceItems
-                };
+        //    if (validateBarcodeModel.Kegs != null)
+        //    {
+        //        barcode = new Barcode
+        //        {
+        //            Id = _barcodeId,
+        //            Tags = _tags,
+        //            TagsStr = _tagsStr,
+        //            Partners = validateBarcodeModel.Kegs.Partners,
+        //            Icon = validateBarcodeModel.Kegs.Partners.Count > 1 ? GetIconByPlatform.GetIcon("validationquestion.png") :
+        //            validateBarcodeModel.Kegs.Partners.Count == 0 ? GetIconByPlatform.GetIcon("validationerror.png") : GetIconByPlatform.GetIcon("validationok.png"),
+        //            MaintenanceItems = validateBarcodeModel.Kegs.MaintenanceItems
+        //        };
 
-                BarcodeModel barcodeModel = new BarcodeModel()
-                {
-                    Barcode = _barcodeId,
-                    BarcodeJson = JsonConvert.SerializeObject(validateBarcodeModel)
-                };
-                try
-                {
-                    // The item does not exists in the database so lets insert it
-                    await SQLiteServiceClient.Db.InsertAsync(barcodeModel);
-                }
-                catch (Exception ex)
-                {
-                    Crashes.TrackError(ex);
-                }
-            }
+        //        BarcodeModel barcodeModel = new BarcodeModel()
+        //        {
+        //            Barcode = _barcodeId,
+        //            BarcodeJson = JsonConvert.SerializeObject(validateBarcodeModel)
+        //        };
+        //        try
+        //        {
+        //            // The item does not exists in the database so lets insert it
+        //            await SQLiteServiceClient.Db.InsertAsync(barcodeModel);
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            Crashes.TrackError(ex);
+        //        }
+        //    }
 
-            return barcode;
-        }
+        //    return barcode;
+        //}
 
     }
 }
