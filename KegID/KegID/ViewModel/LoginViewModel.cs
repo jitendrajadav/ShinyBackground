@@ -241,6 +241,7 @@ namespace KegID.ViewModel
                 }
                 else
                 {
+                    Loader.StopLoading();
                     await Application.Current.MainPage.DisplayAlert("Error", "Error while login please check", "Ok");
                 }
                 Application.Current.MainPage = new MainPage();

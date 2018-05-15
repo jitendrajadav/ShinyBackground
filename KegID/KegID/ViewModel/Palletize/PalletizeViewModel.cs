@@ -401,7 +401,7 @@ namespace KegID.ViewModel
             List<PalletItem> palletItems = new List<PalletItem>();
             PalletItem pallet = null;
             PalletRequestModel palletRequestModel = null;
-            var barCodeCollection = SimpleIoc.Default.GetInstance<ScanKegsViewModel>().BarcodeCollection;
+            var barCodeCollection = SimpleIoc.Default.GetInstance<MoveViewModel>().Barcodes;
 
             try
             {

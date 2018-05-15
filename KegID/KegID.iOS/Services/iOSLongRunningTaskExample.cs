@@ -22,7 +22,7 @@ namespace KegID.iOS.Services
             {
                 //INVOKE THE SHARED CODE
                 var counter = new TaskCounter();
-                await counter.RunCounter(_cts.Token, startLongRunningTaskMessage.Barcode);
+                await counter.RunCounter(_cts.Token, startLongRunningTaskMessage.Barcode, startLongRunningTaskMessage.Page);
 
             }
             catch (OperationCanceledException)

@@ -337,16 +337,13 @@ namespace KegID.ViewModel
             MessagingCenter.Subscribe<BulkUpdateScanMessage>(this, "BulkUpdateScanMessage", message => {
                 Device.BeginInvokeOnMainThread(() => {
                     var value = message;
-                    foreach (var item in value.Barcodes)
-                    {
-                        if (item != null)
+                        if (value != null)
                         {
-                            var barode = BarcodeCollection.Where(x => x.Id == item.Id).FirstOrDefault();
-                            barode.Icon = item.Icon;
-                            barode.Partners = item.Partners;
-                            barode.MaintenanceItems = item.MaintenanceItems;
-                            barode.Tags = item.Tags;
-                        }
+                            var barode = BarcodeCollection.Where(x => x.Id == value.Barcodes.Id).FirstOrDefault();
+                            barode.Icon = value.Barcodes.Icon;
+                            barode.Partners = value.Barcodes.Partners;
+                            barode.MaintenanceItems = value.Barcodes.MaintenanceItems;
+                            //barode.Tags = value.Barcodes.Tags;
                     }
                 });
             });

@@ -308,17 +308,13 @@ namespace KegID.ViewModel
             MessagingCenter.Subscribe<ScanKegsMessage>(this, "ScanKegsMessage", message => {
                 Device.BeginInvokeOnMainThread(() => {
                    var value = message;
-                    foreach (var item in value.Barcodes)
-                    {
                         if (value != null)
                         {
-                            var barode = BarcodeCollection.Where(x => x.Id == item.Id).FirstOrDefault();
-                            barode.Icon = item.Icon;
-                            barode.Partners = item.Partners;
-                            barode.MaintenanceItems = item.MaintenanceItems;
-                            barode.Tags = item.Tags;
+                            var barode = BarcodeCollection.Where(x => x.Id == value.Barcodes.Id).FirstOrDefault();
+                            barode.Icon = value.Barcodes.Icon;
+                            barode.Partners = value.Barcodes.Partners;
+                            barode.MaintenanceItems = value.Barcodes.MaintenanceItems;
                         } 
-                    }
                 });
             });
 
@@ -643,7 +639,7 @@ namespace KegID.ViewModel
                 BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Partners.Add(model);
                 SimpleIoc.Default.GetInstance<MoveViewModel>().AssingScanKegsValue(_barcodes: BarcodeCollection.ToList(), _tags: Tags, _contents: SelectedBrand.BrandName);
 
-                if (HasDone)
+                if (HasDone && model.Kegs?.FirstOrDefault()?.MaintenanceItems?.Count < 0)
                 {
                     await Application.Current.MainPage.Navigation.PopPopupAsync();
                     await Application.Current.MainPage.Navigation.PopModalAsync();
