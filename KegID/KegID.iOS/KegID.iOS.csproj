@@ -471,4 +471,9 @@
       <Link>Resources\maintenace.png</Link>
     </BundleResource>
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\KegID\Assets\newkeg.png">
+      <Link>Resources\newkeg.png</Link>
+    </BundleResource>
+  </ItemGroup>
 </Project>

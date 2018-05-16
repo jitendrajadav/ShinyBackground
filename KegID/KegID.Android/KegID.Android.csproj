@@ -462,6 +462,11 @@
   <ItemGroup>
     <ProguardConfiguration Include="proguard_custom.cfg" />
   </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\KegID\Assets\newkeg.png">
+      <Link>Resources\drawable\newkeg.png</Link>
+    </AndroidResource>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="ReplaceRefAssemblies" AfterTargets="_ResolveAssemblies">
     <ItemGroup>

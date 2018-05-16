@@ -29,7 +29,6 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        
                         <StackLayout>
                             <Label
                                 Margin="10"

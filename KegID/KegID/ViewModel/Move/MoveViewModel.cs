@@ -513,7 +513,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                var result = await Application.Current.MainPage.DisplayActionSheet("Cancel? \n You have like to save this manifest as a draft or delete?", null, null, "Delete manifest", "Save as draft");
+                var result = await Application.Current.MainPage.DisplayActionSheet("Cancel? \n Would you like to save this manifest as a draft or delete?", null, null, "Delete manifest", "Save as draft");
                 if (result == "Delete manifest")
                 {
                     await Application.Current.MainPage.Navigation.PopModalAsync();

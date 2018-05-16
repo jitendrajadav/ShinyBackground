@@ -207,6 +207,9 @@
     <Content Include="..\KegID\Assets\new2.png">
       <Link>Assets\new2.png</Link>
     </Content>
+    <Content Include="..\KegID\Assets\newkeg.png">
+      <Link>Assets\newkeg.png</Link>
+    </Content>
     <Content Include="..\KegID\Assets\pallet.png">
       <Link>Assets\pallet.png</Link>
     </Content>

@@ -40,15 +40,15 @@
                     </Image.Margin>
                     <Image.Source>
                         <OnPlatform x:TypeArguments="ImageSource">
-                            <OnPlatform.iOS>
+                            <On Platform="iOS">
                                 <FileImageSource File="kegidbanner.png"/>
-                            </OnPlatform.iOS>
-                            <OnPlatform.Android>
+                            </On>
+                            <On Platform="Android">
                                 <FileImageSource File="kegidbanner.png"/>
-                            </OnPlatform.Android>
-                            <OnPlatform.WinPhone>
+                            </On>
+                            <On Platform="UWP">
                                 <FileImageSource File="Assets/kegidbanner.png"/>
-                            </OnPlatform.WinPhone>
+                            </On>
                         </OnPlatform>
                     </Image.Source>
                 </Image>
@@ -63,15 +63,15 @@
                     BackgroundColor="Transparent" >
                     <controls:TintedImage.Source>
                         <OnPlatform x:TypeArguments="FileImageSource">
-                            <OnPlatform.iOS>
+                            <On Platform="iOS">
                                 <FileImageSource File="setting.png"/>
-                            </OnPlatform.iOS>
-                            <OnPlatform.Android>
+                            </On>
+                            <On Platform="Android">
                                 <FileImageSource File="setting.png"/>
-                            </OnPlatform.Android>
-                            <OnPlatform.WinPhone>
+                            </On>
+                            <On Platform="UWP">
                                 <FileImageSource File="Assets/setting.png"/>
-                            </OnPlatform.WinPhone>
+                            </On>
                         </OnPlatform>
                     </controls:TintedImage.Source>
                     <controls:TintedImage.GestureRecognizers>
@@ -100,8 +100,8 @@
                 </Grid.ColumnDefinitions>
                
                 <Grid
-                    RowSpacing="0,0,0,0"
-                    ColumnSpacing="0,0,0,0"
+                    RowSpacing="0"
+                    ColumnSpacing="0"
                     Grid.Row="0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -301,8 +301,8 @@
                 </Grid>
 
                 <Grid
-                    RowSpacing="0,0,0,0"
-                    ColumnSpacing="0,0,0,0"
+                    RowSpacing="0"
+                    ColumnSpacing="0"
                     Grid.Column="1">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -450,15 +450,15 @@
                     Grid.Row="0">
                     <Image.Source>
                         <OnPlatform x:TypeArguments="ImageSource">
-                            <OnPlatform.iOS>
+                            <On Platform="iOS">
                                 <FileImageSource File="manifests.png"/>
-                            </OnPlatform.iOS>
-                            <OnPlatform.Android>
+                            </On>
+                            <On Platform="Android">
                                 <FileImageSource File="manifests.png"/>
-                            </OnPlatform.Android>
-                            <OnPlatform.WinPhone>
+                            </On>
+                            <On Platform="UWP">
                                 <FileImageSource File="Assets/manifests.png"/>
-                            </OnPlatform.WinPhone>
+                            </On>
                         </OnPlatform>
                     </Image.Source>
                 </Image>
@@ -486,17 +486,17 @@
                     Grid.Column="0"
                     Grid.Row="1">
                     <Image.Source>
-                    <OnPlatform x:TypeArguments="ImageSource">
-                        <OnPlatform.iOS>
+                        <OnPlatform x:TypeArguments="ImageSource">
+                            <On Platform="iOS">
                                 <FileImageSource File="pallet.png"/>
-                        </OnPlatform.iOS>
-                        <OnPlatform.Android>
+                            </On>
+                            <On Platform="Android">
                                 <FileImageSource File="pallet.png"/>
-                        </OnPlatform.Android>
-                        <OnPlatform.WinPhone>
+                            </On>
+                            <On Platform="UWP">
                                 <FileImageSource File="Assets/pallet.png"/>
-                        </OnPlatform.WinPhone>
-                    </OnPlatform>
+                            </On>
+                        </OnPlatform>
                     </Image.Source>
                 </Image>
 
@@ -525,15 +525,15 @@
                     Grid.Row="0">
                     <Image.Source>
                         <OnPlatform x:TypeArguments="ImageSource">
-                            <OnPlatform.iOS>
+                            <On Platform="iOS">
                                 <FileImageSource File="partners.png"/>
-                            </OnPlatform.iOS>
-                            <OnPlatform.Android>
+                            </On>
+                            <On Platform="Android">
                                 <FileImageSource File="partners.png"/>
-                            </OnPlatform.Android>
-                            <OnPlatform.WinPhone>
+                            </On>
+                            <On Platform="UWP">
                                 <FileImageSource File="Assets/partners.png"/>
-                            </OnPlatform.WinPhone>
+                            </On>
                         </OnPlatform>
                     </Image.Source>
                 </Image>
@@ -561,15 +561,15 @@
                     Grid.Row="1">
                     <Image.Source>
                         <OnPlatform x:TypeArguments="ImageSource">
-                            <OnPlatform.iOS>
+                            <On Platform="iOS">
                                 <FileImageSource File="movekegs.png"/>
-                            </OnPlatform.iOS>
-                            <OnPlatform.Android>
+                            </On>
+                            <On Platform="Android">
                                 <FileImageSource File="movekegs.png"/>
-                            </OnPlatform.Android>
-                            <OnPlatform.WinPhone>
+                            </On>
+                            <On Platform="UWP">
                                 <FileImageSource File="Assets/movekegs.png"/>
-                            </OnPlatform.WinPhone>
+                            </On>
                         </OnPlatform>
                     </Image.Source>
                 </Image>
@@ -588,17 +588,53 @@
                     </Label.GestureRecognizers>
                 </Label>
             </Grid>
+            
+            <Grid
+                VerticalOptions="End"
+                HorizontalOptions="Center"
+                Grid.Row="4">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
 
-            <Label
-                Grid.Row="4"
-                HeightRequest="35"
-                TextColor="White"
-                VerticalTextAlignment="Center"
-                HorizontalOptions="FillAndExpand"
-                HorizontalTextAlignment="Center"
-                BackgroundColor="Red"
-                IsVisible="{Binding IsVisibleDraftmaniFestsLabel}"
-                Text="{Binding DraftmaniFests,StringFormat='{0} draft manifests'}"/>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Button
+                    Grid.Column="0"
+                    HorizontalOptions="Center"
+                    HeightRequest="10"
+                    VerticalOptions="Center"
+                    WidthRequest="10"
+                    CornerRadius="5"
+                    BackgroundColor="Gray"
+                    />
+
+                <Button
+                    Grid.Column="1"
+                    HorizontalOptions="Center"
+                    HeightRequest="10"
+                    VerticalOptions="Center"
+                    WidthRequest="10"
+                    CornerRadius="5"
+                    BackgroundColor="LightGray"/>
+
+                <Label
+                    Grid.Row="1"
+                    HeightRequest="35"
+                    TextColor="White"
+                    VerticalTextAlignment="Center"
+                    HorizontalOptions="FillAndExpand"
+                    HorizontalTextAlignment="Center"
+                    BackgroundColor="Red"
+                    IsVisible="{Binding IsVisibleDraftmaniFestsLabel}"
+                    Text="{Binding DraftmaniFests,StringFormat='${0} draft manifests'}"/>
+
+            </Grid>
+
         </Grid>
     </ContentPage.Content>
 </ContentPage>

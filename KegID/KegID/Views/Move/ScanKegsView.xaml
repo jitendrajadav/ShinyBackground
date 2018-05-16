@@ -66,8 +66,8 @@
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="65*"/>
-                    <ColumnDefinition Width="15*"/>
+                    <ColumnDefinition Width="60*"/>
+                    <ColumnDefinition Width="20*"/>
                     <ColumnDefinition Width="20*"/>
                 </Grid.ColumnDefinitions>
 
@@ -95,15 +95,15 @@
 
                     <controls:TintedImage.Source>
                         <OnPlatform x:TypeArguments="FileImageSource">
-                            <OnPlatform.iOS>
+                            <On Platform="Android">
                                 <FileImageSource File="camera.png"/>
-                            </OnPlatform.iOS>
-                            <OnPlatform.Android>
+                            </On>
+                            <On Platform="iOS">
                                 <FileImageSource File="camera.png"/>
-                            </OnPlatform.Android>
-                            <OnPlatform.WinPhone>
+                            </On>
+                            <On Platform="UWP">
                                 <FileImageSource File="Assets/camera.png"/>
-                            </OnPlatform.WinPhone>
+                            </On>
                         </OnPlatform>
                     </controls:TintedImage.Source>
 
@@ -124,10 +124,11 @@
                     SelectedItem="{Binding SelectedBrand}"/>
 
                 <Entry
+                    FontSize="14"
                     Grid.Row="1"
                     Grid.Column="1"
                     Text="{Binding Batch}"
-                    Placeholder="{Binding Resources[label_batch]}"/>
+                    Placeholder="{Binding Resources[tag_batch]}"/>
 
                 <controls:TintedImage
                     TintColor="{StaticResource selectTextColor}"
@@ -139,15 +140,15 @@
 
                     <controls:TintedImage.Source>
                         <OnPlatform x:TypeArguments="FileImageSource">
-                            <OnPlatform.iOS>
+                            <On Platform="iOS">
                                 <FileImageSource File="tags.png"/>
-                            </OnPlatform.iOS>
-                            <OnPlatform.Android>
+                            </On>
+                            <On Platform="Android">
                                 <FileImageSource File="tags.png"/>
-                            </OnPlatform.Android>
-                            <OnPlatform.WinPhone>
+                            </On>
+                            <On Platform="UWP">
                                 <FileImageSource File="Assets/tags.png"/>
-                            </OnPlatform.WinPhone>
+                            </On>
                         </OnPlatform>
                     </controls:TintedImage.Source>
 

@@ -181,7 +181,7 @@ namespace KegID.ViewModel
                 await SQLiteServiceClient.Db.InsertAllAsync(model.MaintainTypeReponseModel);
                 MaintainTypeReponseModel = model.MaintainTypeReponseModel;
             }
-            catch (Exception ex)
+            catch (Exception ex)    
             {
                  Crashes.TrackError(ex);
             }

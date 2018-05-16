@@ -1,15 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             BackgroundImage="{Binding BgImage}"
              x:Class="KegID.Views.MenuView"
              xmlns:local="clr-namespace:KegID"
              BackgroundColor="{StaticResource pageBGColor}"
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Dashboard}">
     
     <ContentPage.Content>
-       
-        <Grid>
+        <AbsoluteLayout VerticalOptions="FillAndExpand"
+                    HorizontalOptions="FillAndExpand">
+            <Image 
+                AbsoluteLayout.LayoutFlags="All" 
+                AbsoluteLayout.LayoutBounds="1, 1, 1, 1"
+                Source="{Binding BgImage}" 
+                Aspect="AspectFill"/>
+
+            <Grid
+                AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0, 0, 1, 1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -34,15 +41,15 @@
                     </Image.Margin>
                     <Image.Source>
                         <OnPlatform x:TypeArguments="ImageSource">
-                            <OnPlatform.iOS>
+                            <On Platform="iOS">
                                 <FileImageSource File="kegidbanner.png"/>
-                            </OnPlatform.iOS>
-                            <OnPlatform.Android>
+                            </On>
+                            <On Platform="Android">
                                 <FileImageSource File="kegidbanner.png"/>
-                            </OnPlatform.Android>
-                            <OnPlatform.WinPhone>
+                            </On>
+                            <On Platform="UWP">
                                 <FileImageSource File="Assets/kegidbanner.png"/>
-                            </OnPlatform.WinPhone>
+                            </On>
                         </OnPlatform>
                     </Image.Source>
                 </Image>
@@ -111,20 +118,20 @@
                     WidthRequest="40">
                     <Image.Source>
                         <OnPlatform x:TypeArguments="ImageSource">
-                            <OnPlatform.iOS>
-                                <FileImageSource File="movekegs.png"/>
-                            </OnPlatform.iOS>
-                            <OnPlatform.Android>
-                                <FileImageSource File="movekegs.png"/>
-                            </OnPlatform.Android>
-                            <OnPlatform.WinPhone>
-                                <FileImageSource File="Assets/movekegs.png"/>
-                            </OnPlatform.WinPhone>
+                            <On Platform="iOS">
+                                <FileImageSource File="newkeg.png"/>
+                            </On>
+                            <On Platform="Android">
+                                <FileImageSource File="newkeg.png"/>
+                            </On>
+                            <On Platform="UWP">
+                                <FileImageSource File="Assets/newkeg.png"/>
+                            </On>
                         </OnPlatform>
                     </Image.Source>
                     <Image.HeightRequest>
                         <OnPlatform x:TypeArguments="x:Double">
-                            <On Platform="iOS" Value="60" />
+                            <On Platform="iOS" Value="50" />
                             <On Platform="Android, WinPhone, Windows" Value="50" />
                         </OnPlatform>
                     </Image.HeightRequest>
@@ -206,20 +213,20 @@
                     WidthRequest="40">
                     <Image.Source>
                         <OnPlatform x:TypeArguments="ImageSource">
-                            <OnPlatform.iOS>
+                            <On Platform="iOS">
                                 <FileImageSource File="fillkegs.png"/>
-                            </OnPlatform.iOS>
-                            <OnPlatform.Android>
+                            </On>
+                            <On Platform="Android">
                                 <FileImageSource File="fillkegs.png"/>
-                            </OnPlatform.Android>
-                            <OnPlatform.WinPhone>
+                            </On>
+                            <On Platform="UWP">
                                 <FileImageSource File="Assets/fillkegs.png"/>
-                            </OnPlatform.WinPhone>
+                            </On>
                         </OnPlatform>
                     </Image.Source>
                     <Image.HeightRequest>
                         <OnPlatform x:TypeArguments="x:Double">
-                            <On Platform="iOS" Value="60" />
+                            <On Platform="iOS" Value="50" />
                             <On Platform="Android, WinPhone, Windows" Value="50" />
                         </OnPlatform>
                     </Image.HeightRequest>
@@ -299,20 +306,20 @@
                     WidthRequest="40">
                     <Image.Source>
                         <OnPlatform x:TypeArguments="ImageSource">
-                            <OnPlatform.iOS>
+                            <On Platform="iOS">
                                 <FileImageSource File="pallet.png"/>
-                            </OnPlatform.iOS>
-                            <OnPlatform.Android>
+                            </On>
+                            <On Platform="Android">
                                 <FileImageSource File="pallet.png"/>
-                            </OnPlatform.Android>
-                            <OnPlatform.WinPhone>
+                            </On>
+                            <On Platform="UWP">
                                 <FileImageSource File="Assets/pallet.png"/>
-                            </OnPlatform.WinPhone>
+                            </On>
                         </OnPlatform>
                     </Image.Source>
                     <Image.HeightRequest>
                         <OnPlatform x:TypeArguments="x:Double">
-                            <On Platform="iOS" Value="60" />
+                            <On Platform="iOS" Value="50" />
                             <On Platform="Android, WinPhone, Windows" Value="50" />
                         </OnPlatform>
                     </Image.HeightRequest>
@@ -392,20 +399,20 @@
                     WidthRequest="40">
                     <Image.Source>
                         <OnPlatform x:TypeArguments="ImageSource">
-                            <OnPlatform.iOS>
+                            <On Platform="iOS">
                                 <FileImageSource File="repair.png"/>
-                            </OnPlatform.iOS>
-                            <OnPlatform.Android>
+                            </On>
+                            <On Platform="Android">
                                 <FileImageSource File="repair.png"/>
-                            </OnPlatform.Android>
-                            <OnPlatform.WinPhone>
+                            </On>
+                            <On Platform="UWP">
                                 <FileImageSource File="Assets/repair.png"/>
-                            </OnPlatform.WinPhone>
+                            </On>
                         </OnPlatform>
                     </Image.Source>
                     <Image.HeightRequest>
                         <OnPlatform x:TypeArguments="x:Double">
-                            <On Platform="iOS" Value="60" />
+                            <On Platform="iOS" Value="50" />
                             <On Platform="Android, WinPhone, Windows" Value="50" />
                         </OnPlatform>
                     </Image.HeightRequest>
@@ -421,19 +428,56 @@
                     VerticalOptions="CenterAndExpand" 
                     HorizontalOptions="Start" />
             </Grid>
-            
-            <Label
-                Grid.Row="5"
-                HeightRequest="35"
-                TextColor="White"
-                VerticalTextAlignment="Center"
-                HorizontalOptions="FillAndExpand"
-                HorizontalTextAlignment="Center"
-                BackgroundColor="Red"
+
+            <Grid
                 VerticalOptions="End"
-                IsVisible="{Binding IsVisibleDraftmaniFestsLabel}"
-                Text="{Binding DraftmaniFests,StringFormat='{0} draft manifests'}"/>
+                HorizontalOptions="Center"
+                Grid.Row="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+                
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+               
+                <Button
+                    Grid.Column="0"
+                    HorizontalOptions="Center"
+                    HeightRequest="10"
+                    VerticalOptions="Center"
+                    WidthRequest="10"
+                    CornerRadius="5"
+                    BackgroundColor="LightGray"
+                    />
+
+                <Button
+                    Grid.Column="1"
+                    HorizontalOptions="Center"
+                    HeightRequest="10"
+                    VerticalOptions="Center"
+                    WidthRequest="10"
+                    CornerRadius="5"
+                    BackgroundColor="Gray"/>
+
+                <Label
+                    Grid.ColumnSpan="2"
+                    Grid.Row="1"
+                    HeightRequest="35"
+                    TextColor="White"
+                    VerticalTextAlignment="Center"
+                    HorizontalOptions="FillAndExpand"
+                    HorizontalTextAlignment="Center"
+                    BackgroundColor="Red"
+                    VerticalOptions="End"
+                    IsVisible="{Binding IsVisibleDraftmaniFestsLabel}"
+                    Text="{Binding DraftmaniFests,StringFormat='${0} draft manifests'}"/>
+
+            </Grid>
 
         </Grid>
+        </AbsoluteLayout>
     </ContentPage.Content>
 </ContentPage>
