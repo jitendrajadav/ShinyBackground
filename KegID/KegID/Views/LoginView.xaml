@@ -33,15 +33,15 @@
 
                 <Image.Source>
                     <OnPlatform x:TypeArguments="ImageSource">
-                        <OnPlatform.iOS>
+                        <On Platform="iOS">
                             <FileImageSource File="kegidlogo.png"/>
-                        </OnPlatform.iOS>
-                        <OnPlatform.Android>
+                        </On>
+                        <On Platform="Android">
                             <FileImageSource File="kegidlogo.png"/>
-                        </OnPlatform.Android>
-                        <OnPlatform.WinPhone>
+                        </On>
+                        <On Platform="UWP">
                             <FileImageSource File="Assets/kegidlogo.png"/>
-                        </OnPlatform.WinPhone>
+                        </On>
                     </OnPlatform>
                 </Image.Source>
             </Image>

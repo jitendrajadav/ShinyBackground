@@ -62,15 +62,15 @@
 
                 <controls:TintedImage.Source>
                     <OnPlatform x:TypeArguments="FileImageSource">
-                        <OnPlatform.iOS>
+                        <On Platform="iOS">
                             <FileImageSource File="invalidtools.png"/>
-                        </OnPlatform.iOS>
-                        <OnPlatform.Android>
+                        </On>
+                        <On Platform="Android">
                             <FileImageSource File="invalidtools.png"/>
-                        </OnPlatform.Android>
-                        <OnPlatform.WinPhone>
+                        </On>
+                        <On Platform="UWP">
                             <FileImageSource File="Assets/invalidtools.png"/>
-                        </OnPlatform.WinPhone>
+                        </On>
                     </OnPlatform>
                 </controls:TintedImage.Source>
 

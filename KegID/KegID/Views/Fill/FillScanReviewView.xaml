@@ -68,8 +68,8 @@
             <Grid
                 x:Name="grdContent"
                 Margin="10,30,10,0"
-                RowSpacing="0,0,0,0"
-                ColumnSpacing="0,0,0,0"
+                RowSpacing="0"
+                ColumnSpacing="0"
                 Grid.Row="4">
                 
                 <Grid.RowDefinitions>

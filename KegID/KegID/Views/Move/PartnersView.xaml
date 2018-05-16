@@ -60,15 +60,15 @@
 
                     <controls:TintedImage.Source>
                         <OnPlatform x:TypeArguments="FileImageSource">
-                            <OnPlatform.iOS>
+                            <On Platform="iOS">
                                 <FileImageSource File="actionsearch.png"/>
-                            </OnPlatform.iOS>
-                            <OnPlatform.Android>
+                            </On>
+                            <On Platform="Android">
                                 <FileImageSource File="actionsearch.png"/>
-                            </OnPlatform.Android>
-                            <OnPlatform.WinPhone>
+                            </On>
+                            <On Platform="UWP">
                                 <FileImageSource File="Assets/actionsearch.png"/>
-                            </OnPlatform.WinPhone>
+                            </On>
                         </OnPlatform>
                     </controls:TintedImage.Source>
 
@@ -92,15 +92,15 @@
 
                     <controls:TintedImage.Source>
                         <OnPlatform x:TypeArguments="FileImageSource">
-                            <OnPlatform.iOS>
+                            <On Platform="iOS">
                                 <FileImageSource File="add.png"/>
-                            </OnPlatform.iOS>
-                            <OnPlatform.Android>
+                            </On>
+                            <On Platform="Android">
                                 <FileImageSource File="add.png"/>
-                            </OnPlatform.Android>
-                            <OnPlatform.WinPhone>
+                            </On>
+                            <On Platform="UWP">
                                 <FileImageSource File="Assets/add.png"/>
-                            </OnPlatform.WinPhone>
+                            </On>
                         </OnPlatform>
                     </controls:TintedImage.Source>
 

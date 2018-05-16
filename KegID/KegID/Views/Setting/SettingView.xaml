@@ -23,15 +23,15 @@
 
             <Image.Source>
                 <OnPlatform x:TypeArguments="FileImageSource">
-                    <OnPlatform.iOS>
+                    <On Platform="iOS">
                         <FileImageSource File="triangle.png"/>
-                    </OnPlatform.iOS>
-                    <OnPlatform.Android>
+                    </On>
+                    <On Platform="Android">
                         <FileImageSource File="triangle.png"/>
-                    </OnPlatform.Android>
-                    <OnPlatform.WinPhone>
+                    </On>
+                    <On Platform="UWP">
                         <FileImageSource File="Assets/triangle.png"/>
-                    </OnPlatform.WinPhone>
+                    </On>
                 </OnPlatform>
             </Image.Source>
         </Image>

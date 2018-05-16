@@ -52,15 +52,15 @@
 
                 <controls:TintedImage.Source>
                     <OnPlatform x:TypeArguments="FileImageSource">
-                        <OnPlatform.iOS>
+                        <On Platform="iOS">
                             <FileImageSource File="actionshare.png"/>
-                        </OnPlatform.iOS>
-                        <OnPlatform.Android>
+                        </On>
+                        <On Platform="Android">
                             <FileImageSource File="actionshare.png"/>
-                        </OnPlatform.Android>
-                        <OnPlatform.WinPhone>
+                        </On>
+                        <On Platform="UWP">
                             <FileImageSource File="Assets/actionshare.png"/>
-                        </OnPlatform.WinPhone>
+                        </On>
                     </OnPlatform>
                 </controls:TintedImage.Source>
 
@@ -157,8 +157,8 @@
             <Grid
                 x:Name="grdContent"
                 Margin="0,5,0,0"
-                RowSpacing="0,0,0,0"
-                ColumnSpacing="0,0,0,0"
+                RowSpacing="0"
+                ColumnSpacing="0"
                 Grid.Row="12">
               
                 <Grid.GestureRecognizers>
