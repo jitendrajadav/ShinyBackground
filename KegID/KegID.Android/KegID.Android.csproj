@@ -167,6 +167,7 @@
     <Compile Include="DependencyServices\BackgroundService.cs" />
     <Compile Include="DependencyServices\OpenAppService.cs" />
     <Compile Include="DependencyServices\PhoneDialerAndroid.cs" />
+    <Compile Include="DependencyServices\SafeHTMLToPDF.cs" />
     <Compile Include="DependencyServices\SQLiteAndroid.cs" />
     <Compile Include="ImageHelper.cs" />
     <Compile Include="MainActivity.cs" />

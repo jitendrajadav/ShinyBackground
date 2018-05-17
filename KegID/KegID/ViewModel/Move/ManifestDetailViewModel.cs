@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
+using KegID.DependencyServices;
 using KegID.Model;
 using KegID.Views;
 using Microsoft.AppCenter.Crashes;
@@ -211,6 +212,7 @@ namespace KegID.ViewModel
 
         private void ShareCommandReciever()
         {
+            DependencyService.Get<IHTMLToPDF>().SafeHTMLToPDF("html", "Invoice");
             try
             {
                 CrossShare.Current.Share(message: new Plugin.Share.Abstractions.ShareMessage

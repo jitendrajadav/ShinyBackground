@@ -18,13 +18,13 @@ namespace KegID.iOS
     public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
     {
         iOSLongRunningTaskExample longRunningTaskExample;
-        void WireUpDownloadTask()
-        {
-            MessagingCenter.Subscribe<DownloadMessage>(this, "Download", async message => {
-                var downloader = new Downloader(message.Url);
-                await downloader.DownloadFile();
-            });
-        }
+        //void WireUpDownloadTask()
+        //{
+        //    MessagingCenter.Subscribe<DownloadMessage>(this, "Download", async message => {
+        //        var downloader = new Downloader(message.Url);
+        //        await downloader.DownloadFile();
+        //    });
+        //}
 
         public static Action BackgroundSessionCompletionHandler;
 
@@ -57,7 +57,7 @@ namespace KegID.iOS
             LoadApplication(new App());
 
             WireUpLongRunningTask();
-            WireUpDownloadTask();
+            //WireUpDownloadTask();
 
             return base.FinishedLaunching(app, options);
         }

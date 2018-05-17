@@ -108,6 +108,7 @@
     <Compile Include="DependencyServices\IOSUniqueIdentifier.cs" />
     <Compile Include="DependencyServices\OpenAppService.cs" />
     <Compile Include="DependencyServices\PhoneDialerIOS.cs" />
+    <Compile Include="DependencyServices\SafeHTMLToPDF.cs" />
     <Compile Include="DependencyServices\SQLiteiOS.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
