@@ -13,6 +13,7 @@ using KegID.SQLiteClient;
 using KegID.Views;
 using Microsoft.AppCenter.Crashes;
 using Rg.Plugins.Popup.Extensions;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -336,7 +337,7 @@ namespace KegID.ViewModel
                 try
                 {
                     Loader.StartLoading();
-
+                    var location = await Geolocation.GetLocationAsync();
                     List<MaintainKeg> kegs = new List<MaintainKeg>();
                     MaintainKeg keg = null;
 
@@ -371,8 +372,8 @@ namespace KegID.ViewModel
                     //model.MaintenanceDoneRequestModel.Operator = "Bent Neck";
                     //model.MaintenanceDoneRequestModel.SourceKey = "";
                     //model.MaintenanceDoneRequestModel.SubmittedDate = DateTimeOffset.Now;
-                    model.MaintenanceDoneRequestModel.Latitude = (long)Geolocation.savedPosition.Latitude;
-                    model.MaintenanceDoneRequestModel.Longitude = (long)Geolocation.savedPosition.Longitude;
+                    model.MaintenanceDoneRequestModel.Latitude = (long)location.Latitude;
+                    model.MaintenanceDoneRequestModel.Longitude = (long)location.Longitude;
                     model.MaintenanceDoneRequestModel.Tags = new List<MaintenanceDoneRequestModelTag>();
 
                     KegIDResponse kegIDResponse = await _maintainService.PostMaintenanceDoneAsync(model.MaintenanceDoneRequestModel, AppSettings.User.SessionId, Configuration.PostedMaintenanceDone);

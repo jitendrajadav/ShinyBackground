@@ -11,7 +11,6 @@ using KegID.Droid.DependencyServices;
 using KegID.Droid.Services;
 using KegID.Messages;
 using Plugin.CrossPlatformTintedImage.Android;
-using Plugin.Permissions;
 using Xamarin.Forms;
 
 namespace KegID.Droid
@@ -36,6 +35,7 @@ namespace KegID.Droid
             ZXing.Net.Mobile.Forms.Android.Platform.Init();
             Xamarin.FormsMaps.Init(this, bundle);
             TintedImageRenderer.Init();
+            Xamarin.Essentials.Platform.Init(this, bundle);
             LoadApplication(new App());
 
             //Commented for Background Services
@@ -81,9 +81,12 @@ namespace KegID.Droid
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
         {
+            Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+
             ZXing.Net.Mobile.Android.PermissionsHandler.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-            PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            //PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 }

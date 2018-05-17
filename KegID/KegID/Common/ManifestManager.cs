@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 
 namespace KegID.Common
 {
@@ -18,7 +19,7 @@ namespace KegID.Common
             ValidateBarcodeModel validateBarcodeModel = null;
             List<ManifestItem> manifestItemlst = new List<ManifestItem>();
             ManifestItem manifestItem = null;
-
+            var location = await Geolocation.GetLocationAsync();
             try
             {
                 foreach (var item in barcodeCollection)
@@ -58,8 +59,8 @@ namespace KegID.Common
                 {
                     ManifestId = manifestId,
                     EventTypeId = (long)eventTypeEnum,
-                    Latitude = (long)Geolocation.savedPosition.Latitude,
-                    Longitude = (long)Geolocation.savedPosition.Longitude,
+                    Latitude = (long)location.Latitude,
+                    Longitude = (long)location.Longitude,
                     SubmittedDate = DateTime.Today,
                     ShipDate = DateTime.Today,
 

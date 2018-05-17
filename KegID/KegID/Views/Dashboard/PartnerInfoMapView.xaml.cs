@@ -12,8 +12,8 @@ namespace KegID.Views
     {
 
         public PartnerInfoMapView ()
-		{
-			InitializeComponent ();
+        {
+            InitializeComponent();
             var map = new Map
             {
                 MapType = MapType.Street,
@@ -21,6 +21,13 @@ namespace KegID.Views
                 WidthRequest = 960,
                 VerticalOptions = LayoutOptions.FillAndExpand
             };
+
+            NavigeatToMapAsync(map);
+
+        }
+
+        private void NavigeatToMapAsync(Map map)
+        {
 
             //var position = new Position(Geolocation.savedPosition.Latitude, Geolocation.savedPosition.Longitude); // Latitude, Longitude
             var model = SimpleIoc.Default.GetInstance<PartnerInfoMapViewModel>().Position;
@@ -43,7 +50,6 @@ namespace KegID.Views
             map.MoveToRegion(MapSpan.FromCenterAndRadius(position, Distance.FromMiles(1.0)));
 
             MapControl.Children.Add(map);
-
         }
 
         /// <summary>

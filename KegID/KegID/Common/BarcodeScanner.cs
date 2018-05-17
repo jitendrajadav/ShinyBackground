@@ -3,10 +3,12 @@ using KegID.Messages;
 using KegID.Model;
 using KegID.Services;
 using KegID.ViewModel;
+using Microsoft.AppCenter.Crashes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using ZXing.Net.Mobile.Forms;
 
@@ -43,6 +45,29 @@ namespace KegID.Common
             torch.Clicked += delegate
             {
                 scanPage.ToggleTorch();
+                //try
+                //{
+                //    // Turn On
+                //    await Flashlight.TurnOnAsync();
+
+                //    // Turn Off
+                //    //await Flashlight.TurnOffAsync();
+                //}
+                //catch (FeatureNotSupportedException fnsEx)
+                //{
+                //    // Handle not supported on device exception
+                //    Crashes.TrackError(fnsEx);
+                //}
+                //catch (PermissionException pEx)
+                //{
+                //    // Handle permission exception
+                //    Crashes.TrackError(pEx);
+                //}
+                //catch (Exception ex)
+                //{
+                //    // Unable to turn on/off flashlight
+                //    Crashes.TrackError(ex);
+                //}
             };
             var title = new Label
             {
@@ -98,7 +123,27 @@ namespace KegID.Common
                     title.Text = "Last scan: " + result.Text;
                     barcodes.Add(new Barcode { Id = result.Text, Tags = _tags, TagsStr = _tagsStr, Icon = Cloud });
                     //barcodes.Add(await ValidateBarcodeInsertIntoLocalDB(_moveService, result.Text, _tags, _tagsStr));
+                    try
+                    {
+                        // Use default vibration length
+                        Vibration.Vibrate();
+
+                        // Or use specified time
+                        //var duration = TimeSpan.FromSeconds(1);
+                        Vibration.Vibrate();
+                    }
+                    catch (FeatureNotSupportedException ex)
+                    {
+                        // Feature not supported on device
+                        Crashes.TrackError(ex);
+                    }
+                    catch (Exception ex)
+                    {
+                        // Other error has occurred.
+                        Crashes.TrackError(ex);
+                    }
                 }
+                
             });
 
             await Application.Current.MainPage.Navigation.PushModalAsync(scanPage, animated: false);

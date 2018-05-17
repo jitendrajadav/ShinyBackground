@@ -61,7 +61,6 @@ namespace KegID
 
             //MainPage = tabbedPage;
 
-
             if (AppSettings.User != null)
             {
                 MainPage = new MainPage();
@@ -87,7 +86,7 @@ namespace KegID
                    typeof(Analytics), typeof(Crashes));
             // Handle when your app starts
             SQLiteServiceClient.Instance.CreateDbIfNotExist();
-            Geolocation.GetGPS();
+            //Geolocation.GetGPS();
             //var value= Geolocation.GetCurrentLocation();
             LoadPersistedValues();
         }

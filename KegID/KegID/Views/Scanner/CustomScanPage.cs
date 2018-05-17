@@ -6,7 +6,7 @@ namespace KegID.Views
     public class CustomScanPage : ContentPage
     {
         ZXingScannerView zxing;
-        ZXing.Net.Mobile.Forms.ZXingDefaultOverlay overlay;
+        ZXingDefaultOverlay overlay;
 
         public CustomScanPage() : base()
         {

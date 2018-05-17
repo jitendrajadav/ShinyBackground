@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
@@ -7,7 +9,7 @@ using KegID.Model;
 using KegID.Services;
 using KegID.Views;
 using Microsoft.AppCenter.Crashes;
-using Plugin.Messaging;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -350,7 +352,7 @@ namespace KegID.ViewModel
             KegsCommand = new RelayCommand(KegsCommandRecieverAsync);
             ShipToCommand = new RelayCommand(ShipToCommandRecieverAsync);
             PhoneNumberCommand = new RelayCommand(PhoneNumberCommandReciever);
-            ContactEmailCommand = new RelayCommand(ContactEmailCommandReciever);
+            ContactEmailCommand = new RelayCommand(ContactEmailCommandRecieverAsync);
             SendKegsCommand = new RelayCommand(SendKegsCommandRecieverAsync);
 
             LoadPartnerInfoAsync();
@@ -361,34 +363,34 @@ namespace KegID.ViewModel
 
         #region Methods
 
-        private void ContactEmailCommandReciever()
+        private async void ContactEmailCommandRecieverAsync()
         {
             try
             {
-
+                await SendEmail("KegID","Mail Sending",new List<string> { "test@kegid.com" });
                 // Send Sms
                 //var smsMessenger = CrossMessaging.Current.SmsMessenger;
                 //if (smsMessenger.CanSendSms)
                 //    smsMessenger.SendSms("+27213894839493", "Well hello there from Xam.Messaging.Plugin");
 
 
-                var emailMessenger = CrossMessaging.Current.EmailMessenger;
-                if (emailMessenger.CanSendEmail)
-                {
-                    // Send simple e-mail to single receiver without attachments, bcc, cc etc.
-                    emailMessenger.SendEmail("to.plugins@xamarin.com", "Xamarin Messaging Plugin", "Well hello there from Xam.Messaging.Plugin");
+                //var emailMessenger = CrossMessaging.Current.EmailMessenger;
+                //if (emailMessenger.CanSendEmail)
+                //{
+                //    // Send simple e-mail to single receiver without attachments, bcc, cc etc.
+                //    emailMessenger.SendEmail("to.plugins@xamarin.com", "Xamarin Messaging Plugin", "Well hello there from Xam.Messaging.Plugin");
 
-                    // Alternatively use EmailBuilder fluent interface to construct more complex e-mail with multiple recipients, bcc, attachments etc. 
-                    var email = new EmailMessageBuilder()
-                      .To("to.plugins@xamarin.com")
-                      .Cc("cc.plugins@xamarin.com")
-                      .Bcc(new[] { "bcc1.plugins@xamarin.com", "bcc2.plugins@xamarin.com" })
-                      .Subject("Xamarin Messaging Plugin")
-                      .Body("Well hello there from Xam.Messaging.Plugin")
-                      .Build();
+                //    // Alternatively use EmailBuilder fluent interface to construct more complex e-mail with multiple recipients, bcc, attachments etc. 
+                //    var email = new EmailMessageBuilder()
+                //      .To("to.plugins@xamarin.com")
+                //      .Cc("cc.plugins@xamarin.com")
+                //      .Bcc(new[] { "bcc1.plugins@xamarin.com", "bcc2.plugins@xamarin.com" })
+                //      .Subject("Xamarin Messaging Plugin")
+                //      .Body("Well hello there from Xam.Messaging.Plugin")
+                //      .Build();
 
-                    emailMessenger.SendEmail(email);
-                }
+                //    emailMessenger.SendEmail(email);
+                //}
 
                 // Construct HTML email (iOS and Android only)
                 //var email = new EmailMessageBuilder()
@@ -399,6 +401,31 @@ namespace KegID.ViewModel
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+            }
+        }
+        public async Task SendEmail(string subject, string body, List<string> recipients)
+        {
+            try
+            {
+                var message = new EmailMessage
+                {
+                    Subject = subject,
+                    Body = body,
+                    To = recipients,
+                    //Cc = ccRecipients,
+                    //Bcc = bccRecipients
+                };
+                await Email.ComposeAsync(message);
+            }
+            catch (FeatureNotSupportedException fbsEx)
+            {
+                // Sms is not supported on this device
+                Crashes.TrackError(fbsEx);
+            }
+            catch (Exception ex)
+            {
+                // Some other exception occured
                 Crashes.TrackError(ex);
             }
         }
@@ -471,7 +498,8 @@ namespace KegID.ViewModel
                 {
                     //callButton.IsEnabled = true;
                     //callButton.Text = "Call " + translatedNumber;
-                    OnCall(null, null);
+                    //OnCall(null, null);
+                    PlacePhoneCallAsync();
                 }
                 else
                 {
@@ -484,6 +512,42 @@ namespace KegID.ViewModel
                 Crashes.TrackError(ex);
             }
         }
+
+        private async void PlacePhoneCallAsync()
+        {
+            try
+            {
+                if (!await Application.Current.MainPage.DisplayAlert(
+                           "Dial a Number",
+                           "Would you like to call " + translatedNumber + "?",
+                           "Cancel",
+                           "Call"))
+                {
+                    // TODO: dial the phone
+                    var dialer = DependencyService.Get<IDialer>();
+                    if (dialer != null)
+                        await dialer.DialAsync(translatedNumber);
+
+                    //PhoneDialer.Open(translatedNumber);
+                }
+            }
+            catch (ArgumentNullException anEx)
+            {
+                Crashes.TrackError(anEx);
+                // Number was null or white space
+            }
+            catch (FeatureNotSupportedException ex)
+            {
+                Crashes.TrackError(ex);
+                // Phone Dialer is not supported on this device.
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+                // Other error has occurred.
+            }
+        }
+
         async void OnCall(object sender, EventArgs e)
         {
             try
@@ -500,9 +564,9 @@ namespace KegID.ViewModel
                     //    await dialer.DialAsync(translatedNumber);
 
                     // Make Phone Call
-                    var phoneCallTask = CrossMessaging.Current.PhoneDialer;
-                    if (phoneCallTask.CanMakePhoneCall)
-                        phoneCallTask.MakePhoneCall(translatedNumber);
+                    //var phoneCallTask = CrossMessaging.Current.PhoneDialer;
+                    //if (phoneCallTask.CanMakePhoneCall)
+                    //    phoneCallTask.MakePhoneCall(translatedNumber);
                 }
             }
             catch (Exception ex)
