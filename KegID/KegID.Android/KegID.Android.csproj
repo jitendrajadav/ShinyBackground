@@ -163,11 +163,11 @@
   <ItemGroup>
     <Compile Include="BackgroundReceiver.cs" />
     <Compile Include="DependencyServices\AndroidCloseApplication.cs" />
+    <Compile Include="DependencyServices\AndroidPrintService.cs" />
     <Compile Include="DependencyServices\AndroidUniqueIdentifier.cs" />
     <Compile Include="DependencyServices\BackgroundService.cs" />
     <Compile Include="DependencyServices\OpenAppService.cs" />
     <Compile Include="DependencyServices\PhoneDialerAndroid.cs" />
-    <Compile Include="DependencyServices\SafeHTMLToPDF.cs" />
     <Compile Include="DependencyServices\SQLiteAndroid.cs" />
     <Compile Include="ImageHelper.cs" />
     <Compile Include="MainActivity.cs" />
@@ -458,6 +458,9 @@
     <AndroidResource Include="..\KegID\Assets\newkeg.png">
       <Link>Resources\drawable\newkeg.png</Link>
     </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\primer.css" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="ReplaceRefAssemblies" AfterTargets="_ResolveAssemblies">

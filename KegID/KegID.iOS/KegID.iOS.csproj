@@ -105,10 +105,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="DependencyServices\BackgroundService.cs" />
+    <Compile Include="DependencyServices\IOSPrintService.cs" />
     <Compile Include="DependencyServices\IOSUniqueIdentifier.cs" />
     <Compile Include="DependencyServices\OpenAppService.cs" />
     <Compile Include="DependencyServices\PhoneDialerIOS.cs" />
-    <Compile Include="DependencyServices\SafeHTMLToPDF.cs" />
     <Compile Include="DependencyServices\SQLiteiOS.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
@@ -467,5 +467,8 @@
     <BundleResource Include="..\KegID\Assets\newkeg.png">
       <Link>Resources\newkeg.png</Link>
     </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\primer.css" />
   </ItemGroup>
 </Project>

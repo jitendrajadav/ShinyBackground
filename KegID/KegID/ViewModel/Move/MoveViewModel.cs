@@ -391,7 +391,7 @@ namespace KegID.ViewModel
                         var manifest = await _moveService.GetManifestAsync(AppSettings.User.SessionId, result.ManifestId);
                         if (manifest.StatusCode == System.Net.HttpStatusCode.OK)
                         {
-                            @default.GetInstance<ManifestDetailViewModel>().AssignInitialValue(manifest);
+                            @default.GetInstance<ManifestDetailViewModel>().AssignInitialValue(manifest, Contents);
                             Loader.StopLoading();
                             await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestDetailView(), animated: false);
                         }

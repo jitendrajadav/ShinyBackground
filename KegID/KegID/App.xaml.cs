@@ -17,7 +17,6 @@ namespace KegID
         public static string CurrentLanguage = "EN";
 
         private static ViewModelLocator _locator;
-        //private readonly BackgroundPage _backgroundPage;
 
         public static ViewModelLocator Locator
         {

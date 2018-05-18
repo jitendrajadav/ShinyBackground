@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight.Command;
+﻿using FormsEZPrint.PrintTemplates;
+using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using KegID.DependencyServices;
 using KegID.Model;
@@ -212,7 +213,26 @@ namespace KegID.ViewModel
 
         private void ShareCommandReciever()
         {
-            DependencyService.Get<IHTMLToPDF>().SafeHTMLToPDF("html", "Invoice");
+            // New up the Razor template
+            var printTemplate = new ManifestPrintTemplate();
+
+            // Set the model property (ViewModel is a custom property within containing view - FYI)
+            printTemplate.Model = new System.Collections.Generic.List<EZPrintModel>();
+
+            // Generate the HTML
+            var htmlString = printTemplate.GenerateString();
+
+            // Create a source for the webview
+            var htmlSource = new HtmlWebViewSource();
+            htmlSource.Html = htmlString;
+
+            // Create and populate the Xamarin.Forms.WebView
+            var browser = new WebView();
+            browser.Source = htmlSource;
+
+            var printService = DependencyService.Get<IPrintService>();
+            printService.Print(browser);
+
             try
             {
                 CrossShare.Current.Share(message: new Plugin.Share.Abstractions.ShareMessage
@@ -230,7 +250,7 @@ namespace KegID.ViewModel
 
         private async void ManifestsCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PopModalAsync();
 
-        internal void AssignInitialValue(ManifestResponseModel manifest)
+        internal void AssignInitialValue(ManifestResponseModel manifest, string content)
         {
             try
             {
@@ -242,7 +262,7 @@ namespace KegID.ViewModel
                 ItemCount = manifest.ManifestItems.Count;
                 SimpleIoc.Default.GetInstance<ContentTagsViewModel>().ContentCollection = manifest.ManifestItems.Select(x => x.Barcode).ToList();
 
-                Contents = !string.IsNullOrEmpty(manifest.ManifestItems.FirstOrDefault().Contents) ? manifest.ManifestItems.FirstOrDefault().Contents : "No contens";
+                Contents = !string.IsNullOrEmpty(content) ? content : "No contens";
             }
             catch (Exception ex)
             {
