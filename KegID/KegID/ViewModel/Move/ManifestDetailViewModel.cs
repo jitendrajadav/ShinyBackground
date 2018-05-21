@@ -7,6 +7,7 @@ using KegID.Views;
 using Microsoft.AppCenter.Crashes;
 using Plugin.Share;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Xamarin.Forms;
 
@@ -15,6 +16,8 @@ namespace KegID.ViewModel
     public class ManifestDetailViewModel : BaseViewModel
     {
         #region Properties
+
+        private List<ManifestPrintModel> manifestPrintModels = null;
 
         #region TrackingNumber
 
@@ -217,7 +220,7 @@ namespace KegID.ViewModel
             var printTemplate = new ManifestPrintTemplate();
 
             // Set the model property (ViewModel is a custom property within containing view - FYI)
-            printTemplate.Model = new System.Collections.Generic.List<EZPrintModel>();
+            printTemplate.Model = manifestPrintModels;//new System.Collections.Generic.List<EZPrintModel>();
 
             // Generate the HTML
             var htmlString = printTemplate.GenerateString();
@@ -254,6 +257,8 @@ namespace KegID.ViewModel
         {
             try
             {
+                manifestPrintModels = new List<ManifestPrintModel>();
+                manifestPrintModels.Add(new ManifestPrintModel { Barcode = "1234566", Brand = "test", Destination = manifest.CreatorCompany.FullName + "\n" + manifest.CreatorCompany.PartnerTypeName, Item = "1", ShipDate = Convert.ToDateTime(manifest.ShipDate), Tracking = manifest.TrackingNumber, Order = "123", Original = "test123" });
                 TrackingNumber = manifest.TrackingNumber;
 
                 ManifestTo = manifest.CreatorCompany.FullName + "\n" + manifest.CreatorCompany.PartnerTypeName;

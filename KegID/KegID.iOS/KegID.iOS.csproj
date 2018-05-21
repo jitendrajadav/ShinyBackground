@@ -471,4 +471,9 @@
   <ItemGroup>
     <BundleResource Include="Resources\primer.css" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\KegID\Assets\kegidbannerwhite.png">
+      <Link>Resources\kegidbannerwhite.png</Link>
+    </BundleResource>
+  </ItemGroup>
 </Project>

@@ -1,7 +1,7 @@
-﻿@using FormsEZPrint;
+﻿@using KegID.Model;
 @using System.Collections.Generic;
 
-@model List<EZPrintModel>
+@model List<ManifestPrintModel>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -12,24 +12,41 @@
 	</head>
 	<body>
 		<div class="blankslate blankslate-spacious">
-			<h3>Xamarin Forms EZ-Print!</h3>
-			<p>Even works using the CSS frameworks like Primer!</p>
+			<span><img src="~/Assets/kegidbannerwhite.png" /></span>
+			<p>Manifest</p>
 		</div>
-		<div class="container">
-			<div class="columns">
-				@foreach (var m in Model) {
-					<div class="one-fifth column">
-						<span class="d-inline-block p-3 bg-red text-white">
-						@m.ModelName
-						</span>
-					</div>
-					<div class="four-fifths column">
-						<span class="d-inline-block p-3 bg-green">
-						@m.ModelDescription
-						</span>
-					</div>
-				}
-			</div>
-		</div>
+        <div class="container">
+            @*<div class="columns">
+                @foreach (var m in Model)
+                {
+                    <div class="one-fifth column">
+                        <span class="d-inline-block p-3 bg-red text-white">
+                            @m.ModelName
+                        </span>
+                    </div>
+                    <div class="four-fifths column">
+                        <span class="d-inline-block p-3 bg-green">
+                            @m.ModelDescription
+                        </span>
+                    </div>
+                }
+            </div>*@
+
+            <table>
+                <tr>
+                    <th>Ship Date</th>
+                    <th>Tracking # </th>
+                    <th>Order # </th>
+                </tr>
+                @foreach (var d in Model)
+                {
+                    <tr>
+                        <td>@d.ShipDate</td>
+                        <td>@d.Tracking</td>
+                        <td>@d.Order</td>
+                    </tr>
+                }
+            </table>
+        </div>
 	</body>
 </html>

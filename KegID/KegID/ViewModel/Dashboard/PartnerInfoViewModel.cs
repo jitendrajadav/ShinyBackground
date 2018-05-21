@@ -524,11 +524,11 @@ namespace KegID.ViewModel
                            "Call"))
                 {
                     // TODO: dial the phone
-                    var dialer = DependencyService.Get<IDialer>();
-                    if (dialer != null)
-                        await dialer.DialAsync(translatedNumber);
+                    //var dialer = DependencyService.Get<IDialer>();
+                    //if (dialer != null)
+                    //    await dialer.DialAsync(translatedNumber);
 
-                    //PhoneDialer.Open(translatedNumber);
+                    PhoneDialer.Open(translatedNumber);
                 }
             }
             catch (ArgumentNullException anEx)

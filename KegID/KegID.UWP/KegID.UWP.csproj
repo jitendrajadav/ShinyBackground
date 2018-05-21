@@ -168,6 +168,9 @@
     <Content Include="..\KegID\Assets\kegidbanner.png">
       <Link>Assets\kegidbanner.png</Link>
     </Content>
+    <Content Include="..\KegID\Assets\kegidbannerwhite.png">
+      <Link>Assets\kegidbannerwhite.png</Link>
+    </Content>
     <Content Include="..\KegID\Assets\kegidicon.png">
       <Link>Assets\kegidicon.png</Link>
     </Content>

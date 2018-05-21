@@ -35,7 +35,7 @@ public partial class ManifestPrintTemplate : ManifestPrintTemplateBase
 #line hidden
 
 #line 4 "ManifestPrintTemplate.cshtml"
-public List<KegID.Model.EZPrintModel> Model { get; set; }
+public List<KegID.Model.ManifestPrintModel> Model { get; set; }
 
 #line default
 #line hidden
@@ -99,7 +99,7 @@ WriteLiteral("\t\t\t\t\t\t");
 
 
 #line 23 "ManifestPrintTemplate.cshtml"
-                   Write(m.ModelName);
+                   Write(m.Destination);
 
 
 #line default
@@ -120,7 +120,7 @@ WriteLiteral("\t\t\t\t\t\t");
 
 
 #line 28 "ManifestPrintTemplate.cshtml"
-                   Write(m.ModelDescription);
+                   Write(m.Barcode);
 
 
 #line default

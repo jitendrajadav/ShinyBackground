@@ -462,6 +462,11 @@
   <ItemGroup>
     <AndroidAsset Include="Assets\primer.css" />
   </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\KegID\Assets\kegidbannerwhite.png">
+      <Link>Resources\drawable\kegidbannerwhite.png</Link>
+    </AndroidResource>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="ReplaceRefAssemblies" AfterTargets="_ResolveAssemblies">
     <ItemGroup>

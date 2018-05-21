@@ -18,7 +18,7 @@ namespace KegID.iOS.DependencyServices
             var printInfo = UIPrintInfo.PrintInfo;
 
             printInfo.OutputType = UIPrintInfoOutputType.General;
-            printInfo.JobName = "Forms EZ-Print";
+            printInfo.JobName = "Forms Print";
             printInfo.Orientation = UIPrintInfoOrientation.Portrait;
             printInfo.Duplex = UIPrintInfoDuplex.None;
 
