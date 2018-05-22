@@ -18,12 +18,16 @@ namespace KegID.Droid
     [Activity(Label = "KegID", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
+        private static Activity myActivity;
+
         protected override void OnCreate(Bundle bundle)
         {
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(bundle);
+            myActivity = this;
+
             DependencyService.Register<OpenAppService>();
 
             Forms.SetFlags("FastRenderers_Experimental");
@@ -53,6 +57,10 @@ namespace KegID.Droid
             WireUpLongRunningTask();
             WireUpLongDownloadTask();
 
+        }
+        public static Activity GetActivity()
+        {
+            return myActivity;
         }
 
         void WireUpLongRunningTask()
@@ -86,7 +94,23 @@ namespace KegID.Droid
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
             ZXing.Net.Mobile.Android.PermissionsHandler.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-            //PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            //switch (requestCode)
+            //{
+            //    case PrinterDiscoveryImplementation.RequestLocationId:
+            //        {
+            //            if (grantResults[0] == Permission.Granted)
+            //            {
+            //                //Permission granted
+            //                PrinterDiscoveryImplementation discoveryImp = new PrinterDiscoveryImplementation();
+            //                discoveryImp.FindBluetoothPrinters(PrinterDiscoveryImplementation.TempHandler);
+            //            }
+            //            else
+            //            {
+            //                System.Diagnostics.Debug.WriteLine("Location Permission Denied.  Cannot do Bluetooth Discovery");
+            //            }
+            //        }
+            //        break;
+            //}
         }
     }
 }

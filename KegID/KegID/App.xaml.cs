@@ -14,6 +14,11 @@ namespace KegID
 {
     public partial class App : Application
 	{
+        public const string API_Version = "1.1.75";
+        public const string APP_Version = "1.0.19";
+        public const string GIT_API_HASH = "2e2d138ef76c5aa1c95195617734b97aa8e9a43e";
+        public const string GIT_APP_HASH = "6a6eda468ca950a89e7b428f5042b13624156a93";
+
         public static string CurrentLanguage = "EN";
 
         private static ViewModelLocator _locator;

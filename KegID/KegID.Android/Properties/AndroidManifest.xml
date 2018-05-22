@@ -18,6 +18,13 @@
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 	<uses-permission android:name="android.permission.INTERNET" />
-	<application android:label="KegID.Android" android:icon="@drawable/kegidicon"></application>
+  <uses-feature android:name="android.hardware.usb.host" />
+  <uses-permission android:name="android.permission.BLUETOOTH" />
+  <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+  <uses-permission android:name="android.permission.BLUETOOTH_PRIVILEGED" />
+  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+  <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
+
+  <application android:label="KegID.Android" android:icon="@drawable/kegidicon"></application>
 	<!--<receiver android:name=".BackgroundReceiver"></receiver>-->
 </manifest>
