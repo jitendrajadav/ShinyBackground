@@ -3,7 +3,6 @@ using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using Android.Content;
 using KegID.Controls;
-using Android.Graphics;
 
 [assembly: ExportRenderer(typeof(CustomSwitch), typeof(CustomeSwitchRenderer))]
 namespace KegID.Droid.Renderers

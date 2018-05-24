@@ -12,7 +12,7 @@ namespace KegID.iOS.Renderers
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-            this.NavigationBar.BarTintColor = UIColor.FromPatternImage(UIImage.FromFile("topbar_bg@2x.png"));
+            NavigationBar.BarTintColor = UIColor.FromPatternImage(UIImage.FromFile("topbar_bg@2x.png"));
         }
     }
 }

@@ -9,6 +9,7 @@ using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Xamarin.Forms;
 using System;
+using KegID.PrintTemplates;
 
 namespace KegID
 {
@@ -63,16 +64,16 @@ namespace KegID
             //tabbedPage.Children.Add(new LongRunningPage());
             //tabbedPage.Children.Add(new DownloadPage());
 
-            //MainPage = tabbedPage;
+            MainPage = new MainNavigation ();
 
-            if (AppSettings.User != null)
-            {
-                MainPage = new MainPage();
-            }
-            else
-            {
-                MainPage = new LoginView();
-            }
+            //if (AppSettings.User != null)
+            //{
+            //    MainPage = new MainPage();
+            //}
+            //else
+            //{
+            //    MainPage = new LoginView();
+            //}
 
             // for Nagivation use will check later...
             //MainPage = new NavigationPage(new LoginView())

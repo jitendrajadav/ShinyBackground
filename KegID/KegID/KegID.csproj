@@ -224,4 +224,13 @@
   <ItemGroup>
     <Folder Include="Model\Response\Fill\" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="LinkOS.Plugin">
+      <HintPath>..\..\..\ZSDK_DevDemos\packages\LinkOS_Xamarin_SDK.1.1.75\lib\LinkOS.Plugin.dll</HintPath>
+    </Reference>
+    <Reference Include="LinkOS.Plugin.Abstractions">
+      <HintPath>..\..\..\ZSDK_DevDemos\packages\LinkOS_Xamarin_SDK.1.1.75\lib\LinkOS.Plugin.Abstractions.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 </Project>
