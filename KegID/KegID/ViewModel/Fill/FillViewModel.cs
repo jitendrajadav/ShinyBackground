@@ -299,6 +299,8 @@ namespace KegID.ViewModel
         {
             try
             {
+                SimpleIoc.Default.GetInstance<FillScanViewModel>().AssignInitValue(NewBatchModel, SizeButtonTitle, PartnerModel);
+
                 if (!BatchButtonTitle.Contains("Select batch"))
                 {
                     if (IsPalletze)

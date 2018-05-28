@@ -1,7 +1,10 @@
-﻿namespace KegID.Services
+﻿using LinkOS.Plugin.Abstractions;
+
+namespace KegID.Services
 {
     public static class Configuration
     {
+
 
         /// <summary>
         /// Constant flag

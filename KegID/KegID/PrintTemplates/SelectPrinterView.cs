@@ -1,4 +1,5 @@
-﻿using KegID.DependencyServices;
+﻿using KegID.Common;
+using KegID.DependencyServices;
 using LinkOS.Plugin;
 using LinkOS.Plugin.Abstractions;
 using System;
@@ -87,7 +88,8 @@ namespace KegID.PrintTemplates
         private void BackBtn_Clicked(object sender, EventArgs e)
         {
             DependencyService.Get<IPrinterDiscovery>().CancelDiscovery();
-            OnBackToMainPage?.Invoke();
+            //OnBackToMainPage?.Invoke();
+            Application.Current.MainPage.Navigation.PopModalAsync();
         }
         /// <summary>
         /// Start discovery on all ports.  USB, then Bluetooth, then Network.
@@ -226,6 +228,7 @@ namespace KegID.PrintTemplates
                 }
             }
             OnPrinterSelected?.Invoke((IDiscoveredPrinter)e.SelectedItem);
+            AppSettings.Printer = (IDiscoveredPrinter)e.SelectedItem;
         }
     }
 

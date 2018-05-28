@@ -30,7 +30,7 @@ namespace KegID.Droid
 
             DependencyService.Register<OpenAppService>();
 
-            Forms.SetFlags("FastRenderers_Experimental");
+            //Forms.SetFlags("FastRenderers_Experimental");
 
             Forms.Init(this, bundle);
             UserDialogs.Init(this);
@@ -40,8 +40,14 @@ namespace KegID.Droid
             Xamarin.FormsMaps.Init(this, bundle);
             TintedImageRenderer.Init();
             Xamarin.Essentials.Platform.Init(this, bundle);
-            LoadApplication(new App());
+            try
+            {
+                LoadApplication(new App());
+            }
+            catch (System.Exception ex)
+            {
 
+            }
             //Commented for Background Services
             //var alarmIntent = new Intent(this, type: typeof(BackgroundReceiver));
 

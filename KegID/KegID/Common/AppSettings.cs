@@ -1,5 +1,6 @@
 ﻿using KegID.Extensions;
 using KegID.Model;
+using LinkOS.Plugin.Abstractions;
 using Plugin.Settings;
 using Plugin.Settings.Abstractions;
 
@@ -34,6 +35,9 @@ namespace KegID.Common
         public const string DefaultB2cClientId = "YOUR_B2C_CLIENT_ID";
         public const string DefaultB2cTenant = "YOUR_B2C_TENANT";
 
+        //Printer
+        public const IDiscoveredPrinter DefaultPrinter = null;
+
         // Booking 
         private const bool DefaultHasBooking = false;
 
@@ -48,6 +52,13 @@ namespace KegID.Common
             get => Settings.GetValueOrDefault(nameof(B2cClientId), DefaultB2cClientId);
 
             set => Settings.AddOrUpdateValue(nameof(B2cClientId), value);
+        }
+
+        // Printer settings
+        public static IDiscoveredPrinter Printer
+        {
+            get => Settings.GetValueOrDefault(nameof(Printer), DefaultPrinter);
+            set => Settings.AddOrUpdateValue(nameof(Printer), value);
         }
 
         public static string B2cTenant

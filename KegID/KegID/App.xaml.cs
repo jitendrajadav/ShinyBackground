@@ -64,16 +64,17 @@ namespace KegID
             //tabbedPage.Children.Add(new LongRunningPage());
             //tabbedPage.Children.Add(new DownloadPage());
 
-            MainPage = new MainNavigation ();
+            // for Zebra printing
+            //MainPage = new MainNavigation();
 
-            //if (AppSettings.User != null)
-            //{
-            //    MainPage = new MainPage();
-            //}
-            //else
-            //{
-            //    MainPage = new LoginView();
-            //}
+            if (AppSettings.User != null)
+            {
+                MainPage = new MainPage();
+            }
+            else
+            {
+                MainPage = new LoginView();
+            }
 
             // for Nagivation use will check later...
             //MainPage = new NavigationPage(new LoginView())
@@ -91,8 +92,6 @@ namespace KegID
                    typeof(Analytics), typeof(Crashes));
             // Handle when your app starts
             SQLiteServiceClient.Instance.CreateDbIfNotExist();
-            //Geolocation.GetGPS();
-            //var value= Geolocation.GetCurrentLocation();
             LoadPersistedValues();
         }
 

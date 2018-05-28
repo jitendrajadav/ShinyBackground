@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight.Command;
+using KegID.PrintTemplates;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -13,7 +14,7 @@ namespace KegID.ViewModel
 
         public RelayCommand CancelCommand { get; }
         public RelayCommand SaveCommand { get; }
-
+        public RelayCommand SelectPrinterCommand { get; }
         #endregion
 
         #region Constructor
@@ -22,11 +23,16 @@ namespace KegID.ViewModel
         {
             CancelCommand = new RelayCommand(CancelCommandRecieverAsync);
             SaveCommand = new RelayCommand(SaveCommandRecieverAsync);
+            SelectPrinterCommand = new RelayCommand(SelectPrinterCommandRecieverAsync);
         }
 
         #endregion
 
         #region Methods
+        private async void SelectPrinterCommandRecieverAsync()
+        {
+            await Application.Current.MainPage.Navigation.PushModalAsync(new SelectPrinterView());
+        }
 
         private async void CancelCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PopModalAsync();
 

@@ -255,21 +255,6 @@
     <Content Include="..\KegID\Assets\warn.png">
       <Link>Assets\warn.png</Link>
     </Content>
-    <Content Include="..\KegID\raw\manifest_kegstar.xslt">
-      <Link>Assets\raw\manifest_kegstar.xslt</Link>
-    </Content>
-    <Content Include="..\KegID\raw\manifest_print.xslt">
-      <Link>Assets\raw\manifest_print.xslt</Link>
-    </Content>
-    <Content Include="..\KegID\raw\pallet_print.xslt">
-      <Link>Assets\raw\pallet_print.xslt</Link>
-    </Content>
-    <Content Include="..\KegID\raw\pallet_print_new.xslt">
-      <Link>Assets\raw\pallet_print_new.xslt</Link>
-    </Content>
-    <Content Include="..\KegID\raw\repair_manifest_print.xslt">
-      <Link>Assets\raw\repair_manifest_print.xslt</Link>
-    </Content>
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-100.png" />
     <Content Include="Assets\LockScreenLogo.scale-125.png" />
@@ -415,9 +400,6 @@
     </SDKReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\KegID\Assets\zebrapallet.zpl">
-      <Link>Assets\zebrapallet.zpl</Link>
-    </None>
     <None Include="KegID.UWP_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>

@@ -127,9 +127,6 @@
     <Compile Include="Services\CustomSessionDownloadDelegate.cs" />
     <Compile Include="Services\Downloader.cs" />
     <Compile Include="Services\iOSLongRunningTaskExample.cs" />
-    <BundleResource Include="..\KegID\Assets\zebrapallet.zpl">
-      <Link>Resources\zebrapallet.zpl</Link>
-    </BundleResource>
     <None Include="Entitlements.plist" />
     <None Include="Info.plist">
       <SubType>Designer</SubType>
@@ -483,31 +480,6 @@
   <ItemGroup>
     <BundleResource Include="..\KegID\Assets\kegidbannerwhite.png">
       <Link>Resources\kegidbannerwhite.png</Link>
-    </BundleResource>
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="..\KegID\raw\manifest_kegstar.xslt">
-      <Link>Resources\raw\manifest_kegstar.xslt</Link>
-    </BundleResource>
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="..\KegID\raw\manifest_print.xslt">
-      <Link>Resources\raw\manifest_print.xslt</Link>
-    </BundleResource>
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="..\KegID\raw\pallet_print.xslt">
-      <Link>Resources\raw\pallet_print.xslt</Link>
-    </BundleResource>
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="..\KegID\raw\pallet_print_new.xslt">
-      <Link>Resources\raw\pallet_print_new.xslt</Link>
-    </BundleResource>
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="..\KegID\raw\repair_manifest_print.xslt">
-      <Link>Resources\raw\repair_manifest_print.xslt</Link>
     </BundleResource>
   </ItemGroup>
 </Project>

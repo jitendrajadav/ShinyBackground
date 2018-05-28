@@ -2077,6 +2077,15 @@ namespace KegID {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Printer.
+        /// </summary>
+        internal static string label_printer {
+            get {
+                return ResourceManager.GetString("label_printer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Printer Settings.
         /// </summary>
         internal static string label_printer_settings {
@@ -4665,6 +4674,15 @@ namespace KegID {
         internal static string title_more_info {
             get {
                 return ResourceManager.GetString("title_more_info", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No printers found.
+        /// </summary>
+        internal static string title_no_printer_found {
+            get {
+                return ResourceManager.GetString("title_no_printer_found", resourceCulture);
             }
         }
         

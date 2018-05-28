@@ -32,9 +32,9 @@
     <EnableLLVM>false</EnableLLVM>
     <BundleAssemblies>false</BundleAssemblies>
     <AndroidSupportedAbis />
-    <JavaMaximumHeapSize>1G</JavaMaximumHeapSize>
+    <JavaMaximumHeapSize>2G</JavaMaximumHeapSize>
     <EmbedAssembliesIntoApk>false</EmbedAssembliesIntoApk>
-    <AndroidEnableMultiDex>false</AndroidEnableMultiDex>
+    <AndroidEnableMultiDex>true</AndroidEnableMultiDex>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>false</DebugSymbols>
@@ -194,9 +194,6 @@
     <Compile Include="Services\LongRunningTaskService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="..\KegID\Assets\zebrapallet.zpl">
-      <Link>Resources\drawable\zebrapallet.zpl</Link>
-    </AndroidResource>
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <AndroidResource Include="Resources\layout\NativeAndroidListViewCell.axml">
@@ -474,31 +471,6 @@
   <ItemGroup>
     <AndroidResource Include="..\KegID\Assets\kegidbannerwhite.png">
       <Link>Resources\drawable\kegidbannerwhite.png</Link>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="..\KegID\raw\manifest_kegstar.xslt">
-      <Link>Resources\raw\manifest_kegstar.xslt</Link>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="..\KegID\raw\manifest_print.xslt">
-      <Link>Resources\raw\manifest_print.xslt</Link>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="..\KegID\raw\pallet_print.xslt">
-      <Link>Resources\raw\pallet_print.xslt</Link>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="..\KegID\raw\pallet_print_new.xslt">
-      <Link>Resources\raw\pallet_print_new.xslt</Link>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="..\KegID\raw\repair_manifest_print.xslt">
-      <Link>Resources\raw\repair_manifest_print.xslt</Link>
     </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
