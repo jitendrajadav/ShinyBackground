@@ -124,11 +124,13 @@
                 HorizontalOptions="Start" />
 
             <Switch
+                IsToggled="{Binding IsBluetoothOn}"
                 HorizontalOptions="End"
                 Grid.Column="1"
                 Grid.Row="7"/>
            
             <Label 
+                IsVisible="{Binding IsBluetoothOn,Mode=TwoWay}"
                 Grid.Row="8"
                 Text="{Binding Resources[label_printer]}"
                 TextColor="Black"
@@ -137,14 +139,16 @@
                 HorizontalOptions="Start" />
 
             <Button
-                HorizontalOptions="FillAndExpand"
+                IsVisible="{Binding IsBluetoothOn,Mode=TwoWay}"
                 Grid.Column="1"
+                HorizontalOptions="StartAndExpand"
                 Style="{StaticResource TopButtonTitleStyle}"
-                Text="{Binding Resources[title_no_printer_found]}"
+                Text="{Binding SelectedPrinter}"
                 Command="{Binding SelectPrinterCommand}"
                 Grid.Row="8"/>
             
-            <Label 
+            <Label
+                IsVisible="{Binding IsBluetoothOn,Converter={StaticResource InvertedBooleanConverter}}"
                 Grid.Row="9"
                 Text="{Binding Resources[label_ip_host]}"
                 TextColor="Black"
@@ -153,11 +157,13 @@
                 HorizontalOptions="Start" />
 
             <Entry
+                IsVisible="{Binding IsBluetoothOn,Converter={StaticResource InvertedBooleanConverter}}"
                 HorizontalOptions="FillAndExpand"
                 Grid.Column="1"
                 Grid.Row="9"/>
 
             <Label 
+                IsVisible="{Binding IsBluetoothOn,Converter={StaticResource InvertedBooleanConverter}}"
                 Grid.Row="10"
                 Text="{Binding Resources[pref_port]}"
                 TextColor="Black"
@@ -166,11 +172,12 @@
                 HorizontalOptions="Start" />
 
             <Entry
+                IsVisible="{Binding IsBluetoothOn,Converter={StaticResource InvertedBooleanConverter}}"
                 HorizontalOptions="FillAndExpand"
                 Grid.Column="1"
                 Grid.Row="10"/>
 
-            <Label
+            <Button
                 BackgroundColor="Transparent"
                 TextColor="{StaticResource selectTextColor}"
                 VerticalOptions="Center"
@@ -178,9 +185,9 @@
                 Grid.ColumnSpan="2"
                 Grid.Row="11"
                 FontSize="Medium"
-                Text="{Binding Resources[button_test_printer]}">
-                
-            </Label>
+                Text="{Binding Resources[button_test_printer]}"
+                Command="{Binding PrinterTestCommand}"/>
+
         </Grid>
     </ContentPage.Content>
 </ContentPage>

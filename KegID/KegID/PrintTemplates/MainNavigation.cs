@@ -15,7 +15,6 @@ namespace KegID.PrintTemplates
         private void BaseDemoView_OnChoosePrinterChosen()
         {
             SelectPrinterView selectPrinterView = new SelectPrinterView();
-            selectPrinterView.OnBackToMainPage += App_OnBackToMainPage;
             SelectPrinterView.OnPrinterSelected += SelectPrinterView_OnPrinterSelected;
             PushAsync(selectPrinterView);
         }

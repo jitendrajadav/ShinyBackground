@@ -1,0 +1,364 @@
+﻿using KegID.Services;
+using LinkOS.Plugin;
+using LinkOS.Plugin.Abstractions;
+using Microsoft.AppCenter.Crashes;
+using System;
+using System.Text;
+using Xamarin.Forms;
+
+namespace KegID.Common
+{
+    public static class ZebraPrinterManager
+    {
+        public static IDiscoveredPrinter myPrinter;
+
+        public const String testPrint = "^XA^FO17,16^GB379,371,8^FS^FT65,255^A0N,135,134^FDTEST^FS^XZ";
+
+        #region ZPL Printer fill pallet format
+
+        /*
+                This routine is provided to you as an example of how to create a variable length label with user specified data.
+                The basic flow of the example is as follows
+
+                   Header of the label with some variable data
+                   Body of the label
+                       Loops thru user content and creates small line items of printed material
+                   Footer of the label
+
+                As you can see, there are some variables that the user provides in the header, body and footer, and this routine uses that to build up a proper ZPL string for printing.
+                Using this same concept, you can create one label for your receipt header, one for the body and one for the footer. The body receipt will be duplicated as many items as there are in your variable data
+
+                */
+
+        public const String palletHeader =
+                            /*
+                             Some basics of ZPL. Find more information here : http://www.zebra.com
+
+                             ^XA indicates the beginning of a label
+                             ^PW sets the width of the label (in dots)
+                             ^MNN sets the printer in continuous mode (variable length receipts only make sense with variably sized labels)
+                             ^LL sets the length of the label (we calculate this value at the end of the routine)
+                             ^LH sets the reference axis for printing. 
+                                You will notice we change this positioning of the 'Y' axis (length) as we build up the label. Once the positioning is changed, all new fields drawn on the label are rendered as if '0' is the new home position
+                             ^FO sets the origin of the field relative to Label Home ^LH
+                             ^A sets font information 
+                             ^FD is a field description
+                             ^GB is graphic boxes (or lines)
+                             ^B sets barcode information
+                             ^XZ indicates the end of a label
+                             */
+
+                            "^XA" +
+                            "^FX--the box--^FS" +
+                            "^FO25,25" +
+                            "^GB775,1175,4,B,0 ^FS" +
+                            "^FX--the kegid text top left-- ^FS" +
+                            "^FO50,50" +
+                            "^AVB,40,40" +
+                            "^FDKegID ^FS" +
+                            "^FX--the pallet num-- ^FS" +
+                            "^FO200,50" +
+                            "^A0N,56" +
+                            "^FD{0}^FS" + //@@PALLETBARCODE@@
+                            "^FX--ownername, top right--^FS" +
+                            "^FO775,110,1" +
+                            "^A0N,42" +
+                            "^FD{1}^FS" + //@@OWNERNAME@@
+                            "^FX--owner address--^FS" +
+                            "^FO775,160,1" +
+                            "^A0N,32" +
+                            "^FD{2}^FS" +   //@@OWNERADDRESS@@
+                            "^FO775,195,1" +
+                            "^A0N,32" +
+                            "^FD{3}^FS" +   //@@OWNERCSZ@@
+                            "^FO775,225,1" +
+                            "^A0N,32" +
+                            "^FD{4}^FS" +   //@@OWNERPHONE@@
+                            "^FX--a line under the owner-- ^FS" +
+                            "^FO25,275" +
+                            "^GB750,1,4,B,1 ^FS" +
+                            "^FX--build location^FS" +
+                            "^FO50,300,0" +
+                            "^ADN,16" +
+                            "^FDBUILD LOCATION ^FS" +
+                            "^FO75,325,0" +
+                            "^A0N,32" +
+                            "^FD{5}^FS" +   //@@STOCKNAME@@
+                            "^FX--batch ^FS" +
+                            "^FO50,375,0" +
+                            "^ADN,16" +
+                            "^FDBATCH ^FS" +
+                            "^FO75,400,0" +
+                            "^A0N,32" +
+                            "^FD{6}^FS" +   //@@BATCHNUM@@
+                            "^FX--build date^FS" +
+                            "^FO350,375,0" +
+                            "^ADN,16" +
+                            "^FDBUILD DATE ^FS" +
+                            "^FO375,400,0" +
+                            "^A0N,32" +
+                            "^FD{7}^FS" +   //@@BUILDDATE@@
+                            "^FX--the kegs box-- ^FS" +
+                            "^FO800,275,1" +
+                            "^GB200,200,3,B,0 ^FS" +
+                            "^FX--the num of kegs^FS" +
+                            "^FO775,325,1" +
+                            "^A0N,128" +
+                            "^FD{8}^FS" +   //@@TOTALKEGS@@
+                            "^FX--a line under the header-- ^FS" +
+                            "^FO25,475" +
+                            "^GB750,1,4,B,1 ^FS" +
+                            "^FX--summary line 1, box 1-- ^FS" +
+                            "^FO25,475" +
+                            "^GB250,40,2,B,0 ^FS" +
+                            "^FX--summary line 1, text 1-- ^FS" +
+                            "^FO40,485" +
+                            "^AFN,18,10" +
+                            "^FD{9}^FS" +   //@@SIZE1@@
+                            "^FX--summary line 1, box 2-- ^FS" +
+                            "^FO275,475" +
+                            "^GB425,40,2,B,0 ^FS" +
+                            "^FX--summary line 1, text 2-- ^FS" +
+                            "^FO290,485" +
+                            "^AFN,18,10" +
+                            "^FD{10}^FS" +  //@@CONTENTS1@@
+                            "^FX--summary line 1, box 3-- ^FS" +
+                            "^FO800,475,1" +
+                            "^GB100,40,2,B,0 ^FS" +
+                            "^FX--summary line 1, text 3-- ^FS" +
+                            "^FO785,485,1" +
+                            "^AFN,18,10" +
+                            "^FD{11}^FS" + "\r\n" +  //@@QTY1@@
+                            "^FX--summary line 2, box 1-- ^FS" +
+                            "^FO25,515" +
+                            "^GB250,40,2,B,0 ^FS" +
+                            "^FX--summary line 2, text 1-- ^FS" +
+                            "^FO40,525" +
+                            "^AFN,18,10" +
+                            "^FD{12}^FS" +  //@@SIZE2@@
+                            "^FX--summary line 2, box 2-- ^FS" +
+                            "^FO275,515" +
+                            "^GB425,40,2,B,0 ^FS" +
+                            "^FX--summary line 2, text 2-- ^FS" +
+                            "^FO290,525" +
+                            "^AFN,18,10" +
+                            "^FD{13}^FS" +  //@@CONTENTS2@@
+                            "^FX--summary line 2, box 3-- ^FS" +
+                            "^FO800,515,1" +
+                            "^GB100,40,2,B,0 ^FS" +
+                            "^FX--summary line 2, text 3-- ^FS" +
+                            "^FO785,525,1" +
+                            "^AFN,18,10" +
+                            "^FD{14}^FS" + "\r\n" + //@@QTY2@@
+                            "^FX--summary line 3, box 1-- ^FS" +
+                            "^FO25,555" +
+                            "^GB250,40,2,B,0 ^FS" +
+                            "^FX--summary line 3, text 1-- ^FS" +
+                            "^FO40,565" +
+                            "^AFN,18,10" +
+                            "^FD{15}^FS" +  //@@SIZE3@@
+                            "^FX--summary line 3, box 2-- ^FS" +
+                            "^FO275,555" +
+                            "^GB425,40,2,B,0 ^FS" +
+                            "^FX--summary line 3, text 2-- ^FS" +
+                            "^FO290,565" +
+                            "^AFN,18,10" +
+                            "^FD{16}^FS" +  //@@CONTENTS3@@
+                            "^FX--summary line 3, box 3-- ^FS" +
+                            "^FO800,555,1" +
+                            "^GB100,40,2,B,0 ^FS" +
+                            "^FX--summary line 3, text 3-- ^FS" +
+                            "^FO785,565,1" +
+                            "^AFN,18,10" +
+                            "^FD{17}^FS" + "\r\n" + //@@QTY3@@
+                            "^FX--summary line 4, box 1-- ^FS" +
+                            "^FO25,595" +
+                            "^GB250,40,2,B,0 ^FS" +
+                            "^FX--summary line 4, text 1-- ^FS" +
+                            "^FO40,605" +
+                            "^AFN,18,10" +
+                            "^FD{18}^FS" +  //@@SIZE4@@
+                            "^FX--summary line 4, box 2-- ^FS" +
+                            "^FO275,595" +
+                            "^GB425,40,2,B,0 ^FS" +
+                            "^FX--summary line 4, text 2-- ^FS" +
+                            "^FO290,605" +
+                            "^AFN,18,10" +
+                            "^FD{19}^FS" +  //@@CONTENTS4@@
+                            "^FX--summary line 4, box 3-- ^FS" +
+                            "^FO800,595,1" +
+                            "^GB100,40,2,B,0 ^FS" +
+                            "^FX--summary line 4, text 3-- ^FS" +
+                            "^FO785,605,1" +
+                            "^AFN,18,10" +
+                            "^FD{20}^FS" + "\r\n" + //@@QTY4@@
+                            "^FX--summary line 5, box 1-- ^FS" +
+                            "^FO25,635" +
+                            "^GB250,40,2,B,0 ^FS" +
+                            "^FX--summary line 5, text 1-- ^FS" +
+                            "^FO40,645" +
+                            "^AFN,18,10" +
+                            "^FD{21}^FS" +  //@@SIZE5@@
+                            "^FX--summary line 5, box 2-- ^FS" +
+                            "^FO275,635" +
+                            "^GB425,40,2,B,0 ^FS" +
+                            "^FX--summary line 5, text 2-- ^FS" +
+                            "^FO290,645" +
+                            "^AFN,18,10" +
+                            "^FD{22}^FS" +  //@@CONTENTS5@@
+                            "^FX--summary line 5, box 3-- ^FS" +
+                            "^FO800,635,1" +
+                            "^GB100,40,2,B,0 ^FS" +
+                            "^FX--summary line 5, text 3-- ^FS" +
+                            "^FO785,645,1" +
+                            "^AFN,18,10" +
+                            "^FD{23}^FS" + "\r\n" + //@@QTY5@@
+                            "^FX--summary line 6, box 1-- ^FS" +
+                            "^FO25,675" +
+                            "^GB250,40,2,B,0 ^FS" +
+                            "^FX--summary line 6, text 1-- ^FS" +
+                            "^FO40,685" +
+                            "^AFN,18,10" +
+                            "^FD{24}^FS" +  //@@SIZE6@@
+                            "^FX--summary line 6, box 2-- ^FS" +
+                            "^FO275,675" +
+                            "^GB425,40,2,B,0 ^FS" +
+                            "^FX--summary line 6, text 2-- ^FS" +
+                            "^FO290,685" +
+                            "^AFN,18,10" +
+                            "^FD{25}^FS" +  //@@CONTENTS6@@
+                            "^FX--summary line 6, box 3-- ^FS" +
+                            "^FO800,675,1" +
+                            "^GB100,40,2,B,0 ^FS" +
+                            "^FX--summary line 6, text 3-- ^FS" +
+                            "^FO785,685,1" +
+                            "^AFN,18,10" +
+                            "^FD{26}^FS" + "\r\n" + "\r\n" +    //@@QTY6@@
+                            "^FX--overflow ~line 6, box-- ^FS" +
+                            "^FO25,715" +
+                            "^GB775,60,2,B,0 ^FS" +
+                            "^FX--summary line 7, text 1-- ^FS" +
+                            "^FO40,725" +
+                            "^AFN,16" +
+                            "^FD{27}^FS" + "\r\n" +     //@@MORESUMMARY@@
+                            "^FX--a line under the summary-- ^FS" +
+                            "^FO25,275" +
+                            "^GB750,1,4,B,1 ^FS" + "\r\n" +
+                            "^FX--the SSCC label-- ^FS" +
+                            "^FO50,780,0" +
+                            "^ADN,16" +
+                            "^FDSSCC ^FS" + "\r\n" + "\r\n" +
+                            "^FX--prepared for--^FS" +
+                            "^FO775, 780, 1" +
+                            "^ADN, 16" +
+                            "^FDPREPARED FOR ^FS" +
+                            "^FX--a line under the prepared-- ^FS" +
+                            "^FO800, 805, 1" +
+                            "^GB200, 1, 2, B, 1 ^FS" +
+                            "^FX--target location-- ^FS" +
+                            "^FO775, 820, 1" +
+                            "^A0N, 42" +
+                            "^FD{28}^FS" +  //@@TARGETNAME@@
+                            "^FX--owner address-- ^FS" +
+                            "^FO775, 860, 1" +
+                            "^A0N, 32" +
+                            "^FD{29}^FS" +  //@@TARGETADDRESS@@
+                            "^FO775, 900, 1" +
+                            "^A0N, 32" +
+                            "^FD{30}^FS" +  //@@TARGETCSZ@@
+                            "^FO775, 940, 1" +
+                            "^A0N, 32" +
+                            "^FD{31}^FS" + "\r\n" + "\r\n" + "\r\n" + "\r\n" +  //@@TARGETPHONE@@
+                            "^FX--the QR barcode-- ^FS" +
+                            "^FO50, 800, 0" +
+                            "^BQN, 2, 9, Q" +
+                            "^FDQA,{32}^FS" + "\r\n" +  //@@PALLETBARCODE@@
+                            "^FX--the code128 barcode-- ^FS" +
+                            "^FO50, 1050, 0 ^BY2" +
+                            "^BCN, 100, Y, N, N" +
+                            "^FD{33}^FS" + "\r\n" + "\r\n" + //@@PALLETBARCODE@@
+                            "^FX--the kegid text bottom right-- ^FS" +
+                            "^FO675, 1000, 0" +
+                            "^AVB, 48, 40" +
+                            "^FDKegID ^FS" +
+                            "^XZ";
+        #endregion
+
+        public static void SendZplPallet(string header)
+        {
+            IConnection connection = null;
+            try
+            {
+                myPrinter = Configuration.PrinterSetting;
+                connection = myPrinter.Connection;
+                connection.Open();
+                IZebraPrinter printer = ZebraPrinterFactory.Current.GetInstance(connection);
+                if ((!CheckPrinterLanguage(connection)) || (!PreCheckPrinterStatus(printer)))
+                {
+                    return;
+                }
+
+                connection.Write(GetBytes(header));
+            }
+            catch (Exception ex)
+            {
+                // Connection Exceptions and issues are caught here
+                Crashes.TrackError(ex);
+            }
+            finally
+            {
+                if ((connection != null) && (connection.IsConnected))
+                    connection.Close();
+            }
+        }
+
+        public static byte[] GetBytes(string str)
+        {
+            byte[] bytes = new byte[str.Length];
+            bytes = Encoding.UTF8.GetBytes(str);
+            return bytes;
+        }
+
+        public static bool CheckPrinterLanguage(IConnection connection)
+        {
+            if (!connection.IsConnected)
+                connection.Open();
+            //  Check the current printer language
+            byte[] response = connection.SendAndWaitForResponse(GetBytes("! U1 getvar \"device.languages\"\r\n"), 500, 100);
+            string language = Encoding.UTF8.GetString(response, 0, response.Length);
+            if (language.Contains("line_print"))
+            {
+                Application.Current.MainPage.DisplayAlert("Switching printer to ZPL Control Language.", "Notification", "Ok");
+            }
+            // printer is already in zpl mode
+            else if (language.Contains("zpl"))
+            {
+                return true;
+            }
+
+            //  Set the printer command languege
+            connection.Write(GetBytes("! U1 setvar \"device.languages\" \"zpl\"\r\n"));
+            response = connection.SendAndWaitForResponse(GetBytes("! U1 getvar \"device.languages\"\r\n"), 500, 100);
+            language = Encoding.UTF8.GetString(response, 0, response.Length);
+            if (!language.Contains("zpl"))
+            {
+                Application.Current.MainPage.DisplayAlert("Printer language not set. Not a ZPL printer.", "Ok", "Ok");
+                return false;
+            }
+            return true;
+        }
+
+        public static bool PreCheckPrinterStatus(IZebraPrinter printer)
+        {
+            // Check the printer status
+            IPrinterStatus status = printer.CurrentStatus;
+            if (!status.IsReadyToPrint)
+            {
+                Application.Current.MainPage.DisplayAlert("Unable to print. Printer is " + status.Status, "test", "test");
+                return false;
+            }
+            return true;
+        }
+
+    }
+}

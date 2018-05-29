@@ -1,5 +1,7 @@
-﻿using KegID.DependencyServices;
+﻿using GalaSoft.MvvmLight.Ioc;
+using KegID.DependencyServices;
 using KegID.Services;
+using KegID.ViewModel;
 using LinkOS.Plugin;
 using LinkOS.Plugin.Abstractions;
 using Microsoft.AppCenter.Crashes;
@@ -22,13 +24,12 @@ namespace KegID.PrintTemplates
         public delegate void PrinterSelectedHandler(IDiscoveredPrinter printer);
         public static event PrinterSelectedHandler OnPrinterSelected;
         public delegate void MainPageHandler();
-        public event MainPageHandler OnBackToMainPage;
 
         ObservableCollection<IDiscoveredPrinter> printerList;
         ListView printerLv;
         ConnectionType connetionType;
         Label statusLbl;
-
+        Label friendlyLbl;
         public SelectPrinterView()
         {
             Title = "Select a printer";
@@ -43,7 +44,7 @@ namespace KegID.PrintTemplates
                     Label addressLbl = new Label();
                     addressLbl.SetBinding(Label.TextProperty, "Address");
 
-                    Label friendlyLbl = new Label();
+                    friendlyLbl = new Label();
                     friendlyLbl.SetBinding(Label.TextProperty, "FriendlyName");
 
                     return new ViewCell
@@ -232,7 +233,9 @@ namespace KegID.PrintTemplates
             OnPrinterSelected?.Invoke((IDiscoveredPrinter)e.SelectedItem);
             try
             {
-               Configuration.PrinterSetting = ((IDiscoveredPrinter)e.SelectedItem);
+                Configuration.PrinterSetting = ((IDiscoveredPrinter)e.SelectedItem);
+                Application.Current.MainPage.Navigation.PopModalAsync();
+                SimpleIoc.Default.GetInstance<PrinterSettingViewModel>().SelectedPrinter = friendlyLbl.Text;
             }
             catch (Exception ex)
             {
