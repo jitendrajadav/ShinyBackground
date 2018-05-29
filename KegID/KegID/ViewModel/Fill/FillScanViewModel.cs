@@ -9,6 +9,7 @@ using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
 using KegID.Messages;
 using KegID.Model;
+using KegID.PrintTemplates;
 using KegID.Services;
 using KegID.SQLiteClient;
 using KegID.Views;
@@ -29,6 +30,8 @@ namespace KegID.ViewModel
 
         private const string Cloud = "collectionscloud.png";
         public IMoveService _moveService { get; set; }
+
+        ObservableCollection<Format> formatList;
 
         public string BatchId { get; set; }
         public BatchModel BatchModel { get; private set; }
@@ -305,6 +308,7 @@ namespace KegID.ViewModel
             BarcodeManualCommand = new RelayCommand(BarcodeManualCommandRecieverAsync);
             LabelItemTappedCommand = new RelayCommand<Barcode>((model) => LabelItemTappedCommandRecieverAsync(model));
             IconItemTappedCommand = new RelayCommand<Barcode>((model) => IconItemTappedCommandRecieverAsync(model));
+            formatList = new ObservableCollection<Format>();
 
             HandleReceivedMessages();
         }
@@ -546,9 +550,9 @@ namespace KegID.ViewModel
         private void SendZplPallet()
         {
             IConnection connection = null;
-            myPrinter = AppSettings.Printer;
             try
             {
+                myPrinter = Configuration.PrinterSetting;
                 connection = myPrinter.Connection;
                 connection.Open();
                 IZebraPrinter printer = ZebraPrinterFactory.Current.GetInstance(connection);
@@ -558,7 +562,7 @@ namespace KegID.ViewModel
                 }
 
                 #region ZPL Printer format
-               
+
                 /*
                         This routine is provided to you as an example of how to create a variable length label with user specified data.
                         The basic flow of the example is as follows
@@ -854,19 +858,6 @@ namespace KegID.ViewModel
             return bytes;
         }
 
-        private Dictionary<string, string> CreateListOfItems()
-        {
-            String[] names = { "Microwave Oven", "Sneakers (Size 7)", "XL T-Shirt", "Socks (3-pack)", "Blender", "DVD Movie" };
-            String[] prices = { "79.99", "69.99", "39.99", "12.99", "34.99", "16.99" };
-            Dictionary<string, string> retVal = new Dictionary<string, string>();
-
-            for (int ix = 0; ix < names.Length; ix++)
-            {
-                retVal.Add(names[ix], prices[ix]);
-            }
-            return retVal;
-        }
-
         protected bool CheckPrinterLanguage(IConnection connection)
         {
             if (!connection.IsConnected)
@@ -917,7 +908,9 @@ namespace KegID.ViewModel
                     await NavigateToValidatePartner(result.ToList());
                 else
                 {
-                    SendZplPallet();
+                    new Task(new Action(() => {
+                        SendZplPallet();
+                    })).Start();
                     await SimpleIoc.Default.GetInstance<AddPalletsViewModel>().AssignValueToAddPalletAsync(BatchId, BarcodeCollection);
                 }
             }

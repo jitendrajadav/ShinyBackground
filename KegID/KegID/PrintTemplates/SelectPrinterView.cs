@@ -1,7 +1,8 @@
-﻿using KegID.Common;
-using KegID.DependencyServices;
+﻿using KegID.DependencyServices;
+using KegID.Services;
 using LinkOS.Plugin;
 using LinkOS.Plugin.Abstractions;
+using Microsoft.AppCenter.Crashes;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
@@ -74,6 +75,7 @@ namespace KegID.PrintTemplates
                 VerticalOptions = LayoutOptions.Start,
                 HorizontalOptions = LayoutOptions.FillAndExpand,
                 Orientation = StackOrientation.Horizontal,
+                Margin = new Thickness(0,30,0,0),
 
                 Children = { backBtn, statusLbl }
             };
@@ -228,7 +230,14 @@ namespace KegID.PrintTemplates
                 }
             }
             OnPrinterSelected?.Invoke((IDiscoveredPrinter)e.SelectedItem);
-            AppSettings.Printer = (IDiscoveredPrinter)e.SelectedItem;
+            try
+            {
+               Configuration.PrinterSetting = ((IDiscoveredPrinter)e.SelectedItem);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
     }
 

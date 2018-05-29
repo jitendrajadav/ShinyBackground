@@ -93,6 +93,7 @@
 	<array>
 		<string>com.cognex.dmcc</string>
 		<string>com.demo.data</string>
+    <string>com.zebra.rawport</string>
 	</array>
 </dict>
 </plist>

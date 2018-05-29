@@ -5,6 +5,7 @@ namespace KegID.Services
     public static class Configuration
     {
 
+        internal static IDiscoveredPrinter PrinterSetting;
 
         /// <summary>
         /// Constant flag
@@ -94,6 +95,5 @@ namespace KegID.Services
         public const string GetMaintenanceTypeUrl = ServiceUrl + "MaintenanceType/?sessionId={0}";
 
         public const string PostMaintenanceDoneUrl = ServiceUrl + "MaintenanceDone/?sessionId={0}";
-
     }
 }

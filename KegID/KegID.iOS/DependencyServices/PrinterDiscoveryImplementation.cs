@@ -1,8 +1,10 @@
 ﻿using System;
 using KegID.DependencyServices;
+using KegID.iOS.DependencyServices;
 using LinkOS.Plugin;
 using LinkOS.Plugin.Abstractions;
 
+[assembly: Xamarin.Forms.Dependency(typeof(PrinterDiscoveryImplementation))]
 namespace KegID.iOS.DependencyServices
 {
     public class PrinterDiscoveryImplementation : IPrinterDiscovery
