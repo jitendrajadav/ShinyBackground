@@ -9,7 +9,7 @@ using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Xamarin.Forms;
 using System;
-using KegID.PrintTemplates;
+using PdfSharp.Xamarin.Forms.Contracts;
 
 namespace KegID
 {
@@ -66,15 +66,17 @@ namespace KegID
 
             // for Zebra printing
             //MainPage = new MainNavigation();
+            PdfSharp.Xamarin.Forms.PDFManager.Init(DependencyService.Get<IPDFHandler>());
 
-            if (AppSettings.User != null)
-            {
-                MainPage = new MainPage();
-            }
-            else
-            {
-                MainPage = new LoginView();
-            }
+            MainPage = new MyPDFPage();
+            //if (AppSettings.User != null)
+            //{
+            //    MainPage = new MainPage();
+            //}
+            //else
+            //{
+            //    MainPage = new LoginView();
+            //}
 
             // for Nagivation use will check later...
             //MainPage = new NavigationPage(new LoginView())
