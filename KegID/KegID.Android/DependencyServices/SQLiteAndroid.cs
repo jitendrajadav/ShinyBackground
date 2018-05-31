@@ -22,7 +22,7 @@ namespace KegID.Droid.DependencyServices
         {
             const string sqliteFilename = "KegID.db3";
 
-            string documentsPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal); // Documents folder
+            string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal); // Documents folder
             var path = Path.Combine(documentsPath, sqliteFilename);
 
             return path;

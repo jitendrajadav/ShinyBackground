@@ -57,6 +57,7 @@ namespace KegID
 
             #endregion
 
+            //for Background Services 
             //_backgroundPage = new BackgroundPage();
 
             //var tabbedPage = new TabbedPage();
@@ -66,17 +67,20 @@ namespace KegID
 
             // for Zebra printing
             //MainPage = new MainNavigation();
+
             PdfSharp.Xamarin.Forms.PDFManager.Init(DependencyService.Get<IPDFHandler>());
 
-            MainPage = new MyPDFPage();
-            //if (AppSettings.User != null)
-            //{
-            //    MainPage = new MainPage();
-            //}
-            //else
-            //{
-            //    MainPage = new LoginView();
-            //}
+            //for PdfSharp.Xamarin.Forms
+            //MainPage = new MyPDFPage();
+
+            if (AppSettings.User != null)
+            {
+                MainPage = new MainPage();
+            }
+            else
+            {
+                MainPage = new LoginView();
+            }
 
             // for Nagivation use will check later...
             //MainPage = new NavigationPage(new LoginView())

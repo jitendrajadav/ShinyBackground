@@ -115,6 +115,7 @@
     <Compile Include="DependencyServices\PhoneDialerIOS.cs" />
     <Compile Include="DependencyServices\PrinterDiscoveryImplementation.cs" />
     <Compile Include="DependencyServices\SQLiteiOS.cs" />
+    <Compile Include="DependencyServices\XsltContent.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <Compile Include="Renderers\CustomButtonRenderer.cs" />
@@ -447,14 +448,6 @@
     </BundleResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\PdfSharp.Xamarin.Forms\PdfSharp.Xamarin.Forms.csproj">
-      <Project>{13ea5f29-7039-4c36-8299-237bec9b031c}</Project>
-      <Name>PdfSharp.Xamarin.Forms</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\PdfSharpCore\PdfSharpCore.csproj">
-      <Project>{64ade3ca-422a-4fcf-82e7-7af48083da2c}</Project>
-      <Name>PdfSharpCore</Name>
-    </ProjectReference>
     <ProjectReference Include="..\KegID\KegID.csproj">
       <Project>{d5c32361-0b30-4fa3-bce6-49d790cfee42}</Project>
       <Name>KegID</Name>
@@ -497,5 +490,20 @@
     <BundleResource Include="..\KegID\Assets\test.jpg">
       <Link>Resources\test.jpg</Link>
     </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\manifestkegstar.xslt" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\manifestprint.xslt" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\palletprint.xslt" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\palletprintnew.xslt" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\repairmanifestprint.xslt" />
   </ItemGroup>
 </Project>

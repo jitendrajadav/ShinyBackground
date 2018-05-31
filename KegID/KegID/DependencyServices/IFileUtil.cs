@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace KegID.DependencyServices
+﻿namespace KegID.DependencyServices
 {
     public interface IFileUtil
     {

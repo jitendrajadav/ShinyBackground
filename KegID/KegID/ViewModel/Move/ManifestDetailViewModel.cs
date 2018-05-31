@@ -1,14 +1,20 @@
 ﻿using FormsEZPrint.PrintTemplates;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
+using KegID.Common;
 using KegID.DependencyServices;
 using KegID.Model;
+using KegID.Model.PrintPDF;
 using KegID.Views;
 using Microsoft.AppCenter.Crashes;
+using Newtonsoft.Json;
 using Plugin.Share;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Xml;
+using System.Xml.Xsl;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -17,7 +23,7 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        private List<ManifestPrintModel> manifestPrintModels = null;
+        private Manifest manifestPrintModels = null;
 
         #region TrackingNumber
 
@@ -216,25 +222,53 @@ namespace KegID.ViewModel
 
         private void ShareCommandReciever()
         {
-            // New up the Razor template
-            var printTemplate = new ManifestPrintTemplate();
+            try
+            {
+                var xslInput = DependencyService.Get<IXsltContent>().GetXsltContent("manifestprint.xslt");
 
-            // Set the model property (ViewModel is a custom property within containing view - FYI)
-            printTemplate.Model = manifestPrintModels;//new System.Collections.Generic.List<EZPrintModel>();
+                var xmlInput =
 
-            // Generate the HTML
-            var htmlString = printTemplate.GenerateString();
+                new XmlSerializerHelper()
+                    .Serialize(manifestPrintModels);
 
-            // Create a source for the webview
-            var htmlSource = new HtmlWebViewSource();
-            htmlSource.Html = htmlString;
+                string output = String.Empty;
+                using (StringReader srt = new StringReader(xslInput)) // xslInput is a string that contains xsl
+                using (StringReader sri = new StringReader(xmlInput)) // xmlInput is a string that contains xml
+                {
+                    using (XmlReader xrt = XmlReader.Create(srt))
+                    using (XmlReader xri = XmlReader.Create(sri))
+                    {
+                        XslCompiledTransform xslt = new XslCompiledTransform();
+                        xslt.Load(xrt);
+                        using (StringWriter sw = new StringWriter())
+                        using (XmlWriter xwo = XmlWriter.Create(sw, xslt.OutputSettings)) // use OutputSettings of xsl, so it can be output as HTML
+                        {
+                            xslt.Transform(xri, xwo);
+                            output = sw.ToString();
+                        }
+                    }
+                }
 
-            // Create and populate the Xamarin.Forms.WebView
-            var browser = new WebView();
-            browser.Source = htmlSource;
+                // Create a source for the webview
+                var htmlSource = new HtmlWebViewSource
+                {
+                    Html = output
+                };
 
-            var printService = DependencyService.Get<IPrintService>();
-            printService.Print(browser);
+                // Create and populate the Xamarin.Forms.WebView
+                var browser = new WebView
+                {
+                    Source = htmlSource
+                };
+
+                var printService = DependencyService.Get<IPrintService>();
+                printService.Print(browser);
+
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
 
             try
             {
@@ -257,8 +291,24 @@ namespace KegID.ViewModel
         {
             try
             {
-                manifestPrintModels = new List<ManifestPrintModel>();
-                manifestPrintModels.Add(new ManifestPrintModel { Barcode = "1234566", Brand = "test", Destination = manifest.CreatorCompany.FullName + "\n" + manifest.CreatorCompany.PartnerTypeName, Item = "1", ShipDate = Convert.ToDateTime(manifest.ShipDate), Tracking = manifest.TrackingNumber, Order = "123", Original = "test123" });
+                manifestPrintModels = new Manifest
+                {
+                    ManifestItems = new ManifestItems
+                    {
+                         ManifestItem = new List<Model.PrintPDF.ManifestItem>
+                         {
+                             new Model.PrintPDF.ManifestItem
+                             {
+                                  Pallet = new Model.PrintPDF.Pallet
+                                  {
+                                       Barcode = manifest.ManifestItems.FirstOrDefault().Barcode,
+                                  }
+                             }
+                         }
+                    },
+                    TrackingNumber = manifest.TrackingNumber,
+                };
+
                 TrackingNumber = manifest.TrackingNumber;
 
                 ManifestTo = manifest.CreatorCompany.FullName + "\n" + manifest.CreatorCompany.PartnerTypeName;

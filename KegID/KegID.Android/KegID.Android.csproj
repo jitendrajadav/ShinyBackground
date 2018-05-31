@@ -177,6 +177,7 @@
     <Compile Include="DependencyServices\PhoneDialerAndroid.cs" />
     <Compile Include="DependencyServices\PrinterDiscoveryImplementation.cs" />
     <Compile Include="DependencyServices\SQLiteAndroid.cs" />
+    <Compile Include="DependencyServices\XsltContent.cs" />
     <Compile Include="ImageHelper.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="PeriodicService.cs" />
@@ -224,14 +225,6 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\PdfSharp.Xamarin.Forms\PdfSharp.Xamarin.Forms.csproj">
-      <Project>{13ea5f29-7039-4c36-8299-237bec9b031c}</Project>
-      <Name>PdfSharp.Xamarin.Forms</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\PdfSharpCore\PdfSharpCore.csproj">
-      <Project>{64ade3ca-422a-4fcf-82e7-7af48083da2c}</Project>
-      <Name>PdfSharpCore</Name>
-    </ProjectReference>
     <ProjectReference Include="..\KegID\KegID.csproj">
       <Project>{d5c32361-0b30-4fa3-bce6-49d790cfee42}</Project>
       <Name>KegID</Name>
@@ -488,6 +481,21 @@
     <AndroidResource Include="..\KegID\Assets\test.jpg">
       <Link>Resources\drawable\test.jpg</Link>
     </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\manifestkegstar.xslt" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\manifestprint.xslt" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\palletprint.xslt" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\palletprintnew.xslt" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\repairmanifestprint.xslt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="ReplaceRefAssemblies" AfterTargets="_ResolveAssemblies">

@@ -229,11 +229,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\PdfSharp.Xamarin.Forms\PdfSharp.Xamarin.Forms.csproj" />
-    <ProjectReference Include="..\..\PdfSharpCore\PdfSharpCore.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Reference Include="LinkOS.Plugin">
       <HintPath>..\..\..\ZSDK_DevDemos\packages\LinkOS_Xamarin_SDK.1.1.75\lib\LinkOS.Plugin.dll</HintPath>
     </Reference>

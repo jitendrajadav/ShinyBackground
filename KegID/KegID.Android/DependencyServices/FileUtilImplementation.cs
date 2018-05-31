@@ -1,6 +1,8 @@
-﻿using KegID.DependencyServices;
+﻿using Android.Content.Res;
+using KegID.DependencyServices;
 using KegID.Droid.DependencyServices;
 using System.IO;
+using Xamarin.Forms;
 
 [assembly: Xamarin.Forms.Dependency(typeof(FileUtilImplementation))]
 namespace KegID.Droid.DependencyServices
