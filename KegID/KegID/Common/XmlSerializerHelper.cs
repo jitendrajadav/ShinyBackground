@@ -8,26 +8,35 @@ namespace KegID.Common
     {
         public string Serialize(object obj)
         {
-            var serializer = new XmlSerializer(obj.GetType());
-
-            var writerSettings =
-                new XmlWriterSettings
-                {
-                    OmitXmlDeclaration = true,
-                    Indent = true
-                };
-
-            var emptyNameSpace = new XmlSerializerNamespaces();
-            emptyNameSpace.Add(string.Empty, string.Empty);
-
-            var stringWriter = new StringWriter();
-            using (var xmlWriter = XmlWriter.Create(stringWriter, writerSettings))
+            try
             {
-                serializer.Serialize(xmlWriter, obj, emptyNameSpace);
+                var serializer = new XmlSerializer(obj.GetType());
 
-                return stringWriter.ToString();
+                var writerSettings =
+                    new XmlWriterSettings
+                    {
+                        OmitXmlDeclaration = true,
+                        Indent = true
+                    };
+
+                var manifestNameSpace = new XmlSerializerNamespaces();
+                manifestNameSpace.Add("i", "http://www.w3.org/2001/XMLSchema-instance");
+
+                var shipDateNameSpace = new XmlSerializerNamespaces();
+                manifestNameSpace.Add("d2p1", "http://schemas.datacontract.org/2004/07/System");
+
+                var stringWriter = new StringWriter();
+                using (var xmlWriter = XmlWriter.Create(stringWriter, writerSettings))
+                {
+                    serializer.Serialize(xmlWriter, obj, manifestNameSpace);
+
+                    return stringWriter.ToString();
+                }
+            }
+            catch (System.Exception ex)
+            {
+                return string.Empty;
             }
         }
     }
-
 }

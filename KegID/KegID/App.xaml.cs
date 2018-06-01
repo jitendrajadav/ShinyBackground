@@ -9,7 +9,6 @@ using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Xamarin.Forms;
 using System;
-using PdfSharp.Xamarin.Forms.Contracts;
 
 namespace KegID
 {
@@ -67,8 +66,6 @@ namespace KegID
 
             // for Zebra printing
             //MainPage = new MainNavigation();
-
-            PdfSharp.Xamarin.Forms.PDFManager.Init(DependencyService.Get<IPDFHandler>());
 
             //for PdfSharp.Xamarin.Forms
             //MainPage = new MyPDFPage();

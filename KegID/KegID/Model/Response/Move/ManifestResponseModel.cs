@@ -68,9 +68,9 @@ namespace KegID.Model
         public bool IsShared { get; set; }
         public bool IsActive { get; set; }
         public bool PartnershipIsActive { get; set; }
-        public object MasterCompanyId { get; set; }
-        public object ParentPartnerId { get; set; }
-        public object ParentPartnerName { get; set; }
+        public string MasterCompanyId { get; set; }
+        public string ParentPartnerId { get; set; }
+        public string ParentPartnerName { get; set; }
         public string SourceKey { get; set; }
         public string LocationStatus { get; set; }
         public string CompanyNo { get; set; }

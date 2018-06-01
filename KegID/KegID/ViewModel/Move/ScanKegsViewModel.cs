@@ -637,7 +637,7 @@ namespace KegID.ViewModel
                 }
 
                 BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Partners.Add(model);
-                SimpleIoc.Default.GetInstance<MoveViewModel>().AssingScanKegsValue(_barcodes: BarcodeCollection.ToList(), _tags: Tags, _contents: SelectedBrand.BrandName);
+                SimpleIoc.Default.GetInstance<MoveViewModel>().AssingScanKegsValue(_barcodes: BarcodeCollection.ToList(), _tags: Tags, _contents: SelectedBrand?.BrandName);
 
                 if (HasDone && model.Kegs?.FirstOrDefault()?.MaintenanceItems?.Count < 0)
                 {

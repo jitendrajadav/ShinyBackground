@@ -3,8 +3,7 @@ using System.Xml.Serialization;
 
 namespace KegID.Model.PrintPDF
 {
-
-    [XmlRoot(ElementName = "ShipDate", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
+    [XmlType(Namespace = "http://schemas.datacontract.org/2004/07/System")]
     public class ShipDate
     {
         [XmlElement(ElementName = "DateTime", Namespace = "http://schemas.datacontract.org/2004/07/System")]
@@ -512,9 +511,9 @@ namespace KegID.Model.PrintPDF
     {
         [XmlElement(ElementName = "ManifestId", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
         public string ManifestId { get; set; }
-        [XmlElement(ElementName = "ShipDate", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
+        [XmlElement(ElementName = "ShipDate", Namespace = "http://schemas.datacontract.org/2004/07/System")]
         public ShipDate ShipDate { get; set; }
-        [XmlElement(ElementName = "SubmittedDate", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
+        [XmlElement(ElementName = "SubmittedDate", Namespace = "http://schemas.datacontract.org/2004/07/System")]
         public SubmittedDate SubmittedDate { get; set; }
         [XmlElement(ElementName = "TrackingNumber", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
         public string TrackingNumber { get; set; }
@@ -556,11 +555,9 @@ namespace KegID.Model.PrintPDF
         public ManifestItems ManifestItems { get; set; }
         [XmlElement(ElementName = "Tags", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
         public Tags Tags { get; set; }
-        [XmlAttribute(AttributeName = "xmlns")]
-        public string Xmlns { get; set; }
         [XmlAttribute(AttributeName = "i", Namespace = "http://www.w3.org/2000/xmlns/")]
         public string I { get; set; }
+        [XmlAttribute(AttributeName = "xmlns")]
+        public string Xmlns { get; set; }
     }
-
 }
-
