@@ -494,6 +494,9 @@
   <ItemGroup>
     <AndroidAsset Include="Assets\repairmanifestprint.xslt" />
   </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\manifestPDF.html" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="ReplaceRefAssemblies" AfterTargets="_ResolveAssemblies">
     <ItemGroup>

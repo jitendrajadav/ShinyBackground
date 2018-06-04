@@ -1,9 +1,7 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using KegID.Common;
-using KegID.DependencyServices;
 using KegID.Model;
 using System.Collections.ObjectModel;
-using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
@@ -161,15 +159,11 @@ namespace KegID.ViewModel
 
         public MainViewModel()
         {
-            //Title = "Parth!!!";
             CemeraIcon = GetIconByPlatform.GetIcon("camera.png");
 
             GotoDetailPage = new RelayCommand(GotoDetailPageCommandReciever);
             ItemSelectedCommand = new RelayCommand<Barcode>((model) => ItemSelectedCommandReciever(model));
             ItemTappedCommand = new RelayCommand<Barcode>((model) => ItemTappedCommandReciever(model));
-
-       
-
         }
 
         #endregion

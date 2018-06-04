@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -10,6 +11,7 @@ namespace KegID.Common
         {
             try
             {
+
                 var serializer = new XmlSerializer(obj.GetType());
 
                 var writerSettings =

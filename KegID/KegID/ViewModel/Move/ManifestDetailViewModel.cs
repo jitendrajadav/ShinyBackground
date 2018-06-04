@@ -1,5 +1,4 @@
-﻿using FormsEZPrint.PrintTemplates;
-using GalaSoft.MvvmLight.Command;
+﻿using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
 using KegID.DependencyServices;
@@ -7,10 +6,8 @@ using KegID.Model;
 using KegID.Model.PrintPDF;
 using KegID.Views;
 using Microsoft.AppCenter.Crashes;
-using Newtonsoft.Json;
 using Plugin.Share;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml;
@@ -291,74 +288,18 @@ namespace KegID.ViewModel
         {
             try
             {
+                manifest.ManifestItems.FirstOrDefault().Contents = content;
                 manifestPrintModels = new Manifest
                 {
                     ManifestItems = new ManifestItems
                     {
-                        ManifestItem = new List<Model.PrintPDF.ManifestItem>
-                         {
-                             new Model.PrintPDF.ManifestItem
-                             {
-                                  Pallet = new Model.PrintPDF.Pallet
-                                  {
-                                       Barcode = manifest.ManifestItems.FirstOrDefault().Barcode,
-                                  },
-                             }
-                         }
+                        ManifestItem = manifest.ManifestItems,
                     },
                     TrackingNumber = manifest.TrackingNumber,
-                    ShipDate = new ShipDate
-                    {
-                        DateTime = manifest.ShipDate,
-                        OffsetMinutes = "0"
-                    },
-                    SubmittedDate = new SubmittedDate
-                    {
-                        DateTime = manifest.ShipDate,
-                        OffsetMinutes = "0"
-                    },
-                    SenderPartner = new SenderPartner
-                    {
-                        Address = manifest.SenderPartner.Address,
-                        Address1 = manifest.SenderPartner.Address1,
-                        City = manifest.SenderPartner.City,
-                        FullName = manifest.SenderPartner.FullName,
-                        IsActive = manifest.SenderPartner.IsActive.ToString(),
-                        IsInternal = manifest.SenderPartner.IsInternal.ToString(),
-                        IsShared = manifest.SenderPartner.IsShared.ToString(),
-                        Lat = manifest.SenderPartner.Lat.ToString(),
-                        LocationCode = manifest.SenderPartner.LocationCode,
-                        Lon = manifest.SenderPartner.Lon.ToString(),
-                        //ParentPartnerId = manifest.SenderPartner.ParentPartnerId,
-                        //ParentPartnerName = manifest.SenderPartner.ParentPartnerName,
-                        PartnerId = manifest.SenderPartner.PartnerId,
-                        PartnerTypeCode = manifest.SenderPartner.PartnerTypeCode,
-                        PartnerTypeName = manifest.SenderPartner.PartnerTypeName,
-                        PostalCode = manifest.SenderPartner.PostalCode,
-                        State = manifest.SenderPartner.State,
-                    },
-
-                    ReceiverPartner = new ReceiverPartner
-                    {
-                        Address = manifest.ReceiverPartner.Address,
-                        Address1 = manifest.ReceiverPartner.Address1,
-                        City = manifest.ReceiverPartner.City,
-                        FullName = manifest.ReceiverPartner.FullName,
-                        IsActive = manifest.ReceiverPartner.IsActive.ToString(),
-                        IsInternal = manifest.ReceiverPartner.IsInternal.ToString(),
-                        IsShared = manifest.ReceiverPartner.IsShared.ToString(),
-                        Lat = manifest.ReceiverPartner.Lat.ToString(),
-                        LocationCode = manifest.ReceiverPartner.LocationCode,
-                        Lon = manifest.ReceiverPartner.Lon.ToString(),
-                        ParentPartnerId = manifest.ReceiverPartner.ParentPartnerId,
-                        ParentPartnerName = manifest.ReceiverPartner.ParentPartnerName,
-                        PartnerId = manifest.ReceiverPartner.PartnerId,
-                        PartnerTypeCode = manifest.ReceiverPartner.PartnerTypeCode,
-                        PartnerTypeName = manifest.ReceiverPartner.PartnerTypeName,
-                        PostalCode = manifest.ReceiverPartner.PostalCode,
-                        State = manifest.ReceiverPartner.State,
-                    },
-
+                    ShipDate = DateTime.Now.ToShortDateString(),
+                    SenderPartner = manifest.SenderPartner,
+                    ReceiverPartner = manifest.ReceiverPartner,
+                    Contents = content
                 };
 
                 TrackingNumber = manifest.TrackingNumber;

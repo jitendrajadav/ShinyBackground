@@ -147,11 +147,13 @@
                             </tr>
                             <tr>
                                 <td class="track">
-                                    <xsl:call-template name="formatintldate">
+                                    <!--<xsl:call-template name="formatintldate">
                                         <xsl:with-param
                                             name="datestr"
                                             select="k:ShipDate"/>
                                     </xsl:call-template>
+                                    <xsl:text disable-output-escaping="yes"></xsl:text>-->
+                                    <xsl:value-of select="k:ShipDate"/>
                                     <xsl:text disable-output-escaping="yes"></xsl:text>
                                 </td>
                                 <td class="track">
@@ -340,8 +342,8 @@
                     <xsl:value-of select="k:Keg/k:SizeName"/>
                 </td>
                 <td class="manifest_line_item_cell">
-                    <xsl:text disable-output-escaping="yes"></xsl:text>
                     <xsl:value-of select="k:Contents"/>
+                    <xsl:text disable-output-escaping="yes"></xsl:text>
                 </td>
             </tr>
         </xsl:for-each>
