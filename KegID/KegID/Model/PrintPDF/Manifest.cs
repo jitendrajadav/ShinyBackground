@@ -412,28 +412,28 @@ namespace KegID.Model.PrintPDF
         public string D2p1 { get; set; }
     }
 
-    [XmlRoot(ElementName = "Pallet", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    public class Pallet
-    {
-        [XmlElement(ElementName = "PalletId", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-        public string PalletId { get; set; }
-        [XmlElement(ElementName = "Barcode", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-        public string Barcode { get; set; }
-        [XmlElement(ElementName = "OwnerId", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-        public string OwnerId { get; set; }
-        [XmlElement(ElementName = "OwnerName", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-        public string OwnerName { get; set; }
-        [XmlElement(ElementName = "LocationId", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-        public LocationId LocationId { get; set; }
-        [XmlElement(ElementName = "LocationName", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-        public LocationName LocationName { get; set; }
-        [XmlElement(ElementName = "ActiveCount", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-        public string ActiveCount { get; set; }
-        [XmlElement(ElementName = "BuildCount", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-        public string BuildCount { get; set; }
-        [XmlElement(ElementName = "CreateDate", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-        public CreateDate CreateDate { get; set; }
-    }
+    //[XmlRoot(ElementName = "Pallet", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
+    //public class Pallet
+    //{
+    //    [XmlElement(ElementName = "PalletId", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
+    //    public string PalletId { get; set; }
+    //    [XmlElement(ElementName = "Barcode", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
+    //    public string Barcode { get; set; }
+    //    [XmlElement(ElementName = "OwnerId", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
+    //    public string OwnerId { get; set; }
+    //    [XmlElement(ElementName = "OwnerName", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
+    //    public string OwnerName { get; set; }
+    //    [XmlElement(ElementName = "LocationId", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
+    //    public LocationId LocationId { get; set; }
+    //    [XmlElement(ElementName = "LocationName", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
+    //    public LocationName LocationName { get; set; }
+    //    [XmlElement(ElementName = "ActiveCount", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
+    //    public string ActiveCount { get; set; }
+    //    [XmlElement(ElementName = "BuildCount", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
+    //    public string BuildCount { get; set; }
+    //    [XmlElement(ElementName = "CreateDate", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
+    //    public CreateDate CreateDate { get; set; }
+    //}
 
     //[XmlRoot(ElementName = "ContentsKey", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
     //public class ContentsKey

@@ -170,10 +170,12 @@
     <Compile Include="DependencyServices\AndroidPrintService.cs" />
     <Compile Include="DependencyServices\AndroidUniqueIdentifier.cs" />
     <Compile Include="DependencyServices\BackgroundService.cs" />
+    <Compile Include="DependencyServices\FileStore.cs" />
     <Compile Include="DependencyServices\FileUtilImplementation.cs" />
     <Compile Include="DependencyServices\OpenAppService.cs" />
     <Compile Include="DependencyServices\PhoneDialerAndroid.cs" />
     <Compile Include="DependencyServices\PrinterDiscoveryImplementation.cs" />
+    <Compile Include="DependencyServices\Share.cs" />
     <Compile Include="DependencyServices\SQLiteAndroid.cs" />
     <Compile Include="DependencyServices\XsltContent.cs" />
     <Compile Include="ImageHelper.cs" />

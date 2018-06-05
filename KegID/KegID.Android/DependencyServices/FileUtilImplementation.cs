@@ -4,7 +4,7 @@ using KegID.Droid.DependencyServices;
 using System.IO;
 using Xamarin.Forms;
 
-[assembly: Xamarin.Forms.Dependency(typeof(FileUtilImplementation))]
+[assembly: Dependency(typeof(FileUtilImplementation))]
 namespace KegID.Droid.DependencyServices
 {
     public class FileUtilImplementation : IFileUtil

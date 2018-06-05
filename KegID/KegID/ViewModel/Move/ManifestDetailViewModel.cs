@@ -7,9 +7,11 @@ using KegID.Model.PrintPDF;
 using KegID.Views;
 using Microsoft.AppCenter.Crashes;
 using Plugin.Share;
+using Plugin.Share.Abstractions;
 using System;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Xml;
 using System.Xml.Xsl;
 using Xamarin.Forms;
@@ -219,6 +221,8 @@ namespace KegID.ViewModel
 
         private void ShareCommandReciever()
         {
+            string output = String.Empty;
+
             try
             {
                 var xslInput = DependencyService.Get<IXsltContent>().GetXsltContent("manifestprint.xslt");
@@ -228,7 +232,6 @@ namespace KegID.ViewModel
                 new XmlSerializerHelper()
                     .Serialize(manifestPrintModels);
 
-                string output = String.Empty;
                 using (StringReader srt = new StringReader(xslInput)) // xslInput is a string that contains xsl
                 using (StringReader sri = new StringReader(xmlInput)) // xmlInput is a string that contains xml
                 {
@@ -269,12 +272,21 @@ namespace KegID.ViewModel
 
             try
             {
-                CrossShare.Current.Share(message: new Plugin.Share.Abstractions.ShareMessage
-                {
-                    Text = "Share",
-                    Title = "Share",
-                    Url = "https://www.slg.com/"
-                });
+                var bytes = Encoding.Default.GetBytes(output);
+                //var filePath = DependencyService.Get<IFileStore>().GetFilePath();
+                var filePath = DependencyService.Get<IFileStore>().WriteFile("Manifest.pdf",bytes);
+
+                var share = DependencyService.Get<DependencyServices.IShare>();
+
+                share.Show("Title", "Message", filePath);
+
+                // Working fine without sharing PDF...
+                //CrossShare.Current.Share(message: new ShareMessage
+                //{
+                //    Text = "Share",
+                //    Title = "Share",
+                //    Url = "https://www.Demo.com/"
+                //});
             }
             catch (Exception ex)
             {

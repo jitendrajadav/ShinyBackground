@@ -1,5 +1,4 @@
 ﻿using CarouselView.FormsPlugin.iOS;
-using FFImageLoading.Forms.Touch;
 using Foundation;
 using KegID.iOS.DependencyServices;
 using KegID.iOS.Services;
@@ -46,13 +45,16 @@ namespace KegID.iOS
         {
             Forms.Init();
             CarouselViewRenderer.Init();
-            CachedImageRenderer.Init();
+            FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
             ZXing.Net.Mobile.Forms.iOS.Platform.Init();
             Xamarin.FormsMaps.Init();
 
             TintedImageRenderer.Init();
             DependencyService.Register<OpenAppService>();
             UIApplication.SharedApplication.SetMinimumBackgroundFetchInterval(UIApplication.BackgroundFetchIntervalMinimum);
+
+            DependencyService.Register<FileStore>();
+            DependencyService.Register<Share>();
 
             LoadApplication(new App());
 

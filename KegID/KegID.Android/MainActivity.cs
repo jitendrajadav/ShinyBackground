@@ -6,10 +6,10 @@ using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
 using CarouselView.FormsPlugin.Android;
-using FFImageLoading.Forms.Droid;
 using KegID.Droid.DependencyServices;
 using KegID.Droid.Services;
 using KegID.Messages;
+using Microsoft.AppCenter.Crashes;
 using Plugin.CrossPlatformTintedImage.Android;
 using Xamarin.Forms;
 
@@ -28,36 +28,30 @@ namespace KegID.Droid
             base.OnCreate(bundle);
             myActivity = this;
 
-            DependencyService.Register<OpenAppService>();
-
-            //Forms.SetFlags("FastRenderers_Experimental");
+            Forms.SetFlags("FastRenderers_Experimental");
 
             Forms.Init(this, bundle);
             UserDialogs.Init(this);
             CarouselViewRenderer.Init();
-            CachedImageRenderer.Init(true);
+            FFImageLoading.Forms.Platform.CachedImageRenderer.Init(true);
             ZXing.Net.Mobile.Forms.Android.Platform.Init();
             Xamarin.FormsMaps.Init(this, bundle);
             TintedImageRenderer.Init();
             Xamarin.Essentials.Platform.Init(this, bundle);
+
+            DependencyService.Register<OpenAppService>();
+
+            DependencyService.Register<FileStore>();
+            DependencyService.Register<Share>();
+
             try
             {
                 LoadApplication(new App());
             }
             catch (System.Exception ex)
             {
-
+                Crashes.TrackError(ex);
             }
-            //Commented for Background Services
-            //var alarmIntent = new Intent(this, type: typeof(BackgroundReceiver));
-
-            //var pending = PendingIntent.GetBroadcast(this, 0, alarmIntent, PendingIntentFlags.UpdateCurrent);
-
-            //var alarmManager = GetSystemService(AlarmService).JavaCast<AlarmManager>();
-            //alarmManager.Set(AlarmType.ElapsedRealtime, SystemClock.ElapsedRealtime() + 3 * 1000, pending);
-
-            //var intent = new Intent(this, typeof(PeriodicService));
-            //StartService(intent);
 
             //New xamarin forms BG services
             WireUpLongRunningTask();
@@ -100,23 +94,6 @@ namespace KegID.Droid
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
             ZXing.Net.Mobile.Android.PermissionsHandler.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-            //switch (requestCode)
-            //{
-            //    case PrinterDiscoveryImplementation.RequestLocationId:
-            //        {
-            //            if (grantResults[0] == Permission.Granted)
-            //            {
-            //                //Permission granted
-            //                PrinterDiscoveryImplementation discoveryImp = new PrinterDiscoveryImplementation();
-            //                discoveryImp.FindBluetoothPrinters(PrinterDiscoveryImplementation.TempHandler);
-            //            }
-            //            else
-            //            {
-            //                System.Diagnostics.Debug.WriteLine("Location Permission Denied.  Cannot do Bluetooth Discovery");
-            //            }
-            //        }
-            //        break;
-            //}
         }
     }
 }
