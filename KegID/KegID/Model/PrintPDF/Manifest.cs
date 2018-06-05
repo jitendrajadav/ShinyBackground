@@ -524,7 +524,7 @@ namespace KegID.Model.PrintPDF
         [XmlElement(ElementName = "SenderPartner", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
         public CreatorCompany SenderPartner { get; set; }
         [XmlElement(ElementName = "SenderShipAddress", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-        public SenderShipAddress SenderShipAddress { get; set; }
+        public Address SenderShipAddress { get; set; }
         [XmlElement(ElementName = "SenderBillAddress", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
         public SenderBillAddress SenderBillAddress { get; set; }
         [XmlElement(ElementName = "SenderContactName", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
@@ -550,7 +550,7 @@ namespace KegID.Model.PrintPDF
         [XmlElement(ElementName = "ReceiverPartner", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
         public CreatorCompany ReceiverPartner { get; set; }
         [XmlElement(ElementName = "ReceiverShipAddress", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-        public ReceiverShipAddress ReceiverShipAddress { get; set; }
+        public Address ReceiverShipAddress { get; set; }
         [XmlElement(ElementName = "ReceiverBillAddress", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
         public ReceiverBillAddress ReceiverBillAddress { get; set; }
         [XmlElement(ElementName = "ManifestItems", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]

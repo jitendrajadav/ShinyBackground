@@ -152,10 +152,10 @@
       <Version>2.4.1.823</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms">
-      <Version>3.0.0.482510</Version>
+      <Version>3.0.0.530893</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms.Maps">
-      <Version>3.0.0.482510</Version>
+      <Version>3.0.0.530893</Version>
     </PackageReference>
     <PackageReference Include="ZXing.Net.Mobile">
       <Version>2.4.1</Version>
@@ -483,7 +483,9 @@
     <AndroidAsset Include="Assets\manifestkegstar.xslt" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="Assets\manifestprint.xslt" />
+    <AndroidAsset Include="Assets\manifestprint.xslt">
+      <SubType>Designer</SubType>
+    </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\palletprint.xslt" />

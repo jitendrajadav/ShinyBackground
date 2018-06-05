@@ -299,6 +299,8 @@ namespace KegID.ViewModel
                     ShipDate = DateTime.Now.ToShortDateString(),
                     SenderPartner = manifest.SenderPartner,
                     ReceiverPartner = manifest.ReceiverPartner,
+                    ReceiverShipAddress = manifest.ReceiverShipAddress,
+                    SenderShipAddress = manifest.SenderShipAddress,
                     Contents = content
                 };
 
