@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Threading.Tasks;
 using KegID.DependencyServices;
 
 namespace KegID.Droid.DependencyServices
@@ -27,9 +28,9 @@ namespace KegID.Droid.DependencyServices
 
             var directory = Android.OS.Environment.ExternalStorageDirectory.AbsolutePath;
             directory = Path.Combine(directory, Android.OS.Environment.DirectoryDownloads);
-            string localFolder = Path.Combine(directory.ToString(), "temp.pdf");
+            string localFolder = Path.Combine(directory.ToString(), fileName);
             File.WriteAllBytes(localFolder, bytes);
-            return string.Format("file://{0}/{1}", localFolder, fileName);
+            return string.Format("file://{0}/{1}", directory, fileName);
         }
 
     }

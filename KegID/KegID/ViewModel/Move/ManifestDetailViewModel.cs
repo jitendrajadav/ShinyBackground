@@ -12,6 +12,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Xsl;
 using Xamarin.Forms;
@@ -276,6 +277,7 @@ namespace KegID.ViewModel
                 //var filePath = DependencyService.Get<IFileStore>().GetFilePath();
                 var filePath = DependencyService.Get<IFileStore>().WriteFile("Manifest.pdf",bytes);
 
+                Task.Delay(new TimeSpan(0,1,1));
                 var share = DependencyService.Get<DependencyServices.IShare>();
 
                 share.Show("Title", "Message", filePath);
