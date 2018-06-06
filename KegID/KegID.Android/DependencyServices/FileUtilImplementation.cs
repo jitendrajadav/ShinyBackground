@@ -1,5 +1,4 @@
-﻿using Android.Content.Res;
-using KegID.DependencyServices;
+﻿using KegID.DependencyServices;
 using KegID.Droid.DependencyServices;
 using System.IO;
 using Xamarin.Forms;

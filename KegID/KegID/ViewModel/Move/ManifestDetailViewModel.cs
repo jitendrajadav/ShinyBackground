@@ -210,7 +210,7 @@ namespace KegID.ViewModel
         public ManifestDetailViewModel()
         {
             ManifestsCommand = new RelayCommand(ManifestsCommandRecieverAsync);
-            ShareCommand = new RelayCommand(ShareCommandReciever);
+            ShareCommand = new RelayCommand(ShareCommandRecieverAsync);
             GridTappedCommand = new RelayCommand(GridTappedCommandRecieverAsync);
         }
 
@@ -220,10 +220,9 @@ namespace KegID.ViewModel
 
         private async void GridTappedCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new ContentTagsView(), animated: false);
 
-        private void ShareCommandReciever()
+        private async void ShareCommandRecieverAsync()
         {
             string output = String.Empty;
-
             try
             {
                 var xslInput = DependencyService.Get<IXsltContent>().GetXsltContent("manifestprint.xslt");
@@ -275,12 +274,13 @@ namespace KegID.ViewModel
             {
                 var bytes = Encoding.Default.GetBytes(output);
                 //var filePath = DependencyService.Get<IFileStore>().GetFilePath();
-                var filePath = DependencyService.Get<IFileStore>().WriteFile("Manifest.pdf",bytes);
-
-                Task.Delay(new TimeSpan(0,1,1));
+                //var filePath = DependencyService.Get<IFileStore>().WriteFile("Manifest.pdf", bytes);
+                var filePath = DependencyService.Get<IFileStore>().SafeHTMLToPDF(output,"ManifestJ");
+                
+                //await Task.Delay(new TimeSpan(0,1,1));
                 var share = DependencyService.Get<DependencyServices.IShare>();
 
-                share.Show("Title", "Message", filePath);
+                await share.Show("Manifest PDF", "Please check manifest PDF", filePath);
 
                 // Working fine without sharing PDF...
                 //CrossShare.Current.Share(message: new ShareMessage
