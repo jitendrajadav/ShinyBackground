@@ -36,3 +36,7 @@
 /KegID/KegID.UWP/bin
 /KegID/KegID.Android/bin/Release
 /Plugin.ShareFile.Android/obj
+/Plugin.ShareFile/obj/Release/netstandard2.0
+/Plugin.ShareFile/obj/Debug/netstandard2.0
+/Plugin.ShareFile.Abstractions/obj/Release/netstandard2.0
+/KegID.RuntimeComponent/obj/x86/Debug
