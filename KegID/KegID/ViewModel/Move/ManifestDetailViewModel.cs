@@ -6,13 +6,11 @@ using KegID.Model;
 using KegID.Model.PrintPDF;
 using KegID.Views;
 using Microsoft.AppCenter.Crashes;
-using Plugin.Share;
-using Plugin.Share.Abstractions;
+using Plugin.ShareFile;
 using System;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Xsl;
 using Xamarin.Forms;
@@ -220,7 +218,7 @@ namespace KegID.ViewModel
 
         private async void GridTappedCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new ContentTagsView(), animated: false);
 
-        private async void ShareCommandRecieverAsync()
+        private void ShareCommandRecieverAsync()
         {
             string output = String.Empty;
             try
@@ -261,8 +259,8 @@ namespace KegID.ViewModel
                     Source = htmlSource
                 };
 
-                var printService = DependencyService.Get<IPrintService>();
-                printService.Print(browser);
+                //var printService = DependencyService.Get<IPrintService>();
+                //printService.Print(browser);
 
             }
             catch (Exception ex)
@@ -274,20 +272,28 @@ namespace KegID.ViewModel
             {
                 var bytes = Encoding.Default.GetBytes(output);
                 //var filePath = DependencyService.Get<IFileStore>().GetFilePath();
-                //var filePath = DependencyService.Get<IFileStore>().WriteFile("Manifest.pdf", bytes);
-                var filePath = DependencyService.Get<IFileStore>().SafeHTMLToPDF(output,"ManifestJ");
-                
-                //await Task.Delay(new TimeSpan(0,1,1));
-                var share = DependencyService.Get<DependencyServices.IShare>();
+                var filePath = DependencyService.Get<IFileStore>().WriteFile("Manifest.pdf", bytes);
+                //var filePath = DependencyService.Get<IFileStore>().SafeHTMLToPDF(output,"ManifestJ");
 
-                await share.Show("Manifest PDF", "Please check manifest PDF", filePath);
+                //var share = DependencyService.Get<DependencyServices.IShare>();
 
+                //await share.Show("Manifest PDF", "Please check manifest PDF", filePath);
+                //CrossShareFile crossShareFile = new CrossShareFile();
+                try
+                {
+                    CrossShareFile.Current.ShareLocalFile(filePath);
+
+                }
+                catch (Exception ex)
+                {
+
+                }
                 // Working fine without sharing PDF...
-                //CrossShare.Current.Share(message: new ShareMessage
+                //await CrossShare.Current.Share(message: new ShareMessage
                 //{
                 //    Text = "Share",
                 //    Title = "Share",
-                //    Url = "https://www.Demo.com/"
+                //    Url = filePath
                 //});
             }
             catch (Exception ex)

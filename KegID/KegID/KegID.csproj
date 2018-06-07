@@ -10,6 +10,7 @@
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
     <PlatformTarget>x86</PlatformTarget>
+    <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
@@ -231,6 +232,10 @@
 
   <ItemGroup>
     <Folder Include="Model\Response\Fill\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Plugin.ShareFile\Plugin.ShareFile.csproj" />
   </ItemGroup>
 
   <ItemGroup>

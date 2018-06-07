@@ -33,11 +33,20 @@ namespace KegID.iOS.DependencyServices
         {
             UIWebView webView = new UIWebView(new CGRect(0, 0, 6.5 * 72, 9 * 72));
 
+            //var file = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            //file = Path.Combine(file, DateTime.Now.ToString("yyyyMMddHHmmssfff"));
+            //if (!Directory.Exists(file.ToString()))
+            //{
+            //    Directory.CreateDirectory(file);
+            //}
+            //file = Path.Combine(file, filename + DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".pdf");
 
+            var documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+            var file = Path.Combine(documentsPath, filename + DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".pdf");
             //var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             //var documents = NSFileManager.DefaultManager.GetUrls(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomain.User)[0].ToString();
-            var documents = NSFileManager.DefaultManager.GetUrls(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomain.User)[0].Path;
-            var file = Path.Combine(documents, "Invoice" + "_" + DateTime.Now.ToShortDateString() + "_" + DateTime.Now.ToShortTimeString() + ".pdf");
+            //var documents = NSFileManager.DefaultManager.GetUrls(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomain.User)[0].Path;
+            //var file = Path.Combine(documents, "Invoice" + "_" + DateTime.Now.ToShortDateString() + "_" + DateTime.Now.ToShortTimeString() + ".pdf");
 
             webView.Delegate = new WebViewCallBack(file);
             webView.ScalesPageToFit = true;
@@ -55,6 +64,7 @@ namespace KegID.iOS.DependencyServices
             {
                 filename = path;
             }
+
             public override void LoadingFinished(UIWebView webView)
             {
                 try
@@ -80,8 +90,8 @@ namespace KegID.iOS.DependencyServices
                                       pageSize.Width - (sidespace * 2),
                                       pageSize.Height - (header * 2));
                     CGRect paperRect = new CGRect(0, 0, width, height);
-                    renderer.SetValueForKey(NSValue.FromObject(paperRect), (NSString)"paperRect");
-                    renderer.SetValueForKey(NSValue.FromObject(printableRect), (NSString)"printableRect");
+                    renderer.SetValueForKey(FromObject(paperRect), (NSString)"paperRect");
+                    renderer.SetValueForKey(FromObject(printableRect), (NSString)"printableRect");
                     NSData file = PrintToPDFWithRenderer(renderer, paperRect);
                     File.WriteAllBytes(filename, file.ToArray());
                 }
