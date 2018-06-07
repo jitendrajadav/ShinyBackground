@@ -35,3 +35,4 @@
 /KegID/KegID/bin/Release/netstandard2.0
 /KegID/KegID.UWP/bin
 /KegID/KegID.Android/bin/Release
+/Plugin.ShareFile.Android/obj
