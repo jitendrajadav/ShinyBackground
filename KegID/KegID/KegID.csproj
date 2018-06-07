@@ -42,8 +42,8 @@
     <PackageReference Include="Xam.Plugins.Settings" Version="4.0.0.7" />
     <PackageReference Include="Xamarin.Essentials" Version="0.6.0-preview" />
     <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.1.823" />
-    <PackageReference Include="Xamarin.Forms" Version="3.0.0.530893" />
-    <PackageReference Include="Xamarin.Forms.Maps" Version="3.0.0.530893" />
+    <PackageReference Include="Xamarin.Forms" Version="3.0.0.550146" />
+    <PackageReference Include="Xamarin.Forms.Maps" Version="3.0.0.550146" />
     <PackageReference Include="ZXing.Net.Mobile" Version="2.4.1" />
     <PackageReference Include="ZXing.Net.Mobile.Forms" Version="2.4.1" />
   </ItemGroup>
@@ -231,14 +231,5 @@
 
   <ItemGroup>
     <Folder Include="Model\Response\Fill\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="LinkOS.Plugin">
-      <HintPath>..\..\..\ZSDK_DevDemos\packages\LinkOS_Xamarin_SDK.1.1.75\lib\LinkOS.Plugin.dll</HintPath>
-    </Reference>
-    <Reference Include="LinkOS.Plugin.Abstractions">
-      <HintPath>..\..\..\ZSDK_DevDemos\packages\LinkOS_Xamarin_SDK.1.1.75\lib\LinkOS.Plugin.Abstractions.dll</HintPath>
-    </Reference>
   </ItemGroup>
 </Project>

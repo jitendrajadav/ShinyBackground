@@ -227,10 +227,10 @@
       <Version>2.4.1.823</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms">
-      <Version>3.0.0.530893</Version>
+      <Version>3.0.0.550146</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms.Maps">
-      <Version>3.0.0.530893</Version>
+      <Version>3.0.0.550146</Version>
     </PackageReference>
     <PackageReference Include="ZXing.Net.Mobile">
       <Version>2.4.1</Version>
