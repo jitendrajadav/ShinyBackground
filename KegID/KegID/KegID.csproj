@@ -232,4 +232,13 @@
   <ItemGroup>
     <Folder Include="Model\Response\Fill\" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="LinkOS.Plugin">
+      <HintPath>..\..\Libs\LinkOS.Plugin.dll</HintPath>
+    </Reference>
+    <Reference Include="LinkOS.Plugin.Abstractions">
+      <HintPath>..\..\Libs\LinkOS.Plugin.Abstractions.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 </Project>

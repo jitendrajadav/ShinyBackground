@@ -13,12 +13,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KegID", "KegID\KegID\KegID.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KegID.RuntimeComponent", "KegID.RuntimeComponent\KegID.RuntimeComponent.csproj", "{143F7822-25A6-4A90-978F-62E7A66BC45B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{DD85BEF6-2380-4E91-9534-0A13218C620D}"
-	ProjectSection(SolutionItems) = preProject
-		..\ZSDK_DevDemos\packages\LinkOS_Xamarin_SDK.1.1.75\lib\LinkOS.Plugin.Abstractions.dll = ..\ZSDK_DevDemos\packages\LinkOS_Xamarin_SDK.1.1.75\lib\LinkOS.Plugin.Abstractions.dll
-		..\ZSDK_DevDemos\packages\LinkOS_Xamarin_SDK.1.1.75\lib\LinkOS.Plugin.dll = ..\ZSDK_DevDemos\packages\LinkOS_Xamarin_SDK.1.1.75\lib\LinkOS.Plugin.dll
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Ad-Hoc|Any CPU = Ad-Hoc|Any CPU
