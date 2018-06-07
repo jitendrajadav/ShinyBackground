@@ -272,8 +272,8 @@ namespace KegID.ViewModel
             {
                 var bytes = Encoding.Default.GetBytes(output);
                 //var filePath = DependencyService.Get<IFileStore>().GetFilePath();
-                var filePath = DependencyService.Get<IFileStore>().WriteFile("Manifest.pdf", bytes);
-                //var filePath = DependencyService.Get<IFileStore>().SafeHTMLToPDF(output,"ManifestJ");
+                //var filePath = DependencyService.Get<IFileStore>().WriteFile("Manifest.pdf", bytes);
+                var filePath = DependencyService.Get<IFileStore>().SafeHTMLToPDF(output,"ManifestJ");
 
                 //var share = DependencyService.Get<DependencyServices.IShare>();
 
