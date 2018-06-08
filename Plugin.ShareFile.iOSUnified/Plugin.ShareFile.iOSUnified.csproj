@@ -37,21 +37,11 @@
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Resources\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="..\Plugin.ShareFile\CrossShareFile.cs">
-      <Link>CrossShareFile.cs</Link>
-    </Compile>
+    <Compile Include="CrossShareFile.cs" />
     <Compile Include="ShareFileImplementation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Plugin.ShareFile.Abstractions\Plugin.ShareFile.Abstractions.csproj">
-      <Project>{E543A814-B83C-47F9-A6FD-4A4D009C4E28}</Project>
-      <Name>Plugin.ShareFile.Abstractions</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

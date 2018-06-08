@@ -1,5 +1,5 @@
-﻿using Plugin.ShareFile.Abstractions;
-using System;
+﻿using System;
+using Plugin.ShareFile.Abstractions;
 
 namespace Plugin.ShareFile
 {
@@ -28,11 +28,7 @@ namespace Plugin.ShareFile
 
         public static IShareFile CreateShareFile()
         {
-#if NETSTANDARD2_0
-            return null;
-#else
             return new ShareFileImplementation();
-#endif
         }
 
         internal static Exception NotImplementedInReferenceAssembly()

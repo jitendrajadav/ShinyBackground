@@ -64,16 +64,6 @@
   <ItemGroup>
     <Folder Include="Resources\drawable\" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Plugin.ShareFile.Abstractions\Plugin.ShareFile.Abstractions.csproj">
-      <Project>{E543A814-B83C-47F9-A6FD-4A4D009C4E28}</Project>
-      <Name>Plugin.ShareFile.Abstractions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Plugin.ShareFile\Plugin.ShareFile.csproj">
-      <Project>{2b3225a4-71b1-47ca-93fc-d280ab40f6a7}</Project>
-      <Name>Plugin.ShareFile</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

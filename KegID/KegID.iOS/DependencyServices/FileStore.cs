@@ -24,7 +24,7 @@ namespace KegID.iOS.DependencyServices
         {
             string localFolder = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
             string localPath = System.IO.Path.Combine(localFolder, fileName);
-            System.IO.File.WriteAllBytes(localPath, bytes); // write to local storage
+            File.WriteAllBytes(localPath, bytes); // write to local storage
 
             return localPath;
         }

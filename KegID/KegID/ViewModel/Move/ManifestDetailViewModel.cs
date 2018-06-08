@@ -6,7 +6,6 @@ using KegID.Model;
 using KegID.Model.PrintPDF;
 using KegID.Views;
 using Microsoft.AppCenter.Crashes;
-using Plugin.ShareFile;
 using System;
 using System.IO;
 using System.Linq;
@@ -270,19 +269,22 @@ namespace KegID.ViewModel
 
             try
             {
-                var bytes = Encoding.Default.GetBytes(output);
+                //var bytes = Encoding.Default.GetBytes(output);
                 //var filePath = DependencyService.Get<IFileStore>().GetFilePath();
                 //var filePath = DependencyService.Get<IFileStore>().WriteFile("Manifest.pdf", bytes);
-                var filePath = DependencyService.Get<IFileStore>().SafeHTMLToPDF(output,"ManifestJ");
+                //var filePath = DependencyService.Get<IFileStore>().SafeHTMLToPDF(output,"ManifestJ");
 
-                //var share = DependencyService.Get<DependencyServices.IShare>();
+                //var share = DependencyService.Get<IShare>();
 
-                //await share.Show("Manifest PDF", "Please check manifest PDF", filePath);
+                //share.ShareLocalFile(filePath);
                 //CrossShareFile crossShareFile = new CrossShareFile();
+                var share = DependencyService.Get<IShareFile>();
+                string filePath = share.SafeHTMLToPDF(output, "Jiten");
+                share.ShareLocalFile(filePath, "Share File Test", null);
+
                 try
                 {
-                    CrossShareFile.Current.ShareLocalFile(filePath);
-
+                  //CrossShareFile.Current.ShareLocalFile(filePath);
                 }
                 catch (Exception ex)
                 {

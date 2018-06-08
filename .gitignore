@@ -40,3 +40,6 @@
 /Plugin.ShareFile/obj/Debug/netstandard2.0
 /Plugin.ShareFile.Abstractions/obj/Release/netstandard2.0
 /KegID.RuntimeComponent/obj/x86/Debug
+/Plugin.ShareFile.Abstractions/bin/Debug/netstandard2.0
+/Plugin.ShareFile/bin/Debug/netstandard2.0
+*.pdb

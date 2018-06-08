@@ -4,11 +4,11 @@ using System.Linq;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
+using KegID.DependencyServices;
 using KegID.Model;
 using KegID.Services;
 using KegID.Views;
 using Microsoft.AppCenter.Crashes;
-using Plugin.Share;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -350,12 +350,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                CrossShare.Current.Share(message: new Plugin.Share.Abstractions.ShareMessage
-                {
-                    Text = "Share",
-                    Title = "Share",
-                    Url = "https://www.slg.com/"
-                });
+                var share = DependencyService.Get<IShare>();
+                share.Show("Share", "Share", "https://www.slg.com/");
             }
             catch (Exception ex)
             {
