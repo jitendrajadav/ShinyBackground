@@ -49,7 +49,7 @@ namespace KegID.Model
         public string PartnerId { get; set; }
 
         //[Ignore]
-        public List<Keg> Kegs { get; }
+        public IList<Keg> Kegs { get; }
         public string FullName { get; set; }
         public string Address { get; set; }
         public string Address1 { get; set; }
