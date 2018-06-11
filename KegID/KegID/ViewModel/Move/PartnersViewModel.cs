@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using KegID.Model;
 using System;
 using Microsoft.AppCenter.Crashes;
+using Realms;
 
 namespace KegID.ViewModel
 {
@@ -363,8 +364,8 @@ namespace KegID.ViewModel
         public async void LoadPartnersAsync()
         {
             Loader.StartLoading();
-
-            AllPartners = await SQLiteServiceClient.Db.Table<PartnerModel>().ToListAsync();
+            var vRealmDb = Realm.GetInstance();
+            AllPartners = vRealmDb.All<PartnerModel>().ToList(); //await SQLiteServiceClient.Db.Table<PartnerModel>().ToListAsync();
 
             try
             {
@@ -392,7 +393,13 @@ namespace KegID.ViewModel
                             PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners.Where(x => x.PartnerTypeName == "Brewer - Stock").ToList());
                         else
                             PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners);
-                        await SQLiteServiceClient.Db.InsertAllAsync(AllPartners);
+                        vRealmDb.Write(() => {
+                            foreach (var item in AllPartners)
+                            {
+                                vRealmDb.Add(item);
+                            }
+                        });
+                        //await SQLiteServiceClient.Db.InsertAllAsync(AllPartners);
                     }
                 }
             }

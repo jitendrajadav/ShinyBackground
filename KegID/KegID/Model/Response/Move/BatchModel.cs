@@ -1,12 +1,13 @@
-﻿using SQLite.Net.Attributes;
+﻿using Realms;
+//using SQLite.Net.Attributes;
 using System;
 using System.Collections.Generic;
 
 namespace KegID.Model
 {
-    public class BatchModel
+    public class BatchModel : RealmObject
     {
-        [PrimaryKey, AutoIncrement]
+        [PrimaryKey]
         public int Id { get; set; }
         public string BatchId { get; set; }
         public string CompanyId { get; set; }
@@ -24,8 +25,8 @@ namespace KegID.Model
         public bool IsCompleted { get; set; }
         public double? Abv { get; set; }
         public string SourceKey { get; set; }
-        [Ignore]
-        public List<Tag> Tags { get; set; }
+        //[Ignore]
+        public List<Tag> Tags { get; }
     }
 
     public class BatchResponseModel : KegIDResponse

@@ -34,19 +34,19 @@ namespace KegID.iOS.DependencyServices
             UIWebView webView = new UIWebView(new CGRect(0, 0, 6.5 * 72, 9 * 72));
 
             //var file = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            //file = Path.Combine(file, DateTime.Now.ToString("yyyyMMddHHmmssfff"));
+            //file = Path.Combine(file, DateTimeOffset.Now.ToString("yyyyMMddHHmmssfff"));
             //if (!Directory.Exists(file.ToString()))
             //{
             //    Directory.CreateDirectory(file);
             //}
-            //file = Path.Combine(file, filename + DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".pdf");
+            //file = Path.Combine(file, filename + DateTimeOffset.Now.ToString("yyyyMMddHHmmssfff") + ".pdf");
 
             var documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-            var file = Path.Combine(documentsPath, filename + DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".pdf");
+            var file = Path.Combine(documentsPath, filename + DateTimeOffset.Now.ToString("yyyyMMddHHmmssfff") + ".pdf");
             //var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             //var documents = NSFileManager.DefaultManager.GetUrls(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomain.User)[0].ToString();
             //var documents = NSFileManager.DefaultManager.GetUrls(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomain.User)[0].Path;
-            //var file = Path.Combine(documents, "Invoice" + "_" + DateTime.Now.ToShortDateString() + "_" + DateTime.Now.ToShortTimeString() + ".pdf");
+            //var file = Path.Combine(documents, "Invoice" + "_" + DateTimeOffset.Now.ToShortDateString() + "_" + DateTimeOffset.Now.ToShortTimeString() + ".pdf");
 
             webView.Delegate = new WebViewCallBack(file);
             webView.ScalesPageToFit = true;

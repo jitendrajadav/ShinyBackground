@@ -1,9 +1,10 @@
-﻿using SQLite.Net.Attributes;
+﻿using Realms;
+//using SQLite.Net.Attributes;
 using System.Collections.Generic;
 
 namespace KegID.Model
 {
-    public class LoginModel
+    public class LoginModel : RealmObject
     {
         //public int Id { get; set; }
         //public string CompanyNo { get; set; }
@@ -19,7 +20,7 @@ namespace KegID.Model
         //public string PalletBarcodePrefix { get; set; }
         //public bool IsNotify { get; set; }
         public string SessionExpires { get; set; }
-        public List<Preference> Preferences { get; set; }
+        public IList<Preference> Preferences { get; }
         //public string DataInfo { get; set; }
         //public string UserHome { get; set; }
         //public string UserHomeName { get; set; }
@@ -34,9 +35,8 @@ namespace KegID.Model
         public string SessionId { get; set; }
     }
 
-    public class Preference
+    public class Preference : RealmObject
     {
-        [PrimaryKey,AutoIncrement]
         public int Id { get; set; }
         public string PreferenceName { get; set; }
         public string PreferenceValue { get; set; }

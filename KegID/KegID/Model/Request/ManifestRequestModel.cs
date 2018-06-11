@@ -1,4 +1,5 @@
-﻿using SQLite.Net.Attributes;
+﻿//using SQLite.Net.Attributes;
+using Realms;
 using System;
 using System.Collections.Generic;
 
@@ -8,10 +9,10 @@ namespace KegID.Model
     //{
     //    [PrimaryKey]
     //    public string ManifestId { get; set; }
-    //    public DateTime ShipDate { get; set; }
+    //    public DateTimeOffset ShipDate { get; set; }
     //    [Ignore]
     //    public List<TItem> ManifestItems { get; set; }
-    //    public DateTime SubmittedDate { get; set; }
+    //    public DateTimeOffset SubmittedDate { get; set; }
     //    public string OriginId { get; set; }
     //    public string SenderId { get; set; }
     //    public string DestinationId { get; set; }
@@ -19,7 +20,7 @@ namespace KegID.Model
     //    public List<Tag> Tags { get; set; }
     //    public string Gs1Gsin { get; set; }
     //    public bool IsSendManifest { get; set; }
-    //    public DateTime EffectiveDate { get; set; }
+    //    public DateTimeOffset EffectiveDate { get; set; }
     //    public long EventTypeId { get; set; }
     //    public long Latitude { get; set; }
     //    public long Longitude { get; set; }
@@ -30,7 +31,7 @@ namespace KegID.Model
     //    [Ignore]
     //    public List<NewBatch> NewBatches { get; set; }
     //    public string KegOrderId { get; set; }
-    //    public DateTime PostedDate { get; set; }
+    //    public DateTimeOffset PostedDate { get; set; }
     //    public string SourceKey { get; set; }
     //    [Ignore]
     //    public List<string> ClosedBatches { get; set; }
@@ -39,7 +40,7 @@ namespace KegID.Model
     public class TItem
     {
         public string Barcode { get; set; }
-        public DateTime ScanDate { get; set; }
+        public DateTimeOffset ScanDate { get; set; }
         //public long ValidationStatus { get; set; }
         public List<Tag> Tags { get; set; }
         //public string Contents { get; set; }
@@ -57,14 +58,14 @@ namespace KegID.Model
         public string BatchCode { get; set; }
         public string RecipeId { get; set; }
         public string BrandName { get; set; }
-        public DateTime BrewDate { get; set; }
-        public DateTime PackageDate { get; set; }
-        public DateTime BestBeforeDate { get; set; }
+        public DateTimeOffset BrewDate { get; set; }
+        public DateTimeOffset PackageDate { get; set; }
+        public DateTimeOffset BestBeforeDate { get; set; }
         public long BrewedVolume { get; set; }
         public string BrewedVolumeUom { get; set; }
         public long PackagedVolume { get; set; }
         public string PackagedVolumeUom { get; set; }
-        public DateTime CompletedDate { get; set; }
+        public DateTimeOffset CompletedDate { get; set; }
         public bool IsCompleted { get; set; }
         public long Abv { get; set; }
         public string SourceKey { get; set; }
@@ -76,7 +77,7 @@ namespace KegID.Model
         public List<TItem> PalletItems { get; set; }
         public string PalletId { get; set; }
         public string OwnerId { get; set; }
-        public DateTime BuildDate { get; set; }
+        public DateTimeOffset BuildDate { get; set; }
         public string Barcode { get; set; }
         //public string BarcodeFormat { get; set; }
         //public long ManifestTypeId { get; set; }
@@ -88,7 +89,7 @@ namespace KegID.Model
         public List<Tag> Tags { get; set; }
     }
 
-    public class Tag
+    public class Tag : RealmObject
     {
         public string Property { get; set; }
         public string Value { get; set; }

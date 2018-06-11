@@ -12,6 +12,7 @@ using KegID.SQLiteClient;
 using KegID.Views;
 using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
+using Realms;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -291,13 +292,14 @@ namespace KegID.ViewModel
 
         #region Methods
 
-        internal async Task LoadDraftManifestAsync()
+        internal void LoadDraftManifestAsync()
         {
             try
             {
                 ManifestCollection.Clear();
                 Loader.StartLoading();
-                var collection = await SQLiteServiceClient.Db.Table<DraftManifestModel>().ToListAsync();
+                var vRealmDb = Realm.GetInstance();
+                var collection = vRealmDb.All<DraftManifestModel>().ToList();//await SQLiteServiceClient.Db.Table<DraftManifestModel>().ToListAsync();
                 foreach (var item in collection)
                 {
                     ManifestModel manifest = JsonConvert.DeserializeObject<ManifestModel>(item.DraftManifestJson);

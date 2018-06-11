@@ -16,7 +16,7 @@ namespace KegID.Converter
         /// </summary>
         public static void Init()
         {
-            var time = DateTime.UtcNow;
+            var time = DateTimeOffset.UtcNow;
         }
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

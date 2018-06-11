@@ -13,6 +13,7 @@ using KegID.SQLiteClient;
 using KegID.Views;
 using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
+using Realms;
 using Rg.Plugins.Popup.Extensions;
 using Xamarin.Forms;
 
@@ -368,7 +369,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                DateTime now = DateTime.Now;
+                DateTimeOffset now = DateTimeOffset.Now;
                 string barCode;
                 long prefix = 0;
                 var lastCharOfYear = now.Year.ToString().ToCharArray().LastOrDefault().ToString();
@@ -386,7 +387,9 @@ namespace KegID.ViewModel
                     else
                     {
                         BarcodeCollection.Clear();
-                        var preference = await SQLiteServiceClient.Db.Table<Preference>().Where(x => x.PreferenceName == "DashboardPreferences").ToListAsync();
+                        var vRealmDb = Realm.GetInstance();
+                        var preference = vRealmDb.All<Preference>().Where(x => x.PreferenceName == "DashboardPreferences").ToList();
+                        //await SQLiteServiceClient.Db.Table<Preference>().Where(x => x.PreferenceName == "DashboardPreferences").ToListAsync();
 
                         foreach (var item in preference)
                         {
@@ -412,7 +415,7 @@ namespace KegID.ViewModel
 
         private static int SecondsInDayTillNow()
         {
-            DateTime now = DateTime.Now;
+            DateTimeOffset now = DateTimeOffset.Now;
             int hours = 0, minutes = 0, seconds = 0, totalSeconds = 0;
             hours = (24 - now.Hour) - 1;
             minutes = (60 - now.Minute) - 1;
@@ -562,7 +565,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                string header = string.Format(ZebraPrinterManager.palletHeader, BatchId, PartnerModel.ParentPartnerName, PartnerModel.Address1, PartnerModel.City + "," + PartnerModel.State + " " + PartnerModel.PostalCode, "", PartnerModel.ParentPartnerName, BatchModel.BatchCode, DateTime.Now.ToShortDateString(), "1", "", BatchModel.BrandName,
+                string header = string.Format(ZebraPrinterManager.palletHeader, BatchId, PartnerModel.ParentPartnerName, PartnerModel.Address1, PartnerModel.City + "," + PartnerModel.State + " " + PartnerModel.PostalCode, "", PartnerModel.ParentPartnerName, BatchModel.BatchCode, DateTimeOffset.UtcNow.Date.ToShortDateString(), "1", "", BatchModel.BrandName,
                                     "1", "", "", "", "", "", "", "", "", "",
                                     "", "", "", "", "", "", "", "", "", "",
                                     "", BatchId, BatchId);

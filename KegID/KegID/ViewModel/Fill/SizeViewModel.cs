@@ -3,6 +3,7 @@ using GalaSoft.MvvmLight.Ioc;
 using KegID.Model;
 using KegID.SQLiteClient;
 using Microsoft.AppCenter.Crashes;
+using Realms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -69,11 +70,12 @@ namespace KegID.ViewModel
 
         #region Methods
 
-        private async void LoadAssetSizeAsync()
+        private void LoadAssetSizeAsync()
         {
             try
             {
-                var value = await SQLiteServiceClient.Db.Table<AssetSizeModel>().ToListAsync();
+                var vRealmDb = Realm.GetInstance();
+                var value = vRealmDb.All<AssetSizeModel>().ToList(); ;//await SQLiteServiceClient.Db.Table<AssetSizeModel>().ToListAsync();
                 SizeCollection = value.Select(x => x.AssetSize).ToList();
             }
             catch (Exception ex)

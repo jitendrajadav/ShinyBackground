@@ -10,6 +10,7 @@ using KegID.SQLiteClient;
 using KegID.Views;
 using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
+using Realms;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -331,9 +332,10 @@ namespace KegID.ViewModel
 
         #region Methods
 
-        public async void GenerateManifestIdAsync(PalletModel palletModel)
+        public void GenerateManifestIdAsync(PalletModel palletModel)
         {
-            DateTime now = DateTime.Now;
+            var vRealmDb = Realm.GetInstance();
+            DateTimeOffset now = DateTimeOffset.Now;
             string barCode;
             long prefix = 0;
             var lastCharOfYear = now.Year.ToString().ToCharArray().LastOrDefault().ToString();
@@ -341,7 +343,7 @@ namespace KegID.ViewModel
             var secondsInDayTillNow = SecondsInDayTillNow();
             var millisecond = now.Millisecond;
 
-            var preference = await SQLiteServiceClient.Db.Table<Preference>().Where(x => x.PreferenceName == "DashboardPreferences").ToListAsync();
+            var preference = vRealmDb.All<Preference>().Where(x => x.PreferenceName == "DashboardPreferences").ToList();//await SQLiteServiceClient.Db.Table<Preference>().Where(x => x.PreferenceName == "DashboardPreferences").ToListAsync();
             try
             {
                 foreach (var item in preference)
@@ -387,7 +389,7 @@ namespace KegID.ViewModel
 
         private static int SecondsInDayTillNow()
         {
-            DateTime now = DateTime.Now;
+            DateTimeOffset now = DateTimeOffset.Now;
             int hours = 0, minutes = 0, seconds = 0, totalSeconds = 0;
             hours = (24 - now.Hour) - 1;
             minutes = (60 - now.Minute) - 1;
@@ -412,7 +414,7 @@ namespace KegID.ViewModel
                     pallet = new PalletItem
                     {
                         Barcode = item.Id,
-                        ScanDate = DateTime.Now,
+                        ScanDate = DateTimeOffset.Now,
                         Tags = SimpleIoc.Default.GetInstance<ScanKegsViewModel>().Tags,
                         ValidationStatus = 4
                     };
@@ -423,7 +425,7 @@ namespace KegID.ViewModel
                 palletRequestModel = new PalletRequestModel
                 {
                     Barcode = ManifestId.Split('-').LastOrDefault(),
-                    BuildDate = DateTime.Now,
+                    BuildDate = DateTimeOffset.Now,
                     OwnerId = AppSettings.User.CompanyId,
                     PalletId = Uuid.GetUuId(),
                     PalletItems = palletItems,

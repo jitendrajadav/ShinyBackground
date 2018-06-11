@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using SQLite.Net.Attributes;
+using Realms;
+//using SQLite.Net.Attributes;
 
 namespace KegID.Model
 {
-    public class DraftManifestModel
+    public class DraftManifestModel : RealmObject
     {
         [PrimaryKey]
         public string ManifestId { get; set; }
@@ -17,8 +18,8 @@ namespace KegID.Model
         public long EventTypeId { get; set; }
         public long Latitude { get; set; }
         public long Longitude { get; set; }
-        public DateTime SubmittedDate { get; set; }
-        public DateTime ShipDate { get; set; }
+        public DateTimeOffset SubmittedDate { get; set; }
+        public DateTimeOffset ShipDate { get; set; }
         public string SenderId { get; set; }
         public string ReceiverId { get; set; }
         public string OwnerName { get; set; }
@@ -34,7 +35,7 @@ namespace KegID.Model
     public class ManifestItem
     {
         public string Barcode { get; set; }
-        public DateTime ScanDate { get; set; }
+        public DateTimeOffset ScanDate { get; set; }
         public long ValidationStatus { get; set; }
         public string KegId { get; set; }
         public List<Tag> Tags { get; set; }
@@ -59,7 +60,7 @@ namespace KegID.Model
     {
         public string ManifestId { get; set; }
         public string TrackingNumber { get; set; }
-        public DateTime ShipDate { get; set; }
+        public DateTimeOffset ShipDate { get; set; }
         public string SenderId { get; set; }
         public string SenderName { get; set; }
         public string ReceiverId { get; set; }

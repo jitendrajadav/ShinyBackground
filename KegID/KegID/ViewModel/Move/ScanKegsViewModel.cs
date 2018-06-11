@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using Rg.Plugins.Popup.Extensions;
 using Microsoft.AppCenter.Crashes;
 using KegID.Messages;
+using Realms;
 
 namespace KegID.ViewModel
 {
@@ -333,7 +334,9 @@ namespace KegID.ViewModel
 
         public async Task<IList<BrandModel>> LoadBrandAsync()
         {
-            IList<BrandModel> model = await SQLiteServiceClient.Db.Table<BrandModel>().ToListAsync();
+            var realm = Realm.GetInstance();
+            var all = realm.All<BrandModel>().ToList();
+            IList<BrandModel> model = all;// await SQLiteServiceClient.Db.Table<BrandModel>().ToListAsync();
             try
             {
                 if (model.Count > 0)
@@ -346,7 +349,15 @@ namespace KegID.ViewModel
                     if (value.StatusCode == System.Net.HttpStatusCode.OK)
                     {
                         model = value.BrandModel;
-                        await SQLiteServiceClient.Db.InsertAllAsync(model);
+                        realm.Write(() =>
+                        {
+                            foreach (var item in value.BrandModel)
+                            {
+                                realm.Add(item);
+                            }
+                        });
+
+                        //await SQLiteServiceClient.Db.InsertAllAsync(model);
                     }
                 }
             }

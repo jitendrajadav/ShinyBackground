@@ -1,10 +1,12 @@
-﻿using SQLite.Net.Attributes;
+﻿//using SQLite.Net.Attributes;
+
+using Realms;
 
 namespace KegID.Model
 {
-    public class ValidatePartnerModel
+    public class ValidatePartnerModel : RealmObject
     {
-        [PrimaryKey, AutoIncrement]
+        [PrimaryKey]
         public int Id { get; set; }
         public string Barcode { get; set; }
         public string PartnerId { get; set; }

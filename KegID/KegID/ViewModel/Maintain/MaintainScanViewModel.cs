@@ -12,6 +12,7 @@ using KegID.Services;
 using KegID.SQLiteClient;
 using KegID.Views;
 using Microsoft.AppCenter.Crashes;
+using Realms;
 using Rg.Plugins.Popup.Extensions;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -161,7 +162,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                MaintainTypeReponseModel = await SQLiteServiceClient.Db.Table<MaintainTypeReponseModel>().ToListAsync();
+                var vRealmDb = Realm.GetInstance();
+                MaintainTypeReponseModel = vRealmDb.All<MaintainTypeReponseModel>().ToList();//await SQLiteServiceClient.Db.Table<MaintainTypeReponseModel>().ToListAsync();
                 if (MaintainTypeReponseModel.Count == 0)
                 {
                     MaintainTypeReponseModel = await LoadMaintenanceTypeAsync();
@@ -178,8 +180,15 @@ namespace KegID.ViewModel
             var model = await _maintainService.GetMaintainTypeAsync(AppSettings.User.SessionId);
             try
             {
+                var vRealmDb = Realm.GetInstance();
+                vRealmDb.Write(() => {
+                    foreach (var item in model.MaintainTypeReponseModel)
+                    {
+                        vRealmDb.Add(item);
+                    }
+                });
                 // The item does not exists in the database so lets insert it
-                await SQLiteServiceClient.Db.InsertAllAsync(model.MaintainTypeReponseModel);
+               // await SQLiteServiceClient.Db.InsertAllAsync(model.MaintainTypeReponseModel);
                 MaintainTypeReponseModel = model.MaintainTypeReponseModel;
             }
             catch (Exception ex)    

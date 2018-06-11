@@ -1,27 +1,28 @@
-﻿using SQLite.Net.Attributes;
+﻿using Realms;
+//using SQLite.Net.Attributes;
 
 namespace KegID.Model
 {
-    public class AssetSizeModel
+    public class AssetSizeModel : RealmObject
     {
-        [PrimaryKey,AutoIncrement]
-        public int Id { get; set; }
+        //[PrimaryKey]
+        //public int Id { get; set; }
         public string AssetSize { get; set; }
         public bool HasInitial { get; set; }
     }
 
-    public class AssetTypeModel
+    public class AssetTypeModel : RealmObject
     {
-        [PrimaryKey,AutoIncrement]
-        public int Id { get; set; }
+        //[PrimaryKey]
+        //public int Id { get; set; }
         public string AssetType { get; set; }
         public bool HasInitial { get; set; }
     }
 
-    public class AssetVolumeModel
+    public class AssetVolumeModel : RealmObject
     {
-        [PrimaryKey, AutoIncrement]
-        public int Id { get; set; }
+        //[PrimaryKey]
+        //public int Id { get; set; }
         public string AssetVolume { get; set; }
     }
 }

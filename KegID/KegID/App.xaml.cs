@@ -94,14 +94,14 @@ namespace KegID
                    "ios=b80b8476-04cf-4fc3-b7f7-be06ba7f2213",
                    typeof(Analytics), typeof(Crashes));
             // Handle when your app starts
-            SQLiteServiceClient.Instance.CreateDbIfNotExist();
+            //SQLiteServiceClient.Instance.CreateDbIfNotExist();
             LoadPersistedValues();
         }
 
         protected override void OnSleep ()
 		{
             // Handle when your app sleeps
-            Current.Properties["SleepDate"] = DateTime.Now.ToString("O");
+            Current.Properties["SleepDate"] = DateTimeOffset.Now.ToString("O");
             //Current.Properties["FirstName"] = _backgroundPage.FirstName;
         }
 
@@ -116,7 +116,7 @@ namespace KegID
             if (Current.Properties.ContainsKey("SleepDate"))
             {
                 var value = (string)Current.Properties["SleepDate"];
-                if (DateTime.TryParse(value, out DateTime sleepDate))
+                if (DateTimeOffset.TryParse(value, out DateTimeOffset sleepDate))
                 {
                     //_backgroundPage.SleepDate = sleepDate;
                 }

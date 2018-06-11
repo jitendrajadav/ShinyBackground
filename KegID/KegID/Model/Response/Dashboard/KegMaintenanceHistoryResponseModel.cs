@@ -14,7 +14,7 @@ namespace KegID.Model
         public string KegId { get; set; }
         public string Barcode { get; set; }
         public MaintenanceType MaintenanceType { get; set; }
-        public DateTime DatePerformed { get; set; }
+        public DateTimeOffset DatePerformed { get; set; }
         public string DueDate { get; set; }
         public string Message { get; set; }
         public string AlertCleared { get; set; }

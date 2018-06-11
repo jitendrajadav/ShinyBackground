@@ -1,14 +1,15 @@
 ﻿using GalaSoft.MvvmLight;
 using KegID.ViewModel;
-using SQLite.Net.Attributes;
+using Realms;
+//using SQLite.Net.Attributes;
 using System;
 using System.Collections.Generic;
 
 namespace KegID.Model
 {
-    public class MaintainTypeReponseModel : ViewModelBase
+    public class MaintainTypeReponseModel : RealmObject
     {
-        [PrimaryKey]
+        //[PrimaryKey]
         public long Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
@@ -16,7 +17,7 @@ namespace KegID.Model
         public bool IsAction { get; set; }
         public string DefectType { get; set; }
         public string ActivationMethod { get; set; }
-        public DateTime DeletedDate { get; set; }
+        public DateTimeOffset DeletedDate { get; set; }
         public bool InUse { get; set; }
 
         #region IsToggled
@@ -53,16 +54,9 @@ namespace KegID.Model
 
         #endregion
 
-        [Ignore]
-        public List<string> ActivationPartnerTypes { get; set; }
+        //[Ignore]
+        public List<string> ActivationPartnerTypes { get; }
     }
-
-    //public enum ActivationMethod { Always=1, ReverseOnly=2 };
-
-    //public enum ActivationPartnerType { Brewrempty, Brewrretrn, Distrempty, Distrlgstc };
-
-    //public enum DefectType { Keg= 65, Contents= 67 };
-
 
     public class MaintainTypeModel : KegIDResponse
     {

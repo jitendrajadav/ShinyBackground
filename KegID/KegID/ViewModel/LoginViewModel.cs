@@ -5,10 +5,11 @@ using KegID.Common;
 using KegID.Dtos;
 using KegID.Model;
 using KegID.Services;
-using KegID.SQLiteClient;
+//using KegID.SQLiteClient;
 using KegID.Views;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
+using Realms;
 //using PropertyChanged;
 using System;
 using System.Collections.Generic;
@@ -226,9 +227,31 @@ namespace KegID.ViewModel
                     await Application.Current.MainPage.Navigation.PushModalAsync(page: new MainPage(), animated: false);
                     try
                     {
-                        var value = await SQLiteServiceClient.Db.InsertAllAsync(model.LoginModel.Preferences);
+                        var vRealmDb = Realm.GetInstance();
+
+                        //Befor RealmDB..
+                        //var value = await SQLiteServiceClient.Db.InsertAllAsync(model.LoginModel.Preferences);
+                        //var maintenance = await MaintainService.GetMaintainTypeAsync(AppSettings.User.SessionId);
+                        //await SQLiteServiceClient.Db.InsertAllAsync(maintenance.MaintainTypeReponseModel);
+                        //await LoadAssetSizeAsync();
+                        //await LoadAssetTypeAsync();
+                        //await LoadAssetVolumeAsync();
+                        //await LoadOwnerAsync();
+                        vRealmDb.Write(()=> 
+                        {
+                           vRealmDb.Add(model.LoginModel);
+                        });
+                        var vAllEmployees = vRealmDb.All<LoginModel>();
+
                         var maintenance = await MaintainService.GetMaintainTypeAsync(AppSettings.User.SessionId);
-                        await SQLiteServiceClient.Db.InsertAllAsync(maintenance.MaintainTypeReponseModel);
+                        vRealmDb.Write(() =>
+                        {
+                            foreach (var item in maintenance.MaintainTypeReponseModel)
+                            {
+                                vRealmDb.Add(item);
+                            }
+                        });
+
                         await LoadAssetSizeAsync();
                         await LoadAssetTypeAsync();
                         await LoadAssetVolumeAsync();
@@ -273,6 +296,7 @@ namespace KegID.ViewModel
 
         private async Task LoadAssetSizeAsync()
         {
+            var vRealmDb = Realm.GetInstance();
             List<AssetSizeModel> assetSizeModel = null;
             var service = SimpleIoc.Default.GetInstance<IMoveService>();
             try
@@ -283,7 +307,14 @@ namespace KegID.ViewModel
                 {
                     assetSizeModel.Add(new AssetSizeModel { AssetSize = item });
                 }
-                await SQLiteServiceClient.Db.InsertAllAsync(assetSizeModel);
+                vRealmDb.Write(() =>
+                {
+                    foreach (var item in assetSizeModel)
+                    {
+                        vRealmDb.Add(item);
+                    }
+                });
+                //await SQLiteServiceClient.Db.InsertAllAsync(assetSizeModel);
             }
             catch (Exception ex)
             {
@@ -298,6 +329,7 @@ namespace KegID.ViewModel
 
         private async Task LoadAssetTypeAsync()
         {
+            var vRealmDb = Realm.GetInstance();
             List<AssetTypeModel> assetTypeModels = null;
             var service = SimpleIoc.Default.GetInstance<IMoveService>();
             try
@@ -308,7 +340,14 @@ namespace KegID.ViewModel
                 {
                     assetTypeModels.Add(new AssetTypeModel { AssetType = item });
                 }
-                await SQLiteServiceClient.Db.InsertAllAsync(assetTypeModels);
+                vRealmDb.Write(() =>
+                {
+                    foreach (var item in assetTypeModels)
+                    {
+                        vRealmDb.Add(item);
+                    }
+                });
+                //await SQLiteServiceClient.Db.InsertAllAsync(assetTypeModels);
             }
             catch (Exception ex)
             {
@@ -323,6 +362,7 @@ namespace KegID.ViewModel
 
         private async Task LoadAssetVolumeAsync()
         {
+            var vRealmDb = Realm.GetInstance();
             List<AssetVolumeModel> assetVolumeModel = null;
             var service = SimpleIoc.Default.GetInstance<IDashboardService>();
             try
@@ -334,7 +374,14 @@ namespace KegID.ViewModel
                 {
                     assetVolumeModel.Add(new AssetVolumeModel { AssetVolume = item });
                 }
-                await SQLiteServiceClient.Db.InsertAllAsync(assetVolumeModel);
+                vRealmDb.Write(() =>
+                {
+                    foreach (var item in assetVolumeModel)
+                    {
+                        vRealmDb.Add(item);
+                    }
+                });
+                //await SQLiteServiceClient.Db.InsertAllAsync(assetVolumeModel);
             }
             catch (Exception ex)
             {
@@ -351,7 +398,16 @@ namespace KegID.ViewModel
         {
             try
             {
-                await SQLiteServiceClient.Db.InsertAllAsync(items: (await SimpleIoc.Default.GetInstance<IMoveService>().GetOwnerAsync(AppSettings.User.SessionId)).OwnerModel);
+                var vRealmDb = Realm.GetInstance();
+                var value = await SimpleIoc.Default.GetInstance<IMoveService>().GetOwnerAsync(AppSettings.User.SessionId);
+                vRealmDb.Write(() =>
+                {
+                    foreach (var item in value.OwnerModel)
+                    {
+                        vRealmDb.Add(item);
+                    }
+                });
+                //await SQLiteServiceClient.Db.InsertAllAsync(items: (await SimpleIoc.Default.GetInstance<IMoveService>().GetOwnerAsync(AppSettings.User.SessionId)).OwnerModel);
             }
             catch (Exception ex)
             {

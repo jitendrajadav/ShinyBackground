@@ -1,4 +1,4 @@
-﻿using SQLite.Net.Attributes;
+﻿//using SQLite.Net.Attributes;
 using System;
 using System.Collections.Generic;
 
@@ -8,14 +8,14 @@ namespace KegID.Model
     {
         public string PalletId { get; set; }
         public Owner Owner { get; set; }
-        public DateTime BuildDate { get; set; }
+        public DateTimeOffset BuildDate { get; set; }
         public string Barcode { get; set; }
         public PalletLocation StockLocation { get; set; }
         public PalletLocation Location { get; set; }
         public List<Tag> Tags { get; set; }
         public List<PalletItem> PalletItems { get; set; }
         public object TargetLocation { get; set; }
-        public DateTime CreatedDate { get; set; }
+        public DateTimeOffset CreatedDate { get; set; }
         public object Container { get; set; }
         public object ReferenceKey { get; set; }
         public object DataInfo { get; set; }
@@ -82,15 +82,15 @@ namespace KegID.Model
         //[PrimaryKey]
         //public string PalletId { get; set; }
         public string Barcode { get; set; }
-        public DateTime ScanDate { get; set; }
+        public DateTimeOffset ScanDate { get; set; }
         public long ValidationStatus { get; set; }
-        //public DateTime DateScanned { get; set; }
+        //public DateTimeOffset DateScanned { get; set; }
         //public string Contents { get; set; }
         //[Ignore]
         //public PalletKeg Keg { get; set; }
         //public bool IsActive { get; set; }
         //public string RemovedManifest { get; set; }
-        [Ignore]
+        //[Ignore]
         public List<Tag> Tags { get; set; }
     }
 
@@ -109,7 +109,7 @@ namespace KegID.Model
         public string LocationId { get; set; }
         public string LocationName { get; set; }
         public string Contents { get; set; }
-        public DateTime ReceivedDate { get; set; }
+        public DateTimeOffset ReceivedDate { get; set; }
         public string PalletId { get; set; }
         public object SkuId { get; set; }
         public object SkuCode { get; set; }

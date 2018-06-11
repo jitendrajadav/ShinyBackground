@@ -43,7 +43,7 @@ namespace KegID.Droid.DependencyServices
 
         public string AppPackageCreationDate()
         {
-            string date = DateTime.Today.ToShortDateString();
+            string date = DateTimeOffset.UtcNow.Date.ToShortDateString();
             return date;
         }
     }

@@ -294,7 +294,7 @@ namespace KegID.ViewModel
                     Tags = Tags,
                     MaintenanceAlertIds = new List<string>(),
                     LessorId = "",
-                    PurchaseDate = DateTime.Now,
+                    PurchaseDate = DateTimeOffset.Now,
                     PurchasePrice = 0,
                     PurchaseOrder = "",
                     ManufacturerName = "",

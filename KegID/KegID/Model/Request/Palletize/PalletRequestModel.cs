@@ -8,7 +8,7 @@ namespace KegID.Model
         public string PalletId { get; set; }
         public string OwnerId { get; set; }
         public string Barcode { get; set; }
-        public DateTime BuildDate { get; set; }
+        public DateTimeOffset BuildDate { get; set; }
         public string StockLocation { get; set; }
         public string StockLocationId { get; set; }
         public string StockLocationName { get; set; }
@@ -20,7 +20,7 @@ namespace KegID.Model
     //public class PalletItem
     //{
     //    public string Barcode { get; set; }
-    //    public DateTime ScanDate { get; set; }
+    //    public DateTimeOffset ScanDate { get; set; }
     //    public long ValidationStatus { get; set; }
     //    public List<Tag> Tags { get; set; }
     //}

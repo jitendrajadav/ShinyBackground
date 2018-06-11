@@ -89,12 +89,12 @@ namespace KegID.Model
         public object HandlingCondition { get; set; }
         public CreatedManifestKeg Keg { get; set; }
         public object Pallet { get; set; }
-        public DateTime ScanDate { get; set; }
+        public DateTimeOffset ScanDate { get; set; }
         public object Notes { get; set; }
         public object ReferenceKey { get; set; }
         public List<Tag> Tags { get; set; }
         public string FullStatus { get; set; }
-        public DateTime SenderScanDate { get; set; }
+        public DateTimeOffset SenderScanDate { get; set; }
         public object SenderNotes { get; set; }
         public object SenderReferenceKey { get; set; }
         public bool IsReceived { get; set; }
@@ -118,7 +118,7 @@ namespace KegID.Model
         public string LocationId { get; set; }
         public string LocationName { get; set; }
         public string Contents { get; set; }
-        public DateTime ReceivedDate { get; set; }
+        public DateTimeOffset ReceivedDate { get; set; }
         public object PalletId { get; set; }
         public object SkuId { get; set; }
         public object SkuCode { get; set; }

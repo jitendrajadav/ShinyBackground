@@ -6,9 +6,11 @@ using KegID.Services;
 using KegID.SQLiteClient;
 using KegID.Views;
 using Microsoft.AppCenter.Crashes;
+using Realms;
 using Rg.Plugins.Popup.Extensions;
 using System;
 using System.Globalization;
+using System.Linq;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -452,7 +454,7 @@ namespace KegID.ViewModel
             {
                 //SimpleIoc.Default.GetInstance<MoveViewModel>().ManifestId = Uuid.GetUuId();
                 await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestsView(), animated: false);
-                await SimpleIoc.Default.GetInstance<ManifestsViewModel>().LoadDraftManifestAsync();
+                SimpleIoc.Default.GetInstance<ManifestsViewModel>().LoadDraftManifestAsync();
                 //CheckDraftmaniFests();
             }
             catch (Exception ex)
@@ -461,11 +463,12 @@ namespace KegID.ViewModel
             }
         }
 
-        internal async void CheckDraftmaniFestsAsync()
+        internal void CheckDraftmaniFestsAsync()
         {
             try
             {
-                var collection = await SQLiteServiceClient.Db.Table<DraftManifestModel>().ToListAsync();
+                var vRealmDb = Realm.GetInstance();
+                var collection = vRealmDb.All<DraftManifestModel>().ToList();//await SQLiteServiceClient.Db.Table<DraftManifestModel>().ToListAsync();
                 if (collection.Count > 0)
                 {
                     DraftmaniFests = collection.Count;

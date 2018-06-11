@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using System.Threading.Tasks;
 using System;
 using Microsoft.AppCenter.Crashes;
+using Realms;
 
 namespace KegID.ViewModel
 {
@@ -174,11 +175,13 @@ namespace KegID.ViewModel
 
         private async Task ValidateScannedBarcode()
         {
+            var vRealmDb = Realm.GetInstance();
             string BarcodeId = default(string);
             try
             {
                 BarcodeId = Models.FirstOrDefault().Id;
-                var value = await SQLiteServiceClient.Db.Table<BarcodeModel>().Where(x => x.Barcode == BarcodeId).FirstOrDefaultAsync();
+                var value = vRealmDb.All<BarcodeModel>().Where(x => x.Barcode == BarcodeId).FirstOrDefault();
+                    //await SQLiteServiceClient.Db.Table<BarcodeModel>().Where(x => x.Barcode == BarcodeId).FirstOrDefaultAsync();
                 var validateBarcodeModel = JsonConvert.DeserializeObject<ValidateBarcodeModel>(value.BarcodeJson);
                 PartnerCollection = validateBarcodeModel.Kegs.Partners;
 

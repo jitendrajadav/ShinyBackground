@@ -6,6 +6,7 @@ using KegID.Services;
 using KegID.SQLiteClient;
 using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
+using Realms;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -30,7 +31,6 @@ namespace KegID
         public async Task ValidateBarcodeInsertIntoLocalDB(IList<string> _barcodeId, ViewTypeEnum _page)
         {
             var service = SimpleIoc.Default.GetInstance<IMoveService>();
-            //IList<Barcode> barcodes = new List<Barcode>();
 
             foreach (var item in _barcodeId)
             {
@@ -55,14 +55,18 @@ namespace KegID
                     try
                     {
                         // The item does not exists in the database so lets insert it
-                        await SQLiteServiceClient.Db.InsertAsync(barcodeModel);
+                        var vRealmDb = Realm.GetInstance();
+                        vRealmDb.Write(() => {
+                            vRealmDb.Add(barcodeModel);
+                        });
+                        //await SQLiteServiceClient.Db.InsertAsync(barcodeModel);
                     }
                     catch (Exception ex)
                     {
                         Crashes.TrackError(ex);
                     }
                 }
-                //barcodes.Add(barcode);
+
                 Device.BeginInvokeOnMainThread(() => {
                     switch (_page)
                     {
@@ -97,10 +101,7 @@ namespace KegID
                             break;
                     }
                 });
-
             }
-
         }
-
     }
 }

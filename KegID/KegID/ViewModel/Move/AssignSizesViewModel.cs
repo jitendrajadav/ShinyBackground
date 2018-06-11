@@ -8,6 +8,7 @@ using GalaSoft.MvvmLight.Ioc;
 using KegID.Model;
 using KegID.SQLiteClient;
 using Microsoft.AppCenter.Crashes;
+using Realms;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -335,11 +336,12 @@ namespace KegID.ViewModel
             }
         }
 
-        private async Task LoadOwnderAsync()
+        private void LoadOwnderAsync()
         {
             try
             {
-                OwnerCollection = await SQLiteServiceClient.Db.Table<OwnerModel>().ToListAsync();
+                var vRealmDb = Realm.GetInstance();
+                OwnerCollection = vRealmDb.All<OwnerModel>().ToList();//await SQLiteServiceClient.Db.Table<OwnerModel>().ToListAsync();
                 SelectedOwner = OwnerCollection.OrderBy(x => x.FullName).FirstOrDefault();
             }
             catch (Exception ex)
@@ -348,11 +350,12 @@ namespace KegID.ViewModel
             }
         }
 
-        private async Task LoadAssetSizeAsync()
+        private void LoadAssetSizeAsync()
         {
             try
             {
-                SizeCollection = await SQLiteServiceClient.Db.Table<AssetSizeModel>().ToListAsync();
+                var vRealmDb = Realm.GetInstance();
+                SizeCollection = vRealmDb.All<AssetSizeModel>().ToList(); //await SQLiteServiceClient.Db.Table<AssetSizeModel>().ToListAsync();
             }
             catch (Exception ex)
             {
@@ -360,11 +363,12 @@ namespace KegID.ViewModel
             }
         }
 
-        private async Task LoadAssetTypeAsync()
+        private void LoadAssetTypeAsync()
         {
             try
             {
-                TypeCollection = await SQLiteServiceClient.Db.Table<AssetTypeModel>().ToListAsync();
+                var vRealmDb = Realm.GetInstance();
+                TypeCollection = vRealmDb.All<AssetTypeModel>().ToList(); //await SQLiteServiceClient.Db.Table<AssetTypeModel>().ToListAsync();
             }
             catch (Exception ex)
             {
@@ -372,15 +376,15 @@ namespace KegID.ViewModel
             }
         }
 
-        internal async void AssignInitialValueAsync(List<Barcode> _alerts)
+        internal void AssignInitialValueAsync(List<Barcode> _alerts)
         {
             try
             {
                 VerifiedBarcodes = _alerts;
 
-                await LoadOwnderAsync();
-                await LoadAssetSizeAsync();
-                await LoadAssetTypeAsync();
+                LoadOwnderAsync();
+                LoadAssetSizeAsync();
+                LoadAssetTypeAsync();
 
                 foreach (var item in _alerts)
                 {

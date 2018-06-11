@@ -9,6 +9,7 @@ using KegID.Services;
 using KegID.SQLiteClient;
 using KegID.Views;
 using Microsoft.AppCenter.Crashes;
+using Realms;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -1005,8 +1006,11 @@ namespace KegID.ViewModel
                             SourceKey = newPartnerRequestModel.RouteName,
                             State = newPartnerRequestModel.BillAddress != null ? newPartnerRequestModel.BillAddress.State : string.Empty
                         };
-
-                        var parner = await SQLiteServiceClient.Db.InsertAsync(partnerModel);
+                        var vRealmDb = Realm.GetInstance();
+                        vRealmDb.Write(() => {
+                          vRealmDb.Add(partnerModel);
+                        });
+                        //var parner = await SQLiteServiceClient.Db.InsertAsync(partnerModel);
                         SimpleIoc.Default.GetInstance<PartnersViewModel>().PartnerCollection.Add(partnerModel);
                         SimpleIoc.Default.GetInstance<PartnersViewModel>().AllPartners.Add(partnerModel);
                     }
@@ -1030,7 +1034,8 @@ namespace KegID.ViewModel
 
         public async void LoadPartnerAsync(PartnerInfoResponseModel partnerInfoModel)
         {
-            IList<PartnerTypeModel> model = await SQLiteServiceClient.Db.Table<PartnerTypeModel>().ToListAsync();
+            var vRealmDb = Realm.GetInstance();
+            IList<PartnerTypeModel> model = vRealmDb.All<PartnerTypeModel>().ToList();//await SQLiteServiceClient.Db.Table<PartnerTypeModel>().ToListAsync();
 
             try
             {
@@ -1043,7 +1048,13 @@ namespace KegID.ViewModel
                     if (value.StatusCode == System.Net.HttpStatusCode.OK)
                     {
                         PartnerTypeCollectioin = value.PartnerTypeModel;
-                        await SQLiteServiceClient.Db.InsertAllAsync(PartnerTypeCollectioin);
+                        vRealmDb.Write(() => {
+                            foreach (var item in PartnerTypeCollectioin)
+                            {
+                                vRealmDb.Add(item);
+                            }
+                        });
+                        //await SQLiteServiceClient.Db.InsertAllAsync(PartnerTypeCollectioin);
                     }
                 }
             }

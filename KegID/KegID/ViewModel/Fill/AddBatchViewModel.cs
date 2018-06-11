@@ -478,7 +478,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                NewBatchModel.Tags = Tags;
+                //NewBatchModel.Tags = Tags;
                 NewBatchModel.Abv = AlcoholContent;
                 NewBatchModel.BatchCode = BatchCode;
                 NewBatchModel.BatchId = Uuid.GetUuId();

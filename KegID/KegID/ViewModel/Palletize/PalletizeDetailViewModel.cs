@@ -369,7 +369,7 @@ namespace KegID.ViewModel
                 PartnerTypeName = value.StockLocation.PartnerTypeName;
                 StockLocation = value.StockLocation.FullName;
                 TargetLocation = value.StockLocation.FullName;
-                ShippingDate = value.BuildDate;
+                ShippingDate = value.BuildDate.Date;
                 ItemCount = value.PalletItems.Count;
                 SimpleIoc.Default.GetInstance<ContentTagsViewModel>().ContentCollection = value.PalletItems.Select(selector: x => x.Barcode).ToList();
             }

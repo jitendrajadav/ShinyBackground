@@ -1,11 +1,12 @@
-﻿using SQLite.Net.Attributes;
+﻿using Realms;
+//using SQLite.Net.Attributes;
 using System.Collections.Generic;
 
 namespace KegID.Model
 {
-    public class PartnerTypeModel
+    public class PartnerTypeModel : RealmObject
     {
-        [PrimaryKey,AutoIncrement]
+        [PrimaryKey]
         public int PartnerId { get; set; }
         public string Id { get; set; }
         public string Name { get; set; }

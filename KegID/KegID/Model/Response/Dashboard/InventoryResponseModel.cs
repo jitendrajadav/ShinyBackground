@@ -1,11 +1,12 @@
-﻿using SQLite.Net.Attributes;
+﻿//using SQLite.Net.Attributes;
+using Realms;
 using System.Collections.Generic;
 
 namespace KegID.Model
 {
-    public class InventoryResponseModel 
+    public class InventoryResponseModel : RealmObject
     {
-        [PrimaryKey, AutoIncrement]
+        [PrimaryKey]
         public int Id { get; set; }
         public string OwnerName { get; set; }
         public string Status { get; set; }

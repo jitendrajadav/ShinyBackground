@@ -3,6 +3,7 @@ using KegID.Model;
 using KegID.SQLiteClient;
 using KegID.ViewModel;
 using Microsoft.AppCenter.Crashes;
+using Realms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -171,13 +172,13 @@ namespace KegID.Views
                     case TagsTypeEnum.ExpiryDate:
                         break;
                     case TagsTypeEnum.AssetType:
-                        var assetType = await LoadAssetTypeAsync();
+                        var assetType = LoadAssetTypeAsync();
                         valueEntry.ItemsSource = assetType.Select(x => x.AssetType).ToList();
                         //valueEntry.ItemDisplayBinding = new Binding("AssetType");
                         break;
 
                     case TagsTypeEnum.Size:
-                        var assetSize = await LoadAssetSizeAsync();
+                        var assetSize = LoadAssetSizeAsync();
                         valueEntry.ItemsSource = assetSize.Select(x => x.AssetSize).ToList();
                         //valueEntry.ItemDisplayBinding = new Binding("AssetSize");
                         break;
@@ -220,14 +221,16 @@ namespace KegID.Views
             }
         }
 
-        private async Task<IList<AssetSizeModel>> LoadAssetSizeAsync()
+        private IList<AssetSizeModel> LoadAssetSizeAsync()
         {
-            return await SQLiteServiceClient.Db.Table<AssetSizeModel>().ToListAsync();
+            var vRealmDb = Realm.GetInstance();
+            return vRealmDb.All<AssetSizeModel>().ToList();//await SQLiteServiceClient.Db.Table<AssetSizeModel>().ToListAsync();
         }
 
-        private async Task<IList<AssetTypeModel>> LoadAssetTypeAsync()
+        private IList<AssetTypeModel> LoadAssetTypeAsync()
         {
-            return await SQLiteServiceClient.Db.Table<AssetTypeModel>().ToListAsync();
+            var vRealmDb = Realm.GetInstance();
+            return vRealmDb.All<AssetTypeModel>().ToList();//await SQLiteServiceClient.Db.Table<AssetTypeModel>().ToListAsync();
         }
 
         void OnAddTagsClicked(object sender, EventArgs e)

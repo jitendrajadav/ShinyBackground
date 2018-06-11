@@ -7,8 +7,10 @@ using KegID.SQLiteClient;
 using KegID.Views;
 using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
+using Realms;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -430,7 +432,7 @@ namespace KegID.ViewModel
             ManifestModel manifestPostModel = null;
             DraftManifestModel draftManifestModel = null;
             SimpleIoc @default = SimpleIoc.Default;
-
+            var vRealmDb = Realm.GetInstance();
             try
             {
                 Loader.StartLoading();
@@ -448,19 +450,25 @@ namespace KegID.ViewModel
 
                 try
                 {
-                    var Result = await SQLiteServiceClient.Db.InsertAsync(draftManifestModel);
-                    if (Result > 0)
-                        @default.GetInstance<DashboardViewModel>().CheckDraftmaniFestsAsync();
+                    vRealmDb.Write(() => {
+                      var  Result = vRealmDb.Add(draftManifestModel);
+                        if (Result != null)
+                            @default.GetInstance<DashboardViewModel>().CheckDraftmaniFestsAsync();
+                    }); //await SQLiteServiceClient.Db.InsertAsync(draftManifestModel);
+                    
                 }
                 catch (Exception ex)
                 {
-                    var Result = await SQLiteServiceClient.Db.UpdateAsync(draftManifestModel);
+                    vRealmDb.Write(() => {
+                        var Result = vRealmDb.Add(draftManifestModel,true);
+                    });
+                    //var Result = await SQLiteServiceClient.Db.UpdateAsync(draftManifestModel);
                      Crashes.TrackError(ex);
                 }
 
                 Loader.StopLoading();
                 await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestsView(), animated: false);
-                await @default.GetInstance<ManifestsViewModel>().LoadDraftManifestAsync();
+                @default.GetInstance<ManifestsViewModel>().LoadDraftManifestAsync();
             }
             catch (Exception ex)
             {

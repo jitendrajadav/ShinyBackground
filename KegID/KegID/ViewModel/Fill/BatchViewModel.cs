@@ -11,6 +11,7 @@ using System.Linq;
 using KegID.SQLiteClient;
 using System;
 using Microsoft.AppCenter.Crashes;
+using Realms;
 
 namespace KegID.ViewModel
 {
@@ -114,7 +115,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                BatchCollection = await SQLiteServiceClient.Db.Table<BatchModel>().ToListAsync();
+                var vRealmDb = Realm.GetInstance();
+                BatchCollection = vRealmDb.All<BatchModel>().ToList();//await SQLiteServiceClient.Db.Table<BatchModel>().ToListAsync();
                 if (BatchCollection.Count==0)
                 {
                     Loader.StartLoading();
@@ -123,7 +125,13 @@ namespace KegID.ViewModel
                     if (value.StatusCode == System.Net.HttpStatusCode.OK)
                     {
                         BatchCollection = value.BatchModel.Where(p=>p.BrandName!= string.Empty).OrderBy(x => x.BrandName).ToList();
-                        await SQLiteServiceClient.Db.InsertAllAsync(BatchCollection);
+                        vRealmDb.Write(() => {
+                            foreach (var item in BatchCollection)
+                            {
+                                vRealmDb.Add(item);
+                            }
+                        });
+                        //await SQLiteServiceClient.Db.InsertAllAsync(BatchCollection);
                     }
                 }
             }

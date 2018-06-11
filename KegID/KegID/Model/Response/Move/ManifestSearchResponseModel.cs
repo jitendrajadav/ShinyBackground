@@ -7,7 +7,7 @@ namespace KegID.Model
     {
         public string ManifestId { get; set; }
         public string TrackingNumber { get; set; }
-        public DateTime ShipDate { get; set; }
+        public DateTimeOffset ShipDate { get; set; }
         public string SenderId { get; set; }
         public string SenderName { get; set; }
         public string ReceiverId { get; set; }

@@ -1,9 +1,10 @@
-﻿using SQLite.Net.Attributes;
+﻿//using SQLite.Net.Attributes;
+using Realms;
 using System.Collections.Generic;
 
 namespace KegID.Model
 {
-    public class BrandModel
+    public class BrandModel : RealmObject
     {
         [PrimaryKey]
         public string BrandId { get; set; }

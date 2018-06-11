@@ -29,7 +29,7 @@ namespace KegID.Model
         public string SkuCode { get; set; }
         public string SkuName { get; set; }
         public KegStatusLocation Location { get; set; }
-        public DateTime ReceivedDate { get; set; }
+        public DateTimeOffset ReceivedDate { get; set; }
         public Pallet Pallet { get; set; }
         public string Contents { get; set; }
         public string Batch { get; set; }
@@ -92,7 +92,7 @@ namespace KegID.Model
         public string Name { get; set; }
         public string TypeName { get; set; }
         public string DefectType { get; set; }
-        public DateTime DueDate { get; set; }
+        public DateTimeOffset DueDate { get; set; }
         public bool IsActivated { get; set; }
         public string ActivationMethod { get; set; }
         public string Message { get; set; }

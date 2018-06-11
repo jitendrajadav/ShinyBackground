@@ -1,8 +1,10 @@
-﻿using SQLite.Net.Attributes;
+﻿//using SQLite.Net.Attributes;
+
+using Realms;
 
 namespace KegID.Model
 {
-    public class BarcodeModel
+    public class BarcodeModel : RealmObject
     {
         [PrimaryKey]
         public string Barcode { get; set; }

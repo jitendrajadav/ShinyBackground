@@ -7,6 +7,7 @@ using KegID.Services;
 using KegID.SQLiteClient;
 using KegID.Views;
 using Microsoft.AppCenter.Crashes;
+using Realms;
 using Rg.Plugins.Popup.Extensions;
 using System;
 using System.Collections.Generic;
@@ -359,11 +360,12 @@ namespace KegID.ViewModel
             });
         }
 
-        private async void LoadAssetSizeAsync()
+        private void LoadAssetSizeAsync()
         {
             try
             {
-                var value = await SQLiteServiceClient.Db.Table<AssetSizeModel>().ToListAsync();
+                var vRealmDb = Realm.GetInstance();
+                var value = vRealmDb.All<AssetSizeModel>().ToList();//await SQLiteServiceClient.Db.Table<AssetSizeModel>().ToListAsync();
                 SizeCollection = value.Select(x => x.AssetSize).ToList();
             }
             catch (Exception ex)
@@ -372,11 +374,12 @@ namespace KegID.ViewModel
             }
         }
 
-        private async void LoadAssetTypeAsync()
+        private void LoadAssetTypeAsync()
         {
             try
             {
-                var value = await SQLiteServiceClient.Db.Table<AssetTypeModel>().ToListAsync();
+                var vRealmDb = Realm.GetInstance();
+                var value = vRealmDb.All<AssetTypeModel>().ToList();//await SQLiteServiceClient.Db.Table<AssetTypeModel>().ToListAsync();
                 AssetTypeCollection = value.Select(x => x.AssetType).ToList();
             }
             catch (Exception ex)
@@ -519,15 +522,15 @@ namespace KegID.ViewModel
                             //FixedContents = "",
                             //LeasingCompany = "",
                             //Location = "",
-                            //LocationDate = DateTime.Now.ToShortDateString(),
-                            //ManufactureDate = DateTime.Now.ToShortDateString(),
+                            //LocationDate = DateTimeOffset.Now.ToShortDateString(),
+                            //ManufactureDate = DateTimeOffset.Now.ToShortDateString(),
                             //ManufactureLocation = "",
                             //Manufacturer = "",
                             //Markings = "",
                             //Material = "",
                             //Measure = "",
                             //OwnerName = "",
-                            //PurchaseDate = DateTime.Now.ToShortDateString(),
+                            //PurchaseDate = DateTimeOffset.Now.ToShortDateString(),
                             //PurchaseOrder = "",
                             //PurchasePrice = "",
                             //SkuCode = "",

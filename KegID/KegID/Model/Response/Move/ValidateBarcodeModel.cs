@@ -1,4 +1,5 @@
-﻿using SQLite.Net.Attributes;
+﻿//using SQLite.Net.Attributes;
+using Realms;
 using System;
 using System.Collections.Generic;
 
@@ -37,17 +38,18 @@ namespace KegID.Model
         public bool IsAction { get; set; }
         public string DefectType { get; set; }
         public string ActivationMethod { get; set; }
-        public DateTime? DeletedDate { get; set; }
+        public DateTimeOffset? DeletedDate { get; set; }
         public bool InUse { get; set; }
         public List<string> ActivationPartnerTypes { get; set; }
     }
 
-    public class Partner
+    public class Partner : RealmObject
     {
-        [Ignore]
-        public List<Keg> Kegs { get; set; }
         [PrimaryKey]
         public string PartnerId { get; set; }
+
+        //[Ignore]
+        public List<Keg> Kegs { get; }
         public string FullName { get; set; }
         public string Address { get; set; }
         public string Address1 { get; set; }
@@ -73,7 +75,7 @@ namespace KegID.Model
         public long? CompanyNo { get; set; }
     }
 
-    public class Keg
+    public class Keg : RealmObject
     {
         [PrimaryKey]
         public string KegId { get; set; }
@@ -85,10 +87,10 @@ namespace KegID.Model
         public long Size { get; set; }
         public string Alert { get; set; }
         public long Location { get; set; }
-        [Ignore]
-        public List<long> MaintenanceItems { get; set; }
-        [Ignore]
-        public List<long> PendingMaintenanceItems { get; set; }
+        //[Ignore]
+        public List<long> MaintenanceItems { get; }
+        //[Ignore]
+        public List<long> PendingMaintenanceItems { get;}
         public long? Sku { get; set; }
         public long? ContentsSku { get; set; }
     }

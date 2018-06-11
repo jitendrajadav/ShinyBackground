@@ -18,7 +18,7 @@ namespace KegID.Converter
         /// </summary>
         public static void Init()
         {
-            var time = DateTime.UtcNow;
+            var time = DateTimeOffset.UtcNow;
         }
 
         /// <param name="value">To be added.</param>

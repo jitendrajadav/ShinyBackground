@@ -4,6 +4,7 @@ using KegID.Model;
 using KegID.Services;
 using KegID.SQLiteClient;
 using Microsoft.AppCenter.Crashes;
+using Realms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -124,7 +125,14 @@ namespace KegID.ViewModel
             {
                 Loader.StartLoading();
                 model = await _dashboardService.GetInventoryAsync(AppSettings.User.SessionId);
-                await SQLiteServiceClient.Db.InsertAllAsync(model.InventoryResponseModel);
+                var vRealmDb = Realm.GetInstance();
+                vRealmDb.Write(() => {
+                    foreach (var item in model.InventoryResponseModel)
+                    {
+                        vRealmDb.Add(item);
+                    }
+                });
+                //await SQLiteServiceClient.Db.InsertAllAsync(model.InventoryResponseModel);
 
                 StockInventoryCollection = model.InventoryResponseModel.Where(x => x.Status != "Empty").ToList();
                 EnptyInventoryCollection = model.InventoryResponseModel.Where(x => x.Status == "Empty").ToList();
@@ -140,12 +148,13 @@ namespace KegID.ViewModel
             }
         }
 
-        internal async void InitialAssignValueAsync(int currentPage)
+        internal void InitialAssignValueAsync(int currentPage)
         {
             try
             {
                 CurrentPage = currentPage;
-                var model = await SQLiteServiceClient.Db.Table<InventoryResponseModel>().ToListAsync();
+                var vRealmDb = Realm.GetInstance();
+                var model = vRealmDb.All<InventoryResponseModel>().ToList();//await SQLiteServiceClient.Db.Table<InventoryResponseModel>().ToListAsync();
                 if (model.Count > 0)
                 {
                     StockInventoryCollection = model.Where(x => x.Status != "Empty").ToList();

@@ -11,6 +11,7 @@ using KegID.Services;
 using KegID.SQLiteClient;
 using KegID.Views;
 using Microsoft.AppCenter.Crashes;
+using Realms;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -733,8 +734,8 @@ namespace KegID.ViewModel
                 SizeName = _sizeName;
 
                 var kegStatus = await DashboardService.GetKegStatusAsync(KegId, AppSettings.User.SessionId);
-
-                var addMaintenanceCollection = await SQLiteServiceClient.Db.Table<MaintainTypeReponseModel>().ToListAsync();
+                var vRealmDb = Realm.GetInstance();
+                var addMaintenanceCollection = vRealmDb.All<MaintainTypeReponseModel>().ToList();//await SQLiteServiceClient.Db.Table<MaintainTypeReponseModel>().ToListAsync();
                 KegHasAlert = kegStatus.MaintenanceAlerts.Count > 0 ? true : false;
                 Alerts = kegStatus.MaintenanceAlerts;
                 try
@@ -743,7 +744,7 @@ namespace KegID.ViewModel
                     {
                         var flag = kegStatus.MaintenanceAlerts.Where(x => x.Id == item.Id).FirstOrDefault();
                         if (flag == null)
-                            MaintenanceCollection.Add(new MaintenanceAlert { Id = (int)item.Id, ActivationMethod = item.ActivationMethod, AssetSize = "", AssetType = "", Barcode = Barcode, DefectType = item.DefectType.ToString(), DueDate = DateTime.Now, IsActivated = false, KegId = _kegId, LocationId = kegStatus.Location.PartnerId, LocationName = kegStatus.Owner.FullName, Message = "", Name = item.Name, OwnerId = kegStatus.Pallet?.OwnerId, OwnerName = kegStatus.Pallet?.OwnerName, PalletBarcode = kegStatus.Pallet?.Barcode, PalletId = kegStatus.Pallet?.PalletId, TypeId = kegStatus.TypeId, TypeName = kegStatus.TypeName });
+                            MaintenanceCollection.Add(new MaintenanceAlert { Id = (int)item.Id, ActivationMethod = item.ActivationMethod, AssetSize = "", AssetType = "", Barcode = Barcode, DefectType = item.DefectType.ToString(), DueDate = DateTimeOffset.Now, IsActivated = false, KegId = _kegId, LocationId = kegStatus.Location.PartnerId, LocationName = kegStatus.Owner.FullName, Message = "", Name = item.Name, OwnerId = kegStatus.Pallet?.OwnerId, OwnerName = kegStatus.Pallet?.OwnerName, PalletBarcode = kegStatus.Pallet?.Barcode, PalletId = kegStatus.Pallet?.PalletId, TypeId = kegStatus.TypeId, TypeName = kegStatus.TypeName });
                     }
                 }
                 catch (Exception ex)
@@ -992,7 +993,7 @@ namespace KegID.ViewModel
         //    //var model = new DeleteMaintenanceAlertRequestModel
         //    //{
         //    //    AlertCc = "",
-        //    //    DueDate = DateTime.Now,
+        //    //    DueDate = DateTimeOffset.Now,
         //    //    KegId = KegId,
         //    //    Message = _model.Message,
         //    //    NeededTypes = neededTypes,

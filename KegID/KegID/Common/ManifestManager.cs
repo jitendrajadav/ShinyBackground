@@ -2,6 +2,7 @@
 using KegID.SQLiteClient;
 using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
+using Realms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,18 +21,21 @@ namespace KegID.Common
             List<ManifestItem> manifestItemlst = new List<ManifestItem>();
             ManifestItem manifestItem = null;
             var location = await Geolocation.GetLocationAsync();
+
+            var vRealmDb = Realm.GetInstance();
             try
             {
                 foreach (var item in barcodeCollection)
                 {
                     string barcodeId = item.Id;
-                    var barcodeResult = await SQLiteServiceClient.Db.Table<BarcodeModel>().Where(x => x.Barcode == barcodeId).FirstOrDefaultAsync();
+                    var barcodeResult = vRealmDb.All<BarcodeModel>().Where(x => x.Barcode == barcodeId).FirstOrDefault();
+                    //await SQLiteServiceClient.Db.Table<BarcodeModel>().Where(x => x.Barcode == barcodeId).FirstOrDefaultAsync();
                     validateBarcodeModel = JsonConvert.DeserializeObject<ValidateBarcodeModel>(barcodeResult.BarcodeJson);
 
                     manifestItem = new ManifestItem()
                     {
                         Barcode = barcodeResult.Barcode,
-                        ScanDate = DateTime.Today,
+                        ScanDate = DateTimeOffset.UtcNow.Date,
                         ValidationStatus = validationStatus,
                         KegId = validateBarcodeModel.Kegs?.Partners?.FirstOrDefault()?.Kegs?.FirstOrDefault().KegId,
                         Tags = tags,
@@ -61,8 +65,8 @@ namespace KegID.Common
                     EventTypeId = (long)eventTypeEnum,
                     Latitude = (long)location.Latitude,
                     Longitude = (long)location.Longitude,
-                    SubmittedDate = DateTime.Today,
-                    ShipDate = DateTime.Today,
+                    SubmittedDate = DateTimeOffset.UtcNow.Date,
+                    ShipDate = DateTimeOffset.UtcNow.Date,
 
                     SenderId = AppSettings.User.CompanyId,
                     ReceiverId = partnerModel.PartnerId,

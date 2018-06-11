@@ -116,8 +116,8 @@ namespace KegID.Model
         public string LocationName { get; set; }
         public int ActiveCount { get; set; }
         public int BuildCount { get; set; }
-        public DateTime BuildDate { get; set; }
-        public DateTime CreateDate { get; set; }
+        public DateTimeOffset BuildDate { get; set; }
+        public DateTimeOffset CreateDate { get; set; }
     }
 
     public class Profile
