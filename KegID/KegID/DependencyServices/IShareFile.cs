@@ -23,7 +23,7 @@ namespace KegID.DependencyServices
         /// <returns>awaitable bool</returns>
         Task ShareRemoteFile(string fileUri, string fileName, string title = "", object view = null);
 
-        string SafeHTMLToPDF(string html, string filename);
+        Task<string> SafeHTMLToPDF(string html, string filename);
 
     }
 

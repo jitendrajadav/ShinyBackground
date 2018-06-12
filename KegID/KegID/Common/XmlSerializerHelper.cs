@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
@@ -35,8 +36,9 @@ namespace KegID.Common
                     return stringWriter.ToString();
                 }
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
+                Debug.WriteLine(ex.InnerException);
                 return string.Empty;
             }
         }

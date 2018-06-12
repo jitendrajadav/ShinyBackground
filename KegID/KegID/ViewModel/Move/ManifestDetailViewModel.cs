@@ -217,7 +217,7 @@ namespace KegID.ViewModel
 
         private async void GridTappedCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new ContentTagsView(), animated: false);
 
-        private void ShareCommandRecieverAsync()
+        private async void ShareCommandRecieverAsync()
         {
             string output = String.Empty;
             try
@@ -246,21 +246,20 @@ namespace KegID.ViewModel
                     }
                 }
 
-                // Create a source for the webview
-                var htmlSource = new HtmlWebViewSource
-                {
-                    Html = output
-                };
+                //// Create a source for the webview
+                //var htmlSource = new HtmlWebViewSource
+                //{
+                //    Html = output
+                //};
 
-                // Create and populate the Xamarin.Forms.WebView
-                var browser = new WebView
-                {
-                    Source = htmlSource
-                };
+                //// Create and populate the Xamarin.Forms.WebView
+                //var browser = new WebView
+                //{
+                //    Source = htmlSource
+                //};
 
                 //var printService = DependencyService.Get<IPrintService>();
                 //printService.Print(browser);
-
             }
             catch (Exception ex)
             {
@@ -270,33 +269,10 @@ namespace KegID.ViewModel
             try
             {
                 //var bytes = Encoding.Default.GetBytes(output);
-                //var filePath = DependencyService.Get<IFileStore>().GetFilePath();
-                //var filePath = DependencyService.Get<IFileStore>().WriteFile("Manifest.pdf", bytes);
-                //var filePath = DependencyService.Get<IFileStore>().SafeHTMLToPDF(output,"ManifestJ");
 
-                //var share = DependencyService.Get<IShare>();
-
-                //share.ShareLocalFile(filePath);
-                //CrossShareFile crossShareFile = new CrossShareFile();
                 var share = DependencyService.Get<IShareFile>();
-                string filePath = share.SafeHTMLToPDF(output, "Jiten");
-                share.ShareLocalFile(filePath, "Share File Test", null);
-
-                try
-                {
-                  //CrossShareFile.Current.ShareLocalFile(filePath);
-                }
-                catch (Exception ex)
-                {
-
-                }
-                // Working fine without sharing PDF...
-                //await CrossShare.Current.Share(message: new ShareMessage
-                //{
-                //    Text = "Share",
-                //    Title = "Share",
-                //    Url = filePath
-                //});
+                string filePath = await share.SafeHTMLToPDF(output, "Manifest");
+                share.ShareLocalFile(filePath,"Please check Manifest PDF",null);
             }
             catch (Exception ex)
             {

@@ -41,8 +41,8 @@ namespace KegID.Droid
 
             DependencyService.Register<OpenAppService>();
 
-            DependencyService.Register<FileStore>();
-            DependencyService.Register<Share>();
+            //DependencyService.Register<FileStore>();
+            //DependencyService.Register<Share>();
 
             try
             {

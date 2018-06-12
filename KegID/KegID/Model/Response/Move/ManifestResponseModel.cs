@@ -92,7 +92,7 @@ namespace KegID.Model
         public DateTimeOffset ScanDate { get; set; }
         public object Notes { get; set; }
         public object ReferenceKey { get; set; }
-        public List<Tag> Tags { get; set; }
+        public List<GeneralTag> Tags { get; set; }
         public string FullStatus { get; set; }
         public DateTimeOffset SenderScanDate { get; set; }
         public object SenderNotes { get; set; }
