@@ -499,6 +499,5 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="FodyWeavers.xml" />
-    <BundleResource Include="Resources\manifestPDF.html" />
   </ItemGroup>
 </Project>
