@@ -1,10 +1,11 @@
 ﻿using GalaSoft.MvvmLight;
+using Realms;
 using System;
 using System.Collections.Generic;
 
 namespace KegID.Model
 {
-    public class Barcode : ViewModelBase
+    public class Barcode : RealmObject
     {
         public bool HasMaintenaceVerified { get; set; }
         public bool IsScanned { get; set; }
@@ -42,17 +43,17 @@ namespace KegID.Model
         }
 
         #endregion
-        public List<Tag> Tags { get; set; }
-        public List<Partner> Partners { get; set; }
+        public IList<Tag> Tags { get; }
+        public IList<Partner> Partners { get; }
         public string PalletId { get; set; }
-        public DateTime ScanDate { get; set; }
+        public DateTimeOffset ScanDate { get; set; }
         public long ValidationStatus { get; set; }
-        public DateTime DateScanned { get; set; }
+        public DateTimeOffset DateScanned { get; set; }
         public string Contents { get; set; }
         public bool IsActive { get; set; }
         public string RemovedManifest { get; set; }
         public string TagsStr { get; set; }
-        public List<MaintenanceItem> MaintenanceItems { get; internal set; }
+        public IList<MaintenanceItem> MaintenanceItems { get; }
         public string Ownername { get; internal set; }
         public string Batch { get; internal set; }
         public string Location { get; internal set; }

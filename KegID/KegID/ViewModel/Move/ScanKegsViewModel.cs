@@ -15,6 +15,7 @@ using Rg.Plugins.Popup.Extensions;
 using Microsoft.AppCenter.Crashes;
 using KegID.Messages;
 using Realms;
+using Xamarin.Essentials;
 
 namespace KegID.ViewModel
 {
@@ -592,7 +593,26 @@ namespace KegID.ViewModel
                 var isNew = BarcodeCollection.ToList().Any(x => x.Id == ManaulBarcode);
                 if (!isNew)
                 {
-                    BarcodeCollection.Add(new Barcode { Id = ManaulBarcode, Tags = Tags, TagsStr = TagsStr, Icon = Cloud });
+                    Barcode barcode = new Barcode
+                    {
+                        Id = ManaulBarcode,
+                        //Tags = Tags,
+                        TagsStr = TagsStr,
+                        Icon = Cloud
+                    };
+
+                    BarcodeCollection.Add(barcode);
+
+                    var current = Connectivity.NetworkAccess;
+                    if (current == NetworkAccess.Internet)
+                    {
+                        var vRealmDb = Realm.GetInstance();
+                        vRealmDb.Write(() => {
+                            var Result = vRealmDb.Add(barcode);
+                        }); 
+
+                    }
+
                     var message = new StartLongRunningTaskMessage
                     {
                         Barcode = new List<string>() { ManaulBarcode },

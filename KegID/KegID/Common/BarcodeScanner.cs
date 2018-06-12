@@ -97,7 +97,7 @@ namespace KegID.Common
                 if (!check)
                 {
                     title.Text = "Last scan: " + result.Text;
-                    barcodes.Add(new Barcode { Id = result.Text, Tags = _tags, TagsStr = _tagsStr, Icon = Cloud });
+                    barcodes.Add(new Barcode { Id = result.Text, /*Tags = _tags,*/ TagsStr = _tagsStr, Icon = Cloud });
                     try
                     {
                         // Use default vibration length

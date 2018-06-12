@@ -29,7 +29,7 @@ namespace KegID.Model
         public string EntityId { get; set; }
     }
 
-    public class MaintenanceItem
+    public class MaintenanceItem : RealmObject
     {
         public long Id { get; set; }
         public string Name { get; set; }
@@ -40,7 +40,7 @@ namespace KegID.Model
         public string ActivationMethod { get; set; }
         public DateTimeOffset? DeletedDate { get; set; }
         public bool InUse { get; set; }
-        public List<string> ActivationPartnerTypes { get; set; }
+        public IList<string> ActivationPartnerTypes { get;}
     }
 
     public class Partner : RealmObject
@@ -73,6 +73,7 @@ namespace KegID.Model
         public string SourceKey { get; set; }
         public string LocationStatus { get; set; }
         public long? CompanyNo { get; set; }
+        public Barcode Barcodes { get; set; }
     }
 
     public class Keg : RealmObject
