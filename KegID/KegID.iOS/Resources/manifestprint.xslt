@@ -139,25 +139,31 @@
                                     style="width: 1in;">
                                     Tracking #
                                 </td>
+                                <td
+                                   class="track"
+                                   style="width: 1in;">
+                                Order #
+                              </td>
                             </tr>
                             <tr>
                                 <td class="track">
-
-                                    <xsl:call-template name="formatintldate">
+                                    <!--<xsl:call-template name="formatintldate">
                                         <xsl:with-param
                                             name="datestr"
                                             select="k:ShipDate"/>
                                     </xsl:call-template>
-                                    <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
-
-
+                                    <xsl:text disable-output-escaping="yes"></xsl:text>-->
+                                    <xsl:value-of select="k:ShipDate"/>
+                                    <xsl:text disable-output-escaping="yes"></xsl:text>
                                 </td>
                                 <td class="track">
-
                                     <xsl:value-of select="k:TrackingNumber"/>
-                                    <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
-
+                                    <xsl:text disable-output-escaping="yes"></xsl:text>
                                 </td>
+                              <td class="track">
+                                <xsl:value-of select="k:Order"/>
+                                <xsl:text disable-output-escaping="yes"></xsl:text>
+                              </td>
                             </tr>
                         </table>
                     </td>
@@ -165,7 +171,7 @@
             </table>
         </div>
         <div style="height: .13in; width: 100%">
-            <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
+            <xsl:text disable-output-escaping="yes"></xsl:text>
         </div>
         <div
             id="divPartners"
@@ -177,10 +183,10 @@
                 <tr>
                     <td
                         style="border: 1px solid black; height: .25in; width: 3in; vertical-align: middle; padding-left: .13in;">
-                        Moved By
+                        Origin
                     </td>
                     <td>
-                        <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
+                        <xsl:text disable-output-escaping="yes"></xsl:text>
                     </td>
                     <td
                         style="border: 1px solid black; height: .25in; width: 3in; vertical-align: middle; padding-left: .13in;">
@@ -224,7 +230,7 @@
                         </xsl:call-template>
                     </td>
                     <td>
-                        <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
+                        <xsl:text disable-output-escaping="yes"></xsl:text>
                     </td>
                     <td
                         style="border: 1px solid black;padding: 10px"
@@ -295,7 +301,7 @@
                         </td>
                         <td class="manifest_total">
                             <xsl:value-of select="count(k:ManifestItems/k:ManifestItem)"/>
-                            <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
+                            <xsl:text disable-output-escaping="yes"></xsl:text>
                         </td>
                     </tr>
                 </tfoot>
@@ -315,7 +321,7 @@
                     <b>
                         <xsl:value-of select="k:Keg/k:Barcode"/>
                     </b>
-                    <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
+                    <xsl:text disable-output-escaping="yes"></xsl:text>
                     <br xmlns="http://www.w3.org/1999/xhtml"/>
                     <small>
                         <xsl:value-of select="k:Keg/k:OwnerName"/>
@@ -324,20 +330,20 @@
                         <br xmlns="http://www.w3.org/1999/xhtml"/>
                         <small>
                             On Pallet
-                            <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
+                            <xsl:text disable-output-escaping="yes"></xsl:text>
                             <xsl:value-of select="k:Pallet/k:Barcode"/>
                         </small>
                     </xsl:if>
                 </td>
                 <td class="manifest_line_item_cell">
                     <xsl:value-of select="k:Keg/k:TypeName"/>
-                    <xsl:text disable-output-escaping="yes">&amp;nbsp;&amp;mdash;&amp;nbsp;
+                    <xsl:text disable-output-escaping="yes">
                     </xsl:text>
                     <xsl:value-of select="k:Keg/k:SizeName"/>
                 </td>
                 <td class="manifest_line_item_cell">
-                    <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
                     <xsl:value-of select="k:Contents"/>
+                    <xsl:text disable-output-escaping="yes"></xsl:text>
                 </td>
             </tr>
         </xsl:for-each>
@@ -413,9 +419,9 @@
             </xsl:when>
             <xsl:otherwise>
                 <xsl:value-of select="$city"/>
-                <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
+                <xsl:text disable-output-escaping="yes"></xsl:text>
                 <xsl:value-of select="$state"/>
-                <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
+                <xsl:text disable-output-escaping="yes"></xsl:text>
                 <xsl:value-of select="$postal"/>
                 <br xmlns="http://www.w3.org/1999/xhtml"/>
                 <xsl:value-of select="$country"/>
@@ -461,7 +467,7 @@
         </xsl:variable>
 
         <xsl:value-of select="$dd"/>
-        <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
+        <xsl:text disable-output-escaping="yes"></xsl:text>
         <xsl:choose>
             <xsl:when test="$MM=1">
                 Jan
@@ -500,7 +506,7 @@
                 Dec
             </xsl:when>
         </xsl:choose>
-        <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
+        <xsl:text disable-output-escaping="yes"></xsl:text>
         <xsl:value-of select="$yyyy"/>
     </xsl:template>
     <xsl:template name="kegidheader">

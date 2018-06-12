@@ -461,9 +461,6 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="Assets\primer.css" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="..\KegID\Assets\kegidbannerwhite.png">
       <Link>Resources\drawable\kegidbannerwhite.png</Link>
     </AndroidResource>
@@ -489,9 +486,6 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\repairmanifestprint.xslt" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="Assets\manifestPDF.html" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="FodyWeavers.xml" />

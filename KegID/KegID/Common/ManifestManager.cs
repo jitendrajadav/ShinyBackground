@@ -20,7 +20,9 @@ namespace KegID.Common
             ValidateBarcodeModel validateBarcodeModel = null;
             List<ManifestItem> manifestItemlst = new List<ManifestItem>();
             ManifestItem manifestItem = null;
-            var location = await Geolocation.GetLocationAsync();
+
+            var request = new GeolocationRequest(GeolocationAccuracy.Medium);
+            var location = await Geolocation.GetLocationAsync(request);
 
             var vRealmDb = Realm.GetInstance();
             try
