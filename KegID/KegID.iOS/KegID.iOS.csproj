@@ -54,7 +54,8 @@
     <MtouchDebug>true</MtouchDebug>
     <CodesignEntitlements>
     </CodesignEntitlements>
-    <CodesignProvision>iOS Team Provisioning Profile: com.yourcompany.KegID</CodesignProvision>
+    <CodesignProvision>
+    </CodesignProvision>
     <MtouchLink>None</MtouchLink>
     <CodesignExtraArgs>
     </CodesignExtraArgs>
@@ -498,5 +499,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="FodyWeavers.xml" />
+    <BundleResource Include="Resources\manifestPDF.html" />
   </ItemGroup>
 </Project>

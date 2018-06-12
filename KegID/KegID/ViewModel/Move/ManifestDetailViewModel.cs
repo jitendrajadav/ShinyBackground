@@ -217,8 +217,10 @@ namespace KegID.ViewModel
 
         private async void GridTappedCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new ContentTagsView(), animated: false);
 
-        private async void ShareCommandRecieverAsync()
+        private void ShareCommandRecieverAsync()
         {
+            var share = DependencyService.Get<IShareFile>();
+
             string output = String.Empty;
             try
             {
@@ -269,9 +271,13 @@ namespace KegID.ViewModel
             try
             {
                 //var bytes = Encoding.Default.GetBytes(output);
-
-                var share = DependencyService.Get<IShareFile>();
-                string filePath = await share.SafeHTMLToPDF(output, "Manifest");
+                string filecontent = string.Empty;
+                // Output to app UITextView
+                using (var reader = new StreamReader("manifestPDF.html"))
+                {
+                    filecontent = reader.ReadToEnd();
+                }
+                string filePath = share.SafeHTMLToPDF(filecontent, "Manifest");
                 share.ShareLocalFile(filePath,"Please check Manifest PDF",null);
             }
             catch (Exception ex)

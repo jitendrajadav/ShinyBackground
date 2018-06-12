@@ -27,7 +27,7 @@ namespace KegID.iOS.DependencyServices
                     return;
                 }
 
-                var rootController = UIApplication.SharedApplication.KeyWindow.RootViewController;
+                var rootController = GetVisibleViewController();// UIApplication.SharedApplication.KeyWindow.RootViewController;
                 var sharedItems = new List<NSObject>();
                 var fileName = Path.GetFileName(localFilePath);
 
@@ -64,6 +64,26 @@ namespace KegID.iOS.DependencyServices
                 if (ex != null && !string.IsNullOrWhiteSpace(ex.Message))
                     Console.WriteLine("Exception in Plugin.ShareFile: ShareLocalFile Exception: {0}", ex);
             }
+        }
+
+        UIViewController GetVisibleViewController(UIViewController controller = null)
+        {
+            controller = controller ?? UIApplication.SharedApplication.KeyWindow.RootViewController;
+
+            if (controller.PresentedViewController == null)
+                return controller;
+
+            if (controller.PresentedViewController is UINavigationController)
+            {
+                return ((UINavigationController)controller.PresentedViewController).VisibleViewController;
+            }
+
+            if (controller.PresentedViewController is UITabBarController)
+            {
+                return ((UITabBarController)controller.PresentedViewController).SelectedViewController;
+            }
+
+            return GetVisibleViewController(controller.PresentedViewController);
         }
 
         /// <summary>

@@ -18,7 +18,7 @@ namespace KegID.Droid.DependencyServices
     /// </summary> 
     public class ShareFileImplementation : IShareFile
     {
-        public async Task<string> SafeHTMLToPDF(string html, string filename)
+        public string SafeHTMLToPDF(string html, string filename)
         {
             Android.Webkit.WebView webpage = null;
             var dir = new Java.IO.File(Android.OS.Environment.ExternalStorageDirectory.AbsolutePath + "/KegIdFiles/");
@@ -44,7 +44,7 @@ namespace KegID.Droid.DependencyServices
             webpage.LoadDataWithBaseURL("", html, "text/html", "UTF-8", null);
             webpage.SetWebViewClient(new WebViewCallBack(file.ToString()));
 
-            return await Task.FromResult(file.ToString());
+            return file.ToString();
         }
 
         /// <summary>
