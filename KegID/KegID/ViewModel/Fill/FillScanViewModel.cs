@@ -9,7 +9,6 @@ using KegID.Common;
 using KegID.Messages;
 using KegID.Model;
 using KegID.Services;
-using KegID.SQLiteClient;
 using KegID.Views;
 using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
@@ -317,8 +316,8 @@ namespace KegID.ViewModel
                         {
                             var barode = BarcodeCollection.Where(x => x.Id == value.Barcodes.Id).FirstOrDefault();
                             barode.Icon = value.Barcodes.Icon;
-                            barode.Partners = value.Barcodes.Partners;
-                            barode.MaintenanceItems = value.Barcodes.MaintenanceItems;
+                            //barode.Partners = value.Barcodes.Partners;
+                            //barode.MaintenanceItems = value.Barcodes.MaintenanceItems;
                             //barode.Tags = value.Barcodes.Tags;
                         } 
                 });
@@ -365,7 +364,7 @@ namespace KegID.ViewModel
             }
         }
 
-        public async void GenerateManifestIdAsync(PalletModel palletModel)
+        public void GenerateManifestIdAsync(PalletModel palletModel)
         {
             try
             {
@@ -387,8 +386,8 @@ namespace KegID.ViewModel
                     else
                     {
                         BarcodeCollection.Clear();
-                        var vRealmDb = Realm.GetInstance();
-                        var preference = vRealmDb.All<Preference>().Where(x => x.PreferenceName == "DashboardPreferences").ToList();
+                        var RealmDb = Realm.GetInstance();
+                        var preference = RealmDb.All<Preference>().Where(x => x.PreferenceName == "DashboardPreferences").ToList();
                         //await SQLiteServiceClient.Db.Table<Preference>().Where(x => x.PreferenceName == "DashboardPreferences").ToListAsync();
 
                         foreach (var item in preference)
@@ -476,7 +475,7 @@ namespace KegID.ViewModel
             try
             {
                 await Application.Current.MainPage.Navigation.PushPopupAsync(new ValidateBarcodeView(), animate: false);
-                await SimpleIoc.Default.GetInstance<ValidateBarcodeViewModel>().LoadBarcodeValue(model);
+                SimpleIoc.Default.GetInstance<ValidateBarcodeViewModel>().LoadBarcodeValue(model);
             }
             catch (Exception ex)
             {
@@ -491,7 +490,14 @@ namespace KegID.ViewModel
                 var isNew = BarcodeCollection.ToList().Any(x => x.Id == ManaulBarcode);
                 if (!isNew)
                 {
-                    BarcodeCollection.Add(new Barcode { Id = ManaulBarcode, Tags = Tags, TagsStr = TagsStr, Icon = Cloud });
+                    Barcode barcode = new Barcode
+                    {
+                        Id = ManaulBarcode,
+                        //Tags = Tags,
+                        TagsStr = TagsStr,
+                        Icon = Cloud
+                    };
+                    BarcodeCollection.Add(barcode);
                     var message = new StartLongRunningTaskMessage
                     {
                         Barcode = new List<string>() { ManaulBarcode },

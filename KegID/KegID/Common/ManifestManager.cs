@@ -1,5 +1,5 @@
 ﻿using KegID.Model;
-using KegID.SQLiteClient;
+//using KegID.SQLiteClient;
 using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
 using Realms;
@@ -24,13 +24,13 @@ namespace KegID.Common
             var request = new GeolocationRequest(GeolocationAccuracy.Medium);
             var location = await Geolocation.GetLocationAsync(request);
 
-            var vRealmDb = Realm.GetInstance();
+            var RealmDb = Realm.GetInstance();
             try
             {
                 foreach (var item in barcodeCollection)
                 {
                     string barcodeId = item.Id;
-                    var barcodeResult = vRealmDb.All<BarcodeModel>().Where(x => x.Barcode == barcodeId).FirstOrDefault();
+                    var barcodeResult = RealmDb.All<BarcodeModel>().Where(x => x.Barcode == barcodeId).FirstOrDefault();
                     //await SQLiteServiceClient.Db.Table<BarcodeModel>().Where(x => x.Barcode == barcodeId).FirstOrDefaultAsync();
                     validateBarcodeModel = JsonConvert.DeserializeObject<ValidateBarcodeModel>(barcodeResult.BarcodeJson);
 

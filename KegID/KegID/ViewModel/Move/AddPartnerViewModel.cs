@@ -6,7 +6,6 @@ using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
 using KegID.Model;
 using KegID.Services;
-using KegID.SQLiteClient;
 using KegID.Views;
 using Microsoft.AppCenter.Crashes;
 using Realms;
@@ -1006,9 +1005,9 @@ namespace KegID.ViewModel
                             SourceKey = newPartnerRequestModel.RouteName,
                             State = newPartnerRequestModel.BillAddress != null ? newPartnerRequestModel.BillAddress.State : string.Empty
                         };
-                        var vRealmDb = Realm.GetInstance();
-                        vRealmDb.Write(() => {
-                          vRealmDb.Add(partnerModel);
+                        var RealmDb = Realm.GetInstance();
+                        await RealmDb.WriteAsync((realmDb) => {
+                            realmDb.Add(partnerModel);
                         });
                         //var parner = await SQLiteServiceClient.Db.InsertAsync(partnerModel);
                         SimpleIoc.Default.GetInstance<PartnersViewModel>().PartnerCollection.Add(partnerModel);
@@ -1034,8 +1033,8 @@ namespace KegID.ViewModel
 
         public async void LoadPartnerAsync(PartnerInfoResponseModel partnerInfoModel)
         {
-            var vRealmDb = Realm.GetInstance();
-            IList<PartnerTypeModel> model = vRealmDb.All<PartnerTypeModel>().ToList();//await SQLiteServiceClient.Db.Table<PartnerTypeModel>().ToListAsync();
+            var RealmDb = Realm.GetInstance();
+            IList<PartnerTypeModel> model = RealmDb.All<PartnerTypeModel>().ToList();//await SQLiteServiceClient.Db.Table<PartnerTypeModel>().ToListAsync();
 
             try
             {
@@ -1048,10 +1047,11 @@ namespace KegID.ViewModel
                     if (value.StatusCode == System.Net.HttpStatusCode.OK)
                     {
                         PartnerTypeCollectioin = value.PartnerTypeModel;
-                        vRealmDb.Write(() => {
+                        await RealmDb.WriteAsync((realmDb) =>
+                        {
                             foreach (var item in PartnerTypeCollectioin)
                             {
-                                vRealmDb.Add(item);
+                                realmDb.Add(item);
                             }
                         });
                         //await SQLiteServiceClient.Db.InsertAllAsync(PartnerTypeCollectioin);

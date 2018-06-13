@@ -2,7 +2,7 @@
 using KegID.Common;
 using KegID.Model;
 using KegID.Services;
-using KegID.SQLiteClient;
+//using KegID.SQLiteClient;
 using Microsoft.AppCenter.Crashes;
 using Realms;
 using System;
@@ -125,11 +125,11 @@ namespace KegID.ViewModel
             {
                 Loader.StartLoading();
                 model = await _dashboardService.GetInventoryAsync(AppSettings.User.SessionId);
-                var vRealmDb = Realm.GetInstance();
-                vRealmDb.Write(() => {
+                var RealmDb = Realm.GetInstance();
+                await RealmDb.WriteAsync((realmDb) => {
                     foreach (var item in model.InventoryResponseModel)
                     {
-                        vRealmDb.Add(item);
+                        realmDb.Add(item);
                     }
                 });
                 //await SQLiteServiceClient.Db.InsertAllAsync(model.InventoryResponseModel);
@@ -153,8 +153,8 @@ namespace KegID.ViewModel
             try
             {
                 CurrentPage = currentPage;
-                var vRealmDb = Realm.GetInstance();
-                var model = vRealmDb.All<InventoryResponseModel>().ToList();//await SQLiteServiceClient.Db.Table<InventoryResponseModel>().ToListAsync();
+                var RealmDb = Realm.GetInstance();
+                var model = RealmDb.All<InventoryResponseModel>().ToList();//await SQLiteServiceClient.Db.Table<InventoryResponseModel>().ToListAsync();
                 if (model.Count > 0)
                 {
                     StockInventoryCollection = model.Where(x => x.Status != "Empty").ToList();

@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using System.Linq;
-using KegID.SQLiteClient;
 using System;
 using Microsoft.AppCenter.Crashes;
 using Realms;
@@ -71,7 +70,7 @@ namespace KegID.ViewModel
             _fillService = fillService;
             ItemTappedCommand = new RelayCommand<BatchModel>((model) => ItemTappedCommandRecieverAsync(model));
             AddBatchCommand = new RelayCommand(AddBatchCommandRecieverAsync);
-            LoadBatch();
+            //LoadBatch();
         }
 
         #endregion
@@ -115,8 +114,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                var vRealmDb = Realm.GetInstance();
-                BatchCollection = vRealmDb.All<BatchModel>().ToList();//await SQLiteServiceClient.Db.Table<BatchModel>().ToListAsync();
+                var RealmDb = Realm.GetInstance();
+                BatchCollection = RealmDb.All<BatchModel>().ToList();//await SQLiteServiceClient.Db.Table<BatchModel>().ToListAsync();
                 if (BatchCollection.Count==0)
                 {
                     Loader.StartLoading();
@@ -125,10 +124,11 @@ namespace KegID.ViewModel
                     if (value.StatusCode == System.Net.HttpStatusCode.OK)
                     {
                         BatchCollection = value.BatchModel.Where(p=>p.BrandName!= string.Empty).OrderBy(x => x.BrandName).ToList();
-                        vRealmDb.Write(() => {
+                        await RealmDb.WriteAsync((realmDb) => 
+                        {
                             foreach (var item in BatchCollection)
                             {
-                                vRealmDb.Add(item);
+                                realmDb.Add(item);
                             }
                         });
                         //await SQLiteServiceClient.Db.InsertAllAsync(BatchCollection);

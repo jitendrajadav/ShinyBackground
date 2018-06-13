@@ -1,6 +1,5 @@
 ﻿using GalaSoft.MvvmLight.Ioc;
 using KegID.Model;
-using KegID.SQLiteClient;
 using KegID.ViewModel;
 using Microsoft.AppCenter.Crashes;
 using Realms;
@@ -89,7 +88,7 @@ namespace KegID.Views
             }
         }
 
-        async Task OnAddMoreTagsClickedAsync(TagsTypeEnum title)
+        private async Task OnAddMoreTagsClickedAsync(TagsTypeEnum title)
         {
             try
             {
@@ -223,14 +222,14 @@ namespace KegID.Views
 
         private IList<AssetSizeModel> LoadAssetSizeAsync()
         {
-            var vRealmDb = Realm.GetInstance();
-            return vRealmDb.All<AssetSizeModel>().ToList();//await SQLiteServiceClient.Db.Table<AssetSizeModel>().ToListAsync();
+            var RealmDb = Realm.GetInstance();
+            return RealmDb.All<AssetSizeModel>().ToList();//await SQLiteServiceClient.Db.Table<AssetSizeModel>().ToListAsync();
         }
 
         private IList<AssetTypeModel> LoadAssetTypeAsync()
         {
-            var vRealmDb = Realm.GetInstance();
-            return vRealmDb.All<AssetTypeModel>().ToList();//await SQLiteServiceClient.Db.Table<AssetTypeModel>().ToListAsync();
+            var RealmDb = Realm.GetInstance();
+            return RealmDb.All<AssetTypeModel>().ToList();//await SQLiteServiceClient.Db.Table<AssetTypeModel>().ToListAsync();
         }
 
         void OnAddTagsClicked(object sender, EventArgs e)

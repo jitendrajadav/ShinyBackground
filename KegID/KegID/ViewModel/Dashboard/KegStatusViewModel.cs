@@ -8,7 +8,6 @@ using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
 using KegID.Model;
 using KegID.Services;
-using KegID.SQLiteClient;
 using KegID.Views;
 using Microsoft.AppCenter.Crashes;
 using Realms;
@@ -734,8 +733,8 @@ namespace KegID.ViewModel
                 SizeName = _sizeName;
 
                 var kegStatus = await DashboardService.GetKegStatusAsync(KegId, AppSettings.User.SessionId);
-                var vRealmDb = Realm.GetInstance();
-                var addMaintenanceCollection = vRealmDb.All<MaintainTypeReponseModel>().ToList();//await SQLiteServiceClient.Db.Table<MaintainTypeReponseModel>().ToListAsync();
+                var RealmDb = Realm.GetInstance();
+                var addMaintenanceCollection = RealmDb.All<MaintainTypeReponseModel>().ToList();//await SQLiteServiceClient.Db.Table<MaintainTypeReponseModel>().ToListAsync();
                 KegHasAlert = kegStatus.MaintenanceAlerts.Count > 0 ? true : false;
                 Alerts = kegStatus.MaintenanceAlerts;
                 try

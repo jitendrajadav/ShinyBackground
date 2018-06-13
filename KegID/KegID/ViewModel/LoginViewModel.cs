@@ -224,10 +224,11 @@ namespace KegID.ViewModel
                     {
                         Crashes.TrackError(ex);
                     }
+
                     await Application.Current.MainPage.Navigation.PushModalAsync(page: new MainPage(), animated: false);
                     try
                     {
-                        var vRealmDb = Realm.GetInstance();
+                        var RealmDb = Realm.GetInstance();
 
                         //Befor RealmDB..
                         //var value = await SQLiteServiceClient.Db.InsertAllAsync(model.LoginModel.Preferences);
@@ -237,18 +238,19 @@ namespace KegID.ViewModel
                         //await LoadAssetTypeAsync();
                         //await LoadAssetVolumeAsync();
                         //await LoadOwnerAsync();
-                        vRealmDb.Write(()=> 
+                        await RealmDb.WriteAsync((realmDb) => 
                         {
-                           vRealmDb.Add(model.LoginModel);
+                            realmDb.Add(model.LoginModel);
                         });
-                        var vAllEmployees = vRealmDb.All<LoginModel>();
+                        var vAllEmployees = RealmDb.All<LoginModel>();
 
                         var maintenance = await MaintainService.GetMaintainTypeAsync(AppSettings.User.SessionId);
-                        vRealmDb.Write(() =>
+                        RealmDb.Refresh();
+                        await RealmDb.WriteAsync((realmDb) =>
                         {
                             foreach (var item in maintenance.MaintainTypeReponseModel)
                             {
-                                vRealmDb.Add(item);
+                                realmDb.Add(item);
                             }
                         });
 
@@ -296,7 +298,7 @@ namespace KegID.ViewModel
 
         private async Task LoadAssetSizeAsync()
         {
-            var vRealmDb = Realm.GetInstance();
+            var RealmDb = Realm.GetInstance();
             List<AssetSizeModel> assetSizeModel = null;
             var service = SimpleIoc.Default.GetInstance<IMoveService>();
             try
@@ -307,13 +309,15 @@ namespace KegID.ViewModel
                 {
                     assetSizeModel.Add(new AssetSizeModel { AssetSize = item });
                 }
-                vRealmDb.Write(() =>
+                await RealmDb.WriteAsync((realmDb) =>
                 {
                     foreach (var item in assetSizeModel)
                     {
-                        vRealmDb.Add(item);
+                        realmDb.Add(item);
                     }
                 });
+                RealmDb.Refresh();
+                var value = RealmDb.All<AssetSizeModel>().ToList();
                 //await SQLiteServiceClient.Db.InsertAllAsync(assetSizeModel);
             }
             catch (Exception ex)
@@ -322,14 +326,14 @@ namespace KegID.ViewModel
             }
             finally
             {
-                assetSizeModel = null;
+                //assetSizeModel = null;
                 service = null;
             }
         }
 
         private async Task LoadAssetTypeAsync()
         {
-            var vRealmDb = Realm.GetInstance();
+            var RealmDb = Realm.GetInstance();
             List<AssetTypeModel> assetTypeModels = null;
             var service = SimpleIoc.Default.GetInstance<IMoveService>();
             try
@@ -340,11 +344,12 @@ namespace KegID.ViewModel
                 {
                     assetTypeModels.Add(new AssetTypeModel { AssetType = item });
                 }
-                vRealmDb.Write(() =>
+
+                await RealmDb.WriteAsync((realmDb) =>
                 {
                     foreach (var item in assetTypeModels)
                     {
-                        vRealmDb.Add(item);
+                        realmDb.Add(item);
                     }
                 });
                 //await SQLiteServiceClient.Db.InsertAllAsync(assetTypeModels);
@@ -355,14 +360,14 @@ namespace KegID.ViewModel
             }
             finally
             {
-                assetTypeModels = null;
+                //assetTypeModels = null;
                 service = null;
             }
         }
 
         private async Task LoadAssetVolumeAsync()
         {
-            var vRealmDb = Realm.GetInstance();
+            var RealmDb = Realm.GetInstance();
             List<AssetVolumeModel> assetVolumeModel = null;
             var service = SimpleIoc.Default.GetInstance<IDashboardService>();
             try
@@ -374,11 +379,11 @@ namespace KegID.ViewModel
                 {
                     assetVolumeModel.Add(new AssetVolumeModel { AssetVolume = item });
                 }
-                vRealmDb.Write(() =>
+                await RealmDb.WriteAsync((realmDb) =>
                 {
                     foreach (var item in assetVolumeModel)
                     {
-                        vRealmDb.Add(item);
+                        realmDb.Add(item);
                     }
                 });
                 //await SQLiteServiceClient.Db.InsertAllAsync(assetVolumeModel);
@@ -389,7 +394,7 @@ namespace KegID.ViewModel
             }
             finally
             {
-                assetVolumeModel = null;
+                //assetVolumeModel = null;
                 service = null;
             }
         }
@@ -398,13 +403,13 @@ namespace KegID.ViewModel
         {
             try
             {
-                var vRealmDb = Realm.GetInstance();
+                var RealmDb = Realm.GetInstance();
                 var value = await SimpleIoc.Default.GetInstance<IMoveService>().GetOwnerAsync(AppSettings.User.SessionId);
-                vRealmDb.Write(() =>
+                await RealmDb.WriteAsync((realmDb) =>
                 {
                     foreach (var item in value.OwnerModel)
                     {
-                        vRealmDb.Add(item);
+                        realmDb.Add(item);
                     }
                 });
                 //await SQLiteServiceClient.Db.InsertAllAsync(items: (await SimpleIoc.Default.GetInstance<IMoveService>().GetOwnerAsync(AppSettings.User.SessionId)).OwnerModel);

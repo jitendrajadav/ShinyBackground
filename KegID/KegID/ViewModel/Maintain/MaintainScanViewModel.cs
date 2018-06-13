@@ -9,7 +9,6 @@ using KegID.Common;
 using KegID.Messages;
 using KegID.Model;
 using KegID.Services;
-using KegID.SQLiteClient;
 using KegID.Views;
 using Microsoft.AppCenter.Crashes;
 using Realms;
@@ -140,8 +139,8 @@ namespace KegID.ViewModel
                         {
                             var barode = BarcodeCollection.Where(x => x.Id == value.Barcodes.Id).FirstOrDefault();
                             barode.Icon = value.Barcodes.Icon;
-                            barode.Partners = value.Barcodes.Partners;
-                            barode.MaintenanceItems = value.Barcodes.MaintenanceItems;
+                            //barode.Partners = value.Barcodes.Partners;
+                            //barode.MaintenanceItems = value.Barcodes.MaintenanceItems;
                             //barode.Tags = value.Barcodes.Tags;
                         }
                 });
@@ -162,8 +161,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                var vRealmDb = Realm.GetInstance();
-                MaintainTypeReponseModel = vRealmDb.All<MaintainTypeReponseModel>().ToList();//await SQLiteServiceClient.Db.Table<MaintainTypeReponseModel>().ToListAsync();
+                var RealmDb = Realm.GetInstance();
+                MaintainTypeReponseModel = RealmDb.All<MaintainTypeReponseModel>().ToList();//await SQLiteServiceClient.Db.Table<MaintainTypeReponseModel>().ToListAsync();
                 if (MaintainTypeReponseModel.Count == 0)
                 {
                     MaintainTypeReponseModel = await LoadMaintenanceTypeAsync();
@@ -180,11 +179,11 @@ namespace KegID.ViewModel
             var model = await _maintainService.GetMaintainTypeAsync(AppSettings.User.SessionId);
             try
             {
-                var vRealmDb = Realm.GetInstance();
-                vRealmDb.Write(() => {
+                var RealmDb = Realm.GetInstance();
+                await RealmDb.WriteAsync((realmDb) => {
                     foreach (var item in model.MaintainTypeReponseModel)
                     {
-                        vRealmDb.Add(item);
+                        realmDb.Add(item);
                     }
                 });
                 // The item does not exists in the database so lets insert it
@@ -264,7 +263,7 @@ namespace KegID.ViewModel
             try
             {
                 await Application.Current.MainPage.Navigation.PushPopupAsync(new ValidateBarcodeView());
-                await SimpleIoc.Default.GetInstance<ValidateBarcodeViewModel>().LoadBarcodeValue(model);
+                SimpleIoc.Default.GetInstance<ValidateBarcodeViewModel>().LoadBarcodeValue(model);
             }
             catch (Exception ex)
             {
@@ -279,7 +278,14 @@ namespace KegID.ViewModel
                 var isNew = BarcodeCollection.ToList().Any(x => x.Id == ManaulBarcode);
                 if (!isNew)
                 {
-                    BarcodeCollection.Add(new Barcode { Id = ManaulBarcode, Tags = null, TagsStr = string.Empty, Icon = Cloud });
+                    Barcode barcode = new Barcode
+                    {
+                        Id = ManaulBarcode,
+                        //Tags = null,
+                        TagsStr = string.Empty,
+                        Icon = Cloud
+                    };
+                    BarcodeCollection.Add(barcode);
                     var message = new StartLongRunningTaskMessage
                     {
                         Barcode = new List<string>() { ManaulBarcode },

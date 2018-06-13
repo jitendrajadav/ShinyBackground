@@ -1,7 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
 using KegID.Services;
-using KegID.SQLiteClient;
 using KegID.Views;
 using KegID.ViewModel;
 using Microsoft.AppCenter;
@@ -9,6 +8,8 @@ using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Xamarin.Forms;
 using System;
+using Realms;
+using KegID.LocalDb;
 
 namespace KegID
 {

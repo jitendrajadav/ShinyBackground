@@ -4,7 +4,7 @@ using KegID.Common;
 using KegID.Messages;
 using KegID.Model;
 using KegID.Services;
-using KegID.SQLiteClient;
+//using KegID.SQLiteClient;
 using KegID.Views;
 using Microsoft.AppCenter.Crashes;
 using Realms;
@@ -342,8 +342,8 @@ namespace KegID.ViewModel
                         {
                             var barode = BarcodeCollection.Where(x => x.Id == value.Barcodes.Id).FirstOrDefault();
                             barode.Icon = value.Barcodes.Icon;
-                            barode.Partners = value.Barcodes.Partners;
-                            barode.MaintenanceItems = value.Barcodes.MaintenanceItems;
+                            //barode.Partners = value.Barcodes.Partners;
+                            //barode.MaintenanceItems = value.Barcodes.MaintenanceItems;
                             //barode.Tags = value.Barcodes.Tags;
                     }
                 });
@@ -364,8 +364,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                var vRealmDb = Realm.GetInstance();
-                var value = vRealmDb.All<AssetSizeModel>().ToList();//await SQLiteServiceClient.Db.Table<AssetSizeModel>().ToListAsync();
+                var RealmDb = Realm.GetInstance();
+                var value = RealmDb.All<AssetSizeModel>().ToList();//await SQLiteServiceClient.Db.Table<AssetSizeModel>().ToListAsync();
                 SizeCollection = value.Select(x => x.AssetSize).ToList();
             }
             catch (Exception ex)
@@ -378,8 +378,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                var vRealmDb = Realm.GetInstance();
-                var value = vRealmDb.All<AssetTypeModel>().ToList();//await SQLiteServiceClient.Db.Table<AssetTypeModel>().ToListAsync();
+                var RealmDb = Realm.GetInstance();
+                var value = RealmDb.All<AssetTypeModel>().ToList();//await SQLiteServiceClient.Db.Table<AssetTypeModel>().ToListAsync();
                 AssetTypeCollection = value.Select(x => x.AssetType).ToList();
             }
             catch (Exception ex)
@@ -441,7 +441,7 @@ namespace KegID.ViewModel
             try
             {
                 await Application.Current.MainPage.Navigation.PushPopupAsync(new ValidateBarcodeView());
-                await SimpleIoc.Default.GetInstance<ValidateBarcodeViewModel>().LoadBarcodeValue(model);
+                SimpleIoc.Default.GetInstance<ValidateBarcodeViewModel>().LoadBarcodeValue(model);
 
             }
             catch (Exception ex)
@@ -470,7 +470,14 @@ namespace KegID.ViewModel
                 var isNew = BarcodeCollection.ToList().Any(x => x.Id == ManaulBarcode);
                 if (!isNew)
                 {
-                    BarcodeCollection.Add(new Barcode { Id = ManaulBarcode, Tags = null, TagsStr = string.Empty, Icon = Cloud });
+                    Barcode barcode = new Barcode
+                    {
+                        Id = ManaulBarcode,
+                        //Tags = null,
+                        TagsStr = string.Empty,
+                        Icon = Cloud
+                    };
+                    BarcodeCollection.Add(barcode);
                     var message = new StartLongRunningTaskMessage
                     {
                         Barcode = new List<string>() { ManaulBarcode },
@@ -538,7 +545,7 @@ namespace KegID.ViewModel
                             AssetSize = SelectedItemSize,
                             AssetType = SelectedItemType,
                             Barcode = item.Id,
-                            Tags = item.Tags,
+                            //Tags = item.Tags,
                             AssetVolume = item.Tags?.FirstOrDefault().Value,
                             KegId = Uuid.GetUuId(),
                             OwnerId = AppSettings.User.CompanyId,

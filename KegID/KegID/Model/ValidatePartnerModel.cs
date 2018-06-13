@@ -1,13 +1,14 @@
 ﻿//using SQLite.Net.Attributes;
 
 using Realms;
+using System;
 
 namespace KegID.Model
 {
     public class ValidatePartnerModel : RealmObject
     {
         [PrimaryKey]
-        public int Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
         public string Barcode { get; set; }
         public string PartnerId { get; set; }
         public string FullName { get; set; }

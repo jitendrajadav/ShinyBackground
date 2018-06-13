@@ -1,5 +1,6 @@
 ﻿//using SQLite.Net.Attributes;
 using Realms;
+using System;
 using System.Collections.Generic;
 
 namespace KegID.Model
@@ -7,7 +8,7 @@ namespace KegID.Model
     public class InventoryResponseModel : RealmObject
     {
         [PrimaryKey]
-        public int Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
         public string OwnerName { get; set; }
         public string Status { get; set; }
         public string Contents { get; set; }

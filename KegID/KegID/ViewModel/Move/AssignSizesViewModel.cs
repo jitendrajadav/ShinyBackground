@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using KegID.Model;
-using KegID.SQLiteClient;
 using Microsoft.AppCenter.Crashes;
 using Realms;
 using Xamarin.Forms;
@@ -340,8 +338,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                var vRealmDb = Realm.GetInstance();
-                OwnerCollection = vRealmDb.All<OwnerModel>().ToList();//await SQLiteServiceClient.Db.Table<OwnerModel>().ToListAsync();
+                var RealmDb = Realm.GetInstance();
+                OwnerCollection = RealmDb.All<OwnerModel>().ToList();//await SQLiteServiceClient.Db.Table<OwnerModel>().ToListAsync();
                 SelectedOwner = OwnerCollection.OrderBy(x => x.FullName).FirstOrDefault();
             }
             catch (Exception ex)
@@ -354,8 +352,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                var vRealmDb = Realm.GetInstance();
-                SizeCollection = vRealmDb.All<AssetSizeModel>().ToList(); //await SQLiteServiceClient.Db.Table<AssetSizeModel>().ToListAsync();
+                var RealmDb = Realm.GetInstance();
+                SizeCollection = RealmDb.All<AssetSizeModel>().ToList(); //await SQLiteServiceClient.Db.Table<AssetSizeModel>().ToListAsync();
             }
             catch (Exception ex)
             {
@@ -367,8 +365,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                var vRealmDb = Realm.GetInstance();
-                TypeCollection = vRealmDb.All<AssetTypeModel>().ToList(); //await SQLiteServiceClient.Db.Table<AssetTypeModel>().ToListAsync();
+                var RealmDb = Realm.GetInstance();
+                TypeCollection = RealmDb.All<AssetTypeModel>().ToList(); //await SQLiteServiceClient.Db.Table<AssetTypeModel>().ToListAsync();
             }
             catch (Exception ex)
             {

@@ -41,6 +41,8 @@ namespace KegID.Model
         public DateTimeOffset? DeletedDate { get; set; }
         public bool InUse { get; set; }
         public IList<string> ActivationPartnerTypes { get;}
+        public Barcode Barcodes { get; set; }
+
     }
 
     public class Partner : RealmObject

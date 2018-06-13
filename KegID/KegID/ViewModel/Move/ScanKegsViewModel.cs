@@ -7,7 +7,6 @@ using System.Collections.ObjectModel;
 using Xamarin.Forms;
 using System.Collections.Generic;
 using System;
-using KegID.SQLiteClient;
 using KegID.Common;
 using GalaSoft.MvvmLight.Ioc;
 using System.Threading.Tasks;
@@ -314,8 +313,8 @@ namespace KegID.ViewModel
                         {
                             var barode = BarcodeCollection.Where(x => x.Id == value.Barcodes.Id).FirstOrDefault();
                             barode.Icon = value.Barcodes.Icon;
-                            barode.Partners = value.Barcodes.Partners;
-                            barode.MaintenanceItems = value.Barcodes.MaintenanceItems;
+                            //barode.Partners = value.Barcodes.Partners;
+                            //barode.MaintenanceItems = value.Barcodes.MaintenanceItems;
                         } 
                 });
             });
@@ -335,8 +334,8 @@ namespace KegID.ViewModel
 
         public async Task<IList<BrandModel>> LoadBrandAsync()
         {
-            var realm = Realm.GetInstance();
-            var all = realm.All<BrandModel>().ToList();
+            var RealmDb = Realm.GetInstance();
+            var all = RealmDb.All<BrandModel>().ToList();
             IList<BrandModel> model = all;// await SQLiteServiceClient.Db.Table<BrandModel>().ToListAsync();
             try
             {
@@ -350,11 +349,11 @@ namespace KegID.ViewModel
                     if (value.StatusCode == System.Net.HttpStatusCode.OK)
                     {
                         model = value.BrandModel;
-                        realm.Write(() =>
+                        await RealmDb.WriteAsync((realmDb) =>
                         {
                             foreach (var item in value.BrandModel)
                             {
-                                realm.Add(item);
+                                realmDb.Add(item);
                             }
                         });
 
@@ -450,8 +449,7 @@ namespace KegID.ViewModel
             try
             {
                 await Application.Current.MainPage.Navigation.PushPopupAsync(new ValidateBarcodeView());
-                await SimpleIoc.Default.GetInstance<ValidateBarcodeViewModel>().LoadBarcodeValue(model);
-
+                SimpleIoc.Default.GetInstance<ValidateBarcodeViewModel>().LoadBarcodeValue(model);
             }
             catch (Exception ex)
             {
@@ -586,7 +584,7 @@ namespace KegID.ViewModel
             }
         }
 
-        private void BarcodeManualCommandRecieverAsync()
+        private async void BarcodeManualCommandRecieverAsync()
         {
             try
             {
@@ -606,11 +604,11 @@ namespace KegID.ViewModel
                     var current = Connectivity.NetworkAccess;
                     if (current == NetworkAccess.Internet)
                     {
-                        var vRealmDb = Realm.GetInstance();
-                        vRealmDb.Write(() => {
-                            var Result = vRealmDb.Add(barcode);
+                        var RealmDb = Realm.GetInstance();
+                        await RealmDb.WriteAsync((realmDb) => 
+                        {
+                            var Result = realmDb.Add(barcode);
                         }); 
-
                     }
 
                     var message = new StartLongRunningTaskMessage

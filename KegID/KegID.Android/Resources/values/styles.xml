@@ -30,7 +30,11 @@
   <style name="AppCompatDialogStyle" parent="Theme.AppCompat.Light.Dialog">
     <item name="colorAccent">#FF4081</item>
   </style>
-
+  
+  <style name="TextAppearance.Material.Notification.Title">
+    <item name="textColor">@color/primary_text_default_material_light</item>
+    <item name="textSize">@dimen/notification_title_text_size</item>
+  </style>
   <!--<style name="mybutton" parent="Base.Widget.AppCompat.Button.Borderless">
   </style>
   

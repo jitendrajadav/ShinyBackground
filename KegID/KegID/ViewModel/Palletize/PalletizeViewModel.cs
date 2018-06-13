@@ -6,7 +6,6 @@ using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
 using KegID.Model;
 using KegID.Services;
-using KegID.SQLiteClient;
 using KegID.Views;
 using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
@@ -334,7 +333,7 @@ namespace KegID.ViewModel
 
         public void GenerateManifestIdAsync(PalletModel palletModel)
         {
-            var vRealmDb = Realm.GetInstance();
+            var RealmDb = Realm.GetInstance();
             DateTimeOffset now = DateTimeOffset.Now;
             string barCode;
             long prefix = 0;
@@ -343,7 +342,7 @@ namespace KegID.ViewModel
             var secondsInDayTillNow = SecondsInDayTillNow();
             var millisecond = now.Millisecond;
 
-            var preference = vRealmDb.All<Preference>().Where(x => x.PreferenceName == "DashboardPreferences").ToList();//await SQLiteServiceClient.Db.Table<Preference>().Where(x => x.PreferenceName == "DashboardPreferences").ToListAsync();
+            var preference = RealmDb.All<Preference>().Where(x => x.PreferenceName == "DashboardPreferences").ToList();//await SQLiteServiceClient.Db.Table<Preference>().Where(x => x.PreferenceName == "DashboardPreferences").ToListAsync();
             try
             {
                 foreach (var item in preference)

@@ -8,7 +8,7 @@ namespace KegID.Model
     public class BatchModel : RealmObject
     {
         [PrimaryKey]
-        public int Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
         public string BatchId { get; set; }
         public string CompanyId { get; set; }
         public string BatchCode { get; set; }

@@ -3,14 +3,12 @@ using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
 using KegID.Model;
 using KegID.Services;
-using KegID.SQLiteClient;
 using KegID.Views;
 using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
 using Realms;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -432,7 +430,7 @@ namespace KegID.ViewModel
             ManifestModel manifestPostModel = null;
             DraftManifestModel draftManifestModel = null;
             SimpleIoc @default = SimpleIoc.Default;
-            var vRealmDb = Realm.GetInstance();
+            var RealmDb = Realm.GetInstance();
             try
             {
                 Loader.StartLoading();
@@ -450,8 +448,8 @@ namespace KegID.ViewModel
 
                 try
                 {
-                    vRealmDb.Write(() => {
-                      var  Result = vRealmDb.Add(draftManifestModel);
+                    await RealmDb.WriteAsync((realmDb) => {
+                      var  Result = realmDb.Add(draftManifestModel);
                         if (Result != null)
                             @default.GetInstance<DashboardViewModel>().CheckDraftmaniFestsAsync();
                     }); //await SQLiteServiceClient.Db.InsertAsync(draftManifestModel);
@@ -459,8 +457,8 @@ namespace KegID.ViewModel
                 }
                 catch (Exception ex)
                 {
-                    vRealmDb.Write(() => {
-                        var Result = vRealmDb.Add(draftManifestModel,true);
+                   await RealmDb.WriteAsync((realmDb) => {
+                        var Result = realmDb.Add(draftManifestModel,true);
                     });
                     //var Result = await SQLiteServiceClient.Db.UpdateAsync(draftManifestModel);
                      Crashes.TrackError(ex);

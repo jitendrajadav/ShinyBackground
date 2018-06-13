@@ -3,7 +3,7 @@ using KegID.Common;
 using KegID.Messages;
 using KegID.Model;
 using KegID.Services;
-using KegID.SQLiteClient;
+//using KegID.SQLiteClient;
 using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
 using Realms;
@@ -41,10 +41,10 @@ namespace KegID
                     barcode = new Barcode
                     {
                         Id = item,
-                        Partners = validateBarcodeModel.Kegs.Partners,
+                        //Partners = validateBarcodeModel.Kegs.Partners,
                         Icon = validateBarcodeModel.Kegs.Partners.Count > 1 ? GetIconByPlatform.GetIcon("validationquestion.png") :
                         validateBarcodeModel.Kegs.Partners.Count == 0 ? GetIconByPlatform.GetIcon("validationerror.png") : GetIconByPlatform.GetIcon("validationok.png"),
-                        MaintenanceItems = validateBarcodeModel.Kegs.MaintenanceItems
+                        //MaintenanceItems = validateBarcodeModel.Kegs.MaintenanceItems
                     };
 
                     BarcodeModel barcodeModel = new BarcodeModel()
@@ -55,9 +55,9 @@ namespace KegID
                     try
                     {
                         // The item does not exists in the database so lets insert it
-                        var vRealmDb = Realm.GetInstance();
-                        vRealmDb.Write(() => {
-                            vRealmDb.Add(barcodeModel);
+                        var RealmDb = Realm.GetInstance();
+                       await RealmDb.WriteAsync((realmDb) => {
+                           realmDb.Add(barcodeModel);
                         });
                         //await SQLiteServiceClient.Db.InsertAsync(barcodeModel);
                     }

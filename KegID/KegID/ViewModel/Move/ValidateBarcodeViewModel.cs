@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using Xamarin.Forms;
 using KegID.Model;
 using Rg.Plugins.Popup.Extensions;
-using KegID.SQLiteClient;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
 using System;
@@ -152,7 +151,7 @@ namespace KegID.ViewModel
                     }
                 }
                 else
-                    await ValidateScannedBarcode();
+                    ValidateScannedBarcode();
             }
             catch (Exception ex)
             {
@@ -160,12 +159,12 @@ namespace KegID.ViewModel
             }
         }
 
-        public async Task LoadBarcodeValue(List<Barcode> _models)
+        public void LoadBarcodeValue(List<Barcode> _models)
         {
             try
             {
                 Models = _models;
-                await ValidateScannedBarcode();
+                ValidateScannedBarcode();
             }
             catch (Exception ex)
             {
@@ -173,14 +172,14 @@ namespace KegID.ViewModel
             }
         }
 
-        private async Task ValidateScannedBarcode()
+        private void ValidateScannedBarcode()
         {
-            var vRealmDb = Realm.GetInstance();
+            var RealmDb = Realm.GetInstance();
             string BarcodeId = default(string);
             try
             {
                 BarcodeId = Models.FirstOrDefault().Id;
-                var value = vRealmDb.All<BarcodeModel>().Where(x => x.Barcode == BarcodeId).FirstOrDefault();
+                var value = RealmDb.All<BarcodeModel>().Where(x => x.Barcode == BarcodeId).FirstOrDefault();
                     //await SQLiteServiceClient.Db.Table<BarcodeModel>().Where(x => x.Barcode == BarcodeId).FirstOrDefaultAsync();
                 var validateBarcodeModel = JsonConvert.DeserializeObject<ValidateBarcodeModel>(value.BarcodeJson);
                 PartnerCollection = validateBarcodeModel.Kegs.Partners;

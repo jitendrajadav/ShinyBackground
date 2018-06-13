@@ -1,7 +1,5 @@
-﻿using System.Linq;
-using GalaSoft.MvvmLight.Command;
+﻿using GalaSoft.MvvmLight.Command;
 using KegID.Model;
-using KegID.SQLiteClient;
 using Microsoft.AppCenter.Crashes;
 using Xamarin.Forms;
 
