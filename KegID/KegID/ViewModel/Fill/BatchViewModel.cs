@@ -124,11 +124,11 @@ namespace KegID.ViewModel
                     if (value.StatusCode == System.Net.HttpStatusCode.OK)
                     {
                         BatchCollection = value.BatchModel.Where(p=>p.BrandName!= string.Empty).OrderBy(x => x.BrandName).ToList();
-                        await RealmDb.WriteAsync((realmDb) => 
+                        RealmDb.Write(() => 
                         {
                             foreach (var item in BatchCollection)
                             {
-                                realmDb.Add(item);
+                                RealmDb.Add(item);
                             }
                         });
                         //await SQLiteServiceClient.Db.InsertAllAsync(BatchCollection);

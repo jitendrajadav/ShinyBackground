@@ -56,8 +56,9 @@ namespace KegID
                     {
                         // The item does not exists in the database so lets insert it
                         var RealmDb = Realm.GetInstance();
-                       await RealmDb.WriteAsync((realmDb) => {
-                           realmDb.Add(barcodeModel);
+                        RealmDb.Write(() =>
+                        {
+                            RealmDb.Add(barcodeModel);
                         });
                         //await SQLiteServiceClient.Db.InsertAsync(barcodeModel);
                     }

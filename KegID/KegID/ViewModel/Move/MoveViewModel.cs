@@ -448,8 +448,9 @@ namespace KegID.ViewModel
 
                 try
                 {
-                    await RealmDb.WriteAsync((realmDb) => {
-                      var  Result = realmDb.Add(draftManifestModel);
+                    RealmDb.Write(() =>
+                    {
+                        var Result = RealmDb.Add(draftManifestModel);
                         if (Result != null)
                             @default.GetInstance<DashboardViewModel>().CheckDraftmaniFestsAsync();
                     }); //await SQLiteServiceClient.Db.InsertAsync(draftManifestModel);
@@ -457,8 +458,9 @@ namespace KegID.ViewModel
                 }
                 catch (Exception ex)
                 {
-                   await RealmDb.WriteAsync((realmDb) => {
-                        var Result = realmDb.Add(draftManifestModel,true);
+                    RealmDb.Write(() =>
+                    {
+                        var Result = RealmDb.Add(draftManifestModel, true);
                     });
                     //var Result = await SQLiteServiceClient.Db.UpdateAsync(draftManifestModel);
                      Crashes.TrackError(ex);

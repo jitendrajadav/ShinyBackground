@@ -180,10 +180,11 @@ namespace KegID.ViewModel
             try
             {
                 var RealmDb = Realm.GetInstance();
-                await RealmDb.WriteAsync((realmDb) => {
+                RealmDb.Write(() =>
+                {
                     foreach (var item in model.MaintainTypeReponseModel)
                     {
-                        realmDb.Add(item);
+                        RealmDb.Add(item);
                     }
                 });
                 // The item does not exists in the database so lets insert it

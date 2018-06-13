@@ -126,10 +126,11 @@ namespace KegID.ViewModel
                 Loader.StartLoading();
                 model = await _dashboardService.GetInventoryAsync(AppSettings.User.SessionId);
                 var RealmDb = Realm.GetInstance();
-                await RealmDb.WriteAsync((realmDb) => {
+                RealmDb.Write(() =>
+                {
                     foreach (var item in model.InventoryResponseModel)
                     {
-                        realmDb.Add(item);
+                        RealmDb.Add(item);
                     }
                 });
                 //await SQLiteServiceClient.Db.InsertAllAsync(model.InventoryResponseModel);

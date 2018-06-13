@@ -392,13 +392,13 @@ namespace KegID.ViewModel
                         else
                             PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners);
                         
-                            await RealmDb.WriteAsync((realmDb) =>
+                            RealmDb.Write(() =>
                             {
                                 try
                                 {
                                     foreach (var item in AllPartners)
                                     {
-                                        realmDb.Add(item);
+                                        RealmDb.Add(item);
                                     }
                                 }
                                 catch (Exception ex)
@@ -406,8 +406,6 @@ namespace KegID.ViewModel
                                     Crashes.TrackError(ex);
                                 }
                             });
-                       
-                        var partnerModel = RealmDb.All<PartnerModel>().ToList();
                         //await SQLiteServiceClient.Db.InsertAllAsync(AllPartners);
                     }
                 }

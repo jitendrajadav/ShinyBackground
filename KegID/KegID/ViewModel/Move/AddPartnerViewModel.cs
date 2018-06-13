@@ -1006,8 +1006,9 @@ namespace KegID.ViewModel
                             State = newPartnerRequestModel.BillAddress != null ? newPartnerRequestModel.BillAddress.State : string.Empty
                         };
                         var RealmDb = Realm.GetInstance();
-                        await RealmDb.WriteAsync((realmDb) => {
-                            realmDb.Add(partnerModel);
+                        RealmDb.Write(() =>
+                        {
+                            RealmDb.Add(partnerModel);
                         });
                         //var parner = await SQLiteServiceClient.Db.InsertAsync(partnerModel);
                         SimpleIoc.Default.GetInstance<PartnersViewModel>().PartnerCollection.Add(partnerModel);
@@ -1047,11 +1048,11 @@ namespace KegID.ViewModel
                     if (value.StatusCode == System.Net.HttpStatusCode.OK)
                     {
                         PartnerTypeCollectioin = value.PartnerTypeModel;
-                        await RealmDb.WriteAsync((realmDb) =>
+                        RealmDb.Write(() =>
                         {
                             foreach (var item in PartnerTypeCollectioin)
                             {
-                                realmDb.Add(item);
+                                RealmDb.Add(item);
                             }
                         });
                         //await SQLiteServiceClient.Db.InsertAllAsync(PartnerTypeCollectioin);

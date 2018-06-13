@@ -349,11 +349,11 @@ namespace KegID.ViewModel
                     if (value.StatusCode == System.Net.HttpStatusCode.OK)
                     {
                         model = value.BrandModel;
-                        await RealmDb.WriteAsync((realmDb) =>
+                        RealmDb.Write(() =>
                         {
                             foreach (var item in value.BrandModel)
                             {
-                                realmDb.Add(item);
+                                RealmDb.Add(item);
                             }
                         });
 
@@ -605,10 +605,10 @@ namespace KegID.ViewModel
                     if (current == NetworkAccess.Internet)
                     {
                         var RealmDb = Realm.GetInstance();
-                        await RealmDb.WriteAsync((realmDb) => 
+                        RealmDb.Write(() =>
                         {
-                            var Result = realmDb.Add(barcode);
-                        }); 
+                            var Result = RealmDb.Add(barcode);
+                        });
                     }
 
                     var message = new StartLongRunningTaskMessage
