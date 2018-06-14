@@ -1005,7 +1005,7 @@ namespace KegID.ViewModel
                             SourceKey = newPartnerRequestModel.RouteName,
                             State = newPartnerRequestModel.BillAddress != null ? newPartnerRequestModel.BillAddress.State : string.Empty
                         };
-                        var RealmDb = Realm.GetInstance();
+                        var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                         RealmDb.Write(() =>
                         {
                             RealmDb.Add(partnerModel);
@@ -1034,7 +1034,7 @@ namespace KegID.ViewModel
 
         public async void LoadPartnerAsync(PartnerInfoResponseModel partnerInfoModel)
         {
-            var RealmDb = Realm.GetInstance();
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             IList<PartnerTypeModel> model = RealmDb.All<PartnerTypeModel>().ToList();//await SQLiteServiceClient.Db.Table<PartnerTypeModel>().ToListAsync();
 
             try

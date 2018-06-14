@@ -125,7 +125,7 @@ namespace KegID.ViewModel
             {
                 Loader.StartLoading();
                 model = await _dashboardService.GetInventoryAsync(AppSettings.User.SessionId);
-                var RealmDb = Realm.GetInstance();
+                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                 RealmDb.Write(() =>
                 {
                     foreach (var item in model.InventoryResponseModel)
@@ -154,7 +154,7 @@ namespace KegID.ViewModel
             try
             {
                 CurrentPage = currentPage;
-                var RealmDb = Realm.GetInstance();
+                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                 var model = RealmDb.All<InventoryResponseModel>().ToList();//await SQLiteServiceClient.Db.Table<InventoryResponseModel>().ToListAsync();
                 if (model.Count > 0)
                 {

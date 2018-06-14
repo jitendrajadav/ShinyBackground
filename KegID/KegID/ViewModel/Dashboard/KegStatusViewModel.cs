@@ -733,7 +733,7 @@ namespace KegID.ViewModel
                 SizeName = _sizeName;
 
                 var kegStatus = await DashboardService.GetKegStatusAsync(KegId, AppSettings.User.SessionId);
-                var RealmDb = Realm.GetInstance();
+                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                 var addMaintenanceCollection = RealmDb.All<MaintainTypeReponseModel>().ToList();//await SQLiteServiceClient.Db.Table<MaintainTypeReponseModel>().ToListAsync();
                 KegHasAlert = kegStatus.MaintenanceAlerts.Count > 0 ? true : false;
                 Alerts = kegStatus.MaintenanceAlerts;

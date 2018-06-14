@@ -386,7 +386,7 @@ namespace KegID.ViewModel
                     else
                     {
                         BarcodeCollection.Clear();
-                        var RealmDb = Realm.GetInstance();
+                        var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                         var preference = RealmDb.All<Preference>().Where(x => x.PreferenceName == "DashboardPreferences").ToList();
                         //await SQLiteServiceClient.Db.Table<Preference>().Where(x => x.PreferenceName == "DashboardPreferences").ToListAsync();
 

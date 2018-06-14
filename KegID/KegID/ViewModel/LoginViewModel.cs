@@ -228,7 +228,7 @@ namespace KegID.ViewModel
                     await Application.Current.MainPage.Navigation.PushModalAsync(page: new MainPage(), animated: false);
                     try
                     {
-                        var RealmDb = Realm.GetInstance();
+                        var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
 
                         //Befor RealmDB..
                         //var value = await SQLiteServiceClient.Db.InsertAllAsync(model.LoginModel.Preferences);
@@ -299,7 +299,7 @@ namespace KegID.ViewModel
 
         private async Task LoadAssetSizeAsync()
         {
-            var RealmDb = Realm.GetInstance();
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             List<AssetSizeModel> assetSizeModel = null;
             var service = SimpleIoc.Default.GetInstance<IMoveService>();
             try
@@ -332,7 +332,7 @@ namespace KegID.ViewModel
 
         private async Task LoadAssetTypeAsync()
         {
-            var RealmDb = Realm.GetInstance();
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             List<AssetTypeModel> assetTypeModels = null;
             var service = SimpleIoc.Default.GetInstance<IMoveService>();
             try
@@ -366,7 +366,7 @@ namespace KegID.ViewModel
 
         private async Task LoadAssetVolumeAsync()
         {
-            var RealmDb = Realm.GetInstance();
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             List<AssetVolumeModel> assetVolumeModel = null;
             var service = SimpleIoc.Default.GetInstance<IDashboardService>();
             try
@@ -402,7 +402,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                var RealmDb = Realm.GetInstance();
+                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                 var value = await SimpleIoc.Default.GetInstance<IMoveService>().GetOwnerAsync(AppSettings.User.SessionId);
                 RealmDb.Write(() =>
                 {

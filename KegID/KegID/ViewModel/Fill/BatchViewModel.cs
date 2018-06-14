@@ -114,7 +114,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                var RealmDb = Realm.GetInstance();
+                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                 BatchCollection = RealmDb.All<BatchModel>().ToList();//await SQLiteServiceClient.Db.Table<BatchModel>().ToListAsync();
                 if (BatchCollection.Count==0)
                 {

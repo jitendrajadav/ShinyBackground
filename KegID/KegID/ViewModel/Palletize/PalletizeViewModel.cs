@@ -333,7 +333,7 @@ namespace KegID.ViewModel
 
         public void GenerateManifestIdAsync(PalletModel palletModel)
         {
-            var RealmDb = Realm.GetInstance();
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             DateTimeOffset now = DateTimeOffset.Now;
             string barCode;
             long prefix = 0;

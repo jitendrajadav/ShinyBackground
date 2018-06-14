@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
+using KegID.Common;
 using KegID.Model;
 using Microsoft.AppCenter.Crashes;
 using Realms;
@@ -338,7 +339,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                var RealmDb = Realm.GetInstance();
+                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                 OwnerCollection = RealmDb.All<OwnerModel>().ToList();//await SQLiteServiceClient.Db.Table<OwnerModel>().ToListAsync();
                 SelectedOwner = OwnerCollection.OrderBy(x => x.FullName).FirstOrDefault();
             }
@@ -352,7 +353,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                var RealmDb = Realm.GetInstance();
+                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                 SizeCollection = RealmDb.All<AssetSizeModel>().ToList(); //await SQLiteServiceClient.Db.Table<AssetSizeModel>().ToListAsync();
             }
             catch (Exception ex)
@@ -365,7 +366,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                var RealmDb = Realm.GetInstance();
+                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                 TypeCollection = RealmDb.All<AssetTypeModel>().ToList(); //await SQLiteServiceClient.Db.Table<AssetTypeModel>().ToListAsync();
             }
             catch (Exception ex)

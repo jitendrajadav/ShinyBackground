@@ -85,6 +85,7 @@ namespace KegID
             //{
             //    BarBackgroundColor = Color.White,
             //};
+            SyncManager.NotifyConnectivityChanged();
         }
 
         protected override void OnStart ()

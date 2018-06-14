@@ -430,7 +430,7 @@ namespace KegID.ViewModel
             ManifestModel manifestPostModel = null;
             DraftManifestModel draftManifestModel = null;
             SimpleIoc @default = SimpleIoc.Default;
-            var RealmDb = Realm.GetInstance();
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             try
             {
                 Loader.StartLoading();

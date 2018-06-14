@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight.Ioc;
+using KegID.Common;
 using KegID.Model;
 using KegID.ViewModel;
 using Microsoft.AppCenter.Crashes;
@@ -222,13 +223,13 @@ namespace KegID.Views
 
         private IList<AssetSizeModel> LoadAssetSizeAsync()
         {
-            var RealmDb = Realm.GetInstance();
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             return RealmDb.All<AssetSizeModel>().ToList();//await SQLiteServiceClient.Db.Table<AssetSizeModel>().ToListAsync();
         }
 
         private IList<AssetTypeModel> LoadAssetTypeAsync()
         {
-            var RealmDb = Realm.GetInstance();
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             return RealmDb.All<AssetTypeModel>().ToList();//await SQLiteServiceClient.Db.Table<AssetTypeModel>().ToListAsync();
         }
 

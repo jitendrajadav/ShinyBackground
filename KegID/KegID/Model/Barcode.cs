@@ -1,5 +1,4 @@
-﻿using GalaSoft.MvvmLight;
-using Realms;
+﻿using Realms;
 using System;
 using System.Collections.Generic;
 
@@ -7,6 +6,7 @@ namespace KegID.Model
 {
     public class Barcode : RealmObject
     {
+        public string Page { get; set; }
         public bool HasMaintenaceVerified { get; set; }
         public bool IsScanned { get; set; }
         public string Id { get; internal set; }

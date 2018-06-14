@@ -161,7 +161,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                var RealmDb = Realm.GetInstance();
+                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                 MaintainTypeReponseModel = RealmDb.All<MaintainTypeReponseModel>().ToList();//await SQLiteServiceClient.Db.Table<MaintainTypeReponseModel>().ToListAsync();
                 if (MaintainTypeReponseModel.Count == 0)
                 {
@@ -179,7 +179,7 @@ namespace KegID.ViewModel
             var model = await _maintainService.GetMaintainTypeAsync(AppSettings.User.SessionId);
             try
             {
-                var RealmDb = Realm.GetInstance();
+                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                 RealmDb.Write(() =>
                 {
                     foreach (var item in model.MaintainTypeReponseModel)

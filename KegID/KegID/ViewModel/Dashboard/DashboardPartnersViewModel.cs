@@ -374,7 +374,7 @@ namespace KegID.ViewModel
 
         private async Task LoadPartnersAsync()
         {
-            var RealmDb = Realm.GetInstance();
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             AllPartners = RealmDb.All<PossessorResponseModel>().ToList();// await SQLiteServiceClient.Db.Table<PossessorResponseModel>().ToListAsync();
             try
             {

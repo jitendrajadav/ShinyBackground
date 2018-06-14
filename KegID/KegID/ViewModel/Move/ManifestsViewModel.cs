@@ -296,7 +296,7 @@ namespace KegID.ViewModel
             {
                 ManifestCollection.Clear();
                 Loader.StartLoading();
-                var RealmDb = Realm.GetInstance();
+                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                 var collection = RealmDb.All<DraftManifestModel>().ToList();//await SQLiteServiceClient.Db.Table<DraftManifestModel>().ToListAsync();
                 foreach (var item in collection)
                 {

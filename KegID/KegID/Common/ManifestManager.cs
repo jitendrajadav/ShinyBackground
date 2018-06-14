@@ -24,7 +24,7 @@ namespace KegID.Common
             var request = new GeolocationRequest(GeolocationAccuracy.Medium);
             var location = await Geolocation.GetLocationAsync(request);
 
-            var RealmDb = Realm.GetInstance();
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             try
             {
                 foreach (var item in barcodeCollection)

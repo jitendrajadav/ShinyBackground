@@ -334,7 +334,7 @@ namespace KegID.ViewModel
 
         public async Task<IList<BrandModel>> LoadBrandAsync()
         {
-            var RealmDb = Realm.GetInstance();
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             var all = RealmDb.All<BrandModel>().ToList();
             IList<BrandModel> model = all;// await SQLiteServiceClient.Db.Table<BrandModel>().ToListAsync();
             try
@@ -584,7 +584,7 @@ namespace KegID.ViewModel
             }
         }
 
-        private async void BarcodeManualCommandRecieverAsync()
+        private void BarcodeManualCommandRecieverAsync()
         {
             try
             {
@@ -596,7 +596,8 @@ namespace KegID.ViewModel
                         Id = ManaulBarcode,
                         //Tags = Tags,
                         TagsStr = TagsStr,
-                        Icon = Cloud
+                        Icon = Cloud,
+                        Page = ViewTypeEnum.ScanKegsView.ToString()
                     };
 
                     BarcodeCollection.Add(barcode);
@@ -604,19 +605,22 @@ namespace KegID.ViewModel
                     var current = Connectivity.NetworkAccess;
                     if (current == NetworkAccess.Internet)
                     {
-                        var RealmDb = Realm.GetInstance();
+                        var message = new StartLongRunningTaskMessage
+                        {
+                            Barcode = new List<string>() { ManaulBarcode },
+                            Page = ViewTypeEnum.ScanKegsView
+                        };
+                        MessagingCenter.Send(message, "StartLongRunningTaskMessage");
+                    }
+                    else
+                    {
+                        var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                         RealmDb.Write(() =>
                         {
                             var Result = RealmDb.Add(barcode);
                         });
                     }
 
-                    var message = new StartLongRunningTaskMessage
-                    {
-                        Barcode = new List<string>() { ManaulBarcode },
-                        Page = ViewTypeEnum.ScanKegsView
-                    };
-                    MessagingCenter.Send(message, "StartLongRunningTaskMessage");
                     ManaulBarcode = string.Empty;
                 }
             }

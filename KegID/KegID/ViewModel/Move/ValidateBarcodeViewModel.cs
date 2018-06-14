@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System;
 using Microsoft.AppCenter.Crashes;
 using Realms;
+using KegID.Common;
 
 namespace KegID.ViewModel
 {
@@ -174,7 +175,7 @@ namespace KegID.ViewModel
 
         private void ValidateScannedBarcode()
         {
-            var RealmDb = Realm.GetInstance();
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             string BarcodeId = default(string);
             try
             {

@@ -55,7 +55,7 @@ namespace KegID
                     try
                     {
                         // The item does not exists in the database so lets insert it
-                        var RealmDb = Realm.GetInstance();
+                        var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                         RealmDb.Write(() =>
                         {
                             RealmDb.Add(barcodeModel);
