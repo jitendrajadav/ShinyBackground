@@ -56,8 +56,9 @@ namespace KegID.Model
     }
 
 
-    public class ManifestModelGet : KegIDResponse
+    public class ManifestModelGet 
     {
+        public KegIDResponse Response { get; set; }
         public string ManifestId { get; set; }
         public string TrackingNumber { get; set; }
         public DateTimeOffset ShipDate { get; set; }

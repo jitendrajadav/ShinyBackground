@@ -15,7 +15,7 @@ namespace KegID.Services
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
             loginResponseModel.LoginModel = DeserializeObject<LoginModel>(value.Response, GetJsonSetting());
-            loginResponseModel.StatusCode = value.StatusCode;
+            loginResponseModel.Response.StatusCode = value.StatusCode;
             return loginResponseModel;
         }
     }

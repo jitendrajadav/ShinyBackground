@@ -4,7 +4,6 @@ using KegID.LocalDb;
 using KegID.Messages;
 using KegID.Model;
 using KegID.Services;
-//using KegID.SQLiteClient;
 using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
 using Realms;
@@ -42,16 +41,17 @@ namespace KegID
                     barcode = new Barcode
                     {
                         Id = item,
-                        //Partners = validateBarcodeModel.Kegs.Partners,
                         Icon = validateBarcodeModel.Kegs.Partners.Count > 1 ? GetIconByPlatform.GetIcon("validationquestion.png") :
                         validateBarcodeModel.Kegs.Partners.Count == 0 ? GetIconByPlatform.GetIcon("validationerror.png") : GetIconByPlatform.GetIcon("validationok.png"),
-                        //MaintenanceItems = validateBarcodeModel.Kegs.MaintenanceItems
                     };
                     foreach (var partner in validateBarcodeModel.Kegs.Partners)
                     {
                         barcode.Partners.Add(partner);
                     }
-                    
+                    foreach (var maintenance in validateBarcodeModel.Kegs.MaintenanceItems)
+                    {
+                        barcode.MaintenanceItems.Add(maintenance);
+                    }
                     BarcodeModel barcodeModel = new BarcodeModel()
                     {
                         Barcode = item,

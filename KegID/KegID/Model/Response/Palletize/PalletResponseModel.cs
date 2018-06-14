@@ -4,8 +4,9 @@ using System.Collections.Generic;
 
 namespace KegID.Model
 {
-    public class PalletResponseModel : KegIDResponse
+    public class PalletResponseModel 
     {
+        public KegIDResponse Response { get; set; }
         public string PalletId { get; set; }
         public Owner Owner { get; set; }
         public DateTimeOffset BuildDate { get; set; }

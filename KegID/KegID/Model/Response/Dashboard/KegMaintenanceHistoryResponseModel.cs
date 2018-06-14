@@ -4,9 +4,10 @@ using System.Collections.Generic;
 namespace KegID.Model
 {
 
-    public class KegMaintenanceHistoryModel : KegIDResponse
+    public class KegMaintenanceHistoryModel 
     {
         public IList<KegMaintenanceHistoryResponseModel> KegMaintenanceHistoryResponseModel { get; set; }
+        public KegIDResponse Response { get; set; }
     }
 
     public class KegMaintenanceHistoryResponseModel

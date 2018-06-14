@@ -2,9 +2,10 @@
 
 namespace KegID.Model
 {
-    public class KegMassUpdateKegModel : KegIDResponse
+    public class KegMassUpdateKegModel 
     {
         public IList<KegMassUpdateKegResponseModel> Model { get; set; }
+        public KegIDResponse Response { get; set; }
     }
 
     public partial class KegMassUpdateKegResponseModel 
@@ -103,8 +104,9 @@ namespace KegID.Model
     //    public string SourceSystem { get; set; }
     //}
 
-    public class KegBulkUpdateItemResponseModel : KegIDResponse
+    public class KegBulkUpdateItemResponseModel 
     {
+        public KegIDResponse Response { get; set; }
         public string UploadId { get; set; }
         public long TotalRecords { get; set; }
         public long ImportedKegs { get; set; }

@@ -14,8 +14,9 @@ namespace KegID.Model
         public string Code { get; set; }
     }
 
-    public class PartnerTypeResponseModel : KegIDResponse
+    public class PartnerTypeResponseModel 
     {
+        public KegIDResponse Response { get; set; }
         public IList<PartnerTypeModel> PartnerTypeModel { get; set; }
     }
 }

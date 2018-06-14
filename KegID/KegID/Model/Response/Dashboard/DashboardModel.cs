@@ -2,8 +2,9 @@
 
 namespace KegID.Model
 {
-    public class DashboardResponseModel : KegIDResponse
+    public class DashboardResponseModel 
     {
+        public KegIDResponse Response { get; set; }
         public long ActiveKegs { get; set; }
         public long InPossession { get; set; }
         public long Stock { get; set; }

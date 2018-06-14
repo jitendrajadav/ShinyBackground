@@ -16,8 +16,9 @@ namespace KegID.Model
         public long Quantity { get; set; }
     }
 
-    public class InventoryDetailModel : KegIDResponse
+    public class InventoryDetailModel 
     {
+        public KegIDResponse Response { get; set; }
         public IList<InventoryResponseModel> InventoryResponseModel { get; set; }
     }
 }

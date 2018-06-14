@@ -6,11 +6,9 @@ using Xamarin.Forms;
 using KegID.Model;
 using Rg.Plugins.Popup.Extensions;
 using Newtonsoft.Json;
-using System.Threading.Tasks;
 using System;
 using Microsoft.AppCenter.Crashes;
 using Realms;
-using KegID.Common;
 using KegID.LocalDb;
 
 namespace KegID.ViewModel
@@ -137,11 +135,6 @@ namespace KegID.ViewModel
                 {
                     switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack.LastOrDefault().GetType().Name))
                     {
-                        //case ViewTypeEnum.ScanKegsView:
-                        //    await Application.Current.MainPage.Navigation.PopPopupAsync();
-                        //    await Application.Current.MainPage.Navigation.PopModalAsync();
-                        //    break;
-
                         case ViewTypeEnum.FillScanView:
                             SimpleIoc.Default.GetInstance<FillScanViewModel>().AssignValidateBarcodeValueAsync();
                             break;

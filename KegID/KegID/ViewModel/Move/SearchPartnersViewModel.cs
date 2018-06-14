@@ -151,7 +151,7 @@ namespace KegID.ViewModel
                 Loader.StartLoading();
                 var value = await _moveService.GetPartnerSearchAsync(AppSettings.User.SessionId, PartnerSearch, false, false);
 
-                if (value.StatusCode == System.Net.HttpStatusCode.OK)
+                if (value.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                 {
                     PartnerSearchCollection = value.PartnerModel;
                 }

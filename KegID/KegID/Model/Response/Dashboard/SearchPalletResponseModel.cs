@@ -19,8 +19,9 @@ namespace KegID.Model
         public DateTimeOffset CreateDate { get; set; }
     }
 
-    public class SearchPalletModel : KegIDResponse
+    public class SearchPalletModel 
     {
+        public KegIDResponse Response { get; set; }
         public IList<SearchPalletResponseModel> SearchPalletResponseModel { get; set; }
     }
 }

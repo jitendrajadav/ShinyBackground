@@ -62,8 +62,9 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />
-    <Reference Include="XamarinDataManLibrary">
-      <HintPath>.\XamarinDataManLibrary.dll</HintPath>
+    <Reference Include="XamarinDataManLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libs\XamarinDataManLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -453,9 +454,6 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <ProguardConfiguration Include="proguard_custom.cfg" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="..\KegID\Assets\newkeg.png">
       <Link>Resources\drawable\newkeg.png</Link>
     </AndroidResource>
@@ -489,6 +487,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="FodyWeavers.xml" />
+    <Content Include="Libs\XamarinDataManLibrary.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProguardConfiguration Include="proguard_custom.cfg" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="ReplaceRefAssemblies" AfterTargets="_ResolveAssemblies">

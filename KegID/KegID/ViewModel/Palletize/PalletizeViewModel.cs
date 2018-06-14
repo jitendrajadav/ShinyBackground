@@ -438,7 +438,7 @@ namespace KegID.ViewModel
 
                 var value = await _palletizeService.PostPalletAsync(palletRequestModel, AppSettings.User.SessionId, Configuration.NewPallet);
 
-                if (value.StatusCode == System.Net.HttpStatusCode.OK)
+                if (value.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                 {
                     SimpleIoc.Default.GetInstance<PalletizeDetailViewModel>().LoadInfo(value);
 

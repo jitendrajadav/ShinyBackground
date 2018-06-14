@@ -11,8 +11,9 @@ namespace KegID.Model
         public bool HasInitial { get; set; }
     }
 
-    public class OwnerResponseModel : KegIDResponse
+    public class OwnerResponseModel 
     {
+        public KegIDResponse Response { get; set; }
         public IList<OwnerModel> OwnerModel { get; set; }
     }
 }

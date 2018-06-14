@@ -29,8 +29,9 @@ namespace KegID.Model
         public List<Tag> Tags { get; }
     }
 
-    public class BatchResponseModel : KegIDResponse
+    public class BatchResponseModel 
     {
         public IList<BatchModel> BatchModel { get; set; }
+        public KegIDResponse Response { get; set; }
     }
 }

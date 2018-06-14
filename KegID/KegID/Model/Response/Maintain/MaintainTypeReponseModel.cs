@@ -58,8 +58,9 @@ namespace KegID.Model
         public List<string> ActivationPartnerTypes { get; }
     }
 
-    public class MaintainTypeModel : KegIDResponse
+    public class MaintainTypeModel 
     {
+        public KegIDResponse Response { get; set; }
         public IList<MaintainTypeReponseModel> MaintainTypeReponseModel { get; set; }
     }
 }

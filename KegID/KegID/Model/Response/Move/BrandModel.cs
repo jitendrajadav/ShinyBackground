@@ -16,8 +16,9 @@ namespace KegID.Model
         public long? FreshDays { get; set; }
     }
 
-    public class BrandResponseModel : KegIDResponse
+    public class BrandResponseModel
     {
         public IList<BrandModel> BrandModel { get; set; }
+        public KegIDResponse Response { get; set; }
     }
 }

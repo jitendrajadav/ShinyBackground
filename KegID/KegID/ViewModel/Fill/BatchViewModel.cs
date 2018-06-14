@@ -71,7 +71,7 @@ namespace KegID.ViewModel
             _fillService = fillService;
             ItemTappedCommand = new RelayCommand<BatchModel>((model) => ItemTappedCommandRecieverAsync(model));
             AddBatchCommand = new RelayCommand(AddBatchCommandRecieverAsync);
-            //LoadBatch();
+            LoadBatch();
         }
 
         #endregion
@@ -122,7 +122,7 @@ namespace KegID.ViewModel
                     Loader.StartLoading();
 
                     var value = await _fillService.GetBatchListAsync(AppSettings.User.SessionId);
-                    if (value.StatusCode == System.Net.HttpStatusCode.OK)
+                    if (value.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                     {
                         BatchCollection = value.BatchModel.Where(p=>p.BrandName!= string.Empty).OrderBy(x => x.BrandName).ToList();
                         RealmDb.Write(() => 

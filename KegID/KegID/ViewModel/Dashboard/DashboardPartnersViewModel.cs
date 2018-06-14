@@ -385,7 +385,7 @@ namespace KegID.ViewModel
                 {
                     Loader.StartLoading();
                     var value = await _dashboardService.GetDashboardPartnersListAsync(AppSettings.User.CompanyId, AppSettings.User.SessionId);
-                    if (value.StatusCode == System.Net.HttpStatusCode.OK)
+                    if (value.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                     {
                         AllPartners = value.PossessorResponseModel.Where(x => x.Location.FullName != string.Empty).ToList();
                         PartnerCollection = new ObservableCollection<PossessorResponseModel>(AllPartners.OrderByDescending(x => x.KegsHeld));

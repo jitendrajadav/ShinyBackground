@@ -916,7 +916,7 @@ namespace KegID.ViewModel
                 Loader.StartLoading();
                 var result = await DashboardService.PostMaintenanceAlertAsync(model, AppSettings.User.SessionId, Configuration.PostedMaintenanceAlert);
 
-                if (result.StatusCode == System.Net.HttpStatusCode.OK)
+                if (result.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                 {
                     Loader.StopLoading();
                     await Application.Current.MainPage.DisplayAlert("Alert", "Alert adedd successfuly", "Ok");
@@ -959,7 +959,7 @@ namespace KegID.ViewModel
                 try
                 {
                     var result = await DashboardService.PostMaintenanceDeleteAlertUrlAsync(model, AppSettings.User.SessionId, Configuration.DeleteTypeMaintenanceAlert);
-                    if (result.StatusCode == System.Net.HttpStatusCode.OK)
+                    if (result.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                     {
                         Loader.StopLoading();
                         await Application.Current.MainPage.DisplayAlert("Alert", "Alert removed successfuly", "Ok");

@@ -2,8 +2,9 @@
 
 namespace KegID.Model
 {
-    public class DeleteMaintenanceAlertResponseModel : KegIDResponse
+    public class DeleteMaintenanceAlertResponseModel 
     {
         public List<string> MyProperty { get; set; }
+        public KegIDResponse Response { get; set; }
     }
 }

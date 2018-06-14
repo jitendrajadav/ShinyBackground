@@ -1,11 +1,11 @@
-﻿using System.Net;
+﻿using Realms;
+using System.Net;
 
 namespace KegID.Model
 {
-    public class KegIDResponse
+    public class KegIDResponse : RealmObject
     {
-        public HttpStatusCode StatusCode { get; set; }
+        public string StatusCode { get; set; }
         public string Response { get; set; }
-
     }
 }

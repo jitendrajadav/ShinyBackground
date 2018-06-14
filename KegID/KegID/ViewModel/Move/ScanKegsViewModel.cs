@@ -354,7 +354,7 @@ namespace KegID.ViewModel
                     Loader.StartLoading();
                     var value = await _moveService.GetBrandListAsync(AppSettings.User.SessionId);
 
-                    if (value.StatusCode == System.Net.HttpStatusCode.OK)
+                    if (value.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                     {
                         model = value.BrandModel;
                         RealmDb.Write(() =>

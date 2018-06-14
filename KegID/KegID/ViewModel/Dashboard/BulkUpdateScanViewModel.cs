@@ -569,7 +569,7 @@ namespace KegID.ViewModel
                     model.Kegs = MassUpdateKegKegs;
 
                     var value = await _dashboardService.PostKegUploadAsync(model, AppSettings.User.SessionId, Configuration.MassUpdateKegList);
-                    if (value.StatusCode == System.Net.HttpStatusCode.OK)
+                    if (value.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                     {
                         await Application.Current.MainPage.Navigation.PopModalAsync();
                         SimpleIoc.Default.GetInstance<KegSearchViewModel>().AssingSuccessMsgAsync();

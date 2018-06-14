@@ -42,8 +42,9 @@ namespace KegID.Model
         public long CompanyNo { get; set; }
     }
 
-    public class PossessorModel : KegIDResponse
+    public class PossessorModel 
     {
+        public KegIDResponse Response { get; set; }
         public IList<PossessorResponseModel> PossessorResponseModel { get; set; }
     }
 }

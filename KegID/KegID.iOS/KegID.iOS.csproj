@@ -160,8 +160,9 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
-    <Reference Include="XamarinDataManLibrary">
-      <HintPath>.\XamarinDataManLibrary.dll</HintPath>
+    <Reference Include="XamarinDataManLibrary, Version=1.0.6499.26852, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libs\XamarinDataManLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -486,5 +487,6 @@
     <BundleResource Include="Resources\palletprint.xslt" />
     <BundleResource Include="Resources\palletprintnew.xslt" />
     <BundleResource Include="Resources\repairmanifestprint.xslt" />
+    <Content Include="Libs\XamarinDataManLibrary.dll" />
   </ItemGroup>
 </Project>

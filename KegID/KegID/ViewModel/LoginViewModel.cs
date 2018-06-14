@@ -193,7 +193,7 @@ namespace KegID.ViewModel
             {
                 Loader.StartLoading();
                 var model = await AccountService.AuthenticateAsync(Username, Password);
-                if (model.StatusCode == System.Net.HttpStatusCode.OK)
+                if (model.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                 {
                     try
                     {

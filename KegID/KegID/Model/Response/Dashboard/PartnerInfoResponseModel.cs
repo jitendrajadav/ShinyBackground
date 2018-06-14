@@ -2,8 +2,9 @@
 
 namespace KegID.Model
 {
-    public partial class PartnerInfoResponseModel : KegIDResponse
+    public partial class PartnerInfoResponseModel 
     {
+        public KegIDResponse Response { get; set; }
         public string PartnerId { get; set; }
         public string CompanyNo { get; set; }
         public string ParentPartnerId { get; set; }

@@ -42,9 +42,10 @@ namespace KegID.Model
         public string PreferenceValue { get; set; }
     }
 
-    public class LoginResponseModel : KegIDResponse
+    public class LoginResponseModel 
     {
         public LoginModel LoginModel { get; set; }
+        public KegIDResponse Response { get; set; }
     }
 }
 

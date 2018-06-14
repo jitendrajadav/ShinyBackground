@@ -47,7 +47,7 @@ namespace KegID.Common
                     kegIDResponse.Response = await response.Content.ReadAsStringAsync();
                 }
 
-                kegIDResponse.StatusCode = response.StatusCode;
+                kegIDResponse.StatusCode = response.StatusCode.ToString();
 
             }
             catch (Exception ex)
@@ -79,7 +79,7 @@ namespace KegID.Common
                     kegIDResponse.Response = await response.Content.ReadAsStringAsync();
                 }
 
-                kegIDResponse.StatusCode = response.StatusCode;
+                kegIDResponse.StatusCode = response.StatusCode.ToString();
             }
             catch (Exception ex)
             {
@@ -105,7 +105,7 @@ namespace KegID.Common
                     kegIDResponse.Response = await response.Content.ReadAsStringAsync();
                 }
 
-                kegIDResponse.StatusCode = response.StatusCode;
+                kegIDResponse.StatusCode = response.StatusCode.ToString();
 
             }
             catch (Exception ex)
@@ -150,7 +150,7 @@ namespace KegID.Common
                 }
             }
             else
-                kegIDResponse.StatusCode = System.Net.HttpStatusCode.Forbidden;
+                kegIDResponse.StatusCode = System.Net.HttpStatusCode.Forbidden.ToString();
 
             return kegIDResponse;
         }

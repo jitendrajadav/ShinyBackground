@@ -138,8 +138,9 @@ namespace KegID.Model
         public string SourceSystem { get; set; }
     }
 
-    public class KegSearchModel : KegIDResponse
+    public class KegSearchModel 
     {
+        public KegIDResponse Response { get; set; }
         public IList<KegSearchResponseModel> KegSearchResponseModel { get; set; }
     }
 }

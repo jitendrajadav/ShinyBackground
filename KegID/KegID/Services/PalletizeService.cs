@@ -17,7 +17,7 @@ namespace KegID.Services
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Send, content, RequestType: RequestType);
 
             palletResponseModel = DeserializeObject<PalletResponseModel>(value.Response, GetJsonSetting());
-            palletResponseModel.StatusCode = value.StatusCode;
+            palletResponseModel.Response.StatusCode = value.StatusCode;
             return palletResponseModel;
         }
     }

@@ -18,8 +18,9 @@ namespace KegID.Model
         public string AgeStatus { get; set; }
     }
 
-    public class KegPossessionModel : KegIDResponse
+    public class KegPossessionModel 
     {
+        public KegIDResponse Response { get; set; }
         public IList<KegPossessionResponseModel> KegPossessionResponseModel { get; set; }
     }
 }

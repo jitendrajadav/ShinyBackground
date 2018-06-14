@@ -3,8 +3,9 @@ using System.Collections.Generic;
 
 namespace KegID.Model
 {
-    public class KegStatusResponseModel : KegIDResponse
+    public class KegStatusResponseModel
     {
+        public KegIDResponse Response { get; set; }
         public string KegId { get; set; }
         public Owner Owner { get; set; }
         public string Barcode { get; set; }

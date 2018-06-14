@@ -15,8 +15,9 @@ namespace KegID.Model
         public long ScheduleId { get; set; }
     }
 
-    public class AddMaintenanceAlertModel : KegIDResponse
+    public class AddMaintenanceAlertModel 
     {
-        public IList<AddMaintenanceAlertResponseModel> AddMaintenanceAlertResponseModel { get; set; }
+        public IList<AddMaintenanceAlertResponseModel> AddMaintenanceAlertResponseModel { get; }
+        public KegIDResponse Response { get; set; }
     }
 }

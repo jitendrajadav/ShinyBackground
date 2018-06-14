@@ -4,9 +4,10 @@ using System.Collections.Generic;
 namespace KegID.Model
 {
 
-    public class MaintenanceDoneModel : KegIDResponse
+    public class MaintenanceDoneModel 
     {
         public MaintenanceDoneRequestModel MaintenanceDoneRequestModel { get; set; }
+        public KegIDResponse Response { get; set; }
     }
 
     public class MaintenanceDoneRequestModel

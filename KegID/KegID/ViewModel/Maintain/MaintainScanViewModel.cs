@@ -405,7 +405,7 @@ namespace KegID.ViewModel
 
                     KegIDResponse kegIDResponse = await _maintainService.PostMaintenanceDoneAsync(model.MaintenanceDoneRequestModel, AppSettings.User.SessionId, Configuration.PostedMaintenanceDone);
 
-                    if (kegIDResponse.StatusCode == System.Net.HttpStatusCode.NoContent)
+                    if (kegIDResponse.StatusCode == System.Net.HttpStatusCode.NoContent.ToString())
                     {
                         SimpleIoc.Default.GetInstance<MaintainDetailViewModel>().LoadInfo(BarcodeCollection);
 

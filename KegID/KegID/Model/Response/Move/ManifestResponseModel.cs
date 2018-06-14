@@ -3,8 +3,9 @@ using System.Collections.Generic;
 
 namespace KegID.Model
 {
-    public class ManifestResponseModel : KegIDResponse
+    public class ManifestResponseModel 
     {
+        public KegIDResponse Response { get; set; }
         public string ReceivedDate { get; set; }
         public CreatorCompany CreatorCompany { get; set; }
         public object CreatorUser { get; set; }

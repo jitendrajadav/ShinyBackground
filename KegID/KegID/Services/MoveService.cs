@@ -17,7 +17,7 @@ namespace KegID.Services
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
             model.OwnerModel = DeserializeObject<IList<OwnerModel>>(value.Response, GetJsonSetting());
-            model.StatusCode = value.StatusCode;
+            model.Response.StatusCode = value.StatusCode;
 
             return model;
         }
@@ -30,7 +30,7 @@ namespace KegID.Services
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
             brandResponseModel.BrandModel = DeserializeObject<IList<BrandModel>>(value.Response, GetJsonSetting());
-            brandResponseModel.StatusCode = value.StatusCode;
+            brandResponseModel.Response.StatusCode = value.StatusCode;
 
             return brandResponseModel;
         }
@@ -43,7 +43,7 @@ namespace KegID.Services
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
             manifestResponseModel = !string.IsNullOrEmpty(value.Response) ? DeserializeObject<ManifestResponseModel>(value.Response, GetJsonSetting()) : manifestResponseModel;
-            manifestResponseModel.StatusCode = value.StatusCode;
+            manifestResponseModel.Response.StatusCode = value.StatusCode;
 
             return manifestResponseModel;
         }
@@ -56,7 +56,7 @@ namespace KegID.Services
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
             partnerResponseModel.PartnerModel = DeserializeObject<IList<PartnerModel>>(value.Response, GetJsonSetting());
-            partnerResponseModel.StatusCode = value.StatusCode;
+            partnerResponseModel.Response.StatusCode = value.StatusCode;
 
             return partnerResponseModel;
         }
@@ -69,7 +69,7 @@ namespace KegID.Services
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
             partnerTypeResponseModel.PartnerTypeModel = DeserializeObject<IList<PartnerTypeModel>>(value.Response, GetJsonSetting());
-            partnerTypeResponseModel.StatusCode = value.StatusCode;
+            partnerTypeResponseModel.Response.StatusCode = value.StatusCode;
 
             return partnerTypeResponseModel;
         }
@@ -82,7 +82,7 @@ namespace KegID.Services
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
             validateBarcodeModel = value.Response!= null? DeserializeObject<ValidateBarcodeModel>(value.Response, GetJsonSetting()) : new ValidateBarcodeModel();
-            validateBarcodeModel.StatusCode = value.StatusCode;
+            validateBarcodeModel.Response.StatusCode = value.StatusCode;
 
             return validateBarcodeModel;
         }
@@ -95,7 +95,7 @@ namespace KegID.Services
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
             partnerResponseModel.PartnerModel = DeserializeObject<IList<PartnerModel>>(value.Response, GetJsonSetting());
-            partnerResponseModel.StatusCode = value.StatusCode;
+            partnerResponseModel.Response.StatusCode = value.StatusCode;
 
             return partnerResponseModel;
         }
@@ -122,7 +122,7 @@ namespace KegID.Services
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
             manifestSearchModel.ManifestSearchResponseModel = DeserializeObject<IList<ManifestSearchResponseModel>>(value.Response, GetJsonSetting());
-            manifestSearchModel.StatusCode = value.StatusCode;
+            manifestSearchModel.Response.StatusCode = value.StatusCode;
 
             return manifestSearchModel;
         }
@@ -136,7 +136,7 @@ namespace KegID.Services
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Send, content, RequestType: RequestType);
 
             manifestModelGet = value.Response != null? DeserializeObject<ManifestModelGet>(value.Response, GetJsonSetting()) : new ManifestModelGet();
-            manifestModelGet.StatusCode = value.StatusCode;
+            manifestModelGet.Response.StatusCode = value.StatusCode;
             return manifestModelGet;
         }
 
@@ -163,7 +163,7 @@ namespace KegID.Services
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Send, content, RequestType: RequestType);
 
             partnerResponseModel = DeserializeObject<NewPartnerResponseModel>(value.Response, GetJsonSetting());
-            partnerResponseModel.StatusCode = value.StatusCode;
+            partnerResponseModel.Response.StatusCode = value.StatusCode;
             return partnerResponseModel;
         }
 

@@ -3,8 +3,9 @@ using System.Collections.Generic;
 
 namespace KegID.Model
 {
-    public class NewPartnerResponseModel : KegIDResponse
+    public class NewPartnerResponseModel 
     {
+        public KegIDResponse Response { get; set; }
         public string PartnerId { get; set; }
         public string CompanyNo { get; set; }
         public string ParentPartnerId { get; set; }

@@ -1,28 +1,28 @@
-﻿//using SQLite.Net.Attributes;
-using Realms;
+﻿using Realms;
 using System;
 using System.Collections.Generic;
 
 namespace KegID.Model
 {
-    public class ValidateBarcodeModel : KegIDResponse
+    public class ValidateBarcodeModel : RealmObject
     {
         public Kegs Kegs { get; set; }
         public Pallets Pallets { get; set; }
+        public KegIDResponse Response { get; set; }
     }
 
-    public class Kegs
+    public class Kegs : RealmObject
     {
-        public List<string> Contents { get; set; }
-        public List<string> Sizes { get; set; }
-        public List<string> Batches { get; set; }
-        public List<Partner> Partners { get; set; }
-        public List<Location> Locations { get; set; }
-        public List<MaintenanceItem> MaintenanceItems { get; set; }
-        public List<SkUs> SkUs { get; set; }
+        public IList<string> Contents { get; }
+        public IList<string> Sizes { get; }
+        public IList<string> Batches { get; }
+        public IList<Partner> Partners { get; }
+        public IList<Location> Locations { get; }
+        public IList<MaintenanceItem> MaintenanceItems { get; }
+        public IList<SkUs> SkUs { get; }
     }
 
-    public class Location
+    public class Location : RealmObject
     {
         public string Name { get; set; }
         public string TypeCode { get; set; }
@@ -41,8 +41,6 @@ namespace KegID.Model
         public DateTimeOffset? DeletedDate { get; set; }
         public bool InUse { get; set; }
         public IList<string> ActivationPartnerTypes { get;}
-        public Barcode Barcodes { get; set; }
-
     }
 
     public class Partner : RealmObject
@@ -75,7 +73,6 @@ namespace KegID.Model
         public string SourceKey { get; set; }
         public string LocationStatus { get; set; }
         public long? CompanyNo { get; set; }
-        public Barcode Barcodes { get; set; }
     }
 
     public class Keg : RealmObject
@@ -91,14 +88,14 @@ namespace KegID.Model
         public string Alert { get; set; }
         public long Location { get; set; }
         //[Ignore]
-        public List<long> MaintenanceItems { get; }
+        public IList<long> MaintenanceItems { get; }
         //[Ignore]
-        public List<long> PendingMaintenanceItems { get;}
+        public IList<long> PendingMaintenanceItems { get;}
         public long? Sku { get; set; }
         public long? ContentsSku { get; set; }
     }
 
-    public class SkUs
+    public class SkUs : RealmObject
     {
         public string AssetOwnerName { get; set; }
         public string AssetOwnersSkuId { get; set; }
@@ -121,12 +118,12 @@ namespace KegID.Model
         public string Barcode { get; set; }
     }
 
-    public class Pallets
+    public class Pallets : RealmObject
     {
-        public List<object> Contents { get; set; }
-        public List<object> PurplePallets { get; set; }
-        public List<object> Companies { get; set; }
-        public List<object> Skus { get; set; }
+        public IList<string> Contents { get; }
+        public IList<string> PurplePallets { get; }
+        public IList<string> Companies { get; }
+        public IList<string> Skus { get; }
     }
 
 }

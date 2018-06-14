@@ -93,7 +93,7 @@ namespace KegID.ViewModel
                 Loader.StartLoading();
 
                 var manifest = await _moveService.GetManifestAsync(AppSettings.User.SessionId, model.ManifestId);
-                if (manifest.StatusCode == System.Net.HttpStatusCode.OK)
+                if (manifest.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                 {
                     SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().AssignInitialValue(manifest,string.Empty);
 

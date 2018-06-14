@@ -17,8 +17,9 @@ namespace KegID.Model
         public string PurpleType { get; set; }
     }
 
-    public class ManifestSearchModel : KegIDResponse
+    public class ManifestSearchModel 
     {
+        public KegIDResponse Response { get; set; }
         public IList<ManifestSearchResponseModel> ManifestSearchResponseModel { get; set; }
     }
 }
