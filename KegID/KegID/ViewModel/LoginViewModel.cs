@@ -263,14 +263,15 @@ namespace KegID.ViewModel
                     {
                         Crashes.TrackError(ex);
                     }
+
+                    Application.Current.MainPage = new MainPage();
+                    await Application.Current.MainPage.Navigation.PopToRootAsync(true);
                 }
                 else
                 {
                     Loader.StopLoading();
                     await Application.Current.MainPage.DisplayAlert("Error", "Error while login please check", "Ok");
                 }
-                Application.Current.MainPage = new MainPage();
-                await Application.Current.MainPage.Navigation.PopToRootAsync(true);
             }
             catch (Exception ex)
             {
