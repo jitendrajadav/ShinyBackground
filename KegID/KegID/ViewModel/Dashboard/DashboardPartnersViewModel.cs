@@ -11,6 +11,7 @@ using System;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.AppCenter.Crashes;
+using Realms;
 
 namespace KegID.ViewModel
 {
@@ -373,26 +374,32 @@ namespace KegID.ViewModel
 
         private async Task LoadPartnersAsync()
         {
-            //AllPartners = await SQLiteServiceClient.Db.Table<PossessorResponseModel>().ToListAsync();
+            var RealmDb = Realm.GetInstance();
+            AllPartners = RealmDb.All<PossessorResponseModel>().ToList();// await SQLiteServiceClient.Db.Table<PossessorResponseModel>().ToListAsync();
             try
             {
-                //if (AllPartners.Count > 0)
-                //    PartnerCollection = new ObservableCollection<PossessorResponseModel>(AllPartners.OrderBy(x => x.Location.FullName));
-                //else
-                //{
-                Loader.StartLoading();
-                var value = await _dashboardService.GetDashboardPartnersListAsync(AppSettings.User.CompanyId, AppSettings.User.SessionId);
-                if (value.StatusCode == System.Net.HttpStatusCode.OK)
+                if (AllPartners.Count > 0)
+                    PartnerCollection = new ObservableCollection<PossessorResponseModel>(AllPartners.OrderBy(x => x.Location.FullName));
+                else
                 {
-                    AllPartners = value.PossessorResponseModel.Where(x => x.Location.FullName != string.Empty).ToList();
-                    PartnerCollection = new ObservableCollection<PossessorResponseModel>(AllPartners.OrderByDescending(x => x.KegsHeld));
-                    //await SQLiteServiceClient.Db.InsertAllAsync(AllPartners);
+                    Loader.StartLoading();
+                    var value = await _dashboardService.GetDashboardPartnersListAsync(AppSettings.User.CompanyId, AppSettings.User.SessionId);
+                    if (value.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        AllPartners = value.PossessorResponseModel.Where(x => x.Location.FullName != string.Empty).ToList();
+                        PartnerCollection = new ObservableCollection<PossessorResponseModel>(AllPartners.OrderByDescending(x => x.KegsHeld));
+
+                        RealmDb.Write(() =>
+                        {
+                            foreach (var item in AllPartners)
+                                RealmDb.Add(item);
+                        });
+                    }
                 }
-                //}
             }
             catch (Exception ex)
             {
-                 Crashes.TrackError(ex);
+                Crashes.TrackError(ex);
             }
             finally
             {

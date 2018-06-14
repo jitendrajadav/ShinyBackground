@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using Realms;
+using System.Collections.Generic;
 
 namespace KegID.Model
 {
-    public class PossessorResponseModel
+    public class PossessorResponseModel : RealmObject
     {
         public PossessorLocation Location { get; set; }
         public long KegsHeld { get; set; }
@@ -13,7 +14,7 @@ namespace KegID.Model
         public string Icon { get; set; }
     }
 
-    public class PossessorLocation
+    public class PossessorLocation : RealmObject
     {
         public string PartnerId { get; set; }
         public string FullName { get; set; }
