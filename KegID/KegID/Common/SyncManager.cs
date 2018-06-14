@@ -1,4 +1,5 @@
-﻿using KegID.Messages;
+﻿using KegID.LocalDb;
+using KegID.Messages;
 using KegID.Model;
 using Realms;
 using System.Linq;

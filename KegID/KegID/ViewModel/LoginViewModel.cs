@@ -1,16 +1,13 @@
-﻿//using Fusillade;
-using GalaSoft.MvvmLight.Command;
+﻿using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
-using KegID.Dtos;
+using KegID.LocalDb;
 using KegID.Model;
 using KegID.Services;
-//using KegID.SQLiteClient;
 using KegID.Views;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Realms;
-//using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +16,6 @@ using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
-    //[ImplementPropertyChanged]
     public class LoginViewModel : BaseViewModel
     {
 
@@ -127,7 +123,6 @@ namespace KegID.ViewModel
 
         #endregion
 
-        //public readonly ILoginService _loginService;
         public readonly IAccountService AccountService;
         public readonly IMaintainService MaintainService;
 
@@ -191,11 +186,6 @@ namespace KegID.ViewModel
         //        Analytics.TrackEvent("Loged In");
         //    }
         //}
-
-        private void CacheLogin(LoginDto login)
-        {
-
-        }
 
         private async void LoginCommandRecieverAsync()
         {

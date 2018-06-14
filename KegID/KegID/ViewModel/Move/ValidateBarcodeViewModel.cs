@@ -11,6 +11,7 @@ using System;
 using Microsoft.AppCenter.Crashes;
 using Realms;
 using KegID.Common;
+using KegID.LocalDb;
 
 namespace KegID.ViewModel
 {

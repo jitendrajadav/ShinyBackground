@@ -1,4 +1,5 @@
-﻿using KegID.Model;
+﻿using KegID.LocalDb;
+using KegID.Model;
 //using KegID.SQLiteClient;
 using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;

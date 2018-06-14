@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
+using KegID.LocalDb;
 using KegID.Messages;
 using KegID.Model;
 using KegID.Services;
@@ -342,9 +343,19 @@ namespace KegID.ViewModel
                         {
                             var barode = BarcodeCollection.Where(x => x.Id == value.Barcodes.Id).FirstOrDefault();
                             barode.Icon = value.Barcodes.Icon;
-                            //barode.Partners = value.Barcodes.Partners;
-                            //barode.MaintenanceItems = value.Barcodes.MaintenanceItems;
-                            //barode.Tags = value.Barcodes.Tags;
+                        foreach (var item in value.Barcodes.Partners)
+                        {
+                            barode.Partners.Add(item) ;
+                        }
+                        foreach (var item in value.Barcodes.MaintenanceItems)
+                        {
+                            barode.MaintenanceItems.Add(item) ;
+
+                        }
+                        foreach (var item in value.Barcodes.Tags)
+                        {
+                            barode.Tags.Add(item) ;
+                        }
                     }
                 });
             });

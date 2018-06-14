@@ -591,7 +591,7 @@
             
             <Grid
                 VerticalOptions="End"
-                HorizontalOptions="Center"
+                HorizontalOptions="FillAndExpand"
                 Grid.Row="4">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -599,13 +599,13 @@
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
                 <Button
                     Grid.Column="0"
-                    HorizontalOptions="Center"
+                    HorizontalOptions="End"
                     HeightRequest="10"
                     VerticalOptions="Center"
                     WidthRequest="10"
@@ -615,7 +615,7 @@
 
                 <Button
                     Grid.Column="1"
-                    HorizontalOptions="Center"
+                    HorizontalOptions="Start"
                     HeightRequest="10"
                     VerticalOptions="Center"
                     WidthRequest="10"
@@ -623,6 +623,7 @@
                     BackgroundColor="LightGray"/>
 
                 <Label
+                    Grid.ColumnSpan="2"
                     Grid.Row="1"
                     HeightRequest="35"
                     TextColor="White"
@@ -631,7 +632,7 @@
                     HorizontalTextAlignment="Center"
                     BackgroundColor="Red"
                     IsVisible="{Binding IsVisibleDraftmaniFestsLabel}"
-                    Text="{Binding DraftmaniFests,StringFormat='${0} draft manifests'}"/>
+                    Text="{Binding DraftmaniFests,StringFormat='{0} draft manifests'}"/>
 
             </Grid>
 

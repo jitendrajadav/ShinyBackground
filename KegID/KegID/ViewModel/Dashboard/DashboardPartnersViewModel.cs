@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.AppCenter.Crashes;
 using Realms;
+using KegID.LocalDb;
 
 namespace KegID.ViewModel
 {

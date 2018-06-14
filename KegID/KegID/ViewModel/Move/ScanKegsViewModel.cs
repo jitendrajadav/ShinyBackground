@@ -15,6 +15,7 @@ using Microsoft.AppCenter.Crashes;
 using KegID.Messages;
 using Realms;
 using Xamarin.Essentials;
+using KegID.LocalDb;
 
 namespace KegID.ViewModel
 {
@@ -309,13 +310,20 @@ namespace KegID.ViewModel
             MessagingCenter.Subscribe<ScanKegsMessage>(this, "ScanKegsMessage", message => {
                 Device.BeginInvokeOnMainThread(() => {
                    var value = message;
-                        if (value != null)
+                    if (value != null)
+                    {
+                        var barode = BarcodeCollection.Where(x => x.Id == value.Barcodes.Id).FirstOrDefault();
+                        barode.Icon = value.Barcodes.Icon;
+                        foreach (var item in value.Barcodes.Partners)
                         {
-                            var barode = BarcodeCollection.Where(x => x.Id == value.Barcodes.Id).FirstOrDefault();
-                            barode.Icon = value.Barcodes.Icon;
-                            //barode.Partners = value.Barcodes.Partners;
-                            //barode.MaintenanceItems = value.Barcodes.MaintenanceItems;
-                        } 
+                            barode.Partners.Add(item);
+                        }
+
+                        foreach (var item in value.Barcodes.MaintenanceItems)
+                        {
+                            barode.MaintenanceItems.Add(item);
+                        }
+                    }
                 });
             });
 

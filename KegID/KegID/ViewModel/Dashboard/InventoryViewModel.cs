@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using KegID.Common;
+using KegID.LocalDb;
 using KegID.Model;
 using KegID.Services;
 //using KegID.SQLiteClient;

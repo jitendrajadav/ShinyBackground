@@ -5,6 +5,7 @@ using System.Linq;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
+using KegID.LocalDb;
 using KegID.Model;
 using Microsoft.AppCenter.Crashes;
 using Realms;

@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
+using KegID.LocalDb;
 using KegID.Messages;
 using KegID.Model;
 using KegID.Services;
@@ -46,7 +47,11 @@ namespace KegID
                         validateBarcodeModel.Kegs.Partners.Count == 0 ? GetIconByPlatform.GetIcon("validationerror.png") : GetIconByPlatform.GetIcon("validationok.png"),
                         //MaintenanceItems = validateBarcodeModel.Kegs.MaintenanceItems
                     };
-
+                    foreach (var partner in validateBarcodeModel.Kegs.Partners)
+                    {
+                        barcode.Partners.Add(partner);
+                    }
+                    
                     BarcodeModel barcodeModel = new BarcodeModel()
                     {
                         Barcode = item,
@@ -58,7 +63,7 @@ namespace KegID
                         var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                         RealmDb.Write(() =>
                         {
-                            RealmDb.Add(barcodeModel);
+                            RealmDb.Add(barcodeModel,true);
                         });
                         //await SQLiteServiceClient.Db.InsertAsync(barcodeModel);
                     }

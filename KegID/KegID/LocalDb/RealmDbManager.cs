@@ -1,6 +1,6 @@
 ﻿using Realms;
 
-namespace KegID.Common
+namespace KegID.LocalDb
 {
     public static class RealmDbManager
     {

@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
+using KegID.LocalDb;
 using KegID.Model;
 using KegID.ViewModel;
 using Microsoft.AppCenter.Crashes;

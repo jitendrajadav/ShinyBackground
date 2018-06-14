@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
+using KegID.LocalDb;
 using KegID.Messages;
 using KegID.Model;
 using KegID.Services;
@@ -133,16 +134,26 @@ namespace KegID.ViewModel
         void HandleReceivedMessages()
         {
             MessagingCenter.Subscribe<MaintainScanMessage>(this, "MaintainScanMessage", message => {
-                Device.BeginInvokeOnMainThread(() => {
+                Device.BeginInvokeOnMainThread(() =>
+                {
                     var value = message;
-                        if (value != null)
+                    if (value != null)
+                    {
+                        var barode = BarcodeCollection.Where(x => x.Id == value.Barcodes.Id).FirstOrDefault();
+                        barode.Icon = value.Barcodes.Icon;
+                        foreach (var item in value.Barcodes.Partners)
                         {
-                            var barode = BarcodeCollection.Where(x => x.Id == value.Barcodes.Id).FirstOrDefault();
-                            barode.Icon = value.Barcodes.Icon;
-                            //barode.Partners = value.Barcodes.Partners;
-                            //barode.MaintenanceItems = value.Barcodes.MaintenanceItems;
-                            //barode.Tags = value.Barcodes.Tags;
+                            barode.Partners.Add(item);
                         }
+                        foreach (var item in value.Barcodes.MaintenanceItems)
+                        {
+                            barode.MaintenanceItems.Add(item);
+                        }
+                        foreach (var item in value.Barcodes.Tags)
+                        {
+                            barode.Tags.Add(item);
+                        }
+                    }
                 });
             });
 
