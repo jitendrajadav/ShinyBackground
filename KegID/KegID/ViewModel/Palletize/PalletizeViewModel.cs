@@ -413,7 +413,7 @@ namespace KegID.ViewModel
                 {
                     pallet = new PalletItem
                     {
-                        Barcode = item.Id,
+                        Barcode = item.Barcode,
                         ScanDate = DateTimeOffset.Now,
                         Tags = SimpleIoc.Default.GetInstance<ScanKegsViewModel>().Tags,
                         ValidationStatus = 4
@@ -466,7 +466,7 @@ namespace KegID.ViewModel
             }
         }
 
-        internal void AssingScanKegsValue(IList<Barcode> _barcodes)
+        internal void AssingScanKegsValue(IList<ValidateBarcodeModel> _barcodes)
         {
             if (_barcodes.Count > 1)
                 AddKegs = string.Format("{0} Items", _barcodes.Count);

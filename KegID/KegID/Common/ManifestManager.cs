@@ -14,7 +14,7 @@ namespace KegID.Common
 {
     public static class ManifestManager
     {
-        public static async Task<ManifestModel> GetManifestDraft(EventTypeEnum eventTypeEnum, string manifestId, IList<Barcode> barcodeCollection,
+        public static async Task<ManifestModel> GetManifestDraft(EventTypeEnum eventTypeEnum, string manifestId, IList<ValidateBarcodeModel> barcodeCollection,
             List<Tag> tags, PartnerModel partnerModel, List<NewPallet> newPallets, List<NewBatch> batches, List<string> closedBatches, long validationStatus, string contents = "")
         {
             ManifestModel manifestModel = null;
@@ -30,7 +30,7 @@ namespace KegID.Common
             {
                 foreach (var item in barcodeCollection)
                 {
-                    string barcodeId = item.Id;
+                    string barcodeId = item.Barcode;
                     var barcodeResult = RealmDb.All<BarcodeModel>().Where(x => x.Barcode == barcodeId).FirstOrDefault();
                     //await SQLiteServiceClient.Db.Table<BarcodeModel>().Where(x => x.Barcode == barcodeId).FirstOrDefaultAsync();
                     validateBarcodeModel = JsonConvert.DeserializeObject<ValidateBarcodeModel>(barcodeResult.BarcodeJson);

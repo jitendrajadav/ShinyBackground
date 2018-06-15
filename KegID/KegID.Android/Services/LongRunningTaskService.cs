@@ -1,11 +1,9 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.OS;
 using KegID.Messages;
-using KegID.Model;
 using Xamarin.Forms;
 
 namespace KegID.Droid.Services
@@ -29,7 +27,7 @@ namespace KegID.Droid.Services
                 {
                     //INVOKE THE SHARED CODE
                     var counter = new TaskCounter();
-                    counter.RunCounter(_cts.Token, intent.GetStringArrayListExtra("Barcode"), (ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), intent.GetStringExtra("Page"))).Wait();
+                    counter.RunCounter(_cts.Token, intent.GetStringArrayListExtra("Barcode"), intent.GetStringExtra("Page")).Wait();
                 }
                 catch (System.OperationCanceledException)
                 {

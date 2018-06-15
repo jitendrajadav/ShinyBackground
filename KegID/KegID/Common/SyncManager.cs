@@ -31,7 +31,7 @@ namespace KegID.Common
                     var message = new StartLongRunningTaskMessage
                     {
                         Barcode = value.Select(p => p.Id).ToList(), //new List<string>() { ManaulBarcode },
-                        Page = ViewTypeEnum.ScanKegsView
+                        Page = ViewTypeEnum.ScanKegsView.ToString()
                     };
                     MessagingCenter.Send(message, "StartLongRunningTaskMessage"); 
                 }

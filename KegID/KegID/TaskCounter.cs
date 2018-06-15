@@ -5,7 +5,6 @@ using KegID.Messages;
 using KegID.Model;
 using KegID.Services;
 using Microsoft.AppCenter.Crashes;
-using Newtonsoft.Json;
 using Realms;
 using System;
 using System.Collections.Generic;
@@ -19,7 +18,7 @@ namespace KegID
     {
         public readonly IMoveService MoveService;
 
-        public async Task RunCounter(CancellationToken token, IList<string> _barcode,ViewTypeEnum _page)
+        public async Task RunCounter(CancellationToken token, IList<string> _barcode,string _page)
         {
             await Task.Run(async () => {
 
@@ -28,43 +27,45 @@ namespace KegID
             }, token);
         }
 
-        public async Task ValidateBarcodeInsertIntoLocalDB(IList<string> _barcodeId, ViewTypeEnum _page)
+        public async Task ValidateBarcodeInsertIntoLocalDB(IList<string> _barcodeId, string _page)
         {
             var service = SimpleIoc.Default.GetInstance<IMoveService>();
 
             foreach (var item in _barcodeId)
             {
                 ValidateBarcodeModel validateBarcodeModel = await service.GetValidateBarcodeAsync(AppSettings.User.SessionId, item);
-                Barcode barcode = null;
+                validateBarcodeModel.Barcode = item;
+                //Barcode barcode = null;
                 if (validateBarcodeModel.Kegs != null)
                 {
-                    barcode = new Barcode
-                    {
-                        Id = item,
-                        Icon = validateBarcodeModel.Kegs.Partners.Count > 1 ? GetIconByPlatform.GetIcon("validationquestion.png") :
-                        validateBarcodeModel.Kegs.Partners.Count == 0 ? GetIconByPlatform.GetIcon("validationerror.png") : GetIconByPlatform.GetIcon("validationok.png"),
-                    };
-                    foreach (var partner in validateBarcodeModel.Kegs.Partners)
-                    {
-                        barcode.Partners.Add(partner);
-                    }
-                    foreach (var maintenance in validateBarcodeModel.Kegs.MaintenanceItems)
-                    {
-                        barcode.MaintenanceItems.Add(maintenance);
-                    }
-                    BarcodeModel barcodeModel = new BarcodeModel()
-                    {
-                        Barcode = item,
-                        BarcodeJson = JsonConvert.SerializeObject(validateBarcodeModel)
-                    };
+                    //barcode = new Barcode
+                    //{
+                    //    Id = item,
+                    //    Icon = validateBarcodeModel.Kegs.Partners.Count > 1 ? GetIconByPlatform.GetIcon("validationquestion.png") :
+                    //    validateBarcodeModel.Kegs.Partners.Count == 0 ? GetIconByPlatform.GetIcon("validationerror.png") : GetIconByPlatform.GetIcon("validationok.png"),
+                    //};
+                    //foreach (var partner in validateBarcodeModel.Kegs.Partners)
+                    //{
+                    //    barcode.Partners.Add(partner);
+                    //}
+                    //foreach (var maintenance in validateBarcodeModel.Kegs.MaintenanceItems)
+                    //{
+                    //    barcode.MaintenanceItems.Add(maintenance);
+                    //}
+                    //BarcodeModel barcodeModel = new BarcodeModel()
+                    //{
+                    //    Barcode = item,
+                    //    BarcodeJson = JsonConvert.SerializeObject(validateBarcodeModel)
+                    //};
                     try
                     {
                         // The item does not exists in the database so lets insert it
-                        var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                        RealmDb.Write(() =>
-                        {
-                            RealmDb.Add(barcodeModel,true);
-                        });
+                        //var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                        //RealmDb.Write(() =>
+                        //{
+                        //    //RealmDb.Add(barcodeModel,true);
+                        //    RealmDb.Add(validateBarcodeModel,true);
+                        //});
                         //await SQLiteServiceClient.Db.InsertAsync(barcodeModel);
                     }
                     catch (Exception ex)
@@ -76,30 +77,30 @@ namespace KegID
                 Device.BeginInvokeOnMainThread(() => {
                     switch (_page)
                     {
-                        case ViewTypeEnum.ScanKegsView:
+                        case "ScanKegsView":
                             ScanKegsMessage scanKegsMessage = new ScanKegsMessage
                             {
-                                Barcodes = barcode
+                                Barcodes = validateBarcodeModel
                             };
                             MessagingCenter.Send(scanKegsMessage, "ScanKegsMessage");
                             break;
-                        case ViewTypeEnum.FillScanView:
+                        case "FillScanView":
                             MessagingCenter.Send(new FillScanMessage
                             {
-                                Barcodes = barcode
+                                Barcodes = validateBarcodeModel
                             }, "FillScanMessage");
                             break;
-                        case ViewTypeEnum.MaintainScanView:
+                        case "MaintainScanView":
                             MaintainScanMessage maintainScanMessage = new MaintainScanMessage
                             {
-                                Barcodes = barcode
+                                Barcodes = validateBarcodeModel
                             };
                             MessagingCenter.Send(maintainScanMessage, "MaintainScanMessage");
                             break;
-                        case ViewTypeEnum.BulkUpdateScanView:
+                        case "BulkUpdateScanView":
                             BulkUpdateScanMessage bulkUpdateScanMessage = new BulkUpdateScanMessage
                             {
-                                Barcodes = barcode
+                                Barcodes = validateBarcodeModel
                             };
                             MessagingCenter.Send(bulkUpdateScanMessage, "BulkUpdateScanMessage");
                             break;

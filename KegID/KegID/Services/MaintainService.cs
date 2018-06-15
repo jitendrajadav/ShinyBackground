@@ -11,15 +11,17 @@ namespace KegID.Services
     {
         public async Task<MaintainTypeModel> GetMaintainTypeAsync(string sessionId)
         {
-            MaintainTypeModel maintainTypeModel = new MaintainTypeModel();
-
+            MaintainTypeModel model = new MaintainTypeModel
+            {
+                Response = new KegIDResponse()
+            };
             string url = string.Format(Configuration.GetMaintenanceTypeUrl, sessionId);
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
-            maintainTypeModel.MaintainTypeReponseModel = DeserializeObject<IList<MaintainTypeReponseModel>>(value.Response, GetJsonSetting());
-            maintainTypeModel.Response.StatusCode = value.StatusCode;
+            model.MaintainTypeReponseModel = DeserializeObject<IList<MaintainTypeReponseModel>>(value.Response, GetJsonSetting());
+            model.Response.StatusCode = value.StatusCode;
 
-            return maintainTypeModel;
+            return model;
         }
 
         public async Task<KegIDResponse> PostMaintenanceDoneAsync(MaintenanceDoneRequestModel model, string sessionId, string RequestType)

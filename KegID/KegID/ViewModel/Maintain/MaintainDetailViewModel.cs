@@ -175,7 +175,7 @@ namespace KegID.ViewModel
 
         private async void HomeCommandCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PopModalAsync();
 
-        internal void LoadInfo(IList<Barcode> barcodeCollection)
+        internal void LoadInfo(IList<ValidateBarcodeModel> barcodeCollection)
         {
             try
             {
@@ -183,7 +183,7 @@ namespace KegID.ViewModel
 
                 StockLocation = SimpleIoc.Default.GetInstance<MaintainViewModel>().PartnerModel.FullName + "\n" + SimpleIoc.Default.GetInstance<MaintainViewModel>().PartnerModel.PartnerTypeName;
                 ItemCount = barcodeCollection.Count;
-                SimpleIoc.Default.GetInstance<ContentTagsViewModel>().ContentCollection = barcodeCollection.Select(x => x.Id).ToList();
+                SimpleIoc.Default.GetInstance<ContentTagsViewModel>().ContentCollection = barcodeCollection.Select(x => x.Barcode).ToList();
 
                 Contents = string.Empty;
             }

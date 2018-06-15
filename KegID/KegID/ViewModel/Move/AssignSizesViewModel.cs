@@ -17,7 +17,7 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        public List<Barcode> VerifiedBarcodes { get; set; }
+        public List<ValidateBarcodeModel> VerifiedBarcodes { get; set; }
 
         #region MaintenaceCollection
 
@@ -283,7 +283,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                VerifiedBarcodes.FirstOrDefault().HasMaintenaceVerified = true;
+                //VerifiedBarcodes.FirstOrDefault().HasMaintenaceVerified = true;
             }
             catch (Exception ex)
             {
@@ -376,7 +376,7 @@ namespace KegID.ViewModel
             }
         }
 
-        internal void AssignInitialValueAsync(List<Barcode> _alerts)
+        internal void AssignInitialValueAsync(List<ValidateBarcodeModel> _alerts)
         {
             try
             {
@@ -390,22 +390,22 @@ namespace KegID.ViewModel
                 {
                     AssetTypeModel selectedType = null;
                     AssetSizeModel selectedSize = null;
-                    OwnerModel selectedOwner = OwnerCollection.Where(x => x.FullName == item?.Partners?.FirstOrDefault()?.FullName).FirstOrDefault();
+                    OwnerModel selectedOwner = OwnerCollection.Where(x => x.FullName == item?.Kegs?.Partners?.FirstOrDefault()?.FullName).FirstOrDefault();
 
                     if (selectedOwner!= null)
                     {
                         selectedOwner.HasInitial = true;
                     }
-                    if (item.Tags.Count > 2)
-                    {
-                        selectedType = TypeCollection.Where(x => x.AssetType == item.Tags?[2]?.Value).FirstOrDefault();
-                        selectedType.HasInitial = true;
-                    }
-                    if (item.Tags.Count > 3)
-                    {
-                        selectedSize = SizeCollection.Where(x => x.AssetSize == item.Tags?[3]?.Value).FirstOrDefault();
-                        selectedSize.HasInitial = true;
-                    }
+                    //if (item.Tags.Count > 2)
+                    //{
+                    //    selectedType = TypeCollection.Where(x => x.AssetType == item.Tags?[2]?.Value).FirstOrDefault();
+                    //    selectedType.HasInitial = true;
+                    //}
+                    //if (item.Tags.Count > 3)
+                    //{
+                    //    selectedSize = SizeCollection.Where(x => x.AssetSize == item.Tags?[3]?.Value).FirstOrDefault();
+                    //    selectedSize.HasInitial = true;
+                    //}
 
                     MaintenaceCollection.Add(
                         new MoveMaintenanceAlertModel
@@ -413,7 +413,7 @@ namespace KegID.ViewModel
                             UOwnerCollection = OwnerCollection.ToList(),
                             USizeCollection = SizeCollection.ToList(),
                             UTypeCollection = TypeCollection.ToList(),
-                            BarcodeId = item.Id,
+                            BarcodeId = item.Barcode,
                             SelectedUOwner = selectedOwner ?? selectedOwner,
                             SelectedUSize = selectedSize ?? selectedSize,
                             SelectedUType = selectedType ?? selectedType

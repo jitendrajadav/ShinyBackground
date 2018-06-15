@@ -7,6 +7,6 @@ namespace KegID.Messages
     public class StartLongRunningTaskMessage
     {
         public IList<string> Barcode { get; set; }
-        public ViewTypeEnum Page { get; set; }
+        public string Page { get; set; }
     }
 }

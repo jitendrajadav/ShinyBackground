@@ -20,7 +20,7 @@ namespace KegID.ViewModel
 
         public IMoveService _moveService { get; set; }
         public string Barcode { get; set; }
-        public IList<Barcode> Barcodes
+        public IList<ValidateBarcodeModel> Barcodes
         {
             get;
 
@@ -485,7 +485,7 @@ namespace KegID.ViewModel
             }
         }
 
-        internal void AssingScanKegsValue(List<Barcode> _barcodes, List<Tag> _tags,string _contents)
+        internal void AssingScanKegsValue(List<ValidateBarcodeModel> _barcodes, List<Tag> _tags,string _contents)
         {
             try
             {

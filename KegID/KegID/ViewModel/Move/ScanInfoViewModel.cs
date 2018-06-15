@@ -242,18 +242,18 @@ namespace KegID.ViewModel
             }
         }
 
-        internal void AssignInitialValue(Barcode _barcode)
+        internal void AssignInitialValue(ValidateBarcodeModel _barcode)
         {
             //var value = await SQLiteServiceClient.Db.Table<ValidatePartnerModel>().Where(x => x.Barcode == _barcode).ToListAsync();
 
             try
             {
-                Barcode = string.Format(" Barcode {0} ", _barcode.Id);
-                Ownername = _barcode.Ownername;
-                Size = _barcode.Tags[2].Value;
-                Contents = _barcode.Contents;
-                Batch = _barcode.Batch;
-                Location = _barcode.Location;
+                Barcode = string.Format(" Barcode {0} ", _barcode.Barcode);
+                //Ownername = _barcode.Ownername;
+                //Size = _barcode.Tags[2].Value;
+                //Contents = _barcode.Contents;
+                //Batch = _barcode.Batch;
+                //Location = _barcode.Location;
             }
             catch (System.Exception ex)
             {

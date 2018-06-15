@@ -234,7 +234,7 @@ namespace KegID.ViewModel
                 {
                     palletItem = new TItem
                     {
-                        Barcode = item.Id,
+                        Barcode = item.Barcode,
                         //palletItem. = SimpleIoc.Default.GetInstance<FillViewModel>().NewBatchModel.BatchId,
                         //palletItem.Contents = "";
                         //palletItem.HeldOnPalletId = "";
@@ -337,7 +337,7 @@ namespace KegID.ViewModel
             }
         }
 
-        internal async Task AssignValueToAddPalletAsync(string manifestId, IList<Barcode> barcodes)
+        internal async Task AssignValueToAddPalletAsync(string manifestId, IList<ValidateBarcodeModel> barcodes)
         {
             try
             {
@@ -369,7 +369,7 @@ namespace KegID.ViewModel
             }
         }
 
-        internal void AssignFillScanValue(IList<Barcode> _barcodes, string _manifest)
+        internal void AssignFillScanValue(IList<ValidateBarcodeModel> _barcodes, string _manifest)
         {
             try
             {

@@ -55,7 +55,7 @@ namespace KegID.Droid
 
             //New xamarin forms BG services
             WireUpLongRunningTask();
-            WireUpLongDownloadTask();
+            //WireUpLongDownloadTask();
 
         }
         public static Activity GetActivity()
@@ -68,7 +68,7 @@ namespace KegID.Droid
             MessagingCenter.Subscribe<StartLongRunningTaskMessage>(this, "StartLongRunningTaskMessage", message => {
                 var intent = new Intent(this, typeof(LongRunningTaskService));
                 intent.PutStringArrayListExtra("Barcode", message.Barcode);
-                intent.PutExtra("Page", message.Page.ToString());
+                intent.PutExtra("Page", message.Page);
                 StartService(intent);
             });
 

@@ -10,14 +10,16 @@ namespace KegID.Services
     {
         public async Task<BatchResponseModel> GetBatchListAsync(string sessionId)
         {
-            BatchResponseModel batchResponseModel = new BatchResponseModel();
-
+            BatchResponseModel model = new BatchResponseModel
+            {
+                Response = new KegIDResponse()
+            };
             string url = string.Format(Configuration.GetBatchUrl, sessionId);
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
-            batchResponseModel.BatchModel = DeserializeObject<IList<BatchModel>>(value.Response, GetJsonSetting());
-            batchResponseModel.Response.StatusCode = value.StatusCode;
-            return batchResponseModel;
+            model.BatchModel = DeserializeObject<IList<BatchModel>>(value.Response, GetJsonSetting());
+            model.Response.StatusCode = value.StatusCode;
+            return model;
         }
 
         //public async Task<object> PostBatchAsync(BatchRequestModel model, string sessionId, string RequestType)

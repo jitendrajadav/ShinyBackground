@@ -209,13 +209,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string BarcodeCollectionPropertyName = "BarcodeCollection";
 
-        private ObservableCollection<Barcode> _BarcodeCollection = new ObservableCollection<Barcode>();
+        private ObservableCollection<ValidateBarcodeModel> _BarcodeCollection = new ObservableCollection<ValidateBarcodeModel>();
 
         /// <summary>
         /// Sets and gets the BarcodeCollection property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public ObservableCollection<Barcode> BarcodeCollection
+        public ObservableCollection<ValidateBarcodeModel> BarcodeCollection
         {
             get
             {
@@ -280,8 +280,8 @@ namespace KegID.ViewModel
         public RelayCommand IsPalletVisibleCommand { get;}
         public RelayCommand SubmitCommand { get;}
         public RelayCommand BarcodeManualCommand { get; }
-        public RelayCommand<Barcode> IconItemTappedCommand { get;}
-        public RelayCommand<Barcode> LabelItemTappedCommand { get; }
+        public RelayCommand<ValidateBarcodeModel> IconItemTappedCommand { get;}
+        public RelayCommand<ValidateBarcodeModel> LabelItemTappedCommand { get; }
 
         #endregion
 
@@ -298,8 +298,8 @@ namespace KegID.ViewModel
             IsPalletVisibleCommand = new RelayCommand(IsPalletVisibleCommandReciever);
             SubmitCommand = new RelayCommand(SubmitCommandRecieverAsync);
             BarcodeManualCommand = new RelayCommand(BarcodeManualCommandRecieverAsync);
-            LabelItemTappedCommand = new RelayCommand<Barcode>((model) => LabelItemTappedCommandRecieverAsync(model));
-            IconItemTappedCommand = new RelayCommand<Barcode>((model) => IconItemTappedCommandRecieverAsync(model));
+            LabelItemTappedCommand = new RelayCommand<ValidateBarcodeModel>((model) => LabelItemTappedCommandRecieverAsync(model));
+            IconItemTappedCommand = new RelayCommand<ValidateBarcodeModel>((model) => IconItemTappedCommandRecieverAsync(model));
 
             HandleReceivedMessages();
         }
@@ -315,23 +315,26 @@ namespace KegID.ViewModel
                 Device.BeginInvokeOnMainThread(() =>
                 {
                     var value = message;
-                    if (value.Barcodes != null)
-                    {
-                        var barode = BarcodeCollection.Where(x => x.Id == value.Barcodes.Id).FirstOrDefault();
-                        barode.Icon = value.Barcodes.Icon;
-                        foreach (var item in value.Barcodes.Partners)
-                        {
-                            barode.Partners.Add(item);
-                        }
-                        foreach (var item in value.Barcodes.MaintenanceItems)
-                        {
-                            barode.MaintenanceItems.Add(item);
-                        }
-                        foreach (var item in value.Barcodes.Tags)
-                        {
-                            barode.Tags.Add(item);
-                        }
-                    }
+                    //if (value.Barcodes != null)
+                    //{
+                    //    var barode = BarcodeCollection.Where(x => x.Id == value.Barcodes.Id).FirstOrDefault();
+                    //    barode.Icon = value.Barcodes.Icon;
+                    //    foreach (var item in value.Barcodes.Partners)
+                    //    {
+                    //        barode.Partners.Add(item);
+                    //    }
+                    //    foreach (var item in value.Barcodes.MaintenanceItems)
+                    //    {
+                    //        barode.MaintenanceItems.Add(item);
+                    //    }
+                    //    foreach (var item in value.Barcodes.Tags)
+                    //    {
+                    //        barode.Tags.Add(item);
+                    //    }
+                    //}
+
+                    var oldModel = BarcodeCollection.Where(x => x.Barcode == value.Barcodes.Barcode).FirstOrDefault();
+                    oldModel = value.Barcodes;
                 });
             });
 
@@ -393,7 +396,7 @@ namespace KegID.ViewModel
                     if (palletModel != null)
                     {
                         ManifestId = palletModel.ManifestId;
-                        BarcodeCollection = new ObservableCollection<Barcode>(palletModel.Barcode);
+                        BarcodeCollection = new ObservableCollection<ValidateBarcodeModel>(palletModel.Barcode);
                     }
                     else
                     {
@@ -435,13 +438,13 @@ namespace KegID.ViewModel
             return totalSeconds = seconds + (minutes * 60) + (hours * 3600);
         }
 
-        private async void LabelItemTappedCommandRecieverAsync(Barcode model)
+        private async void LabelItemTappedCommandRecieverAsync(ValidateBarcodeModel model)
         {
             try
             {
-                if (model.Partners.Count > 1)
+                if (model.Kegs.Partners.Count > 1)
                 {
-                    List<Barcode> modelList = new List<Barcode>
+                    List<ValidateBarcodeModel> modelList = new List<ValidateBarcodeModel>
                     {
                         model
                     };
@@ -458,13 +461,13 @@ namespace KegID.ViewModel
             }
         }
 
-        private async void IconItemTappedCommandRecieverAsync(Barcode model)
+        private async void IconItemTappedCommandRecieverAsync(ValidateBarcodeModel model)
         {
             try
             {
-                if (model.Partners.Count > 1)
+                if (model.Kegs.Partners.Count > 1)
                 {
-                    List<Barcode> modelList = new List<Barcode>
+                    List<ValidateBarcodeModel> modelList = new List<ValidateBarcodeModel>
                     {
                         model
                     };
@@ -482,7 +485,7 @@ namespace KegID.ViewModel
             }
         }
 
-        private async Task NavigateToValidatePartner(List<Barcode> model)
+        private async Task NavigateToValidatePartner(List<ValidateBarcodeModel> model)
         {
             try
             {
@@ -499,21 +502,21 @@ namespace KegID.ViewModel
         {
             try
             {
-                var isNew = BarcodeCollection.ToList().Any(x => x.Id == ManaulBarcode);
+                var isNew = BarcodeCollection.ToList().Any(x => x.Barcode == ManaulBarcode);
                 if (!isNew)
                 {
-                    Barcode barcode = new Barcode
+                    ValidateBarcodeModel model = new ValidateBarcodeModel
                     {
-                        Id = ManaulBarcode,
+                        Barcode = ManaulBarcode,
                         //Tags = Tags,
                         TagsStr = TagsStr,
                         Icon = Cloud
                     };
-                    BarcodeCollection.Add(barcode);
+                    BarcodeCollection.Add(model);
                     var message = new StartLongRunningTaskMessage
                     {
                         Barcode = new List<string>() { ManaulBarcode },
-                        Page = ViewTypeEnum.FillScanView
+                        Page = ViewTypeEnum.FillScanView.ToString()
                     };
                     MessagingCenter.Send(message, "StartLongRunningTaskMessage");
                     ManaulBarcode = string.Empty;
@@ -533,7 +536,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                var result = BarcodeCollection.Where(x => x.Partners.Count > 1).ToList();
+                var result = BarcodeCollection.Where(x => x.Kegs.Partners.Count > 1).ToList();
                 if (result.Count > 0)
                     await NavigateToValidatePartner(result.ToList());
                 else
@@ -562,7 +565,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                var result = BarcodeCollection.Where(x => x.Partners.Count > 1).ToList();
+                var result = BarcodeCollection.Where(x => x.Kegs.Partners.Count > 1).ToList();
                 if (result.Count > 0)
                     await NavigateToValidatePartner(result.ToList());
                 else
@@ -612,7 +615,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                await BarcodeScanner.BarcodeScanAsync(_moveService, Tags, TagsStr, ViewTypeEnum.FillScanView);
+                await BarcodeScanner.BarcodeScanAsync(_moveService, Tags, TagsStr, ViewTypeEnum.FillScanView.ToString());
             }
             catch (Exception ex)
             {
@@ -620,7 +623,7 @@ namespace KegID.ViewModel
             }
         }
 
-        internal void AssignBarcodeScannerValue(IList<Barcode> barcodes)
+        internal void AssignBarcodeScannerValue(IList<ValidateBarcodeModel> barcodes)
         {
             try
             {
@@ -662,9 +665,9 @@ namespace KegID.ViewModel
         {
             try
             {
-                BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Partners.Clear();
-                BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = GetIconByPlatform.GetIcon("validationquestion.png");
-                BarcodeCollection.Where(x => x.Id == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Partners.Add(model);
+                //BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Partners.Clear();
+                //BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = GetIconByPlatform.GetIcon("validationquestion.png");
+                //BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Partners.Add(model);
             }
             catch (Exception ex)
             {

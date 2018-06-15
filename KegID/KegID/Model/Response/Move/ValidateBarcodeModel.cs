@@ -6,6 +6,11 @@ namespace KegID.Model
 {
     public class ValidateBarcodeModel : RealmObject
     {
+        [PrimaryKey]
+        public string Barcode { get; set; }
+        public string Icon { get; set; }
+        public string TagsStr { get; set; }
+        public string Page { get; set; }
         public Kegs Kegs { get; set; }
         public Pallets Pallets { get; set; }
         public KegIDResponse Response { get; set; }

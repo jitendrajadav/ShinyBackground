@@ -19,9 +19,9 @@ namespace KegID.Common
         static ZXingScannerPage scanPage;
         private const string Cloud = "collectionscloud.png";
 
-        public static async Task BarcodeScanAsync(IMoveService _moveService, List<Tag> _tags, string _tagsStr, ViewTypeEnum _page)
+        public static async Task BarcodeScanAsync(IMoveService _moveService, List<Tag> _tags, string _tagsStr, string _page)
         {
-            IList<Barcode> barcodes = new List<Barcode>();
+            IList<ValidateBarcodeModel> models = new List<ValidateBarcodeModel>();
             // Create our custom overlay
             var customOverlay = new Grid
             {
@@ -63,7 +63,7 @@ namespace KegID.Common
             {
                 var message = new StartLongRunningTaskMessage
                 {
-                    Barcode = barcodes.Select(x => x.Id).ToList(),
+                    Barcode = models.Select(x => x.Barcode).ToList(),
                     Page = _page
                 };
                 MessagingCenter.Send(message, "StartLongRunningTaskMessage");
@@ -73,13 +73,13 @@ namespace KegID.Common
                 switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack.LastOrDefault().GetType().Name))
                 {
                     case ViewTypeEnum.ScanKegsView:
-                        SimpleIoc.Default.GetInstance<ScanKegsViewModel>().AssignBarcodeScannerValue(barcodes);
+                        SimpleIoc.Default.GetInstance<ScanKegsViewModel>().AssignBarcodeScannerValue(models);
                         break;
                     case ViewTypeEnum.FillScanView:
-                        SimpleIoc.Default.GetInstance<FillScanViewModel>().AssignBarcodeScannerValue(barcodes);
+                        SimpleIoc.Default.GetInstance<FillScanViewModel>().AssignBarcodeScannerValue(models);
                         break;
                     case ViewTypeEnum.MaintainScanView:
-                        SimpleIoc.Default.GetInstance<MaintainScanViewModel>().AssignBarcodeScannerValue(barcodes);
+                        SimpleIoc.Default.GetInstance<MaintainScanViewModel>().AssignBarcodeScannerValue(models);
                         break;
                 }
             };
@@ -92,12 +92,19 @@ namespace KegID.Common
             scanPage.OnScanResult += (result) =>
             Device.BeginInvokeOnMainThread(() =>
             {
-                var check = barcodes.Any(x => x.Id == result.Text);
+                var check = models.Any(x => x.Barcode == result.Text);
 
                 if (!check)
                 {
                     title.Text = "Last scan: " + result.Text;
-                    barcodes.Add(new Barcode { Id = result.Text, /*Tags = _tags,*/ TagsStr = _tagsStr, Icon = Cloud });
+                    ValidateBarcodeModel model = new ValidateBarcodeModel()
+                    {
+                        Barcode = result.Text,
+                        /*Tags = _tags,*/
+                        TagsStr = _tagsStr,
+                        Icon = Cloud
+                    };
+                    models.Add(model);
                     try
                     {
                         // Use default vibration length
@@ -183,7 +190,7 @@ namespace KegID.Common
                         case ViewTypeEnum.KegSearchView:
                             SimpleIoc.Default.GetInstance<KegSearchViewModel>().AssignBarcodeScannerValueAsync(barcodes);
                             break;
-                    } 
+                    }
                 }
             });
 

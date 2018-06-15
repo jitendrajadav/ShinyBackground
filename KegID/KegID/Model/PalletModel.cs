@@ -6,6 +6,6 @@ namespace KegID.Model
     {
         public string ManifestId { get; set; }
         public int Count { get; set; }
-        public IList<Barcode> Barcode { get; set; }
+        public IList<ValidateBarcodeModel> Barcode { get; set; }
     }
 }

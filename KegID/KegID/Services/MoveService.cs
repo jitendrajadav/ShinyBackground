@@ -11,8 +11,10 @@ namespace KegID.Services
     {
         public async Task<OwnerResponseModel> GetOwnerAsync(string sessionId)
         {
-            OwnerResponseModel model = new OwnerResponseModel();
-
+            OwnerResponseModel model = new OwnerResponseModel
+            {
+                Response = new KegIDResponse()
+            };
             string url = string.Format(Configuration.GetOwner, sessionId);
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
@@ -24,80 +26,94 @@ namespace KegID.Services
 
         public async Task<BrandResponseModel> GetBrandListAsync(string sessionId)
         {
-            BrandResponseModel brandResponseModel = new BrandResponseModel();
-
+            BrandResponseModel model = new BrandResponseModel
+            {
+                Response = new KegIDResponse()
+            };
             string url = string.Format(Configuration.GetBrandUrl, sessionId);
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
-            brandResponseModel.BrandModel = DeserializeObject<IList<BrandModel>>(value.Response, GetJsonSetting());
-            brandResponseModel.Response.StatusCode = value.StatusCode;
+            model.BrandModel = DeserializeObject<IList<BrandModel>>(value.Response, GetJsonSetting());
+            model.Response.StatusCode = value.StatusCode;
 
-            return brandResponseModel;
+            return model;
         }
 
         public async Task<ManifestResponseModel> GetManifestAsync(string sessionId,string manifestId)
         {
-            ManifestResponseModel manifestResponseModel = new ManifestResponseModel();
-
             string url = string.Format(Configuration.GetManifestUrl, manifestId, sessionId);
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
-            manifestResponseModel = !string.IsNullOrEmpty(value.Response) ? DeserializeObject<ManifestResponseModel>(value.Response, GetJsonSetting()) : manifestResponseModel;
-            manifestResponseModel.Response.StatusCode = value.StatusCode;
-
-            return manifestResponseModel;
+            var model = !string.IsNullOrEmpty(value.Response) ? DeserializeObject<ManifestResponseModel>(value.Response, GetJsonSetting()) : new ManifestResponseModel();
+            if (model != null)
+            {
+                model.Response = new KegIDResponse
+                {
+                    StatusCode = value.StatusCode
+                };
+            }
+            return model;
         }
 
         public async Task<PartnerResponseModel> GetPartnersListAsync(string sessionId)
         {
-            PartnerResponseModel partnerResponseModel = new PartnerResponseModel();
-
+            PartnerResponseModel model = new PartnerResponseModel
+            {
+                Response = new KegIDResponse()
+            };
             string url = string.Format(Configuration.GetPartnerBySesssionIdUrl, sessionId);
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
-            partnerResponseModel.PartnerModel = DeserializeObject<IList<PartnerModel>>(value.Response, GetJsonSetting());
-            partnerResponseModel.Response.StatusCode = value.StatusCode;
+            model.PartnerModel = DeserializeObject<IList<PartnerModel>>(value.Response, GetJsonSetting());
+            model.Response.StatusCode = value.StatusCode;
 
-            return partnerResponseModel;
+            return model;
         }
 
         public async Task<PartnerTypeResponseModel> GetPartnerTypeAsync(string sessionId)
         {
-            PartnerTypeResponseModel partnerTypeResponseModel = new PartnerTypeResponseModel();
-
+            PartnerTypeResponseModel model = new PartnerTypeResponseModel
+            {
+                Response = new KegIDResponse()
+            };
             string url = string.Format(Configuration.GetPartnerTypeUrl, sessionId);
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
-            partnerTypeResponseModel.PartnerTypeModel = DeserializeObject<IList<PartnerTypeModel>>(value.Response, GetJsonSetting());
-            partnerTypeResponseModel.Response.StatusCode = value.StatusCode;
+            model.PartnerTypeModel = DeserializeObject<IList<PartnerTypeModel>>(value.Response, GetJsonSetting());
+            model.Response.StatusCode = value.StatusCode;
 
-            return partnerTypeResponseModel;
+            return model;
         }
 
         public async Task<ValidateBarcodeModel> GetValidateBarcodeAsync(string sessionId, string barcode)
         {
-            ValidateBarcodeModel validateBarcodeModel = new ValidateBarcodeModel();
-
             string url = string.Format(Configuration.GetValidateBarcodeUrl, barcode, sessionId);
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
-            validateBarcodeModel = value.Response!= null? DeserializeObject<ValidateBarcodeModel>(value.Response, GetJsonSetting()) : new ValidateBarcodeModel();
-            validateBarcodeModel.Response.StatusCode = value.StatusCode;
-
-            return validateBarcodeModel;
+            var model = value.Response!= null? DeserializeObject<ValidateBarcodeModel>(value.Response, GetJsonSetting()) : new ValidateBarcodeModel();
+            if (model != null)
+            {
+                model.Response = new KegIDResponse
+                {
+                    StatusCode = value.StatusCode
+                };
+            }
+            return model;
         }
 
         public async Task<PartnerResponseModel> GetPartnerSearchAsync(string sessionId, string search, bool internalonly, bool includepublic)
         {
-            PartnerResponseModel partnerResponseModel = new PartnerResponseModel();
-
+            PartnerResponseModel model = new PartnerResponseModel
+            {
+                Response = new KegIDResponse()
+            };
             string url = string.Format(Configuration.GetPartnerSearchUrl, sessionId, search, internalonly, includepublic);
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
-            partnerResponseModel.PartnerModel = DeserializeObject<IList<PartnerModel>>(value.Response, GetJsonSetting());
-            partnerResponseModel.Response.StatusCode = value.StatusCode;
+            model.PartnerModel = DeserializeObject<IList<PartnerModel>>(value.Response, GetJsonSetting());
+            model.Response.StatusCode = value.StatusCode;
 
-            return partnerResponseModel;
+            return model;
         }
 
         public async Task<IList<string>> GetAssetSizeAsync(string sessionId, bool assignableOnly)
@@ -116,28 +132,34 @@ namespace KegID.Services
 
         public async Task<ManifestSearchModel> GetManifestSearchAsync(string sessionId, string trackingNumber,string barcode, string senderId, string destinationId, string referenceKey,string fromDate, string toDate)
         {
-            ManifestSearchModel manifestSearchModel = new ManifestSearchModel();
-
+            ManifestSearchModel model = new ManifestSearchModel
+            {
+                Response = new KegIDResponse()
+            };
             string url = string.Format(Configuration.GetManifestSearchUrl, sessionId, trackingNumber, barcode, senderId, destinationId, referenceKey, fromDate, toDate);
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
-            manifestSearchModel.ManifestSearchResponseModel = DeserializeObject<IList<ManifestSearchResponseModel>>(value.Response, GetJsonSetting());
-            manifestSearchModel.Response.StatusCode = value.StatusCode;
+            model.ManifestSearchResponseModel = DeserializeObject<IList<ManifestSearchResponseModel>>(value.Response, GetJsonSetting());
+            model.Response.StatusCode = value.StatusCode;
 
-            return manifestSearchModel;
+            return model;
         }
 
-        public async Task<ManifestModelGet> PostManifestAsync(ManifestModel model, string sessionId, string RequestType)
+        public async Task<ManifestModelGet> PostManifestAsync(ManifestModel inModel, string sessionId, string RequestType)
         {
-            ManifestModelGet manifestModelGet = new ManifestModelGet();
-
             string url = string.Format(Configuration.PostManifestUrl, sessionId);
-            string content = JsonConvert.SerializeObject(model);
+            string content = JsonConvert.SerializeObject(inModel);
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Send, content, RequestType: RequestType);
 
-            manifestModelGet = value.Response != null? DeserializeObject<ManifestModelGet>(value.Response, GetJsonSetting()) : new ManifestModelGet();
-            manifestModelGet.Response.StatusCode = value.StatusCode;
-            return manifestModelGet;
+            var outModel = value.Response != null ? DeserializeObject<ManifestModelGet>(value.Response, GetJsonSetting()) : new ManifestModelGet();
+            if (outModel != null)
+            {
+                outModel.Response = new KegIDResponse
+                {
+                    StatusCode = value.StatusCode
+                };
+            }
+            return outModel;
         }
 
         //public async Task<ManifestModelGet> PostManifestAsync(ManifestRequestModel model, string sessionId, string RequestType)
@@ -153,18 +175,22 @@ namespace KegID.Services
         //    return manifestModelGet;
         //}
 
-        public async Task<NewPartnerResponseModel> PostNewPartnerAsync(NewPartnerRequestModel model, string sessionId, string RequestType)
+        public async Task<NewPartnerResponseModel> PostNewPartnerAsync(NewPartnerRequestModel inModel, string sessionId, string RequestType)
         {
-            NewPartnerResponseModel partnerResponseModel = new NewPartnerResponseModel();
-
             string url = string.Format(Configuration.PostNewPartnerUrl, sessionId);
-            string content = JsonConvert.SerializeObject(model);
+            string content = JsonConvert.SerializeObject(inModel);
 
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Send, content, RequestType: RequestType);
 
-            partnerResponseModel = DeserializeObject<NewPartnerResponseModel>(value.Response, GetJsonSetting());
-            partnerResponseModel.Response.StatusCode = value.StatusCode;
-            return partnerResponseModel;
+            var outModel = DeserializeObject<NewPartnerResponseModel>(value.Response, GetJsonSetting());
+            if (outModel != null)
+            {
+                outModel.Response = new KegIDResponse
+                {
+                    StatusCode = value.StatusCode
+                };
+            }
+            return outModel;
         }
 
     }
