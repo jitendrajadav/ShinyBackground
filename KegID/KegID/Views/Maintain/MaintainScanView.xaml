@@ -175,7 +175,7 @@
                                     <Label 
                                     VerticalOptions="FillAndExpand" 
                                     VerticalTextAlignment="Center" 
-                                    Text="{Binding Id}" 
+                                    Text="{Binding Barcode}" 
                                     TextColor="Black"
                                     FontSize="{StaticResource ListViewTitleFont}">
                                         <Label.GestureRecognizers>

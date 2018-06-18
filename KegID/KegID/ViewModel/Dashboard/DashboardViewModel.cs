@@ -4,7 +4,6 @@ using KegID.Common;
 using KegID.LocalDb;
 using KegID.Model;
 using KegID.Services;
-//using KegID.SQLiteClient;
 using KegID.Views;
 using Microsoft.AppCenter.Crashes;
 using Realms;
@@ -469,7 +468,7 @@ namespace KegID.ViewModel
             try
             {
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                var collection = RealmDb.All<ManifestModel>().ToList();//await SQLiteServiceClient.Db.Table<DraftManifestModel>().ToListAsync();
+                var collection = RealmDb.All<ManifestModel>().Where(x=>x.IsDraft == true).ToList();//await SQLiteServiceClient.Db.Table<DraftManifestModel>().ToListAsync();
                 if (collection.Count > 0)
                 {
                     DraftmaniFests = collection.Count;

@@ -1,7 +1,5 @@
-﻿using KegID.LocalDb;
-using KegID.Model;
+﻿using KegID.Model;
 using Microsoft.AppCenter.Crashes;
-using Realms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +14,6 @@ namespace KegID.Common
             List<Tag> tags, PartnerModel partnerModel, List<NewPallet> newPallets, List<NewBatch> batches, List<string> closedBatches, long validationStatus, string contents = "")
         {
             ManifestModel manifestModel = null;
-            //ValidateBarcodeModel validateBarcodeModel = null;
             List<ManifestItem> manifestItemlst = new List<ManifestItem>();
             ManifestItem manifestItem = null;
 
@@ -25,16 +22,11 @@ namespace KegID.Common
             if (location == null)
                 location = await Geolocation.GetLocationAsync(request);
 
-            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             try
             {
                 foreach (var item in barcodeCollection)
                 {
                     string barcodeId = item.Barcode;
-                    //var barcodeResult = RealmDb.All<BarcodeModel>().Where(x => x.Barcode == barcodeId).FirstOrDefault();
-                    //await SQLiteServiceClient.Db.Table<BarcodeModel>().Where(x => x.Barcode == barcodeId).FirstOrDefaultAsync();
-                    //validateBarcodeModel = JsonConvert.DeserializeObject<ValidateBarcodeModel>(barcodeResult.BarcodeJson);
-
                     manifestItem = new ManifestItem()
                     {
                         Barcode = item.Barcode,

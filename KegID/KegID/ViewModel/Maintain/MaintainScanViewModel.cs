@@ -133,35 +133,24 @@ namespace KegID.ViewModel
 
         void HandleReceivedMessages()
         {
-            MessagingCenter.Subscribe<MaintainScanMessage>(this, "MaintainScanMessage", message => {
+            MessagingCenter.Subscribe<MaintainScanMessage>(this, "MaintainScanMessage", message =>
+            {
                 Device.BeginInvokeOnMainThread(() =>
                 {
                     var value = message;
                     if (value != null)
                     {
-                        //var barode = BarcodeCollection.Where(x => x.Barcode == value.Barcodes.Barcode).FirstOrDefault();
-                        //barode.Icon = value.Barcodes.Icon;
-                        //foreach (var item in value.Barcodes.Partners)
-                        //{
-                        //    barode.Partners.Add(item);
-                        //}
-                        //foreach (var item in value.Barcodes.MaintenanceItems)
-                        //{
-                        //    barode.MaintenanceItems.Add(item);
-                        //}
-                        //foreach (var item in value.Barcodes.Tags)
-                        //{
-                        //    barode.Tags.Add(item);
-                        //}
-
-                        var oldModel = BarcodeCollection.Where(x => x.Barcode == value.Barcodes.Barcode).FirstOrDefault();
-                        oldModel = value.Barcodes;
+                        BarcodeCollection.Where(x => x.Barcode == value.Barcodes.Barcode).FirstOrDefault().Pallets = value.Barcodes.Pallets;
+                        BarcodeCollection.Where(x => x.Barcode == value.Barcodes.Barcode).FirstOrDefault().Kegs = value.Barcodes.Kegs;
+                        BarcodeCollection.Where(x => x.Barcode == value.Barcodes.Barcode).FirstOrDefault().Icon = value?.Barcodes?.Kegs?.Partners.Count > 1 ? GetIconByPlatform.GetIcon("validationquestion.png") : value?.Barcodes?.Kegs?.Partners?.Count == 0 ? GetIconByPlatform.GetIcon("validationerror.png") : GetIconByPlatform.GetIcon("validationok.png");
                     }
                 });
             });
 
-            MessagingCenter.Subscribe<CancelledMessage>(this, "CancelledMessage", message => {
-                Device.BeginInvokeOnMainThread(() => {
+            MessagingCenter.Subscribe<CancelledMessage>(this, "CancelledMessage", message =>
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                {
                     var value = "Cancelled";
                     if (value == "Cancelled")
                     {

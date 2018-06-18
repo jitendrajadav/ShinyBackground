@@ -343,7 +343,7 @@ namespace KegID.ViewModel
             var secondsInDayTillNow = SecondsInDayTillNow();
             var millisecond = now.Millisecond;
 
-            var preference = RealmDb.All<Preference>().Where(x => x.PreferenceName == "DashboardPreferences").ToList();//await SQLiteServiceClient.Db.Table<Preference>().Where(x => x.PreferenceName == "DashboardPreferences").ToListAsync();
+            var preference = RealmDb.All<Preference>().Where(x => x.PreferenceName == "DashboardPreferences").ToList();
             try
             {
                 foreach (var item in preference)

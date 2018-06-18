@@ -1,6 +1,9 @@
 ﻿using GalaSoft.MvvmLight.Command;
+using KegID.LocalDb;
 using KegID.Model;
 using Microsoft.AppCenter.Crashes;
+using Realms;
+using System.Linq;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -244,16 +247,16 @@ namespace KegID.ViewModel
 
         internal void AssignInitialValue(BarcodeModel _barcode)
         {
-            //var value = await SQLiteServiceClient.Db.Table<ValidatePartnerModel>().Where(x => x.Barcode == _barcode).ToListAsync();
-
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            var manifest = RealmDb.All<ManifestModel>().Where(x=>x.BarcodeModels.Barcode == _barcode.Barcode).FirstOrDefault();
             try
             {
                 Barcode = string.Format(" Barcode {0} ", _barcode.Barcode);
-                //Ownername = _barcode.Ownername;
-                //Size = _barcode.Tags[2].Value;
-                //Contents = _barcode.Contents;
-                //Batch = _barcode.Batch;
-                //Location = _barcode.Location;
+                Ownername = manifest.OwnerName;
+                Size = _barcode.Tags[2].Value;
+                Contents = _barcode.Kegs.Contents.FirstOrDefault();
+                Batch = _barcode.Kegs.Batches.FirstOrDefault();
+                Location = _barcode.Kegs.Locations.FirstOrDefault().Name;
             }
             catch (System.Exception ex)
             {

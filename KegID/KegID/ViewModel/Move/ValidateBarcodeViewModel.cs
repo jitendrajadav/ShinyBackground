@@ -166,16 +166,9 @@ namespace KegID.ViewModel
 
         private void ValidateScannedBarcode()
         {
-            //var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-            //string BarcodeId = default(string);
             try
             {
-                //BarcodeId = Models.FirstOrDefault().Barcode;
-                //var value = RealmDb.All<BarcodeModel>().Where(x => x.Barcode == BarcodeId).FirstOrDefault();
-                //    //await SQLiteServiceClient.Db.Table<BarcodeModel>().Where(x => x.Barcode == BarcodeId).FirstOrDefaultAsync();
-                //var validateBarcodeModel = JsonConvert.DeserializeObject<ValidateBarcodeModel>(value.BarcodeJson);
                 PartnerCollection = Models?.FirstOrDefault()?.Kegs?.Partners;
-
                 MultipleKegsTitle = string.Format(" Multiple kgs were found with \n barcode {0}. \n Please select the correct one.", Models.FirstOrDefault().Barcode);
             }
             catch (Exception ex)
@@ -184,7 +177,6 @@ namespace KegID.ViewModel
             }
             finally
             {
-                //BarcodeId = default(string);
             }
         }
 

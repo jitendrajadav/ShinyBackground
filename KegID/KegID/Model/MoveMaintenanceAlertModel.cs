@@ -1,6 +1,8 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
+using KegID.LocalDb;
 using KegID.ViewModel;
+using Realms;
 using System.Collections.Generic;
 
 namespace KegID.Model
@@ -106,7 +108,11 @@ namespace KegID.Model
                 if (!_selectedUType.HasInitial)
                 {
                     SimpleIoc.Default.GetInstance<AssignSizesViewModel>().MaintenanceVerified();
-                    _selectedUType.HasInitial = true;
+                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                    RealmDb.Write(() =>
+                    {
+                        _selectedUType.HasInitial = true;
+                    });
                 }
 
                 RaisePropertyChanged(SelectedUTypePropertyName);
@@ -179,7 +185,11 @@ namespace KegID.Model
 
                 if (!_selectedUSize.HasInitial)
                 {
-                    _selectedUSize.HasInitial = true;
+                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                    RealmDb.Write(() =>
+                    {
+                        _selectedUSize.HasInitial = true;
+                    });
                     SimpleIoc.Default.GetInstance<AssignSizesViewModel>().MaintenanceVerified();
                 }
 
@@ -254,7 +264,12 @@ namespace KegID.Model
                 if (!_selectedUOwner.HasInitial)
                 {
                     SimpleIoc.Default.GetInstance<AssignSizesViewModel>().MaintenanceVerified();
-                    _selectedUOwner.HasInitial = true;
+                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                    RealmDb.Write(() =>
+                    {
+                        _selectedUOwner.HasInitial = true;
+                    });
+                    
                 }
                 RaisePropertyChanged(SelectedUOwnerPropertyName);
             }

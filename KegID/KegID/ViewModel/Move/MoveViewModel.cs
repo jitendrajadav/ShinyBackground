@@ -6,7 +6,6 @@ using KegID.Model;
 using KegID.Services;
 using KegID.Views;
 using Microsoft.AppCenter.Crashes;
-using Newtonsoft.Json;
 using Realms;
 using System;
 using System.Collections.Generic;
@@ -440,39 +439,28 @@ namespace KegID.ViewModel
 
         private async void SaveDraftCommandRecieverAsync()
         {
-            ManifestModel manifestPostModel = null;
-            //DraftManifestModel draftManifestModel = null;
+            ManifestModel manifestModel = null;
             SimpleIoc @default = SimpleIoc.Default;
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             try
             {
                 Loader.StartLoading();
-                
-                manifestPostModel = await ManifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.MOVE_MANIFEST, manifestId: ManifestId,
+
+                manifestModel = await ManifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.MOVE_MANIFEST, manifestId: ManifestId,
                     barcodeCollection: @default.GetInstance<ScanKegsViewModel>().BarcodeCollection, tags: @default.GetInstance<ScanKegsViewModel>().Tags,
                     partnerModel: PartnerModel, newPallets: new List<NewPallet>(), batches: new List<NewBatch>(), closedBatches: new List<string>(),
                     validationStatus: 2, contents: @default.GetInstance<ScanKegsViewModel>().SelectedBrand?.BrandName);
 
-                //draftManifestModel = new DraftManifestModel()
-                //{
-                //    ManifestId = ManifestId,
-                //    DraftManifestJson = JsonConvert.SerializeObject(manifestPostModel)
-                //};
-
-                ManifestModel model = new ManifestModel
-                {
-                   // Barcode =  
-                };
+                manifestModel.IsDraft = true;
 
                 try
                 {
                     RealmDb.Write(() =>
                     {
-                        var Result = RealmDb.Add(model, true);
+                        var Result = RealmDb.Add(manifestModel, true);
                         if (Result != null)
                             @default.GetInstance<DashboardViewModel>().CheckDraftmaniFestsAsync();
                     }); 
-                    
                 }
                 catch (Exception ex)
                 {
@@ -490,8 +478,7 @@ namespace KegID.ViewModel
             finally
             {
                 Loader.StopLoading();
-                manifestPostModel = null;
-                //draftManifestModel = null;
+                manifestModel = null;
                 @default = null;
                 Cleanup();
             }

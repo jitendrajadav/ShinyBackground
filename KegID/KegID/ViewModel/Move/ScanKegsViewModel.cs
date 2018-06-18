@@ -317,13 +317,6 @@ namespace KegID.ViewModel
                         BarcodeCollection.Where(x => x.Barcode == value.Barcodes.Barcode).FirstOrDefault().Pallets = value.Barcodes.Pallets;
                         BarcodeCollection.Where(x => x.Barcode == value.Barcodes.Barcode).FirstOrDefault().Kegs = value.Barcodes.Kegs;
                         BarcodeCollection.Where(x => x.Barcode == value.Barcodes.Barcode).FirstOrDefault().Icon = value?.Barcodes?.Kegs?.Partners.Count > 1 ? GetIconByPlatform.GetIcon("validationquestion.png") : value?.Barcodes?.Kegs?.Partners?.Count == 0 ? GetIconByPlatform.GetIcon("validationerror.png") : GetIconByPlatform.GetIcon("validationok.png");
-
-                        //ManifestScannedModel.scannedModels.Add(message.Barcodes);
-                        //var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                        //RealmDb.Write(() =>
-                        //{
-                        //    RealmDb.Add(value.Barcodes, true);
-                        //});
                     }
                 });
             });
@@ -347,7 +340,7 @@ namespace KegID.ViewModel
         {
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             var all = RealmDb.All<BrandModel>().ToList();
-            IList<BrandModel> model = all;// await SQLiteServiceClient.Db.Table<BrandModel>().ToListAsync();
+            IList<BrandModel> model = all;
             try
             {
                 if (model.Count > 0)
@@ -367,8 +360,6 @@ namespace KegID.ViewModel
                                 RealmDb.Add(item);
                             }
                         });
-
-                        //await SQLiteServiceClient.Db.InsertAllAsync(model);
                     }
                 }
             }
@@ -601,15 +592,6 @@ namespace KegID.ViewModel
                 var isNew = BarcodeCollection.ToList().Any(x => x?.Kegs?.Partners?.FirstOrDefault()?.Kegs?.FirstOrDefault()?.Barcode == ManaulBarcode);
                 if (!isNew)
                 {
-                    //Barcode barcode = new Barcode
-                    //{
-                    //    Id = ManaulBarcode,
-                    //    //Tags = Tags,
-                    //    TagsStr = TagsStr,
-                    //    Icon = Cloud,
-                    //    Page = ViewTypeEnum.ScanKegsView.ToString()
-                    //};
-
                     BarcodeModel model = new BarcodeModel()
                     {
                         Barcode = ManaulBarcode,

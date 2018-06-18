@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
-using KegID.Common;
 using KegID.LocalDb;
 using KegID.Model;
 using Microsoft.AppCenter.Crashes;
@@ -283,7 +282,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                //VerifiedBarcodes.FirstOrDefault().HasMaintenaceVerified = true;
+                VerifiedBarcodes.FirstOrDefault().HasMaintenaceVerified = true;
             }
             catch (Exception ex)
             {
@@ -341,7 +340,7 @@ namespace KegID.ViewModel
             try
             {
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                OwnerCollection = RealmDb.All<OwnerModel>().ToList();//await SQLiteServiceClient.Db.Table<OwnerModel>().ToListAsync();
+                OwnerCollection = RealmDb.All<OwnerModel>().ToList();
                 SelectedOwner = OwnerCollection.OrderBy(x => x.FullName).FirstOrDefault();
             }
             catch (Exception ex)
@@ -355,7 +354,7 @@ namespace KegID.ViewModel
             try
             {
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                SizeCollection = RealmDb.All<AssetSizeModel>().ToList(); //await SQLiteServiceClient.Db.Table<AssetSizeModel>().ToListAsync();
+                SizeCollection = RealmDb.All<AssetSizeModel>().ToList(); 
             }
             catch (Exception ex)
             {
@@ -368,7 +367,7 @@ namespace KegID.ViewModel
             try
             {
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                TypeCollection = RealmDb.All<AssetTypeModel>().ToList(); //await SQLiteServiceClient.Db.Table<AssetTypeModel>().ToListAsync();
+                TypeCollection = RealmDb.All<AssetTypeModel>().ToList(); 
             }
             catch (Exception ex)
             {
@@ -385,6 +384,7 @@ namespace KegID.ViewModel
                 LoadOwnderAsync();
                 LoadAssetSizeAsync();
                 LoadAssetTypeAsync();
+                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
 
                 foreach (var item in _alerts)
                 {
@@ -394,18 +394,28 @@ namespace KegID.ViewModel
 
                     if (selectedOwner!= null)
                     {
-                        selectedOwner.HasInitial = true;
+                        RealmDb.Write(() =>
+                        {
+                            selectedOwner.HasInitial = true;
+                        });
                     }
-                    //if (item.Tags.Count > 2)
-                    //{
-                    //    selectedType = TypeCollection.Where(x => x.AssetType == item.Tags?[2]?.Value).FirstOrDefault();
-                    //    selectedType.HasInitial = true;
-                    //}
-                    //if (item.Tags.Count > 3)
-                    //{
-                    //    selectedSize = SizeCollection.Where(x => x.AssetSize == item.Tags?[3]?.Value).FirstOrDefault();
-                    //    selectedSize.HasInitial = true;
-                    //}
+                    if (item.Tags.Count > 2)
+                    {
+                        selectedType = TypeCollection.Where(x => x.AssetType == item.Tags?[2]?.Value).FirstOrDefault();
+
+                        RealmDb.Write(() =>
+                        {
+                            selectedType.HasInitial = true;
+                        }); 
+                    }
+                    if (item.Tags.Count > 3)
+                    {
+                        selectedSize = SizeCollection.Where(x => x.AssetSize == item.Tags?[3]?.Value).FirstOrDefault();
+                        RealmDb.Write(() =>
+                        {
+                            selectedSize.HasInitial = true;
+                        });
+                    }
 
                     MaintenaceCollection.Add(
                         new MoveMaintenanceAlertModel

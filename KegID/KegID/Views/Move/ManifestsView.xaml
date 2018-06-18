@@ -191,7 +191,7 @@
                                     FontSize="{StaticResource ListViewDetailFont}"
                                     TextColor="{StaticResource selectTextColor}"
                                     Grid.Row="1"
-                                    Text="{Binding ShipDate, StringFormat='${0:dd/MM/yy}'}"/>
+                                    Text="{Binding ShipDate, StringFormat='{0:dd/MM/yy}'}"/>
 
                                 <Label
                                     FontSize="{StaticResource ListViewDetailFont}"
@@ -206,7 +206,7 @@
                                     HorizontalOptions="End"
                                     Grid.Column="1"
                                     Grid.Row="1"
-                                    Text="{Binding ManifestItemsCount,StringFormat='${0} Items'}"/>
+                                    Text="{Binding ManifestItemsCount,StringFormat='{0} Items'}"/>
                             </Grid>
                         </ViewCell>
                     </DataTemplate>

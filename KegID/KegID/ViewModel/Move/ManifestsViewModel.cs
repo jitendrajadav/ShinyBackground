@@ -10,7 +10,6 @@ using KegID.Model;
 using KegID.Services;
 using KegID.Views;
 using Microsoft.AppCenter.Crashes;
-using Newtonsoft.Json;
 using Realms;
 using Xamarin.Forms;
 
@@ -298,14 +297,7 @@ namespace KegID.ViewModel
                 ManifestCollection.Clear();
                 Loader.StartLoading();
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                var collection = RealmDb.All<ManifestModel>().ToList();//await SQLiteServiceClient.Db.Table<DraftManifestModel>().ToListAsync();
-                //foreach (var item in collection)
-                //{
-                    //ManifestModel manifest = JsonConvert.DeserializeObject<ManifestModel>(item.DraftManifestJson);
-                    //manifest.ManifestItemsCount = manifest.ManifestItems.Count;
-                    //manifest.OwnerName = manifest.OwnerName;
-                    //ManifestCollection.Add(manifest);
-                //}
+                var collection = RealmDb.All<ManifestModel>().Where(x => x.IsDraft == true && x.IsQueue == false).ToList();
                 ManifestCollection = new ObservableCollection<ManifestModel>(collection);
             }
             catch (Exception ex)
@@ -349,23 +341,35 @@ namespace KegID.ViewModel
         {
             try
             {
-                QueuedTextColor = "White";
-                QueuedBackgroundColor = "#4E6388";
-                DraftTextColor = "#4E6388";
-                DraftBackgroundColor = "Transparent";
-                RecentTextColor = "#4E6388";
-                RecentBackgroundColor = "Transparent";
+                ManifestCollection.Clear();
+                Loader.StartLoading();
+                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                var collection = RealmDb.All<ManifestModel>().Where(x => x.IsDraft == false && x.IsQueue == true).ToList();
+                ManifestCollection = new ObservableCollection<ManifestModel>(collection);
             }
             catch (Exception ex)
             {
-                Crashes.TrackError(ex);
+                Debug.Write(ex.Message);
             }
+            finally
+            {
+                Loader.StopLoading();
+            }
+
+            QueuedTextColor = "White";
+            QueuedBackgroundColor = "#4E6388";
+            DraftTextColor = "#4E6388";
+            DraftBackgroundColor = "Transparent";
+            RecentTextColor = "#4E6388";
+            RecentBackgroundColor = "Transparent";
         }
 
         private void DraftCommandReciever()
         {
             try
             {
+                LoadDraftManifestAsync();
+
                 DraftTextColor = "White";
                 DraftBackgroundColor = "#4E6388";
                 QueuedTextColor = "#4E6388";
@@ -383,20 +387,29 @@ namespace KegID.ViewModel
         {
             try
             {
-                RecentTextColor = "White";
-                RecentBackgroundColor = "#4E6388";
-                QueuedTextColor = "#4E6388";
-                QueuedBackgroundColor = "Transparent";
-                DraftTextColor = "#4E6388";
-                DraftBackgroundColor = "Transparent";
+                ManifestCollection.Clear();
+                Loader.StartLoading();
+                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                var collection = RealmDb.All<ManifestModel>().Where(x => x.SubmittedDate == DateTimeOffset.UtcNow.Date && x.IsDraft == false && x.IsQueue == false).ToList();
+                ManifestCollection = new ObservableCollection<ManifestModel>(collection);
             }
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
             }
+            finally
+            {
+                Loader.StopLoading();
+            }
+
+            RecentTextColor = "White";
+            RecentBackgroundColor = "#4E6388";
+            QueuedTextColor = "#4E6388";
+            QueuedBackgroundColor = "Transparent";
+            DraftTextColor = "#4E6388";
+            DraftBackgroundColor = "Transparent";
         }
 
         #endregion
-
     }
 }

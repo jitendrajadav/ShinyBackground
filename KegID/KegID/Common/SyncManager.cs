@@ -24,13 +24,13 @@ namespace KegID.Common
             if (current == NetworkAccess.Internet)
             {
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                var value = RealmDb.All<Barcode>().ToList();
+                var value = RealmDb.All<BarcodeModel>().ToList();
 
                 if (value.Count > 0)
                 {
                     var message = new StartLongRunningTaskMessage
                     {
-                        Barcode = value.Select(p => p.Id).ToList(), //new List<string>() { ManaulBarcode },
+                        Barcode = value.Select(p => p.Barcode).ToList(), 
                         Page = ViewTypeEnum.ScanKegsView.ToString()
                     };
                     MessagingCenter.Send(message, "StartLongRunningTaskMessage"); 
