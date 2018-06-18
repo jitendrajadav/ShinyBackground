@@ -175,7 +175,7 @@ namespace KegID.ViewModel
 
         private async void HomeCommandCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PopModalAsync();
 
-        internal void LoadInfo(IList<ValidateBarcodeModel> barcodeCollection)
+        internal void LoadInfo(IList<BarcodeModel> barcodeCollection)
         {
             try
             {

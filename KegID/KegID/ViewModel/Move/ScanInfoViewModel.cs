@@ -242,7 +242,7 @@ namespace KegID.ViewModel
             }
         }
 
-        internal void AssignInitialValue(ValidateBarcodeModel _barcode)
+        internal void AssignInitialValue(BarcodeModel _barcode)
         {
             //var value = await SQLiteServiceClient.Db.Table<ValidatePartnerModel>().Where(x => x.Barcode == _barcode).ToListAsync();
 

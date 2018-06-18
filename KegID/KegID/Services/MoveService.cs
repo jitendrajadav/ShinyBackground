@@ -85,12 +85,12 @@ namespace KegID.Services
             return model;
         }
 
-        public async Task<ValidateBarcodeModel> GetValidateBarcodeAsync(string sessionId, string barcode)
+        public async Task<BarcodeModel> GetValidateBarcodeAsync(string sessionId, string barcode)
         {
             string url = string.Format(Configuration.GetValidateBarcodeUrl, barcode, sessionId);
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
-            var model = value.Response!= null? DeserializeObject<ValidateBarcodeModel>(value.Response, GetJsonSetting()) : new ValidateBarcodeModel();
+            var model = value.Response!= null? DeserializeObject<BarcodeModel>(value.Response, GetJsonSetting()) : new BarcodeModel();
             if (model != null)
             {
                 model.Response = new KegIDResponse

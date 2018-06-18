@@ -469,7 +469,7 @@ namespace KegID.ViewModel
             try
             {
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                var collection = RealmDb.All<DraftManifestModel>().ToList();//await SQLiteServiceClient.Db.Table<DraftManifestModel>().ToListAsync();
+                var collection = RealmDb.All<ManifestModel>().ToList();//await SQLiteServiceClient.Db.Table<DraftManifestModel>().ToListAsync();
                 if (collection.Count > 0)
                 {
                     DraftmaniFests = collection.Count;

@@ -17,7 +17,7 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        public List<ValidateBarcodeModel> VerifiedBarcodes { get; set; }
+        public List<BarcodeModel> VerifiedBarcodes { get; set; }
 
         #region MaintenaceCollection
 
@@ -376,7 +376,7 @@ namespace KegID.ViewModel
             }
         }
 
-        internal void AssignInitialValueAsync(List<ValidateBarcodeModel> _alerts)
+        internal void AssignInitialValueAsync(List<BarcodeModel> _alerts)
         {
             try
             {

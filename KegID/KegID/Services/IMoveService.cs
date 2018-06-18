@@ -8,7 +8,7 @@ namespace KegID.Services
     {
         Task<OwnerResponseModel> GetOwnerAsync(string sessionId);
         Task<PartnerResponseModel> GetPartnersListAsync(string sessionId);
-        Task<ValidateBarcodeModel> GetValidateBarcodeAsync(string sessionId, string barcode);
+        Task<BarcodeModel> GetValidateBarcodeAsync(string sessionId, string barcode);
         Task<BrandResponseModel> GetBrandListAsync(string sessionId);
         Task<ManifestResponseModel> GetManifestAsync(string sessionId, string manifestId);
         Task<PartnerTypeResponseModel> GetPartnerTypeAsync(string sessionId);

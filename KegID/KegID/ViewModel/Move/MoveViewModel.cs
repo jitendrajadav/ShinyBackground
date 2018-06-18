@@ -20,10 +20,9 @@ namespace KegID.ViewModel
 
         public IMoveService _moveService { get; set; }
         public string Barcode { get; set; }
-        public IList<ValidateBarcodeModel> Barcodes
+        public IList<BarcodeModel> Barcodes
         {
             get;
-
             set;
         }
         public string Contents { get; set; }
@@ -380,14 +379,27 @@ namespace KegID.ViewModel
                 Loader.StartLoading();
 
                 manifestPostModel = await ManifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.MOVE_MANIFEST, manifestId: ManifestId,
-                    barcodeCollection: Barcodes, tags: Tags, partnerModel: PartnerModel, newPallets: new List<NewPallet>(), 
-                    batches: new List<NewBatch>(), closedBatches: new List<string>(), validationStatus: 2 ,contents: Contents);
-                
+                    barcodeCollection: Barcodes, tags: Tags, partnerModel: PartnerModel, newPallets: new List<NewPallet>(),
+                    batches: new List<NewBatch>(), closedBatches: new List<string>(), validationStatus: 2, contents: Contents);
+
                 if (manifestPostModel != null)
                 {
                     try
                     {
                         var result = await _moveService.PostManifestAsync(manifestPostModel, AppSettings.User.SessionId, Configuration.NewManifest);
+                        var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+
+                        try
+                        {
+                            RealmDb.Write(() =>
+                                               {
+                                                   RealmDb.Add(manifestPostModel);
+                                               });
+                        }
+                        catch (Exception ex)
+                        {
+                            Crashes.TrackError(ex);
+                        }
 
                         var manifest = await _moveService.GetManifestAsync(AppSettings.User.SessionId, result.ManifestId);
                         if (manifest.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
@@ -404,7 +416,7 @@ namespace KegID.ViewModel
                     }
                     catch (Exception ex)
                     {
-                         Crashes.TrackError(ex);
+                        Crashes.TrackError(ex);
                     }
                     finally
                     {
@@ -414,11 +426,11 @@ namespace KegID.ViewModel
                     }
                 }
                 else
-                    await Application.Current.MainPage.DisplayAlert("Alert","Something goes wrong please check again","Ok");
+                    await Application.Current.MainPage.DisplayAlert("Alert", "Something goes wrong please check again", "Ok");
             }
             catch (Exception ex)
             {
-                 Crashes.TrackError(ex);
+                Crashes.TrackError(ex);
             }
             finally
             {
@@ -429,7 +441,7 @@ namespace KegID.ViewModel
         private async void SaveDraftCommandRecieverAsync()
         {
             ManifestModel manifestPostModel = null;
-            DraftManifestModel draftManifestModel = null;
+            //DraftManifestModel draftManifestModel = null;
             SimpleIoc @default = SimpleIoc.Default;
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             try
@@ -441,30 +453,30 @@ namespace KegID.ViewModel
                     partnerModel: PartnerModel, newPallets: new List<NewPallet>(), batches: new List<NewBatch>(), closedBatches: new List<string>(),
                     validationStatus: 2, contents: @default.GetInstance<ScanKegsViewModel>().SelectedBrand?.BrandName);
 
-                draftManifestModel = new DraftManifestModel()
+                //draftManifestModel = new DraftManifestModel()
+                //{
+                //    ManifestId = ManifestId,
+                //    DraftManifestJson = JsonConvert.SerializeObject(manifestPostModel)
+                //};
+
+                ManifestModel model = new ManifestModel
                 {
-                    ManifestId = ManifestId,
-                    DraftManifestJson = JsonConvert.SerializeObject(manifestPostModel)
+                   // Barcode =  
                 };
 
                 try
                 {
                     RealmDb.Write(() =>
                     {
-                        var Result = RealmDb.Add(draftManifestModel);
+                        var Result = RealmDb.Add(model, true);
                         if (Result != null)
                             @default.GetInstance<DashboardViewModel>().CheckDraftmaniFestsAsync();
-                    }); //await SQLiteServiceClient.Db.InsertAsync(draftManifestModel);
+                    }); 
                     
                 }
                 catch (Exception ex)
                 {
-                    RealmDb.Write(() =>
-                    {
-                        var Result = RealmDb.Add(draftManifestModel, true);
-                    });
-                    //var Result = await SQLiteServiceClient.Db.UpdateAsync(draftManifestModel);
-                     Crashes.TrackError(ex);
+                    Crashes.TrackError(ex);
                 }
 
                 Loader.StopLoading();
@@ -479,13 +491,13 @@ namespace KegID.ViewModel
             {
                 Loader.StopLoading();
                 manifestPostModel = null;
-                draftManifestModel = null;
+                //draftManifestModel = null;
                 @default = null;
                 Cleanup();
             }
         }
 
-        internal void AssingScanKegsValue(List<ValidateBarcodeModel> _barcodes, List<Tag> _tags,string _contents)
+        internal void AssingScanKegsValue(List<BarcodeModel> _barcodes, List<Tag> _tags,string _contents)
         {
             try
             {

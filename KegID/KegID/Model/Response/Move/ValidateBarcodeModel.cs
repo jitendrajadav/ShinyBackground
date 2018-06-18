@@ -4,18 +4,42 @@ using System.Collections.Generic;
 
 namespace KegID.Model
 {
-    public class ValidateBarcodeModel : RealmObject
+    public class ManifestModel : RealmObject
+    {
+        [PrimaryKey]
+        public string ManifestId { get; set; }
+        public long EventTypeId { get; set; }
+        public long Latitude { get; set; }
+        public long Longitude { get; set; }
+        public DateTimeOffset SubmittedDate { get; set; }
+        public DateTimeOffset ShipDate { get; set; }
+        public string SenderId { get; set; }
+        public string ReceiverId { get; set; }
+        public string OwnerName { get; set; }
+        public int ManifestItemsCount { get; set; }
+        public BarcodeModel BarcodeModels { get; set; }
+        public IList<ManifestItem> ManifestItems { get; }
+        public IList<NewPallet> NewPallets { get; }
+        public IList<Tag> Tags { get; }
+        public IList<string> ClosedBatches { get; }
+        public IList<NewBatch> NewBatches { get; }
+        public bool IsDraft { get; set; }
+    }
+
+    public class BarcodeModel : RealmObject
     {
         [PrimaryKey]
         public string Barcode { get; set; }
         public string Icon { get; set; }
         public string TagsStr { get; set; }
+        public IList<Tag> Tags { get; }
         public string Page { get; set; }
+        public bool HasMaintenaceVerified { get; set; }
         public Kegs Kegs { get; set; }
         public Pallets Pallets { get; set; }
         public KegIDResponse Response { get; set; }
-    }
 
+    }
     public class Kegs : RealmObject
     {
         public IList<string> Contents { get; }

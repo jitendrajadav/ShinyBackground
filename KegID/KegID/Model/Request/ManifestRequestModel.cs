@@ -37,12 +37,12 @@ namespace KegID.Model
     //    public List<string> ClosedBatches { get; set; }
     //}
 
-    public class TItem
+    public class TItem : RealmObject
     {
         public string Barcode { get; set; }
         public DateTimeOffset ScanDate { get; set; }
         //public long ValidationStatus { get; set; }
-        public List<Tag> Tags { get; set; }
+        public IList<Tag> Tags { get; }
         //public string Contents { get; set; }
         //public string KegId { get; set; }
         //public string PalletId { get; set; }
@@ -51,7 +51,7 @@ namespace KegID.Model
         //public string BatchId { get; set; }
     }
 
-    public class NewBatch
+    public class NewBatch : RealmObject
     {
         public string BatchId { get; set; }
         public string CompanyId { get; set; }
@@ -69,12 +69,12 @@ namespace KegID.Model
         public bool IsCompleted { get; set; }
         public long Abv { get; set; }
         public string SourceKey { get; set; }
-        public List<Tag> Tags { get; set; }
+        public IList<Tag> Tags { get; }
     }
 
-    public class NewPallet
+    public class NewPallet : RealmObject
     {
-        public List<TItem> PalletItems { get; set; }
+        public List<TItem> PalletItems { get; }
         public string PalletId { get; set; }
         public string OwnerId { get; set; }
         public DateTimeOffset BuildDate { get; set; }
@@ -86,7 +86,7 @@ namespace KegID.Model
         public string StockLocationName { get; set; }
         //public string TargetLocation { get; set; }
         public string ReferenceKey { get; set; }
-        public List<Tag> Tags { get; set; }
+        public IList<Tag> Tags { get; }
     }
 
     public class Tag : RealmObject

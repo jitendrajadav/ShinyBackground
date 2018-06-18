@@ -466,7 +466,7 @@ namespace KegID.ViewModel
             }
         }
 
-        internal void AssingScanKegsValue(IList<ValidateBarcodeModel> _barcodes)
+        internal void AssingScanKegsValue(IList<BarcodeModel> _barcodes)
         {
             if (_barcodes.Count > 1)
                 AddKegs = string.Format("{0} Items", _barcodes.Count);

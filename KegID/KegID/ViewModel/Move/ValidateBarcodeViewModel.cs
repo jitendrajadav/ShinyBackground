@@ -5,11 +5,8 @@ using System.Collections.Generic;
 using Xamarin.Forms;
 using KegID.Model;
 using Rg.Plugins.Popup.Extensions;
-using Newtonsoft.Json;
 using System;
 using Microsoft.AppCenter.Crashes;
-using Realms;
-using KegID.LocalDb;
 
 namespace KegID.ViewModel
 {
@@ -17,7 +14,7 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        public List<ValidateBarcodeModel> Models { get; set; }
+        public List<BarcodeModel> Models { get; set; }
 
         #region MultipleKegsTitle
 
@@ -154,7 +151,7 @@ namespace KegID.ViewModel
             }
         }
 
-        public void LoadBarcodeValue(List<ValidateBarcodeModel> _models)
+        public void LoadBarcodeValue(List<BarcodeModel> _models)
         {
             try
             {

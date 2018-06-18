@@ -298,14 +298,15 @@ namespace KegID.ViewModel
                 ManifestCollection.Clear();
                 Loader.StartLoading();
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                var collection = RealmDb.All<DraftManifestModel>().ToList();//await SQLiteServiceClient.Db.Table<DraftManifestModel>().ToListAsync();
-                foreach (var item in collection)
-                {
-                    ManifestModel manifest = JsonConvert.DeserializeObject<ManifestModel>(item.DraftManifestJson);
-                    manifest.ManifestItemsCount = manifest.ManifestItems.Count;
-                    manifest.OwnerName = manifest.OwnerName;
-                    ManifestCollection.Add(manifest);
-                }
+                var collection = RealmDb.All<ManifestModel>().ToList();//await SQLiteServiceClient.Db.Table<DraftManifestModel>().ToListAsync();
+                //foreach (var item in collection)
+                //{
+                    //ManifestModel manifest = JsonConvert.DeserializeObject<ManifestModel>(item.DraftManifestJson);
+                    //manifest.ManifestItemsCount = manifest.ManifestItems.Count;
+                    //manifest.OwnerName = manifest.OwnerName;
+                    //ManifestCollection.Add(manifest);
+                //}
+                ManifestCollection = new ObservableCollection<ManifestModel>(collection);
             }
             catch (Exception ex)
             {

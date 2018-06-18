@@ -1,8 +1,6 @@
 ﻿using KegID.LocalDb;
 using KegID.Model;
-//using KegID.SQLiteClient;
 using Microsoft.AppCenter.Crashes;
-using Newtonsoft.Json;
 using Realms;
 using System;
 using System.Collections.Generic;
@@ -14,16 +12,18 @@ namespace KegID.Common
 {
     public static class ManifestManager
     {
-        public static async Task<ManifestModel> GetManifestDraft(EventTypeEnum eventTypeEnum, string manifestId, IList<ValidateBarcodeModel> barcodeCollection,
+        public static async Task<ManifestModel> GetManifestDraft(EventTypeEnum eventTypeEnum, string manifestId, IList<BarcodeModel> barcodeCollection,
             List<Tag> tags, PartnerModel partnerModel, List<NewPallet> newPallets, List<NewBatch> batches, List<string> closedBatches, long validationStatus, string contents = "")
         {
             ManifestModel manifestModel = null;
-            ValidateBarcodeModel validateBarcodeModel = null;
+            //ValidateBarcodeModel validateBarcodeModel = null;
             List<ManifestItem> manifestItemlst = new List<ManifestItem>();
             ManifestItem manifestItem = null;
 
             var request = new GeolocationRequest(GeolocationAccuracy.Medium);
-            var location = await Geolocation.GetLocationAsync(request);
+            var location = await Geolocation.GetLastKnownLocationAsync();
+            if (location == null)
+                location = await Geolocation.GetLocationAsync(request);
 
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             try
@@ -31,17 +31,17 @@ namespace KegID.Common
                 foreach (var item in barcodeCollection)
                 {
                     string barcodeId = item.Barcode;
-                    var barcodeResult = RealmDb.All<BarcodeModel>().Where(x => x.Barcode == barcodeId).FirstOrDefault();
+                    //var barcodeResult = RealmDb.All<BarcodeModel>().Where(x => x.Barcode == barcodeId).FirstOrDefault();
                     //await SQLiteServiceClient.Db.Table<BarcodeModel>().Where(x => x.Barcode == barcodeId).FirstOrDefaultAsync();
-                    validateBarcodeModel = JsonConvert.DeserializeObject<ValidateBarcodeModel>(barcodeResult.BarcodeJson);
+                    //validateBarcodeModel = JsonConvert.DeserializeObject<ValidateBarcodeModel>(barcodeResult.BarcodeJson);
 
                     manifestItem = new ManifestItem()
                     {
-                        Barcode = barcodeResult.Barcode,
+                        Barcode = item.Barcode,
                         ScanDate = DateTimeOffset.UtcNow.Date,
                         ValidationStatus = validationStatus,
-                        KegId = validateBarcodeModel.Kegs?.Partners?.FirstOrDefault()?.Kegs?.FirstOrDefault().KegId,
-                        Tags = tags,
+                        KegId = item.Kegs?.Partners?.FirstOrDefault()?.Kegs?.FirstOrDefault().KegId,
+                        //Tags = tags,
                         //KegStatus = new List<KegStatus>()
                         //{
                         //    new KegStatus()
@@ -58,6 +58,11 @@ namespace KegID.Common
                         //    }
                         //},
                     };
+
+                    foreach (var tag in tags)
+                    {
+                        manifestItem.Tags.Add(tag);
+                    }
                     manifestItemlst.Add(manifestItem);
                     barcodeId = string.Empty;
                 }
@@ -76,12 +81,27 @@ namespace KegID.Common
                     //DestinationName = partnerModel.FullName,
                     //DestinationTypeCode = partnerModel.LocationCode,
                     OwnerName = partnerModel.FullName,
-                    ManifestItems = manifestItemlst,
-                    NewPallets = newPallets,
-                    NewBatches = batches,
-                    Tags = tags.ToList(),
-                    ClosedBatches = closedBatches
+                    //ManifestItems= manifestItemlst,
+                    //NewPallets = newPallets,
+                    //NewBatches = batches,
+                    //Tags = tags.ToList(),
+                    //ClosedBatches = closedBatches
                 };
+
+                foreach (var item in manifestItemlst)
+                    manifestModel.ManifestItems.Add(item);
+
+                foreach (var item in newPallets)
+                    manifestModel.NewPallets.Add(item);
+
+                foreach (var item in batches)
+                    manifestModel.NewBatches.Add(item);
+
+                foreach (var item in tags)
+                    manifestModel.Tags.Add(item);
+
+                foreach (var item in closedBatches)
+                    manifestModel.ClosedBatches.Add(item);
 
                 return manifestModel;
             }

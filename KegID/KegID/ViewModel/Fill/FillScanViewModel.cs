@@ -209,13 +209,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string BarcodeCollectionPropertyName = "BarcodeCollection";
 
-        private ObservableCollection<ValidateBarcodeModel> _BarcodeCollection = new ObservableCollection<ValidateBarcodeModel>();
+        private ObservableCollection<BarcodeModel> _BarcodeCollection = new ObservableCollection<BarcodeModel>();
 
         /// <summary>
         /// Sets and gets the BarcodeCollection property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public ObservableCollection<ValidateBarcodeModel> BarcodeCollection
+        public ObservableCollection<BarcodeModel> BarcodeCollection
         {
             get
             {
@@ -280,8 +280,8 @@ namespace KegID.ViewModel
         public RelayCommand IsPalletVisibleCommand { get;}
         public RelayCommand SubmitCommand { get;}
         public RelayCommand BarcodeManualCommand { get; }
-        public RelayCommand<ValidateBarcodeModel> IconItemTappedCommand { get;}
-        public RelayCommand<ValidateBarcodeModel> LabelItemTappedCommand { get; }
+        public RelayCommand<BarcodeModel> IconItemTappedCommand { get;}
+        public RelayCommand<BarcodeModel> LabelItemTappedCommand { get; }
 
         #endregion
 
@@ -298,8 +298,8 @@ namespace KegID.ViewModel
             IsPalletVisibleCommand = new RelayCommand(IsPalletVisibleCommandReciever);
             SubmitCommand = new RelayCommand(SubmitCommandRecieverAsync);
             BarcodeManualCommand = new RelayCommand(BarcodeManualCommandRecieverAsync);
-            LabelItemTappedCommand = new RelayCommand<ValidateBarcodeModel>((model) => LabelItemTappedCommandRecieverAsync(model));
-            IconItemTappedCommand = new RelayCommand<ValidateBarcodeModel>((model) => IconItemTappedCommandRecieverAsync(model));
+            LabelItemTappedCommand = new RelayCommand<BarcodeModel>((model) => LabelItemTappedCommandRecieverAsync(model));
+            IconItemTappedCommand = new RelayCommand<BarcodeModel>((model) => IconItemTappedCommandRecieverAsync(model));
 
             HandleReceivedMessages();
         }
@@ -396,7 +396,7 @@ namespace KegID.ViewModel
                     if (palletModel != null)
                     {
                         ManifestId = palletModel.ManifestId;
-                        BarcodeCollection = new ObservableCollection<ValidateBarcodeModel>(palletModel.Barcode);
+                        BarcodeCollection = new ObservableCollection<BarcodeModel>(palletModel.Barcode);
                     }
                     else
                     {
@@ -438,13 +438,13 @@ namespace KegID.ViewModel
             return totalSeconds = seconds + (minutes * 60) + (hours * 3600);
         }
 
-        private async void LabelItemTappedCommandRecieverAsync(ValidateBarcodeModel model)
+        private async void LabelItemTappedCommandRecieverAsync(BarcodeModel model)
         {
             try
             {
                 if (model.Kegs.Partners.Count > 1)
                 {
-                    List<ValidateBarcodeModel> modelList = new List<ValidateBarcodeModel>
+                    List<BarcodeModel> modelList = new List<BarcodeModel>
                     {
                         model
                     };
@@ -461,13 +461,13 @@ namespace KegID.ViewModel
             }
         }
 
-        private async void IconItemTappedCommandRecieverAsync(ValidateBarcodeModel model)
+        private async void IconItemTappedCommandRecieverAsync(BarcodeModel model)
         {
             try
             {
                 if (model.Kegs.Partners.Count > 1)
                 {
-                    List<ValidateBarcodeModel> modelList = new List<ValidateBarcodeModel>
+                    List<BarcodeModel> modelList = new List<BarcodeModel>
                     {
                         model
                     };
@@ -485,7 +485,7 @@ namespace KegID.ViewModel
             }
         }
 
-        private async Task NavigateToValidatePartner(List<ValidateBarcodeModel> model)
+        private async Task NavigateToValidatePartner(List<BarcodeModel> model)
         {
             try
             {
@@ -505,7 +505,7 @@ namespace KegID.ViewModel
                 var isNew = BarcodeCollection.ToList().Any(x => x.Barcode == ManaulBarcode);
                 if (!isNew)
                 {
-                    ValidateBarcodeModel model = new ValidateBarcodeModel
+                    BarcodeModel model = new BarcodeModel
                     {
                         Barcode = ManaulBarcode,
                         //Tags = Tags,
@@ -623,7 +623,7 @@ namespace KegID.ViewModel
             }
         }
 
-        internal void AssignBarcodeScannerValue(IList<ValidateBarcodeModel> barcodes)
+        internal void AssignBarcodeScannerValue(IList<BarcodeModel> barcodes)
         {
             try
             {

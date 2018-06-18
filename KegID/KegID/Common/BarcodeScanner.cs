@@ -21,7 +21,7 @@ namespace KegID.Common
 
         public static async Task BarcodeScanAsync(IMoveService _moveService, List<Tag> _tags, string _tagsStr, string _page)
         {
-            IList<ValidateBarcodeModel> models = new List<ValidateBarcodeModel>();
+            IList<BarcodeModel> models = new List<BarcodeModel>();
             // Create our custom overlay
             var customOverlay = new Grid
             {
@@ -97,7 +97,7 @@ namespace KegID.Common
                 if (!check)
                 {
                     title.Text = "Last scan: " + result.Text;
-                    ValidateBarcodeModel model = new ValidateBarcodeModel()
+                    BarcodeModel model = new BarcodeModel()
                     {
                         Barcode = result.Text,
                         /*Tags = _tags,*/

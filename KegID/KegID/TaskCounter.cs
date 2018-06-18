@@ -33,7 +33,7 @@ namespace KegID
 
             foreach (var item in _barcodeId)
             {
-                ValidateBarcodeModel validateBarcodeModel = await service.GetValidateBarcodeAsync(AppSettings.User.SessionId, item);
+                BarcodeModel validateBarcodeModel = await service.GetValidateBarcodeAsync(AppSettings.User.SessionId, item);
                 validateBarcodeModel.Barcode = item;
                 //Barcode barcode = null;
                 if (validateBarcodeModel.Kegs != null)

@@ -243,7 +243,7 @@ namespace KegID.ViewModel
                         ScanDate = DateTime.Today,
                         //palletItem.SkuId = "";
                         //ValidationStatus = 4,
-                        Tags = tags
+                        //Tags = tags
                     };
 
                     palletItems.Add(palletItem);
@@ -260,11 +260,13 @@ namespace KegID.ViewModel
                     StockLocationName = partnerModel.FullName,
                     OwnerId = AppSettings.User.CompanyId,
                     PalletId = Uuid.GetUuId(),
-                    PalletItems = palletItems,
+                    //PalletItems = palletItems,
                     ReferenceKey = "",
-                    Tags = tags
+                    //Tags = tags
                 };
                 //newPallet.TargetLocation = "";
+                foreach (var item in tags)
+                    newPallet.Tags.Add(item);
 
                 newPallets.Add(newPallet);
             }
@@ -337,7 +339,7 @@ namespace KegID.ViewModel
             }
         }
 
-        internal async Task AssignValueToAddPalletAsync(string manifestId, IList<ValidateBarcodeModel> barcodes)
+        internal async Task AssignValueToAddPalletAsync(string manifestId, IList<BarcodeModel> barcodes)
         {
             try
             {
@@ -369,7 +371,7 @@ namespace KegID.ViewModel
             }
         }
 
-        internal void AssignFillScanValue(IList<ValidateBarcodeModel> _barcodes, string _manifest)
+        internal void AssignFillScanValue(IList<BarcodeModel> _barcodes, string _manifest)
         {
             try
             {
