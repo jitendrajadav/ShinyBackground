@@ -1,5 +1,4 @@
 ﻿using GalaSoft.MvvmLight.Ioc;
-using KegID.Common;
 using KegID.LocalDb;
 using KegID.Model;
 using KegID.ViewModel;
@@ -225,13 +224,13 @@ namespace KegID.Views
         private IList<AssetSizeModel> LoadAssetSizeAsync()
         {
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-            return RealmDb.All<AssetSizeModel>().ToList();//await SQLiteServiceClient.Db.Table<AssetSizeModel>().ToListAsync();
+            return RealmDb.All<AssetSizeModel>().ToList();
         }
 
         private IList<AssetTypeModel> LoadAssetTypeAsync()
         {
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-            return RealmDb.All<AssetTypeModel>().ToList();//await SQLiteServiceClient.Db.Table<AssetTypeModel>().ToListAsync();
+            return RealmDb.All<AssetTypeModel>().ToList();
         }
 
         void OnAddTagsClicked(object sender, EventArgs e)

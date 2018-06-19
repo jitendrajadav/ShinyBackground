@@ -27,7 +27,7 @@ namespace KegID.Droid.Services
                 {
                     //INVOKE THE SHARED CODE
                     var counter = new TaskCounter();
-                    counter.RunCounter(_cts.Token, intent.GetStringArrayListExtra("Barcode"), intent.GetStringExtra("Page")).Wait();
+                    counter.RunCounter(_cts.Token, intent.GetStringArrayListExtra("Barcode"), intent.GetStringExtra("PageName")).Wait();
                 }
                 catch (System.OperationCanceledException)
                 {

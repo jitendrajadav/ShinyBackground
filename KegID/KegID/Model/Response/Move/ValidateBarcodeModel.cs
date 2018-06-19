@@ -17,7 +17,7 @@ namespace KegID.Model
         public string ReceiverId { get; set; }
         public string OwnerName { get; set; }
         public int ManifestItemsCount { get; set; }
-        public BarcodeModel BarcodeModels { get; set; }
+        public IList<BarcodeModel> BarcodeModels { get;}
         public IList<ManifestItem> ManifestItems { get; }
         public IList<NewPallet> NewPallets { get; }
         public IList<Tag> Tags { get; }

@@ -314,9 +314,24 @@ namespace KegID.ViewModel
                     var value = message;
                     if (value != null)
                     {
-                        BarcodeCollection.Where(x => x.Barcode == value.Barcodes.Barcode).FirstOrDefault().Pallets = value.Barcodes.Pallets;
-                        BarcodeCollection.Where(x => x.Barcode == value.Barcodes.Barcode).FirstOrDefault().Kegs = value.Barcodes.Kegs;
-                        BarcodeCollection.Where(x => x.Barcode == value.Barcodes.Barcode).FirstOrDefault().Icon = value?.Barcodes?.Kegs?.Partners.Count > 1 ? GetIconByPlatform.GetIcon("validationquestion.png") : value?.Barcodes?.Kegs?.Partners?.Count == 0 ? GetIconByPlatform.GetIcon("validationerror.png") : GetIconByPlatform.GetIcon("validationok.png");
+                        try
+                        {
+                            //foreach (var item in BarcodeCollection)
+                            //{
+
+                            //}
+                            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                            RealmDb.Write(() =>
+                            {
+                                BarcodeCollection.Where(x => x.Barcode == value.Barcodes.Barcode).FirstOrDefault().Pallets = value.Barcodes.Pallets;
+                                BarcodeCollection.Where(x => x.Barcode == value.Barcodes.Barcode).FirstOrDefault().Kegs = value.Barcodes.Kegs;
+                                BarcodeCollection.Where(x => x.Barcode == value.Barcodes.Barcode).FirstOrDefault().Icon = value?.Barcodes?.Kegs?.Partners.Count > 1 ? GetIconByPlatform.GetIcon("validationquestion.png") : value?.Barcodes?.Kegs?.Partners?.Count == 0 ? GetIconByPlatform.GetIcon("validationerror.png") : GetIconByPlatform.GetIcon("validationok.png");
+                            });
+                        }
+                        catch (Exception ex)
+                        {
+                            Crashes.TrackError(ex);
+                        }
                     }
                 });
             });
@@ -585,7 +600,7 @@ namespace KegID.ViewModel
             }
         }
 
-        private void BarcodeManualCommandRecieverAsync()
+        private async void BarcodeManualCommandRecieverAsync()
         {
             try
             {
@@ -608,17 +623,44 @@ namespace KegID.ViewModel
                         var message = new StartLongRunningTaskMessage
                         {
                             Barcode = new List<string>() { ManaulBarcode },
-                            Page = ViewTypeEnum.ScanKegsView.ToString()
+                            PageName = ViewTypeEnum.ScanKegsView.ToString()
                         };
                         MessagingCenter.Send(message, "StartLongRunningTaskMessage");
                     }
                     else
                     {
+                        SimpleIoc @default = SimpleIoc.Default;
+                        //ManifestScannedModel.scannedModels.Add(model);
+
+                        ManifestModel manifestModel = await ManifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.MOVE_MANIFEST, 
+                            manifestId: @default.GetInstance<MoveViewModel>().ManifestId, barcodeCollection: BarcodeCollection, 
+                            tags: Tags, partnerModel: @default.GetInstance<MoveViewModel>().PartnerModel, newPallets: new List<NewPallet>(), 
+                            batches: new List<NewBatch>(), closedBatches: new List<string>(), validationStatus: 2, contents: SelectedBrand?.BrandName);
+
+                        manifestModel.IsQueue = true;
+
                         var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                        RealmDb.Write(() =>
+                        var IsManifestExist = RealmDb.Find<ManifestModel>(manifestModel.ManifestId);
+                        try
                         {
-                            var Result = RealmDb.Add(model);
-                        });
+                            RealmDb.Write(() =>
+                                            {
+                                                if (IsManifestExist != null)
+                                                {
+                                                    foreach (var item in manifestModel.BarcodeModels)
+                                                    {
+                                                        var Result = RealmDb.Add(item, true);
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    var Result = RealmDb.Add(manifestModel, true);
+                                                }
+                                            });
+                        }
+                        catch (Exception ex)
+                        {
+                        }
                     }
 
                     ManaulBarcode = string.Empty;

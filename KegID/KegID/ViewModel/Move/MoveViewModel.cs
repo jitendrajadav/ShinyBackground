@@ -9,6 +9,7 @@ using Microsoft.AppCenter.Crashes;
 using Realms;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -377,10 +378,7 @@ namespace KegID.ViewModel
             {
                 Loader.StartLoading();
 
-                manifestPostModel = await ManifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.MOVE_MANIFEST, manifestId: ManifestId,
-                    barcodeCollection: Barcodes, tags: Tags, partnerModel: PartnerModel, newPallets: new List<NewPallet>(),
-                    batches: new List<NewBatch>(), closedBatches: new List<string>(), validationStatus: 2, contents: Contents);
-
+                manifestPostModel = await GenerateManifest();
                 if (manifestPostModel != null)
                 {
                     try
@@ -440,16 +438,12 @@ namespace KegID.ViewModel
         private async void SaveDraftCommandRecieverAsync()
         {
             ManifestModel manifestModel = null;
-            SimpleIoc @default = SimpleIoc.Default;
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             try
             {
                 Loader.StartLoading();
 
-                manifestModel = await ManifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.MOVE_MANIFEST, manifestId: ManifestId,
-                    barcodeCollection: @default.GetInstance<ScanKegsViewModel>().BarcodeCollection, tags: @default.GetInstance<ScanKegsViewModel>().Tags,
-                    partnerModel: PartnerModel, newPallets: new List<NewPallet>(), batches: new List<NewBatch>(), closedBatches: new List<string>(),
-                    validationStatus: 2, contents: @default.GetInstance<ScanKegsViewModel>().SelectedBrand?.BrandName);
+                manifestModel = await GenerateManifest();
 
                 manifestModel.IsDraft = true;
 
@@ -459,8 +453,8 @@ namespace KegID.ViewModel
                     {
                         var Result = RealmDb.Add(manifestModel, true);
                         if (Result != null)
-                            @default.GetInstance<DashboardViewModel>().CheckDraftmaniFestsAsync();
-                    }); 
+                            SimpleIoc.Default.GetInstance<DashboardViewModel>().CheckDraftmaniFestsAsync();
+                    });
                 }
                 catch (Exception ex)
                 {
@@ -469,7 +463,7 @@ namespace KegID.ViewModel
 
                 Loader.StopLoading();
                 await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestsView(), animated: false);
-                @default.GetInstance<ManifestsViewModel>().LoadDraftManifestAsync();
+                SimpleIoc.Default.GetInstance<ManifestsViewModel>().LoadDraftManifestAsync();
             }
             catch (Exception ex)
             {
@@ -479,9 +473,16 @@ namespace KegID.ViewModel
             {
                 Loader.StopLoading();
                 manifestModel = null;
-                @default = null;
                 Cleanup();
             }
+        }
+
+        public async Task<ManifestModel> GenerateManifest()
+        {
+            SimpleIoc @default = SimpleIoc.Default;
+            return await ManifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.MOVE_MANIFEST, manifestId: ManifestId,
+                                barcodeCollection: Barcodes, tags: Tags, partnerModel: PartnerModel, newPallets: new List<NewPallet>(), 
+                                batches: new List<NewBatch>(), closedBatches: new List<string>(), validationStatus: 2, contents: Contents);
         }
 
         internal void AssingScanKegsValue(List<BarcodeModel> _barcodes, List<Tag> _tags,string _contents)

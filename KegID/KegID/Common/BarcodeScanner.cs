@@ -64,7 +64,7 @@ namespace KegID.Common
                 var message = new StartLongRunningTaskMessage
                 {
                     Barcode = models.Select(x => x.Barcode).ToList(),
-                    Page = _page
+                    PageName = _page
                 };
                 MessagingCenter.Send(message, "StartLongRunningTaskMessage");
 

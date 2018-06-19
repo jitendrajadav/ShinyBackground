@@ -68,7 +68,7 @@ namespace KegID.Droid
             MessagingCenter.Subscribe<StartLongRunningTaskMessage>(this, "StartLongRunningTaskMessage", message => {
                 var intent = new Intent(this, typeof(LongRunningTaskService));
                 intent.PutStringArrayListExtra("Barcode", message.Barcode);
-                intent.PutExtra("Page", message.Page);
+                intent.PutExtra("PageName", message.PageName);
                 StartService(intent);
             });
 

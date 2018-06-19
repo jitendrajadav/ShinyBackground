@@ -23,6 +23,8 @@ namespace KegID.ViewModel
     {
         #region Properties
 
+        private const string Maintenace = "maintenace.png";
+        private const string ValidationOK = "validationok.png";
         private const string Cloud = "collectionscloud.png";
         public IMoveService _moveService { get; set; }
         public IMaintainService _maintainService { get; set; }
@@ -190,8 +192,6 @@ namespace KegID.ViewModel
                         RealmDb.Add(item);
                     }
                 });
-                // The item does not exists in the database so lets insert it
-               // await SQLiteServiceClient.Db.InsertAllAsync(model.MaintainTypeReponseModel);
                 MaintainTypeReponseModel = model.MaintainTypeReponseModel;
             }
             catch (Exception ex)    
@@ -201,13 +201,27 @@ namespace KegID.ViewModel
             return MaintainTypeReponseModel;
         }
 
-        internal void AssignValidatedValue(Partner model)
+        internal async void AssignValidatedValueAsync(Partner model)
         {
             try
             {
-                //BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Partners.Clear();
-                //BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = GetIconByPlatform.GetIcon("validationquestion.png");
-                //BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Partners.Add(model);
+                var unusedPerner = BarcodeCollection.Where(x => x.Kegs.Partners != model).Select(x => x.Kegs.Partners.FirstOrDefault()).FirstOrDefault();
+                if (model.Kegs.FirstOrDefault().MaintenanceItems?.Count > 0)
+                {
+                    BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = GetIconByPlatform.GetIcon(Maintenace);
+                }
+                else
+                {
+                    BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = GetIconByPlatform.GetIcon(ValidationOK);
+                }
+                await Application.Current.MainPage.Navigation.PopPopupAsync();
+
+                foreach (var item in BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode))
+                {
+                    item.Kegs.Partners.Remove(unusedPerner);
+                }
+
+                SubmitCommandRecieverAsync();
             }
             catch (Exception ex)
             {
@@ -301,7 +315,7 @@ namespace KegID.ViewModel
                     var message = new StartLongRunningTaskMessage
                     {
                         Barcode = new List<string>() { ManaulBarcode },
-                        Page = ViewTypeEnum.MaintainScanView.ToString()
+                        PageName = ViewTypeEnum.MaintainScanView.ToString()
                     };
                     MessagingCenter.Send(message, "StartLongRunningTaskMessage");
                     ManaulBarcode = string.Empty;

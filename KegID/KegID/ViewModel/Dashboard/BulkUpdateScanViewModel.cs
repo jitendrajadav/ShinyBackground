@@ -495,7 +495,7 @@ namespace KegID.ViewModel
                     var message = new StartLongRunningTaskMessage
                     {
                         Barcode = new List<string>() { ManaulBarcode },
-                        Page = ViewTypeEnum.BulkUpdateScanView.ToString()
+                        PageName = ViewTypeEnum.BulkUpdateScanView.ToString()
                     };
                     MessagingCenter.Send(message, "StartLongRunningTaskMessage");
                     ManaulBarcode = string.Empty;

@@ -74,7 +74,7 @@ namespace KegID.Model
 
     public class NewPallet : RealmObject
     {
-        public List<TItem> PalletItems { get; }
+        public IList<TItem> PalletItems { get; }
         public string PalletId { get; set; }
         public string OwnerId { get; set; }
         public DateTimeOffset BuildDate { get; set; }

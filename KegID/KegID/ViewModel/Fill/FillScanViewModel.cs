@@ -344,7 +344,7 @@ namespace KegID.ViewModel
             PartnerModel = partnerModel;
         }
 
-        internal async void AssignValidateBarcodeValueAsync()
+        internal async Task AssignValidateBarcodeValueAsync()
         {
             try
             {
@@ -504,7 +504,7 @@ namespace KegID.ViewModel
                     var message = new StartLongRunningTaskMessage
                     {
                         Barcode = new List<string>() { ManaulBarcode },
-                        Page = ViewTypeEnum.FillScanView.ToString()
+                        PageName = ViewTypeEnum.FillScanView.ToString()
                     };
                     MessagingCenter.Send(message, "StartLongRunningTaskMessage");
                     ManaulBarcode = string.Empty;
@@ -649,13 +649,19 @@ namespace KegID.ViewModel
             }
         }
 
-        internal void AssignValidatedValue(Partner model)
+        internal async void AssignValidatedValueAsync(Partner model)
         {
             try
             {
-                //BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Partners.Clear();
-                //BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = GetIconByPlatform.GetIcon("validationquestion.png");
-                //BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Partners.Add(model);
+                var unusedPerner = BarcodeCollection.Where(x => x.Kegs.Partners != model).Select(x => x.Kegs.Partners.FirstOrDefault()).FirstOrDefault();
+                BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = GetIconByPlatform.GetIcon("validationquestion.png");
+
+               await AssignValidateBarcodeValueAsync();
+
+                foreach (var item in BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode))
+                {
+                    item.Kegs.Partners.Remove(unusedPerner);
+                }
             }
             catch (Exception ex)
             {

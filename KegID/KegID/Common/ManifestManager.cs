@@ -80,6 +80,9 @@ namespace KegID.Common
                     //ClosedBatches = closedBatches
                 };
 
+                foreach (var item in barcodeCollection)
+                    manifestModel.BarcodeModels.Add(item);
+
                 foreach (var item in manifestItemlst)
                     manifestModel.ManifestItems.Add(item);
 

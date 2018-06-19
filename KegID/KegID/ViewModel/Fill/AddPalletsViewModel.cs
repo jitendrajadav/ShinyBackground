@@ -240,7 +240,7 @@ namespace KegID.ViewModel
                         //palletItem.HeldOnPalletId = "";
                         //palletItem.KegId = "";
                         //palletItem.PalletId = "";
-                        ScanDate = DateTime.Today,
+                        ScanDate = DateTimeOffset.UtcNow.Date,
                         //palletItem.SkuId = "";
                         //ValidationStatus = 4,
                         //Tags = tags
@@ -253,7 +253,7 @@ namespace KegID.ViewModel
                 {
                     Barcode = pallet.ManifestId,
                     //newPallet.BarcodeFormat = "";
-                    BuildDate = DateTime.Today,
+                    BuildDate = DateTimeOffset.UtcNow.Date,
                     //newPallet.ManifestTypeId = 4;
                     StockLocation = partnerModel.PartnerId,
                     StockLocationId = partnerModel.PartnerId,
@@ -267,7 +267,8 @@ namespace KegID.ViewModel
                 //newPallet.TargetLocation = "";
                 foreach (var item in tags)
                     newPallet.Tags.Add(item);
-
+                foreach (var item in palletItems)
+                    newPallet.PalletItems.Add(item);
                 newPallets.Add(newPallet);
             }
 
@@ -287,7 +288,7 @@ namespace KegID.ViewModel
                 {
                     var manifestResult = await _moveService.PostManifestAsync(model, AppSettings.User.SessionId, Configuration.NewManifest);
 
-                    if (manifestResult != null)
+                    if (manifestResult.ManifestId != null)
                     {
                         var manifest = await _moveService.GetManifestAsync(AppSettings.User.SessionId, manifestResult.ManifestId);
                         if (manifest.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())

@@ -248,7 +248,7 @@ namespace KegID.ViewModel
         internal void AssignInitialValue(BarcodeModel _barcode)
         {
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-            var manifest = RealmDb.All<ManifestModel>().Where(x=>x.BarcodeModels.Barcode == _barcode.Barcode).FirstOrDefault();
+            var manifest = RealmDb.All<ManifestModel>().Where(x => x.BarcodeModels.Any(p => p.Barcode == _barcode.Barcode)).FirstOrDefault();
             try
             {
                 Barcode = string.Format(" Barcode {0} ", _barcode.Barcode);

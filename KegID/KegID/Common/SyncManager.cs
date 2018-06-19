@@ -24,16 +24,20 @@ namespace KegID.Common
             if (current == NetworkAccess.Internet)
             {
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                var value = RealmDb.All<BarcodeModel>().ToList();
+                var value = RealmDb.All<ManifestModel>().Where(x=>x.IsQueue == true).ToList();
 
                 if (value.Count > 0)
                 {
-                    var message = new StartLongRunningTaskMessage
+                    foreach (var item in value)
                     {
-                        Barcode = value.Select(p => p.Barcode).ToList(), 
-                        Page = ViewTypeEnum.ScanKegsView.ToString()
-                    };
-                    MessagingCenter.Send(message, "StartLongRunningTaskMessage"); 
+                        var message = new StartLongRunningTaskMessage
+                        {
+
+                            Barcode = item.BarcodeModels.Select(x=>x.Barcode).ToList(),
+                            PageName = ViewTypeEnum.ScanKegsView.ToString()
+                        };
+                        MessagingCenter.Send(message, "StartLongRunningTaskMessage");
+                    }
                 }
             }
         }

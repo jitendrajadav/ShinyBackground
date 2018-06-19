@@ -107,7 +107,7 @@ namespace KegID.ViewModel
 
         private async void CancelCommandRecievierAsync() => await Application.Current.MainPage.Navigation.PopPopupAsync();
 
-        private async void ItemTappedCommandRecieverAsync(Partner model)
+        private void ItemTappedCommandRecieverAsync(Partner model)
         {
             try
             {
@@ -118,31 +118,17 @@ namespace KegID.ViewModel
                         break;
 
                     case ViewTypeEnum.FillScanView:
-                        SimpleIoc.Default.GetInstance<FillScanViewModel>().AssignValidatedValue(model);
+                        SimpleIoc.Default.GetInstance<FillScanViewModel>().AssignValidatedValueAsync(model);
                         break;
 
                     case ViewTypeEnum.MaintainScanView:
-                        SimpleIoc.Default.GetInstance<MaintainScanViewModel>().AssignValidatedValue(model);
+                        SimpleIoc.Default.GetInstance<MaintainScanViewModel>().AssignValidatedValueAsync(model);
                         break;
                 }
 
                 Models.RemoveAt(0);
 
-                if (Models.Count == 0)
-                {
-                    switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack.LastOrDefault().GetType().Name))
-                    {
-                        case ViewTypeEnum.FillScanView:
-                            SimpleIoc.Default.GetInstance<FillScanViewModel>().AssignValidateBarcodeValueAsync();
-                            break;
-
-                        case ViewTypeEnum.MaintainScanView:
-                            await Application.Current.MainPage.Navigation.PopPopupAsync();
-                            SimpleIoc.Default.GetInstance<MaintainScanViewModel>().SubmitCommandRecieverAsync();
-                            break;
-                    }
-                }
-                else
+                if (Models.Count > 0)
                     ValidateScannedBarcode();
             }
             catch (Exception ex)
