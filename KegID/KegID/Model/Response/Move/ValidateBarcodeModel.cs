@@ -29,7 +29,7 @@ namespace KegID.Model
 
     public class BarcodeModel : RealmObject
     {
-        [PrimaryKey]
+        //[PrimaryKey]
         public string Barcode { get; set; }
         public string Icon { get; set; }
         public string TagsStr { get; set; }
@@ -75,7 +75,6 @@ namespace KegID.Model
 
     public class Partner : RealmObject
     {
-        [PrimaryKey]
         public string PartnerId { get; set; }
 
         //[Ignore]
@@ -107,7 +106,7 @@ namespace KegID.Model
 
     public class Keg : RealmObject
     {
-        [PrimaryKey]
+        //[PrimaryKey]
         public string KegId { get; set; }
         public string PartnerId { get; set; }
         public string Barcode { get; set; }

@@ -630,33 +630,34 @@ namespace KegID.ViewModel
                     else
                     {
                         SimpleIoc @default = SimpleIoc.Default;
-                        //ManifestScannedModel.scannedModels.Add(model);
-
-                        ManifestModel manifestModel = await ManifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.MOVE_MANIFEST, 
-                            manifestId: @default.GetInstance<MoveViewModel>().ManifestId, barcodeCollection: BarcodeCollection, 
-                            tags: Tags, partnerModel: @default.GetInstance<MoveViewModel>().PartnerModel, newPallets: new List<NewPallet>(), 
-                            batches: new List<NewBatch>(), closedBatches: new List<string>(), validationStatus: 2, contents: SelectedBrand?.BrandName);
-
-                        manifestModel.IsQueue = true;
+                        string ManifestId = @default.GetInstance<MoveViewModel>().ManifestId;
 
                         var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                        var IsManifestExist = RealmDb.Find<ManifestModel>(manifestModel.ManifestId);
+                        var IsManifestExist = RealmDb.Find<ManifestModel>(ManifestId);
                         try
                         {
-                            RealmDb.Write(() =>
-                                            {
-                                                if (IsManifestExist != null)
-                                                {
-                                                    foreach (var item in manifestModel.BarcodeModels)
-                                                    {
-                                                        var Result = RealmDb.Add(item, true);
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    var Result = RealmDb.Add(manifestModel, true);
-                                                }
-                                            });
+                            if (IsManifestExist != null)
+                            {
+                                RealmDb.Write(() =>
+                                {
+                                    IsManifestExist.BarcodeModels.Add(model);
+                                    var Result = RealmDb.Add(IsManifestExist, true);
+                                });
+                            }
+                            else
+                            {
+                                ManifestModel manifestModel = await ManifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.MOVE_MANIFEST,
+                                                                manifestId: ManifestId, barcodeCollection: BarcodeCollection, tags: Tags, 
+                                                                partnerModel: @default.GetInstance<MoveViewModel>().PartnerModel, newPallets: new List<NewPallet>(),
+                                                                batches: new List<NewBatch>(), closedBatches: new List<string>(), validationStatus: 2, contents: SelectedBrand?.BrandName);
+
+                                manifestModel.IsQueue = true;
+
+                                RealmDb.Write(() =>
+                                {
+                                    var Result = RealmDb.Add(manifestModel, true);
+                                });
+                            }
                         }
                         catch (Exception ex)
                         {
@@ -705,11 +706,19 @@ namespace KegID.ViewModel
 
                 if (model.Kegs.FirstOrDefault().MaintenanceItems?.Count > 0)
                 {
-                    BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = GetIconByPlatform.GetIcon(Maintenace);
+                    foreach (var item in BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode))
+                    {
+                        item.Icon = GetIconByPlatform.GetIcon(Maintenace);
+                    }
+                    //BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = GetIconByPlatform.GetIcon(Maintenace);
                 }
                 else
                 {
-                    BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = GetIconByPlatform.GetIcon(ValidationOK);
+                    foreach (var item in BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode))
+                    {
+                        item.Icon = GetIconByPlatform.GetIcon(ValidationOK);
+                    }
+                    //BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = GetIconByPlatform.GetIcon(ValidationOK);
                 }
 
                 SimpleIoc.Default.GetInstance<MoveViewModel>().AssingScanKegsValue(_barcodes: BarcodeCollection.ToList(), _tags: Tags, _contents: SelectedBrand?.BrandName);
