@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using GalaSoft.MvvmLight.Command;
-using KegID.Common;
 using KegID.Services;
 using KegID.Views;
 using Xamarin.Forms;
@@ -8,7 +7,6 @@ using System.Linq;
 using System.Collections.Generic;
 using KegID.Model;
 using System;
-using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.AppCenter.Crashes;
 using Realms;
@@ -368,43 +366,18 @@ namespace KegID.ViewModel
 
         #region Methods
 
-        private async void LoadPartners()
-        {
-            await LoadPartnersAsync();
-        }
-
-        private async Task LoadPartnersAsync()
+        private void LoadPartners()
         {
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-            AllPartners = RealmDb.All<PossessorResponseModel>().ToList();// await SQLiteServiceClient.Db.Table<PossessorResponseModel>().ToListAsync();
+            AllPartners = RealmDb.All<PossessorResponseModel>().ToList();
             try
             {
                 if (AllPartners.Count > 0)
                     PartnerCollection = new ObservableCollection<PossessorResponseModel>(AllPartners.OrderBy(x => x.Location.FullName));
-                else
-                {
-                    Loader.StartLoading();
-                    var value = await _dashboardService.GetDashboardPartnersListAsync(AppSettings.User.CompanyId, AppSettings.User.SessionId);
-                    if (value.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
-                    {
-                        AllPartners = value.PossessorResponseModel.Where(x => x.Location.FullName != string.Empty).ToList();
-                        PartnerCollection = new ObservableCollection<PossessorResponseModel>(AllPartners.OrderByDescending(x => x.KegsHeld));
-
-                        RealmDb.Write(() =>
-                        {
-                            foreach (var item in AllPartners)
-                                RealmDb.Add(item);
-                        });
-                    }
-                }
             }
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
-            }
-            finally
-            {
-                Loader.StopLoading();
             }
         }
 

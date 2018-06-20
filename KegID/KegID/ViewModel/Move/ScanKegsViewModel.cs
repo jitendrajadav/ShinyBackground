@@ -316,16 +316,18 @@ namespace KegID.ViewModel
                     {
                         try
                         {
-                            //foreach (var item in BarcodeCollection)
-                            //{
-
-                            //}
                             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                             RealmDb.Write(() =>
                             {
-                                BarcodeCollection.Where(x => x.Barcode == value.Barcodes.Barcode).FirstOrDefault().Pallets = value.Barcodes.Pallets;
-                                BarcodeCollection.Where(x => x.Barcode == value.Barcodes.Barcode).FirstOrDefault().Kegs = value.Barcodes.Kegs;
-                                BarcodeCollection.Where(x => x.Barcode == value.Barcodes.Barcode).FirstOrDefault().Icon = value?.Barcodes?.Kegs?.Partners.Count > 1 ? GetIconByPlatform.GetIcon("validationquestion.png") : value?.Barcodes?.Kegs?.Partners?.Count == 0 ? GetIconByPlatform.GetIcon("validationerror.png") : GetIconByPlatform.GetIcon("validationok.png");
+                                var oldBarcode = BarcodeCollection.Where(x => x.Barcode == value.Barcodes.Barcode).FirstOrDefault();
+                                oldBarcode.Pallets = value.Barcodes.Pallets;
+                                oldBarcode.Kegs = value.Barcodes.Kegs;
+                                oldBarcode.Icon = value?.Barcodes?.Kegs?.Partners.Count > 1 ? GetIconByPlatform.GetIcon("validationquestion.png") : value?.Barcodes?.Kegs?.Partners?.Count == 0 ? GetIconByPlatform.GetIcon("validationerror.png") : GetIconByPlatform.GetIcon("validationok.png");
+                                oldBarcode.IsScanned = true;
+
+                                //BarcodeCollection.Where(x => x.Barcode == value.Barcodes.Barcode).FirstOrDefault().Pallets = value.Barcodes.Pallets;
+                                //BarcodeCollection.Where(x => x.Barcode == value.Barcodes.Barcode).FirstOrDefault().Kegs = value.Barcodes.Kegs;
+                                //BarcodeCollection.Where(x => x.Barcode == value.Barcodes.Barcode).FirstOrDefault().Icon = value?.Barcodes?.Kegs?.Partners.Count > 1 ? GetIconByPlatform.GetIcon("validationquestion.png") : value?.Barcodes?.Kegs?.Partners?.Count == 0 ? GetIconByPlatform.GetIcon("validationerror.png") : GetIconByPlatform.GetIcon("validationok.png");
                             });
                         }
                         catch (Exception ex)
@@ -349,9 +351,9 @@ namespace KegID.ViewModel
             });
         }
 
-        public async void LoadBrand() => BrandCollection = await LoadBrandAsync();
+        public void LoadBrand() => BrandCollection = LoadBrandAsync();
 
-        public async Task<IList<BrandModel>> LoadBrandAsync()
+        public IList<BrandModel> LoadBrandAsync()
         {
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             var all = RealmDb.All<BrandModel>().ToList();
@@ -360,23 +362,6 @@ namespace KegID.ViewModel
             {
                 if (model.Count > 0)
                     return model;
-                else
-                {
-                    Loader.StartLoading();
-                    var value = await _moveService.GetBrandListAsync(AppSettings.User.SessionId);
-
-                    if (value.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
-                    {
-                        model = value.BrandModel;
-                        RealmDb.Write(() =>
-                        {
-                            foreach (var item in value.BrandModel)
-                            {
-                                RealmDb.Add(item);
-                            }
-                        });
-                    }
-                }
             }
             catch (Exception ex)
             {
@@ -647,7 +632,7 @@ namespace KegID.ViewModel
                             else
                             {
                                 ManifestModel manifestModel = await ManifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.MOVE_MANIFEST,
-                                                                manifestId: ManifestId, barcodeCollection: BarcodeCollection, tags: Tags, 
+                                                                manifestId: ManifestId, barcodeCollection: BarcodeCollection.Where(t=>t.IsScanned == false).ToList(), tags: Tags, 
                                                                 partnerModel: @default.GetInstance<MoveViewModel>().PartnerModel, newPallets: new List<NewPallet>(),
                                                                 batches: new List<NewBatch>(), closedBatches: new List<string>(), validationStatus: 2, contents: SelectedBrand?.BrandName);
 
@@ -698,30 +683,56 @@ namespace KegID.ViewModel
             }
         }
 
-        internal async void AssignValidatedValueAsync(Partner model)
+        internal async Task AssignValidatedValueAsync(Partner model)
         {
-            try
-            {
-                var unusedPerner = BarcodeCollection.Where(x => x.Kegs.Partners != model).Select(x=>x.Kegs.Partners.FirstOrDefault()).FirstOrDefault();
+            var selecetdPertner = BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).Select(x=>x.Kegs.Partners).FirstOrDefault();
+            Partner unusedPartner = null;
 
-                if (model.Kegs.FirstOrDefault().MaintenanceItems?.Count > 0)
+            foreach (var item in selecetdPertner)
+            {
+                if (item.FullName == model.FullName)
                 {
-                    foreach (var item in BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode))
-                    {
-                        item.Icon = GetIconByPlatform.GetIcon(Maintenace);
-                    }
-                    //BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = GetIconByPlatform.GetIcon(Maintenace);
                 }
                 else
                 {
-                    foreach (var item in BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode))
+                    unusedPartner = item;
+                    break;
+                }
+            }
+
+            try
+            {
+                if (model.Kegs.FirstOrDefault().MaintenanceItems?.Count > 0)
+                {
+                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                    await RealmDb.WriteAsync((realmdb) =>
+                     {
+                         BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = GetIconByPlatform.GetIcon(Maintenace);
+                     });
+                }
+                else
+                {
+                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                    await RealmDb.WriteAsync((realmdb) =>
                     {
-                        item.Icon = GetIconByPlatform.GetIcon(ValidationOK);
-                    }
-                    //BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = GetIconByPlatform.GetIcon(ValidationOK);
+                        BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = GetIconByPlatform.GetIcon(ValidationOK);
+                    });
                 }
 
                 SimpleIoc.Default.GetInstance<MoveViewModel>().AssingScanKegsValue(_barcodes: BarcodeCollection.ToList(), _tags: Tags, _contents: SelectedBrand?.BrandName);
+
+                try
+                {
+                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                    await RealmDb.WriteAsync((realmdb) =>
+                     {
+                         BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Kegs.Partners.Remove(unusedPartner);
+                     });
+                }
+                catch (Exception ex)
+                {
+                    Crashes.TrackError(ex);
+                }
 
                 if (HasDone && model.Kegs?.FirstOrDefault()?.MaintenanceItems?.Count < 0)
                 {
@@ -731,17 +742,18 @@ namespace KegID.ViewModel
                 }
                 else
                 {
-                    await Application.Current.MainPage.Navigation.PopPopupAsync();
-                }
-
-                foreach (var item in BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode))
-                {
-                    item.Kegs.Partners.Remove(unusedPerner);
+                    var check = BarcodeCollection.Where(x => x?.Kegs?.Partners?.Count > 1).ToList();
+                    if (check.Count == 0)
+                        await Application.Current.MainPage.Navigation.PopPopupAsync();
                 }
             }
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
+            }
+            finally
+            {
+                unusedPartner = null;
             }
         }
 

@@ -29,13 +29,13 @@ namespace KegID.Model
 
     public class BarcodeModel : RealmObject
     {
-        //[PrimaryKey]
         public string Barcode { get; set; }
         public string Icon { get; set; }
         public string TagsStr { get; set; }
         public IList<Tag> Tags { get; }
         public string Page { get; set; }
         public bool HasMaintenaceVerified { get; set; }
+        public bool IsScanned { get; set; }
         public Kegs Kegs { get; set; }
         public Pallets Pallets { get; set; }
         public KegIDResponse Response { get; set; }
@@ -76,8 +76,6 @@ namespace KegID.Model
     public class Partner : RealmObject
     {
         public string PartnerId { get; set; }
-
-        //[Ignore]
         public IList<Keg> Kegs { get; }
         public string FullName { get; set; }
         public string Address { get; set; }
@@ -106,7 +104,6 @@ namespace KegID.Model
 
     public class Keg : RealmObject
     {
-        //[PrimaryKey]
         public string KegId { get; set; }
         public string PartnerId { get; set; }
         public string Barcode { get; set; }
@@ -116,9 +113,7 @@ namespace KegID.Model
         public long Size { get; set; }
         public string Alert { get; set; }
         public long Location { get; set; }
-        //[Ignore]
         public IList<long> MaintenanceItems { get; }
-        //[Ignore]
         public IList<long> PendingMaintenanceItems { get;}
         public long? Sku { get; set; }
         public long? ContentsSku { get; set; }
@@ -154,5 +149,4 @@ namespace KegID.Model
         public IList<string> Companies { get; }
         public IList<string> Skus { get; }
     }
-
 }

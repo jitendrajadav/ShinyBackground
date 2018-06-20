@@ -184,7 +184,7 @@ namespace KegID.Views
                         break;
 
                     case TagsTypeEnum.Contents:
-                        var result = await SimpleIoc.Default.GetInstance<ScanKegsViewModel>().LoadBrandAsync();
+                        var result = SimpleIoc.Default.GetInstance<ScanKegsViewModel>().LoadBrandAsync();
                         valueEntry.ItemsSource = result.ToList();
                         valueEntry.ItemDisplayBinding = new Binding("BrandName");
                         break;

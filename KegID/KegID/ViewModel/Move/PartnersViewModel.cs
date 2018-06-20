@@ -361,11 +361,10 @@ namespace KegID.ViewModel
             }
         }
 
-        public async void LoadPartnersAsync()
+        public void LoadPartnersAsync()
         {
-            Loader.StartLoading();
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-            AllPartners = RealmDb.All<PartnerModel>().ToList(); //await SQLiteServiceClient.Db.Table<PartnerModel>().ToListAsync();
+            AllPartners = RealmDb.All<PartnerModel>().ToList();
             try
             {
                 if (AllPartners.Count > 0)
@@ -374,41 +373,6 @@ namespace KegID.ViewModel
                         PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners.Where(x => x.PartnerTypeName == "Brewer - Stock").ToList());
                     else
                         PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners);
-                }
-                else
-                {
-                    var value = await _moveService.GetPartnersListAsync(AppSettings.User.SessionId);
-                    if (value.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
-                    {
-                        try
-                        {
-                            AllPartners = value.PartnerModel.Where(x => x.FullName != string.Empty).ToList();
-                        }
-                        catch (Exception ex)
-                        {
-                            Crashes.TrackError(ex);
-                        }
-                        if (BrewerStockOn)
-                            PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners.Where(x => x.PartnerTypeName == "Brewer - Stock").ToList());
-                        else
-                            PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners);
-                        
-                            RealmDb.Write(() =>
-                            {
-                                try
-                                {
-                                    foreach (var item in AllPartners)
-                                    {
-                                        RealmDb.Add(item);
-                                    }
-                                }
-                                catch (Exception ex)
-                                {
-                                    Crashes.TrackError(ex);
-                                }
-                            });
-                        //await SQLiteServiceClient.Db.InsertAllAsync(AllPartners);
-                    }
                 }
             }
             catch (Exception ex)

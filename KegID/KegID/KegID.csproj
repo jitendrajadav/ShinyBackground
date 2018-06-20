@@ -17,11 +17,11 @@
     <PackageReference Include="Acr.UserDialogs" Version="7.0.1" />
     <PackageReference Include="CarouselView.FormsPlugin" Version="5.2.0" />
     <PackageReference Include="LinkOS_Xamarin_SDK" Version="1.2.0" />
-    <PackageReference Include="Microsoft.AppCenter" Version="1.6.1" />
-    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="1.6.1" />
-    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="1.6.1" />
-    <PackageReference Include="Microsoft.AppCenter.Distribute" Version="1.6.1" />
-    <PackageReference Include="Microsoft.AppCenter.Push" Version="1.6.1" />
+    <PackageReference Include="Microsoft.AppCenter" Version="1.7.0" />
+    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="1.7.0" />
+    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="1.7.0" />
+    <PackageReference Include="Microsoft.AppCenter.Distribute" Version="1.7.0" />
+    <PackageReference Include="Microsoft.AppCenter.Push" Version="1.7.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
     <PackageReference Include="Microsoft.Net.Http" Version="2.2.29" />
     <PackageReference Include="MvvmLightLibsStd10" Version="5.4.1" />

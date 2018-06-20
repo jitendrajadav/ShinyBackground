@@ -65,11 +65,11 @@ namespace KegID.ViewModel
 
         #region Methods
 
-        private async void LoadBrand()
+        private void LoadBrand()
         {
             try
             {
-                BrandCollection = await SimpleIoc.Default.GetInstance<ScanKegsViewModel>().LoadBrandAsync();
+                BrandCollection = SimpleIoc.Default.GetInstance<ScanKegsViewModel>().LoadBrandAsync();
             }
             catch (System.Exception ex)
             {

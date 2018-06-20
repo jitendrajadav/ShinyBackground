@@ -142,9 +142,19 @@ namespace KegID.ViewModel
                     var value = message;
                     if (value != null)
                     {
-                        BarcodeCollection.Where(x => x.Barcode == value.Barcodes.Barcode).FirstOrDefault().Pallets = value.Barcodes.Pallets;
-                        BarcodeCollection.Where(x => x.Barcode == value.Barcodes.Barcode).FirstOrDefault().Kegs = value.Barcodes.Kegs;
-                        BarcodeCollection.Where(x => x.Barcode == value.Barcodes.Barcode).FirstOrDefault().Icon = value?.Barcodes?.Kegs?.Partners.Count > 1 ? GetIconByPlatform.GetIcon("validationquestion.png") : value?.Barcodes?.Kegs?.Partners?.Count == 0 ? GetIconByPlatform.GetIcon("validationerror.png") : GetIconByPlatform.GetIcon("validationok.png");
+                        var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                        RealmDb.Write(() =>
+                        {
+                            var oldBarcode = BarcodeCollection.Where(x => x.Barcode == value.Barcodes.Barcode).FirstOrDefault();
+                            oldBarcode.Pallets = value.Barcodes.Pallets;
+                            oldBarcode.Kegs = value.Barcodes.Kegs;
+                            oldBarcode.Icon = value?.Barcodes?.Kegs?.Partners.Count > 1 ? GetIconByPlatform.GetIcon("validationquestion.png") : value?.Barcodes?.Kegs?.Partners?.Count == 0 ? GetIconByPlatform.GetIcon("validationerror.png") : GetIconByPlatform.GetIcon("validationok.png");
+                            oldBarcode.IsScanned = true;
+
+                            //BarcodeCollection.Where(x => x.Barcode == value.Barcodes.Barcode).FirstOrDefault().Pallets = value.Barcodes.Pallets;
+                            //BarcodeCollection.Where(x => x.Barcode == value.Barcodes.Barcode).FirstOrDefault().Kegs = value.Barcodes.Kegs;
+                            //BarcodeCollection.Where(x => x.Barcode == value.Barcodes.Barcode).FirstOrDefault().Icon = value?.Barcodes?.Kegs?.Partners.Count > 1 ? GetIconByPlatform.GetIcon("validationquestion.png") : value?.Barcodes?.Kegs?.Partners?.Count == 0 ? GetIconByPlatform.GetIcon("validationerror.png") : GetIconByPlatform.GetIcon("validationok.png");
+                        });
                     }
                 });
             });
@@ -167,7 +177,7 @@ namespace KegID.ViewModel
             try
             {
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                MaintainTypeReponseModel = RealmDb.All<MaintainTypeReponseModel>().ToList();//await SQLiteServiceClient.Db.Table<MaintainTypeReponseModel>().ToListAsync();
+                MaintainTypeReponseModel = RealmDb.All<MaintainTypeReponseModel>().ToList();
                 if (MaintainTypeReponseModel.Count == 0)
                 {
                     MaintainTypeReponseModel = await LoadMaintenanceTypeAsync();
@@ -296,21 +306,13 @@ namespace KegID.ViewModel
                 var isNew = BarcodeCollection.ToList().Any(x => x.Barcode == ManaulBarcode);
                 if (!isNew)
                 {
-                    //Barcode barcode = new Barcode
-                    //{
-                    //    Id = ManaulBarcode,
-                    //    //Tags = null,
-                    //    TagsStr = string.Empty,
-                    //    Icon = Cloud
-                    //};
-
                     BarcodeModel model = new BarcodeModel
                     {
                         Barcode = ManaulBarcode,
-                        //    //Tags = null,
                         TagsStr = string.Empty,
                         Icon = Cloud
                     };
+                    
                     BarcodeCollection.Add(model);
                     var message = new StartLongRunningTaskMessage
                     {
@@ -319,10 +321,6 @@ namespace KegID.ViewModel
                     };
                     MessagingCenter.Send(message, "StartLongRunningTaskMessage");
                     ManaulBarcode = string.Empty;
-
-                    //var value = await BarcodeScanner.ValidateBarcodeInsertIntoLocalDB(_moveService, ManaulBarcode, null, string.Empty);
-                    //ManaulBarcode = string.Empty;
-                    //BarcodeCollection.Add(value);
                 }
             }
             catch (Exception ex)

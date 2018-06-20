@@ -107,14 +107,14 @@ namespace KegID.ViewModel
 
         private async void CancelCommandRecievierAsync() => await Application.Current.MainPage.Navigation.PopPopupAsync();
 
-        private void ItemTappedCommandRecieverAsync(Partner model)
+        private async void ItemTappedCommandRecieverAsync(Partner model)
         {
             try
             {
                 switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack.LastOrDefault().GetType().Name))
                 {
                     case ViewTypeEnum.ScanKegsView:
-                        SimpleIoc.Default.GetInstance<ScanKegsViewModel>().AssignValidatedValueAsync(model);
+                       await SimpleIoc.Default.GetInstance<ScanKegsViewModel>().AssignValidatedValueAsync(model);
                         break;
 
                     case ViewTypeEnum.FillScanView:
