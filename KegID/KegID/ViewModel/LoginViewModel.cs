@@ -202,14 +202,14 @@ namespace KegID.ViewModel
                         var maintenance = await MaintainService.GetMaintainTypeAsync(AppSettings.User.SessionId);
 
                         RealmDb.Write(() =>
-                       {
+                        {
                            foreach (var item in maintenance.MaintainTypeReponseModel)
                            {
                                RealmDb.Add(item);
                            }
-                       });
+                        });
 
-                       await InitializeMetaData.LoadInitializeMetaData();
+                        await InitializeMetaData.LoadInitializeMetaData();
                     }
                     catch (Exception ex)
                     {
@@ -217,7 +217,6 @@ namespace KegID.ViewModel
                     }
 
                     Application.Current.MainPage = new MainPage();
-                    await Application.Current.MainPage.Navigation.PopToRootAsync(true);
                 }
                 else
                 {
