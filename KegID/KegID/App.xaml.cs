@@ -8,8 +8,6 @@ using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Xamarin.Forms;
 using System;
-using Realms;
-using KegID.LocalDb;
 
 namespace KegID
 {
