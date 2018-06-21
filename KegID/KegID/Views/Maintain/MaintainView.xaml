@@ -102,6 +102,7 @@
                                             HeightRequest="30"
                                             VerticalOptions="Center"
                                             Grid.Row="0"
+                                            OnColor="#4CD864"
                                             IsToggled="{Binding IsToggled}"
                                             Grid.Column="0"/>
 

@@ -1,6 +1,5 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
-using KegID.Common;
 using KegID.LocalDb;
 using KegID.Model;
 using Microsoft.AppCenter.Crashes;
@@ -62,7 +61,6 @@ namespace KegID.ViewModel
         public VolumeViewModel()
         {
             ItemTappedCommand = new RelayCommand<string>((model)=>ItemTappedCommandRecieverAsync(model));
-            //VolumeCollection = new List<string>() { "bbl", "hl", "gal" };
             LoadAssetVolumeAsync();
         }
 
@@ -74,7 +72,7 @@ namespace KegID.ViewModel
             try
             {
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                var value = RealmDb.All<AssetVolumeModel>().ToList();//await SQLiteServiceClient.Db.Table<AssetVolumeModel>().ToListAsync();
+                var value = RealmDb.All<AssetVolumeModel>().ToList();
                 VolumeCollection = value.Select(x => x.AssetVolume).ToList();
             }
             catch (System.Exception ex)

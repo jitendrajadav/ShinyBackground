@@ -3,7 +3,6 @@ using KegID.Common;
 using KegID.LocalDb;
 using KegID.Model;
 using KegID.Services;
-//using KegID.SQLiteClient;
 using Microsoft.AppCenter.Crashes;
 using Realms;
 using System;
@@ -134,8 +133,6 @@ namespace KegID.ViewModel
                         RealmDb.Add(item);
                     }
                 });
-                //await SQLiteServiceClient.Db.InsertAllAsync(model.InventoryResponseModel);
-
                 StockInventoryCollection = model.InventoryResponseModel.Where(x => x.Status != "Empty").ToList();
                 EnptyInventoryCollection = model.InventoryResponseModel.Where(x => x.Status == "Empty").ToList();
             }
@@ -156,7 +153,7 @@ namespace KegID.ViewModel
             {
                 CurrentPage = currentPage;
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                var model = RealmDb.All<InventoryResponseModel>().ToList();//await SQLiteServiceClient.Db.Table<InventoryResponseModel>().ToListAsync();
+                var model = RealmDb.All<InventoryResponseModel>().ToList();
                 if (model.Count > 0)
                 {
                     StockInventoryCollection = model.Where(x => x.Status != "Empty").ToList();

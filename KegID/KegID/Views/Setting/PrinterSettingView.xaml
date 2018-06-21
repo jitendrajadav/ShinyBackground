@@ -68,6 +68,7 @@
                 HorizontalOptions="Start" />
 
             <Switch
+                OnColor="#4CD864"
                 HorizontalOptions="End"
                 Grid.Column="1"
                 Grid.Row="2"/>
@@ -81,6 +82,7 @@
                 HorizontalOptions="Start" />
 
             <Switch
+                OnColor="#4CD864"
                 HorizontalOptions="End"
                 Grid.Column="1"
                 Grid.Row="3"/>
@@ -127,6 +129,7 @@
                 IsToggled="{Binding IsBluetoothOn}"
                 HorizontalOptions="End"
                 Grid.Column="1"
+                OnColor="#4CD864"
                 Grid.Row="7"/>
            
             <Label 

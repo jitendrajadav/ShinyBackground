@@ -735,7 +735,7 @@ namespace KegID.ViewModel
 
                 var kegStatus = await DashboardService.GetKegStatusAsync(KegId, AppSettings.User.SessionId);
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                var addMaintenanceCollection = RealmDb.All<MaintainTypeReponseModel>().ToList();//await SQLiteServiceClient.Db.Table<MaintainTypeReponseModel>().ToListAsync();
+                var addMaintenanceCollection = RealmDb.All<MaintainTypeReponseModel>().ToList();
                 KegHasAlert = kegStatus.MaintenanceAlerts.Count > 0 ? true : false;
                 Alerts = kegStatus.MaintenanceAlerts;
                 try
@@ -755,7 +755,6 @@ namespace KegID.ViewModel
                 RemoveMaintenanceCollection = new ObservableCollection<MaintenanceAlert>( kegStatus.MaintenanceAlerts);
                 Owner = kegStatus.Owner.FullName;
                 Batch = kegStatus.Batch == string.Empty ? "--" : kegStatus.Batch;
-                //KegId = "6762E448-B6AD-4CE1-BA31-865DF01F6334";
                 Posision = new LocationInfo
                 {
                     Address = kegStatus.Location.Address,
@@ -813,19 +812,14 @@ namespace KegID.ViewModel
 
         private async void InvalidToolsCommandRecieverAsync()
         {
-            //MaintenanceAlertModel model = null;
             string maintenanceStr = string.Empty;
 
             try
             {
-                //Loader.StartLoading();
-                //model = await DashboardService.GetKegMaintenanceAlertAsync(KegId, AppSettings.User.SessionId);
                 if (Alerts != null)
                 {
                     foreach (var item in Alerts)
-                    {
                         maintenanceStr += "-" + item.Name + "\n";
-                    }
 
                     await Application.Current.MainPage.DisplayAlert("Warning", Resources["dialog_maintenance_performed_message"] + "\n" + maintenanceStr, "Ok");
                 }
@@ -838,7 +832,6 @@ namespace KegID.ViewModel
             {
                 Alerts = null;
                 maintenanceStr = default(string);
-                //Loader.StopLoading();
             }
         }
 

@@ -387,7 +387,6 @@ namespace KegID.ViewModel
             {
                 InitialSetting();
                 PartnerCollection = new ObservableCollection<PossessorResponseModel>(AllPartners.OrderByDescending(x => x.KegsHeld));
-
             }
             catch (Exception ex)
             {

@@ -35,7 +35,6 @@ namespace KegID.ViewModel
             #region Account
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<LoginViewModel>();
-            SimpleIoc.Default.Register<KegIDMasterPageMasterViewModel>();
             #endregion
 
             #region Dashboard
@@ -426,24 +425,6 @@ namespace KegID.ViewModel
             get
             {
                 return SimpleIoc.Default.GetInstance<LoginViewModel>();
-            }
-        }
-
-        #endregion
-
-        #region KegIDMasterPage
-
-        /// <summary>
-        /// Gets the KegIDMasterPage property.
-        /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
-            "CA1822:MarkMembersAsStatic",
-            Justification = "This non-static member is needed for data binding purposes.")]
-        public KegIDMasterPageMasterViewModel KegIDMasterPage
-        {
-            get
-            {
-                return SimpleIoc.Default.GetInstance<KegIDMasterPageMasterViewModel>();
             }
         }
 

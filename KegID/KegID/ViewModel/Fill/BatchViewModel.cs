@@ -116,7 +116,7 @@ namespace KegID.ViewModel
             try
             {
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                BatchCollection = RealmDb.All<BatchModel>().ToList();//await SQLiteServiceClient.Db.Table<BatchModel>().ToListAsync();
+                BatchCollection = RealmDb.All<BatchModel>().ToList();
                 if (BatchCollection.Count==0)
                 {
                     Loader.StartLoading();
@@ -132,7 +132,6 @@ namespace KegID.ViewModel
                                 RealmDb.Add(item);
                             }
                         });
-                        //await SQLiteServiceClient.Db.InsertAllAsync(BatchCollection);
                     }
                 }
             }

@@ -159,8 +159,8 @@
                             <ViewCell>
 
                                 <Grid 
-                                RowSpacing="0"
-                                ColumnSpacing="0">
+                                    RowSpacing="0"
+                                    ColumnSpacing="0">
 
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*"/>
@@ -173,11 +173,11 @@
                                     </Grid.ColumnDefinitions>
 
                                     <Label 
-                                    VerticalOptions="FillAndExpand" 
-                                    VerticalTextAlignment="Center" 
-                                    Text="{Binding Barcode}" 
-                                    TextColor="Black"
-                                    FontSize="{StaticResource ListViewTitleFont}">
+                                        VerticalOptions="FillAndExpand" 
+                                        VerticalTextAlignment="Center" 
+                                        Text="{Binding Barcode}" 
+                                        TextColor="Black"
+                                        FontSize="{StaticResource ListViewTitleFont}">
                                         <Label.GestureRecognizers>
                                             <TapGestureRecognizer Command="{Binding Path=BindingContext.LabelItemTappedCommand, 
                                                         Source={x:Reference Name=lstBarcode}}"
@@ -186,14 +186,14 @@
                                     </Label>
 
                                     <Image 
-                                    Grid.Column="1"
-                                    Grid.RowSpan="2"
-                                    HeightRequest="30"
-                                    WidthRequest="30"
-                                    Margin="10,0,0,0"
-                                    VerticalOptions="Center"
-                                    HorizontalOptions="Center"
-                                    Source="{Binding Icon,Mode=TwoWay}">
+                                        Grid.Column="1"
+                                        Grid.RowSpan="2"
+                                        HeightRequest="30"
+                                        WidthRequest="30"
+                                        Margin="10,0,0,0"
+                                        VerticalOptions="Center"
+                                        HorizontalOptions="Center"
+                                        Source="{Binding Icon,Mode=TwoWay}">
                                         <Image.GestureRecognizers>
                                             <TapGestureRecognizer Command="{Binding Path=BindingContext.IconItemTappedCommand, 
                                                         Source={x:Reference Name=lstBarcode}}"
@@ -202,11 +202,11 @@
                                     </Image>
 
                                     <Label
-                                    LineBreakMode="TailTruncation"
-                                    TextColor="{StaticResource lightGrayColor}"
-                                    Grid.Row="1"
-                                    FontSize="{StaticResource ListViewDetailFont}"
-                                    Text="{Binding Path=BindingContext.TagsStr,Source={x:Reference Name=lstBarcode}}"/>
+                                        LineBreakMode="TailTruncation"
+                                        TextColor="{StaticResource lightGrayColor}"
+                                        Grid.Row="1"
+                                        FontSize="{StaticResource ListViewDetailFont}"
+                                        Text="{Binding Path=BindingContext.TagsStr,Source={x:Reference Name=lstBarcode}}"/>
                                 </Grid>
                             </ViewCell>
                         </DataTemplate>

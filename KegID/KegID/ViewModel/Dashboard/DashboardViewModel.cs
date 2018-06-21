@@ -452,10 +452,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                //SimpleIoc.Default.GetInstance<MoveViewModel>().ManifestId = Uuid.GetUuId();
                 await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestsView(), animated: false);
                 SimpleIoc.Default.GetInstance<ManifestsViewModel>().LoadDraftManifestAsync();
-                //CheckDraftmaniFests();
             }
             catch (Exception ex)
             {
@@ -468,7 +466,7 @@ namespace KegID.ViewModel
             try
             {
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                var collection = RealmDb.All<ManifestModel>().Where(x=>x.IsDraft == true).ToList();//await SQLiteServiceClient.Db.Table<DraftManifestModel>().ToListAsync();
+                var collection = RealmDb.All<ManifestModel>().Where(x=>x.IsDraft == true).ToList();
                 if (collection.Count > 0)
                 {
                     DraftmaniFests = collection.Count;
@@ -531,8 +529,6 @@ namespace KegID.ViewModel
 
                 Result = await _dashboardService.GetDeshboardDetailAsync(AppSettings.User.SessionId);
                 Stock = Result.Stock.ToString("0,0", CultureInfo.InvariantCulture);
-                //Stock= System.String.Format(CultureInfo.InvariantCulture,
-                //                 "{0:0,0}", Result.Stock.ToString("0,0", CultureInfo.InvariantCulture));
                 Empty = Result.Empty.ToString("0,0", CultureInfo.InvariantCulture);
                 InUse = Result.InUse.ToString("0,0", CultureInfo.InvariantCulture);
                 var total  = Result.Stock+ Result.Empty+ Result.InUse;

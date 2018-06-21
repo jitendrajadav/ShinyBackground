@@ -9,7 +9,6 @@ using Microsoft.AppCenter.Crashes;
 using System;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Xml;
 using System.Xml.Xsl;
 using Xamarin.Forms;
@@ -247,21 +246,6 @@ namespace KegID.ViewModel
                         }
                     }
                 }
-
-                //// Create a source for the webview
-                //var htmlSource = new HtmlWebViewSource
-                //{
-                //    Html = output
-                //};
-
-                //// Create and populate the Xamarin.Forms.WebView
-                //var browser = new WebView
-                //{
-                //    Source = htmlSource
-                //};
-
-                //var printService = DependencyService.Get<IPrintService>();
-                //printService.Print(browser);
             }
             catch (Exception ex)
             {

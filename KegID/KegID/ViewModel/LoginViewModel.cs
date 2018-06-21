@@ -160,30 +160,6 @@ namespace KegID.ViewModel
             });
         }
 
-        //private async void LoginCommand1RecieverAsync()
-        //{
-        //    try
-        //    {
-        //        Loader.StartLoading();
-        //        var login =  await _loginService
-        //                                    .GetLogin(Priority.Background,Username, Password)
-        //                                    .ConfigureAwait(false);
-        //        //CacheLogin(login);
-
-        //        Application.Current.MainPage = new MainPage();
-        //        await Application.Current.MainPage.Navigation.PopToRootAsync(true);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //         Crashes.TrackError(ex);
-        //    }
-        //    finally
-        //    {
-        //        Loader.StopLoading();
-        //        Analytics.TrackEvent("Loged In");
-        //    }
-        //}
-
         private async void LoginCommandRecieverAsync()
         {
             try

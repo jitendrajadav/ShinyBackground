@@ -83,6 +83,7 @@
                         Text="{Binding Resources[lable_shared]}"/>
 
                     <Switch
+                        OnColor="#4CD864"
                         IsToggled="{Binding IsSharedOn}"/>
 
                     <Label
@@ -91,6 +92,7 @@
                         Text="{Binding Resources[menu_action_sort_internal]}"/>
 
                     <Switch
+                        OnColor="#4CD864"
                         IsToggled="{Binding IsInternalOn}"/>
 
                 </StackLayout>

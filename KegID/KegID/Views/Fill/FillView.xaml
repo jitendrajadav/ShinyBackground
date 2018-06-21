@@ -149,6 +149,7 @@
                     />
 
                 <Switch
+                    OnColor="#4CD864"
                     IsToggled="{Binding IsPalletze}"
                     VerticalOptions="Center"
                     HorizontalOptions="Start"

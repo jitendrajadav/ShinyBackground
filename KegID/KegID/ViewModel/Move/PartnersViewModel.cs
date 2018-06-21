@@ -21,8 +21,6 @@ namespace KegID.ViewModel
         public bool BrewerStockOn { get; set; }
         public IMoveService _moveService { get; set; }
 
-        private const int PageSize = 20;
-
         #region IsWorking
 
         /// <summary>

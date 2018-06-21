@@ -5,7 +5,6 @@ using KegID.LocalDb;
 using KegID.Messages;
 using KegID.Model;
 using KegID.Services;
-//using KegID.SQLiteClient;
 using KegID.Views;
 using Microsoft.AppCenter.Crashes;
 using Realms;
@@ -342,23 +341,15 @@ namespace KegID.ViewModel
                     var value = message;
                     if (value != null)
                     {
-                        //    var barode = BarcodeCollection.Where(x => x.Id == value.Barcodes.Id).FirstOrDefault();
-                        //    barode.Icon = value.Barcodes.Icon;
-                        //foreach (var item in value.Barcodes.Kegs.Partners)
-                        //{
-                        //    barode.Partners.Add(item) ;
-                        //}
-                        //foreach (var item in value.Barcodes.MaintenanceItems)
-                        //{
-                        //    barode.MaintenanceItems.Add(item) ;
-
-                        //}
-                        //foreach (var item in value.Barcodes.Tags)
-                        //{
-                        //    barode.Tags.Add(item) ;
-                        //}
-                        var oldModel = BarcodeCollection.Where(x => x.Barcode == value.Barcodes.Barcode).FirstOrDefault();
-                        oldModel = value.Barcodes;
+                        var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                        RealmDb.Write(() =>
+                        {
+                            var oldBarcode = BarcodeCollection.Where(x => x.Barcode == value.Barcodes.Barcode).FirstOrDefault();
+                            oldBarcode.Pallets = value.Barcodes.Pallets;
+                            oldBarcode.Kegs = value.Barcodes.Kegs;
+                            oldBarcode.Icon = value?.Barcodes?.Kegs?.Partners.Count > 1 ? GetIconByPlatform.GetIcon("validationquestion.png") : value?.Barcodes?.Kegs?.Partners?.Count == 0 ? GetIconByPlatform.GetIcon("validationerror.png") : GetIconByPlatform.GetIcon("validationok.png");
+                            oldBarcode.IsScanned = true;
+                        });
                     }
                 });
             });
@@ -379,7 +370,7 @@ namespace KegID.ViewModel
             try
             {
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                var value = RealmDb.All<AssetSizeModel>().ToList();//await SQLiteServiceClient.Db.Table<AssetSizeModel>().ToListAsync();
+                var value = RealmDb.All<AssetSizeModel>().ToList();
                 SizeCollection = value.Select(x => x.AssetSize).ToList();
             }
             catch (Exception ex)
@@ -393,7 +384,7 @@ namespace KegID.ViewModel
             try
             {
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                var value = RealmDb.All<AssetTypeModel>().ToList();//await SQLiteServiceClient.Db.Table<AssetTypeModel>().ToListAsync();
+                var value = RealmDb.All<AssetTypeModel>().ToList();
                 AssetTypeCollection = value.Select(x => x.AssetType).ToList();
             }
             catch (Exception ex)
@@ -499,10 +490,6 @@ namespace KegID.ViewModel
                     };
                     MessagingCenter.Send(message, "StartLongRunningTaskMessage");
                     ManaulBarcode = string.Empty;
-
-                    //var barcodes = await BarcodeScanner.ValidateBarcodeInsertIntoLocalDB(_moveService, ManaulBarcode, Tags, TagsStr);
-                    //ManaulBarcode = string.Empty;
-                    //BarcodeCollection.Add(barcodes);
                 }
             }
             catch (Exception ex)

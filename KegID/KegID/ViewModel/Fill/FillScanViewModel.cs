@@ -325,10 +325,6 @@ namespace KegID.ViewModel
                             oldBarcode.Kegs = value.Barcodes.Kegs;
                             oldBarcode.Icon = value?.Barcodes?.Kegs?.Partners.Count > 1 ? GetIconByPlatform.GetIcon("validationquestion.png") : value?.Barcodes?.Kegs?.Partners?.Count == 0 ? GetIconByPlatform.GetIcon("validationerror.png") : GetIconByPlatform.GetIcon("validationok.png");
                             oldBarcode.IsScanned = true;
-
-                            //BarcodeCollection.Where(x => x.Barcode == value.Barcodes.Barcode).FirstOrDefault().Pallets = value.Barcodes.Pallets;
-                            //BarcodeCollection.Where(x => x.Barcode == value.Barcodes.Barcode).FirstOrDefault().Kegs = value.Barcodes.Kegs;
-                            //BarcodeCollection.Where(x => x.Barcode == value.Barcodes.Barcode).FirstOrDefault().Icon = value?.Barcodes?.Kegs?.Partners.Count > 1 ? GetIconByPlatform.GetIcon("validationquestion.png") : value?.Barcodes?.Kegs?.Partners?.Count == 0 ? GetIconByPlatform.GetIcon("validationerror.png") : GetIconByPlatform.GetIcon("validationok.png");
                         });
                     }
                 });
@@ -401,7 +397,6 @@ namespace KegID.ViewModel
                         BarcodeCollection.Clear();
                         var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                         var preference = RealmDb.All<Preference>().Where(x => x.PreferenceName == "DashboardPreferences").ToList();
-                        //await SQLiteServiceClient.Db.Table<Preference>().Where(x => x.PreferenceName == "DashboardPreferences").ToListAsync();
 
                         foreach (var item in preference)
                         {
@@ -518,10 +513,6 @@ namespace KegID.ViewModel
                     };
                     MessagingCenter.Send(message, "StartLongRunningTaskMessage");
                     ManaulBarcode = string.Empty;
-
-                    //var value = await BarcodeScanner.ValidateBarcodeInsertIntoLocalDB(_moveService, ManaulBarcode, Tags, TagsStr,ViewTypeEnum.FillScanView);
-                    //ManaulBarcode = string.Empty;
-                    //BarcodeCollection.Add(value);
                 }
             }
             catch (Exception ex)

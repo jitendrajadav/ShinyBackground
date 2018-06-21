@@ -1011,7 +1011,6 @@ namespace KegID.ViewModel
                         {
                             RealmDb.Add(partnerModel);
                         });
-                        //var parner = await SQLiteServiceClient.Db.InsertAsync(partnerModel);
                         SimpleIoc.Default.GetInstance<PartnersViewModel>().PartnerCollection.Add(partnerModel);
                         SimpleIoc.Default.GetInstance<PartnersViewModel>().AllPartners.Add(partnerModel);
                     }
@@ -1036,7 +1035,7 @@ namespace KegID.ViewModel
         public async void LoadPartnerAsync(PartnerInfoResponseModel partnerInfoModel)
         {
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-            IList<PartnerTypeModel> model = RealmDb.All<PartnerTypeModel>().ToList();//await SQLiteServiceClient.Db.Table<PartnerTypeModel>().ToListAsync();
+            IList<PartnerTypeModel> model = RealmDb.All<PartnerTypeModel>().ToList();
 
             try
             {
@@ -1056,7 +1055,6 @@ namespace KegID.ViewModel
                                 RealmDb.Add(item);
                             }
                         });
-                        //await SQLiteServiceClient.Db.InsertAllAsync(PartnerTypeCollectioin);
                     }
                 }
             }
