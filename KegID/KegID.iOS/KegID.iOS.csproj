@@ -213,7 +213,7 @@
       <Version>4.0.0.7</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Essentials">
-      <Version>0.6.0-preview</Version>
+      <Version>0.7.0.17-preview</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.FFImageLoading.Forms">
       <Version>2.4.3.840</Version>

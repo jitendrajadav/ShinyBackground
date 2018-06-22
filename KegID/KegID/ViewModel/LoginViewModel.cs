@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
 using KegID.LocalDb;
 using KegID.Model;
@@ -210,6 +211,8 @@ namespace KegID.ViewModel
                         });
 
                         await InitializeMetaData.LoadInitializeMetaData();
+                        SimpleIoc.Default.GetInstance<DashboardViewModel>().RefreshDashboardRecieverAsync(true);
+
                     }
                     catch (Exception ex)
                     {
