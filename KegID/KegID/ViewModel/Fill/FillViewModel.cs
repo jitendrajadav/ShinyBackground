@@ -1,4 +1,5 @@
-﻿using KegID.Messages;
+﻿using KegID.Common;
+using KegID.Messages;
 using KegID.Model;
 using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
@@ -384,6 +385,7 @@ namespace KegID.ViewModel
             if (parameters.ContainsKey("model"))
             {
                 PartnerModel = parameters.GetValue<PartnerModel>("model");
+                ConstantManager.Partner = PartnerModel;
             }
             if (parameters.ContainsKey("BatchModel"))
             {

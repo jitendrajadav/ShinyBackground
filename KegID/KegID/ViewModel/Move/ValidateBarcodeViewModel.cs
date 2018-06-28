@@ -109,7 +109,7 @@ namespace KegID.ViewModel
         private async void CancelCommandRecievierAsync()
         {
             //await Application.Current.MainPage.Navigation.PopPopupAsync();
-            await _navigationService.ClearPopupStackAsync();
+            await _navigationService.ClearPopupStackAsync(animated:false);
         }
 
         private void ItemTappedCommandRecieverAsync(Partner model)

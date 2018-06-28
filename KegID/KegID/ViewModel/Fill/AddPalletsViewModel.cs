@@ -463,6 +463,10 @@ namespace KegID.ViewModel
 
         public async override void OnNavigatingTo(INavigationParameters parameters)
         {
+            if (parameters.ContainsKey("Barcodes"))
+            {
+                AssignFillScanValue(parameters.GetValue<IList<BarcodeModel>>("Barcodes"), parameters.GetValue<string>("ManifestId"));
+            }
             if (parameters.ContainsKey("AddPalletsTitle"))
             {
                 AddPalletsTitle = parameters.GetValue<string>("AddPalletsTitle");

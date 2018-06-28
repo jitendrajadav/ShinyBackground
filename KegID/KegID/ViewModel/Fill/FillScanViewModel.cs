@@ -389,15 +389,24 @@ namespace KegID.ViewModel
             try
             {
                 //SimpleIoc.Default.GetInstance<AddPalletsViewModel>().AssignFillScanValue(BarcodeCollection, BatchId);
-                FillScanToAddPalletPagesMsg msg = new FillScanToAddPalletPagesMsg
-                {
-                    BarcodeModels = BarcodeCollection,
-                    BatchId = BatchId
-                };
-                MessagingCenter.Send(msg, "FillScanToAddPalletPagesMsg");
-
                 //await Application.Current.MainPage.Navigation.PopPopupAsync();
-                await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+                try
+                {
+                    ConstantManager.Barcodes = BarcodeCollection;
+                    ConstantManager.Tags = Tags;
+                   var param = new NavigationParameters
+                    {
+                        { "Barcodes", BarcodeCollection },{ "ManifestId", BatchId }
+                    };
+                    var formsNav = ((Prism.Common.IPageAware)_navigationService).Page;
+                    var page = formsNav.Navigation.ModalStack[formsNav.Navigation.ModalStack.Count-2];
+                    (page?.BindingContext as INavigationAware)?.OnNavigatingTo(param);
+                }
+                catch (Exception)
+                {
+
+                }
+                await _navigationService.ClearPopupStackAsync(animated: false);
                 if (IsPalletze)
                 {
                     //await Application.Current.MainPage.Navigation.PopModalAsync();
@@ -634,12 +643,15 @@ namespace KegID.ViewModel
 
                     try
                     {
+                        ConstantManager.Barcodes = BarcodeCollection;
+                        ConstantManager.Tags = Tags;
+
                         var param = new NavigationParameters
                         {
                             { "AssignValueToAddPalletAsync", BatchId }, { "Barcodes", BarcodeCollection },
                         };
                         var formsNav = ((Prism.Common.IPageAware)_navigationService).Page;
-                        var page = formsNav.Navigation.ModalStack.Last();
+                        var page = formsNav.Navigation.ModalStack[formsNav.Navigation.ModalStack.Count-2];
                         (page?.BindingContext as INavigationAware)?.OnNavigatingTo(param);
                     }
                     catch (Exception)
