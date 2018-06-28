@@ -4,8 +4,8 @@
              x:Class="KegID.Views.AddPartnerView"
              xmlns:local="clr-namespace:KegID"
              BackgroundColor="{StaticResource pageBGColor}"
-             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=AddPartner}">
-    
+             >
+    <!--BindingContext="{Binding Source={x:Static local:App.Locator}, Path=AddPartner}"-->
     <ContentPage.Content>
         
         <ScrollView>

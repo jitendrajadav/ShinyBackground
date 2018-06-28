@@ -14,10 +14,10 @@ namespace KegID.Services
             {
                 Response = new KegIDResponse()
             };
-            string url = string.Format(Configuration.GetLoginUserUrl, username,password);
+            string url = string.Format(Configuration.GetLoginUserUrl, username, password);
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
-            model.LoginModel = DeserializeObject<LoginModel>(value.Response, GetJsonSetting());
+            model.LoginModel = !string.IsNullOrEmpty(value.Response) ? DeserializeObject<LoginModel>(value.Response, GetJsonSetting()) : new LoginModel();
             try
             {
                 model.Response.StatusCode = value.StatusCode;

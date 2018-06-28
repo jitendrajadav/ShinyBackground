@@ -1,16 +1,19 @@
-﻿using GalaSoft.MvvmLight.Command;
-using KegID.LocalDb;
+﻿using KegID.LocalDb;
 using KegID.Model;
 using Microsoft.AppCenter.Crashes;
+using Prism.Commands;
+using Prism.Navigation;
 using Realms;
+using System;
 using System.Linq;
-using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
     public class ScanInfoViewModel  : BaseViewModel
     {
         #region Properties
+
+        private readonly INavigationService _navigationService;
 
         #region Barcode
 
@@ -219,27 +222,31 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand DoneCommand { get; }
+        public DelegateCommand DoneCommand { get; }
 
         #endregion
 
         #region Constructor
 
-        public ScanInfoViewModel()
+        public ScanInfoViewModel(INavigationService navigationService)
         {
-            DoneCommand = new RelayCommand(DoneCommandRecieverAsync);
+            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+
+            DoneCommand = new DelegateCommand(DoneCommandRecieverAsync);
         }
 
         #endregion
 
         #region Methods
+
         private async void DoneCommandRecieverAsync()
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PopModalAsync();
+                //await Application.Current.MainPage.Navigation.PopModalAsync();
+                await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 Crashes.TrackError(ex);
             }
@@ -258,9 +265,22 @@ namespace KegID.ViewModel
                 Batch = _barcode.Kegs.Batches.FirstOrDefault();
                 Location = _barcode.Kegs.Locations.FirstOrDefault().Name;
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 Crashes.TrackError(ex);
+            }
+        }
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+
+        }
+
+        public override void OnNavigatingTo(INavigationParameters parameters)
+        {
+            if (parameters.ContainsKey("model"))
+            {
+                AssignInitialValue(parameters.GetValue<BarcodeModel>("model"));
             }
         }
 

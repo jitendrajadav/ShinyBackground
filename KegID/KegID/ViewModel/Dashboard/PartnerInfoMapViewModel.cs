@@ -1,6 +1,8 @@
-﻿using GalaSoft.MvvmLight.Command;
+﻿using KegID.Common;
 using KegID.Model;
 using Microsoft.AppCenter.Crashes;
+using Prism.Commands;
+using Prism.Navigation;
 using System;
 using Xamarin.Forms;
 
@@ -9,23 +11,26 @@ namespace KegID.ViewModel
     public class PartnerInfoMapViewModel : BaseViewModel
     {
         #region Properties
-        public LocationInfo Position { get; set; }
+
+        private readonly INavigationService _navigationService;
 
         #endregion
 
         #region Commands
 
-        public RelayCommand PartnerInfoCommand { get; }
+        public DelegateCommand PartnerInfoCommand { get; }
 
         #endregion
 
         #region Constructor
 
-        public PartnerInfoMapViewModel()
+        public PartnerInfoMapViewModel(INavigationService navigationService)
         {
+            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+
             try
             {
-                PartnerInfoCommand = new RelayCommand(PartnerInfoCommandRecieverAsync);
+                PartnerInfoCommand = new DelegateCommand(PartnerInfoCommandRecieverAsync);
             }
             catch (Exception ex)
             {
@@ -41,7 +46,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PopModalAsync();
+                //await Application.Current.MainPage.Navigation.PopModalAsync();
+                await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {
@@ -53,7 +59,14 @@ namespace KegID.ViewModel
         {
             try
             {
-                Position = new LocationInfo
+                //Position = new LocationInfo
+                //{
+                //    Lat = _lat,
+                //    Lon = _lon,
+                //    Label = _lable,
+                //    Address = _address
+                //};
+                ConstantManager.Position = new LocationInfo
                 {
                     Lat = _lat,
                     Lon = _lon,
@@ -65,6 +78,16 @@ namespace KegID.ViewModel
             {
                 Crashes.TrackError(ex);
             }
+        }
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            
+        }
+
+        public override void OnNavigatingTo(INavigationParameters parameters)
+        {
+            
         }
 
         #endregion

@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Ioc;
+﻿using System;
+using System.Collections.Generic;
 using KegID.Common;
 using KegID.Model;
 using KegID.Views;
 using Microsoft.AppCenter.Crashes;
+using Prism.Commands;
+using Prism.Navigation;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -13,6 +13,8 @@ namespace KegID.ViewModel
     public class MaintainDetailViewModel : BaseViewModel
     {
         #region Properties
+
+        private readonly INavigationService _navigationService;
 
         #region TrackingNo
 
@@ -154,26 +156,36 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand HomeCommand { get; }
-        public RelayCommand GridTappedCommand { get; }
+        public DelegateCommand HomeCommand { get; }
+        public DelegateCommand GridTappedCommand { get; }
 
         #endregion
 
         #region Constructor
 
-        public MaintainDetailViewModel()
+        public MaintainDetailViewModel(INavigationService navigationService)
         {
-            HomeCommand = new RelayCommand(HomeCommandCommandRecieverAsync);
-            GridTappedCommand = new RelayCommand(GridTappedCommandRecieverAsync);
+            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+
+            HomeCommand = new DelegateCommand(HomeCommandCommandRecieverAsync);
+            GridTappedCommand = new DelegateCommand(GridTappedCommandRecieverAsync);
         }
 
         #endregion
 
         #region Methods
 
-        private async void GridTappedCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new ContentTagsView(), animated: false);
+        private async void GridTappedCommandRecieverAsync()
+        {
+            //await Application.Current.MainPage.Navigation.PushModalAsync(new ContentTagsView(), animated: false);
+            await _navigationService.NavigateAsync(new Uri("ContentTagsView", UriKind.Relative), useModalNavigation: true, animated: false);
+        }
 
-        private async void HomeCommandCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PopModalAsync();
+        private async void HomeCommandCommandRecieverAsync()
+        {
+            //await Application.Current.MainPage.Navigation.PopModalAsync();
+            await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+        }
 
         internal void LoadInfo(IList<BarcodeModel> barcodeCollection)
         {
@@ -181,16 +193,26 @@ namespace KegID.ViewModel
             {
                 TrackingNo = Uuid.GetUuId();
 
-                StockLocation = SimpleIoc.Default.GetInstance<MaintainViewModel>().PartnerModel.FullName + "\n" + SimpleIoc.Default.GetInstance<MaintainViewModel>().PartnerModel.PartnerTypeName;
-                ItemCount = barcodeCollection.Count;
-                SimpleIoc.Default.GetInstance<ContentTagsViewModel>().ContentCollection = barcodeCollection.Select(x => x.Barcode).ToList();
+                //StockLocation = SimpleIoc.Default.GetInstance<MaintainViewModel>().PartnerModel.FullName + "\n" + SimpleIoc.Default.GetInstance<MaintainViewModel>().PartnerModel.PartnerTypeName;
+                //ItemCount = barcodeCollection.Count;
+                //SimpleIoc.Default.GetInstance<ContentTagsViewModel>().ContentCollection = barcodeCollection.Select(x => x.Barcode).ToList();
 
                 Contents = string.Empty;
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 Crashes.TrackError(ex);
             }
+        }
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+
+        }
+
+        public override void OnNavigatingTo(INavigationParameters parameters)
+        {
+
         }
 
         #endregion

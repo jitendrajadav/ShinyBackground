@@ -59,5 +59,4 @@ namespace KegID.Droid.Services
             base.OnDestroy();
         }
     }
-
 }

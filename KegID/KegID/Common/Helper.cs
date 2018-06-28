@@ -24,14 +24,14 @@ namespace KegID.Common
 
     public class Helper
     {
-        static HttpClient client;
+        private static HttpClient httpClient;
         static Helper()
         {
-            client = new HttpClient
+            httpClient = new HttpClient
             {
                 MaxResponseContentBufferSize = 999999999
             };
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic");
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic");
         }
 
         public static async Task<KegIDResponse> Get(string Url, string Json)
@@ -41,7 +41,7 @@ namespace KegID.Common
 
             try
             {
-                var response = await client.GetAsync(uri);
+                var response = await httpClient.GetAsync(uri);
                 if (response.IsSuccessStatusCode)
                 {
                     kegIDResponse.Response = await response.Content.ReadAsStringAsync();
@@ -72,7 +72,7 @@ namespace KegID.Common
                 requestMessage.Content = content;
 
                 HttpResponseMessage response = null;
-                response = await client.SendAsync(requestMessage);
+                response = await httpClient.SendAsync(requestMessage);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -98,7 +98,7 @@ namespace KegID.Common
                 var content = new StringContent(Json, Encoding.UTF8, "application/json");
 
                 HttpResponseMessage response = null;
-                response = await client.PostAsync(uri, content);
+                response = await httpClient.PostAsync(uri, content);
 
                 if (response.IsSuccessStatusCode)
                 {

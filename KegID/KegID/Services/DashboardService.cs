@@ -18,7 +18,7 @@ namespace KegID.Services
             string url = string.Format(Configuration.GetPossessorByownerId, ownerId, sessionId);
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
-            model.PossessorResponseModel = DeserializeObject<IList<PossessorResponseModel>>(value.Response, GetJsonSetting());
+            model.PossessorResponseModel = !string.IsNullOrEmpty(value.Response) ? DeserializeObject<IList<PossessorResponseModel>>(value.Response, GetJsonSetting()) : new List<PossessorResponseModel>();
             model.Response.StatusCode = value.StatusCode;
 
             return model;
@@ -26,9 +26,9 @@ namespace KegID.Services
 
         public async Task<IList<string>> GetAssetVolumeAsync(string sessionId, bool assignableOnly)
         {
-            string url = string.Format(Configuration.GetAssetVolume, sessionId,assignableOnly);
+            string url = string.Format(Configuration.GetAssetVolume, sessionId, assignableOnly);
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
-            var test = DeserializeObject<IList<string>>(value.Response, GetJsonSetting());
+            var test = !string.IsNullOrEmpty(value.Response) ? DeserializeObject<IList<string>>(value.Response, GetJsonSetting()) : new List<string>();
             return test;
         }
 
@@ -41,7 +41,7 @@ namespace KegID.Services
             string url = string.Format(Configuration.GetMaintenanceAlertByKegIdUrl, kegId, sessionId);
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
-            model.MyProperty = DeserializeObject<List<string>>(value.Response, GetJsonSetting());
+            model.MyProperty = !string.IsNullOrEmpty(value.Response) ? DeserializeObject<List<string>>(value.Response, GetJsonSetting()) : new List<string>(); ;
             model.Response.StatusCode = value.StatusCode;
             return model;
         }
@@ -51,7 +51,7 @@ namespace KegID.Services
             string url = string.Format(Configuration.GetDashboardUrl, sessionId);
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
-            var model = DeserializeObject<DashboardResponseModel>(value.Response, GetJsonSetting());
+            var model = !string.IsNullOrEmpty(value.Response) ? DeserializeObject<DashboardResponseModel>(value.Response, GetJsonSetting()) : new DashboardResponseModel();
             if (model != null)
             {
                 model.Response = new KegIDResponse
@@ -71,7 +71,7 @@ namespace KegID.Services
             string url = string.Format(Configuration.GetInventoryUrl, sessionId);
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
-            model.InventoryResponseModel = DeserializeObject<IList<InventoryResponseModel>>(value.Response, GetJsonSetting());
+            model.InventoryResponseModel = !string.IsNullOrEmpty(value.Response) ? DeserializeObject<IList<InventoryResponseModel>>(value.Response, GetJsonSetting()) : new List<InventoryResponseModel>();
             model.Response.StatusCode = value.StatusCode;
             return model;
         }
@@ -85,7 +85,7 @@ namespace KegID.Services
             string url = string.Format(Configuration.GetMaintenanceAlertByKegIdUrl, kegId, sessionId);
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
-            model.MaintenanceAlertResponseModel = DeserializeObject<IList<MaintenanceAlertResponseModel>>(value.Response, GetJsonSetting());
+            model.MaintenanceAlertResponseModel = !string.IsNullOrEmpty(value.Response) ? DeserializeObject<IList<MaintenanceAlertResponseModel>>(value.Response, GetJsonSetting()) : new List<MaintenanceAlertResponseModel>();
             model.Response.StatusCode = value.StatusCode;
             return model;
         }
@@ -99,7 +99,7 @@ namespace KegID.Services
             string url = string.Format(Configuration.GetKegMaintenanceHistoryByKegIdUrl, kegId, sessionId);
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
-            model.KegMaintenanceHistoryResponseModel = DeserializeObject<IList<KegMaintenanceHistoryResponseModel>>(value.Response, GetJsonSetting());
+            model.KegMaintenanceHistoryResponseModel = !string.IsNullOrEmpty(value.Response) ? DeserializeObject<IList<KegMaintenanceHistoryResponseModel>>(value.Response, GetJsonSetting()) : new List<KegMaintenanceHistoryResponseModel>();
             model.Response.StatusCode = value.StatusCode;
             return model;
         }
@@ -113,7 +113,7 @@ namespace KegID.Services
             string url = string.Format(Configuration.GetKegPossessionByPartnerIdUrl, sessionId, partnerId);
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
-            model.KegPossessionResponseModel = DeserializeObject<IList<KegPossessionResponseModel>>(value.Response, GetJsonSetting());
+            model.KegPossessionResponseModel = !string.IsNullOrEmpty(value.Response) ? DeserializeObject<IList<KegPossessionResponseModel>>(value.Response, GetJsonSetting()) : new List<KegPossessionResponseModel>();
             model.Response.StatusCode = value.StatusCode;
             return model;
         }
@@ -127,7 +127,7 @@ namespace KegID.Services
             string url = string.Format(Configuration.GetKegSearchByBarcodeUrl, sessionId, barcode, includePartials);
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
-            model.KegSearchResponseModel = DeserializeObject<IList<KegSearchResponseModel>>(value.Response, GetJsonSetting());
+            model.KegSearchResponseModel = !string.IsNullOrEmpty(value.Response) ? DeserializeObject<IList<KegSearchResponseModel>>(value.Response, GetJsonSetting()) : new List<KegSearchResponseModel>();
             model.Response.StatusCode = value.StatusCode;
             return model;
         }
@@ -137,7 +137,7 @@ namespace KegID.Services
             string url = string.Format(Configuration.GetKegStatusByKegIdUrl, kegId, sessionId);
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
-            var model = DeserializeObject<KegStatusResponseModel>(value.Response, GetJsonSetting());
+            var model = !string.IsNullOrEmpty(value.Response) ? DeserializeObject<KegStatusResponseModel>(value.Response, GetJsonSetting()) : new KegStatusResponseModel();
             if (model != null)
             {
                 model.Response = new KegIDResponse
@@ -158,7 +158,7 @@ namespace KegID.Services
             string url = string.Format(Configuration.GetPalletSearchUrl, sessionId, locationId, fromDate, toDate, kegs, kegOwnerId);
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
-            model.SearchPalletResponseModel = DeserializeObject<IList<SearchPalletResponseModel>>(value.Response, GetJsonSetting());
+            model.SearchPalletResponseModel = !string.IsNullOrEmpty(value.Response) ? DeserializeObject<IList<SearchPalletResponseModel>>(value.Response, GetJsonSetting()) : new List<SearchPalletResponseModel>();
             model.Response.StatusCode = value.StatusCode;
             return model;
         }
@@ -168,7 +168,7 @@ namespace KegID.Services
             string url = string.Format(Configuration.GetPartnerInfoByPartnerIdUrl, sessionId, partnerId);
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
-            var model = DeserializeObject<PartnerInfoResponseModel>(value.Response, GetJsonSetting());
+            var model = !string.IsNullOrEmpty(value.Response) ? DeserializeObject<PartnerInfoResponseModel>(value.Response, GetJsonSetting()) : new PartnerInfoResponseModel();
             if (model != null)
             {
                 model.Response = new KegIDResponse
@@ -187,7 +187,7 @@ namespace KegID.Services
             string content = JsonConvert.SerializeObject(model);
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Send, content, RequestType: RequestType);
 
-            //manifestModelGet = value.Response != null ? DeserializeObject<ManifestModelGet>(value.Response, GetJsonSetting()) : new ManifestModelGet();
+            //manifestModelGet = !string.IsNullOrEmpty(value.Response) ? DeserializeObject<ManifestModelGet>(value.Response, GetJsonSetting()) : new ManifestModelGet();
             //manifestModelGet.StatusCode = value.StatusCode;
             //return manifestModelGet;
             return null;
@@ -203,7 +203,7 @@ namespace KegID.Services
             string content = JsonConvert.SerializeObject(inModel);
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Send, content, RequestType: RequestType);
 
-            outModel.Model = value.Response != null ? DeserializeObject<IList<KegMassUpdateKegResponseModel>>(value.Response, GetJsonSetting()) : new List<KegMassUpdateKegResponseModel>();
+            outModel.Model = !string.IsNullOrEmpty(value.Response) ? DeserializeObject<IList<KegMassUpdateKegResponseModel>>(value.Response, GetJsonSetting()) : new List<KegMassUpdateKegResponseModel>();
             outModel.Response.StatusCode = value.StatusCode;
             return outModel;
         }
@@ -217,7 +217,7 @@ namespace KegID.Services
             string url = string.Format(Configuration.PostMaintenanceAlertUrl, sessionId);
             string content = JsonConvert.SerializeObject(inModel);
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Send, content, RequestType: RequestType);
-            var result  = value.Response != null ? DeserializeObject<IList<AddMaintenanceAlertResponseModel>>(value.Response, GetJsonSetting()) : new List<AddMaintenanceAlertResponseModel>();
+            var result = !string.IsNullOrEmpty(value.Response) ? DeserializeObject<IList<AddMaintenanceAlertResponseModel>>(value.Response, GetJsonSetting()) : new List<AddMaintenanceAlertResponseModel>();
 
             foreach (var item in result)
                 outModel.AddMaintenanceAlertResponseModel.Add(item);
@@ -235,7 +235,7 @@ namespace KegID.Services
             string url = string.Format(Configuration.PostMaintenanceDeleteAlertUrl, sessionId);
             string content = JsonConvert.SerializeObject(inModel);
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Send, content, RequestType: RequestType);
-            var result = value.Response != null ? DeserializeObject<IList<AddMaintenanceAlertResponseModel>>(value.Response, GetJsonSetting()) : new List<AddMaintenanceAlertResponseModel>();
+            var result = !string.IsNullOrEmpty(value.Response) ? DeserializeObject<IList<AddMaintenanceAlertResponseModel>>(value.Response, GetJsonSetting()) : new List<AddMaintenanceAlertResponseModel>();
             foreach (var item in result)
                 outModel.AddMaintenanceAlertResponseModel.Add(item);
 

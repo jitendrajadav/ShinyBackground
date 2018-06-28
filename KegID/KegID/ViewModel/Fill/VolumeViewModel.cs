@@ -1,18 +1,20 @@
-﻿using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Ioc;
-using KegID.LocalDb;
+﻿using KegID.LocalDb;
 using KegID.Model;
 using Microsoft.AppCenter.Crashes;
+using Prism.Commands;
+using Prism.Navigation;
 using Realms;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
     public class VolumeViewModel : BaseViewModel
     {
         #region Properties
+
+        private readonly INavigationService _navigationService;
 
         #region VolumeCollection
 
@@ -52,15 +54,17 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand<string> ItemTappedCommand { get; }
+        public DelegateCommand<string> ItemTappedCommand { get; }
         
         #endregion
 
         #region Constructor
 
-        public VolumeViewModel()
+        public VolumeViewModel(INavigationService navigationService)
         {
-            ItemTappedCommand = new RelayCommand<string>((model)=>ItemTappedCommandRecieverAsync(model));
+            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+
+            ItemTappedCommand = new DelegateCommand<string>((model)=>ItemTappedCommandRecieverAsync(model));
             LoadAssetVolumeAsync();
         }
 
@@ -85,13 +89,29 @@ namespace KegID.ViewModel
         {
             try
             {
-                SimpleIoc.Default.GetInstance<AddBatchViewModel>().VolumeChar = model;
-                await Application.Current.MainPage.Navigation.PopModalAsync();
+                //SimpleIoc.Default.GetInstance<AddBatchViewModel>().VolumeChar = model;
+                //await Application.Current.MainPage.Navigation.PopModalAsync();
+                var param = new NavigationParameters
+                    {
+                        { "model", model }
+                    };
+                await _navigationService.GoBackAsync(param, useModalNavigation: true, animated: false);
+
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 Crashes.TrackError(ex);
             }
+        }
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            
+        }
+
+        public override void OnNavigatingTo(INavigationParameters parameters)
+        {
+            
         }
 
         #endregion

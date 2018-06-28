@@ -10,7 +10,7 @@ namespace KegID.Views
 
         public CustomScanPage() : base()
         {
-            zxing = new ZXing.Net.Mobile.Forms.ZXingScannerView
+            zxing = new ZXingScannerView
             {
                 HorizontalOptions = LayoutOptions.FillAndExpand,
                 VerticalOptions = LayoutOptions.FillAndExpand,

@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Ioc;
+using KegID.Common;
 using KegID.LocalDb;
 using KegID.Model;
 using Microsoft.AppCenter.Crashes;
+using Prism.Commands;
+using Prism.Navigation;
 using Realms;
-using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
@@ -16,7 +16,7 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        public List<BarcodeModel> VerifiedBarcodes { get; set; }
+        private readonly INavigationService _navigationService;
 
         #region MaintenaceCollection
 
@@ -260,42 +260,37 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand ApplyToAllCommand { get; }
-        public RelayCommand DoneCommand { get; }
+        public DelegateCommand ApplyToAllCommand { get; }
+        public DelegateCommand DoneCommand { get; }
 
         #endregion
 
         #region Constructor
+        public AssignSizesViewModel(INavigationService navigationService)
+        {
+            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+
+            ApplyToAllCommand = new DelegateCommand(ApplyToAllCommandReciever);
+            DoneCommand = new DelegateCommand(DoneCommandRecieverAsync);
+            MaintenaceCollection = new ObservableCollection<MoveMaintenanceAlertModel>();
+        }
 
         #endregion
 
         #region Methods
 
-        public AssignSizesViewModel()
-        {
-            ApplyToAllCommand = new RelayCommand(ApplyToAllCommandReciever);
-            DoneCommand = new RelayCommand(DoneCommandReciever);
-            MaintenaceCollection = new ObservableCollection<MoveMaintenanceAlertModel>();
-        }
-
-        public void MaintenanceVerified()
+        private async void DoneCommandRecieverAsync()
         {
             try
             {
-                VerifiedBarcodes.FirstOrDefault().HasMaintenaceVerified = true;
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
-        }
+                //SimpleIoc.Default.GetInstance<ScanKegsViewModel>().AssignSizesValue(VerifiedBarcodes);
+                //Application.Current.MainPage.Navigation.PopModalAsync();
+                var param = new NavigationParameters
+                        {
+                            { "AssignSizesValue", ConstantManager.VerifiedBarcodes }
+                        };
+                await _navigationService.GoBackAsync(param, useModalNavigation: true, animated: false);
 
-        private void DoneCommandReciever()
-        {
-            try
-            {
-                SimpleIoc.Default.GetInstance<ScanKegsViewModel>().AssignSizesValue(VerifiedBarcodes);
-                Application.Current.MainPage.Navigation.PopModalAsync();
             }
             catch (Exception ex)
             {
@@ -379,7 +374,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                VerifiedBarcodes = _alerts;
+                ConstantManager.VerifiedBarcodes = _alerts;
 
                 LoadOwnderAsync();
                 LoadAssetSizeAsync();
@@ -434,6 +429,16 @@ namespace KegID.ViewModel
             {
                 Crashes.TrackError(ex);
             }
+        }
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            
+        }
+
+        public override void OnNavigatingTo(INavigationParameters parameters)
+        {
+            
         }
 
         #endregion

@@ -1,5 +1,4 @@
-﻿using GalaSoft.MvvmLight.Ioc;
-using KegID.Common;
+﻿using KegID.Common;
 using KegID.Messages;
 using KegID.Model;
 using KegID.Services;
@@ -12,8 +11,6 @@ namespace KegID
 {
     public class TaskCounter
     {
-        public readonly IMoveService MoveService;
-
         public async Task RunCounter(CancellationToken token, IList<string> _barcode,string _page)
         {
             await Task.Run(async () => {
@@ -25,11 +22,11 @@ namespace KegID
 
         public async Task ValidateBarcodeInsertIntoLocalDB(IList<string> _barcodeId, string _page)
         {
-            var service = SimpleIoc.Default.GetInstance<IMoveService>();
+            IMoveService _moveService = new MoveService();
 
             foreach (var item in _barcodeId)
             {
-                BarcodeModel validateBarcodeModel = await service.GetValidateBarcodeAsync(AppSettings.User.SessionId, item);
+                BarcodeModel validateBarcodeModel = await _moveService.GetValidateBarcodeAsync(AppSettings.User.SessionId, item);
                 validateBarcodeModel.Barcode = item;
                 if (validateBarcodeModel.Kegs != null)
                 {

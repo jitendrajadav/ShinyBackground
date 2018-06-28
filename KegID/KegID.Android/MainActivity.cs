@@ -1,5 +1,4 @@
-﻿
-using Acr.UserDialogs;
+﻿using Acr.UserDialogs;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
@@ -11,6 +10,8 @@ using KegID.Droid.Services;
 using KegID.Messages;
 using Microsoft.AppCenter.Crashes;
 using Plugin.CrossPlatformTintedImage.Android;
+using Prism;
+using Prism.Ioc;
 using Xamarin.Forms;
 
 namespace KegID.Droid
@@ -33,6 +34,7 @@ namespace KegID.Droid
             Forms.Init(this, bundle);
             UserDialogs.Init(this);
             CarouselViewRenderer.Init();
+            Rg.Plugins.Popup.Popup.Init(this, bundle);
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init(true);
             ZXing.Net.Mobile.Forms.Android.Platform.Init();
             Xamarin.FormsMaps.Init(this, bundle);
@@ -43,7 +45,7 @@ namespace KegID.Droid
 
             try
             {
-                LoadApplication(new App());
+                LoadApplication(new App(new AndroidInitializer()));
             }
             catch (System.Exception ex)
             {
@@ -91,6 +93,14 @@ namespace KegID.Droid
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
             ZXing.Net.Mobile.Android.PermissionsHandler.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
+    public class AndroidInitializer : IPlatformInitializer
+    {
+        public void RegisterTypes(IContainerRegistry containerRegistry)
+        {
+
         }
     }
 }

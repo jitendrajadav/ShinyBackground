@@ -1,4 +1,4 @@
-﻿using GalaSoft.MvvmLight;
+﻿
 using KegID.ViewModel;
 using Realms;
 //using SQLite.Net.Attributes;

@@ -1717,7 +1717,7 @@
     <value>Printer Settings</value>
   </data>
   <data name="label_print_every_menifest" xml:space="preserve">
-    <value>Print every menifest</value>
+    <value>Print every manifest</value>
   </data>
   <data name="label_prin_every_pallate" xml:space="preserve">
     <value>Print every pallate</value>

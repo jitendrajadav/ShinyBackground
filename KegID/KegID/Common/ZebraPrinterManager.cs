@@ -3,7 +3,12 @@ using LinkOS.Plugin;
 using LinkOS.Plugin.Abstractions;
 using Microsoft.AppCenter.Crashes;
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Net;
+using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using Xamarin.Forms;
 
 namespace KegID.Common
@@ -284,13 +289,20 @@ namespace KegID.Common
                             "^XZ";
         #endregion
 
-        public static void SendZplPallet(string header)
+        public static void SendZplPallet(string header,bool IsIpAddr, string ipAddr)
         {
             IConnection connection = null;
             try
             {
-                myPrinter = Configuration.PrinterSetting;
-                connection = myPrinter.Connection;
+                if (IsIpAddr)
+                {
+                    connection = ConnectionBuilder.Current.Build("TCP:" + ipAddr + ":9100"); 
+                }
+                else
+                {
+                    myPrinter = ConstantManager.PrinterSetting;
+                    connection = myPrinter.Connection;
+                }
                 connection.Open();
                 IZebraPrinter printer = ZebraPrinterFactory.Current.GetInstance(connection);
                 if ((!CheckPrinterLanguage(connection)) || (!PreCheckPrinterStatus(printer)))
@@ -359,6 +371,5 @@ namespace KegID.Common
             }
             return true;
         }
-
     }
 }

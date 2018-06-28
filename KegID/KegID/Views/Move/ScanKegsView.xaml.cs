@@ -1,5 +1,5 @@
 ﻿
-using GalaSoft.MvvmLight.Ioc;
+
 using KegID.ViewModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;

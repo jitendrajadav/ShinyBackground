@@ -1,9 +1,9 @@
-﻿using GalaSoft.MvvmLight.Command;
-using KegID.Common;
+﻿using KegID.Common;
 using KegID.Model;
 using KegID.Services;
-using KegID.Views;
 using Microsoft.AppCenter.Crashes;
+using Prism.Commands;
+using Prism.Navigation;
 using System;
 using System.Collections.Generic;
 using Xamarin.Forms;
@@ -13,6 +13,8 @@ namespace KegID.ViewModel
     public class EditKegViewModel : BaseViewModel
     {
         #region Properties
+
+        private readonly INavigationService _navigationService;
         public IDashboardService DashboardService { get; set; }
         public string KegId { get; set; }
         public string Barcode { get; set; }
@@ -228,24 +230,26 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand CancelCommand { get; }
-        public RelayCommand SaveCommand { get; }
-        public RelayCommand PartnerCommand { get; }
-        public RelayCommand SizeCommand { get;}
-        public RelayCommand AddTagsCommand { get;}
+        public DelegateCommand CancelCommand { get; }
+        public DelegateCommand SaveCommand { get; }
+        public DelegateCommand PartnerCommand { get; }
+        public DelegateCommand SizeCommand { get;}
+        public DelegateCommand AddTagsCommand { get;}
 
         #endregion
 
         #region Contructor
 
-        public EditKegViewModel(IDashboardService _dashboardService)
+        public EditKegViewModel(IDashboardService _dashboardService, INavigationService navigationService)
         {
+            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+
             DashboardService = _dashboardService;
-            CancelCommand = new RelayCommand(CancelCommandRecieverAsync);
-            SaveCommand = new RelayCommand(SaveCommandRecieverAsync);
-            PartnerCommand = new RelayCommand(PartnerCommandRecieverAsync);
-            SizeCommand = new RelayCommand(SizeCommandRecieverAsync);
-            AddTagsCommand = new RelayCommand(AddTagsCommandRecieverAsync);
+            CancelCommand = new DelegateCommand(CancelCommandRecieverAsync);
+            SaveCommand = new DelegateCommand(SaveCommandRecieverAsync);
+            PartnerCommand = new DelegateCommand(PartnerCommandRecieverAsync);
+            SizeCommand = new DelegateCommand(SizeCommandRecieverAsync);
+            AddTagsCommand = new DelegateCommand(AddTagsCommandRecieverAsync);
         }
 
         #endregion
@@ -260,7 +264,8 @@ namespace KegID.ViewModel
                 bool accept = await Application.Current.MainPage.DisplayAlert("Cancel?", Resources["dialog_cancel_message"], "Stay here", "Leave");
                 if (!accept)
                 {
-                    await Application.Current.MainPage.Navigation.PopModalAsync();
+                    //await Application.Current.MainPage.Navigation.PopModalAsync();
+                    await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
                 }
             }
             catch (Exception ex)
@@ -319,7 +324,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView(), animated: false);
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView(), animated: false);
+                await _navigationService.NavigateAsync(new Uri("PartnersView", UriKind.Relative), useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {
@@ -331,7 +337,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PushModalAsync(new SizeView(), animated: false);
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new SizeView(), animated: false);
+                await _navigationService.NavigateAsync(new Uri("SizeView", UriKind.Relative), useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {
@@ -343,7 +350,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView(), animated: false);
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView(), animated: false);
+                await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {
@@ -377,6 +385,22 @@ namespace KegID.ViewModel
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
+            }
+        }
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+        }
+
+        public override void OnNavigatingTo(INavigationParameters parameters)
+        {
+            if (parameters.ContainsKey("model"))
+            {
+                PartnerModel = parameters.GetValue<PartnerModel>("model");
+            }
+            if (parameters.ContainsKey("SizeModel"))
+            {
+                Size = parameters.GetValue<string>("SizeModel");
             }
         }
 

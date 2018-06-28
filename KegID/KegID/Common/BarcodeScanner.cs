@@ -1,9 +1,8 @@
-﻿using GalaSoft.MvvmLight.Ioc;
-using KegID.Messages;
+﻿using KegID.Messages;
 using KegID.Model;
 using KegID.Services;
-using KegID.ViewModel;
 using Microsoft.AppCenter.Crashes;
+using Prism.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +18,7 @@ namespace KegID.Common
         static ZXingScannerPage scanPage;
         private const string Cloud = "collectionscloud.png";
 
-        public static async Task BarcodeScanAsync(IMoveService _moveService, List<Tag> _tags, string _tagsStr, string _page)
+        public static async Task BarcodeScanAsync(IMoveService _moveService, List<Tag> _tags, string _tagsStr, string _page,INavigationService _navigationService)
         {
             IList<BarcodeModel> models = new List<BarcodeModel>();
             // Create our custom overlay
@@ -68,20 +67,26 @@ namespace KegID.Common
                 };
                 MessagingCenter.Send(message, "StartLongRunningTaskMessage");
 
-                await Application.Current.MainPage.Navigation.PopModalAsync();
+                //await Application.Current.MainPage.Navigation.PopModalAsync();
+                
+                var param = new NavigationParameters
+                    {
+                        { "models", models }
+                    };
+                await _navigationService.GoBackAsync(param, useModalNavigation: true, animated: false);
 
-                switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack.LastOrDefault().GetType().Name))
-                {
-                    case ViewTypeEnum.ScanKegsView:
-                        SimpleIoc.Default.GetInstance<ScanKegsViewModel>().AssignBarcodeScannerValue(models);
-                        break;
-                    case ViewTypeEnum.FillScanView:
-                        SimpleIoc.Default.GetInstance<FillScanViewModel>().AssignBarcodeScannerValue(models);
-                        break;
-                    case ViewTypeEnum.MaintainScanView:
-                        SimpleIoc.Default.GetInstance<MaintainScanViewModel>().AssignBarcodeScannerValue(models);
-                        break;
-                }
+                //switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack.LastOrDefault().GetType().Name))
+                //{                           
+                //    case ViewTypeEnum.ScanKegsView:
+                //        SimpleIoc.Default.GetInstance<ScanKegsViewModel>().AssignBarcodeScannerValue(models);
+                //        break;
+                //    case ViewTypeEnum.FillScanView:
+                //        SimpleIoc.Default.GetInstance<FillScanViewModel>().AssignBarcodeScannerValue(models);
+                //        break;
+                //    case ViewTypeEnum.MaintainScanView:
+                //        SimpleIoc.Default.GetInstance<MaintainScanViewModel>().AssignBarcodeScannerValue(models);
+                //        break;
+                //}
             };
 
             customOverlay.Children.Add(torch, 0, 0);
@@ -123,10 +128,11 @@ namespace KegID.Common
                 }
             });
 
-            await Application.Current.MainPage.Navigation.PushModalAsync(scanPage, animated: false);
+            //await Application.Current.MainPage.Navigation.PushModalAsync(scanPage, animated: false);
+            await _navigationService.NavigateAsync(nameof(scanPage), useModalNavigation: true, animated: false);
         }
 
-        public static async Task BarcodeScanSingleAsync(IMoveService _moveService, List<Tag> _tags, string _tagsStr)
+        public static async Task BarcodeScanSingleAsync(IMoveService _moveService, List<Tag> _tags, string _tagsStr,INavigationService _navigationService)
         {
             var barcodes = new Barcode();
             // Create our custom overlay
@@ -167,7 +173,12 @@ namespace KegID.Common
                 switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack.LastOrDefault().GetType().Name))
                 {
                     case ViewTypeEnum.ScanKegsView:
-                        SimpleIoc.Default.GetInstance<KegSearchViewModel>().AssignBarcodeScannerValueAsync(barcodes);
+                        BarcodeScannerToKegSearchMsg msg = new BarcodeScannerToKegSearchMsg
+                        {
+                            Barcodes = barcodes
+                        };
+                        MessagingCenter.Send(msg, "BarcodeScannerToKegSearchMsg");
+                        //SimpleIoc.Default.GetInstance<KegSearchViewModel>().AssignBarcodeScannerValueAsync(barcodes);
                         break;
                 }
             };
@@ -184,17 +195,24 @@ namespace KegID.Common
                 barcodes.Id = result.Text;
                 if (!string.IsNullOrEmpty(barcodes.Id))
                 {
-                    await Application.Current.MainPage.Navigation.PopModalAsync();
+                    //await Application.Current.MainPage.Navigation.PopModalAsync();
+                    await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
                     switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack.LastOrDefault().GetType().Name))
                     {
                         case ViewTypeEnum.KegSearchView:
-                            SimpleIoc.Default.GetInstance<KegSearchViewModel>().AssignBarcodeScannerValueAsync(barcodes);
+                            BarcodeScannerToKegSearchMsg msg = new BarcodeScannerToKegSearchMsg
+                            {
+                                Barcodes = barcodes
+                            };
+                            MessagingCenter.Send(msg, "BarcodeScannerToKegSearchMsg");
+                            //SimpleIoc.Default.GetInstance<KegSearchViewModel>().AssignBarcodeScannerValueAsync(barcodes);
                             break;
                     }
                 }
             });
 
-            await Application.Current.MainPage.Navigation.PushModalAsync(scanPage, animated: false);
+            //await Application.Current.MainPage.Navigation.PushModalAsync(scanPage, animated: false);
+            await _navigationService.NavigateAsync(new Uri("scanPage", UriKind.Relative), useModalNavigation: true, animated: false);
         }
     }
 }

@@ -18,7 +18,7 @@ namespace KegID.Services
             string url = string.Format(Configuration.GetMaintenanceTypeUrl, sessionId);
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
-            model.MaintainTypeReponseModel = DeserializeObject<IList<MaintainTypeReponseModel>>(value.Response, GetJsonSetting());
+            model.MaintainTypeReponseModel = !string.IsNullOrEmpty(value.Response) ? DeserializeObject<IList<MaintainTypeReponseModel>>(value.Response, GetJsonSetting()) : new List<MaintainTypeReponseModel>();
             model.Response.StatusCode = value.StatusCode;
 
             return model;

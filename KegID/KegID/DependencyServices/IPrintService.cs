@@ -2,8 +2,8 @@
 
 namespace KegID.DependencyServices
 {
-    public interface IPrintService
-    {
-        void Print(WebView viewToPrint);
-    }
+    //public interface IPrintService
+    //{
+    //    void Print(WebView viewToPrint);
+    //}
 }

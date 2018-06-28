@@ -6,8 +6,8 @@
              Title="Dashboard"
              BackgroundColor="{StaticResource pageBGColor}"
              xmlns:controls="clr-namespace:Plugin.CrossPlatformTintedImage.Abstractions;assembly=Plugin.CrossPlatformTintedImage.Abstractions"
-             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Dashboard}">
-
+             >
+    <!--BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Dashboard}"-->
     <ContentPage.Content>
         
         <Grid

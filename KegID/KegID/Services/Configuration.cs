@@ -5,8 +5,6 @@ namespace KegID.Services
     public static class Configuration
     {
 
-        internal static IDiscoveredPrinter PrinterSetting;
-
         /// <summary>
         /// Constant flag
         /// </summary>

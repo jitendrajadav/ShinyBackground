@@ -4,7 +4,8 @@
              x:Class="KegID.Views.AssignSizesView"
              xmlns:local="clr-namespace:KegID"
              BackgroundColor="{StaticResource pageBGColor}"
-             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=AssignSizes}">
+             >
+    <!--BindingContext="{Binding Source={x:Static local:App.Locator}, Path=AssignSizes}"-->
     <ContentPage.Content>
         
         <Grid

@@ -29,7 +29,7 @@ namespace KegID.Converter
             return Regex.Match(text, @"(.{8})\s*$").Value.ToUpper();
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }

@@ -17,7 +17,7 @@ namespace KegID.Services
             string url = string.Format(Configuration.GetBatchUrl, sessionId);
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
-            model.BatchModel = DeserializeObject<IList<BatchModel>>(value.Response, GetJsonSetting());
+            model.BatchModel = !string.IsNullOrEmpty(value.Response) ? DeserializeObject<IList<BatchModel>>(value.Response, GetJsonSetting()) : new List<BatchModel>();
             model.Response.StatusCode = value.StatusCode;
             return model;
         }

@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
 using KegID.LocalDb;
 using KegID.Model;
 using KegID.Services;
-using KegID.Views;
 using Microsoft.AppCenter.Crashes;
+using Prism.Commands;
+using Prism.Navigation;
 using Realms;
 using Xamarin.Forms;
 
@@ -18,6 +17,7 @@ namespace KegID.ViewModel
     {
         #region Properties
 
+        private readonly INavigationService _navigationService;
         public IMoveService _moveService { get; set; }
 
         #region IsInternalOn
@@ -880,23 +880,25 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand CalcelCommand { get; }
-        public RelayCommand SubmitCommand { get;}
-        public RelayCommand ShippingAddressCommand { get; }
-        public RelayCommand BillingAddressCommand { get;}
+        public DelegateCommand CalcelCommand { get; }
+        public DelegateCommand SubmitCommand { get;}
+        public DelegateCommand ShippingAddressCommand { get; }
+        public DelegateCommand BillingAddressCommand { get;}
 
         #endregion
 
         #region Constructor
 
-        public AddPartnerViewModel(IMoveService moveService)
+        public AddPartnerViewModel(IMoveService moveService, INavigationService navigationService)
         {
+            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+
             _moveService = moveService;
 
-            CalcelCommand = new RelayCommand(CalcelCommandRecieverAsync);
-            SubmitCommand = new RelayCommand(SubmitCommandRecieverAsync);
-            ShippingAddressCommand = new RelayCommand(ShippingAddressCommandRecieverAsync);
-            BillingAddressCommand = new RelayCommand(BillingAddressCommandRecieverAsync);
+            CalcelCommand = new DelegateCommand(CalcelCommandRecieverAsync);
+            SubmitCommand = new DelegateCommand(SubmitCommandRecieverAsync);
+            ShippingAddressCommand = new DelegateCommand(ShippingAddressCommandRecieverAsync);
+            BillingAddressCommand = new DelegateCommand(BillingAddressCommandRecieverAsync);
         }
 
         #endregion
@@ -907,8 +909,14 @@ namespace KegID.ViewModel
         {
             try
             {
-                SimpleIoc.Default.GetInstance<EditAddressViewModel>().AddressTitle = "Billing Address";
-                await Application.Current.MainPage.Navigation.PushModalAsync(new EditAddressView(), animated: false);
+                //SimpleIoc.Default.GetInstance<EditAddressViewModel>().AddressTitle = "Billing Address";
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new EditAddressView(), animated: false);
+                var param = new NavigationParameters
+                    {
+                        { "AddressTitle", "Billing Address" }
+                    };
+                await _navigationService.NavigateAsync(new Uri("EditAddressView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+
             }
             catch (Exception ex)
             {
@@ -920,8 +928,14 @@ namespace KegID.ViewModel
         {
             try
             {
-                SimpleIoc.Default.GetInstance<EditAddressViewModel>().AddressTitle = "Shipping Address";
-                await Application.Current.MainPage.Navigation.PushModalAsync(new EditAddressView(), animated: false);
+                //SimpleIoc.Default.GetInstance<EditAddressViewModel>().AddressTitle = "Shipping Address";
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new EditAddressView(), animated: false);
+                var param = new NavigationParameters
+                    {
+                        { "AddressTitle", "Shipping Address" }
+                    };
+                await _navigationService.NavigateAsync(new Uri("EditAddressView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+
             }
             catch (Exception ex)
             {
@@ -936,7 +950,8 @@ namespace KegID.ViewModel
                 var result = await Application.Current.MainPage.DisplayAlert("Cancel?", "Are you sure you want to cancel?", "Stay here", "Leave");
                 if (!result)
                 {
-                    await Application.Current.MainPage.Navigation.PopModalAsync();
+                    //await Application.Current.MainPage.Navigation.PopModalAsync();
+                    await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
                 }
             }
             catch (Exception ex)
@@ -1011,15 +1026,20 @@ namespace KegID.ViewModel
                         {
                             RealmDb.Add(partnerModel);
                         });
-                        SimpleIoc.Default.GetInstance<PartnersViewModel>().PartnerCollection.Add(partnerModel);
-                        SimpleIoc.Default.GetInstance<PartnersViewModel>().AllPartners.Add(partnerModel);
+                        //SimpleIoc.Default.GetInstance<PartnersViewModel>().PartnerCollection.Add(partnerModel);
+                        //SimpleIoc.Default.GetInstance<PartnersViewModel>().AllPartners.Add(partnerModel);
+                        var param = new NavigationParameters
+                        {
+                            { "partnerModel", partnerModel }
+                        };
+                        await _navigationService.GoBackAsync(param, useModalNavigation: true, animated: false);
                     }
                     catch (Exception ex)
                     {
-                         Crashes.TrackError(ex);
+                        Crashes.TrackError(ex);
                     }
 
-                    await Application.Current.MainPage.Navigation.PopModalAsync();
+                    //await Application.Current.MainPage.Navigation.PopModalAsync();
                 }
             }
             catch (Exception ex)
@@ -1091,6 +1111,16 @@ namespace KegID.ViewModel
             {
                  Crashes.TrackError(ex);
             }
+        }
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            
+        }
+
+        public override void OnNavigatingTo(INavigationParameters parameters)
+        {
+            
         }
 
         #endregion

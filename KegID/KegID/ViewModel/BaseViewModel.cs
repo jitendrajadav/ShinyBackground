@@ -1,9 +1,11 @@
-﻿using GalaSoft.MvvmLight;
+﻿
 using KegID.Localization;
+using Prism.Mvvm;
+using Prism.Navigation;
 
 namespace KegID.ViewModel
 {
-    public class BaseViewModel : ViewModelBase
+    public class BaseViewModel : BindableBase, INavigationAware
     {
         public LocalizedResources Resources
         {
@@ -14,6 +16,21 @@ namespace KegID.ViewModel
         public BaseViewModel()
         {
             Resources = new LocalizedResources(typeof(KegIDResource), App.CurrentLanguage);
+        }
+
+        public virtual void OnNavigatedFrom(INavigationParameters parameters)
+        {
+
+        }
+
+        public virtual void OnNavigatedTo(INavigationParameters parameters)
+        {
+
+        }
+
+        public virtual void OnNavigatingTo(INavigationParameters parameters)
+        {
+
         }
     }
 }

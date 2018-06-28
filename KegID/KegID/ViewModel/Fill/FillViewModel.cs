@@ -1,8 +1,9 @@
-﻿using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Ioc;
+﻿using KegID.Messages;
 using KegID.Model;
-using KegID.Views;
 using Microsoft.AppCenter.Crashes;
+using Prism.Commands;
+using Prism.Navigation;
+using System;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -10,6 +11,8 @@ namespace KegID.ViewModel
     public class FillViewModel : BaseViewModel
     {
         #region Properties
+
+        private readonly INavigationService _navigationService;
 
         #region NewBatchModel
 
@@ -256,23 +259,25 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand BatchCommand { get; }
-        public RelayCommand SizeCommand { get;}
-        public RelayCommand DestinationCommand { get; }
-        public RelayCommand NextCommand { get; }
-        public RelayCommand CancelCommand { get; }
+        public DelegateCommand BatchCommand { get; }
+        public DelegateCommand SizeCommand { get;}
+        public DelegateCommand DestinationCommand { get; }
+        public DelegateCommand NextCommand { get; }
+        public DelegateCommand CancelCommand { get; }
 
         #endregion
 
         #region Constructor
 
-        public FillViewModel()
+        public FillViewModel(INavigationService navigationService)
         {
-            BatchCommand = new RelayCommand(BatchCommandRecieverAsync);
-            SizeCommand = new RelayCommand(SizeCommandRecieverAsync);
-            DestinationCommand = new RelayCommand(DestinationCommandRecieverAsync);
-            NextCommand = new RelayCommand(NextCommandRecieverAsync);
-            CancelCommand = new RelayCommand(CancelCommandRecieverAsync);
+            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+
+            BatchCommand = new DelegateCommand(BatchCommandRecieverAsync);
+            SizeCommand = new DelegateCommand(SizeCommandRecieverAsync);
+            DestinationCommand = new DelegateCommand(DestinationCommandRecieverAsync);
+            NextCommand = new DelegateCommand(NextCommandRecieverAsync);
+            CancelCommand = new DelegateCommand(CancelCommandRecieverAsync);
         }
 
         #endregion
@@ -286,10 +291,11 @@ namespace KegID.ViewModel
                 var result = await Application.Current.MainPage.DisplayActionSheet("Cancel? \n You have like to save this manifest as a draft or delete?", null, null, "Delete manifest", "Save as draft");
                 if (result == "Delete manifest")
                 {
-                    await Application.Current.MainPage.Navigation.PopModalAsync();
+                    //await Application.Current.MainPage.Navigation.PopModalAsync();
+                    await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
                 }
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 Crashes.TrackError(ex);
             }
@@ -299,20 +305,37 @@ namespace KegID.ViewModel
         {
             try
             {
-                SimpleIoc.Default.GetInstance<FillScanViewModel>().AssignInitValue(NewBatchModel, SizeButtonTitle, PartnerModel);
+                //SimpleIoc.Default.GetInstance<FillScanViewModel>().AssignInitValue(NewBatchModel, SizeButtonTitle, PartnerModel);
+
+                FillToFillScanPagesMsg msg = new FillToFillScanPagesMsg
+                {
+                    BatchModel = NewBatchModel,
+                    PartnerModel = PartnerModel,
+                    SizeButtonTitle = SizeButtonTitle
+                };
+                MessagingCenter.Send(msg, "FillToFillScanPagesMsg");
 
                 if (!BatchButtonTitle.Contains("Select batch"))
                 {
                     if (IsPalletze)
                     {
-                        SimpleIoc.Default.GetInstance<AddPalletsViewModel>().AddPalletsTitle = "Filling " + SizeButtonTitle + " kegs with " + BatchButtonTitle + "\n" + DestinationTitle;
-                        await Application.Current.MainPage.Navigation.PushModalAsync(new AddPalletsView(), animated: false);
+                        var param = new NavigationParameters
+                        {
+                            { "AddPalletsTitle", "Filling " + SizeButtonTitle + " kegs with " + BatchButtonTitle + "\n" + DestinationTitle }
+                        };
+                        await _navigationService.NavigateAsync(new Uri("AddPalletsView", UriKind.Relative), param, useModalNavigation: true, animated: false);
                     }
                     else
                     {
-                        SimpleIoc.Default.GetInstance<FillScanViewModel>().IsPalletze = IsPalletze;
-                        SimpleIoc.Default.GetInstance<FillScanViewModel>().ManifestId = "Filling " + SizeButtonTitle + " kegs with " + BatchButtonTitle + " " + DestinationTitle;
-                        await Application.Current.MainPage.Navigation.PushModalAsync(new FillScanView(), animated: false);
+                        var param = new NavigationParameters
+                        {
+                            { "IsPalletze",IsPalletze},{ "ManifestId","Filling " + SizeButtonTitle + " kegs with " + BatchButtonTitle + " " + DestinationTitle},
+                        };
+                        await _navigationService.NavigateAsync(new Uri("FillScanView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+
+                        //SimpleIoc.Default.GetInstance<FillScanViewModel>().IsPalletze = IsPalletze;
+                        //SimpleIoc.Default.GetInstance<FillScanViewModel>().ManifestId = "Filling " + SizeButtonTitle + " kegs with " + BatchButtonTitle + " " + DestinationTitle;
+                        //await Application.Current.MainPage.Navigation.PushModalAsync(new FillScanView(), animated: false);
                     }
                 }
                 else
@@ -320,7 +343,7 @@ namespace KegID.ViewModel
                     await Application.Current.MainPage.DisplayAlert("Error", "Batch is required.", "Ok");
                 }
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 Crashes.TrackError(ex);
             }
@@ -330,19 +353,48 @@ namespace KegID.ViewModel
         {
             try
             {
-                SimpleIoc.Default.GetInstance<PartnersViewModel>().BrewerStockOn = true;
-                await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView());
+                //SimpleIoc.Default.GetInstance<PartnersViewModel>().BrewerStockOn = true;
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView());
+                var param = new NavigationParameters
+                    {
+                        { "BrewerStockOn", true }
+                    };
+                await _navigationService.NavigateAsync(new Uri("PartnersView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 Crashes.TrackError(ex);
             }
         }
 
-        private async void BatchCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new BatchView(), animated: false);
+        private async void BatchCommandRecieverAsync()
+        {
+            await _navigationService.NavigateAsync(new Uri("BatchView", UriKind.Relative), useModalNavigation: true, animated: false);
+        }
 
-        private async void SizeCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new SizeView(), animated: false);
+        private async void SizeCommandRecieverAsync()
+        {
+            await _navigationService.NavigateAsync(new Uri("SizeView", UriKind.Relative), useModalNavigation: true, animated: false);
 
+        }
+
+        public override void OnNavigatingTo(INavigationParameters parameters)
+        {
+            if (parameters.ContainsKey("model"))
+            {
+                PartnerModel = parameters.GetValue<PartnerModel>("model");
+            }
+            if (parameters.ContainsKey("BatchModel"))
+            {
+                NewBatchModel = parameters.GetValue<BatchModel>("BatchModel");
+            }
+            if (parameters.ContainsKey("SizeModel"))
+            {
+                SizeButtonTitle = parameters.GetValue<string>("SizeModel");
+            }
+        }
+        
         #endregion
     }
 }

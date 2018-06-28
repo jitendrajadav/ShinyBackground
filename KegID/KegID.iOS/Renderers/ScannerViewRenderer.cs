@@ -41,17 +41,17 @@ namespace KegID.iOS.Renderers
             if (Control == null)
                 SetNativeControl(ivPreview);
 
-            Xamarin.Forms.ToolbarItem toolbarItemSelectDevice = CognexScanView._toolbarItemSelectDevice;
-            toolbarItemSelectDevice.Clicked += (sender, eve) =>
-            {
-                PickDevice(sender);
-            };
+            //Xamarin.Forms.ToolbarItem toolbarItemSelectDevice = CognexScanView._toolbarItemSelectDevice;
+            //toolbarItemSelectDevice.Clicked += (sender, eve) =>
+            //{
+            //    PickDevice(sender);
+            //};
 
-            lblConnection = CognexScanView._lblStatus;
-            lblSymbology = CognexScanView._lblResultType;
-            lblCode = CognexScanView._lblResult;
+            //lblConnection = CognexScanView._lblStatus;
+            //lblSymbology = CognexScanView._lblResultType;
+            //lblCode = CognexScanView._lblResult;
 
-            btnScan = CognexScanView._btnScan;
+            //btnScan = CognexScanView._btnScan;
             btnScan.IsEnabled = false;
             btnScan.Clicked += (sender, ev) =>
             {

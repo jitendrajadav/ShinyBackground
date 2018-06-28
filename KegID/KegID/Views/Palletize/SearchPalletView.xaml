@@ -5,8 +5,8 @@
              xmlns:local="clr-namespace:KegID"
              BackgroundColor="{StaticResource pageBGColor}"
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
-             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=SearchPallet}">
-    
+             >
+    <!--BindingContext="{Binding Source={x:Static local:App.Locator}, Path=SearchPallet}"-->
     <ContentPage.Content>
         
         <Grid>

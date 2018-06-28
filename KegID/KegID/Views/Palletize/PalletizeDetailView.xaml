@@ -5,8 +5,8 @@
              x:Class="KegID.Views.PalletizeDetailView"
              BackgroundColor="{StaticResource pageBGColor}"
              xmlns:controls="clr-namespace:Plugin.CrossPlatformTintedImage.Abstractions;assembly=Plugin.CrossPlatformTintedImage.Abstractions"
-             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=PalletizeDetail}">
-    
+             >
+    <!--BindingContext="{Binding Source={x:Static local:App.Locator}, Path=PalletizeDetail}"-->
     <ContentPage.Content>
       
         <Grid

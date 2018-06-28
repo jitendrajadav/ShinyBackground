@@ -20,19 +20,19 @@ namespace KegID.PrintTemplates
             });
             Children.Add(new FormatDemoCarousel());
             BaseDemoView.OnErrorAlert += BaseDemoView_OnErrorAlert;
-            BaseDemoView.OnAboutChosen += BaseDemoView_OnAboutChosen;
+            //BaseDemoView.OnAboutChosen += BaseDemoView_OnAboutChosen;
             BaseDemoView.OnAlert += BaseDemoView_OnAlert;
         }
 
-        private void BaseDemoView_OnAboutChosen()
-        {
-            string message = "Developer Demo " + App.APP_Version + " {" + App.GIT_APP_HASH + "}" + Environment.NewLine
-                + "Using SDK " + App.API_Version + " {" + App.GIT_API_HASH + "}" + Environment.NewLine + "Copyright Zebra Technologies 2016";
-            Device.BeginInvokeOnMainThread(() =>
-            {
-                DisplayAlert("About", message, "OK");
-            });
-        }
+        //private void BaseDemoView_OnAboutChosen()
+        //{
+        //    string message = "Developer Demo " + App.APP_Version + " {" + App.GIT_APP_HASH + "}" + Environment.NewLine
+        //        + "Using SDK " + App.API_Version + " {" + App.GIT_API_HASH + "}" + Environment.NewLine + "Copyright Zebra Technologies 2016";
+        //    Device.BeginInvokeOnMainThread(() =>
+        //    {
+        //        DisplayAlert("About", message, "OK");
+        //    });
+        //}
 
         private void BaseDemoView_OnErrorAlert(string message)
         {

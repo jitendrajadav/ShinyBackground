@@ -1,13 +1,13 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Ioc;
+﻿using KegID.Common;
 using KegID.LocalDb;
 using KegID.ViewModel;
 using Realms;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace KegID.Model
 {
-    public class MoveMaintenanceAlertModel : ViewModelBase
+    public class MoveMaintenanceAlertModel : BaseViewModel
     {
         #region BarcodeId
 
@@ -107,7 +107,8 @@ namespace KegID.Model
 
                 if (!_selectedUType.HasInitial)
                 {
-                    SimpleIoc.Default.GetInstance<AssignSizesViewModel>().MaintenanceVerified();
+                    ConstantManager.VerifiedBarcodes.FirstOrDefault().HasMaintenaceVerified = true;
+                    //SimpleIoc.Default.GetInstance<AssignSizesViewModel>().MaintenanceVerified();
                     var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                     RealmDb.Write(() =>
                     {
@@ -190,7 +191,9 @@ namespace KegID.Model
                     {
                         _selectedUSize.HasInitial = true;
                     });
-                    SimpleIoc.Default.GetInstance<AssignSizesViewModel>().MaintenanceVerified();
+                    ConstantManager.VerifiedBarcodes.FirstOrDefault().HasMaintenaceVerified = true;
+
+                    //SimpleIoc.Default.GetInstance<AssignSizesViewModel>().MaintenanceVerified();
                 }
 
                 RaisePropertyChanged(SelectedUSizePropertyName);
@@ -263,7 +266,9 @@ namespace KegID.Model
 
                 if (!_selectedUOwner.HasInitial)
                 {
-                    SimpleIoc.Default.GetInstance<AssignSizesViewModel>().MaintenanceVerified();
+                    ConstantManager.VerifiedBarcodes.FirstOrDefault().HasMaintenaceVerified = true;
+
+                    //SimpleIoc.Default.GetInstance<AssignSizesViewModel>().MaintenanceVerified();
                     var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                     RealmDb.Write(() =>
                     {

@@ -5,8 +5,8 @@
              xmlns:local="clr-namespace:KegID"
              Title="{Binding Resources[title_create_manifest]}"
              BackgroundColor="{StaticResource pageBGColor}"
-             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Move}">
-
+             >
+    <!--BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Move}"-->
     <ContentPage.Content>
        
         <Grid>

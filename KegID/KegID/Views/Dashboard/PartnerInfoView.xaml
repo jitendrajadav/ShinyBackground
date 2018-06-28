@@ -4,8 +4,8 @@
              x:Class="KegID.Views.PartnerInfoView"
              xmlns:local="clr-namespace:KegID"
              BackgroundColor="{StaticResource pageBGColor}"
-             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=PartnerInfo}">
-   
+             >
+    <!--BindingContext="{Binding Source={x:Static local:App.Locator}, Path=PartnerInfo}"-->
     <ContentPage.Content>
         
         <Grid>

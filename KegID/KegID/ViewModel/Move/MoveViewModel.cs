@@ -1,14 +1,14 @@
-﻿using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Ioc;
-using KegID.Common;
+﻿using KegID.Common;
 using KegID.LocalDb;
 using KegID.Model;
 using KegID.Services;
-using KegID.Views;
 using Microsoft.AppCenter.Crashes;
+using Prism.Commands;
+using Prism.Navigation;
 using Realms;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -18,13 +18,8 @@ namespace KegID.ViewModel
     {
         #region Properties
 
+        private readonly INavigationService _navigationService;
         public IMoveService _moveService { get; set; }
-        public string Barcode { get; set; }
-        public IList<BarcodeModel> Barcodes
-        {
-            get;
-            set;
-        }
         public string Contents { get; set; }
 
         #region ManifestId
@@ -55,6 +50,7 @@ namespace KegID.ViewModel
                 }
 
                 _ManifestId = value;
+                ConstantManager.ManifestId = value;
                 RaisePropertyChanged(ManifestIdPropertyName);
             }
         }
@@ -90,43 +86,6 @@ namespace KegID.ViewModel
 
                 _Destination = value;
                 RaisePropertyChanged(DestinationPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region PartnerModel
-
-        /// <summary>
-        /// The <see cref="PartnerModel" /> property's name.
-        /// </summary>
-        public const string PartnerModelPropertyName = "PartnerModel";
-
-        private PartnerModel _PartnerModel = new PartnerModel();
-
-        /// <summary>
-        /// Sets and gets the PartnerModel property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public PartnerModel PartnerModel
-        {
-            get
-            {
-                return _PartnerModel;
-            }
-
-            set
-            {
-                if (_PartnerModel == value)
-                {
-                    return;
-                }
-
-                _PartnerModel = value;
-                Destination = _PartnerModel.FullName;
-                IsRequiredVisible = false;
-                IsSaveDraftVisible = true;
-                RaisePropertyChanged(PartnerModelPropertyName);
             }
         }
 
@@ -342,27 +301,29 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand SelectLocationCommand { get; }
-        public RelayCommand MoreInfoCommand { get; }
-        public RelayCommand ScanKegsCommad { get;}
-        public RelayCommand SaveDraftCommand { get; }
-        public RelayCommand CancelCommand { get; }
-        public RelayCommand SubmitCommand { get; }
+        public DelegateCommand SelectLocationCommand { get; }
+        public DelegateCommand MoreInfoCommand { get; }
+        public DelegateCommand ScanKegsCommad { get;}
+        public DelegateCommand SaveDraftCommand { get; }
+        public DelegateCommand CancelCommand { get; }
+        public DelegateCommand SubmitCommand { get; }
 
         #endregion
 
         #region Constructor
 
-        public MoveViewModel(IMoveService moveService)
+        public MoveViewModel(IMoveService moveService, INavigationService navigationService)
         {
+            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+
             _moveService = moveService;
 
-            SelectLocationCommand = new RelayCommand(SelectLocationCommandRecieverAsync);
-            MoreInfoCommand = new RelayCommand(MoreInfoCommandRecieverAsync);
-            ScanKegsCommad = new RelayCommand(ScanKegsCommadRecieverAsync);
-            SaveDraftCommand = new RelayCommand(SaveDraftCommandRecieverAsync);
-            CancelCommand = new RelayCommand(CancelCommandRecieverAsync);
-            SubmitCommand = new RelayCommand(SubmitCommandRecieverAsync);
+            SelectLocationCommand = new DelegateCommand(SelectLocationCommandRecieverAsync);
+            MoreInfoCommand = new DelegateCommand(MoreInfoCommandRecieverAsync);
+            ScanKegsCommad = new DelegateCommand(ScanKegsCommadRecieverAsync);
+            SaveDraftCommand = new DelegateCommand(SaveDraftCommandRecieverAsync);
+            CancelCommand = new DelegateCommand(CancelCommandRecieverAsync);
+            SubmitCommand = new DelegateCommand(SubmitCommandRecieverAsync);
         }
 
         #endregion
@@ -372,8 +333,6 @@ namespace KegID.ViewModel
         private async void SubmitCommandRecieverAsync()
         {
             ManifestModel manifestPostModel = null;
-            SimpleIoc @default = SimpleIoc.Default;
-
             try
             {
                 Loader.StartLoading();
@@ -401,14 +360,17 @@ namespace KegID.ViewModel
                         var manifest = await _moveService.GetManifestAsync(AppSettings.User.SessionId, result.ManifestId);
                         if (manifest.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                         {
-                            @default.GetInstance<ManifestDetailViewModel>().AssignInitialValue(manifest, Contents);
                             Loader.StopLoading();
-                            await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestDetailView(), animated: false);
+                            var param = new NavigationParameters
+                            {
+                                { "manifest", manifest },{ "Contents", Contents }
+                            };
+                            await _navigationService.NavigateAsync(new Uri("ManifestDetailView", UriKind.Relative), param, useModalNavigation: true, animated: false);
                         }
                         else
                         {
                             Loader.StopLoading();
-                            @default.GetInstance<LoginViewModel>().InvalideServiceCallAsync();
+                            //@default.GetInstance<LoginViewModel>().InvalideServiceCallAsync();
                         }
                     }
                     catch (Exception ex)
@@ -418,7 +380,6 @@ namespace KegID.ViewModel
                     finally
                     {
                         manifestPostModel = null;
-                        @default = null;
                         Cleanup();
                     }
                 }
@@ -452,8 +413,6 @@ namespace KegID.ViewModel
                     RealmDb.Write(() =>
                     {
                         var Result = RealmDb.Add(manifestModel, true);
-                        if (Result != null)
-                            SimpleIoc.Default.GetInstance<DashboardViewModel>().CheckDraftmaniFestsAsync();
                     });
                 }
                 catch (Exception ex)
@@ -462,8 +421,14 @@ namespace KegID.ViewModel
                 }
 
                 Loader.StopLoading();
-                await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestsView(), animated: false);
-                SimpleIoc.Default.GetInstance<ManifestsViewModel>().LoadDraftManifestAsync();
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestsView(), animated: false);
+                //SimpleIoc.Default.GetInstance<ManifestsViewModel>().LoadDraftManifestAsync();
+                var param = new NavigationParameters
+                    {
+                        { "LoadDraftManifestAsync", "LoadDraftManifestAsync" }
+                    };
+                await _navigationService.NavigateAsync(new Uri("ManifestsView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+
             }
             catch (Exception ex)
             {
@@ -479,9 +444,8 @@ namespace KegID.ViewModel
 
         public async Task<ManifestModel> GenerateManifest()
         {
-            SimpleIoc @default = SimpleIoc.Default;
             return await ManifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.MOVE_MANIFEST, manifestId: ManifestId,
-                                barcodeCollection: Barcodes, tags: Tags, partnerModel: PartnerModel, newPallets: new List<NewPallet>(), 
+                                barcodeCollection: ConstantManager.Barcodes, tags: Tags, partnerModel: ConstantManager.Partner, newPallets: new List<NewPallet>(), 
                                 batches: new List<NewBatch>(), closedBatches: new List<string>(), validationStatus: 2, contents: Contents);
         }
 
@@ -491,11 +455,11 @@ namespace KegID.ViewModel
             {
                 Contents = _contents;
                 Tags = _tags;
-                Barcodes = _barcodes;
-                if (Barcodes.Count > 1)
-                    AddKegs = string.Format("{0} Items", Barcodes.Count);
-                else if (Barcodes.Count == 1)
-                    AddKegs = string.Format("{0} Item", Barcodes.Count);
+                ConstantManager.Barcodes = _barcodes;
+                if (ConstantManager.Barcodes.Count > 1)
+                    AddKegs = string.Format("{0} Items", ConstantManager.Barcodes.Count);
+                else if (ConstantManager.Barcodes.Count == 1)
+                    AddKegs = string.Format("{0} Item", ConstantManager.Barcodes.Count);
                 if (!IsSubmitVisible)
                     IsSubmitVisible = true;
             }
@@ -525,7 +489,7 @@ namespace KegID.ViewModel
                 var result = await Application.Current.MainPage.DisplayActionSheet("Cancel? \n Would you like to save this manifest as a draft or delete?", null, null, "Delete manifest", "Save as draft");
                 if (result == "Delete manifest")
                 {
-                    await Application.Current.MainPage.Navigation.PopModalAsync();
+                    await _navigationService.GoBackAsync(useModalNavigation:true, animated: false);
                 }
             }
             catch (Exception ex)
@@ -534,18 +498,30 @@ namespace KegID.ViewModel
             }
         }
 
-        private async void SelectLocationCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView(), animated: false);
+        private async void SelectLocationCommandRecieverAsync()
+        {
+            await _navigationService.NavigateAsync(new Uri("PartnersView", UriKind.Relative), useModalNavigation: true, animated: false);
+        }
 
-        private async void MoreInfoCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView(), animated: false);
+        private async void MoreInfoCommandRecieverAsync()
+        {
+            await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), useModalNavigation: true, animated: false);
+        }
 
         private async void ScanKegsCommadRecieverAsync()
         {
             try
             {
-                if (!string.IsNullOrEmpty(PartnerModel?.PartnerId))
+                if (!string.IsNullOrEmpty(ConstantManager.Partner?.PartnerId))
                 {
-                    await Application.Current.MainPage.Navigation.PushModalAsync(new ScanKegsView(), animated: false);
-                    SimpleIoc.Default.GetInstance<ScanKegsViewModel>().AssignInitialValue(Barcode);
+                    //await Application.Current.MainPage.Navigation.PushModalAsync(new ScanKegsView(), animated: false);
+                    //SimpleIoc.Default.GetInstance<ScanKegsViewModel>().AssignInitialValue(ConstantManager.Barcode);
+                    var param = new NavigationParameters
+                    {
+                        { "Barcode", ConstantManager.Barcode }
+                    };
+                    await _navigationService.NavigateAsync(new Uri("ScanKegsView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+
                 }
                 else
                     await Application.Current.MainPage.DisplayAlert("Error", "Please select a destination first.", "Ok");
@@ -560,13 +536,18 @@ namespace KegID.ViewModel
         {
             try
             {
-                Barcode = _barcode;
+                ConstantManager.Barcode = _barcode;
+                //Barcode = _barcode;
                 ManifestId = !string.IsNullOrEmpty(_kegId) ? _kegId : Uuid.GetUuId();
                 AddKegs = !string.IsNullOrEmpty(_addKegs) ? string.Format("{0} Item", _addKegs) : "Add Kegs";
                 if (!string.IsNullOrEmpty(_destination))
                 {
                     Destination = _destination;
-                    PartnerModel.PartnerId = _partnerId;
+                    //PartnerModel.PartnerId = _partnerId;
+                    ConstantManager.Partner = new PartnerModel
+                    {
+                        PartnerId = _partnerId
+                    };
                     IsRequiredVisible = false;
                 }
                 IsSaveDraftVisible = isSaveDraftVisible;
@@ -577,16 +558,16 @@ namespace KegID.ViewModel
             }
         }
 
-        public override void Cleanup()
+        public void Cleanup()
         {
             try
             {
-                Barcode = string.Empty;
+                //Barcode = string.Empty;
                 AddKegs = "Add Kegs";
                 TagsStr = "Add info";
                 try
                 {
-                    PartnerModel = null;
+                    //PartnerModel = null;
                 }
                 catch (Exception ex)
                 {
@@ -604,7 +585,38 @@ namespace KegID.ViewModel
                  Crashes.TrackError(ex);
             }
 
-            base.Cleanup();
+            //base.Cleanup();
+        }
+
+        public override void OnNavigatingTo(INavigationParameters parameters)
+        {
+            if (ConstantManager.Barcodes != null)
+                AssingScanKegsValue(ConstantManager.Barcodes.ToList(), ConstantManager.Tags, ConstantManager.Contents);
+
+            if (parameters.ContainsKey("ManifestId"))
+            {
+                ManifestId = parameters.GetValue<string>("ManifestId");
+            }
+            if (parameters.ContainsKey("model"))
+            {
+                Destination = ConstantManager.Partner.FullName;
+                IsRequiredVisible = false;
+                IsSaveDraftVisible = true;
+            }
+            if (parameters.ContainsKey("Tags"))
+            {
+                AssignAddTagsValue(ConstantManager.Tags, ConstantManager.TagsStr);
+            }
+            if (parameters.ContainsKey("AssignInitialValue"))
+            {
+                var model = parameters.GetValue<ManifestModel>("AssignInitialValue");
+                AssignInitialValue(model.ManifestId, model.ManifestItems.Count > 0 ? model.ManifestItems.FirstOrDefault().Barcode : string.Empty, model.ManifestItemsCount > 0 ? model.ManifestItemsCount.ToString() : string.Empty, model.OwnerName, model.ReceiverId, true);
+            }
+        }
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+           // MessagingCenter.Unsubscribe<ScanKegToMovePagesMsg>(this, "ScanKegToMovePagesMsg");
         }
 
         #endregion

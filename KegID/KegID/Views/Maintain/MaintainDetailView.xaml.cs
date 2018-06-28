@@ -1,6 +1,4 @@
-﻿
-using GalaSoft.MvvmLight.Ioc;
-using KegID.ViewModel;
+﻿using KegID.Common;
 using System.Diagnostics;
 using System.Linq;
 using Xamarin.Forms;
@@ -21,7 +19,7 @@ namespace KegID.Views
         {
             try
             {
-                foreach (var item in SimpleIoc.Default.GetInstance<MaintainViewModel>().MaintainTypeCollection.Where(x=>x.IsToggled == true))
+                foreach (var item in ConstantManager.MaintainTypeCollection.Where(x=>x.IsToggled == true))
                 {
                     Label PerformedLabel = new Label()
                     {

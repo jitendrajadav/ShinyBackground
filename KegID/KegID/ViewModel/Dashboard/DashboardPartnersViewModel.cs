@@ -1,16 +1,15 @@
 ﻿using System.Collections.ObjectModel;
-using GalaSoft.MvvmLight.Command;
 using KegID.Services;
-using KegID.Views;
-using Xamarin.Forms;
 using System.Linq;
 using System.Collections.Generic;
 using KegID.Model;
 using System;
-using GalaSoft.MvvmLight.Ioc;
 using Microsoft.AppCenter.Crashes;
 using Realms;
 using KegID.LocalDb;
+using Prism.Commands;
+using Prism.Navigation;
+using KegID.Common;
 
 namespace KegID.ViewModel
 {
@@ -18,10 +17,8 @@ namespace KegID.ViewModel
     {
         #region Properties
 
+        private readonly INavigationService _navigationService;
         public IDashboardService _dashboardService { get; set; }
-
-        private const int PageSize = 20;
-        public string PartnerId { get; set; }
         public IList<PossessorResponseModel> AllPartners { get; set; }
 
         #region IsWorking
@@ -334,29 +331,31 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand InternalCommand { get;}
-        public RelayCommand AlphabeticalCommand { get; }
-        public RelayCommand<PossessorResponseModel> ItemTappedCommand { get;}
-        public RelayCommand AddNewPartnerCommand { get; }
-        public RelayCommand BackCommand { get; }
-        public RelayCommand TextChangedCommand { get;}
-        public RelayCommand KegsHeldCommand { get;}
+        public DelegateCommand InternalCommand { get;}
+        public DelegateCommand AlphabeticalCommand { get; }
+        public DelegateCommand<PossessorResponseModel> ItemTappedCommand { get;}
+        public DelegateCommand AddNewPartnerCommand { get; }
+        public DelegateCommand BackCommand { get; }
+        public DelegateCommand TextChangedCommand { get;}
+        public DelegateCommand KegsHeldCommand { get;}
         
         #endregion
 
         #region Constructor
 
-        public DashboardPartnersViewModel(IDashboardService dashboardService)
+        public DashboardPartnersViewModel(IDashboardService dashboardService, INavigationService navigationService)
         {
+            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+
             _dashboardService = dashboardService;
 
-            InternalCommand = new RelayCommand(InternalCommandReciever);
-            AlphabeticalCommand = new RelayCommand(AlphabeticalCommandReciever);
-            ItemTappedCommand = new RelayCommand<PossessorResponseModel>((model) => ItemTappedCommandRecieverAsync(model));
-            AddNewPartnerCommand = new RelayCommand(AddNewPartnerCommandRecieverAsync);
-            BackCommand = new RelayCommand(BackCommandRecieverAsync);
-            TextChangedCommand = new RelayCommand(TextChangedCommandRecieverAsync);
-            KegsHeldCommand = new RelayCommand(KegsHeldCommandReciever);
+            InternalCommand = new DelegateCommand(InternalCommandReciever);
+            AlphabeticalCommand = new DelegateCommand(AlphabeticalCommandReciever);
+            ItemTappedCommand = new DelegateCommand<PossessorResponseModel>((model) => ItemTappedCommandRecieverAsync(model));
+            AddNewPartnerCommand = new DelegateCommand(AddNewPartnerCommandRecieverAsync);
+            BackCommand = new DelegateCommand(BackCommandRecieverAsync);
+            TextChangedCommand = new DelegateCommand(TextChangedCommandRecieverAsync);
+            KegsHeldCommand = new DelegateCommand(KegsHeldCommandReciever);
 
             InitialSetting();
             LoadPartners();
@@ -432,9 +431,16 @@ namespace KegID.ViewModel
             {
                 if (model != null)
                 {
-                    PartnerId = model.Location.PartnerId;
-                    SimpleIoc.Default.GetInstance<PartnerInfoViewModel>().PartnerModel = model.Location;
-                    await Application.Current.MainPage.Navigation.PushModalAsync(new PartnerInfoView(), animated: false);
+                    //PartnerId = model.Location.PartnerId;
+                    AppSettings.User.DBPartnerId = model.Location.PartnerId;
+                    //SimpleIoc.Default.GetInstance<PartnerInfoViewModel>().PartnerModel = model.Location;
+                    //await Application.Current.MainPage.Navigation.PushModalAsync(new PartnerInfoView(), animated: false);
+                    var param = new NavigationParameters
+                    {
+                        { "model", model }
+                    };
+                    await _navigationService.NavigateAsync(new Uri("PartnerInfoView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+
                     Cleanup();
                 }
             }
@@ -486,13 +492,18 @@ namespace KegID.ViewModel
             }
         }
 
-        private async void BackCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PopModalAsync();
+        private async void BackCommandRecieverAsync()
+        {
+            //await Application.Current.MainPage.Navigation.PopModalAsync();
+            await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+        }
 
         private async void AddNewPartnerCommandRecieverAsync()
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PushModalAsync(new AddPartnerView(), animated: false);
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new AddPartnerView(), animated: false);
+                await _navigationService.NavigateAsync(new Uri("AddPartnerView", UriKind.Relative), useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {
@@ -500,10 +511,20 @@ namespace KegID.ViewModel
             }
         }
 
-        public override void Cleanup()
+        public void Cleanup()
         {
-            base.Cleanup();
+            //base.Cleanup();
             //PartnerCollection = null;
+        }
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+
+        }
+
+        public override void OnNavigatingTo(INavigationParameters parameters)
+        {
+
         }
 
         #endregion

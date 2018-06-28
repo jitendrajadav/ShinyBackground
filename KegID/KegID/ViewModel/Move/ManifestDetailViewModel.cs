@@ -1,12 +1,12 @@
-﻿using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Ioc;
-using KegID.Common;
+﻿using KegID.Common;
 using KegID.DependencyServices;
 using KegID.Model;
 using KegID.Model.PrintPDF;
-using KegID.Views;
 using Microsoft.AppCenter.Crashes;
+using Prism.Commands;
+using Prism.Navigation;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml;
@@ -19,7 +19,9 @@ namespace KegID.ViewModel
     {
         #region Properties
 
+        private readonly INavigationService _navigationService;
         private Manifest manifestPrintModels = null;
+        public List<string> Barcode { get; set; }
 
         #region TrackingNumber
 
@@ -195,26 +197,35 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand ManifestsCommand { get;}
-        public RelayCommand ShareCommand { get; }
-        public RelayCommand GridTappedCommand { get; }
+        public DelegateCommand ManifestsCommand { get;}
+        public DelegateCommand ShareCommand { get; }
+        public DelegateCommand GridTappedCommand { get; }
 
         #endregion
 
         #region Constructor
 
-        public ManifestDetailViewModel()
+        public ManifestDetailViewModel(INavigationService navigationService)
         {
-            ManifestsCommand = new RelayCommand(ManifestsCommandRecieverAsync);
-            ShareCommand = new RelayCommand(ShareCommandRecieverAsync);
-            GridTappedCommand = new RelayCommand(GridTappedCommandRecieverAsync);
+            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+
+            ManifestsCommand = new DelegateCommand(ManifestsCommandRecieverAsync);
+            ShareCommand = new DelegateCommand(ShareCommandRecieverAsync);
+            GridTappedCommand = new DelegateCommand(GridTappedCommandRecieverAsync);
         }
 
         #endregion
 
         #region Methods
 
-        private async void GridTappedCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new ContentTagsView(), animated: false);
+        private async void GridTappedCommandRecieverAsync()
+        {
+            var param = new NavigationParameters
+                            {
+                                { "Barcode", Barcode }
+                            };
+            await _navigationService.NavigateAsync(new Uri("ContentTagsView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+        }
 
         private void ShareCommandRecieverAsync()
         {
@@ -263,7 +274,10 @@ namespace KegID.ViewModel
             }
         }
 
-        private async void ManifestsCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PopModalAsync();
+        private async void ManifestsCommandRecieverAsync()
+        {
+            await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+        }
 
         internal void AssignInitialValue(ManifestResponseModel manifest, string content)
         {
@@ -291,13 +305,30 @@ namespace KegID.ViewModel
 
                 ShippingDate = Convert.ToDateTime(manifest.ShipDate);
                 ItemCount = manifest.ManifestItems.Count;
-                SimpleIoc.Default.GetInstance<ContentTagsViewModel>().ContentCollection = manifest.ManifestItems.Select(x => x.Barcode).ToList();
 
+                Barcode = manifest.ManifestItems.Select(x => x.Barcode).ToList();
                 Contents = !string.IsNullOrEmpty(content) ? content : "No contens";
             }
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
+            }
+        }
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            
+        }
+
+        public override void OnNavigatingTo(INavigationParameters parameters)
+        {
+            if (parameters.ContainsKey("manifest"))
+            {
+                AssignInitialValue(parameters.GetValue<ManifestResponseModel>("manifest"),string.Empty);
+            }
+            if (parameters.ContainsKey("AssignInitialValue"))
+            {
+                AssignInitialValue(parameters.GetValue<ManifestResponseModel>("AssignInitialValue"), string.Empty);
             }
         }
 

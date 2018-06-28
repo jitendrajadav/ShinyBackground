@@ -4,8 +4,8 @@
              x:Class="KegID.Views.AddTagsView"
              xmlns:local="clr-namespace:KegID"
              BackgroundColor="{StaticResource pageBGColor}"
-             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=AddTags}">
-    
+             >
+    <!--BindingContext="{Binding Source={x:Static local:App.Locator}, Path=AddTags}"-->
     <ContentPage.Content>
         
         <Grid>

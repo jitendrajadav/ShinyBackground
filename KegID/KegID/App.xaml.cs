@@ -1,83 +1,106 @@
-﻿using GalaSoft.MvvmLight.Ioc;
-using KegID.Common;
-using KegID.Services;
+﻿using KegID.Common;
 using KegID.Views;
 using KegID.ViewModel;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
-using Xamarin.Forms;
 using System;
+using Prism.Unity;
+using Prism.Ioc;
+using Prism;
+using KegID.Services;
+using Xamarin.Forms;
+using Prism.Plugin.Popups;
 
 namespace KegID
 {
-    public partial class App : Application
-	{
-        public const string API_Version = "1.1.75";
-        public const string APP_Version = "1.0.19";
-        public const string GIT_API_HASH = "2e2d138ef76c5aa1c95195617734b97aa8e9a43e";
-        public const string GIT_APP_HASH = "6a6eda468ca950a89e7b428f5042b13624156a93";
-
+    public partial class App : PrismApplication
+    {
         public static string CurrentLanguage = "EN";
 
-        private static ViewModelLocator _locator;
-
-        public static ViewModelLocator Locator => _locator ?? (_locator = new ViewModelLocator());
-
-        public App()
+        public App(IPlatformInitializer initializer = null) : base(initializer) { }
+        protected override void OnInitialized()
         {
             InitializeComponent();
 
-            #region Services Register
-            if (!SimpleIoc.Default.IsRegistered<IAccountService>())
-                SimpleIoc.Default.Register<IAccountService, AccountService>();
-
-            if (!SimpleIoc.Default.IsRegistered<IDashboardService>())
-                SimpleIoc.Default.Register<IDashboardService, DashboardService>();
-
-            if (!SimpleIoc.Default.IsRegistered<IMoveService>())
-                SimpleIoc.Default.Register<IMoveService, MoveService>();
-
-            if (!SimpleIoc.Default.IsRegistered<IFillService>())
-                SimpleIoc.Default.Register<IFillService, FillService>();
-
-            if (!SimpleIoc.Default.IsRegistered<IPalletizeService>())
-                SimpleIoc.Default.Register<IPalletizeService, PalletizeService>();
-
-            if (!SimpleIoc.Default.IsRegistered<IMaintainService>())
-                SimpleIoc.Default.Register<IMaintainService, MaintainService>();
-
-            #endregion
-
-            //for Background Services 
-            //_backgroundPage = new BackgroundPage();
-
-            //var tabbedPage = new TabbedPage();
-            //tabbedPage.Children.Add(_backgroundPage);
-            //tabbedPage.Children.Add(new LongRunningPage());
-            //tabbedPage.Children.Add(new DownloadPage());
-
-            // for Zebra printing
-            //MainPage = new MainNavigation();
-
-            //for PdfSharp.Xamarin.Forms
-            //MainPage = new MyPDFPage();
-
             if (AppSettings.User != null)
             {
-                MainPage = new MainPage();
+                NavigationService.NavigateAsync(nameof(KegID.MainPage));
             }
             else
             {
-                MainPage = new LoginView();
+                NavigationService.NavigateAsync(nameof(LoginView));
             }
 
-            // for Nagivation use will check later...
-            //MainPage = new NavigationPage(new LoginView())
-            //{
-            //    BarBackgroundColor = Color.White,
-            //};
             SyncManager.NotifyConnectivityChanged();
+        }
+
+        protected override void RegisterTypes(IContainerRegistry containerRegistry)
+        {
+            containerRegistry.RegisterForNavigation<NavigationPage>();
+            containerRegistry.RegisterForNavigation<MenuView, DashboardViewModel>();
+            containerRegistry.RegisterForNavigation<CarouselPage>();
+            //containerRegistry.RegisterForNavigation<ZXingScannerPage>();
+            containerRegistry.RegisterForNavigation<CognexScanView, CognexScanViewModel>();
+            containerRegistry.RegisterPopupNavigationService();
+
+            containerRegistry.RegisterForNavigation<LoginView, LoginViewModel>();
+            containerRegistry.RegisterForNavigation<SelectPrinterView, SelectPrinterViewModel>();
+            
+            containerRegistry.RegisterForNavigation<BulkUpdateScanView, BulkUpdateScanViewModel>();
+            containerRegistry.RegisterForNavigation<DashboardView, DashboardViewModel>();
+            containerRegistry.RegisterForNavigation<EditKegView, EditKegViewModel>();
+            containerRegistry.RegisterForNavigation<InventoryView, InventoryViewModel>();
+            containerRegistry.RegisterForNavigation<KegSearchedListView, KegSearchedListViewModel>();
+            containerRegistry.RegisterForNavigation<KegSearchView, KegSearchViewModel>();
+            containerRegistry.RegisterForNavigation<KegStatusView, KegStatusViewModel>();
+            containerRegistry.RegisterForNavigation<KegsView, KegsViewModel>();
+            containerRegistry.RegisterForNavigation<PartnerInfoMapView, PartnerInfoMapViewModel>();
+            containerRegistry.RegisterForNavigation<PartnerInfoView, PartnerInfoViewModel>();
+            containerRegistry.RegisterForNavigation<AddBatchView, AddBatchViewModel>();
+            containerRegistry.RegisterForNavigation<AddPalletsView, AddPalletsViewModel>();
+            containerRegistry.RegisterForNavigation<BatchView, BatchViewModel>();
+            containerRegistry.RegisterForNavigation<BrandView, BrandViewModel>();
+            containerRegistry.RegisterForNavigation<FillScanReviewView, FillScanReviewViewModel>();
+            containerRegistry.RegisterForNavigation<FillScanView, FillScanViewModel>();
+            containerRegistry.RegisterForNavigation<FillView, FillViewModel>();
+            containerRegistry.RegisterForNavigation<SizeView, SizeViewModel>();
+            containerRegistry.RegisterForNavigation<VolumeView, VolumeViewModel>();
+            containerRegistry.RegisterForNavigation<MaintainDetailView, MaintainDetailViewModel>();
+            containerRegistry.RegisterForNavigation<MaintainScanView, MaintainScanViewModel>();
+            containerRegistry.RegisterForNavigation<MaintainView, MaintainViewModel>();
+            containerRegistry.RegisterForNavigation<AddPartnerView, AddPartnerViewModel>();
+            containerRegistry.RegisterForNavigation<AddTagsView, AddTagsViewModel>();
+            containerRegistry.RegisterForNavigation<AssignSizesView, AssignSizesViewModel>();
+            containerRegistry.RegisterForNavigation<ContentTagsView, ContentTagsViewModel>();
+            containerRegistry.RegisterForNavigation<EditAddressView, EditAddressViewModel>();
+            containerRegistry.RegisterForNavigation<ManifestDetailView, ManifestDetailViewModel>();
+            containerRegistry.RegisterForNavigation<ManifestsView, ManifestsViewModel>();
+            containerRegistry.RegisterForNavigation<MoveView, MoveViewModel>();
+            containerRegistry.RegisterForNavigation<PartnersView, PartnersViewModel>();
+            containerRegistry.RegisterForNavigation<ScanInfoView, ScanInfoViewModel>();
+            containerRegistry.RegisterForNavigation<ScanKegsView, ScanKegsViewModel>();
+            containerRegistry.RegisterForNavigation<SearchedManifestsListView, SearchedManifestsListViewModel>();
+            containerRegistry.RegisterForNavigation<SearchManifestsView, SearchManifestsViewModel>();
+            containerRegistry.RegisterForNavigation<SearchPartnersView, SearchPartnersViewModel>();
+            containerRegistry.RegisterForNavigation<ValidateBarcodeView, ValidateBarcodeViewModel>();
+            containerRegistry.RegisterForNavigation<PalletizeDetailView, PalletizeDetailViewModel>();
+            containerRegistry.RegisterForNavigation<PalletizeView, PalletizeViewModel>();
+            containerRegistry.RegisterForNavigation<PalletSearchedListView, PalletSearchedListViewModel>();
+            containerRegistry.RegisterForNavigation<SearchPalletView, SearchPalletViewModel>();
+            containerRegistry.RegisterForNavigation<PrinterSettingView, PrinterSettingViewModel>();
+            containerRegistry.RegisterForNavigation<SettingView, SettingViewModel>();
+            containerRegistry.RegisterForNavigation<WhatIsNewView, WhatIsNewViewModel>();
+            containerRegistry.RegisterForNavigation<LoginView, LoginViewModel>();
+            containerRegistry.RegisterForNavigation<MainPage, MainViewModel>();
+
+            //   Services Register
+            containerRegistry.Register<IAccountService, AccountService>();
+            containerRegistry.Register<IDashboardService, DashboardService>();
+            containerRegistry.Register<IMoveService, MoveService>();
+            containerRegistry.Register<IFillService, FillService>();
+            containerRegistry.Register<IPalletizeService, PalletizeService>();
+            containerRegistry.Register<IMaintainService, MaintainService>();
         }
 
         protected override void OnStart ()
@@ -87,8 +110,6 @@ namespace KegID
                    "android=31ceef42-fd24-49d3-8e7e-21f144355dde;" +
                    "ios=b80b8476-04cf-4fc3-b7f7-be06ba7f2213",
                    typeof(Analytics), typeof(Crashes));
-            // Handle when your app starts
-            //SQLiteServiceClient.Instance.CreateDbIfNotExist();
             LoadPersistedValues();
         }
 

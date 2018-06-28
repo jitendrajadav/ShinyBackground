@@ -4,8 +4,8 @@
              xmlns:local="clr-namespace:KegID"
              x:Class="KegID.Views.FillScanReviewView"
              BackgroundColor="{StaticResource pageBGColor}"
-             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=FillScanReview}">
-  
+             >
+    <!--BindingContext="{Binding Source={x:Static local:App.Locator}, Path=FillScanReview}"-->
     <ContentPage.Content>
         
         <Grid

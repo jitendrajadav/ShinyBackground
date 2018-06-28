@@ -1,19 +1,20 @@
-﻿using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Ioc;
-using KegID.Common;
+﻿using KegID.Common;
 using KegID.Model;
 using KegID.Services;
-using KegID.Views;
 using Microsoft.AppCenter.Crashes;
+using Prism.Commands;
+using Prism.Navigation;
+using System;
 using System.Collections.Generic;
-using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
     public class KegSearchedListViewModel : BaseViewModel
     {
         #region Properties
+
         public IDashboardService _dashboardService { get; set; }
+        private readonly INavigationService _navigationService;
 
         #region KegSearchCollection
 
@@ -53,18 +54,20 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand<KegSearchResponseModel> ItemTappedCommand { get; }
-        public RelayCommand KegSearchCommand { get; }
+        public DelegateCommand<KegSearchResponseModel> ItemTappedCommand { get; }
+        public DelegateCommand KegSearchCommand { get; }
 
         #endregion
 
         #region Contructor
 
-        public KegSearchedListViewModel(IDashboardService dashboardService)
+        public KegSearchedListViewModel(IDashboardService dashboardService, INavigationService navigationService)
         {
+            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+
             _dashboardService = dashboardService;
-            ItemTappedCommand = new RelayCommand<KegSearchResponseModel>(execute: (model) => ItemTappedCommandRecieverAsync(model));
-            KegSearchCommand = new RelayCommand(KegSearchCommandRecieverAsync);
+            ItemTappedCommand = new DelegateCommand<KegSearchResponseModel>( (model) => ItemTappedCommandRecieverAsync(model));
+            KegSearchCommand = new DelegateCommand(KegSearchCommandRecieverAsync);
         }
 
         #endregion
@@ -75,9 +78,10 @@ namespace KegID.ViewModel
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PopModalAsync();
+                //await Application.Current.MainPage.Navigation.PopModalAsync();
+                await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 Crashes.TrackError(ex);
             }
@@ -87,10 +91,16 @@ namespace KegID.ViewModel
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PushModalAsync(new KegStatusView(), animated: false);
-                await SimpleIoc.Default.GetInstance<KegStatusViewModel>().LoadMaintenanceHistoryAsync(model.KegId, model.Contents, 4, model.Owner.FullName, model.Barcode, model.TypeName, model.SizeName);
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new KegStatusView(), animated: false);
+                //await SimpleIoc.Default.GetInstance<KegStatusViewModel>().LoadMaintenanceHistoryAsync(model.KegId, model.Contents, 4, model.Owner.FullName, model.Barcode, model.TypeName, model.SizeName);
+                var param = new NavigationParameters
+                    {
+                        { "model", model }
+                    };
+                await _navigationService.NavigateAsync(new Uri("KegStatusView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 Crashes.TrackError(ex);
             }
@@ -103,10 +113,18 @@ namespace KegID.ViewModel
                 var value = await _dashboardService.GetKegSearchAsync(AppSettings.User.SessionId, barcode, true);
                 KegSearchCollection = value.KegSearchResponseModel;
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 Crashes.TrackError(ex);
             }
+        }
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+        }
+
+        public override void OnNavigatingTo(INavigationParameters parameters)
+        {
         }
 
         #endregion

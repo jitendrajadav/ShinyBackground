@@ -1,19 +1,18 @@
-﻿using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Ioc;
-using System.Linq;
+﻿using System.Linq;
 using System.Collections.Generic;
-using Xamarin.Forms;
 using KegID.Model;
-using Rg.Plugins.Popup.Extensions;
 using System;
 using Microsoft.AppCenter.Crashes;
+using Prism.Commands;
+using Prism.Navigation;
 
 namespace KegID.ViewModel
 {
-    public class ValidateBarcodeViewModel : BaseViewModel
+    public class ValidateBarcodeViewModel : BaseViewModel 
     {
         #region Properties
 
+        private readonly INavigationService _navigationService;
         public List<BarcodeModel> Models { get; set; }
 
         #region MultipleKegsTitle
@@ -88,44 +87,79 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand CancelCommand { get; }
-        public RelayCommand<Partner> ItemTappedCommand { get; }
+        public DelegateCommand CancelCommand { get; }
+        public DelegateCommand<Partner> ItemTappedCommand { get; }
         
         #endregion
 
         #region Constructor
 
-        public ValidateBarcodeViewModel()
+        public ValidateBarcodeViewModel(INavigationService navigationService)
         {
-            CancelCommand = new RelayCommand(CancelCommandRecievierAsync);
-            ItemTappedCommand = new RelayCommand<Partner>((model) => ItemTappedCommandRecieverAsync(model));
+            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+
+            CancelCommand = new DelegateCommand(CancelCommandRecievierAsync);
+            ItemTappedCommand = new DelegateCommand<Partner>((model) => ItemTappedCommandRecieverAsync(model));
         }
 
         #endregion
 
         #region Methods
 
-        private async void CancelCommandRecievierAsync() => await Application.Current.MainPage.Navigation.PopPopupAsync();
+        private async void CancelCommandRecievierAsync()
+        {
+            //await Application.Current.MainPage.Navigation.PopPopupAsync();
+            await _navigationService.ClearPopupStackAsync();
+        }
 
-        private async void ItemTappedCommandRecieverAsync(Partner model)
+        private void ItemTappedCommandRecieverAsync(Partner model)
         {
             try
             {
-                switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack.LastOrDefault().GetType().Name))
+                //switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack.LastOrDefault().GetType().Name))
+                //{
+                //    case ViewTypeEnum.ScanKegsView:
+                //        ValidToScanKegPagesMsg scanKegsMsg = new ValidToScanKegPagesMsg
+                //        {
+                //            Partner = model
+                //        };
+                //        MessagingCenter.Send(scanKegsMsg, "ValidToScanKegPagesMsg");
+                //await SimpleIoc.Default.GetInstance<ScanKegsViewModel>().AssignValidatedValueAsync(model);
+                //        break;
+
+                //    case ViewTypeEnum.FillScanView:
+                //        ValidToFillScanPagesMsg fillScanMsg = new ValidToFillScanPagesMsg
+                //        {
+                //            Partner = model
+                //        };
+                //        MessagingCenter.Send(fillScanMsg, "ValidToFillScanPagesMsg");
+                //SimpleIoc.Default.GetInstance<FillScanViewModel>().AssignValidatedValueAsync(model);
+                //        break;
+
+                //    case ViewTypeEnum.MaintainScanView:
+                //        ValidToMaintainPagesMsg maintainMsg = new ValidToMaintainPagesMsg
+                //        {
+                //            Partner = model
+                //        };
+                //        MessagingCenter.Send(maintainMsg, "ValidToMaintainPagesMsg");
+                //SimpleIoc.Default.GetInstance<MaintainScanViewModel>().AssignValidatedValueAsync(model);
+                //        break;
+                //}
+
+                try
                 {
-                    case ViewTypeEnum.ScanKegsView:
-                       await SimpleIoc.Default.GetInstance<ScanKegsViewModel>().AssignValidatedValueAsync(model);
-                        break;
-
-                    case ViewTypeEnum.FillScanView:
-                        SimpleIoc.Default.GetInstance<FillScanViewModel>().AssignValidatedValueAsync(model);
-                        break;
-
-                    case ViewTypeEnum.MaintainScanView:
-                        SimpleIoc.Default.GetInstance<MaintainScanViewModel>().AssignValidatedValueAsync(model);
-                        break;
+                    var param = new NavigationParameters
+                    {
+                        { "Partner", model }
+                    };
+                    var formsNav = ((Prism.Common.IPageAware)_navigationService).Page;
+                    var page = formsNav.Navigation.ModalStack.Last();
+                    (page?.BindingContext as INavigationAware)?.OnNavigatingTo(param);
                 }
-
+                catch (Exception)
+                {
+                    
+                }
                 Models.RemoveAt(0);
 
                 if (Models.Count > 0)
@@ -163,6 +197,20 @@ namespace KegID.ViewModel
             }
             finally
             {
+            }
+        }
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+
+        }
+
+        public override void OnNavigatingTo(INavigationParameters parameters)
+        {
+            if (parameters.ContainsKey("model"))
+            {
+                List<BarcodeModel> value = parameters.GetValue<List<BarcodeModel>>("model");
+                LoadBarcodeValue(value);
             }
         }
 

@@ -1,11 +1,13 @@
-﻿using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Ioc;
+﻿using KegID.Common;
+using KegID.LocalDb;
 using KegID.Model;
-using KegID.Views;
 using Microsoft.AppCenter.Crashes;
+using Prism.Commands;
+using Prism.Navigation;
+using Realms;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -13,6 +15,8 @@ namespace KegID.ViewModel
     public class MaintainViewModel : BaseViewModel
     {
         #region Properties
+
+        private readonly INavigationService _navigationService;
 
         #region PartnerModel
 
@@ -120,22 +124,24 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand HomeCommand { get; }
-        public RelayCommand NextCommand { get; }
-        public RelayCommand PartnerCommand { get; }
-        public RelayCommand<MaintainTypeReponseModel> ItemTappedCommand { get; }
+        public DelegateCommand HomeCommand { get; }
+        public DelegateCommand NextCommand { get; }
+        public DelegateCommand PartnerCommand { get; }
+        public DelegateCommand<MaintainTypeReponseModel> ItemTappedCommand { get; }
 
         #endregion
 
         #region Constructor
 
-        public MaintainViewModel()
+        public MaintainViewModel( INavigationService navigationService)
         {
-            HomeCommand = new RelayCommand(HomeCommandRecieverAsync);
-            PartnerCommand = new RelayCommand(PartnerCommandRecieverAsync);
-            NextCommand = new RelayCommand(NextCommandRecieverAsync);
+            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+
+            HomeCommand = new DelegateCommand(HomeCommandRecieverAsync);
+            PartnerCommand = new DelegateCommand(PartnerCommandRecieverAsync);
+            NextCommand = new DelegateCommand(NextCommandRecieverAsync);
             PartnerModel.FullName = "Select a location";
-            ItemTappedCommand = new RelayCommand<MaintainTypeReponseModel>((model) => ItemTappedCommandReciever(model));
+            ItemTappedCommand = new DelegateCommand<MaintainTypeReponseModel>((model) => ItemTappedCommandReciever(model));
         }
 
         #endregion
@@ -147,28 +153,37 @@ namespace KegID.ViewModel
             model.IsToggled = !model.IsToggled;
         }
 
-        public async Task LoadMaintenanceTypeAsync()
+        public void LoadMaintenanceTypeAsync()
         {
             try
             {
-                var result = await SimpleIoc.Default.GetInstance<MaintainScanViewModel>().LoadMaintenanceTypeAsync();
-                MaintainTypeCollection = result.Where(x => x.ActivationMethod == "ReverseOnly").OrderBy(x => x.Name).ToList();
+                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                var result = RealmDb.All<MaintainTypeReponseModel>().ToList();
+
+                //var result = await SimpleIoc.Default.GetInstance<MaintainScanViewModel>().LoadMaintenanceTypeAsync();
+                ConstantManager.MaintainTypeCollection = result.Where(x => x.ActivationMethod == "ReverseOnly").OrderBy(x => x.Name).ToList();
+                MaintainTypeCollection = ConstantManager.MaintainTypeCollection;
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 Crashes.TrackError(ex);
             }
         }
 
-        private async void HomeCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PopModalAsync();
+        private async void HomeCommandRecieverAsync()
+        {
+            //await Application.Current.MainPage.Navigation.PopModalAsync();
+            await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+        }
 
         private async void PartnerCommandRecieverAsync()
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView(), animated: false);
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView(), animated: false);
+                await _navigationService.NavigateAsync(new Uri("PartnersView", UriKind.Relative), useModalNavigation: true, animated: false);
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 Crashes.TrackError(ex);
             }
@@ -177,16 +192,33 @@ namespace KegID.ViewModel
         {
             try
             {
-                var flag = MaintainTypeCollection.Where(x => x.IsToggled == true);
+                var flag = ConstantManager.MaintainTypeCollection.Where(x => x.IsToggled == true);
                 if (flag != null)
-                    await Application.Current.MainPage.Navigation.PushModalAsync(new MaintainScanView(), animated: false);
+                {
+                    //await Application.Current.MainPage.Navigation.PushModalAsync(new MaintainScanView(), animated: false);
+                    await _navigationService.NavigateAsync(new Uri("MaintainScanView", UriKind.Relative), useModalNavigation: true, animated: false);
+                }
                 else
                     await Application.Current.MainPage.DisplayAlert("Error", "Please select at least one maintenance item to perform.", "Ok");
 
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 Crashes.TrackError(ex);
+            }
+        }
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+
+        }
+
+        public override void OnNavigatingTo(INavigationParameters parameters)
+        {
+            LoadMaintenanceTypeAsync();
+            if (parameters.ContainsKey("model"))
+            {
+                PartnerModel= parameters.GetValue<PartnerModel>("model");
             }
         }
 

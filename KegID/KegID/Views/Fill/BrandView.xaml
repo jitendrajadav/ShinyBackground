@@ -5,8 +5,8 @@
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
              xmlns:local="clr-namespace:KegID"
              BackgroundColor="{StaticResource pageBGColor}"
-             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Brand}">
-    
+             >
+    <!--BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Brand}"-->
     <ContentPage.Content>
        
         <ListView 

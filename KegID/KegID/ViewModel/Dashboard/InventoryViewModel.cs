@@ -1,22 +1,23 @@
-﻿using GalaSoft.MvvmLight.Command;
-using KegID.Common;
+﻿using KegID.Common;
 using KegID.LocalDb;
 using KegID.Model;
 using KegID.Services;
 using Microsoft.AppCenter.Crashes;
+using Prism.Commands;
+using Prism.Navigation;
 using Realms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
     public class InventoryViewModel : BaseViewModel
     {
         #region Properties
-        public int CurrentPage { get; internal set; }
 
+        public int CurrentPage { get; internal set; }
+        private readonly INavigationService _navigationService;
         public IDashboardService _dashboardService { get; set; }
 
         #region StockInventoryCollection
@@ -90,16 +91,18 @@ namespace KegID.ViewModel
         #endregion
 
         #region Commands
-        public RelayCommand HomeCommand { get; }
+        public DelegateCommand HomeCommand { get; }
 
         #endregion
 
         #region Constructor
 
-        public InventoryViewModel(IDashboardService dashboardService)
+        public InventoryViewModel(IDashboardService dashboardService, INavigationService navigationService)
         {
+            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+
             _dashboardService = dashboardService;
-            HomeCommand = new RelayCommand(HomeCommandRecieverAsync);
+            HomeCommand = new DelegateCommand(HomeCommandRecieverAsync);
         }
 
         #endregion
@@ -110,7 +113,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PopModalAsync();
+                //await Application.Current.MainPage.Navigation.PopModalAsync();
+                await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {
@@ -168,6 +172,14 @@ namespace KegID.ViewModel
             {
                 Crashes.TrackError(ex);
             }
+        }
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+        }
+
+        public override void OnNavigatingTo(INavigationParameters parameters)
+        {
         }
         #endregion
     }

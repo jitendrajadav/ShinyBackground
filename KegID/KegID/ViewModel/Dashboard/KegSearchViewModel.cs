@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
-using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
+using KegID.Messages;
 using KegID.Model;
 using KegID.Services;
-using KegID.Views;
 using Microsoft.AppCenter.Crashes;
+using Prism.Commands;
+using Prism.Navigation;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -15,6 +15,7 @@ namespace KegID.ViewModel
     {
         #region Properties
 
+        private readonly INavigationService _navigationService;
         public IMoveService _moveService { get; set; }
 
         #region Barcode
@@ -89,34 +90,57 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand HomeCommand { get; }
-        public RelayCommand BarcodeScanCommand { get; }
-        public RelayCommand BulkUpdateCommand { get; }
-        public RelayCommand SearchCommand { get; }
+        public DelegateCommand HomeCommand { get; }
+        public DelegateCommand BarcodeScanCommand { get; }
+        public DelegateCommand BulkUpdateCommand { get; }
+        public DelegateCommand SearchCommand { get; }
         
         #endregion
 
         #region Constructor
 
-        public KegSearchViewModel(IMoveService moveService)
+        public KegSearchViewModel(IMoveService moveService, INavigationService navigationService)
         {
+            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+
             _moveService = moveService;
-            HomeCommand = new RelayCommand(HomeCommandRecieverAsync);
-            BarcodeScanCommand = new RelayCommand(BarcodeScanCommandRecieverAsync);
-            BulkUpdateCommand = new RelayCommand(BulkUpdateCommandRecieverAsync);
-            SearchCommand = new RelayCommand(SearchCommandRecieverAsync);
+            HomeCommand = new DelegateCommand(HomeCommandRecieverAsync);
+            BarcodeScanCommand = new DelegateCommand(BarcodeScanCommandRecieverAsync);
+            BulkUpdateCommand = new DelegateCommand(BulkUpdateCommandRecieverAsync);
+            SearchCommand = new DelegateCommand(SearchCommandRecieverAsync);
+            HandleReceivedMessages();
         }
 
         #endregion
 
         #region Methods
 
+        void HandleReceivedMessages()
+        {
+            MessagingCenter.Subscribe<BarcodeScannerToKegSearchMsg>(this, "BarcodeScannerToKegSearchMsg", message =>
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    var value = message;
+                    if (value != null)
+                    {
+                        AssignBarcodeScannerValueAsync(value.Barcodes);
+                    }
+                });
+            });
+        }
         private async void SearchCommandRecieverAsync()
         {
             try
             {
-                SimpleIoc.Default.GetInstance<KegSearchedListViewModel>().LoadKegSearchAsync(Barcode);
-                await Application.Current.MainPage.Navigation.PushModalAsync(new KegSearchedListView(), animated: false);
+                //SimpleIoc.Default.GetInstance<KegSearchedListViewModel>().LoadKegSearchAsync(Barcode);
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new KegSearchedListView(), animated: false);
+                var param = new NavigationParameters
+                    {
+                        { "LoadKegSearchAsync", Barcode }
+                    };
+                await _navigationService.NavigateAsync(new Uri("KegSearchedListView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+
             }
             catch (Exception ex)
             {
@@ -128,7 +152,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PopModalAsync();
+                //await Application.Current.MainPage.Navigation.PopModalAsync();
+                await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {
@@ -140,7 +165,13 @@ namespace KegID.ViewModel
         {
             try
             {
-                await BarcodeScanner.BarcodeScanSingleAsync(_moveService, null, string.Empty);
+                var param = new NavigationParameters
+                    {
+                        { "Tags", null },{ "TagsStr", string.Empty },{ "ViewTypeEnum", ViewTypeEnum.KegSearchView }
+                    };
+                await _navigationService.NavigateAsync(new Uri("CognexScanView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+
+                //await BarcodeScanner.BarcodeScanSingleAsync(_moveService, null, string.Empty,_navigationService);
             }
             catch (Exception ex)
             {
@@ -152,7 +183,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PushModalAsync(new BulkUpdateScanView(), animated: false);
+                await _navigationService.NavigateAsync(new Uri("BulkUpdateScanView", UriKind.Relative), useModalNavigation: true, animated: false);
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new BulkUpdateScanView(), animated: false);
             }
             catch (Exception ex)
             {
@@ -178,12 +210,31 @@ namespace KegID.ViewModel
         {
             try
             {
-                SimpleIoc.Default.GetInstance<KegSearchedListViewModel>().LoadKegSearchAsync(barcodes.Id);
-                await Application.Current.MainPage.Navigation.PushModalAsync(new KegSearchedListView(), animated: false);
+                //SimpleIoc.Default.GetInstance<KegSearchedListViewModel>().LoadKegSearchAsync(barcodes.Id);
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new KegSearchedListView(), animated: false);
+                var param = new NavigationParameters
+                    {
+                        { "LoadKegSearchAsync", barcodes }
+                    };
+                await _navigationService.NavigateAsync(new Uri("KegSearchedListView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+
             }
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
+            }
+        }
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            MessagingCenter.Unsubscribe<BarcodeScannerToKegSearchMsg>(this, "BarcodeScannerToKegSearchMsg");
+        }
+
+        public override void OnNavigatingTo(INavigationParameters parameters)
+        {
+            if (parameters.ContainsKey("AssingSuccessMsgAsync"))
+            {
+                AssingSuccessMsgAsync();
             }
         }
 

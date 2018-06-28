@@ -2,16 +2,14 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
-using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
 using KegID.LocalDb;
 using KegID.Model;
 using KegID.Services;
-using KegID.Views;
 using Microsoft.AppCenter.Crashes;
+using Prism.Commands;
+using Prism.Navigation;
 using Realms;
-using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
@@ -19,6 +17,7 @@ namespace KegID.ViewModel
     {
         #region Properties
 
+        private readonly INavigationService _navigationService;
         public IMoveService _moveService { get; set; }
 
         #region ManifestCollection
@@ -263,27 +262,29 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand HomeCommand { get; }
-        public RelayCommand ActionSearchCommand { get; }
-        public RelayCommand QueuedCommand { get; }
-        public RelayCommand DraftCommand { get; }
-        public RelayCommand RecentCommand { get; }
-        public RelayCommand<ManifestModel> ItemTappedCommand { get; }
+        public DelegateCommand HomeCommand { get; }
+        public DelegateCommand ActionSearchCommand { get; }
+        public DelegateCommand QueuedCommand { get; }
+        public DelegateCommand DraftCommand { get; }
+        public DelegateCommand RecentCommand { get; }
+        public DelegateCommand<ManifestModel> ItemTappedCommand { get; }
 
         #endregion
 
         #region Constructor
 
-        public ManifestsViewModel(IMoveService moveService)
+        public ManifestsViewModel(IMoveService moveService, INavigationService navigationService)
         {
+            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+
             _moveService = moveService;
 
-            HomeCommand = new RelayCommand(HomeCommandRecieverAsync);
-            ActionSearchCommand = new RelayCommand(ActionSearchCommandRecieverAsync);
-            QueuedCommand = new RelayCommand(QueuedCommandReciever);
-            DraftCommand = new RelayCommand(DraftCommandReciever);
-            RecentCommand = new RelayCommand(RecentCommandReciever);
-            ItemTappedCommand = new RelayCommand<ManifestModel>((model) => ItemTappedCommandRecieverAsync(model));
+            HomeCommand = new DelegateCommand(HomeCommandRecieverAsync);
+            ActionSearchCommand = new DelegateCommand(ActionSearchCommandRecieverAsync);
+            QueuedCommand = new DelegateCommand(QueuedCommandReciever);
+            DraftCommand = new DelegateCommand(DraftCommandReciever);
+            RecentCommand = new DelegateCommand(RecentCommandReciever);
+            ItemTappedCommand = new DelegateCommand<ManifestModel>((model) => ItemTappedCommandRecieverAsync(model));
         }
 
         #endregion
@@ -314,8 +315,14 @@ namespace KegID.ViewModel
         {
             try
             {
-                SimpleIoc.Default.GetInstance<MoveViewModel>().AssignInitialValue(model.ManifestId, model.ManifestItems.Count > 0 ? model.ManifestItems.FirstOrDefault().Barcode : string.Empty, model.ManifestItemsCount > 0 ? model.ManifestItemsCount.ToString() : string.Empty, model.OwnerName, model.ReceiverId, true);
-                await Application.Current.MainPage.Navigation.PushModalAsync(new MoveView(), animated: false);
+                //SimpleIoc.Default.GetInstance<MoveViewModel>().AssignInitialValue(model.ManifestId, model.ManifestItems.Count > 0 ? model.ManifestItems.FirstOrDefault().Barcode : string.Empty, model.ManifestItemsCount > 0 ? model.ManifestItemsCount.ToString() : string.Empty, model.OwnerName, model.ReceiverId, true);
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new MoveView(), animated: false);
+                var param = new NavigationParameters
+                    {
+                        { "AssignInitialValue", model }
+                    };
+                await _navigationService.NavigateAsync(new Uri("MoveView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+
             }
             catch (Exception ex)
             {
@@ -327,7 +334,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PopModalAsync();
+                //await Application.Current.MainPage.Navigation.PopModalAsync();
+                await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {
@@ -335,7 +343,11 @@ namespace KegID.ViewModel
             }
         }
 
-        private async void ActionSearchCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new SearchManifestsView(), animated: false);
+        private async void ActionSearchCommandRecieverAsync()
+        {
+            //await Application.Current.MainPage.Navigation.PushModalAsync(new SearchManifestsView(), animated: false);
+            await _navigationService.NavigateAsync(new Uri("SearchManifestsView", UriKind.Relative), useModalNavigation: true, animated: false);
+        }
 
         private void QueuedCommandReciever()
         {
@@ -408,6 +420,16 @@ namespace KegID.ViewModel
             QueuedBackgroundColor = "Transparent";
             DraftTextColor = "#4E6388";
             DraftBackgroundColor = "Transparent";
+        }
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            
+        }
+
+        public override void OnNavigatingTo(INavigationParameters parameters)
+        {
+            
         }
 
         #endregion

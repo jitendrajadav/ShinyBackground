@@ -1,10 +1,6 @@
 ﻿using System.Collections.ObjectModel;
-using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
 using KegID.Services;
-using KegID.Views;
-using Xamarin.Forms;
 using System.Linq;
 using System.Collections.Generic;
 using KegID.Model;
@@ -12,12 +8,16 @@ using System;
 using Microsoft.AppCenter.Crashes;
 using Realms;
 using KegID.LocalDb;
+using Prism.Commands;
+using Prism.Navigation;
 
 namespace KegID.ViewModel
 {
     public class PartnersViewModel : BaseViewModel
     {
         #region Properties
+
+        private readonly INavigationService _navigationService;
         public bool BrewerStockOn { get; set; }
         public IMoveService _moveService { get; set; }
 
@@ -266,29 +266,31 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand InternalCommand { get; }
-        public RelayCommand AlphabeticalCommand { get; }
-        public RelayCommand<PartnerModel> ItemTappedCommand { get; }
-        public RelayCommand SearchPartnerCommand { get; }
-        public RelayCommand AddNewPartnerCommand { get; }
-        public RelayCommand BackCommand { get; }
-        public RelayCommand TextChangedCommand { get; }
+        public DelegateCommand InternalCommand { get; }
+        public DelegateCommand AlphabeticalCommand { get; }
+        public DelegateCommand<PartnerModel> ItemTappedCommand { get; }
+        public DelegateCommand SearchPartnerCommand { get; }
+        public DelegateCommand AddNewPartnerCommand { get; }
+        public DelegateCommand BackCommand { get; }
+        public DelegateCommand TextChangedCommand { get; }
         
         #endregion
 
         #region Constructor
 
-        public PartnersViewModel(IMoveService moveService)
+        public PartnersViewModel(IMoveService moveService, INavigationService navigationService)
         {
+            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+
             _moveService = moveService;
 
-            InternalCommand = new RelayCommand(InternalCommandReciever);
-            AlphabeticalCommand = new RelayCommand(AlphabeticalCommandReciever);
-            ItemTappedCommand = new RelayCommand<PartnerModel>((model) => ItemTappedCommandRecieverAsync(model));
-            SearchPartnerCommand = new RelayCommand(SearchPartnerCommandRecieverAsync);
-            AddNewPartnerCommand = new RelayCommand(AddNewPartnerCommandRecieverAsync);
-            BackCommand = new RelayCommand(BackCommandRecieverAsync);
-            TextChangedCommand = new RelayCommand(TextChangedCommandRecieverAsync);
+            InternalCommand = new DelegateCommand(InternalCommandReciever);
+            AlphabeticalCommand = new DelegateCommand(AlphabeticalCommandReciever);
+            ItemTappedCommand = new DelegateCommand<PartnerModel>((model) => ItemTappedCommandRecieverAsync(model));
+            SearchPartnerCommand = new DelegateCommand(SearchPartnerCommandRecieverAsync);
+            AddNewPartnerCommand = new DelegateCommand(AddNewPartnerCommandRecieverAsync);
+            BackCommand = new DelegateCommand(BackCommandRecieverAsync);
+            TextChangedCommand = new DelegateCommand(TextChangedCommandRecieverAsync);
             InternalBackgroundColor = "#4E6388";
             InternalTextColor = "White";
         }
@@ -316,40 +318,47 @@ namespace KegID.ViewModel
             {
                 if (model != null)
                 {
-                    switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack[Application.Current.MainPage.Navigation.ModalStack.Count - 2].GetType().Name))
+                    //switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack[Application.Current.MainPage.Navigation.ModalStack.Count - 2].GetType().Name))
+                    //{
+                    //    case ViewTypeEnum.SearchManifestsView:
+                    //        SimpleIoc.Default.GetInstance<SearchManifestsViewModel>().AssignPartnerValue(model);
+                    //        break;
+
+                    //    case ViewTypeEnum.MoveView:
+                    //        SimpleIoc.Default.GetInstance<MoveViewModel>().PartnerModel = model;
+                    //        break;
+
+                    //    case ViewTypeEnum.FillView:
+                    //        SimpleIoc.Default.GetInstance<FillViewModel>().PartnerModel = model;
+                    //        break;
+
+                    //    case ViewTypeEnum.PalletizeView:
+                    //        SimpleIoc.Default.GetInstance<PalletizeViewModel>().AssignPartnerValue(model);
+                    //        break;
+
+                    //    case ViewTypeEnum.MaintainView:
+                    //        SimpleIoc.Default.GetInstance<MaintainViewModel>().PartnerModel = model;
+                    //        break;
+
+                    //    case ViewTypeEnum.EditKegView:
+                    //        SimpleIoc.Default.GetInstance<EditKegViewModel>().PartnerModel = model;
+                    //        break;
+
+                    //    case ViewTypeEnum.SearchPalletView:
+                    //        SimpleIoc.Default.GetInstance<SearchPalletViewModel>().PartnerModel = model;
+                    //        break;
+
+                    //    default:
+                    //        break;
+                    //}
+                    //await Application.Current.MainPage.Navigation.PopModalAsync();
+                    ConstantManager.Partner = model;
+                    var param = new NavigationParameters
                     {
-                        case ViewTypeEnum.SearchManifestsView:
-                            SimpleIoc.Default.GetInstance<SearchManifestsViewModel>().AssignPartnerValue(model);
-                            break;
+                        { "model", model }
+                    };
+                    await _navigationService.GoBackAsync(param, useModalNavigation: true, animated: false);
 
-                        case ViewTypeEnum.MoveView:
-                            SimpleIoc.Default.GetInstance<MoveViewModel>().PartnerModel = model;
-                            break;
-
-                        case ViewTypeEnum.FillView:
-                            SimpleIoc.Default.GetInstance<FillViewModel>().PartnerModel = model;
-                            break;
-
-                        case ViewTypeEnum.PalletizeView:
-                            SimpleIoc.Default.GetInstance<PalletizeViewModel>().AssignPartnerValue(model);
-                            break;
-
-                        case ViewTypeEnum.MaintainView:
-                            SimpleIoc.Default.GetInstance<MaintainViewModel>().PartnerModel = model;
-                            break;
-
-                        case ViewTypeEnum.EditKegView:
-                            SimpleIoc.Default.GetInstance<EditKegViewModel>().PartnerModel = model;
-                            break;
-
-                        case ViewTypeEnum.SearchPalletView:
-                            SimpleIoc.Default.GetInstance<SearchPalletViewModel>().PartnerModel = model;
-                            break;
-
-                        default:
-                            break;
-                    }
-                    await Application.Current.MainPage.Navigation.PopModalAsync();
                     Cleanup();
                 }
             }
@@ -429,7 +438,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PopModalAsync();
+                //await Application.Current.MainPage.Navigation.PopModalAsync();
+                await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
                 Cleanup();
             }
             catch (Exception ex)
@@ -442,7 +452,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PushModalAsync(new AddPartnerView(), animated: false);
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new AddPartnerView(), animated: false);
+                await _navigationService.NavigateAsync(new Uri("AddPartnerView", UriKind.Relative), useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {
@@ -454,7 +465,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PushModalAsync(new SearchPartnersView(), animated: false);
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new SearchPartnersView(), animated: false);
+                await _navigationService.NavigateAsync(new Uri("SearchPartnersView", UriKind.Relative), useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {
@@ -462,17 +474,31 @@ namespace KegID.ViewModel
             }
         }
 
-        public override void Cleanup()
+        public void Cleanup()
         {
             try
             {
-                base.Cleanup();
+                //base.Cleanup();
                 BrewerStockOn = false;
                 PartnerCollection = null;
             }
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
+            }
+        }
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            
+        }
+
+        public override void OnNavigatingTo(INavigationParameters parameters)
+        {
+            LoadPartnersAsync();
+            if (parameters.ContainsKey("BrewerStockOn"))
+            {
+                BrewerStockOn = true;
             }
         }
 

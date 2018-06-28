@@ -1,14 +1,16 @@
-﻿using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Ioc;
-using KegID.Model;
+﻿using KegID.Model;
 using Microsoft.AppCenter.Crashes;
-using Xamarin.Forms;
+using Prism.Commands;
+using Prism.Navigation;
+using System;
 
 namespace KegID.ViewModel
 {
     public class EditAddressViewModel : BaseViewModel
     {
         #region Properties
+
+        private readonly INavigationService _navigationService;
 
         #region AddressTitle
 
@@ -286,17 +288,19 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand BackCommand { get; }
-        public RelayCommand DoneCommand { get; }
+        public DelegateCommand BackCommand { get; }
+        public DelegateCommand DoneCommand { get; }
        
         #endregion
 
         #region Constructor
 
-        public EditAddressViewModel()
+        public EditAddressViewModel(INavigationService navigationService)
         {
-            BackCommand = new RelayCommand(BackCommandRecieverAsync);
-            DoneCommand = new RelayCommand(DoneCommandRecieverAsync);
+            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+
+            BackCommand = new DelegateCommand(BackCommandRecieverAsync);
+            DoneCommand = new DelegateCommand(DoneCommandRecieverAsync);
         }
 
         #endregion
@@ -317,16 +321,22 @@ namespace KegID.ViewModel
                     Country = Country
                 };
 
-                if (AddressTitle.Contains("Shipping"))
-                    SimpleIoc.Default.GetInstance<AddPartnerViewModel>().ShipAddress = address;
-                else
-                    SimpleIoc.Default.GetInstance<AddPartnerViewModel>().BillAddress = address;
+                //if (AddressTitle.Contains("Shipping"))
+                //    SimpleIoc.Default.GetInstance<AddPartnerViewModel>().ShipAddress = address;
+                //else
+                //    SimpleIoc.Default.GetInstance<AddPartnerViewModel>().BillAddress = address;
 
-                await Application.Current.MainPage.Navigation.PopModalAsync();
+                //await Application.Current.MainPage.Navigation.PopModalAsync();
+                var param = new NavigationParameters
+                        {
+                            { "address", address }
+                        };
+                await _navigationService.GoBackAsync(param, useModalNavigation: true, animated: false);
+
 
                 CleanupData();
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 Crashes.TrackError(ex);
             }
@@ -344,13 +354,30 @@ namespace KegID.ViewModel
                 PostalCode = default(string);
                 Country = default(string);
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 Crashes.TrackError(ex);
             }
         }
 
-        private async void BackCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PopModalAsync();
+        private async void BackCommandRecieverAsync()
+        {
+            //await Application.Current.MainPage.Navigation.PopModalAsync();
+            await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+        }
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+
+        }
+
+        public override void OnNavigatingTo(INavigationParameters parameters)
+        {
+            if (parameters.ContainsKey("AddressTitle"))
+            {
+                AddressTitle = parameters.GetValue<string>("AddressTitle");
+            }
+        }
 
         #endregion
     }

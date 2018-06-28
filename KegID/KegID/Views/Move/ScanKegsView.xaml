@@ -7,8 +7,8 @@
              BackgroundColor="{StaticResource pageBGColor}"
              xmlns:effects="clr-namespace:KegID.Extensions"
              xmlns:controls="clr-namespace:Plugin.CrossPlatformTintedImage.Abstractions;assembly=Plugin.CrossPlatformTintedImage.Abstractions"
-             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=ScanKegs}">
-   
+             >
+    <!--BindingContext="{Binding Source={x:Static local:App.Locator}, Path=ScanKegs}"-->
     <ContentPage.Content>
 
         <Grid

@@ -1,9 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using KegID.Model;
-using GalaSoft.MvvmLight.Command;
 using Xamarin.Forms;
-using KegID.Views;
-using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
 using System;
 using KegID.Services;
@@ -11,6 +8,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AppCenter.Crashes;
+using Prism.Commands;
+using Prism.Navigation;
+using KegID.Messages;
 
 namespace KegID.ViewModel
 {
@@ -18,6 +18,7 @@ namespace KegID.ViewModel
     {
         #region Properties
 
+        private readonly INavigationService _navigationService;
         public IPalletizeService _palletizeService { get; set; }
         public IMoveService _moveService { get; set; }
 
@@ -161,36 +162,61 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand SubmitCommand { get; }
-        public RelayCommand FillScanCommand { get; }
-        public RelayCommand FillKegsCommand { get; }
-        public RelayCommand<PalletModel> ItemTappedCommand { get; }
+        public DelegateCommand SubmitCommand { get; }
+        public DelegateCommand FillScanCommand { get; }
+        public DelegateCommand FillKegsCommand { get; }
+        public DelegateCommand<PalletModel> ItemTappedCommand { get; }
 
         #endregion
 
         #region Constructor
 
-        public AddPalletsViewModel(IPalletizeService palletizeService, IMoveService moveService)
+        public AddPalletsViewModel(IPalletizeService palletizeService, IMoveService moveService, INavigationService navigationService)
         {
+            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+
             _palletizeService = palletizeService;
             _moveService = moveService;
 
-            SubmitCommand = new RelayCommand(SubmitCommandRecieverAsync);
-            FillScanCommand = new RelayCommand(FillScanCommandRecieverAsync);
-            FillKegsCommand = new RelayCommand(FillKegsCommandRecieverAsync);
-            ItemTappedCommand = new RelayCommand<PalletModel>((model) => ItemTappedCommandRecieverAsync(model));
+            SubmitCommand = new DelegateCommand(SubmitCommandRecieverAsync);
+            FillScanCommand = new DelegateCommand(FillScanCommandRecieverAsync);
+            FillKegsCommand = new DelegateCommand(FillKegsCommandRecieverAsync);
+            ItemTappedCommand = new DelegateCommand<PalletModel>((model) => ItemTappedCommandRecieverAsync(model));
+
+            //HandleReceivedMessages();
         }
 
         #endregion
 
         #region Methods
 
+        //private void HandleReceivedMessages()
+        //{
+        //    MessagingCenter.Subscribe<FillScanToAddPalletPagesMsg>(this, "FillScanToAddPalletPagesMsg", message =>
+        //    {
+        //        Device.BeginInvokeOnMainThread(async () =>
+        //        {
+        //            var value = message;
+        //            if (value != null)
+        //            {
+        //              await AssignValueToAddPalletAsync(value.BatchId, value.BarcodeModels);
+        //            }
+        //        });
+        //    });
+        //}
+
         private async void ItemTappedCommandRecieverAsync(PalletModel model)
         {
             try
             {
-                SimpleIoc.Default.GetInstance<FillScanViewModel>().GenerateManifestIdAsync(model);
-                await Application.Current.MainPage.Navigation.PushModalAsync(new FillScanView(), animated: false);
+                //SimpleIoc.Default.GetInstance<FillScanViewModel>().GenerateManifestIdAsync(model);
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new FillScanView(), animated: false);
+                var param = new NavigationParameters
+                    {
+                        { "model", model }
+                    };
+                await _navigationService.NavigateAsync(new Uri("FillScanView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+
             }
             catch (Exception ex)
             {
@@ -202,7 +228,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PopModalAsync();
+                //await Application.Current.MainPage.Navigation.PopModalAsync();
+                await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {
@@ -212,9 +239,12 @@ namespace KegID.ViewModel
 
         public async void SubmitCommandRecieverAsync()
         {
-            var barcodes = SimpleIoc.Default.GetInstance<FillScanViewModel>().BarcodeCollection;
-            var tags = SimpleIoc.Default.GetInstance<FillScanViewModel>().Tags;
-            var partnerModel = SimpleIoc.Default.GetInstance<FillViewModel>().PartnerModel;
+            var barcodes = ConstantManager.Barcodes;
+            var tags = ConstantManager.Tags;
+            var partnerModel = ConstantManager.Partner;
+            //var barcodes = SimpleIoc.Default.GetInstance<FillScanViewModel>().BarcodeCollection;
+            //var tags = SimpleIoc.Default.GetInstance<FillScanViewModel>().Tags;
+            //var partnerModel = SimpleIoc.Default.GetInstance<FillViewModel>().PartnerModel;
 
             if (barcodes.Count == 0)
             {
@@ -293,15 +323,19 @@ namespace KegID.ViewModel
                         var manifest = await _moveService.GetManifestAsync(AppSettings.User.SessionId, manifestResult.ManifestId);
                         if (manifest.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                         {
-                            SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().AssignInitialValue(manifest,string.Empty);
-
+                            //SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().AssignInitialValue(manifest,string.Empty);
                             Loader.StopLoading();
-                            await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestDetailView(), animated: false);
+                            //await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestDetailView(), animated: false);
+                            var param = new NavigationParameters
+                            {
+                                { "manifest", manifest }
+                            };
+                            await _navigationService.NavigateAsync(new Uri("ManifestDetailView", UriKind.Relative), param, useModalNavigation: true, animated: false);
                         }
                         else
                         {
-                            SimpleIoc.Default.GetInstance<LoginViewModel>().InvalideServiceCallAsync();
-                        } 
+                            //SimpleIoc.Default.GetInstance<LoginViewModel>().InvalideServiceCallAsync();
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -331,8 +365,14 @@ namespace KegID.ViewModel
         {
             try
             {
-                SimpleIoc.Default.GetInstance<FillScanViewModel>().GenerateManifestIdAsync(null);
-                await Application.Current.MainPage.Navigation.PushModalAsync(new FillScanView(), animated: false);
+                //SimpleIoc.Default.GetInstance<FillScanViewModel>().GenerateManifestIdAsync(null);
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new FillScanView(), animated: false);
+                var param = new NavigationParameters
+                    {
+                        { "GenerateManifestIdAsync", "GenerateManifestIdAsync" }
+                    };
+                await _navigationService.NavigateAsync(new Uri("FillScanView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+
             }
             catch (Exception ex)
             {
@@ -364,7 +404,8 @@ namespace KegID.ViewModel
                     else
                         Kegs = string.Format("({0} Keg)", PalletCollection.Sum(x => x.Count));
                 }
-                await Application.Current.MainPage.Navigation.PopModalAsync();
+                //await Application.Current.MainPage.Navigation.PopModalAsync();
+                await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {
@@ -394,18 +435,45 @@ namespace KegID.ViewModel
             }
         }
 
-        public override void Cleanup()
+        public void Cleanup()
         {
             try
             {
-                base.Cleanup();
+                //base.Cleanup();
                 PalletCollection.Clear();
                 Kegs = default(string);
-                SimpleIoc.Default.GetInstance<FillScanViewModel>().Cleanup();
+                AddPalletToFillScanMsg msg = new AddPalletToFillScanMsg
+                {
+                    CleanUp = true
+                };
+                MessagingCenter.Send(msg, "AddPalletToFillScanMsg");
+                //SimpleIoc.Default.GetInstance<FillScanViewModel>().Cleanup();
             }
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
+            }
+        }
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            //MessagingCenter.Unsubscribe<FillScanToAddPalletPagesMsg>(this, "FillScanToAddPalletPagesMsg");
+        }
+
+
+        public async override void OnNavigatingTo(INavigationParameters parameters)
+        {
+            if (parameters.ContainsKey("AddPalletsTitle"))
+            {
+                AddPalletsTitle = parameters.GetValue<string>("AddPalletsTitle");
+            }
+            if (parameters.ContainsKey("SubmitCommandRecieverAsync"))
+            {
+                SubmitCommandRecieverAsync();
+            }
+            if (parameters.ContainsKey("AssignValueToAddPalletAsync"))
+            {
+               await AssignValueToAddPalletAsync(parameters.GetValue<string>("AssignValueToAddPalletAsync"), parameters.GetValue<IList<BarcodeModel>>("Barcodes"));
             }
         }
 

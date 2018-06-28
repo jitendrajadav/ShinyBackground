@@ -1,19 +1,20 @@
-﻿using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Ioc;
-using KegID.LocalDb;
+﻿using KegID.LocalDb;
 using KegID.Model;
 using Microsoft.AppCenter.Crashes;
+using Prism.Commands;
+using Prism.Navigation;
 using Realms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
     public class SizeViewModel : BaseViewModel
     {
         #region Properties
+
+        private readonly INavigationService _navigationService;
 
         #region SizeCollection
 
@@ -53,15 +54,17 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand<string> ItemTappedCommand { get;}
+        public DelegateCommand<string> ItemTappedCommand { get;}
 
         #endregion
 
         #region Constructor
 
-        public SizeViewModel()
+        public SizeViewModel(INavigationService navigationService)
         {
-            ItemTappedCommand = new RelayCommand<string>((model) => ItemTappedCommandRecieverAsync(model));
+            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+
+            ItemTappedCommand = new DelegateCommand<string>((model) => ItemTappedCommandRecieverAsync(model));
             LoadAssetSizeAsync();
         }
 
@@ -87,23 +90,27 @@ namespace KegID.ViewModel
         {
             try
             {
-                switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack[Application.Current.MainPage.Navigation.ModalStack.Count - 2].GetType().Name))
-                {
-                    case ViewTypeEnum.FillView:
-                        SimpleIoc.Default.GetInstance<FillViewModel>().SizeButtonTitle = model;
-                        break;
-                    case ViewTypeEnum.EditKegView:
-                        SimpleIoc.Default.GetInstance<EditKegViewModel>().Size = model;
-                        break;
-                    default:
-                        break;
-                }
-                await Application.Current.MainPage.Navigation.PopModalAsync();
+                var param = new NavigationParameters
+                    {
+                        { "SizeModel", model }
+                    };
+                await _navigationService.GoBackAsync(param, useModalNavigation: true, animated: false);
+
             }
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
             }
+        }
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            
+        }
+
+        public override void OnNavigatingTo(INavigationParameters parameters)
+        {
+            
         }
 
         #endregion

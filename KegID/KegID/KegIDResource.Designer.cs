@@ -2068,7 +2068,7 @@ namespace KegID {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Print every menifest.
+        ///   Looks up a localized string similar to Print every manifest.
         /// </summary>
         internal static string label_print_every_menifest {
             get {

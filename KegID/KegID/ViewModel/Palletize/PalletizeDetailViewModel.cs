@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
 using KegID.DependencyServices;
+using KegID.Messages;
 using KegID.Model;
 using KegID.Services;
-using KegID.Views;
 using Microsoft.AppCenter.Crashes;
+using Prism.Commands;
+using Prism.Navigation;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -17,6 +17,7 @@ namespace KegID.ViewModel
     {
         #region Properties
 
+        private readonly INavigationService _navigationService;
         public IMoveService _moveService { get; set; }
         public SearchPalletResponseModel Model { get; set; }
 
@@ -296,24 +297,26 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand HomeCommand { get; }
-        public RelayCommand ShareCommand { get; }
-        public RelayCommand GridTappedCommand { get; }
-        public RelayCommand EditPalletCommand { get; }
-        public RelayCommand MovePalletCommand { get; }
+        public DelegateCommand HomeCommand { get; }
+        public DelegateCommand ShareCommand { get; }
+        public DelegateCommand GridTappedCommand { get; }
+        public DelegateCommand EditPalletCommand { get; }
+        public DelegateCommand MovePalletCommand { get; }
 
         #endregion
 
         #region Constructor
 
-        public PalletizeDetailViewModel(IMoveService moveService)
+        public PalletizeDetailViewModel(IMoveService moveService, INavigationService navigationService)
         {
+            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+
             _moveService = moveService;
-            HomeCommand = new RelayCommand(HomeCommandCommandRecieverAsync);
-            ShareCommand = new RelayCommand(ShareCommandReciever);
-            GridTappedCommand = new RelayCommand(GridTappedCommandRecieverAsync);
-            MovePalletCommand = new RelayCommand(MovePalletCommandRecieverAsync);
-            EditPalletCommand = new RelayCommand(EditPalletCommandRecieverAsync);
+            HomeCommand = new DelegateCommand(HomeCommandCommandRecieverAsync);
+            ShareCommand = new DelegateCommand(ShareCommandReciever);
+            GridTappedCommand = new DelegateCommand(GridTappedCommandRecieverAsync);
+            MovePalletCommand = new DelegateCommand(MovePalletCommandRecieverAsync);
+            EditPalletCommand = new DelegateCommand(EditPalletCommandRecieverAsync);
         }
 
         #endregion
@@ -324,7 +327,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PushModalAsync(new PalletizeView(), animated: false);
+                await _navigationService.NavigateAsync(new Uri("PalletizeView", UriKind.Relative), useModalNavigation: true, animated: false);
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new PalletizeView(), animated: false);
             }
             catch (Exception ex)
             {
@@ -336,7 +340,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PushModalAsync(new MoveView(), animated: false);
+                await _navigationService.NavigateAsync(new Uri("MoveView", UriKind.Relative), useModalNavigation: true, animated: false);
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new MoveView(), animated: false);
             }
             catch (Exception ex)
             {
@@ -344,7 +349,11 @@ namespace KegID.ViewModel
             }
         }
 
-        private async void GridTappedCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new ContentTagsView(), animated: false);
+        private async void GridTappedCommandRecieverAsync()
+        {
+            //await Application.Current.MainPage.Navigation.PushModalAsync(new ContentTagsView(), animated: false);
+            await _navigationService.NavigateAsync(new Uri("ContentTagsView", UriKind.Relative), useModalNavigation: true, animated: false);
+        }
 
         private void ShareCommandReciever()
         {
@@ -359,7 +368,11 @@ namespace KegID.ViewModel
             }
         }
 
-        private async void HomeCommandCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PopModalAsync();
+        private async void HomeCommandCommandRecieverAsync()
+        {
+            //await Application.Current.MainPage.Navigation.PopModalAsync();
+            await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+        }
 
         internal void LoadInfo(PalletResponseModel value)
         {
@@ -371,7 +384,13 @@ namespace KegID.ViewModel
                 TargetLocation = value.StockLocation.FullName;
                 ShippingDate = value.BuildDate.Date;
                 ItemCount = value.PalletItems.Count;
-                SimpleIoc.Default.GetInstance<ContentTagsViewModel>().ContentCollection = value.PalletItems.Select(selector: x => x.Barcode).ToList();
+                PalletToContentTagsPagesMsg msg = new PalletToContentTagsPagesMsg
+                {
+                    Barcode = value.PalletItems.Select(selector: x => x.Barcode).ToList()
+                };
+                MessagingCenter.Send(msg, "PalletToContentTagsPagesMsg");
+
+                //SimpleIoc.Default.GetInstance<ContentTagsViewModel>().ContentCollection = value.PalletItems.Select(selector: x => x.Barcode).ToList();
             }
             catch (Exception ex)
             {
@@ -393,11 +412,33 @@ namespace KegID.ViewModel
                 TargetLocation = model.LocationName;
                 ShippingDate = model.BuildDate.Date;
                 ItemCount = (int)model.BuildCount;
-                SimpleIoc.Default.GetInstance<ContentTagsViewModel>().ContentCollection = new List<string> { model.Barcode };
+                PalletToContentTagsPagesMsg msg = new PalletToContentTagsPagesMsg
+                {
+                    Barcode = new List<string> { model.Barcode }
+                };
+                MessagingCenter.Send(msg, "PalletToContentTagsPagesMsg");
+                //SimpleIoc.Default.GetInstance<ContentTagsViewModel>().ContentCollection = new List<string> { model.Barcode };
             }
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
+            }
+        }
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            
+        }
+
+        public override void OnNavigatingTo(INavigationParameters parameters)
+        {
+            if (parameters.ContainsKey("LoadInfo"))
+            {
+                LoadInfo(parameters.GetValue<PalletResponseModel>("LoadInfo"));
+            }
+            if (parameters.ContainsKey("model"))
+            {
+                AssingIntialValueAsync(parameters.GetValue<SearchPalletResponseModel>("model"),true);
             }
         }
 

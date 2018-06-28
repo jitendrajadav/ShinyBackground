@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
-using KegID.DependencyServices;
 using KegID.Model;
 using KegID.Services;
 using KegID.Views;
 using Microsoft.AppCenter.Crashes;
+using Prism.Commands;
+using Prism.Navigation;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -17,7 +16,9 @@ namespace KegID.ViewModel
     public class PartnerInfoViewModel : BaseViewModel
     {
         #region Properties
+
         public IDashboardService _dashboardService { get; set; }
+        private readonly INavigationService _navigationService;
 
         string translatedNumber;
 
@@ -332,28 +333,30 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand PartnersCommand { get; }
-        public RelayCommand EditCommand { get; }
-        public RelayCommand KegsCommand { get; }
-        public RelayCommand ShipToCommand { get; }
-        public RelayCommand PhoneNumberCommand { get; }
-        public RelayCommand ContactEmailCommand { get;}
-        public RelayCommand SendKegsCommand { get;}
+        public DelegateCommand PartnersCommand { get; }
+        public DelegateCommand EditCommand { get; }
+        public DelegateCommand KegsCommand { get; }
+        public DelegateCommand ShipToCommand { get; }
+        public DelegateCommand PhoneNumberCommand { get; }
+        public DelegateCommand ContactEmailCommand { get;}
+        public DelegateCommand SendKegsCommand { get;}
         
         #endregion
 
         #region Constructor
 
-        public PartnerInfoViewModel(IDashboardService dashboardService)
+        public PartnerInfoViewModel(IDashboardService dashboardService, INavigationService navigationService)
         {
+            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+
             _dashboardService = dashboardService;
-            PartnersCommand = new RelayCommand(PartnersCommandRecieverAsync);
-            EditCommand = new RelayCommand(EditCommandRecieverAsync);
-            KegsCommand = new RelayCommand(KegsCommandRecieverAsync);
-            ShipToCommand = new RelayCommand(ShipToCommandRecieverAsync);
-            PhoneNumberCommand = new RelayCommand(PhoneNumberCommandReciever);
-            ContactEmailCommand = new RelayCommand(ContactEmailCommandRecieverAsync);
-            SendKegsCommand = new RelayCommand(SendKegsCommandRecieverAsync);
+            PartnersCommand = new DelegateCommand(PartnersCommandRecieverAsync);
+            EditCommand = new DelegateCommand(EditCommandRecieverAsync);
+            KegsCommand = new DelegateCommand(KegsCommandRecieverAsync);
+            ShipToCommand = new DelegateCommand(ShipToCommandRecieverAsync);
+            PhoneNumberCommand = new DelegateCommand(PhoneNumberCommandReciever);
+            ContactEmailCommand = new DelegateCommand(ContactEmailCommandRecieverAsync);
+            SendKegsCommand = new DelegateCommand(SendKegsCommandRecieverAsync);
 
             LoadPartnerInfoAsync();
         }
@@ -434,7 +437,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                PartnerInfoModel = await _dashboardService.GetPartnerInfoAsync(AppSettings.User.SessionId, SimpleIoc.Default.GetInstance<DashboardPartnersViewModel>().PartnerId);
+                PartnerInfoModel = await _dashboardService.GetPartnerInfoAsync(AppSettings.User.SessionId, AppSettings.User.DBPartnerId);
                 KegsHeld = PartnerInfoModel.KegsHeld.ToString();
                 Notes = PartnerInfoModel.Notes;
                 Ref = PartnerInfoModel.ReferenceKey;
@@ -450,8 +453,14 @@ namespace KegID.ViewModel
         {
             try
             {
-                SimpleIoc.Default.GetInstance<MoveViewModel>().AssignInitialValue(string.Empty, string.Empty, string.Empty, PartnerModel.FullName, PartnerModel.PartnerId, true);
-                await Application.Current.MainPage.Navigation.PushModalAsync(new MoveView(), animated: false);
+                //SimpleIoc.Default.GetInstance<MoveViewModel>().AssignInitialValue(string.Empty, string.Empty, string.Empty, PartnerModel.FullName, PartnerModel.PartnerId, true);
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new MoveView(), animated: false);
+                var param = new NavigationParameters
+                    {
+                        { "PartnerModel", PartnerModel }
+                    };
+                await _navigationService.NavigateAsync(new Uri("MoveView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+
             }
             catch (Exception ex)
             {
@@ -463,8 +472,14 @@ namespace KegID.ViewModel
         {
             try
             {
-                SimpleIoc.Default.GetInstance<PartnerInfoMapViewModel>().AssignInitialValue(PartnerInfoModel.Lat, PartnerInfoModel.Lon, PartnerInfoModel.BillAddress.City, PartnerInfoModel.BillAddress.Line1);
-                await Application.Current.MainPage.Navigation.PushModalAsync(new PartnerInfoMapView(), animated: false);
+                //SimpleIoc.Default.GetInstance<PartnerInfoMapViewModel>().AssignInitialValue(PartnerInfoModel.Lat, PartnerInfoModel.Lon, PartnerInfoModel.BillAddress.City, PartnerInfoModel.BillAddress.Line1);
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new PartnerInfoMapView(), animated: false);
+                var param = new NavigationParameters
+                    {
+                        { "PartnerInfoModel", PartnerInfoModel }
+                    };
+                await _navigationService.NavigateAsync(new Uri("PartnerInfoMapView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+
             }
             catch (Exception ex)
             {
@@ -476,7 +491,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PushModalAsync(new KegsView(), animated: false);
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new KegsView(), animated: false);
+                await _navigationService.NavigateAsync(new Uri("KegsView", UriKind.Relative), useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {
@@ -579,8 +595,14 @@ namespace KegID.ViewModel
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PushModalAsync(new AddPartnerView(), animated: false);
-                SimpleIoc.Default.GetInstance<AddPartnerViewModel>().LoadPartnerAsync(PartnerInfoModel);
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new AddPartnerView(), animated: false);
+                //SimpleIoc.Default.GetInstance<AddPartnerViewModel>().LoadPartnerAsync(PartnerInfoModel);
+                var param = new NavigationParameters
+                    {
+                        { "PartnerInfoModel", PartnerInfoModel }
+                    };
+                await _navigationService.NavigateAsync(new Uri("AddPartnerView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+
             }
             catch (Exception ex)
             {
@@ -592,12 +614,23 @@ namespace KegID.ViewModel
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PopModalAsync();
+                //await Application.Current.MainPage.Navigation.PopModalAsync();
+                await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
             }
+        }
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            
+        }
+
+        public override void OnNavigatingTo(INavigationParameters parameters)
+        {
+            
         }
 
         #endregion

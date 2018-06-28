@@ -5,8 +5,8 @@
              x:Class="KegID.Views.ManifestDetailView"
              BackgroundColor="{StaticResource pageBGColor}"
              xmlns:controls="clr-namespace:Plugin.CrossPlatformTintedImage.Abstractions;assembly=Plugin.CrossPlatformTintedImage.Abstractions"
-             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=ManifestDetail}">
-  
+             >
+    <!--BindingContext="{Binding Source={x:Static local:App.Locator}, Path=ManifestDetail}"-->
     <ContentPage.Content>
         
         <Grid

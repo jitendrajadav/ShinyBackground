@@ -1,16 +1,16 @@
 ﻿using System;
-using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Ioc;
 using KegID.Model;
-using KegID.Views;
 using Microsoft.AppCenter.Crashes;
-using Xamarin.Forms;
+using Prism.Commands;
+using Prism.Navigation;
 
 namespace KegID.ViewModel
 {
     public class SearchPalletViewModel : BaseViewModel
     {
         #region Properties
+
+        private readonly INavigationService _navigationService;
 
         #region PalletBarcode
 
@@ -221,19 +221,21 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand HomeCommand { get; }
-        public RelayCommand SearchCommand { get; }
-        public RelayCommand LocationCreatedCommand { get; }
+        public DelegateCommand HomeCommand { get; }
+        public DelegateCommand SearchCommand { get; }
+        public DelegateCommand LocationCreatedCommand { get; }
 
         #endregion
 
         #region Contructor
 
-        public SearchPalletViewModel()
+        public SearchPalletViewModel(INavigationService navigationService)
         {
-            HomeCommand = new RelayCommand(HomeCommandRecieverAsync);
-            SearchCommand = new RelayCommand(SearchCommandRecieverAsync);
-            LocationCreatedCommand = new RelayCommand(LocationCreatedCommandRecieverAsync);
+            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+
+            HomeCommand = new DelegateCommand(HomeCommandRecieverAsync);
+            SearchCommand = new DelegateCommand(SearchCommandRecieverAsync);
+            LocationCreatedCommand = new DelegateCommand(LocationCreatedCommandRecieverAsync);
         }
 
         #endregion
@@ -244,7 +246,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView(), animated: false);
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView(), animated: false);
+                await _navigationService.NavigateAsync(new Uri("PartnersView", UriKind.Relative), useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {
@@ -256,7 +259,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PopModalAsync();
+                //await Application.Current.MainPage.Navigation.PopModalAsync();
+                await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {
@@ -267,12 +271,31 @@ namespace KegID.ViewModel
         {
             try
             {
-                SimpleIoc.Default.GetInstance<PalletSearchedListViewModel>().GetPalletSearchAsync(PartnerModel?.PartnerId, FromDate.ToShortDateString(), ToDate.ToShortDateString(), string.Empty, string.Empty);
-                await Application.Current.MainPage.Navigation.PushModalAsync(new PalletSearchedListView(), animated: false);
+                //SimpleIoc.Default.GetInstance<PalletSearchedListViewModel>().GetPalletSearchAsync(PartnerModel?.PartnerId, FromDate.ToShortDateString(), ToDate.ToShortDateString(), string.Empty, string.Empty);
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new PalletSearchedListView(), animated: false);
+                var param = new NavigationParameters
+                    {
+                        { "GetPalletSearchAsync", PartnerModel?.PartnerId },{ "FromDate", FromDate.ToShortDateString() },{ "ToDate", ToDate.ToShortDateString() }
+                    };
+                await _navigationService.NavigateAsync(new Uri("PalletSearchedListView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+
             }
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
+            }
+        }
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            
+        }
+
+        public override void OnNavigatingTo(INavigationParameters parameters)
+        {
+            if (parameters.ContainsKey("model"))
+            {
+                PartnerModel = parameters.GetValue<PartnerModel>("model");
             }
         }
 

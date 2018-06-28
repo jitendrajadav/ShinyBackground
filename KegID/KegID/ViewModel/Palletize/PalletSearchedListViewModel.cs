@@ -1,12 +1,11 @@
-﻿using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Ioc;
-using KegID.Common;
+﻿using KegID.Common;
 using KegID.Model;
 using KegID.Services;
-using KegID.Views;
 using Microsoft.AppCenter.Crashes;
+using Prism.Commands;
+using Prism.Navigation;
+using System;
 using System.Collections.Generic;
-using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
@@ -14,6 +13,7 @@ namespace KegID.ViewModel
     {
         #region Properties
 
+        private readonly INavigationService _navigationService;
         public IDashboardService _dashboardService { get; set; }
 
         #region PalletSearchCollection
@@ -54,19 +54,21 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand BackCommand { get; }
-        public RelayCommand<SearchPalletResponseModel> ItemTappedCommand { get;}
+        public DelegateCommand BackCommand { get; }
+        public DelegateCommand<SearchPalletResponseModel> ItemTappedCommand { get;}
 
         #endregion
 
         #region Contructor
 
-        public PalletSearchedListViewModel(IDashboardService dashboardService)
+        public PalletSearchedListViewModel(IDashboardService dashboardService, INavigationService navigationService)
         {
+            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+
             _dashboardService = dashboardService;
 
-            BackCommand = new RelayCommand(BackCommandRecieverAsync);
-            ItemTappedCommand = new RelayCommand<SearchPalletResponseModel>((model) => ItemTappedCommandRecieverAsync(model));
+            BackCommand = new DelegateCommand(BackCommandRecieverAsync);
+            ItemTappedCommand = new DelegateCommand<SearchPalletResponseModel>((model) => ItemTappedCommandRecieverAsync(model));
         }
 
         #endregion
@@ -77,9 +79,10 @@ namespace KegID.ViewModel
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PopModalAsync();
+                //await Application.Current.MainPage.Navigation.PopModalAsync();
+                await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 Crashes.TrackError(ex);
             }
@@ -93,7 +96,7 @@ namespace KegID.ViewModel
                 var value = await _dashboardService.GetPalletSearchAsync(AppSettings.User.SessionId, string.Empty, fromDate, toDate, kegs, kegOwnerId);
                 PalletSearchCollection = value.SearchPalletResponseModel;
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 Crashes.TrackError(ex);
             }
@@ -103,12 +106,31 @@ namespace KegID.ViewModel
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PushModalAsync(new PalletizeDetailView(), animated: false);
-                SimpleIoc.Default.GetInstance<PalletizeDetailViewModel>().AssingIntialValueAsync(model, true);
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new PalletizeDetailView(), animated: false);
+                //SimpleIoc.Default.GetInstance<PalletizeDetailViewModel>().AssingIntialValueAsync(model, true);
+                var param = new NavigationParameters
+                    {
+                        { "model", model }
+                    };
+                await _navigationService.NavigateAsync(new Uri("PalletizeDetailView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 Crashes.TrackError(ex);
+            }
+        }
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+
+        }
+
+        public override void OnNavigatingTo(INavigationParameters parameters)
+        {
+            if (parameters.ContainsKey("GetPalletSearchAsync"))
+            {
+               GetPalletSearchAsync(parameters.GetValue<string>("GetPalletSearchAsync"), parameters.GetValue<string>("FromDate"), parameters.GetValue<string>("ToDate"),string.Empty,string.Empty);
             }
         }
 

@@ -1,46 +1,48 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:forms="clr-namespace:ZXing.Net.Mobile.Forms;assembly=ZXing.Net.Mobile.Forms"
              x:Class="KegID.Views.CognexScanView">
     
     <ContentPage.Content>
-      
+
         <Grid 
-            x:Name="gridMain" 
-            VerticalOptions="Fill" 
-            HorizontalOptions="Fill" 
-            BackgroundColor="#333333">
-            
+            HorizontalOptions="FillAndExpand" 
+            VerticalOptions="FillAndExpand">
+
             <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="50" />
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             
-            <Grid 
-                x:Name="gridContainer" 
-                VerticalOptions="Fill"
-                HorizontalOptions="Fill">
+            <forms:ZXingScannerView
+                x:Name="zxing"
+                IsScanning="{Binding IsScanning}" 
+                IsAnalyzing="{Binding IsAnalyzing}" 
+                Result="{Binding Result, Mode=TwoWay}" 
+                ScanResultCommand="{Binding QRScanResultCommand}"/>
 
-                <Grid 
-                    x:Name="gridCamera"/>
-
-                <StackLayout 
-                    x:Name="slResultContainer" 
-                    VerticalOptions="FillAndExpand" 
-                    HorizontalOptions="FillAndExpand"
-                    Orientation="Vertical">
-
-                    <ScrollView 
-                        x:Name="scrollViewResult"
-                        VerticalOptions="FillAndExpand" 
-                        HorizontalOptions="FillAndExpand" 
-                        Orientation="Vertical"/>
-
-                </StackLayout>
-            </Grid>
+            <forms:ZXingDefaultOverlay 
+                ShowFlashButton="True" 
+                FlashButtonClicked="ZXingDefaultOverlay_FlashButtonClicked"
+                Opacity="0.9"/>
             
+            <Label
+                Grid.Row="1"
+                VerticalOptions="End"
+                BackgroundColor="Transparent"
+                Text="{Binding BottonText,Mode=TwoWay}"/>
+            
+            <Button
+                Grid.Row="2"
+                HorizontalOptions="FillAndExpand"
+                BackgroundColor="White"
+                Command="{Binding DoneCommand}"
+                HeightRequest="50"
+                VerticalOptions="End"
+                Text="Done"/>
         </Grid>
-        
     </ContentPage.Content>
     
 </ContentPage>

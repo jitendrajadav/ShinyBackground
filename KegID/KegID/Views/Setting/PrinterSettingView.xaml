@@ -2,10 +2,9 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="KegID.Views.PrinterSettingView"
-             xmlns:local="clr-namespace:KegID"
              BackgroundColor="{StaticResource pageBGColor}"
-             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=PrinterSetting}">
-   
+             >
+    <!--BindingContext="{Binding Source={x:Static local:App.Locator}, Path=PrinterSetting}"-->
     <ContentPage.Content>
         
         <Grid
@@ -162,6 +161,7 @@
             <Entry
                 IsVisible="{Binding IsBluetoothOn,Converter={StaticResource InvertedBooleanConverter}}"
                 HorizontalOptions="FillAndExpand"
+                Text="{Binding IpAddress}"
                 Grid.Column="1"
                 Grid.Row="9"/>
 
@@ -177,6 +177,7 @@
             <Entry
                 IsVisible="{Binding IsBluetoothOn,Converter={StaticResource InvertedBooleanConverter}}"
                 HorizontalOptions="FillAndExpand"
+                Text="{Binding Port}"
                 Grid.Column="1"
                 Grid.Row="10"/>
 

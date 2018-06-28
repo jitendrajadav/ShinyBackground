@@ -1,17 +1,13 @@
-﻿using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Ioc;
-using KegID.Common;
-using KegID.Model;
+﻿using KegID.Model;
 using KegID.Services;
-using KegID.Views;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using Xamarin.Forms;
 using System.Linq;
 using System;
 using Microsoft.AppCenter.Crashes;
 using Realms;
 using KegID.LocalDb;
+using Prism.Commands;
+using Prism.Navigation;
 
 namespace KegID.ViewModel
 {
@@ -19,6 +15,7 @@ namespace KegID.ViewModel
     {
         #region Properties
 
+        private readonly INavigationService _navigationService;
         public IFillService _fillService { get; set; }
 
         #region BatchCollection
@@ -59,35 +56,34 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand<BatchModel> ItemTappedCommand { get;}
-        public RelayCommand AddBatchCommand { get; }
+        public DelegateCommand<BatchModel> ItemTappedCommand { get;}
+        public DelegateCommand AddBatchCommand { get; }
 
         #endregion
 
         #region Constructor
 
-        public BatchViewModel(IFillService fillService)
+        public BatchViewModel(IFillService fillService, INavigationService navigationService)
         {
+            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+
             _fillService = fillService;
-            ItemTappedCommand = new RelayCommand<BatchModel>((model) => ItemTappedCommandRecieverAsync(model));
-            AddBatchCommand = new RelayCommand(AddBatchCommandRecieverAsync);
-            LoadBatch();
+            ItemTappedCommand = new DelegateCommand<BatchModel>((model) => ItemTappedCommandRecieverAsync(model));
+            AddBatchCommand = new DelegateCommand(AddBatchCommandRecieverAsync);
+
+            LoadBatchAsync();
         }
 
         #endregion
 
         #region Methods
 
-        private async void LoadBatch()
-        {
-            await LoadBatchAsync();
-        }
-
         private async void AddBatchCommandRecieverAsync()
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PushModalAsync(new AddBatchView(), animated: false);
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new AddBatchView(), animated: false);
+                await _navigationService.NavigateAsync(new Uri("AddBatchView", UriKind.Relative), useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {
@@ -101,8 +97,12 @@ namespace KegID.ViewModel
             {
                 if (model != null)
                 {
-                    SimpleIoc.Default.GetInstance<FillViewModel>().NewBatchModel = model;
-                    await Application.Current.MainPage.Navigation.PopModalAsync();
+                    var param = new NavigationParameters
+                    {
+                        { "BatchModel", model }
+                    };
+                    await _navigationService.GoBackAsync(param, useModalNavigation: true, animated: false);
+
                 }
             }
             catch (Exception ex)
@@ -111,39 +111,27 @@ namespace KegID.ViewModel
             }
         }
 
-        public async Task<IList<BatchModel>> LoadBatchAsync()
+        public void LoadBatchAsync()
         {
             try
             {
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                 BatchCollection = RealmDb.All<BatchModel>().ToList();
-                if (BatchCollection.Count==0)
-                {
-                    Loader.StartLoading();
-
-                    var value = await _fillService.GetBatchListAsync(AppSettings.User.SessionId);
-                    if (value.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
-                    {
-                        BatchCollection = value.BatchModel.Where(p=>p.BrandName!= string.Empty).OrderBy(x => x.BrandName).ToList();
-                        RealmDb.Write(() => 
-                        {
-                            foreach (var item in BatchCollection)
-                            {
-                                RealmDb.Add(item);
-                            }
-                        });
-                    }
-                }
             }
             catch (Exception ex)
             {
                  Crashes.TrackError(ex);
             }
-            finally
-            {
-                Loader.StopLoading();
-            }
-            return BatchCollection;
+        }
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+
+        }
+
+        public override void OnNavigatingTo(INavigationParameters parameters)
+        {
+
         }
 
         #endregion

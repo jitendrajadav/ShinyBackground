@@ -1,11 +1,17 @@
-﻿using GalaSoft.MvvmLight.Command;
+﻿using KegID.Common;
+using KegID.Messages;
+using Prism.Commands;
+using Prism.Navigation;
 using System;
+using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
     public class AddTagsViewModel : BaseViewModel
     {
         #region Properties
+
+        private readonly INavigationService _navigationService;
 
         #region ProductionDate
 
@@ -79,15 +85,45 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand SaveCommand { get; }
+        public DelegateCommand SaveCommand { get; }
 
         #endregion
 
         #region Contructor
 
-        public AddTagsViewModel()
+        public AddTagsViewModel(INavigationService navigationService)
         {
+            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+            HandleReceivedMessages();
+        }
 
+        private void HandleReceivedMessages()
+        {
+            MessagingCenter.Subscribe<PagesMessage>(this, "PagesMessage", message =>
+            {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    var value = message;
+                    if (value != null)
+                    {
+                        var param = new NavigationParameters
+                                {
+                                    { "Tags", ConstantManager.Tags }
+                                };
+                        await _navigationService.GoBackAsync(param, useModalNavigation: true, animated: false);
+                    }
+                });
+            });
+        }
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            MessagingCenter.Unsubscribe<PagesMessage>(this, "PagesMessage");
+        }
+
+        public override void OnNavigatingTo(INavigationParameters parameters)
+        {
+            
         }
 
         #endregion

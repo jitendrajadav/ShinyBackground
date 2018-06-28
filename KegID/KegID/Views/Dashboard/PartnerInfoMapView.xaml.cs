@@ -1,5 +1,4 @@
-﻿using GalaSoft.MvvmLight.Ioc;
-using KegID.ViewModel;
+﻿using KegID.Common;
 using System.Diagnostics;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
@@ -30,7 +29,7 @@ namespace KegID.Views
         {
 
             //var position = new Position(Geolocation.savedPosition.Latitude, Geolocation.savedPosition.Longitude); // Latitude, Longitude
-            var model = SimpleIoc.Default.GetInstance<PartnerInfoMapViewModel>().Position;
+            var model = ConstantManager.Position;// SimpleIoc.Default.GetInstance<PartnerInfoMapViewModel>().Position;
             var position = new Position(model.Lat, model.Lon);
             var pin = new Pin
             {

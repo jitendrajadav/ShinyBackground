@@ -1,10 +1,10 @@
 ﻿using System;
-using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
+using KegID.Messages;
 using KegID.Services;
-using KegID.Views;
 using Microsoft.AppCenter.Crashes;
+using Prism.Commands;
+using Prism.Navigation;
 using Rg.Plugins.Popup.Extensions;
 using Xamarin.Forms;
 
@@ -14,29 +14,32 @@ namespace KegID.ViewModel
     {
         #region Properties
 
+        private readonly INavigationService _navigationService;
         public IDashboardService _dashboardService { get; set; }
 
         #endregion
 
         #region Commands
 
-        public RelayCommand PrinterSettingCommand { get; }
-        public RelayCommand WhatsNewCommand { get; }
-        public RelayCommand SupportCommand { get; }
-        public RelayCommand LogOutSettingCommand { get; }
-        public RelayCommand RefreshSettingCommand { get; }
+        public DelegateCommand PrinterSettingCommand { get; }
+        public DelegateCommand WhatsNewCommand { get; }
+        public DelegateCommand SupportCommand { get; }
+        public DelegateCommand LogOutSettingCommand { get; }
+        public DelegateCommand RefreshSettingCommand { get; }
 
         #endregion
 
         #region Constructor
 
-        public SettingViewModel(IDashboardService dashboardService)
+        public SettingViewModel(IDashboardService dashboardService, INavigationService navigationService)
         {
-            RefreshSettingCommand = new RelayCommand(RefreshSettingCommandRecieverAsync);
-            WhatsNewCommand = new RelayCommand(WhatsNewCommandRecieverAsync);
-            SupportCommand = new RelayCommand(SupportCommandRecieverAsync);
-            PrinterSettingCommand = new RelayCommand(PrinterSettingCommandRecieverAsync);
-            LogOutSettingCommand = new RelayCommand(LogOutSettingCommandRecieverAsync);
+            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+
+            RefreshSettingCommand = new DelegateCommand(RefreshSettingCommandRecieverAsync);
+            WhatsNewCommand = new DelegateCommand(WhatsNewCommandRecieverAsync);
+            SupportCommand = new DelegateCommand(SupportCommandRecieverAsync);
+            PrinterSettingCommand = new DelegateCommand(PrinterSettingCommandRecieverAsync);
+            LogOutSettingCommand = new DelegateCommand(LogOutSettingCommandRecieverAsync);
         }
 
         #endregion
@@ -47,7 +50,12 @@ namespace KegID.ViewModel
         {
             try
             {
-                SimpleIoc.Default.GetInstance<DashboardViewModel>().RefreshDashboardRecieverAsync(true);
+                //SimpleIoc.Default.GetInstance<DashboardViewModel>().RefreshDashboardRecieverAsync(true);
+                SettingToDashboardMsg msg = new SettingToDashboardMsg
+                {
+                    IsRefresh = true
+                };
+                MessagingCenter.Send(msg, "SettingToDashboardMsg");
             }
             catch (Exception ex)
             {
@@ -70,8 +78,11 @@ namespace KegID.ViewModel
                     {
                          Crashes.TrackError(ex);
                     }
-                    await Application.Current.MainPage.Navigation.PopPopupAsync();
-                    await Application.Current.MainPage.Navigation.PopModalAsync();
+                    //await Application.Current.MainPage.Navigation.PopPopupAsync();
+                    //await Application.Current.MainPage.Navigation.PopModalAsync();
+                    await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+                    await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+
                 }
             }
             catch (Exception ex)
@@ -84,8 +95,19 @@ namespace KegID.ViewModel
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PopPopupAsync();
-                await Application.Current.MainPage.Navigation.PushModalAsync(new PrinterSettingView(), animated: false);
+                //await Application.Current.MainPage.Navigation.PopPopupAsync();
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new PrinterSettingView(), animated: false);
+                //await _navigationService.GoBackAsync(useModalNavigation: true);
+                try
+                {
+                    await _navigationService.NavigateAsync(new Uri("PrinterSettingView", UriKind.Relative), useModalNavigation: true, animated: false);
+                }
+                catch (Exception ex)
+                {
+
+                }
+                await _navigationService.ClearPopupStackAsync("SettingView", null);
+
             }
             catch (Exception ex)
             {
@@ -97,8 +119,11 @@ namespace KegID.ViewModel
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PopPopupAsync();
-                await Application.Current.MainPage.Navigation.PushModalAsync(new WhatIsNewView(), animated: false);
+                //await Application.Current.MainPage.Navigation.PopPopupAsync();
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new WhatIsNewView(), animated: false);
+                await _navigationService.NavigateAsync(new Uri("WhatIsNewView", UriKind.Relative), useModalNavigation: true, animated: false);
+                await _navigationService.ClearPopupStackAsync("SettingView", null);
+
             }
             catch (Exception ex)
             {
@@ -121,6 +146,16 @@ namespace KegID.ViewModel
             {
                 Crashes.TrackError(ex);
             }
+        }
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            
+        }
+
+        public override void OnNavigatingTo(INavigationParameters parameters)
+        {
+            
         }
 
         #endregion

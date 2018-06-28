@@ -1,13 +1,11 @@
-﻿using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Ioc;
-using KegID.Common;
+﻿using KegID.Common;
 using KegID.Model;
 using KegID.Services;
-using KegID.Views;
 using Microsoft.AppCenter.Crashes;
+using Prism.Commands;
+using Prism.Navigation;
 using System;
 using System.Collections.Generic;
-using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
@@ -15,6 +13,7 @@ namespace KegID.ViewModel
     {
         #region Properties
 
+        private readonly INavigationService _navigationService;
         public IMoveService _moveService { get; set; }
 
         #region SearchManifestsCollection
@@ -55,19 +54,21 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand<ManifestSearchResponseModel> ItemTappedCommand { get; }
-        public RelayCommand SearchManifestsCommand { get; }
+        public DelegateCommand<ManifestSearchResponseModel> ItemTappedCommand { get; }
+        public DelegateCommand SearchManifestsCommand { get; }
 
         #endregion
 
         #region Constructor
 
-        public SearchedManifestsListViewModel(IMoveService moveService)
+        public SearchedManifestsListViewModel(IMoveService moveService, INavigationService navigationService)
         {
+            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+
             _moveService = moveService;
 
-            ItemTappedCommand = new RelayCommand<ManifestSearchResponseModel>((model) => ItemTappedCommandRecieverAsync(model));
-            SearchManifestsCommand = new RelayCommand(SearchManifestsCommandRecieverAsync);
+            ItemTappedCommand = new DelegateCommand<ManifestSearchResponseModel>((model) => ItemTappedCommandRecieverAsync(model));
+            SearchManifestsCommand = new DelegateCommand(SearchManifestsCommandRecieverAsync);
         }
 
         #endregion
@@ -78,7 +79,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PopModalAsync();
+                await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+                //await Application.Current.MainPage.Navigation.PopModalAsync();
             }
             catch (Exception ex)
             {
@@ -95,10 +97,16 @@ namespace KegID.ViewModel
                 var manifest = await _moveService.GetManifestAsync(AppSettings.User.SessionId, model.ManifestId);
                 if (manifest.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                 {
-                    SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().AssignInitialValue(manifest,string.Empty);
+                    //SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().AssignInitialValue(manifest,string.Empty);
 
                     Loader.StopLoading();
-                    await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestDetailView(), animated: false);
+                    //await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestDetailView(), animated: false);
+                    var param = new NavigationParameters
+                    {
+                        { "manifest", manifest }
+                    };
+                    await _navigationService.NavigateAsync(new Uri("ManifestDetailView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+
                 }
             }
             catch (Exception ex)
@@ -108,6 +116,19 @@ namespace KegID.ViewModel
             finally
             {
                 Loader.StopLoading();
+            }
+        }
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            
+        }
+
+        public override void OnNavigatingTo(INavigationParameters parameters)
+        {
+            if (parameters.ContainsKey("SearchManifestsCollection"))
+            {
+                SearchManifestsCollection = parameters.GetValue<IList<ManifestSearchResponseModel>>("SearchManifestsCollection");
             }
         }
 

@@ -4,8 +4,8 @@
              x:Class="KegID.Views.ContentTagsView"
              xmlns:local="clr-namespace:KegID"
              BackgroundColor="{StaticResource pageBGColor}"
-             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=ContentTags}">
-   
+            >
+    <!--BindingContext="{Binding Source={x:Static local:App.Locator}, Path=ContentTags}"-->
     <ContentPage.Content>
        
         <Grid>

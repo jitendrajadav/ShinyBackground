@@ -1,12 +1,15 @@
-﻿using GalaSoft.MvvmLight.Command;
+﻿using Prism.Commands;
+using Prism.Navigation;
+using System;
 using System.Collections.Generic;
-using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
     public class ContentTagsViewModel : BaseViewModel
     {
         #region Properties
+
+        private readonly INavigationService _navigationService;
 
         #region ContentCollection
 
@@ -46,22 +49,36 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand ManifestCommand { get; }
+        public DelegateCommand ManifestCommand { get; }
 
         #endregion
 
         #region Constructor
 
-        public ContentTagsViewModel()
+        public ContentTagsViewModel(INavigationService navigationService)
         {
-            ManifestCommand = new RelayCommand(ManifestCommandRecieverAsync);
+            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+
+            ManifestCommand = new DelegateCommand(ManifestCommandRecieverAsync);
         }
 
         #endregion
 
         #region Methods
 
-        private async void ManifestCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PopModalAsync();
+        private async void ManifestCommandRecieverAsync()
+        {
+            //await Application.Current.MainPage.Navigation.PopModalAsync();
+            await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+        }
+
+        public override void OnNavigatingTo(INavigationParameters parameters)
+        {
+            if (parameters.ContainsKey("Barcode"))
+            {
+                ContentCollection = parameters.GetValue<List<string>>("Barcode");
+            }
+        }
 
         #endregion
     }

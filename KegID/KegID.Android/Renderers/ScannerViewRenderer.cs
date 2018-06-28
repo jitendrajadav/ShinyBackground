@@ -77,17 +77,17 @@ namespace KegID.Droid.Renderers
                 SetNativeControl(rlMainContainer);
 
             // views
-            tvConnectionStatus = CognexScanView._lblStatus;
-            tvSymbology = CognexScanView._lblResultType;
-            tvCode = CognexScanView._lblResult;
+            //tvConnectionStatus = CognexScanView._lblStatus;
+            //tvSymbology = CognexScanView._lblResultType;
+            //tvCode = CognexScanView._lblResult;
 
-            Xamarin.Forms.ToolbarItem toolbarItemSelectDevice = CognexScanView._toolbarItemSelectDevice;
-            toolbarItemSelectDevice.Clicked += (sender, eve) =>
-            {
-                PickDevice(true);
-            };
+            //Xamarin.Forms.ToolbarItem toolbarItemSelectDevice = CognexScanView._toolbarItemSelectDevice;
+            //toolbarItemSelectDevice.Clicked += (sender, eve) =>
+            //{
+            //    PickDevice(true);
+            //};
 
-            btnScan = CognexScanView._btnScan;
+            //btnScan = CognexScanView._btnScan;
             btnScan.IsEnabled = false;
             btnScan.Clicked += (sender, ev) =>
             {

@@ -48,7 +48,7 @@ namespace KegID.PrintTemplates
                 Children = { selectPrinterBtn, aboutBtn }
             };
 
-            SelectPrinterView.OnPrinterSelected += SelectPrinterView_OnPrinterSelected;
+            //SelectPrinterView.OnPrinterSelected += SelectPrinterView_OnPrinterSelected;
 
             Children.Add(printerLbl);
             Children.Add(topSection);

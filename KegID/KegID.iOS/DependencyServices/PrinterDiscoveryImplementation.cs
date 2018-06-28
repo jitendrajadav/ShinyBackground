@@ -29,12 +29,12 @@ namespace KegID.iOS.DependencyServices
 
         public void FindUSBPrinters(IDiscoveryHandler handler)
         {
-            throw new NotImplementedException();
+            
         }
 
         public void RequestUSBPermission(IDiscoveredPrinterUsb printer)
         {
-            throw new NotImplementedException();
+            
         }
     }
 

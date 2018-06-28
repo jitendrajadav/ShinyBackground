@@ -18,7 +18,7 @@ namespace KegID.Services
             string url = string.Format(Configuration.GetOwner, sessionId);
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
-            model.OwnerModel = DeserializeObject<IList<OwnerModel>>(value.Response, GetJsonSetting());
+            model.OwnerModel = !string.IsNullOrEmpty(value.Response) ? DeserializeObject<IList<OwnerModel>>(value.Response, GetJsonSetting()) : new List<OwnerModel>();
             model.Response.StatusCode = value.StatusCode;
 
             return model;
@@ -33,13 +33,13 @@ namespace KegID.Services
             string url = string.Format(Configuration.GetBrandUrl, sessionId);
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
-            model.BrandModel = DeserializeObject<IList<BrandModel>>(value.Response, GetJsonSetting());
+            model.BrandModel = !string.IsNullOrEmpty(value.Response) ? DeserializeObject<IList<BrandModel>>(value.Response, GetJsonSetting()) : new List<BrandModel>();
             model.Response.StatusCode = value.StatusCode;
 
             return model;
         }
 
-        public async Task<ManifestResponseModel> GetManifestAsync(string sessionId,string manifestId)
+        public async Task<ManifestResponseModel> GetManifestAsync(string sessionId, string manifestId)
         {
             string url = string.Format(Configuration.GetManifestUrl, manifestId, sessionId);
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
@@ -64,7 +64,7 @@ namespace KegID.Services
             string url = string.Format(Configuration.GetPartnerBySesssionIdUrl, sessionId);
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
-            model.PartnerModel = DeserializeObject<IList<PartnerModel>>(value.Response, GetJsonSetting());
+            model.PartnerModel = !string.IsNullOrEmpty(value.Response) ? DeserializeObject<IList<PartnerModel>>(value.Response, GetJsonSetting()) : new List<PartnerModel>();
             model.Response.StatusCode = value.StatusCode;
 
             return model;
@@ -79,7 +79,7 @@ namespace KegID.Services
             string url = string.Format(Configuration.GetPartnerTypeUrl, sessionId);
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
-            model.PartnerTypeModel = DeserializeObject<IList<PartnerTypeModel>>(value.Response, GetJsonSetting());
+            model.PartnerTypeModel = !string.IsNullOrEmpty(value.Response) ? DeserializeObject<IList<PartnerTypeModel>>(value.Response, GetJsonSetting()) : new List<PartnerTypeModel>();
             model.Response.StatusCode = value.StatusCode;
 
             return model;
@@ -90,7 +90,7 @@ namespace KegID.Services
             string url = string.Format(Configuration.GetValidateBarcodeUrl, barcode, sessionId);
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
-            var model = value.Response!= null? DeserializeObject<BarcodeModel>(value.Response, GetJsonSetting()) : new BarcodeModel();
+            var model = !string.IsNullOrEmpty(value.Response) ? DeserializeObject<BarcodeModel>(value.Response, GetJsonSetting()) : new BarcodeModel();
             if (model != null)
             {
                 model.Response = new KegIDResponse
@@ -110,7 +110,7 @@ namespace KegID.Services
             string url = string.Format(Configuration.GetPartnerSearchUrl, sessionId, search, internalonly, includepublic);
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
-            model.PartnerModel = DeserializeObject<IList<PartnerModel>>(value.Response, GetJsonSetting());
+            model.PartnerModel = !string.IsNullOrEmpty(value.Response) ? DeserializeObject<IList<PartnerModel>>(value.Response, GetJsonSetting()) : new List<PartnerModel>();
             model.Response.StatusCode = value.StatusCode;
 
             return model;
@@ -120,17 +120,17 @@ namespace KegID.Services
         {
             string url = string.Format(Configuration.GetAssetSize, sessionId, assignableOnly);
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
-            return DeserializeObject<IList<string>>(value.Response, GetJsonSetting());
+            return !string.IsNullOrEmpty(value.Response) ? DeserializeObject<IList<string>>(value.Response, GetJsonSetting()) : new List<string>();
         }
 
         public async Task<IList<string>> GetAssetTypeAsync(string sessionId, bool assignableOnly)
         {
             string url = string.Format(Configuration.GetAssetType, sessionId, assignableOnly);
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
-            return DeserializeObject<IList<string>>(value.Response, GetJsonSetting());
+            return !string.IsNullOrEmpty(value.Response) ? DeserializeObject<IList<string>>(value.Response, GetJsonSetting()) : new List<string>();
         }
 
-        public async Task<ManifestSearchModel> GetManifestSearchAsync(string sessionId, string trackingNumber,string barcode, string senderId, string destinationId, string referenceKey,string fromDate, string toDate)
+        public async Task<ManifestSearchModel> GetManifestSearchAsync(string sessionId, string trackingNumber, string barcode, string senderId, string destinationId, string referenceKey, string fromDate, string toDate)
         {
             ManifestSearchModel model = new ManifestSearchModel
             {
@@ -139,7 +139,7 @@ namespace KegID.Services
             string url = string.Format(Configuration.GetManifestSearchUrl, sessionId, trackingNumber, barcode, senderId, destinationId, referenceKey, fromDate, toDate);
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
-            model.ManifestSearchResponseModel = DeserializeObject<IList<ManifestSearchResponseModel>>(value.Response, GetJsonSetting());
+            model.ManifestSearchResponseModel = !string.IsNullOrEmpty(value.Response) ? DeserializeObject<IList<ManifestSearchResponseModel>>(value.Response, GetJsonSetting()) : new List<ManifestSearchResponseModel>();
             model.Response.StatusCode = value.StatusCode;
 
             return model;
@@ -151,7 +151,7 @@ namespace KegID.Services
             string content = JsonConvert.SerializeObject(inModel);
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Send, content, RequestType: RequestType);
 
-            var outModel = value.Response != null ? DeserializeObject<ManifestModelGet>(value.Response, GetJsonSetting()) : new ManifestModelGet();
+            var outModel = !string.IsNullOrEmpty(value.Response) ? DeserializeObject<ManifestModelGet>(value.Response, GetJsonSetting()) : new ManifestModelGet();
             if (outModel != null)
             {
                 outModel.Response = new KegIDResponse
@@ -182,7 +182,7 @@ namespace KegID.Services
 
             var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Send, content, RequestType: RequestType);
 
-            var outModel = DeserializeObject<NewPartnerResponseModel>(value.Response, GetJsonSetting());
+            var outModel = !string.IsNullOrEmpty(value.Response) ? DeserializeObject<NewPartnerResponseModel>(value.Response, GetJsonSetting()) : new NewPartnerResponseModel();
             if (outModel != null)
             {
                 outModel.Response = new KegIDResponse

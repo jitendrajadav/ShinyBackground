@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
 using KegID.Model;
 using KegID.Services;
 using Microsoft.AppCenter.Crashes;
-using Xamarin.Forms;
+using Prism.Commands;
+using Prism.Navigation;
 
 namespace KegID.ViewModel
 {
@@ -14,6 +13,7 @@ namespace KegID.ViewModel
     {
         #region Properties
 
+        private readonly INavigationService _navigationService;
         public IMoveService _moveService { get; set; }
 
         #region BackPartners
@@ -122,22 +122,24 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand BackPartnersCommand { get; }
-        public RelayCommand PartnerSearchCommand { get; }
-        public RelayCommand<PartnerModel> ItemTappedCommand { get; }
+        public DelegateCommand BackPartnersCommand { get; }
+        public DelegateCommand PartnerSearchCommand { get; }
+        public DelegateCommand<PartnerModel> ItemTappedCommand { get; }
 
         #endregion
 
         #region Contructor
 
-        public SearchPartnersViewModel(IMoveService moveService)
+        public SearchPartnersViewModel(IMoveService moveService, INavigationService navigationService)
         {
+            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+
             _moveService = moveService;
 
             BackPartners = "< Partners";
-            BackPartnersCommand = new RelayCommand(BackPartnersCommandRecieverAsync);
-            PartnerSearchCommand = new RelayCommand(PartnerSearchCommandRecieverAsync);
-            ItemTappedCommand = new RelayCommand<PartnerModel>((model) => ItemTappedCommandRecieverAsync(model));
+            BackPartnersCommand = new DelegateCommand(BackPartnersCommandRecieverAsync);
+            PartnerSearchCommand = new DelegateCommand(PartnerSearchCommandRecieverAsync);
+            ItemTappedCommand = new DelegateCommand<PartnerModel>((model) => ItemTappedCommandRecieverAsync(model));
         }
 
         #endregion
@@ -167,7 +169,11 @@ namespace KegID.ViewModel
             }
         }
 
-        private async void BackPartnersCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PopModalAsync();
+        private async void BackPartnersCommandRecieverAsync()
+        {
+            //await Application.Current.MainPage.Navigation.PopModalAsync();
+            await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+        }
 
         private async void ItemTappedCommandRecieverAsync(PartnerModel model)
         {
@@ -175,15 +181,28 @@ namespace KegID.ViewModel
             {
                 if (model != null)
                 {
-                    SimpleIoc.Default.GetInstance<MoveViewModel>().PartnerModel = model;
-                    await Application.Current.MainPage.Navigation.PopModalAsync();
-                    await Application.Current.MainPage.Navigation.PopModalAsync();
+                    //SimpleIoc.Default.GetInstance<MoveViewModel>().PartnerModel = model;
+                    ConstantManager.Partner = model;
+                    //await Application.Current.MainPage.Navigation.PopModalAsync();
+                    //await Application.Current.MainPage.Navigation.PopModalAsync();
+                    await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+                    await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
                 }
             }
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
             }
+        }
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            
+        }
+
+        public override void OnNavigatingTo(INavigationParameters parameters)
+        {
+            
         }
 
         #endregion

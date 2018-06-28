@@ -36,6 +36,11 @@ namespace KegID.Converter
             return value;
         }
 
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <param name="value">To be added.</param>
         /// <param name="targetType">To be added.</param>
         /// <param name="parameter">To be added.</param>
@@ -44,10 +49,10 @@ namespace KegID.Converter
         /// Converts the back.
         /// </summary>
         /// <returns>The back.</returns>
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
+        //public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        //{
+
+        //}
     }
 
 }

@@ -1,12 +1,12 @@
-﻿using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Ioc;
-using KegID.Common;
+﻿using KegID.Common;
 using KegID.LocalDb;
 using KegID.Model;
 using KegID.Services;
 using KegID.Views;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
+using Prism.Commands;
+using Prism.Navigation;
 using Realms;
 using System;
 using System.Linq;
@@ -19,8 +19,12 @@ namespace KegID.ViewModel
 
         #region Properties
 
-        public readonly IAccountService AccountService;
-        public readonly IMaintainService MaintainService;
+        public static IAccountService _accountService { get; set; }
+        private static IMoveService _moveService { get; set; }
+        private static IMaintainService _maintainService { get; set; }
+        private static IDashboardService _dashboardService { get; set; }
+        private static IFillService _fillService { get; set; }
+        INavigationService _navigationService;
 
         #region Username
 
@@ -128,20 +132,23 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand LoginCommand { get; }
-        public RelayCommand KegIDCommand { get; }
+        public DelegateCommand LoginCommand { get; }
+        public DelegateCommand KegIDCommand { get; }
 
         #endregion
 
         #region Constructor
 
-        public LoginViewModel(IAccountService _accountService, IMaintainService _maintainService)
+        public LoginViewModel(IAccountService accountService, INavigationService navigationService, IMoveService moveService, IMaintainService maintainService, IDashboardService dashboardService, IFillService fillService)
         {
-            //_loginService = loginService;
-            AccountService = _accountService;
-            MaintainService = _maintainService;
-            LoginCommand = new RelayCommand(LoginCommandRecieverAsync);
-            KegIDCommand = new RelayCommand(KegIDCommandReciever);
+            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+            _accountService = accountService;
+            _moveService = moveService;
+            _maintainService = maintainService;
+            _dashboardService = dashboardService;
+            _fillService = fillService;
+            LoginCommand = new DelegateCommand(LoginCommandRecieverAsync);
+            KegIDCommand = new DelegateCommand(KegIDCommandReciever);
 
             Username = "test@kegid.com";
             Password = "beer2keg";
@@ -166,7 +173,7 @@ namespace KegID.ViewModel
             try
             {
                 Loader.StartLoading();
-                var model = await AccountService.AuthenticateAsync(Username, Password);
+                var model = await _accountService.AuthenticateAsync(Username, Password);
                 if (model.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                 {
                     try
@@ -189,7 +196,23 @@ namespace KegID.ViewModel
                         Crashes.TrackError(ex);
                     }
 
-                    await Application.Current.MainPage.Navigation.PushModalAsync(page: new MainPage(), animated: false);
+                    try
+                    {
+                        var formsNav = ((Prism.Common.IPageAware)_navigationService).Page;
+                        var value1=  formsNav.Navigation.ModalStack.LastOrDefault();
+                        var value2 = formsNav.Navigation.NavigationStack.LastOrDefault();
+
+                        await _navigationService.NavigateAsync(new Uri("../MainPage", UriKind.Relative),useModalNavigation:true, animated: false);
+
+                        var formsNav1 = ((Prism.Common.IPageAware)_navigationService).Page;
+                        var value3 = formsNav1.Navigation.ModalStack.LastOrDefault();
+                        var value4 = formsNav1.Navigation.NavigationStack.LastOrDefault();
+
+                    }
+                    catch (Exception ex)
+                    {
+                    }                    
+                    //await Application.Current.MainPage.Navigation.PushModalAsync(page: new MainPage(), animated: false);
                     try
                     {
                         var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
@@ -200,7 +223,7 @@ namespace KegID.ViewModel
                         });
                         var vAllEmployees = RealmDb.All<LoginModel>();
 
-                        var maintenance = await MaintainService.GetMaintainTypeAsync(AppSettings.User.SessionId);
+                        var maintenance = await _maintainService.GetMaintainTypeAsync(AppSettings.User.SessionId);
 
                         RealmDb.Write(() =>
                         {
@@ -210,16 +233,15 @@ namespace KegID.ViewModel
                            }
                         });
 
-                        await InitializeMetaData.LoadInitializeMetaData();
-                        SimpleIoc.Default.GetInstance<DashboardViewModel>().RefreshDashboardRecieverAsync(true);
-
+                        await InitializeMetaData.LoadInitializeMetaData(_moveService,_dashboardService,_maintainService, _fillService);
+                        //SimpleIoc.Default.GetInstance<DashboardViewModel>().RefreshDashboardRecieverAsync(true);
                     }
                     catch (Exception ex)
                     {
                         Crashes.TrackError(ex);
                     }
 
-                    Application.Current.MainPage = new MainPage();
+                    //Application.Current.MainPage = new MainPage();
                 }
                 else
                 {
@@ -249,6 +271,16 @@ namespace KegID.ViewModel
             {
                 Crashes.TrackError(ex);
             }
+        }
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            
+        }
+
+        public override void OnNavigatingTo(INavigationParameters parameters)
+        {
+            
         }
 
         #endregion

@@ -1,18 +1,18 @@
-﻿using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Ioc;
-using KegID.Common;
+﻿using KegID.Common;
 using KegID.Model;
-using KegID.Views;
 using Microsoft.AppCenter.Crashes;
+using Prism.Commands;
+using Prism.Navigation;
 using System;
 using System.Collections.Generic;
-using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
     public class AddBatchViewModel : BaseViewModel
     {
         #region Properties
+
+        private readonly INavigationService _navigationService;
 
         #region BrandButtonTitle
 
@@ -427,23 +427,25 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand AddTagsCommand { get;}
-        public RelayCommand CancelCommand { get; }
-        public RelayCommand DoneCommand { get;}
-        public RelayCommand BrandCommand { get; }
-        public RelayCommand VolumeCharCommand { get; }
+        public DelegateCommand AddTagsCommand { get;}
+        public DelegateCommand CancelCommand { get; }
+        public DelegateCommand DoneCommand { get;}
+        public DelegateCommand BrandCommand { get; }
+        public DelegateCommand VolumeCharCommand { get; }
 
         #endregion
 
         #region Constructor
 
-        public AddBatchViewModel()
+        public AddBatchViewModel(INavigationService navigationService)
         {
-            AddTagsCommand = new RelayCommand(AddTagsCommandRecieverAsync);
-            CancelCommand = new RelayCommand(CancelCommandRecieverAsync);
-            DoneCommand = new RelayCommand(DoneCommandRecieverAsync);
-            BrandCommand = new RelayCommand(BrandCommandRecieverAsync);
-            VolumeCharCommand = new RelayCommand(VolumeCharCommandRecieverAsync);
+            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+
+            AddTagsCommand = new DelegateCommand(AddTagsCommandRecieverAsync);
+            CancelCommand = new DelegateCommand(CancelCommandRecieverAsync);
+            DoneCommand = new DelegateCommand(DoneCommandRecieverAsync);
+            BrandCommand = new DelegateCommand(BrandCommandRecieverAsync);
+            VolumeCharCommand = new DelegateCommand(VolumeCharCommandRecieverAsync);
         }
 
         #endregion
@@ -454,7 +456,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PushModalAsync(new VolumeView(), animated: false);
+                await _navigationService.NavigateAsync(new Uri("VolumeView", UriKind.Relative), useModalNavigation: true, animated: false);
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new VolumeView(), animated: false);
             }
             catch (Exception ex)
             {
@@ -466,7 +469,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PushModalAsync(new BrandView(), animated: false);
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new BrandView(), animated: false);
+                await _navigationService.NavigateAsync(new Uri("BrandView", UriKind.Relative), useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {
@@ -497,9 +501,11 @@ namespace KegID.ViewModel
                 NewBatchModel.SourceKey = "";
 
                 //var result = await _fillService.PostBatchAsync(batchRequestModel, Configuration.SessionId, Configuration.NewBatch);
-                SimpleIoc.Default.GetInstance<FillViewModel>().BatchButtonTitle = BrandButtonTitle + BatchCode;
-                await Application.Current.MainPage.Navigation.PopModalAsync();
-                await Application.Current.MainPage.Navigation.PopModalAsync();
+                //SimpleIoc.Default.GetInstance<FillViewModel>().BatchButtonTitle = BrandButtonTitle + BatchCode;
+                //await Application.Current.MainPage.Navigation.PopModalAsync();
+                //await Application.Current.MainPage.Navigation.PopModalAsync();
+                await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+                await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {
@@ -511,7 +517,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PopModalAsync();
+                //await Application.Current.MainPage.Navigation.PopModalAsync();
+                await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {
@@ -523,7 +530,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView(), animated: false);
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView(), animated: false);
+                await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {
@@ -542,6 +550,16 @@ namespace KegID.ViewModel
             {
                 Crashes.TrackError(ex);
             }
+        }
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+
+        }
+
+        public override void OnNavigatingTo(INavigationParameters parameters)
+        {
+
         }
 
         #endregion

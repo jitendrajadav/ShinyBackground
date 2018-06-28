@@ -1,15 +1,20 @@
-﻿using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Ioc;
+﻿using KegID.LocalDb;
 using KegID.Model;
 using Microsoft.AppCenter.Crashes;
+using Prism.Commands;
+using Prism.Navigation;
+using Realms;
+using System;
 using System.Collections.Generic;
-using Xamarin.Forms;
+using System.Linq;
 
 namespace KegID.ViewModel
 {
     public class BrandViewModel : BaseViewModel
     {
         #region Properties
+
+        private readonly INavigationService _navigationService;
 
         #region BrandCollection
 
@@ -49,15 +54,17 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand<BrandModel> ItemTappedCommand { get; }
+        public DelegateCommand<BrandModel> ItemTappedCommand { get; }
 
         #endregion
 
         #region Constructor
 
-        public BrandViewModel()
+        public BrandViewModel(INavigationService navigationService)
         {
-            ItemTappedCommand = new RelayCommand<BrandModel>((model)=>ItemTappedCommandRecieverAsync(model));
+            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+
+            ItemTappedCommand = new DelegateCommand<BrandModel>((model)=>ItemTappedCommandRecieverAsync(model));
             LoadBrand();
         }
 
@@ -69,9 +76,13 @@ namespace KegID.ViewModel
         {
             try
             {
-                BrandCollection = SimpleIoc.Default.GetInstance<ScanKegsViewModel>().LoadBrandAsync();
+                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                var all = RealmDb.All<BrandModel>().ToList();
+
+                BrandCollection = all;
+                // SimpleIoc.Default.GetInstance<ScanKegsViewModel>().LoadBrandAsync();
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 Crashes.TrackError(ex);
             }
@@ -81,13 +92,30 @@ namespace KegID.ViewModel
         {
             try
             {
-                SimpleIoc.Default.GetInstance<AddBatchViewModel>().BrandModel = model;
-                await Application.Current.MainPage.Navigation.PopModalAsync();
+                //SimpleIoc.Default.GetInstance<AddBatchViewModel>().BrandModel = model;
+                //await Application.Current.MainPage.Navigation.PopModalAsync();
+
+                var param = new NavigationParameters
+                    {
+                        { "model", model }
+                    };
+                await _navigationService.GoBackAsync(param, useModalNavigation: true, animated: false);
+
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 Crashes.TrackError(ex);
             }
+        }
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            
+        }
+
+        public override void OnNavigatingTo(INavigationParameters parameters)
+        {
+            
         }
 
         #endregion

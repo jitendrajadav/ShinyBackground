@@ -1,13 +1,12 @@
-﻿using GalaSoft.MvvmLight.Ioc;
+﻿using KegID.Common;
 using KegID.LocalDb;
+using KegID.Messages;
 using KegID.Model;
-using KegID.ViewModel;
 using Microsoft.AppCenter.Crashes;
 using Realms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -22,7 +21,7 @@ namespace KegID.Views
             LoadAddTagsAsync();
         }
 
-        private async void LoadAddTagsAsync()
+        private void LoadAddTagsAsync()
         {
             try
             {
@@ -32,55 +31,55 @@ namespace KegID.Views
                     {
                         case ViewTypeEnum.ScanKegsView:
                         case ViewTypeEnum.FillScanView:
-                            if (SimpleIoc.Default.GetInstance<ScanKegsViewModel>().IsFromScanned)
+                            if (ConstantManager.IsFromScanned)
                             {
-                                await OnAddMoreTagsClickedAsync(TagsTypeEnum.BestByDate);
-                                await OnAddMoreTagsClickedAsync(TagsTypeEnum.ProductionDate);
-                                await OnAddMoreTagsClickedAsync(TagsTypeEnum.AssetType);
-                                await OnAddMoreTagsClickedAsync(TagsTypeEnum.Size);
-                                await OnAddMoreTagsClickedAsync(TagsTypeEnum.Contents);
-                                await OnAddMoreTagsClickedAsync(TagsTypeEnum.Batch);
+                                OnAddMoreTagsClickedAsync(TagsTypeEnum.BestByDate);
+                                OnAddMoreTagsClickedAsync(TagsTypeEnum.ProductionDate);
+                                OnAddMoreTagsClickedAsync(TagsTypeEnum.AssetType);
+                                OnAddMoreTagsClickedAsync(TagsTypeEnum.Size);
+                                OnAddMoreTagsClickedAsync(TagsTypeEnum.Contents);
+                                OnAddMoreTagsClickedAsync(TagsTypeEnum.Batch);
                             }
                             else
                             {
-                                await OnAddMoreTagsClickedAsync(TagsTypeEnum.BestByDate);
-                                await OnAddMoreTagsClickedAsync(TagsTypeEnum.ProductionDate);
-                                await OnAddMoreTagsClickedAsync(TagsTypeEnum.AssetType);
-                                await OnAddMoreTagsClickedAsync(TagsTypeEnum.Size);
+                                OnAddMoreTagsClickedAsync(TagsTypeEnum.BestByDate);
+                                OnAddMoreTagsClickedAsync(TagsTypeEnum.ProductionDate);
+                                OnAddMoreTagsClickedAsync(TagsTypeEnum.AssetType);
+                                OnAddMoreTagsClickedAsync(TagsTypeEnum.Size);
                             }
                             break;
                         case ViewTypeEnum.AddBatchView:
                             OnAddTagsClicked(null, null);
                             break;
                         case ViewTypeEnum.EditKegView:
-                            await OnAddMoreTagsClickedAsync(TagsTypeEnum.Volume);
-                            await OnAddMoreTagsClickedAsync(TagsTypeEnum.Note);
+                            OnAddMoreTagsClickedAsync(TagsTypeEnum.Volume);
+                            OnAddMoreTagsClickedAsync(TagsTypeEnum.Note);
                             break;
                         case ViewTypeEnum.MoveView:
-                            await OnAddMoreTagsClickedAsync(TagsTypeEnum.BestByDate);
-                            await OnAddMoreTagsClickedAsync(TagsTypeEnum.ProductionDate);
+                            OnAddMoreTagsClickedAsync(TagsTypeEnum.BestByDate);
+                            OnAddMoreTagsClickedAsync(TagsTypeEnum.ProductionDate);
                             break;
                         case ViewTypeEnum.BulkUpdateScanView:
-                            await OnAddMoreTagsClickedAsync(TagsTypeEnum.Volume);
+                            OnAddMoreTagsClickedAsync(TagsTypeEnum.Volume);
                             break;
                     }
                 }
                 else if (Application.Current.MainPage.Navigation.ModalStack.LastOrDefault().GetType().Name == ViewTypeEnum.PalletizeView.ToString())
                 {
-                    await OnAddMoreTagsClickedAsync(TagsTypeEnum.Zone);
-                    await OnAddMoreTagsClickedAsync(TagsTypeEnum.Area);
-                    await OnAddMoreTagsClickedAsync(TagsTypeEnum.Slot);
-                    await OnAddMoreTagsClickedAsync(TagsTypeEnum.SSCC);
-                    await OnAddMoreTagsClickedAsync(TagsTypeEnum.Note);
-                    await OnAddMoreTagsClickedAsync(TagsTypeEnum.Batch);
-                    await OnAddMoreTagsClickedAsync(TagsTypeEnum.GTIN);
-                    await OnAddMoreTagsClickedAsync(TagsTypeEnum.ProductionDate);
-                    await OnAddMoreTagsClickedAsync(TagsTypeEnum.ExpiryDate);
+                    OnAddMoreTagsClickedAsync(TagsTypeEnum.Zone);
+                    OnAddMoreTagsClickedAsync(TagsTypeEnum.Area);
+                    OnAddMoreTagsClickedAsync(TagsTypeEnum.Slot);
+                    OnAddMoreTagsClickedAsync(TagsTypeEnum.SSCC);
+                    OnAddMoreTagsClickedAsync(TagsTypeEnum.Note);
+                    OnAddMoreTagsClickedAsync(TagsTypeEnum.Batch);
+                    OnAddMoreTagsClickedAsync(TagsTypeEnum.GTIN);
+                    OnAddMoreTagsClickedAsync(TagsTypeEnum.ProductionDate);
+                    OnAddMoreTagsClickedAsync(TagsTypeEnum.ExpiryDate);
                 }
                 else if (Application.Current.MainPage.Navigation.ModalStack.LastOrDefault().GetType().Name == ViewTypeEnum.MoveView.ToString())
                 {
-                    await OnAddMoreTagsClickedAsync(TagsTypeEnum.BestByDate);
-                    await OnAddMoreTagsClickedAsync(TagsTypeEnum.ProductionDate);
+                    OnAddMoreTagsClickedAsync(TagsTypeEnum.BestByDate);
+                    OnAddMoreTagsClickedAsync(TagsTypeEnum.ProductionDate);
                 }
             }
             catch (Exception ex)
@@ -89,7 +88,7 @@ namespace KegID.Views
             }
         }
 
-        private async Task OnAddMoreTagsClickedAsync(TagsTypeEnum title)
+        private void OnAddMoreTagsClickedAsync(TagsTypeEnum title)
         {
             try
             {
@@ -184,13 +183,19 @@ namespace KegID.Views
                         break;
 
                     case TagsTypeEnum.Contents:
-                        var result = SimpleIoc.Default.GetInstance<ScanKegsViewModel>().LoadBrandAsync();
+                        var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                        var result = RealmDb.All<BrandModel>().ToList();
+
+                        //var result = SimpleIoc.Default.GetInstance<ScanKegsViewModel>().LoadBrandAsync();
                         valueEntry.ItemsSource = result.ToList();
                         valueEntry.ItemDisplayBinding = new Binding("BrandName");
                         break;
 
                     case TagsTypeEnum.Batch:
-                        var Batchresult = await SimpleIoc.Default.GetInstance<BatchViewModel>().LoadBatchAsync();
+                        var RealmDb1 = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                        var Batchresult = RealmDb1.All<BatchModel>().ToList();
+
+                        //var Batchresult = await SimpleIoc.Default.GetInstance<BatchViewModel>().LoadBatchAsync();
                         valueEntry.ItemsSource = Batchresult.ToList();
                         valueEntry.ItemDisplayBinding = new Binding("BrandName");
                         break;
@@ -295,7 +300,7 @@ namespace KegID.Views
             }
         }
 
-        async void SaveTagsClickedAsync(object sender, EventArgs e)
+        private void SaveTagsClickedAsync(object sender, EventArgs e)
         {
             Tag tag = null;
             List<Tag> tags = new List<Tag>();
@@ -344,32 +349,43 @@ namespace KegID.Views
                     tagsStr = tagsStr + item.Property + item.Value + ";";
                 }
 
-                switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack[Application.Current.MainPage.Navigation.ModalStack.Count - 2].GetType().Name))
+                //switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack[Application.Current.MainPage.Navigation.ModalStack.Count - 2].GetType().Name))
+                //{
+                //    case ViewTypeEnum.ScanKegsView:
+                //        SimpleIoc.Default.GetInstance<ScanKegsViewModel>().AssignAddTagsValue(tags, tagsStr);
+                //        break;
+                //    case ViewTypeEnum.MoveView:
+                //        SimpleIoc.Default.GetInstance<MoveViewModel>().AssignAddTagsValue(tags, tagsStr);
+                //        break;
+                //    case ViewTypeEnum.PalletizeView:
+                //        SimpleIoc.Default.GetInstance<PalletizeViewModel>().AddInfoTitle = tagsStr;
+                //        break;
+                //    case ViewTypeEnum.FillScanView:
+                //        SimpleIoc.Default.GetInstance<FillScanViewModel>().AssignAddTagsValue(tags, tagsStr);
+                //        break;
+                //    case ViewTypeEnum.AddBatchView:
+                //        SimpleIoc.Default.GetInstance<AddBatchViewModel>().AssignAddTagsValue(tags, tagsStr);
+                //        break;
+                //    case ViewTypeEnum.EditKegView:
+                //        SimpleIoc.Default.GetInstance<EditKegViewModel>().AssignAddTagsValue(tags, tagsStr);
+                //        break;
+                //    case ViewTypeEnum.BulkUpdateScanView:
+                //        SimpleIoc.Default.GetInstance<BulkUpdateScanViewModel>().AssignAddTagsValue(tags, tagsStr);
+                //        break;
+                //}
+                ConstantManager.Tags = tags;
+                ConstantManager.TagsStr = tagsStr;
+                //var param = new INavigationParameters
+                //        {
+                //            { "Tags", tags }
+                //        };
+                //await _navigationService.GoBackAsync(param, useModalNavigation: true);
+                PagesMessage pagesMessage = new PagesMessage
                 {
-                    case ViewTypeEnum.ScanKegsView:
-                        SimpleIoc.Default.GetInstance<ScanKegsViewModel>().AssignAddTagsValue(tags, tagsStr);
-                        break;
-                    case ViewTypeEnum.MoveView:
-                        SimpleIoc.Default.GetInstance<MoveViewModel>().AssignAddTagsValue(tags, tagsStr);
-                        break;
-                    case ViewTypeEnum.PalletizeView:
-                        SimpleIoc.Default.GetInstance<PalletizeViewModel>().AddInfoTitle = tagsStr;
-                        break;
-                    case ViewTypeEnum.FillScanView:
-                        SimpleIoc.Default.GetInstance<FillScanViewModel>().AssignAddTagsValue(tags, tagsStr);
-                        break;
-                    case ViewTypeEnum.AddBatchView:
-                        SimpleIoc.Default.GetInstance<AddBatchViewModel>().AssignAddTagsValue(tags, tagsStr);
-                        break;
-                    case ViewTypeEnum.EditKegView:
-                        SimpleIoc.Default.GetInstance<EditKegViewModel>().AssignAddTagsValue(tags, tagsStr);
-                        break;
-                    case ViewTypeEnum.BulkUpdateScanView:
-                        SimpleIoc.Default.GetInstance<BulkUpdateScanViewModel>().AssignAddTagsValue(tags, tagsStr);
-                        break;
-                }
-
-                await Application.Current.MainPage.Navigation.PopModalAsync();
+                    AssingValue = true
+                };
+                MessagingCenter.Send(pagesMessage, "PagesMessage");
+                //await Application.Current.MainPage.Navigation.PopModalAsync();
             }
             catch (Exception ex)
             {

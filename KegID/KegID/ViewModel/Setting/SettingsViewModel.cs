@@ -1,4 +1,4 @@
-﻿using GalaSoft.MvvmLight;
+﻿
 using KegID.Localization;
 using Microsoft.AppCenter.Crashes;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
-    public class SettingsViewModel : ViewModelBase
+    public class SettingsViewModel : BaseViewModel
     {
         public List<string> Languages { get; set; } = new List<string>()
         {

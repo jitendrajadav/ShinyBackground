@@ -1,13 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
 using KegID.Model;
 using KegID.Services;
-using KegID.Views;
 using Microsoft.AppCenter.Crashes;
-using Xamarin.Forms;
+using Prism.Commands;
+using Prism.Navigation;
 
 namespace KegID.ViewModel
 {
@@ -15,6 +14,7 @@ namespace KegID.ViewModel
     {
         #region Properties
 
+        private readonly INavigationService _navigationService;
         public IDashboardService _dashboardService { get; set; }
 
         #region KegsTitle
@@ -87,18 +87,20 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand PartnerInfoCommand { get; }
-        public RelayCommand<KegPossessionResponseModel> ItemTappedCommand { get; }
+        public DelegateCommand PartnerInfoCommand { get; }
+        public DelegateCommand<KegPossessionResponseModel> ItemTappedCommand { get; }
 
         #endregion
 
         #region Constructor
 
-        public KegsViewModel(IDashboardService dashboardService)
+        public KegsViewModel(IDashboardService dashboardService, INavigationService navigationService)
         {
+            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+
             _dashboardService = dashboardService;
-            PartnerInfoCommand = new RelayCommand(PartnerInfoCommandRecieverAsync);
-            ItemTappedCommand = new RelayCommand<KegPossessionResponseModel>((model) => ItemTappedCommandRecieverAsync(model));
+            PartnerInfoCommand = new DelegateCommand(PartnerInfoCommandRecieverAsync);
+            ItemTappedCommand = new DelegateCommand<KegPossessionResponseModel>((model) => ItemTappedCommandRecieverAsync(model));
             LoadKegPossessionAsync();
         }
 
@@ -110,9 +112,10 @@ namespace KegID.ViewModel
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PopModalAsync();
+                //await Application.Current.MainPage.Navigation.PopModalAsync();
+                await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 Crashes.TrackError(ex);
             }
@@ -122,10 +125,17 @@ namespace KegID.ViewModel
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PushModalAsync(new KegStatusView(), animated: false);
-                await SimpleIoc.Default.GetInstance<KegStatusViewModel>().LoadMaintenanceHistoryAsync(model.KegId, model.Contents, model.HeldDays, model.PossessorName, model.Barcode, model.TypeName, model.SizeName);
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new KegStatusView(), animated: false);
+                //await SimpleIoc.Default.GetInstance<KegStatusViewModel>().LoadMaintenanceHistoryAsync(model.KegId, model.Contents, model.HeldDays, model.PossessorName, model.Barcode, model.TypeName, model.SizeName);
+                var param = new NavigationParameters
+                    {
+                        { "model", model }
+                    };
+                await _navigationService.NavigateAsync(new Uri("KegStatusView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+
+
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 Crashes.TrackError(ex);
             }
@@ -135,14 +145,24 @@ namespace KegID.ViewModel
         {
             try
             {
-                var value = await _dashboardService.GetKegPossessionAsync(AppSettings.User.SessionId, SimpleIoc.Default.GetInstance<DashboardPartnersViewModel>().PartnerId);
+                var value = await _dashboardService.GetKegPossessionAsync(AppSettings.User.SessionId, AppSettings.User.DBPartnerId);
                 KegPossessionCollection = value.KegPossessionResponseModel;
                 KegsTitle = KegPossessionCollection.FirstOrDefault().PossessorName;
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 Crashes.TrackError(ex);
             }
+        }
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            
+        }
+
+        public override void OnNavigatingTo(INavigationParameters parameters)
+        {
+            
         }
 
         #endregion

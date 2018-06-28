@@ -9,7 +9,14 @@ namespace KegID.Views
 	{
 		public MenuView ()
 		{
-			InitializeComponent ();
+            try
+            {
+                InitializeComponent();
+            }
+            catch (System.Exception ex)
+            {
+
+            }
 		}
 	}
 }

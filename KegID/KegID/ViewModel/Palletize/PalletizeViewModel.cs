@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
 using KegID.LocalDb;
+using KegID.Messages;
 using KegID.Model;
 using KegID.Services;
-using KegID.Views;
 using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
+using Prism.Commands;
+using Prism.Navigation;
 using Realms;
 using Xamarin.Forms;
 
@@ -19,6 +19,7 @@ namespace KegID.ViewModel
     {
         #region Properties
 
+        private readonly INavigationService _navigationService;
         public IPalletizeService _palletizeService { get; set; }
         public IMoveService _moveService { get; set; }
         public bool TargetLocationPartner { get; set; }
@@ -298,39 +299,58 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand CancelCommand { get; }
-        public RelayCommand PartnerCommand { get; }
-        public RelayCommand AddTagsCommand { get; }
-        public RelayCommand TargetLocationPartnerCommand { get; }
-        public RelayCommand AddKegsCommand { get; }
-        public RelayCommand IsPalletVisibleCommand { get; }
-        public RelayCommand BarcodeScanCommand { get; }
-        public RelayCommand SubmitCommand { get; }
+        public DelegateCommand CancelCommand { get; }
+        public DelegateCommand PartnerCommand { get; }
+        public DelegateCommand AddTagsCommand { get; }
+        public DelegateCommand TargetLocationPartnerCommand { get; }
+        public DelegateCommand AddKegsCommand { get; }
+        public DelegateCommand IsPalletVisibleCommand { get; }
+        public DelegateCommand BarcodeScanCommand { get; }
+        public DelegateCommand SubmitCommand { get; }
         
         #endregion
 
         #region Constructor
 
-        public PalletizeViewModel(IPalletizeService palletizeService, IMoveService moveService)
+        public PalletizeViewModel(IPalletizeService palletizeService, IMoveService moveService, INavigationService navigationService)
         {
+            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+
             _moveService = moveService;
             _palletizeService = palletizeService;
-            CancelCommand = new RelayCommand(CancelCommandRecieverAsync);
-            PartnerCommand = new RelayCommand(PartnerCommandRecieverAsync);
-            AddTagsCommand = new RelayCommand(AddTagsCommandRecieverAsync);
-            TargetLocationPartnerCommand = new RelayCommand(TargetLocationPartnerCommandRecieverAsync);
-            AddKegsCommand = new RelayCommand(AddKegsCommandRecieverAsync);
-            IsPalletVisibleCommand = new RelayCommand(IsPalletVisibleCommandReciever);
-            BarcodeScanCommand = new RelayCommand(BarcodeScanCommandReciever);
-            SubmitCommand = new RelayCommand(SubmitCommandRecieverAsync);
+            CancelCommand = new DelegateCommand(CancelCommandRecieverAsync);
+            PartnerCommand = new DelegateCommand(PartnerCommandRecieverAsync);
+            AddTagsCommand = new DelegateCommand(AddTagsCommandRecieverAsync);
+            TargetLocationPartnerCommand = new DelegateCommand(TargetLocationPartnerCommandRecieverAsync);
+            AddKegsCommand = new DelegateCommand(AddKegsCommandRecieverAsync);
+            IsPalletVisibleCommand = new DelegateCommand(IsPalletVisibleCommandReciever);
+            BarcodeScanCommand = new DelegateCommand(BarcodeScanCommandReciever);
+            SubmitCommand = new DelegateCommand(SubmitCommandRecieverAsync);
 
             StockLocation.FullName = "Barcode Brewing";
             TargetLocation.FullName = "None";
+
+            //HandleReceivedMessages();
         }
 
         #endregion
 
         #region Methods
+
+        //void HandleReceivedMessages()
+        //{
+        //    MessagingCenter.Subscribe<ScanKegToPalletPagesMsg>(this, "ScanKegToPalletPagesMsg", message =>
+        //    {
+        //        Device.BeginInvokeOnMainThread(() =>
+        //        {
+        //            var value = message;
+        //            if (value != null)
+        //            {
+        //                AssingScanKegsValue(value.Barcodes);
+        //            }
+        //        });
+        //    });
+        //}
 
         public void GenerateManifestIdAsync(PalletModel palletModel)
         {
@@ -403,7 +423,7 @@ namespace KegID.ViewModel
             List<PalletItem> palletItems = new List<PalletItem>();
             PalletItem pallet = null;
             PalletRequestModel palletRequestModel = null;
-            var barCodeCollection = SimpleIoc.Default.GetInstance<MoveViewModel>().Barcodes;
+            var barCodeCollection = ConstantManager.Barcodes;
 
             try
             {
@@ -415,7 +435,7 @@ namespace KegID.ViewModel
                     {
                         Barcode = item.Barcode,
                         ScanDate = DateTimeOffset.Now,
-                        Tags = SimpleIoc.Default.GetInstance<ScanKegsViewModel>().Tags,
+                        Tags = ConstantManager.Tags,
                         ValidationStatus = 4
                     };
 
@@ -433,22 +453,28 @@ namespace KegID.ViewModel
                     StockLocation = StockLocation.PartnerId,
                     StockLocationId = StockLocation.PartnerId,
                     StockLocationName = StockLocation.FullName,
-                    Tags = SimpleIoc.Default.GetInstance<ScanKegsViewModel>().Tags
+                    Tags = ConstantManager.Tags
                 };
 
                 var value = await _palletizeService.PostPalletAsync(palletRequestModel, AppSettings.User.SessionId, Configuration.NewPallet);
 
                 if (value.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                 {
-                    SimpleIoc.Default.GetInstance<PalletizeDetailViewModel>().LoadInfo(value);
+                    //SimpleIoc.Default.GetInstance<PalletizeDetailViewModel>().LoadInfo(value);
 
                     Loader.StopLoading();
-                    await Application.Current.MainPage.Navigation.PushModalAsync(new PalletizeDetailView(), animated: false);
+                    //await Application.Current.MainPage.Navigation.PushModalAsync(new PalletizeDetailView(), animated: false);
+                    var param = new NavigationParameters
+                    {
+                        { "LoadInfo", value }
+                    };
+                    await _navigationService.NavigateAsync(new Uri("PalletizeDetailView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+
                 }
                 else
                 {
                     Loader.StopLoading();
-                    SimpleIoc.Default.GetInstance<LoginViewModel>().InvalideServiceCallAsync();
+                    //SimpleIoc.Default.GetInstance<LoginViewModel>().InvalideServiceCallAsync();
                 }
             }
             catch (Exception ex)
@@ -480,7 +506,13 @@ namespace KegID.ViewModel
         {
             try
             {
-                SimpleIoc.Default.GetInstance<ScanKegsViewModel>().BarcodeScanCommandReciever();
+                PalletToScanKegPagesMsg msg = new PalletToScanKegPagesMsg
+                {
+                    BarcodeScan = true
+                };
+                MessagingCenter.Send(msg, "PalletToScanKegPagesMsg");
+
+                //SimpleIoc.Default.GetInstance<ScanKegsViewModel>().BarcodeScanCommandReciever();
             }
             catch (Exception ex)
             {
@@ -497,7 +529,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PushModalAsync(new ScanKegsView(), animated: false);
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new ScanKegsView(), animated: false);
+                await _navigationService.NavigateAsync(new Uri("ScanKegsView", UriKind.Relative), useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {
@@ -509,7 +542,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView(), animated: false);
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView(), animated: false);
+                await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {
@@ -521,7 +555,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView(), animated: false);
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView(), animated: false);
+                await _navigationService.NavigateAsync(new Uri("PartnersView", UriKind.Relative), useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {
@@ -534,7 +569,8 @@ namespace KegID.ViewModel
             try
             {
                 TargetLocationPartner = true;
-                await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView(), animated: false);
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView(), animated: false);
+                await _navigationService.NavigateAsync(new Uri("PartnersView", UriKind.Relative), useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {
@@ -546,7 +582,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PopModalAsync();
+                await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+                //await Application.Current.MainPage.Navigation.PopModalAsync();
                 IsCameraVisible = false;
             }
             catch (Exception ex)
@@ -555,11 +592,11 @@ namespace KegID.ViewModel
             }
         }
 
-        public override void Cleanup()
+        public void Cleanup()
         {
             try
             {
-                base.Cleanup();
+                //base.Cleanup();
                 StockLocation = null;
                 TargetLocation = null;
                 AddInfoTitle = "Add info";
@@ -571,6 +608,21 @@ namespace KegID.ViewModel
             {
                 Crashes.TrackError(ex);
             }
+        }
+
+        public override void OnNavigatingTo(INavigationParameters parameters)
+        {
+            AssingScanKegsValue(ConstantManager.Barcodes);
+
+            if (parameters.ContainsKey("model"))
+            {
+                AssignPartnerValue(parameters.GetValue<PartnerModel>("model"));
+            }
+        }
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            //MessagingCenter.Unsubscribe<ScanKegToPalletPagesMsg>(this, "ScanKegToPalletPagesMsg");
         }
 
         #endregion

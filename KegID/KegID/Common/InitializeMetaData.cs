@@ -1,5 +1,4 @@
-﻿using GalaSoft.MvvmLight.Ioc;
-using KegID.LocalDb;
+﻿using KegID.LocalDb;
 using KegID.Model;
 using KegID.Services;
 using Microsoft.AppCenter.Crashes;
@@ -13,25 +12,75 @@ namespace KegID.Common
 {
     public static class InitializeMetaData
     {
-        public static async Task LoadInitializeMetaData()
+        public static async Task LoadInitializeMetaData(IMoveService _moveService, IDashboardService _dashboardService,IMaintainService _maintainService, IFillService _fillService)
         {
-            await LoadAssetSizeAsync();
-            await LoadAssetTypeAsync();
-            await LoadAssetVolumeAsync();
-            await LoadOwnerAsync();
-            await LoadDashboardPartnersAsync();
-            await LoadPartnersAsync();
-            await LoadBrandAsync();
+            await LoadAssetSizeAsync(_moveService);
+            await LoadAssetTypeAsync(_moveService);
+            await LoadAssetVolumeAsync(_dashboardService);
+            await LoadOwnerAsync(_moveService);
+            await LoadDashboardPartnersAsync(_dashboardService);
+            await LoadPartnersAsync(_moveService);
+            await LoadBrandAsync(_moveService);
+            await LoadMaintenanceTypeAsync(_maintainService);
+            await LoadBatchAsync(_fillService);
         }
 
-        private static async Task LoadPartnersAsync()
+        public static async Task LoadBatchAsync(IFillService _fillService)
         {
-            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-            var service = SimpleIoc.Default.GetInstance<IMoveService>();
-
             try
             {
-                var value = await service.GetPartnersListAsync(AppSettings.User.SessionId);
+                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+
+                var value = await _fillService.GetBatchListAsync(AppSettings.User.SessionId);
+                if (value.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
+                {
+                    var batches = value.BatchModel.Where(p => p.BrandName != string.Empty).OrderBy(x => x.BrandName).ToList();
+                    RealmDb.Write(() =>
+                    {
+                        foreach (var item in batches)
+                        {
+                            RealmDb.Add(item);
+                        }
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
+            finally
+            {
+            }
+        }
+
+        public static async Task<IList<MaintainTypeReponseModel>> LoadMaintenanceTypeAsync(IMaintainService _maintainService)
+        {
+            var model = await _maintainService.GetMaintainTypeAsync(AppSettings.User.SessionId);
+            try
+            {
+                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                RealmDb.Write(() =>
+                {
+                    foreach (var item in model.MaintainTypeReponseModel)
+                    {
+                        RealmDb.Add(item);
+                    }
+                });
+              return  model.MaintainTypeReponseModel;
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+                return null;
+            }
+        }
+
+        private static async Task LoadPartnersAsync(IMoveService _moveService)
+        {
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            try
+            {
+                var value = await _moveService.GetPartnersListAsync(AppSettings.User.SessionId);
                 if (value.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                 {
                     var Partners = value.PartnerModel.Where(x => x.FullName != string.Empty).ToList();
@@ -51,13 +100,12 @@ namespace KegID.Common
             }
         }
 
-        private static async Task LoadBrandAsync()
+        private static async Task LoadBrandAsync(IMoveService _moveService)
         {
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             try
             {
-                var service = SimpleIoc.Default.GetInstance<IMoveService>();
-                var value = await service.GetBrandListAsync(AppSettings.User.SessionId);
+                var value = await _moveService.GetBrandListAsync(AppSettings.User.SessionId);
 
                 if (value.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                 {
@@ -76,14 +124,12 @@ namespace KegID.Common
             }
         }
 
-        private static async Task LoadDashboardPartnersAsync()
+        private static async Task LoadDashboardPartnersAsync(IDashboardService _dashboardService)
         {
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             try
             {
-                var service = SimpleIoc.Default.GetInstance<IDashboardService>();
-
-                var value = await service.GetDashboardPartnersListAsync(AppSettings.User.CompanyId, AppSettings.User.SessionId);
+                var value = await _dashboardService.GetDashboardPartnersListAsync(AppSettings.User.CompanyId, AppSettings.User.SessionId);
                 if (value.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                 {
                     var partners = value.PossessorResponseModel.Where(x => x.Location.FullName != string.Empty).ToList();
@@ -100,14 +146,13 @@ namespace KegID.Common
             }
         }
 
-        private static async Task LoadAssetSizeAsync()
+        private static async Task LoadAssetSizeAsync(IMoveService _moveService)
         {
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             List<AssetSizeModel> assetSizeModel = null;
-            var service = SimpleIoc.Default.GetInstance<IMoveService>();
             try
             {
-                var model = await service.GetAssetSizeAsync(AppSettings.User.SessionId, false);
+                var model = await _moveService.GetAssetSizeAsync(AppSettings.User.SessionId, false);
                 assetSizeModel = new List<AssetSizeModel>();
                 foreach (var item in model)
                 {
@@ -127,18 +172,16 @@ namespace KegID.Common
             }
             finally
             {
-                service = null;
             }
         }
 
-        private static async Task LoadAssetTypeAsync()
+        private static async Task LoadAssetTypeAsync(IMoveService _moveService)
         {
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             List<AssetTypeModel> assetTypeModels = null;
-            var service = SimpleIoc.Default.GetInstance<IMoveService>();
             try
             {
-                var model = await service.GetAssetTypeAsync(AppSettings.User.SessionId, false);
+                var model = await _moveService.GetAssetTypeAsync(AppSettings.User.SessionId, false);
                 assetTypeModels = new List<AssetTypeModel>();
                 foreach (var item in model)
                 {
@@ -159,18 +202,17 @@ namespace KegID.Common
             }
             finally
             {
-                service = null;
+                //service = null;
             }
         }
 
-        private static async Task LoadAssetVolumeAsync()
+        private static async Task LoadAssetVolumeAsync(IDashboardService _dashboardService)
         {
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             List<AssetVolumeModel> assetVolumeModel = null;
-            var service = SimpleIoc.Default.GetInstance<IDashboardService>();
             try
             {
-                var model = await service.GetAssetVolumeAsync(AppSettings.User.SessionId, false);
+                var model = await _dashboardService.GetAssetVolumeAsync(AppSettings.User.SessionId, false);
 
                 assetVolumeModel = new List<AssetVolumeModel>();
                 foreach (var item in model)
@@ -191,16 +233,16 @@ namespace KegID.Common
             }
             finally
             {
-                service = null;
+                //service = null;
             }
         }
 
-        private static async Task LoadOwnerAsync()
+        private static async Task LoadOwnerAsync(IMoveService _moveService)
         {
             try
             {
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                var value = await SimpleIoc.Default.GetInstance<IMoveService>().GetOwnerAsync(AppSettings.User.SessionId);
+                var value = await _moveService.GetOwnerAsync(AppSettings.User.SessionId);
                 await RealmDb.WriteAsync((realmDb) =>
                  {
                      foreach (var item in value.OwnerModel)
@@ -217,6 +259,5 @@ namespace KegID.Common
             {
             }
         }
-
     }
 }

@@ -1,16 +1,13 @@
-﻿using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Ioc;
-using KegID.Common;
-using KegID.LocalDb;
+﻿using KegID.Common;
+using KegID.Messages;
 using KegID.Model;
 using KegID.Services;
-using KegID.Views;
 using Microsoft.AppCenter.Crashes;
-using Realms;
+using Prism.Commands;
+using Prism.Navigation;
 using Rg.Plugins.Popup.Extensions;
 using System;
 using System.Globalization;
-using System.Linq;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -19,6 +16,7 @@ namespace KegID.ViewModel
     {
         #region Properties
 
+        private readonly INavigationService _navigationService;
         public IDashboardService _dashboardService { get; set; }
 
         #region Stock
@@ -331,54 +329,73 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand MoreCommand { get;}
-        public RelayCommand MaintainCommand { get; }
-        public RelayCommand PalletizeCommand { get; }
-        public RelayCommand PalletsCommand { get; }
-        public RelayCommand FillCommand { get; }
-        public RelayCommand ManifestCommand { get; }
-        public RelayCommand StockCommand { get; }
-        public RelayCommand EmptyCommand { get; }
-        public RelayCommand PartnerCommand { get; }
-        public RelayCommand KegsCommand { get; }
-        public RelayCommand InUsePartnerCommand { get; }
-        public RelayCommand MoveCommand { get; }
+        public DelegateCommand MoreCommand { get;}
+        public DelegateCommand MaintainCommand { get; }
+        public DelegateCommand PalletizeCommand { get; }
+        public DelegateCommand PalletsCommand { get; }
+        public DelegateCommand FillCommand { get; }
+        public DelegateCommand ManifestCommand { get; }
+        public DelegateCommand StockCommand { get; }
+        public DelegateCommand EmptyCommand { get; }
+        public DelegateCommand PartnerCommand { get; }
+        public DelegateCommand KegsCommand { get; }
+        public DelegateCommand InUsePartnerCommand { get; }
+        public DelegateCommand MoveCommand { get; }
         
         #endregion
 
         #region Constructor
 
-        public DashboardViewModel(IDashboardService dashboardService)
+        public DashboardViewModel(IDashboardService dashboardService, INavigationService navigationService)
         {
+            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+
             _dashboardService = dashboardService;
             BgImage = GetIconByPlatform.GetIcon("kegbg.png");
 
-            MoveCommand = new RelayCommand(MoveCommandRecieverAsync);
-            MoreCommand = new RelayCommand(MoreCommandRecieverAsync);
-            MaintainCommand = new RelayCommand(MaintainCommandRecieverAsync);
-            PalletizeCommand = new RelayCommand(PalletizeCommandRecieverAsync);
-            PalletsCommand = new RelayCommand(PalletsCommandRecieverAsync);
-            FillCommand = new RelayCommand(FillCommandRecieverAsync);
-            ManifestCommand = new RelayCommand(ManifestCommandRecieverAsync);
-            StockCommand = new RelayCommand(StockCommandRecieverAsync);
-            EmptyCommand = new RelayCommand(EmptyCommandRecieverAsync);
-            PartnerCommand = new RelayCommand(PartnerCommandRecieverAsync);
-            KegsCommand = new RelayCommand(KegsCommandRecieverAsync);
-            InUsePartnerCommand = new RelayCommand(InUsePartnerCommandRecieverAsync);
+            MoveCommand = new DelegateCommand(MoveCommandRecieverAsync);
+            MoreCommand = new DelegateCommand(MoreCommandRecieverAsync);
+            MaintainCommand = new DelegateCommand(MaintainCommandRecieverAsync);
+            PalletizeCommand = new DelegateCommand(PalletizeCommandRecieverAsync);
+            PalletsCommand = new DelegateCommand(PalletsCommandRecieverAsync);
+            FillCommand = new DelegateCommand(FillCommandRecieverAsync);
+            ManifestCommand = new DelegateCommand(ManifestCommandRecieverAsync);
+            StockCommand = new DelegateCommand(StockCommandRecieverAsync);
+            EmptyCommand = new DelegateCommand(EmptyCommandRecieverAsync);
+            PartnerCommand = new DelegateCommand(PartnerCommandRecieverAsync);
+            KegsCommand = new DelegateCommand(KegsCommandRecieverAsync);
+            InUsePartnerCommand = new DelegateCommand(InUsePartnerCommandRecieverAsync);
             RefreshDashboardRecieverAsync();
             CheckDraftmaniFestsAsync();
+            HandleReceivedMessages();
         }
 
         #endregion
 
         #region Methods
 
+        void HandleReceivedMessages()
+        {
+            MessagingCenter.Subscribe<SettingToDashboardMsg>(this, "SettingToDashboardMsg", message => {
+                Device.BeginInvokeOnMainThread(() => 
+                {
+                    RefreshDashboardRecieverAsync(true);
+                });
+            });
+        }
+
         private async void MoveCommandRecieverAsync()
         {
             try
             {
-                SimpleIoc.Default.GetInstance<MoveViewModel>().ManifestId = Uuid.GetUuId();
-                await Application.Current.MainPage.Navigation.PushModalAsync(new MoveView(), animated: false);
+                //SimpleIoc.Default.GetInstance<MoveViewModel>().ManifestId = Uuid.GetUuId();
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new MoveView(), animated: false);
+                var param = new NavigationParameters
+                {
+                    { "ManifestId", Uuid.GetUuId() }
+                };
+                await _navigationService.NavigateAsync(new Uri("MoveView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+
             }
             catch (Exception ex)
             {
@@ -390,7 +407,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PushModalAsync(new DashboardPartnersView(), animated: false);
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new DashboardPartnersView(), animated: false);
+                await _navigationService.NavigateAsync(new Uri("DashboardPartnersView", UriKind.Relative), useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {
@@ -402,7 +420,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PushModalAsync(new KegSearchView(), animated: false);
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new KegSearchView(), animated: false);
+                await _navigationService.NavigateAsync(new Uri("KegSearchView", UriKind.Relative), useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {
@@ -414,7 +433,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PushModalAsync(new DashboardPartnersView(), animated: false);
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new DashboardPartnersView(), animated: false);
+                await _navigationService.NavigateAsync(new Uri("DashboardPartnersView", UriKind.Relative), useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {
@@ -426,8 +446,14 @@ namespace KegID.ViewModel
         {
             try
             {
-                SimpleIoc.Default.GetInstance<InventoryViewModel>().InitialAssignValueAsync(currentPage: 0);
-                await Application.Current.MainPage.Navigation.PushModalAsync(new InventoryView(), animated: false);
+                //SimpleIoc.Default.GetInstance<InventoryViewModel>().InitialAssignValueAsync(currentPage: 0);
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new InventoryView(), animated: false);
+                var param = new NavigationParameters
+                    {
+                        { "currentPage", 0 }
+                    };
+                await _navigationService.NavigateAsync(new Uri("InventoryView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+
             }
             catch (Exception ex)
             {
@@ -439,8 +465,14 @@ namespace KegID.ViewModel
         {
             try
             {
-                SimpleIoc.Default.GetInstance<InventoryViewModel>().InitialAssignValueAsync(currentPage: 1);
-                await Application.Current.MainPage.Navigation.PushModalAsync(new InventoryView(), animated: false);
+                //SimpleIoc.Default.GetInstance<InventoryViewModel>().InitialAssignValueAsync(currentPage: 1);
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new InventoryView(), animated: false);
+                var param = new NavigationParameters
+                    {
+                        { "currentPage", 1 }
+                    };
+                await _navigationService.NavigateAsync(new Uri("InventoryView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+
             }
             catch (Exception ex)
             {
@@ -452,8 +484,14 @@ namespace KegID.ViewModel
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestsView(), animated: false);
-                SimpleIoc.Default.GetInstance<ManifestsViewModel>().LoadDraftManifestAsync();
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestsView(), animated: false);
+                //SimpleIoc.Default.GetInstance<ManifestsViewModel>().LoadDraftManifestAsync();
+                var param = new NavigationParameters
+                    {
+                        { "LoadDraftManifestAsync", "LoadDraftManifestAsync" }
+                    };
+                await _navigationService.NavigateAsync(new Uri("ManifestsView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+
             }
             catch (Exception ex)
             {
@@ -465,8 +503,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                var collection = RealmDb.All<ManifestModel>().Where(x=>x.IsDraft == true).ToList();
+                var collection = ConstantManager.CheckDraftmaniFestsAsync();
                 if (collection.Count > 0)
                 {
                     DraftmaniFests = collection.Count;
@@ -479,14 +516,23 @@ namespace KegID.ViewModel
             }
         }
 
-        private async void FillCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PushModalAsync(new FillView(), animated: false);
+        private async void FillCommandRecieverAsync()
+        {
+            //await Application.Current.MainPage.Navigation.PushModalAsync(new FillView(), animated: false);
+            await _navigationService.NavigateAsync(new Uri("FillView", UriKind.Relative), useModalNavigation: true, animated: false);
+        }
 
         private async void PalletizeCommandRecieverAsync()
         {
             try
             {
-                SimpleIoc.Default.GetInstance<PalletizeViewModel>().GenerateManifestIdAsync(null);
-                await Application.Current.MainPage.Navigation.PushModalAsync(new PalletizeView(), animated: false);
+                //SimpleIoc.Default.GetInstance<PalletizeViewModel>().GenerateManifestIdAsync(null);
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new PalletizeView(), animated: false);
+                var param = new NavigationParameters
+                    {
+                        { "GenerateManifestIdAsync", "GenerateManifestIdAsync" }
+                    };
+                await _navigationService.NavigateAsync(new Uri("PalletizeView", UriKind.Relative), param, useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {
@@ -498,7 +544,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PushModalAsync(new SearchPalletView(), animated: false);
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new SearchPalletView(), animated: false);
+                await _navigationService.NavigateAsync(new Uri("SearchPalletView", UriKind.Relative), useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {
@@ -510,8 +557,13 @@ namespace KegID.ViewModel
         {
             try
             {
-                await SimpleIoc.Default.GetInstance<MaintainViewModel>().LoadMaintenanceTypeAsync();
-                await Application.Current.MainPage.Navigation.PushModalAsync(new MaintainView(), animated: false);
+                //await SimpleIoc.Default.GetInstance<MaintainViewModel>().LoadMaintenanceTypeAsync();
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new MaintainView(), animated: false);
+                var param = new NavigationParameters
+                    {
+                        { "LoadMaintenanceTypeAsync", "LoadMaintenanceTypeAsync" }
+                    };
+                await _navigationService.NavigateAsync(new Uri("MaintainView", UriKind.Relative), param, useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {
@@ -550,11 +602,25 @@ namespace KegID.ViewModel
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PushPopupAsync(new SettingView());
+                //await Application.Current.MainPage.Navigation.PushPopupAsync(new SettingView());
+                await _navigationService.NavigateAsync(new Uri("SettingView", UriKind.Relative), useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
+            }
+        }
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            MessagingCenter.Unsubscribe<SettingToDashboardMsg>(this, "SettingToDashboardMsg");
+        }
+
+        public override void OnNavigatingTo(INavigationParameters parameters)
+        {
+            if (parameters.ContainsKey("ManifestId"))
+            {
+                var Manifestd = parameters.GetValue<string>("ManifestId");
             }
         }
 

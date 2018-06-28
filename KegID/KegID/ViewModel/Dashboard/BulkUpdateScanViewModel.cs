@@ -1,14 +1,12 @@
-﻿using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Ioc;
-using KegID.Common;
+﻿using KegID.Common;
 using KegID.LocalDb;
 using KegID.Messages;
 using KegID.Model;
 using KegID.Services;
-using KegID.Views;
 using Microsoft.AppCenter.Crashes;
+using Prism.Commands;
+using Prism.Navigation;
 using Realms;
-using Rg.Plugins.Popup.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -21,6 +19,8 @@ namespace KegID.ViewModel
     public class BulkUpdateScanViewModel : BaseViewModel
     {
         #region Properties
+
+        private readonly INavigationService _navigationService;
 
         private const string Cloud = "collectionscloud.png";
         public IMoveService _moveService { get; set; }
@@ -300,30 +300,32 @@ namespace KegID.ViewModel
         #endregion
 
         #region Commands
-        public RelayCommand CancelCommand { get; }
-        public RelayCommand SaveCommand { get; }
-        public RelayCommand BarcodeScanCommand { get; }
-        public RelayCommand BarcodeManualCommand { get; }
-        public RelayCommand AddTagsCommand { get; }
-        public RelayCommand<BarcodeModel> LabelItemTappedCommand { get; }
-        public RelayCommand<BarcodeModel> IconItemTappedCommand { get; }
+        public DelegateCommand CancelCommand { get; }
+        public DelegateCommand SaveCommand { get; }
+        public DelegateCommand BarcodeScanCommand { get; }
+        public DelegateCommand BarcodeManualCommand { get; }
+        public DelegateCommand AddTagsCommand { get; }
+        public DelegateCommand<BarcodeModel> LabelItemTappedCommand { get; }
+        public DelegateCommand<BarcodeModel> IconItemTappedCommand { get; }
         
         #endregion
 
         #region Contructor
 
-        public BulkUpdateScanViewModel(IMoveService moveService, IDashboardService dashboardService)
+        public BulkUpdateScanViewModel(IMoveService moveService, IDashboardService dashboardService, INavigationService navigationService)
         {
+            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _moveService = moveService;
             _dashboardService = dashboardService;
 
-            AddTagsCommand = new RelayCommand(AddTagsCommandRecieverAsync);
-            BarcodeManualCommand = new RelayCommand(BarcodeManualCommandRecieverAsync);
-            BarcodeScanCommand = new RelayCommand(BarcodeScanCommandRecieverAsync);
-            SaveCommand = new RelayCommand(SaveCommandRecieverAsync);
-            CancelCommand = new RelayCommand(CancelCommandRecieverAsync);
-            LabelItemTappedCommand = new RelayCommand<BarcodeModel>(execute: (model) => LabelItemTappedCommandRecieverAsync(model));
-            IconItemTappedCommand = new RelayCommand<BarcodeModel>(execute: (model) => IconItemTappedCommandRecieverAsync(model));
+            AddTagsCommand = new DelegateCommand(AddTagsCommandRecieverAsync);
+            BarcodeManualCommand = new DelegateCommand(BarcodeManualCommandRecieverAsync);
+            BarcodeScanCommand = new DelegateCommand(BarcodeScanCommandRecieverAsync);
+            SaveCommand = new DelegateCommand(SaveCommandRecieverAsync);
+            CancelCommand = new DelegateCommand(CancelCommandRecieverAsync);
+            LabelItemTappedCommand = new DelegateCommand<BarcodeModel>((model) => LabelItemTappedCommandRecieverAsync(model));
+            IconItemTappedCommand = new DelegateCommand<BarcodeModel>((model) => IconItemTappedCommandRecieverAsync(model));
+
             LoadAssetSizeAsync();
             LoadAssetTypeAsync();
             HandleReceivedMessages();
@@ -407,8 +409,14 @@ namespace KegID.ViewModel
                 }
                 else
                 {
-                    await Application.Current.MainPage.Navigation.PushModalAsync(new ScanInfoView(), animated: false);
-                    SimpleIoc.Default.GetInstance<ScanInfoViewModel>().AssignInitialValue(model);
+                    //await Application.Current.MainPage.Navigation.PushModalAsync(new ScanInfoView(), animated: false);
+                    //SimpleIoc.Default.GetInstance<ScanInfoViewModel>().AssignInitialValue(model);
+                    var param = new NavigationParameters
+                    {
+                        { "model", model }
+                    };
+                    await _navigationService.NavigateAsync(new Uri("ScanInfoView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+
                 }
             }
             catch (Exception ex)
@@ -431,8 +439,11 @@ namespace KegID.ViewModel
                 }
                 else
                 {
+                    
+                    ConstantManager.IsFromScanned = true;
+                    await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), useModalNavigation: true, animated: false);
                     //IsFromScanned = true;
-                    await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView(), animated: false);
+                    //await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView(), animated: false);
                 }
             }
             catch (Exception ex)
@@ -441,12 +452,17 @@ namespace KegID.ViewModel
             }
         }
 
-        private static async Task NavigateToValidatePartner(List<BarcodeModel> model)
+        private async Task NavigateToValidatePartner(List<BarcodeModel> model)
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PushPopupAsync(new ValidateBarcodeView());
-                SimpleIoc.Default.GetInstance<ValidateBarcodeViewModel>().LoadBarcodeValue(model);
+                //await Application.Current.MainPage.Navigation.PushPopupAsync(new ValidateBarcodeView());
+                //SimpleIoc.Default.GetInstance<ValidateBarcodeViewModel>().LoadBarcodeValue(model);
+                var param = new NavigationParameters
+                    {
+                        { "model", model }
+                    };
+                await _navigationService.NavigateAsync(new Uri("ValidateBarcodeView", UriKind.Relative), param,useModalNavigation:true, animated: false);
 
             }
             catch (Exception ex)
@@ -459,8 +475,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView(), animated: false);
-
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView(), animated: false);
+                await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {
@@ -502,7 +518,13 @@ namespace KegID.ViewModel
         {
             try
             {
-                await BarcodeScanner.BarcodeScanAsync(_moveService, Tags, TagsStr, ViewTypeEnum.BulkUpdateScanView.ToString());
+                var param = new NavigationParameters
+                    {
+                        { "Tags", Tags },{ "TagsStr", TagsStr },{ "ViewTypeEnum", ViewTypeEnum.BulkUpdateScanView }
+                    };
+                await _navigationService.NavigateAsync(new Uri("CognexScanView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+
+                //await BarcodeScanner.BarcodeScanAsync(_moveService, Tags, TagsStr, ViewTypeEnum.BulkUpdateScanView.ToString(),_navigationService);
             }
             catch (Exception ex)
             {
@@ -561,8 +583,13 @@ namespace KegID.ViewModel
                     var value = await _dashboardService.PostKegUploadAsync(model, AppSettings.User.SessionId, Configuration.MassUpdateKegList);
                     if (value.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                     {
-                        await Application.Current.MainPage.Navigation.PopModalAsync();
-                        SimpleIoc.Default.GetInstance<KegSearchViewModel>().AssingSuccessMsgAsync();
+                        //await Application.Current.MainPage.Navigation.PopModalAsync();
+                        var param = new NavigationParameters
+                        {
+                            { "AssingSuccessMsgAsync", "AssingSuccessMsgAsync" }
+                        };
+                        //SimpleIoc.Default.GetInstance<KegSearchViewModel>().AssingSuccessMsgAsync();
+                        await _navigationService.GoBackAsync(param, useModalNavigation: true, animated: false);
                     }
                 }
             }
@@ -576,7 +603,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PopModalAsync();
+                await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+                //await Application.Current.MainPage.Navigation.PopModalAsync();
             }
             catch (Exception ex)
             {
@@ -595,6 +623,14 @@ namespace KegID.ViewModel
             {
                 Crashes.TrackError(ex);
             }
+        }
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+        }
+
+        public override void OnNavigatingTo(INavigationParameters parameters)
+        {
         }
 
         #endregion

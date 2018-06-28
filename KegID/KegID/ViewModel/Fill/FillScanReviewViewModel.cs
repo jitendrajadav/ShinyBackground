@@ -1,14 +1,17 @@
-﻿using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Ioc;
-using KegID.Common;
+﻿using KegID.Common;
 using Microsoft.AppCenter.Crashes;
-using Xamarin.Forms;
+using Prism.Commands;
+using Prism.Navigation;
+using System;
+using System.Linq;
 
 namespace KegID.ViewModel
 {
     public class FillScanReviewViewModel : BaseViewModel
     {
         #region Properties
+
+        private readonly INavigationService _navigationService;
 
         #region TrackingNumber
 
@@ -150,17 +153,19 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand ScanCommand { get;}
-        public RelayCommand SubmitCommand { get; }
+        public DelegateCommand ScanCommand { get;}
+        public DelegateCommand SubmitCommand { get; }
 
         #endregion
 
         #region Constructor
 
-        public FillScanReviewViewModel()
+        public FillScanReviewViewModel(INavigationService navigationService)
         {
-            ScanCommand = new RelayCommand(ScanCommandRecieverAsync);
-            SubmitCommand = new RelayCommand(SubmitCommandReciever);
+            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+
+            ScanCommand = new DelegateCommand(ScanCommandRecieverAsync);
+            SubmitCommand = new DelegateCommand(SubmitCommandReciever);
         }
 
         #endregion
@@ -171,30 +176,58 @@ namespace KegID.ViewModel
         {
             try
             {
-                SimpleIoc.Default.GetInstance<AddPalletsViewModel>().SubmitCommandRecieverAsync();
+                //SimpleIoc.Default.GetInstance<AddPalletsViewModel>().SubmitCommandRecieverAsync();
+
+                try
+                {
+                    var param = new NavigationParameters
+                    {
+                        { "SubmitCommandRecieverAsync", "SubmitCommandRecieverAsync" }
+                    };
+                    var formsNav = ((Prism.Common.IPageAware)_navigationService).Page;
+                    var page = formsNav.Navigation.ModalStack.Last();
+                    (page?.BindingContext as INavigationAware)?.OnNavigatingTo(param);
+                }
+                catch (Exception)
+                {
+
+                }
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 Crashes.TrackError(ex);
             }
         }
 
-        private async void ScanCommandRecieverAsync() => await Application.Current.MainPage.Navigation.PopModalAsync();
+        private async void ScanCommandRecieverAsync()
+        {
+            await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+        }
 
         internal void AssignInitialValue(string _manifestId,int _count)
         {
             try
             {
-                var partner = SimpleIoc.Default.GetInstance<FillViewModel>().PartnerModel;
-                var content = SimpleIoc.Default.GetInstance<FillViewModel>().BatchButtonTitle;
+                var partner = ConstantManager.Partner;
+                var content = "";//BatchButtonTitle;
+                //var partner = SimpleIoc.Default.GetInstance<FillViewModel>().PartnerModel;
+                //var content = SimpleIoc.Default.GetInstance<FillViewModel>().BatchButtonTitle;
                 TrackingNumber = Uuid.GetUuId();
                 ManifestTo = partner.FullName + "\n" + partner.PartnerTypeCode;
                 ItemCount = _count;
                 Contents = !string.IsNullOrEmpty(content) ? content : "No contens";
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 Crashes.TrackError(ex);
+            }
+        }
+
+        public override void OnNavigatingTo(INavigationParameters parameters)
+        {
+            if (parameters.ContainsKey("BatchId"))
+            {
+                AssignInitialValue(parameters.GetValue<string>("BatchId"), parameters.GetValue<int>("Count"));
             }
         }
 

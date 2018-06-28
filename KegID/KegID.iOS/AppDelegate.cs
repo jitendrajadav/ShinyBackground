@@ -3,7 +3,10 @@ using Foundation;
 using KegID.iOS.DependencyServices;
 using KegID.iOS.Services;
 using KegID.Messages;
+using Microsoft.AppCenter.Crashes;
 using Plugin.CrossPlatformTintedImage.iOS;
+using Prism;
+using Prism.Ioc;
 using System;
 using UIKit;
 using Xamarin.Forms;
@@ -17,14 +20,6 @@ namespace KegID.iOS
     public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
     {
         iOSLongRunningTaskExample longRunningTaskExample;
-        //void WireUpDownloadTask()
-        //{
-        //    MessagingCenter.Subscribe<DownloadMessage>(this, "Download", async message => {
-        //        var downloader = new Downloader(message.Url);
-        //        await downloader.DownloadFile();
-        //    });
-        //}
-
         public static Action BackgroundSessionCompletionHandler;
 
         public override void HandleEventsForBackgroundUrl(UIApplication application, string sessionIdentifier, Action completionHandler)
@@ -48,7 +43,7 @@ namespace KegID.iOS
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
             ZXing.Net.Mobile.Forms.iOS.Platform.Init();
             Xamarin.FormsMaps.Init();
-
+            Rg.Plugins.Popup.Popup.Init();
             TintedImageRenderer.Init();
             DependencyService.Register<OpenAppService>();
             UIApplication.SharedApplication.SetMinimumBackgroundFetchInterval(UIApplication.BackgroundFetchIntervalMinimum);
@@ -56,10 +51,15 @@ namespace KegID.iOS
             DependencyService.Register<FileStore>();
             DependencyService.Register<Share>();
 
-            LoadApplication(new App());
-
+            try
+            {
+                LoadApplication(new App(new iOSInitializer()));
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
             WireUpLongRunningTask();
-            //WireUpDownloadTask();
 
             return base.FinishedLaunching(app, options);
         }
@@ -74,15 +74,13 @@ namespace KegID.iOS
                 longRunningTaskExample.Stop();
             });
         }
+    }
 
-        // Different way to handle BG Services
-        //public override void PerformFetch(UIApplication application, Action<UIBackgroundFetchResult> completionHandler)
-        //{
-        //    // Check for new data, and display it
-        //    MessagingCenter.Send<object, string>(this, "UpdateLabel", "Hello from iOS");
-
-        //    // Inform system of fetch results
-        //    completionHandler(UIBackgroundFetchResult.NewData);
-        //}
+    public class iOSInitializer : IPlatformInitializer
+    {
+        public void RegisterTypes(IContainerRegistry containerRegistry)
+        {
+            
+        }
     }
 }

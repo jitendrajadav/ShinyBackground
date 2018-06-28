@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Ioc;
 using KegID.Common;
 using KegID.LocalDb;
 using KegID.Model;
 using KegID.Services;
-using KegID.Views;
 using Microsoft.AppCenter.Crashes;
+using Prism.Commands;
+using Prism.Navigation;
 using Realms;
 using Xamarin.Forms;
 
@@ -19,8 +18,9 @@ namespace KegID.ViewModel
     public class KegStatusViewModel : BaseViewModel
     {
         #region Properties
-        public IDashboardService DashboardService { get; set; }
 
+        public IDashboardService DashboardService { get; set; }
+        private readonly INavigationService _navigationService;
         public LocationInfo Posision { get; set; }
         public List<MaintenanceAlert> Alerts { get; set; }
 
@@ -679,28 +679,30 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public RelayCommand KegsCommand { get; }
-        public RelayCommand EditCommand { get; }
-        public RelayCommand InvalidToolsCommand { get; }
-        public RelayCommand CurrentLocationCommand { get; }
-        public RelayCommand MoveKegCommand { get; }
-        public RelayCommand AddAlertCommand { get; }
-        public RelayCommand RemoveAlertCommand { get; }
+        public DelegateCommand KegsCommand { get; }
+        public DelegateCommand EditCommand { get; }
+        public DelegateCommand InvalidToolsCommand { get; }
+        public DelegateCommand CurrentLocationCommand { get; }
+        public DelegateCommand MoveKegCommand { get; }
+        public DelegateCommand AddAlertCommand { get; }
+        public DelegateCommand RemoveAlertCommand { get; }
         
         #endregion
 
         #region Constructor
 
-        public KegStatusViewModel(IDashboardService _dashboardService)
+        public KegStatusViewModel(IDashboardService _dashboardService, INavigationService navigationService)
         {
+            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+
             DashboardService = _dashboardService;
-            KegsCommand = new RelayCommand(KegsCommandRecieverAsync);
-            EditCommand = new RelayCommand(EditCommandRecieverAsync);
-            InvalidToolsCommand = new RelayCommand(InvalidToolsCommandRecieverAsync);
-            CurrentLocationCommand = new RelayCommand(CurrentLocationCommandRecieverAsync);
-            MoveKegCommand = new RelayCommand(MoveKegCommandRecieverAsync);
-            AddAlertCommand = new RelayCommand(AddAlertCommandRecieverAsync);
-            RemoveAlertCommand = new RelayCommand(RemoveAlertCommandRecieverAsync);
+            KegsCommand = new DelegateCommand(KegsCommandRecieverAsync);
+            EditCommand = new DelegateCommand(EditCommandRecieverAsync);
+            InvalidToolsCommand = new DelegateCommand(InvalidToolsCommandRecieverAsync);
+            CurrentLocationCommand = new DelegateCommand(CurrentLocationCommandRecieverAsync);
+            MoveKegCommand = new DelegateCommand(MoveKegCommandRecieverAsync);
+            AddAlertCommand = new DelegateCommand(AddAlertCommandRecieverAsync);
+            RemoveAlertCommand = new DelegateCommand(RemoveAlertCommandRecieverAsync);
         }
 
         #endregion
@@ -711,8 +713,14 @@ namespace KegID.ViewModel
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PushModalAsync(new MoveView(), animated: false);
-                SimpleIoc.Default.GetInstance<MoveViewModel>().AssignInitialValue(KegId, Barcode, "1", string.Empty, string.Empty, true);
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new MoveView(), animated: false);
+                //SimpleIoc.Default.GetInstance<MoveViewModel>().AssignInitialValue(KegId, Barcode, "1", string.Empty, string.Empty, true);
+                var param = new NavigationParameters
+                    {
+                        { "AssignInitialValue", Barcode }, {"KegId",KegId }
+                    };
+                await _navigationService.NavigateAsync(new Uri("MoveView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+
             }
             catch (Exception ex)
             {
@@ -785,7 +793,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PopModalAsync();
+                //await Application.Current.MainPage.Navigation.PopModalAsync();
+                await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
                 KegHasAlert = false;
                 Alerts = null;
                 MaintenanceCollection.Clear();
@@ -801,8 +810,14 @@ namespace KegID.ViewModel
         {
             try
             {
-                SimpleIoc.Default.GetInstance<EditKegViewModel>().AssingInitialValue(KegId, Barcode, Owner, TypeName, SizeName);
-                await Application.Current.MainPage.Navigation.PushModalAsync(new EditKegView(), animated: false);
+                //SimpleIoc.Default.GetInstance<EditKegViewModel>().AssingInitialValue(KegId, Barcode, Owner, TypeName, SizeName);
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new EditKegView(), animated: false);
+                var param = new NavigationParameters
+                    {
+                        { "AssignInitialValue", Barcode }, {"KegId",KegId },{"Owner",Owner },{"TypeName",TypeName },{"SizeName",SizeName }
+                    };
+                await _navigationService.NavigateAsync(new Uri("EditKegView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+
             }
             catch (Exception ex)
             {
@@ -839,8 +854,14 @@ namespace KegID.ViewModel
         {
             try
             {
-                SimpleIoc.Default.GetInstance<PartnerInfoMapViewModel>().AssignInitialValue(Posision.Lat, Posision.Lon, Posision.Label, Posision.Address);
-                await Application.Current.MainPage.Navigation.PushModalAsync(new PartnerInfoMapView(), animated: false);
+                //SimpleIoc.Default.GetInstance<PartnerInfoMapViewModel>().AssignInitialValue(Posision.Lat, Posision.Lon, Posision.Label, Posision.Address);
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new PartnerInfoMapView(), animated: false);
+                var param = new NavigationParameters
+                    {
+                        { "Posision", Posision }
+                    };
+                await _navigationService.NavigateAsync(new Uri("PartnerInfoMapView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+
             }
             catch (Exception ex)
             {
@@ -978,6 +999,14 @@ namespace KegID.ViewModel
                     RemoveSelecetedMaintenance = null;
                 } 
             }
+        }
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+        }
+
+        public override void OnNavigatingTo(INavigationParameters parameters)
+        {
         }
 
         //private async void RemoveAlertPerticularKegAsync(MaintenanceAlert _model)
