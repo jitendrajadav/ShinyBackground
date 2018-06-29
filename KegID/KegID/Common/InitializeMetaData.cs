@@ -23,6 +23,7 @@ namespace KegID.Common
             await LoadBrandAsync(_moveService);
             await LoadMaintenanceTypeAsync(_maintainService);
             await LoadBatchAsync(_fillService);
+            await LoadPartnerTypeAsync(_moveService);
         }
 
         public static async Task LoadBatchAsync(IFillService _fillService)
@@ -257,6 +258,29 @@ namespace KegID.Common
             }
             finally
             {
+            }
+        }
+
+        public async static Task LoadPartnerTypeAsync(IMoveService _moveService)
+        {
+            try
+            {
+                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                var value = await _moveService.GetPartnerTypeAsync(AppSettings.User.SessionId);
+                if (value.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
+                {
+                    await RealmDb.WriteAsync((realmDb) =>
+                     {
+                         foreach (var item in value.PartnerTypeModel)
+                         {
+                             realmDb.Add(item);
+                         }
+                     });
+                }
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
             }
         }
     }

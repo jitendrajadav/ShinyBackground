@@ -899,6 +899,8 @@ namespace KegID.ViewModel
             SubmitCommand = new DelegateCommand(SubmitCommandRecieverAsync);
             ShippingAddressCommand = new DelegateCommand(ShippingAddressCommandRecieverAsync);
             BillingAddressCommand = new DelegateCommand(BillingAddressCommandRecieverAsync);
+
+            LoadPartnerAsync(null);
         }
 
         #endregion
@@ -1052,40 +1054,10 @@ namespace KegID.ViewModel
             }
         }
 
-        public async void LoadPartnerAsync(PartnerInfoResponseModel partnerInfoModel)
+        public void LoadPartnerAsync(PartnerInfoResponseModel partnerInfoModel)
         {
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-            IList<PartnerTypeModel> model = RealmDb.All<PartnerTypeModel>().ToList();
-
-            try
-            {
-                if (model.Count > 0)
-                    PartnerTypeCollectioin = model;
-                else
-                {
-                    Loader.StartLoading();
-                    var value = await _moveService.GetPartnerTypeAsync(AppSettings.User.SessionId);
-                    if (value.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
-                    {
-                        PartnerTypeCollectioin = value.PartnerTypeModel;
-                        RealmDb.Write(() =>
-                        {
-                            foreach (var item in PartnerTypeCollectioin)
-                            {
-                                RealmDb.Add(item);
-                            }
-                        });
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                 Crashes.TrackError(ex);
-            }
-            finally
-            {
-                Loader.StopLoading();
-            }
+            PartnerTypeCollectioin = RealmDb.All<PartnerTypeModel>().ToList();
 
             if (partnerInfoModel != null)
                 AssingValueAddPartner(partnerInfoModel);
@@ -1120,7 +1092,13 @@ namespace KegID.ViewModel
 
         public override void OnNavigatingTo(INavigationParameters parameters)
         {
-            
+            if (parameters.ContainsKey("EditAddress"))
+            {
+                if (parameters.GetValue<bool>("IsShipping"))
+                    ShipAddress = parameters.GetValue<Address>("EditAddress");
+                else
+                    BillAddress = parameters.GetValue<Address>("EditAddress");
+            }
         }
 
         #endregion

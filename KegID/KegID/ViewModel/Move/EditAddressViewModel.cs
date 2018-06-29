@@ -290,7 +290,8 @@ namespace KegID.ViewModel
 
         public DelegateCommand BackCommand { get; }
         public DelegateCommand DoneCommand { get; }
-       
+        public bool IsShipping { get; private set; }
+
         #endregion
 
         #region Constructor
@@ -321,7 +322,10 @@ namespace KegID.ViewModel
                     Country = Country
                 };
 
-                //if (AddressTitle.Contains("Shipping"))
+                if (AddressTitle.Contains("Shipping"))
+                    IsShipping = true;
+                else
+                    IsShipping = false;
                 //    SimpleIoc.Default.GetInstance<AddPartnerViewModel>().ShipAddress = address;
                 //else
                 //    SimpleIoc.Default.GetInstance<AddPartnerViewModel>().BillAddress = address;
@@ -329,10 +333,9 @@ namespace KegID.ViewModel
                 //await Application.Current.MainPage.Navigation.PopModalAsync();
                 var param = new NavigationParameters
                         {
-                            { "address", address }
+                            { "EditAddress", address },{ "IsShipping", IsShipping }
                         };
                 await _navigationService.GoBackAsync(param, useModalNavigation: true, animated: false);
-
 
                 CleanupData();
             }
