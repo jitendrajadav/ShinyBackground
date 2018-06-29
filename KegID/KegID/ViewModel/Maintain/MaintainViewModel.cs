@@ -142,6 +142,7 @@ namespace KegID.ViewModel
             NextCommand = new DelegateCommand(NextCommandRecieverAsync);
             PartnerModel.FullName = "Select a location";
             ItemTappedCommand = new DelegateCommand<MaintainTypeReponseModel>((model) => ItemTappedCommandReciever(model));
+            LoadMaintenanceTypeAsync();
         }
 
         #endregion
@@ -215,7 +216,6 @@ namespace KegID.ViewModel
 
         public override void OnNavigatingTo(INavigationParameters parameters)
         {
-            LoadMaintenanceTypeAsync();
             if (parameters.ContainsKey("model"))
             {
                 PartnerModel= parameters.GetValue<PartnerModel>("model");

@@ -372,7 +372,6 @@ namespace KegID.ViewModel
                         { "GenerateManifestIdAsync", "GenerateManifestIdAsync" }
                     };
                 await _navigationService.NavigateAsync(new Uri("FillScanView", UriKind.Relative), param, useModalNavigation: true, animated: false);
-
             }
             catch (Exception ex)
             {
@@ -384,7 +383,6 @@ namespace KegID.ViewModel
         {
             try
             {
-
                 if (!PalletCollection.Any(x => x.ManifestId == manifestId))
                 {
                     PalletCollection.Add(new PalletModel() { Barcode = barcodes, Count = barcodes.Count(), ManifestId = manifestId });
@@ -404,7 +402,6 @@ namespace KegID.ViewModel
                     else
                         Kegs = string.Format("({0} Keg)", PalletCollection.Sum(x => x.Count));
                 }
-                //await Application.Current.MainPage.Navigation.PopModalAsync();
                 await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
             }
             catch (Exception ex)

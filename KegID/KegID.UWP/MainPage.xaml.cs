@@ -54,10 +54,11 @@ namespace KegID.UWP
 
             await BackgroundExecutionManager.RequestAccessAsync();
 
-            var builder = new BackgroundTaskBuilder();
-
-            builder.Name = "BackgroundTask";
-            builder.TaskEntryPoint = "KegID.RuntimeComponent.BackgroundTask";
+            var builder = new BackgroundTaskBuilder
+            {
+                Name = "BackgroundTask",
+                TaskEntryPoint = "KegID.RuntimeComponent.BackgroundTask"
+            };
             builder.SetTrigger(new SystemTrigger(SystemTriggerType.InternetAvailable, false));
 
             BackgroundTaskRegistration task = builder.Register();

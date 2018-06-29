@@ -864,7 +864,7 @@ namespace KegID.ViewModel
             {
                 await AssignValidatedValueAsync(parameters.GetValue<Partner>("Partner"));
             }
-            if (parameters.ContainsKey("Tags"))
+            if (parameters.ContainsKey("AddTags"))
             {
                 AssignAddTagsValue(ConstantManager.Tags, ConstantManager.TagsStr);
             }

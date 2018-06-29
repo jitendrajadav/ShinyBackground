@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using KegID.Common;
 using KegID.Model;
-using KegID.Views;
 using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
-using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
@@ -15,6 +14,7 @@ namespace KegID.ViewModel
         #region Properties
 
         private readonly INavigationService _navigationService;
+        public List<string> Barcodes { get; private set; }
 
         #region TrackingNo
 
@@ -177,13 +177,15 @@ namespace KegID.ViewModel
 
         private async void GridTappedCommandRecieverAsync()
         {
-            //await Application.Current.MainPage.Navigation.PushModalAsync(new ContentTagsView(), animated: false);
-            await _navigationService.NavigateAsync(new Uri("ContentTagsView", UriKind.Relative), useModalNavigation: true, animated: false);
+            var param = new NavigationParameters
+                            {
+                                { "Barcode", Barcodes }
+                            };
+            await _navigationService.NavigateAsync(new Uri("ContentTagsView", UriKind.Relative), param, useModalNavigation: true, animated: false);
         }
 
         private async void HomeCommandCommandRecieverAsync()
         {
-            //await Application.Current.MainPage.Navigation.PopModalAsync();
             await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
         }
 
@@ -192,9 +194,10 @@ namespace KegID.ViewModel
             try
             {
                 TrackingNo = Uuid.GetUuId();
-
+                StockLocation = ConstantManager.Partner.FullName + "\n" + ConstantManager.Partner.PartnerTypeName;
                 //StockLocation = SimpleIoc.Default.GetInstance<MaintainViewModel>().PartnerModel.FullName + "\n" + SimpleIoc.Default.GetInstance<MaintainViewModel>().PartnerModel.PartnerTypeName;
-                //ItemCount = barcodeCollection.Count;
+                ItemCount = barcodeCollection.Count;
+                Barcodes = barcodeCollection.Select(x => x.Barcode).ToList();
                 //SimpleIoc.Default.GetInstance<ContentTagsViewModel>().ContentCollection = barcodeCollection.Select(x => x.Barcode).ToList();
 
                 Contents = string.Empty;
@@ -212,7 +215,10 @@ namespace KegID.ViewModel
 
         public override void OnNavigatingTo(INavigationParameters parameters)
         {
-
+            if (parameters.ContainsKey("BarcodeModel"))
+            {
+                LoadInfo(parameters.GetValue<IList<BarcodeModel>>("BarcodeModel"));
+            }
         }
 
         #endregion

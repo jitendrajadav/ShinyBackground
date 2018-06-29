@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using KegID.Common;
 using KegID.DependencyServices;
-using KegID.Messages;
 using KegID.Model;
 using KegID.Services;
 using Microsoft.AppCenter.Crashes;
@@ -20,6 +19,7 @@ namespace KegID.ViewModel
         private readonly INavigationService _navigationService;
         public IMoveService _moveService { get; set; }
         public SearchPalletResponseModel Model { get; set; }
+        public List<string> Barcodes { get; private set; }
 
         #region ManifestId
 
@@ -352,7 +352,11 @@ namespace KegID.ViewModel
         private async void GridTappedCommandRecieverAsync()
         {
             //await Application.Current.MainPage.Navigation.PushModalAsync(new ContentTagsView(), animated: false);
-            await _navigationService.NavigateAsync(new Uri("ContentTagsView", UriKind.Relative), useModalNavigation: true, animated: false);
+            var param = new NavigationParameters
+                            {
+                                { "Barcode", Barcodes }
+                            };
+            await _navigationService.NavigateAsync(new Uri("ContentTagsView", UriKind.Relative), param,useModalNavigation: true, animated: false);
         }
 
         private void ShareCommandReciever()
@@ -384,12 +388,7 @@ namespace KegID.ViewModel
                 TargetLocation = value.StockLocation.FullName;
                 ShippingDate = value.BuildDate.Date;
                 ItemCount = value.PalletItems.Count;
-                PalletToContentTagsPagesMsg msg = new PalletToContentTagsPagesMsg
-                {
-                    Barcode = value.PalletItems.Select(selector: x => x.Barcode).ToList()
-                };
-                MessagingCenter.Send(msg, "PalletToContentTagsPagesMsg");
-
+                Barcodes = value.PalletItems.Select(selector: x => x.Barcode).ToList();
                 //SimpleIoc.Default.GetInstance<ContentTagsViewModel>().ContentCollection = value.PalletItems.Select(selector: x => x.Barcode).ToList();
             }
             catch (Exception ex)
@@ -412,11 +411,7 @@ namespace KegID.ViewModel
                 TargetLocation = model.LocationName;
                 ShippingDate = model.BuildDate.Date;
                 ItemCount = (int)model.BuildCount;
-                PalletToContentTagsPagesMsg msg = new PalletToContentTagsPagesMsg
-                {
-                    Barcode = new List<string> { model.Barcode }
-                };
-                MessagingCenter.Send(msg, "PalletToContentTagsPagesMsg");
+                Barcodes = new List<string> { model.Barcode };
                 //SimpleIoc.Default.GetInstance<ContentTagsViewModel>().ContentCollection = new List<string> { model.Barcode };
             }
             catch (Exception ex)

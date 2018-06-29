@@ -372,8 +372,8 @@ namespace KegID.ViewModel
 
         public async void SubmitCommandRecieverAsync()
         {
-            var result = BarcodeCollection.Where(x => x.Kegs.Partners.Count > 1).ToList();
-            if (result.Count > 0)
+            var result = BarcodeCollection.Where(x => x?.Kegs?.Partners?.Count > 1).ToList();
+            if (result?.Count > 0)
                 await NavigateToValidatePartner(result.ToList());
             else
             {
@@ -430,7 +430,7 @@ namespace KegID.ViewModel
                         {
                             { "BarcodeModel", BarcodeCollection }
                         };
-                        await _navigationService.NavigateAsync(new Uri("ValidateBarcodeView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+                        await _navigationService.NavigateAsync(new Uri("MaintainDetailView", UriKind.Relative), param, useModalNavigation: true, animated: false);
 
                     }
                     else

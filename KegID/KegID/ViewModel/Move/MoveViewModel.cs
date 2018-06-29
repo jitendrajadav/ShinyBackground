@@ -603,7 +603,7 @@ namespace KegID.ViewModel
                 IsRequiredVisible = false;
                 IsSaveDraftVisible = true;
             }
-            if (parameters.ContainsKey("Tags"))
+            if (parameters.ContainsKey("AddTags"))
             {
                 AssignAddTagsValue(ConstantManager.Tags, ConstantManager.TagsStr);
             }

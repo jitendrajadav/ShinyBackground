@@ -27,6 +27,7 @@ namespace KegID.Common
         public static string TagsStr { get; set; }
         public static IList<MaintainTypeReponseModel> MaintainTypeCollection { get; set; }
         public static string Contents { get; internal set; }
+        public static string DBPartnerId { get; internal set; }
 
         internal static IList<ManifestModel> CheckDraftmaniFestsAsync()
         {

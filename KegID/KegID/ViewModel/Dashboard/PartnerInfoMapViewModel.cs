@@ -4,7 +4,6 @@ using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
 using System;
-using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
@@ -87,7 +86,11 @@ namespace KegID.ViewModel
 
         public override void OnNavigatingTo(INavigationParameters parameters)
         {
-            
+            //if (parameters.ContainsKey("PartnerInfoModel"))
+            //{
+            //    var value = parameters.GetValue<PartnerInfoResponseModel>("PartnerInfoModel");
+            //    AssignInitialValue(value.Lat, value.Lat, value.BillAddress.City, value.BillAddress.Line1);
+            //}
         }
 
         #endregion

@@ -829,7 +829,7 @@ namespace KegID.ViewModel
             {
                 AssignBarcodeScannerValue(parameters.GetValue<IList<BarcodeModel>>("models"));
             }
-            if (parameters.ContainsKey("Tags"))
+            if (parameters.ContainsKey("AddTags"))
             {
                 Tags = ConstantManager.Tags;
                 TagsStr = ConstantManager.TagsStr;

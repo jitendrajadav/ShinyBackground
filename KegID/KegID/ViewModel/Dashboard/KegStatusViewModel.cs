@@ -1003,10 +1003,16 @@ namespace KegID.ViewModel
 
         public override void OnNavigatedFrom(INavigationParameters parameters)
         {
+
         }
 
-        public override void OnNavigatingTo(INavigationParameters parameters)
+        public async override void OnNavigatingTo(INavigationParameters parameters)
         {
+            if (parameters.ContainsKey("KegStatusModel"))
+            {
+                var model = parameters.GetValue<KegPossessionResponseModel>("KegStatusModel");
+                await LoadMaintenanceHistoryAsync(model.KegId, model.Contents, model.HeldDays, model.PossessorName, model.Barcode, model.TypeName, model.SizeName);
+            }
         }
 
         //private async void RemoveAlertPerticularKegAsync(MaintenanceAlert _model)

@@ -68,7 +68,6 @@ namespace KegID.ViewModel
 
         private async void ManifestCommandRecieverAsync()
         {
-            //await Application.Current.MainPage.Navigation.PopModalAsync();
             await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
         }
 

@@ -432,12 +432,18 @@ namespace KegID.ViewModel
                 if (model != null)
                 {
                     //PartnerId = model.Location.PartnerId;
-                    AppSettings.User.DBPartnerId = model.Location.PartnerId;
+                    try
+                    {
+                        ConstantManager.DBPartnerId = model.Location.PartnerId;
+                    }
+                    catch (Exception)
+                    {
+                    }
                     //SimpleIoc.Default.GetInstance<PartnerInfoViewModel>().PartnerModel = model.Location;
                     //await Application.Current.MainPage.Navigation.PushModalAsync(new PartnerInfoView(), animated: false);
                     var param = new NavigationParameters
                     {
-                        { "model", model }
+                        { "PartnerModel", model }
                     };
                     await _navigationService.NavigateAsync(new Uri("PartnerInfoView", UriKind.Relative), param, useModalNavigation: true, animated: false);
 

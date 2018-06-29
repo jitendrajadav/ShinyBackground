@@ -616,7 +616,6 @@ namespace KegID.ViewModel
             {
                 AssingScanKegsValue(ConstantManager.Barcodes);
             }
-
             if (parameters.ContainsKey("model"))
             {
                 AssignPartnerValue(parameters.GetValue<PartnerModel>("model"));
@@ -625,7 +624,7 @@ namespace KegID.ViewModel
             {
                 GenerateManifestIdAsync(null);
             }
-            if (parameters.ContainsKey("model"))
+            if (parameters.ContainsKey("AddTags"))
             {
                 AddInfoTitle = ConstantManager.TagsStr;
                 Tags = ConstantManager.Tags;

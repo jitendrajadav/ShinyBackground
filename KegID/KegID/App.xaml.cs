@@ -48,6 +48,8 @@ namespace KegID
             containerRegistry.RegisterForNavigation<SelectPrinterView, SelectPrinterViewModel>();
             
             containerRegistry.RegisterForNavigation<BulkUpdateScanView, BulkUpdateScanViewModel>();
+            containerRegistry.RegisterForNavigation<DashboardPartnersView, DashboardPartnersViewModel>();
+
             containerRegistry.RegisterForNavigation<DashboardView, DashboardViewModel>();
             containerRegistry.RegisterForNavigation<EditKegView, EditKegViewModel>();
             containerRegistry.RegisterForNavigation<InventoryView, InventoryViewModel>();

@@ -22,7 +22,7 @@ namespace KegID.Common
         private const string DefaultMobileCenterAnalyticsWindows = "YOUR_APPCENTER_WINDOWS_ANALYTICS_ID";
 
         // Maps
-        private const string DefaultBingMapsApiKey = "YOUR_BINGMAPS_API_KEY";
+        private const string DefaultBingMapsApiKey = "Ao8rhjv5SFQSx1ghwMhoW-OboAS7PyENTdGpVjoH8AUM5Vix_3q5PiuXCHDD4Nfu";
         public const string DefaultFallbackMapsLocation = "19.125896 -72.0235896";
 
         // Bots

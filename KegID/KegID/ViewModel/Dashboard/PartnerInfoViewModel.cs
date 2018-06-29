@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using KegID.Common;
+using KegID.DependencyServices;
 using KegID.Model;
 using KegID.Services;
 using KegID.Views;
@@ -437,7 +438,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                PartnerInfoModel = await _dashboardService.GetPartnerInfoAsync(AppSettings.User.SessionId, AppSettings.User.DBPartnerId);
+                PartnerInfoModel = await _dashboardService.GetPartnerInfoAsync(AppSettings.User.SessionId, ConstantManager.DBPartnerId);
                 KegsHeld = PartnerInfoModel.KegsHeld.ToString();
                 Notes = PartnerInfoModel.Notes;
                 Ref = PartnerInfoModel.ReferenceKey;
@@ -478,6 +479,13 @@ namespace KegID.ViewModel
                     {
                         { "PartnerInfoModel", PartnerInfoModel }
                     };
+                ConstantManager.Position = new LocationInfo
+                {
+                    Lat = PartnerInfoModel.Lat,
+                    Lon = PartnerInfoModel.Lon,
+                    Label = PartnerInfoModel.BillAddress.City,
+                    Address = PartnerInfoModel.BillAddress.Line1
+                };
                 await _navigationService.NavigateAsync(new Uri("PartnerInfoMapView", UriKind.Relative), param, useModalNavigation: true, animated: false);
 
             }
@@ -540,11 +548,12 @@ namespace KegID.ViewModel
                            "Call"))
                 {
                     // TODO: dial the phone
-                    //var dialer = DependencyService.Get<IDialer>();
-                    //if (dialer != null)
-                    //    await dialer.DialAsync(translatedNumber);
+                    var dialer = DependencyService.Get<IDialer>();
+                    if (dialer != null)
+                        await dialer.DialAsync(translatedNumber);
 
-                    PhoneDialer.Open(translatedNumber);
+                    // Not working with -
+                    //PhoneDialer.Open(translatedNumber);
                 }
             }
             catch (ArgumentNullException anEx)
@@ -630,7 +639,10 @@ namespace KegID.ViewModel
 
         public override void OnNavigatingTo(INavigationParameters parameters)
         {
-            
+            if (parameters.ContainsKey("PartnerModel"))
+            {
+                PartnerModel = parameters.GetValue<PossessorResponseModel>("PartnerModel").Location;
+            }
         }
 
         #endregion

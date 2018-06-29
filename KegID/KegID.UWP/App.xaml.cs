@@ -1,5 +1,4 @@
 ﻿using CarouselView.FormsPlugin.UWP;
-using FFImageLoading.Forms.WinUWP;
 using Plugin.CrossPlatformTintedImage.UWP;
 using System;
 using System.Collections.Generic;
@@ -23,8 +22,8 @@ namespace KegID.UWP
         /// </summary>
         public App()
         {
-            this.InitializeComponent();
-            this.Suspending += OnSuspending;
+            InitializeComponent();
+            Suspending += OnSuspending;
         }
 
         /// <summary>
@@ -34,25 +33,24 @@ namespace KegID.UWP
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-
-
-            Frame rootFrame = Window.Current.Content as Frame;
-
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
-            if (rootFrame == null)
+            if (!(Window.Current.Content is Frame rootFrame))
             {
                 // Create a Frame to act as the navigation context and navigate to the first page
                 rootFrame = new Frame();
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
-                List<Assembly> assembliesToInclude = new List<Assembly>();
-                assembliesToInclude.Add(typeof(CarouselViewRenderer).GetTypeInfo().Assembly);
+                List<Assembly> assembliesToInclude = new List<Assembly>
+                {
+                    typeof(CarouselViewRenderer).GetTypeInfo().Assembly
+                };
                 Xamarin.Forms.Forms.Init(e, assembliesToInclude);
 
                 TintedImageRenderer.Init();
-                CachedImageRenderer.Init();
+                FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
+                Rg.Plugins.Popup.Popup.Init();
                 ZXing.Net.Mobile.Forms.WindowsUniversal.ZXingScannerViewRenderer.Init();
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)

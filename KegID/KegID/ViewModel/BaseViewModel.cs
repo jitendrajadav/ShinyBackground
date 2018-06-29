@@ -1,11 +1,10 @@
-﻿
-using KegID.Localization;
+﻿using KegID.Localization;
 using Prism.Mvvm;
 using Prism.Navigation;
 
 namespace KegID.ViewModel
 {
-    public class BaseViewModel : BindableBase, INavigationAware
+    public abstract class BaseViewModel : BindableBase, INavigationAware
     {
         public LocalizedResources Resources
         {

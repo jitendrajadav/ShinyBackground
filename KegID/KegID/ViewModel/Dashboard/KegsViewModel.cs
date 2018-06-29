@@ -129,7 +129,7 @@ namespace KegID.ViewModel
                 //await SimpleIoc.Default.GetInstance<KegStatusViewModel>().LoadMaintenanceHistoryAsync(model.KegId, model.Contents, model.HeldDays, model.PossessorName, model.Barcode, model.TypeName, model.SizeName);
                 var param = new NavigationParameters
                     {
-                        { "model", model }
+                        { "KegStatusModel", model }
                     };
                 await _navigationService.NavigateAsync(new Uri("KegStatusView", UriKind.Relative), param, useModalNavigation: true, animated: false);
 
@@ -145,7 +145,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                var value = await _dashboardService.GetKegPossessionAsync(AppSettings.User.SessionId, AppSettings.User.DBPartnerId);
+                var value = await _dashboardService.GetKegPossessionAsync(AppSettings.User.SessionId, ConstantManager.DBPartnerId);
                 KegPossessionCollection = value.KegPossessionResponseModel;
                 KegsTitle = KegPossessionCollection.FirstOrDefault().PossessorName;
             }

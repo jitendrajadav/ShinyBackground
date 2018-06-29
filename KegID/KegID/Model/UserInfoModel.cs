@@ -31,7 +31,6 @@ namespace KegID.Model
         public string SessionId { get; set; }
         public long Overdue_days { get; set; }
         public long At_risk_days { get; set; }
-        public string DBPartnerId { get; set; }
 
     }
 }

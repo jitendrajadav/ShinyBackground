@@ -108,7 +108,7 @@ namespace KegID.ViewModel
                     {
                         var param = new NavigationParameters
                                 {
-                                    { "Tags", ConstantManager.Tags }
+                                    { "AddTags", ConstantManager.Tags }
                                 };
                         await _navigationService.GoBackAsync(param, useModalNavigation: true, animated: false);
                     }
