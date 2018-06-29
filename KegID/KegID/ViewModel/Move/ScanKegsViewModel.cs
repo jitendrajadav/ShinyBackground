@@ -401,7 +401,6 @@ namespace KegID.ViewModel
                 {
                     ConstantManager.IsFromScanned = true;
                     await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), useModalNavigation: true, animated: false);
-                    //await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView(), animated: false);
                 }
             }
             catch (Exception ex)
@@ -548,17 +547,6 @@ namespace KegID.ViewModel
                 {
                     Crashes.TrackError(ex);
                 }
-            }
-        }
-
-        public void RemoveView(INavigationService navigationService, string name)
-        {
-            var formsNav = ((Prism.Common.IPageAware)navigationService).Page;
-            var pageType = PageNavigationRegistry.GetPageType(name);
-           var  page = formsNav.Navigation.ModalStack.LastOrDefault(p => p.GetType() == pageType);
-            if (page != null)
-            {
-                formsNav.Navigation.RemovePage(page);
             }
         }
 

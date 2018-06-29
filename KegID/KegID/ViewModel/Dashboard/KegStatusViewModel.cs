@@ -717,7 +717,7 @@ namespace KegID.ViewModel
                 //SimpleIoc.Default.GetInstance<MoveViewModel>().AssignInitialValue(KegId, Barcode, "1", string.Empty, string.Empty, true);
                 var param = new NavigationParameters
                     {
-                        { "AssignInitialValue", Barcode }, {"KegId",KegId }
+                        { "AssignInitialValueFromKegStatus", Barcode }, {"KegId",KegId }
                     };
                 await _navigationService.NavigateAsync(new Uri("MoveView", UriKind.Relative), param, useModalNavigation: true, animated: false);
 

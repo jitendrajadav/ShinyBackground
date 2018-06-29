@@ -612,6 +612,13 @@ namespace KegID.ViewModel
                 var model = parameters.GetValue<ManifestModel>("AssignInitialValue");
                 AssignInitialValue(model.ManifestId, model.ManifestItems.Count > 0 ? model.ManifestItems.FirstOrDefault().Barcode : string.Empty, model.ManifestItemsCount > 0 ? model.ManifestItemsCount.ToString() : string.Empty, model.OwnerName, model.ReceiverId, true);
             }
+            if (parameters.ContainsKey("AssignInitialValueFromKegStatus"))
+            {
+                var Barcode = parameters.GetValue<string>("AssignInitialValueFromKegStatus");
+                var KegId = parameters.GetValue<string>("KegId");
+                AssignInitialValue(KegId, Barcode, "1", string.Empty, string.Empty, true);
+            }
+            
         }
 
         public override void OnNavigatedFrom(INavigationParameters parameters)
