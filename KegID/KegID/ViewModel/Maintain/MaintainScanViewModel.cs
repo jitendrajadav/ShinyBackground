@@ -285,7 +285,7 @@ namespace KegID.ViewModel
                 //SimpleIoc.Default.GetInstance<ValidateBarcodeViewModel>().LoadBarcodeValue(models);
                 var param = new NavigationParameters
                     {
-                        { "models", models }
+                        { "model", models }
                     };
                 await _navigationService.NavigateAsync(new Uri("ValidateBarcodeView", UriKind.Relative), param, useModalNavigation: true, animated: false);
 
