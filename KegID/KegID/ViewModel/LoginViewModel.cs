@@ -2,11 +2,11 @@
 using KegID.LocalDb;
 using KegID.Model;
 using KegID.Services;
-using KegID.Views;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
+using Prism.Services;
 using Realms;
 using System;
 using System.Linq;
@@ -19,6 +19,7 @@ namespace KegID.ViewModel
 
         #region Properties
 
+        private readonly IPageDialogService _dialogService;
         public static IAccountService _accountService { get; set; }
         private static IMoveService _moveService { get; set; }
         private static IMaintainService _maintainService { get; set; }
@@ -139,9 +140,10 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public LoginViewModel(IAccountService accountService, INavigationService navigationService, IMoveService moveService, IMaintainService maintainService, IDashboardService dashboardService, IFillService fillService)
+        public LoginViewModel(IAccountService accountService, INavigationService navigationService, IMoveService moveService, IMaintainService maintainService, IDashboardService dashboardService, IFillService fillService, IPageDialogService dialogService)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+            _dialogService = dialogService;
             _accountService = accountService;
             _moveService = moveService;
             _maintainService = maintainService;
@@ -198,16 +200,7 @@ namespace KegID.ViewModel
 
                     try
                     {
-                        var formsNav = ((Prism.Common.IPageAware)_navigationService).Page;
-                        var value1=  formsNav.Navigation.ModalStack.LastOrDefault();
-                        var value2 = formsNav.Navigation.NavigationStack.LastOrDefault();
-
                         await _navigationService.NavigateAsync(new Uri("../MainPage", UriKind.Relative),useModalNavigation:true, animated: false);
-
-                        var formsNav1 = ((Prism.Common.IPageAware)_navigationService).Page;
-                        var value3 = formsNav1.Navigation.ModalStack.LastOrDefault();
-                        var value4 = formsNav1.Navigation.NavigationStack.LastOrDefault();
-
                     }
                     catch (Exception ex)
                     {
@@ -246,7 +239,7 @@ namespace KegID.ViewModel
                 else
                 {
                     Loader.StopLoading();
-                    await Application.Current.MainPage.DisplayAlert("Error", "Error while login please check", "Ok");
+                   await _dialogService.DisplayAlertAsync("Error", "Error while login please check", "Ok");
                 }
             }
             catch (Exception ex)
@@ -265,7 +258,7 @@ namespace KegID.ViewModel
             try
             {
                 AppSettings.RemoveUserData();
-                await Application.Current.MainPage.Navigation.PushModalAsync(new LoginView(), animated: false);
+                await _navigationService.NavigateAsync(new Uri("../LoginView", UriKind.Relative), useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {

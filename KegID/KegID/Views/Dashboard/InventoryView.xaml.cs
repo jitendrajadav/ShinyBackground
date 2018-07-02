@@ -12,23 +12,20 @@ namespace KegID.Views
         public InventoryView()
         {
             InitializeComponent();
-            //CurrentPage = Children[SimpleIoc.Default.GetInstance<InventoryViewModel>().CurrentPage];
             On<Android>().SetToolbarPlacement(ToolbarPlacement.Bottom);
         }
 
         public void OnNavigatedFrom(INavigationParameters parameters)
         {
-            CurrentPage = Children[Convert.ToInt32(parameters["CurrentPage"])];
         }
 
         public void OnNavigatedTo(INavigationParameters parameters)
         {
-            CurrentPage = Children[Convert.ToInt32(parameters["CurrentPage"])];
         }
 
         public void OnNavigatingTo(INavigationParameters parameters)
         {
-
+            CurrentPage = Children[Convert.ToInt32(parameters["currentPage"])];
         }
     }
 }

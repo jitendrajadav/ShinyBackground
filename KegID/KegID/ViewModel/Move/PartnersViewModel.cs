@@ -10,6 +10,7 @@ using Realms;
 using KegID.LocalDb;
 using Prism.Commands;
 using Prism.Navigation;
+using System.Threading;
 
 namespace KegID.ViewModel
 {
@@ -294,7 +295,7 @@ namespace KegID.ViewModel
             InternalBackgroundColor = "#4E6388";
             InternalTextColor = "White";
         }
-        
+
         #endregion
 
         #region Methods
@@ -303,12 +304,13 @@ namespace KegID.ViewModel
         {
             try
             {
-                var result = AllPartners.Where(x => x.FullName.ToLower().Contains(PartnerName.ToLower()));
+                var notNullPartners = AllPartners.Where(x => x.FullName != null).ToList();
+                var result = notNullPartners.Where(x => x.FullName.ToLower().Contains(PartnerName.ToLower())).ToList();
                 PartnerCollection = new ObservableCollection<PartnerModel>(result);
             }
             catch (Exception ex)
             {
-                 Crashes.TrackError(ex);
+                Crashes.TrackError(ex);
             }
         }
 

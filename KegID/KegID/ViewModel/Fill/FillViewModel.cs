@@ -4,6 +4,7 @@ using KegID.Model;
 using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
+using Prism.Services;
 using System;
 using Xamarin.Forms;
 
@@ -14,6 +15,7 @@ namespace KegID.ViewModel
         #region Properties
 
         private readonly INavigationService _navigationService;
+        private readonly IPageDialogService _dialogService;
 
         #region NewBatchModel
 
@@ -270,10 +272,10 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public FillViewModel(INavigationService navigationService)
+        public FillViewModel(INavigationService navigationService, IPageDialogService dialogService)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
-
+            _dialogService = dialogService;
             BatchCommand = new DelegateCommand(BatchCommandRecieverAsync);
             SizeCommand = new DelegateCommand(SizeCommandRecieverAsync);
             DestinationCommand = new DelegateCommand(DestinationCommandRecieverAsync);
@@ -289,11 +291,14 @@ namespace KegID.ViewModel
         {
             try
             {
-                var result = await Application.Current.MainPage.DisplayActionSheet("Cancel? \n You have like to save this manifest as a draft or delete?", null, null, "Delete manifest", "Save as draft");
+                var result = await _dialogService.DisplayActionSheetAsync("Cancel? \n You have like to save this manifest as a draft or delete?", null, null, "Delete manifest", "Save as draft");
                 if (result == "Delete manifest")
                 {
-                    //await Application.Current.MainPage.Navigation.PopModalAsync();
                     await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+                }
+                else
+                {
+                    //Save Draft Manifest logic here...
                 }
             }
             catch (Exception ex)
@@ -341,7 +346,7 @@ namespace KegID.ViewModel
                 }
                 else
                 {
-                    await Application.Current.MainPage.DisplayAlert("Error", "Batch is required.", "Ok");
+                    await _dialogService.DisplayAlertAsync("Error", "Batch is required.", "Ok");
                 }
             }
             catch (Exception ex)

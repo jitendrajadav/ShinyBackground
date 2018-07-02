@@ -14,6 +14,7 @@ using Xamarin.Essentials;
 using KegID.LocalDb;
 using Prism.Commands;
 using Prism.Navigation;
+using Prism.Services;
 
 namespace KegID.ViewModel
 {
@@ -22,11 +23,10 @@ namespace KegID.ViewModel
         #region Properties
 
         private readonly INavigationService _navigationService;
-
+        private readonly IPageDialogService _dialogService;
         private const string Maintenace = "maintenace.png";
         private const string ValidationOK = "validationok.png";
         private const string Cloud = "collectionscloud.png";
-
         public bool HasDone { get; set; }
         //public bool IsFromScanned { get; set; }
         public IMoveService _moveService { get; set; }
@@ -286,10 +286,10 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public ScanKegsViewModel(IMoveService moveService, INavigationService navigationService)
+        public ScanKegsViewModel(IMoveService moveService, INavigationService navigationService, IPageDialogService dialogService)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
-
+            _dialogService = dialogService;
             _moveService = moveService;
 
             DoneCommand = new DelegateCommand(DoneCommandRecieverAsync);
@@ -434,13 +434,13 @@ namespace KegID.ViewModel
                                 break;
                             }
                         }
-                        await Application.Current.MainPage.DisplayAlert("Warning", "This keg needs the following maintenance performed:\n" + strAlert, "Ok");
+                        await _dialogService.DisplayAlertAsync("Warning", "This keg needs the following maintenance performed:\n" + strAlert, "Ok");
                     }
                     else
                     {
                         if (model.Icon == "validationerror.png")
                         {
-                            await Application.Current.MainPage.DisplayAlert("Warning", "This scan could not be verified", "Keep", "Delete");
+                            bool accept = await _dialogService.DisplayAlertAsync("Warning", "This scan could not be verified", "Keep", "Delete");
                         }
                         else
                         {

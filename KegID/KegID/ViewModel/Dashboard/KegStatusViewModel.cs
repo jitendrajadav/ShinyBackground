@@ -10,8 +10,8 @@ using KegID.Services;
 using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
+using Prism.Services;
 using Realms;
-using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
@@ -21,6 +21,7 @@ namespace KegID.ViewModel
 
         public IDashboardService DashboardService { get; set; }
         private readonly INavigationService _navigationService;
+        private readonly IPageDialogService _dialogService;
         public LocationInfo Posision { get; set; }
         public List<MaintenanceAlert> Alerts { get; set; }
 
@@ -691,10 +692,10 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public KegStatusViewModel(IDashboardService _dashboardService, INavigationService navigationService)
+        public KegStatusViewModel(IDashboardService _dashboardService, INavigationService navigationService, IPageDialogService dialogService)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
-
+            _dialogService = dialogService;
             DashboardService = _dashboardService;
             KegsCommand = new DelegateCommand(KegsCommandRecieverAsync);
             EditCommand = new DelegateCommand(EditCommandRecieverAsync);
@@ -835,8 +836,7 @@ namespace KegID.ViewModel
                 {
                     foreach (var item in Alerts)
                         maintenanceStr += "-" + item.Name + "\n";
-
-                    await Application.Current.MainPage.DisplayAlert("Warning", Resources["dialog_maintenance_performed_message"] + "\n" + maintenanceStr, "Ok");
+                    await _dialogService.DisplayAlertAsync("Warning", Resources["dialog_maintenance_performed_message"] + "\n" + maintenanceStr, "Ok");
                 }
             }
             catch (Exception ex)
@@ -933,7 +933,7 @@ namespace KegID.ViewModel
                 if (result.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                 {
                     Loader.StopLoading();
-                    await Application.Current.MainPage.DisplayAlert("Alert", "Alert adedd successfuly", "Ok");
+                    await _dialogService.DisplayAlertAsync("Alert", "Alert adedd successfuly", "Ok");
                     try
                     {
                         foreach (var item in result.AddMaintenanceAlertResponseModel)
@@ -976,7 +976,8 @@ namespace KegID.ViewModel
                     if (result.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                     {
                         Loader.StopLoading();
-                        await Application.Current.MainPage.DisplayAlert("Alert", "Alert removed successfuly", "Ok");
+                        await _dialogService.DisplayAlertAsync("Alert", "Alert removed successfuly", "Ok");
+
                         foreach (var item in result.AddMaintenanceAlertResponseModel)
                         {
                             var removedItem = RemoveMaintenanceCollection.Where(x => x.Id != item.MaintenanceType.Id).First();

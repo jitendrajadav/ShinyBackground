@@ -1,14 +1,9 @@
-﻿using KegID.Services;
-using LinkOS.Plugin;
+﻿using LinkOS.Plugin;
 using LinkOS.Plugin.Abstractions;
 using Microsoft.AppCenter.Crashes;
+using Prism.Services;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Net;
-using System.Net.Sockets;
 using System.Text;
-using System.Threading;
 using Xamarin.Forms;
 
 namespace KegID.Common
@@ -16,6 +11,7 @@ namespace KegID.Common
     public static class ZebraPrinterManager
     {
         public static IDiscoveredPrinter myPrinter;
+        //private static readonly IPageDialogService _dialogService;
 
         public const String testPrint = "^XA^FO17,16^GB379,371,8^FS^FT65,255^A0N,135,134^FDTEST^FS^XZ";
 
@@ -341,6 +337,8 @@ namespace KegID.Common
             if (language.Contains("line_print"))
             {
                 Application.Current.MainPage.DisplayAlert("Switching printer to ZPL Control Language.", "Notification", "Ok");
+                //bool accept = await _dialogService.DisplayAlertAsync("Alert", "Something goes wrong please check again", "Ok");
+
             }
             // printer is already in zpl mode
             else if (language.Contains("zpl"))
@@ -355,6 +353,8 @@ namespace KegID.Common
             if (!language.Contains("zpl"))
             {
                 Application.Current.MainPage.DisplayAlert("Printer language not set. Not a ZPL printer.", "Ok", "Ok");
+                //bool accept = await _dialogService.DisplayAlertAsync("Alert", "Something goes wrong please check again", "Ok");
+
                 return false;
             }
             return true;
@@ -367,6 +367,7 @@ namespace KegID.Common
             if (!status.IsReadyToPrint)
             {
                 Application.Current.MainPage.DisplayAlert("Unable to print. Printer is " + status.Status, "test", "test");
+                //bool accept = await _dialogService.DisplayAlertAsync("Alert", "Something goes wrong please check again", "Ok");
                 return false;
             }
             return true;

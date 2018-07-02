@@ -4,9 +4,9 @@ using KegID.Services;
 using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
+using Prism.Services;
 using System;
 using System.Collections.Generic;
-using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
@@ -15,6 +15,7 @@ namespace KegID.ViewModel
         #region Properties
 
         private readonly INavigationService _navigationService;
+        private readonly IPageDialogService _dialogService;
         public IDashboardService DashboardService { get; set; }
         public string KegId { get; set; }
         public string Barcode { get; set; }
@@ -240,10 +241,10 @@ namespace KegID.ViewModel
 
         #region Contructor
 
-        public EditKegViewModel(IDashboardService _dashboardService, INavigationService navigationService)
+        public EditKegViewModel(IDashboardService _dashboardService, INavigationService navigationService, IPageDialogService dialogService)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
-
+            _dialogService = dialogService;
             DashboardService = _dashboardService;
             CancelCommand = new DelegateCommand(CancelCommandRecieverAsync);
             SaveCommand = new DelegateCommand(SaveCommandRecieverAsync);
@@ -260,13 +261,9 @@ namespace KegID.ViewModel
         {
             try
             {
-                var message = Resources["dialog_cancel_message"];
-                bool accept = await Application.Current.MainPage.DisplayAlert("Cancel?", Resources["dialog_cancel_message"], "Stay here", "Leave");
+                bool accept = await _dialogService.DisplayAlertAsync("Cancel?", Resources["dialog_cancel_message"], "Stay here", "Leave");
                 if (!accept)
-                {
-                    //await Application.Current.MainPage.Navigation.PopModalAsync();
                     await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
-                }
             }
             catch (Exception ex)
             {
@@ -324,7 +321,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView(), animated: false);
                 await _navigationService.NavigateAsync(new Uri("PartnersView", UriKind.Relative), useModalNavigation: true, animated: false);
             }
             catch (Exception ex)

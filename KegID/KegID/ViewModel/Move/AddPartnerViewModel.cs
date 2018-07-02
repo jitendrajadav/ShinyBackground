@@ -8,8 +8,8 @@ using KegID.Services;
 using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
+using Prism.Services;
 using Realms;
-using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
@@ -18,6 +18,7 @@ namespace KegID.ViewModel
         #region Properties
 
         private readonly INavigationService _navigationService;
+        private readonly IPageDialogService _dialogService;
         public IMoveService _moveService { get; set; }
 
         #region IsInternalOn
@@ -889,10 +890,10 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public AddPartnerViewModel(IMoveService moveService, INavigationService navigationService)
+        public AddPartnerViewModel(IMoveService moveService, INavigationService navigationService, IPageDialogService dialogService)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
-
+            _dialogService = dialogService;
             _moveService = moveService;
 
             CalcelCommand = new DelegateCommand(CalcelCommandRecieverAsync);
@@ -949,10 +950,9 @@ namespace KegID.ViewModel
         {
             try
             {
-                var result = await Application.Current.MainPage.DisplayAlert("Cancel?", "Are you sure you want to cancel?", "Stay here", "Leave");
-                if (!result)
+                bool accept = await _dialogService.DisplayAlertAsync("Cancel?", "Are you sure you want to cancel?", "Stay here", "Leave");
+                if (!accept)
                 {
-                    //await Application.Current.MainPage.Navigation.PopModalAsync();
                     await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
                 }
             }
@@ -977,6 +977,8 @@ namespace KegID.ViewModel
                 LocationCode = LocationCode,
                 LocationStatus = LocationStatus,
                 Notes = Notes,
+                FirstName = PartnerName,
+                LastName = PartnerName,
                 ParentPartnerId = IsInternalOn ? AppSettings.User.CompanyId : Uuid.GetUuId(),
                 PartnerId = Uuid.GetUuId(),
                 PartnerName = PartnerName,

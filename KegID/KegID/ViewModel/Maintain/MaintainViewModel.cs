@@ -4,11 +4,11 @@ using KegID.Model;
 using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
+using Prism.Services;
 using Realms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
@@ -17,6 +17,7 @@ namespace KegID.ViewModel
         #region Properties
 
         private readonly INavigationService _navigationService;
+        private readonly IPageDialogService _dialogService;
 
         #region PartnerModel
 
@@ -133,10 +134,10 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public MaintainViewModel( INavigationService navigationService)
+        public MaintainViewModel(INavigationService navigationService, IPageDialogService dialogService)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
-
+            _dialogService = dialogService;
             HomeCommand = new DelegateCommand(HomeCommandRecieverAsync);
             PartnerCommand = new DelegateCommand(PartnerCommandRecieverAsync);
             NextCommand = new DelegateCommand(NextCommandRecieverAsync);
@@ -200,8 +201,7 @@ namespace KegID.ViewModel
                     await _navigationService.NavigateAsync(new Uri("MaintainScanView", UriKind.Relative), useModalNavigation: true, animated: false);
                 }
                 else
-                    await Application.Current.MainPage.DisplayAlert("Error", "Please select at least one maintenance item to perform.", "Ok");
-
+                     await _dialogService.DisplayAlertAsync("Error", "Please select at least one maintenance item to perform.", "Ok");
             }
             catch (Exception ex)
             {

@@ -5,6 +5,7 @@ using KegID.Services;
 using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
+using Prism.Services;
 using Rg.Plugins.Popup.Extensions;
 using Xamarin.Forms;
 
@@ -14,6 +15,7 @@ namespace KegID.ViewModel
     {
         #region Properties
 
+        private readonly IPageDialogService _dialogService;
         private readonly INavigationService _navigationService;
         public IDashboardService _dashboardService { get; set; }
 
@@ -31,10 +33,10 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public SettingViewModel(IDashboardService dashboardService, INavigationService navigationService)
+        public SettingViewModel(IDashboardService dashboardService, INavigationService navigationService, IPageDialogService dialogService)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
-
+            _dialogService = dialogService;
             RefreshSettingCommand = new DelegateCommand(RefreshSettingCommandRecieverAsync);
             WhatsNewCommand = new DelegateCommand(WhatsNewCommandRecieverAsync);
             SupportCommand = new DelegateCommand(SupportCommandRecieverAsync);
@@ -67,8 +69,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                var result = await Application.Current.MainPage.DisplayAlert("Warning", "You have at least on draft item that will be deleted if you log out.", "Stay", "Log out");
-                if (!result)
+                bool accept = await _dialogService.DisplayAlertAsync("Warning", "You have at least on draft item that will be deleted if you log out.", "Stay", "Log out");
+                if (!accept)
                 {
                     try
                     {
@@ -82,7 +84,6 @@ namespace KegID.ViewModel
                     //await Application.Current.MainPage.Navigation.PopModalAsync();
                     await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
                     await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
-
                 }
             }
             catch (Exception ex)
@@ -135,7 +136,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PopPopupAsync();
+               await _navigationService.ClearPopupStackAsync(animated:false);
+                //await Application.Current.MainPage.Navigation.PopPopupAsync();
                 // You can remove the switch to UI Thread if you are already in the UI Thread.
                 Device.BeginInvokeOnMainThread(() =>
                 {

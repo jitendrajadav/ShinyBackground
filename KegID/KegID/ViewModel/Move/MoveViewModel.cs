@@ -5,6 +5,7 @@ using KegID.Services;
 using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
+using Prism.Services;
 using Realms;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ namespace KegID.ViewModel
         #region Properties
 
         private readonly INavigationService _navigationService;
+        private readonly IPageDialogService _dialogService;
         public IMoveService _moveService { get; set; }
         public string Contents { get; set; }
 
@@ -312,10 +314,10 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public MoveViewModel(IMoveService moveService, INavigationService navigationService)
+        public MoveViewModel(IMoveService moveService, INavigationService navigationService, IPageDialogService dialogService)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
-
+            _dialogService = dialogService;
             _moveService = moveService;
 
             SelectLocationCommand = new DelegateCommand(SelectLocationCommandRecieverAsync);
@@ -384,7 +386,7 @@ namespace KegID.ViewModel
                     }
                 }
                 else
-                    await Application.Current.MainPage.DisplayAlert("Alert", "Something goes wrong please check again", "Ok");
+                    await _dialogService.DisplayAlertAsync("Alert", "Something goes wrong please check again", "Ok");
             }
             catch (Exception ex)
             {
@@ -486,10 +488,15 @@ namespace KegID.ViewModel
         {
             try
             {
-                var result = await Application.Current.MainPage.DisplayActionSheet("Cancel? \n Would you like to save this manifest as a draft or delete?", null, null, "Delete manifest", "Save as draft");
-                if (result == "Delete manifest")
+                var result = await _dialogService.DisplayAlertAsync("Cancel?", "Would you like to save this manifest as a draft or delete?", "Delete manifest", "Save as draft");
+                //var result = await Application.Current.MainPage.DisplayActionSheet("Cancel? \n Would you like to save this manifest as a draft or delete?", null,null, "Delete manifest", "Save as draft");
+                if (result)
                 {
-                    await _navigationService.GoBackAsync(useModalNavigation:true, animated: false);
+                    await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+                }
+                else
+                {
+                    //Save Draft Logic here...
                 }
             }
             catch (Exception ex)
@@ -524,7 +531,7 @@ namespace KegID.ViewModel
 
                 }
                 else
-                    await Application.Current.MainPage.DisplayAlert("Error", "Please select a destination first.", "Ok");
+                    await _dialogService.DisplayAlertAsync("Error", "Please select a destination first.", "Ok");
             }
             catch (Exception ex)
             {

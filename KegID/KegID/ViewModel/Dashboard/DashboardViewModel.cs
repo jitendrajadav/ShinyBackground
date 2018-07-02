@@ -577,8 +577,7 @@ namespace KegID.ViewModel
             try
             {
                 if (refresh)
-                    await Application.Current.MainPage.Navigation.PopPopupAsync();
-
+                    await _navigationService.ClearPopupStackAsync(animated:false);
                 Result = await _dashboardService.GetDeshboardDetailAsync(AppSettings.User.SessionId);
                 Stock = Result.Stock.ToString("0,0", CultureInfo.InvariantCulture);
                 Empty = Result.Empty.ToString("0,0", CultureInfo.InvariantCulture);

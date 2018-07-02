@@ -11,6 +11,7 @@ using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
 using KegID.Messages;
+using Prism.Services;
 
 namespace KegID.ViewModel
 {
@@ -18,6 +19,7 @@ namespace KegID.ViewModel
     {
         #region Properties
 
+        private readonly IPageDialogService _dialogService;
         private readonly INavigationService _navigationService;
         public IPalletizeService _palletizeService { get; set; }
         public IMoveService _moveService { get; set; }
@@ -171,10 +173,10 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public AddPalletsViewModel(IPalletizeService palletizeService, IMoveService moveService, INavigationService navigationService)
+        public AddPalletsViewModel(IPalletizeService palletizeService, IMoveService moveService, INavigationService navigationService, IPageDialogService dialogService)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
-
+            _dialogService = dialogService;
             _palletizeService = palletizeService;
             _moveService = moveService;
 
@@ -182,28 +184,11 @@ namespace KegID.ViewModel
             FillScanCommand = new DelegateCommand(FillScanCommandRecieverAsync);
             FillKegsCommand = new DelegateCommand(FillKegsCommandRecieverAsync);
             ItemTappedCommand = new DelegateCommand<PalletModel>((model) => ItemTappedCommandRecieverAsync(model));
-
-            //HandleReceivedMessages();
         }
 
         #endregion
 
         #region Methods
-
-        //private void HandleReceivedMessages()
-        //{
-        //    MessagingCenter.Subscribe<FillScanToAddPalletPagesMsg>(this, "FillScanToAddPalletPagesMsg", message =>
-        //    {
-        //        Device.BeginInvokeOnMainThread(async () =>
-        //        {
-        //            var value = message;
-        //            if (value != null)
-        //            {
-        //              await AssignValueToAddPalletAsync(value.BatchId, value.BarcodeModels);
-        //            }
-        //        });
-        //    });
-        //}
 
         private async void ItemTappedCommandRecieverAsync(PalletModel model)
         {
@@ -248,7 +233,7 @@ namespace KegID.ViewModel
 
             if (barcodes.Count == 0)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "Error: Please add some scans.", "Ok");
+                await _dialogService.DisplayAlertAsync("Error", "Error: Please add some scans.", "Ok");
                 return;
             }
 
@@ -301,10 +286,8 @@ namespace KegID.ViewModel
                     newPallet.PalletItems.Add(item);
                 newPallets.Add(newPallet);
             }
-
-            var alertResult = await Application.Current.MainPage.DisplayAlert("Close batch", "Mark this batch as completed?", "Yes", "No");
-
-            if (alertResult)
+            bool accept = await _dialogService.DisplayAlertAsync("Close batch", "Mark this batch as completed?", "Yes", "No");
+            if (accept)
                 closedBatches = PalletCollection.Select(x => x.ManifestId).ToList();
 
             Loader.StartLoading();
@@ -358,7 +341,7 @@ namespace KegID.ViewModel
                 }
             }
             else
-                await Application.Current.MainPage.DisplayAlert("Alert", "Something goes wrong please check again", "Ok");
+                await _dialogService.DisplayAlertAsync("Alert", "Something goes wrong please check again", "Ok");
         }
 
         private async void FillScanCommandRecieverAsync()

@@ -180,7 +180,12 @@ namespace KegID.ViewModel
 
         public override void OnNavigatingTo(INavigationParameters parameters)
         {
+            if (parameters.ContainsKey("currentPage"))
+            {
+                InitialAssignValueAsync(parameters.GetValue<int>("currentPage"));
+            }
         }
+
         #endregion
     }
 }
