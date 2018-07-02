@@ -156,18 +156,6 @@ namespace KegID.ViewModel
                 });
             });
 
-            //MessagingCenter.Subscribe<ValidToScanKegPagesMsg>(this, "ValidToScanKegPagesMsg", message =>
-            //{
-            //    Device.BeginInvokeOnMainThread(async () =>
-            //    {
-            //        var value = message;
-            //        if (value != null)
-            //        {
-            //            await AssignValidatedValueAsync(value.Partner);
-            //        }
-            //    });
-            //});
-
             MessagingCenter.Subscribe<CancelledMessage>(this, "CancelledMessage", message =>
             {
                 Device.BeginInvokeOnMainThread(() =>
@@ -453,7 +441,6 @@ namespace KegID.ViewModel
         public override void OnNavigatedFrom(INavigationParameters parameters)
         {
             MessagingCenter.Unsubscribe<MaintainScanMessage>(this, "MaintainScanMessage");
-            //MessagingCenter.Unsubscribe<ValidToScanKegPagesMsg>(this, "ValidToScanKegPagesMsg");
             MessagingCenter.Unsubscribe<CancelledMessage>(this, "CancelledMessage");
         }
 
