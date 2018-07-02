@@ -108,7 +108,6 @@
     <Compile Include="DependencyServices\BackgroundService.cs" />
     <Compile Include="DependencyServices\FileStore.cs" />
     <Compile Include="DependencyServices\FileUtilImplementation.cs" />
-    <Compile Include="DependencyServices\IOSPrintService.cs" />
     <Compile Include="DependencyServices\IOSUniqueIdentifier.cs" />
     <Compile Include="DependencyServices\OpenAppService.cs" />
     <Compile Include="DependencyServices\PhoneDialerIOS.cs" />

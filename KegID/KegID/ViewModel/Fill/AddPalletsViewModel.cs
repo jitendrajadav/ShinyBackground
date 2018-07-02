@@ -457,7 +457,7 @@ namespace KegID.ViewModel
             }
             if (parameters.ContainsKey("AssignValueToAddPalletAsync"))
             {
-               await AssignValueToAddPalletAsync(parameters.GetValue<string>("AssignValueToAddPalletAsync"), parameters.GetValue<IList<BarcodeModel>>("Barcodes"));
+               await AssignValueToAddPalletAsync(parameters.GetValue<string>("AssignValueToAddPalletAsync"), parameters.GetValue<IList<BarcodeModel>>("BarcodesCollection"));
             }
         }
 

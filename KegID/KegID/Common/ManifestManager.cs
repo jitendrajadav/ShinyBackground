@@ -51,9 +51,12 @@ namespace KegID.Common
                         //},
                     };
 
-                    foreach (var tag in tags)
+                    if (tags != null)
                     {
-                        manifestItem.Tags.Add(tag);
+                        foreach (var tag in tags)
+                        {
+                            manifestItem.Tags.Add(tag);
+                        }
                     }
                     manifestItemlst.Add(manifestItem);
                     barcodeId = string.Empty;
@@ -91,9 +94,11 @@ namespace KegID.Common
 
                 foreach (var item in batches)
                     manifestModel.NewBatches.Add(item);
-
-                foreach (var item in tags)
-                    manifestModel.Tags.Add(item);
+                if (tags != null)
+                {
+                    foreach (var item in tags)
+                        manifestModel.Tags.Add(item);
+                }
 
                 foreach (var item in closedBatches)
                     manifestModel.ClosedBatches.Add(item);

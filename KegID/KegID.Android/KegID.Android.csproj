@@ -160,9 +160,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BackgroundReceiver.cs" />
     <Compile Include="DependencyServices\AndroidCloseApplication.cs" />
-    <Compile Include="DependencyServices\AndroidPrintService.cs" />
     <Compile Include="DependencyServices\AndroidUniqueIdentifier.cs" />
     <Compile Include="DependencyServices\BackgroundService.cs" />
     <Compile Include="DependencyServices\FileStore.cs" />

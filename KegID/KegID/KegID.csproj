@@ -74,9 +74,6 @@
     <Compile Update="Views\Setting\WhatIsNewView.xaml.cs">
       <DependentUpon>WhatIsNewView.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\Scanner\ScannerView.xaml.cs">
-      <DependentUpon>ScannerView.xaml</DependentUpon>
-    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -214,9 +211,6 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Setting\WhatIsNewView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\Scanner\ScannerView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

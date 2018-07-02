@@ -7,10 +7,8 @@ using Prism.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Forms;
-using ZXing.Net.Mobile.Forms;
 
 namespace KegID.ViewModel
 {
@@ -113,8 +111,8 @@ namespace KegID.ViewModel
                                 {
                                     model.Tags.Add(item);
                                 }
-                                models.Add(model); 
                             }
+                            models.Add(model);
                             try
                             {
                                 // Use default vibration length

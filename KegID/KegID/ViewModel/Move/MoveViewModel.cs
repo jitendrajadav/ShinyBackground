@@ -447,7 +447,7 @@ namespace KegID.ViewModel
         public async Task<ManifestModel> GenerateManifest()
         {
             return await ManifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.MOVE_MANIFEST, manifestId: ManifestId,
-                                barcodeCollection: ConstantManager.Barcodes, tags: Tags, partnerModel: ConstantManager.Partner, newPallets: new List<NewPallet>(), 
+                                barcodeCollection: ConstantManager.Barcodes, tags: Tags??new List<Tag>(), partnerModel: ConstantManager.Partner, newPallets: new List<NewPallet>(), 
                                 batches: new List<NewBatch>(), closedBatches: new List<string>(), validationStatus: 2, contents: Contents);
         }
 

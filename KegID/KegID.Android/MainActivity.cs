@@ -52,10 +52,7 @@ namespace KegID.Droid
                 Crashes.TrackError(ex);
             }
 
-            //New xamarin forms BG services
             WireUpLongRunningTask();
-            //WireUpLongDownloadTask();
-
         }
         public static Activity GetActivity()
         {
@@ -74,15 +71,6 @@ namespace KegID.Droid
             MessagingCenter.Subscribe<StopLongRunningTaskMessage>(this, "StopLongRunningTaskMessage", message => {
                 var intent = new Intent(this, typeof(LongRunningTaskService));
                 StopService(intent);
-            });
-        }
-
-        void WireUpLongDownloadTask()
-        {
-            MessagingCenter.Subscribe<DownloadMessage>(this, "Download", message => {
-                var intent = new Intent(this, typeof(DownloaderService));
-                intent.PutExtra("url", message.Url);
-                StartService(intent);
             });
         }
 

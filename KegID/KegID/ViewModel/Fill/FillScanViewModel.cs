@@ -648,7 +648,7 @@ namespace KegID.ViewModel
 
                         var param = new NavigationParameters
                         {
-                            { "AssignValueToAddPalletAsync", BatchId }, { "Barcodes", BarcodeCollection },
+                            { "AssignValueToAddPalletAsync", BatchId }, { "BarcodesCollection", BarcodeCollection },
                         };
                         var formsNav = ((Prism.Common.IPageAware)_navigationService).Page;
                         var page = formsNav.Navigation.ModalStack[formsNav.Navigation.ModalStack.Count-2];
