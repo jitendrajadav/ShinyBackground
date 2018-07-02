@@ -28,7 +28,6 @@ namespace KegID.ViewModel
         private const string ValidationOK = "validationok.png";
         private const string Cloud = "collectionscloud.png";
         public bool HasDone { get; set; }
-        //public bool IsFromScanned { get; set; }
         public IMoveService _moveService { get; set; }
 
         #region BarcodeCollection
@@ -484,7 +483,6 @@ namespace KegID.ViewModel
             try
             {
                 await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), useModalNavigation: true, animated: false);
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView(), animated: false);
             }
             catch (Exception ex)
             {
@@ -501,13 +499,12 @@ namespace KegID.ViewModel
                 try
                 {
                     string strBarcode = alert.FirstOrDefault().Barcode;
-                    var option = await Application.Current.MainPage.DisplayActionSheet("No keg with a barcode of \n" + strBarcode + " could be found",
+                    var option = await _dialogService.DisplayActionSheetAsync("No keg with a barcode of \n" + strBarcode + " could be found",
                         null, null, "Remove unverified scans", "Assign sizes", "Countinue with current scans", "Stay here");
                     switch (option)
                     {
                         case "Remove unverified scans":
                             BarcodeCollection.Remove(alert.FirstOrDefault());
-                            //await Application.Current.MainPage.Navigation.PopModalAsync();
                             await _navigationService.GoBackAsync(useModalNavigation:true, animated: false);
                             Cleanup();
 
@@ -555,43 +552,12 @@ namespace KegID.ViewModel
             
             try
             {
-                //var formsNav = ((Prism.Common.IPageAware)_navigationService).Page;
-                //switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), formsNav.Navigation.ModalStack.LastOrDefault().GetType().Name))
-                //{
-                //    case ViewTypeEnum.MoveView:
-                //        if (!BarcodeCollection.Any(x => x?.Kegs?.Partners?.Count > 1))
-                //        {
-                //            //SimpleIoc.Default.GetInstance<MoveViewModel>().AssingScanKegsValue(BarcodeCollection.ToList(), Tags, SelectedBrand?.BrandName);
-                //            ScanKegToMovePagesMsg pageMsg = new ScanKegToMovePagesMsg
-                //            {
-                //                Barcodes = BarcodeCollection.ToList(),
-                //                Contents = SelectedBrand?.BrandName,
-                //                Tags = ConstantManager.Tags
-                //            };
-                //            MessagingCenter.Send(pageMsg, "ScanKegToMovePagesMsg");
-                //        }
-                //        break;
-
-                //    case ViewTypeEnum.PalletizeView:
-                //        //SimpleIoc.Default.GetInstance<PalletizeViewModel>().AssingScanKegsValue(BarcodeCollection);
-
-                //        ScanKegToPalletPagesMsg palletMsg = new ScanKegToPalletPagesMsg
-                //        {
-                //            Barcodes = BarcodeCollection.ToList(),
-                //        };
-                //        MessagingCenter.Send(palletMsg, "ScanKegToPalletPagesMsg");
-                //        break;
-
-                //    default:
-                //        break;
-                //}
                 ConstantManager.Barcodes = BarcodeCollection.ToList();
                 ConstantManager.Contents = SelectedBrand?.BrandName;
                 if (BarcodeCollection.Any(x => x?.Kegs?.Partners?.Count > 1))
                     await NavigateToValidatePartner(BarcodeCollection.Where(x => x?.Kegs?.Partners?.Count > 1).ToList());
                 else
                 {
-                    //await Application.Current.MainPage.Navigation.PopModalAsync();
                     await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
                     Cleanup();
                 }
@@ -660,9 +626,6 @@ namespace KegID.ViewModel
                     }
                     else
                     {
-                        //SimpleIoc @default = SimpleIoc.Default;
-                        //string ManifestId = @default.GetInstance<MoveViewModel>().ManifestId;
-
                         var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                         var IsManifestExist = RealmDb.Find<ManifestModel>(ConstantManager.ManifestId);
                         try
@@ -772,8 +735,6 @@ namespace KegID.ViewModel
                     });
                 }
 
-                //SimpleIoc.Default.GetInstance<MoveViewModel>().AssingScanKegsValue(_barcodes: BarcodeCollection.ToList(), _tags: Tags, _contents: SelectedBrand?.BrandName);
-
                 try
                 {
                     var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
@@ -819,9 +780,6 @@ namespace KegID.ViewModel
             try
             {
                 ConstantManager.IsFromScanned = false;
-                //IsFromScanned = false;
-                //Tags = _tags;
-                //Tags = _tags;
                 TagsStr = _tagsStr;
             }
             catch (Exception ex)
@@ -834,7 +792,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //base.Cleanup();
                 BarcodeCollection.Clear();
                 TagsStr = default(string);
                 SelectedBrand = null;
@@ -865,15 +822,6 @@ namespace KegID.ViewModel
                 AssignSizesValue(ConstantManager.VerifiedBarcodes);
             }
         }
-
-        public override void OnNavigatedFrom(INavigationParameters parameters)
-        {
-            //MessagingCenter.Unsubscribe<ValidToScanKegPagesMsg>(this, "ValidToScanKegPagesMsg");
-            //MessagingCenter.Unsubscribe<ScanKegsMessage>(this, "ScanKegsMessage");
-            //MessagingCenter.Unsubscribe<CancelledMessage>(this, "CancelledMessage");
-            //MessagingCenter.Unsubscribe<PalletToScanKegPagesMsg>(this, "PalletToScanKegPagesMsg");
-        }
-
 
         #endregion
     }

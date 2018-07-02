@@ -488,9 +488,9 @@ namespace KegID.ViewModel
         {
             try
             {
-                var result = await _dialogService.DisplayAlertAsync("Cancel?", "Would you like to save this manifest as a draft or delete?", "Delete manifest", "Save as draft");
+                var result = await _dialogService.DisplayActionSheetAsync("Cancel? \n Would you like to save this manifest as a draft or delete?",null,null, "Delete manifest", "Save as draft");
                 //var result = await Application.Current.MainPage.DisplayActionSheet("Cancel? \n Would you like to save this manifest as a draft or delete?", null,null, "Delete manifest", "Save as draft");
-                if (result)
+                if (result == "Delete manifest")
                 {
                     await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
                 }
