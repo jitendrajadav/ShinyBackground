@@ -80,10 +80,12 @@ namespace KegID.ViewModel
                     {
                          Crashes.TrackError(ex);
                     }
-                    //await Application.Current.MainPage.Navigation.PopPopupAsync();
-                    //await Application.Current.MainPage.Navigation.PopModalAsync();
-                    await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
-                    await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+                    var param = new NavigationParameters
+                    {
+                        { "IsLogOut",true}
+                    };
+                    await _navigationService.ClearPopupStackAsync(animated: false);
+                    await _navigationService.NavigateAsync("/NavigationPage/LoginView", param,useModalNavigation:true);
                 }
             }
             catch (Exception ex)

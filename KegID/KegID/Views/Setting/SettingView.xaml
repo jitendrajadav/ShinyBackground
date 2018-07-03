@@ -6,7 +6,7 @@
             Title="Setting"
             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
             >
-    <!--BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Setting}"-->
+    
     <StackLayout 
         Spacing="0"
         VerticalOptions="Start"

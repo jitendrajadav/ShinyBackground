@@ -4,6 +4,8 @@ using Windows.UI.Xaml;
 using Xamarin.Forms;
 using System;
 using KegID.Common;
+using Prism;
+using Prism.Ioc;
 
 namespace KegID.UWP
 {
@@ -14,13 +16,21 @@ namespace KegID.UWP
             InitializeComponent();
             Xamarin.FormsMaps.Init(AppSettings.BingMapsApiKey);
 
-            LoadApplication(new KegID.App());
+            LoadApplication(new KegID.App(new UwpInitializer()));
 
             //if (IsRegistered())
             //    Deregister();
 
             //Loaded += MainPage_Loaded;
 
+        }
+
+        public class UwpInitializer : IPlatformInitializer
+        {
+            public void RegisterTypes(IContainerRegistry containerRegistry)
+            {
+
+            }
         }
 
         private async void MainPage_Loaded(object sender, RoutedEventArgs e)

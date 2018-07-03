@@ -40,7 +40,6 @@ namespace KegID
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MenuView, DashboardViewModel>();
             containerRegistry.RegisterForNavigation<CarouselPage>();
-            //containerRegistry.RegisterForNavigation<ZXingScannerPage>();
             containerRegistry.RegisterForNavigation<CognexScanView, CognexScanViewModel>();
             containerRegistry.RegisterPopupNavigationService();
 

@@ -135,6 +135,7 @@ namespace KegID.ViewModel
 
         public DelegateCommand LoginCommand { get; }
         public DelegateCommand KegIDCommand { get; }
+        public bool IsLogOut { get; private set; }
 
         #endregion
 
@@ -197,44 +198,43 @@ namespace KegID.ViewModel
                     {
                         Crashes.TrackError(ex);
                     }
-
                     try
                     {
-                        await _navigationService.NavigateAsync(new Uri("../MainPage", UriKind.Relative),useModalNavigation:true, animated: false);
+                        await _navigationService.NavigateAsync(new Uri("MainPage", UriKind.Relative),useModalNavigation:true, animated: false);
                     }
                     catch (Exception ex)
                     {
+                        Crashes.TrackError(ex);
                     }                    
-                    //await Application.Current.MainPage.Navigation.PushModalAsync(page: new MainPage(), animated: false);
                     try
                     {
-                        var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-
-                        RealmDb.Write(() =>
+                        if (!IsLogOut)
                         {
-                            RealmDb.Add(model.LoginModel);
-                        });
-                        var vAllEmployees = RealmDb.All<LoginModel>();
+                            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
 
-                        var maintenance = await _maintainService.GetMaintainTypeAsync(AppSettings.User.SessionId);
+                            RealmDb.Write(() =>
+                            {
+                                RealmDb.Add(model.LoginModel);
+                            });
+                            var vAllEmployees = RealmDb.All<LoginModel>();
 
-                        RealmDb.Write(() =>
-                        {
-                           foreach (var item in maintenance.MaintainTypeReponseModel)
-                           {
-                               RealmDb.Add(item);
-                           }
-                        });
+                            var maintenance = await _maintainService.GetMaintainTypeAsync(AppSettings.User.SessionId);
 
-                        await InitializeMetaData.LoadInitializeMetaData(_moveService,_dashboardService,_maintainService, _fillService);
-                        //SimpleIoc.Default.GetInstance<DashboardViewModel>().RefreshDashboardRecieverAsync(true);
+                            RealmDb.Write(() =>
+                            {
+                                foreach (var item in maintenance.MaintainTypeReponseModel)
+                                {
+                                    RealmDb.Add(item);
+                                }
+                            });
+
+                            await InitializeMetaData.LoadInitializeMetaData(_moveService, _dashboardService, _maintainService, _fillService); 
+                        }
                     }
                     catch (Exception ex)
                     {
                         Crashes.TrackError(ex);
                     }
-
-                    //Application.Current.MainPage = new MainPage();
                 }
                 else
                 {
@@ -253,19 +253,6 @@ namespace KegID.ViewModel
             }
         }
 
-        internal async void InvalideServiceCallAsync()
-        {
-            try
-            {
-                AppSettings.RemoveUserData();
-                await _navigationService.NavigateAsync(new Uri("../LoginView", UriKind.Relative), useModalNavigation: true, animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
-        }
-
         public override void OnNavigatedFrom(INavigationParameters parameters)
         {
             
@@ -273,7 +260,13 @@ namespace KegID.ViewModel
 
         public override void OnNavigatingTo(INavigationParameters parameters)
         {
-            
+            if (parameters.ContainsKey("IsLogOut"))
+            {
+                IsLogOut = true;
+                AppSettings.RemoveUserData();
+            }
+            else
+                IsLogOut = false;
         }
 
         #endregion

@@ -40,7 +40,14 @@ namespace KegID.Common
                     {
                         foreach (var item in batches)
                         {
-                            RealmDb.Add(item);
+                            try
+                            {
+                                RealmDb.Add(item);
+                            }
+                            catch (Exception ex)
+                            {
+                                Crashes.TrackError(ex);
+                            }
                         }
                     });
                 }
@@ -64,7 +71,14 @@ namespace KegID.Common
                 {
                     foreach (var item in model.MaintainTypeReponseModel)
                     {
-                        RealmDb.Add(item);
+                        try
+                        {
+                            RealmDb.Add(item);
+                        }
+                        catch (Exception ex)
+                        {
+                            Crashes.TrackError(ex);
+                        }
                     }
                 });
               return  model.MaintainTypeReponseModel;
@@ -90,7 +104,14 @@ namespace KegID.Common
                      {
                          foreach (var item in Partners)
                          {
-                             realmDb.Add(item);
+                             try
+                             {
+                                 realmDb.Add(item);
+                             }
+                             catch (Exception ex)
+                             {
+                                 Crashes.TrackError(ex);
+                             }
                          }
                      });
                 }
@@ -114,7 +135,14 @@ namespace KegID.Common
                      {
                          foreach (var item in value.BrandModel)
                          {
-                             realmDb.Add(item);
+                             try
+                             {
+                                 realmDb.Add(item);
+                             }
+                             catch (Exception ex)
+                             {
+                                 Crashes.TrackError(ex);
+                             }
                          }
                      });
                 }
@@ -137,7 +165,16 @@ namespace KegID.Common
                     await RealmDb.WriteAsync((realmDb) =>
                      {
                          foreach (var item in partners)
-                             realmDb.Add(item);
+                         {
+                             try
+                             {
+                                 realmDb.Add(item);
+                             }
+                             catch (Exception ex)
+                             {
+                                 Crashes.TrackError(ex);
+                             }
+                         }
                      });
                 }
             }
@@ -163,7 +200,14 @@ namespace KegID.Common
                  {
                      foreach (var item in assetSizeModel)
                      {
-                         realmDb.Add(item);
+                         try
+                         {
+                             realmDb.Add(item);
+                         }
+                         catch (Exception ex)
+                         {
+                             Crashes.TrackError(ex);
+                         }
                      }
                  });
             }
@@ -193,7 +237,14 @@ namespace KegID.Common
                  {
                      foreach (var item in assetTypeModels)
                      {
-                         realmDb.Add(item);
+                         try
+                         {
+                             realmDb.Add(item);
+                         }
+                         catch (Exception ex)
+                         {
+                             Crashes.TrackError(ex);
+                         }
                      }
                  });
             }
@@ -224,7 +275,14 @@ namespace KegID.Common
                  {
                      foreach (var item in assetVolumeModel)
                      {
-                         realmDb.Add(item);
+                         try
+                         {
+                             realmDb.Add(item);
+                         }
+                         catch (Exception ex)
+                         {
+                             Crashes.TrackError(ex);
+                         }
                      }
                  });
             }
@@ -248,7 +306,14 @@ namespace KegID.Common
                  {
                      foreach (var item in value.OwnerModel)
                      {
-                         realmDb.Add(item);
+                         try
+                         {
+                             realmDb.Add(item);
+                         }
+                         catch (Exception ex)
+                         {
+                             Crashes.TrackError(ex);
+                         }
                      }
                  });
             }
@@ -273,7 +338,14 @@ namespace KegID.Common
                      {
                          foreach (var item in value.PartnerTypeModel)
                          {
-                             realmDb.Add(item);
+                             try
+                             {
+                                 realmDb.Add(item);
+                             }
+                             catch (Exception ex)
+                             {
+                                 Crashes.TrackError(ex);
+                             }
                          }
                      });
                 }
