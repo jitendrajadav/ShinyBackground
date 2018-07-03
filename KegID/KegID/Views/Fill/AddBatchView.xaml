@@ -3,10 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="KegID.Views.AddBatchView"
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
-             xmlns:local="clr-namespace:KegID"
              BackgroundColor="{StaticResource pageBGColor}"
              >
-    <!--BindingContext="{Binding Source={x:Static local:App.Locator},Path=AddBatch}"-->
+
     <ContentPage.Content>
        
         <Grid>

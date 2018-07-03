@@ -1,12 +1,11 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:KegID"
              xmlns:controls="clr-namespace:CarouselView.FormsPlugin.Abstractions;assembly=CarouselView.FormsPlugin.Abstractions"
              x:Class="KegID.Views.WhatIsNewView"
              BackgroundColor="{StaticResource pageBGColor}"
              >
-    <!--BindingContext="{Binding Source={x:Static local:App.Locator}, Path=WhatIsNew}"-->
+
     <ContentPage.Content>
         
         <Grid

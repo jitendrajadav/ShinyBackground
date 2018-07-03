@@ -25,7 +25,7 @@ namespace KegID.ViewModel
         private static IMaintainService _maintainService { get; set; }
         private static IDashboardService _dashboardService { get; set; }
         private static IFillService _fillService { get; set; }
-        INavigationService _navigationService;
+        private readonly INavigationService _navigationService;
 
         #region Username
 
@@ -251,11 +251,6 @@ namespace KegID.ViewModel
                 Loader.StopLoading();
                 Analytics.TrackEvent("Loged In");
             }
-        }
-
-        public override void OnNavigatedFrom(INavigationParameters parameters)
-        {
-            
         }
 
         public override void OnNavigatingTo(INavigationParameters parameters)

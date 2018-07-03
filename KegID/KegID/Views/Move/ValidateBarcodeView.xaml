@@ -3,11 +3,10 @@
             xmlns="http://xamarin.com/schemas/2014/forms"
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
             x:Class="KegID.Views.ValidateBarcodeView"
-            xmlns:local="clr-namespace:KegID"
             xmlns:popup="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
             xmlns:behaviors="clr-namespace:KegID.Behaviors"
             >
-    <!--BindingContext="{Binding Source={x:Static local:App.Locator}, Path=ValidateBarcode}"-->
+
     <StackLayout 
         VerticalOptions="Center" 
         HorizontalOptions="FillAndExpand"

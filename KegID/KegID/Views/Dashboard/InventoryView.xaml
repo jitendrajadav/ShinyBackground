@@ -4,7 +4,6 @@
             x:Class="KegID.Views.InventoryView"
              BackgroundColor="{StaticResource pageBGColor}"
             >
-    <!--BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Inventory}"-->
 
     <ContentPage Title="{Binding Resources[label_stock]}">
         <Grid>

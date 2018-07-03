@@ -2,10 +2,9 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="KegID.Views.AddTagsView"
-             xmlns:local="clr-namespace:KegID"
              BackgroundColor="{StaticResource pageBGColor}"
              >
-    <!--BindingContext="{Binding Source={x:Static local:App.Locator}, Path=AddTags}"-->
+
     <ContentPage.Content>
         
         <Grid>

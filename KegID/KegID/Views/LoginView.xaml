@@ -4,7 +4,7 @@
              x:Class="KegID.Views.LoginView"
              BackgroundColor="{StaticResource pageBGColor}"
              >
-    <!--BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Login}"-->
+
     <ContentPage.Content>
         
         <Grid 

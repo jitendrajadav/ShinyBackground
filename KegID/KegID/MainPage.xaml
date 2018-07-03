@@ -7,7 +7,7 @@
             NavigationPage.HasBackButton="False"
             BackgroundColor="{StaticResource pageBGColor}"
             >
-    <!--BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Main}"-->
+    
     <CarouselPage.Children>
         <views:MenuView />
         <views:DashboardView />

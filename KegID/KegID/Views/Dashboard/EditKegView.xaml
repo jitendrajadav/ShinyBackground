@@ -4,7 +4,7 @@
              x:Class="KegID.Views.EditKegView"
              BackgroundColor="{StaticResource pageBGColor}"
              >
-    <!--BindingContext="{Binding Source={x:Static local:App.Locator},Path=EditKeg}"-->
+
     <ContentPage.Content>
 
         <Grid

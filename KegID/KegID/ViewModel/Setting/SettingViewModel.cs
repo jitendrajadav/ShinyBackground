@@ -6,7 +6,6 @@ using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
-using Rg.Plugins.Popup.Extensions;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -69,7 +68,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                bool accept = await _dialogService.DisplayAlertAsync("Warning", "You have at least on draft item that will be deleted if you log out.", "Stay", "Log out");
+                bool accept = await _dialogService.DisplayAlertAsync("Warning", "You have at least on draft item that will be deleted if you log out.", "Stay", "Log Out");
                 if (!accept)
                 {
                     try
@@ -98,16 +97,13 @@ namespace KegID.ViewModel
         {
             try
             {
-                //await Application.Current.MainPage.Navigation.PopPopupAsync();
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new PrinterSettingView(), animated: false);
-                //await _navigationService.GoBackAsync(useModalNavigation: true);
                 try
                 {
                     await _navigationService.NavigateAsync(new Uri("PrinterSettingView", UriKind.Relative), useModalNavigation: true, animated: false);
                 }
                 catch (Exception ex)
                 {
-
+                    Crashes.TrackError(ex);
                 }
                 await _navigationService.ClearPopupStackAsync("SettingView", null);
 
@@ -122,8 +118,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //await Application.Current.MainPage.Navigation.PopPopupAsync();
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new WhatIsNewView(), animated: false);
                 await _navigationService.NavigateAsync(new Uri("WhatIsNewView", UriKind.Relative), useModalNavigation: true, animated: false);
                 await _navigationService.ClearPopupStackAsync("SettingView", null);
 
@@ -150,16 +144,6 @@ namespace KegID.ViewModel
             {
                 Crashes.TrackError(ex);
             }
-        }
-
-        public override void OnNavigatedFrom(INavigationParameters parameters)
-        {
-            
-        }
-
-        public override void OnNavigatingTo(INavigationParameters parameters)
-        {
-            
         }
 
         #endregion
