@@ -15,22 +15,7 @@ namespace KegID.UWP
         {
             InitializeComponent();
             Xamarin.FormsMaps.Init(AppSettings.BingMapsApiKey);
-
             LoadApplication(new KegID.App(new UwpInitializer()));
-
-            //if (IsRegistered())
-            //    Deregister();
-
-            //Loaded += MainPage_Loaded;
-
-        }
-
-        public class UwpInitializer : IPlatformInitializer
-        {
-            public void RegisterTypes(IContainerRegistry containerRegistry)
-            {
-
-            }
         }
 
         private async void MainPage_Loaded(object sender, RoutedEventArgs e)
@@ -85,6 +70,14 @@ namespace KegID.UWP
             // Run your background task code here
             MessagingCenter.Send<object, string>(this, "UpdateLabel", message);
         }
-
     }
+
+    public class UwpInitializer : IPlatformInitializer
+    {
+        public void RegisterTypes(IContainerRegistry containerRegistry)
+        {
+
+        }
+    }
+
 }
