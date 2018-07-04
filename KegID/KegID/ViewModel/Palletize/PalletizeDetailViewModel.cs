@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Xml;
+using System.Xml.Xsl;
 using KegID.Common;
 using KegID.DependencyServices;
 using KegID.Model;
+using KegID.Model.PrintPDF;
 using KegID.Services;
 using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
@@ -15,6 +19,7 @@ namespace KegID.ViewModel
     public class PalletizeDetailViewModel : BaseViewModel
     {
         #region Properties
+        private PalletManifest PalletPrintModels;
 
         private readonly INavigationService _navigationService;
         public IMoveService _moveService { get; set; }
@@ -361,10 +366,44 @@ namespace KegID.ViewModel
 
         private void ShareCommandReciever()
         {
+            var share = DependencyService.Get<IShareFile>();
+
+            string output = String.Empty;
             try
             {
-                var share = DependencyService.Get<IShare>();
-                share.Show("Share", "Share", "https://www.slg.com/");
+                var xslInput = DependencyService.Get<IXsltContent>().GetXsltContent("palletprint.xslt");
+
+                var xmlInput =
+
+                 new XmlSerializerHelper()
+                    .GetSerializedString(PalletPrintModels);
+
+                using (StringReader srt = new StringReader(xslInput)) // xslInput is a string that contains xsl
+                using (StringReader sri = new StringReader(xmlInput)) // xmlInput is a string that contains xml
+                {
+                    using (XmlReader xrt = XmlReader.Create(srt))
+                    using (XmlReader xri = XmlReader.Create(sri))
+                    {
+                        XslCompiledTransform xslt = new XslCompiledTransform();
+                        xslt.Load(xrt);
+                        using (StringWriter sw = new StringWriter())
+                        using (XmlWriter xwo = XmlWriter.Create(sw, xslt.OutputSettings)) // use OutputSettings of xsl, so it can be output as HTML
+                        {
+                            xslt.Transform(xri, xwo);
+                            output = sw.ToString();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
+
+            try
+            {
+                string filePath = share.SafeHTMLToPDF(output, "Manifest");
+                share.ShareLocalFile(filePath, "Please check Manifest PDF", null);
             }
             catch (Exception ex)
             {

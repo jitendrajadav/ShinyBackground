@@ -8,10 +8,10 @@ namespace KegID.Messages
         public bool AssingValue { get; set; }
     }
 
-    public class ValidToScanKegPagesMsg
-    {
-        public Partner Partner { get; set; }
-    }
+    //public class ValidToScanKegPagesMsg
+    //{
+    //    public Partner Partner { get; set; }
+    //}
     //public class ValidToFillScanPagesMsg
     //{
     //    public Partner Partner { get; set; }

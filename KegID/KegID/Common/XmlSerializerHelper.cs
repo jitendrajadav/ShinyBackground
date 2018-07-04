@@ -1,6 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -8,11 +12,38 @@ namespace KegID.Common
 {
     public class XmlSerializerHelper
     {
+        private static string ConvertJObjectToXml(JObject jo, string rootElementName)
+        {
+            XmlDocument doc = JsonConvert.DeserializeXmlNode(jo.ToString(), rootElementName);
+            StringBuilder sb = new StringBuilder();
+            StringWriter sr = new StringWriter(sb);
+            XmlTextWriter xw = new XmlTextWriter(sr);
+            xw.Formatting = System.Xml.Formatting.Indented;
+            doc.WriteTo(xw);
+            return sb.ToString();
+        }
+        public string GetSerializedString<T>(T objectToSerialize)
+        {
+            var serializer = new XmlSerializer(typeof(T));
+            TextWriter textWriter = new StringWriter();
+
+            var xmlWriter = XmlWriter.Create(textWriter);
+            serializer.Serialize(xmlWriter, objectToSerialize);
+
+            string result = textWriter.ToString();
+            return result;
+        }
+
         public string Serialize(object obj)
         {
             try
             {
+                if (obj is JObject)
+                {
+                    return ConvertJObjectToXml((JObject)obj, "root");
+                }
 
+                // process obData as normal using XmlSerializer
                 var serializer = new XmlSerializer(obj.GetType());
 
                 var writerSettings =

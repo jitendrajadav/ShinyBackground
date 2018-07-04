@@ -320,40 +320,6 @@ namespace KegID.ViewModel
             {
                 if (model != null)
                 {
-                    //switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack[Application.Current.MainPage.Navigation.ModalStack.Count - 2].GetType().Name))
-                    //{
-                    //    case ViewTypeEnum.SearchManifestsView:
-                    //        SimpleIoc.Default.GetInstance<SearchManifestsViewModel>().AssignPartnerValue(model);
-                    //        break;
-
-                    //    case ViewTypeEnum.MoveView:
-                    //        SimpleIoc.Default.GetInstance<MoveViewModel>().PartnerModel = model;
-                    //        break;
-
-                    //    case ViewTypeEnum.FillView:
-                    //        SimpleIoc.Default.GetInstance<FillViewModel>().PartnerModel = model;
-                    //        break;
-
-                    //    case ViewTypeEnum.PalletizeView:
-                    //        SimpleIoc.Default.GetInstance<PalletizeViewModel>().AssignPartnerValue(model);
-                    //        break;
-
-                    //    case ViewTypeEnum.MaintainView:
-                    //        SimpleIoc.Default.GetInstance<MaintainViewModel>().PartnerModel = model;
-                    //        break;
-
-                    //    case ViewTypeEnum.EditKegView:
-                    //        SimpleIoc.Default.GetInstance<EditKegViewModel>().PartnerModel = model;
-                    //        break;
-
-                    //    case ViewTypeEnum.SearchPalletView:
-                    //        SimpleIoc.Default.GetInstance<SearchPalletViewModel>().PartnerModel = model;
-                    //        break;
-
-                    //    default:
-                    //        break;
-                    //}
-                    //await Application.Current.MainPage.Navigation.PopModalAsync();
                     ConstantManager.Partner = model;
                     var param = new NavigationParameters
                     {
@@ -440,7 +406,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //await Application.Current.MainPage.Navigation.PopModalAsync();
                 await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
                 Cleanup();
             }
@@ -454,7 +419,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new AddPartnerView(), animated: false);
                 await _navigationService.NavigateAsync(new Uri("AddPartnerView", UriKind.Relative), useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
@@ -467,7 +431,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new SearchPartnersView(), animated: false);
                 await _navigationService.NavigateAsync(new Uri("SearchPartnersView", UriKind.Relative), useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
@@ -497,11 +460,11 @@ namespace KegID.ViewModel
 
         public override void OnNavigatingTo(INavigationParameters parameters)
         {
-            LoadPartnersAsync();
             if (parameters.ContainsKey("BrewerStockOn"))
-            {
                 BrewerStockOn = true;
-            }
+            else
+                BrewerStockOn = false;
+            LoadPartnersAsync();
         }
 
         #endregion

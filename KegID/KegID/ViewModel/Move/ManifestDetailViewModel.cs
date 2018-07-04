@@ -21,6 +21,8 @@ namespace KegID.ViewModel
 
         private readonly INavigationService _navigationService;
         private Manifest manifestPrintModels = null;
+        private FillManifest FillManifestPrintModels = null;
+        
         public List<string> Barcode { get; set; }
 
         #region TrackingNumber
@@ -238,8 +240,10 @@ namespace KegID.ViewModel
 
                 var xmlInput =
 
-                new XmlSerializerHelper()
-                    .Serialize(manifestPrintModels);
+                //new XmlSerializerHelper()
+                //    .Serialize(manifestPrintModels);
+                 new XmlSerializerHelper()
+                    .GetSerializedString(manifestPrintModels);
 
                 using (StringReader srt = new StringReader(xslInput)) // xslInput is a string that contains xsl
                 using (StringReader sri = new StringReader(xmlInput)) // xmlInput is a string that contains xml
