@@ -1,4 +1,4 @@
-﻿//using SQLite.Net.Attributes;
+﻿using KegID.Model.PrintPDF;
 using System;
 using System.Collections.Generic;
 
@@ -11,11 +11,11 @@ namespace KegID.Model
         public Owner Owner { get; set; }
         public DateTimeOffset BuildDate { get; set; }
         public string Barcode { get; set; }
-        public PalletLocation StockLocation { get; set; }
-        public PalletLocation Location { get; set; }
+        public Owner StockLocation { get; set; }
+        public Owner Location { get; set; }
         public List<Tag> Tags { get; set; }
         public List<PalletItem> PalletItems { get; set; }
-        public object TargetLocation { get; set; }
+        public TargetLocation TargetLocation { get; set; }
         public DateTimeOffset CreatedDate { get; set; }
         public object Container { get; set; }
         public object ReferenceKey { get; set; }
@@ -80,19 +80,19 @@ namespace KegID.Model
 
     public class PalletItem
     {
-        //[PrimaryKey]
-        //public string PalletId { get; set; }
+        public string PalletId { get; set; }
         public string Barcode { get; set; }
-        public DateTimeOffset ScanDate { get; set; }
-        public long ValidationStatus { get; set; }
-        //public DateTimeOffset DateScanned { get; set; }
-        //public string Contents { get; set; }
-        //[Ignore]
-        //public PalletKeg Keg { get; set; }
-        //public bool IsActive { get; set; }
-        //public string RemovedManifest { get; set; }
-        //[Ignore]
+        public DateTimeOffset DateScanned { get; set; }
+        public string Contents { get; set; }
+        public object ContentsSkuId { get; set; }
+        public object BuildBatchId { get; set; }
+        public object BuildBatchCode { get; set; }
+        public object BuildSkuId { get; set; }
+        public PalletKeg Keg { get; set; }
+        public bool IsActive { get; set; }
+        public object RemovedManifest { get; set; }
         public List<Tag> Tags { get; set; }
+        public DateTimeOffset ScanDate { get; set; }
     }
 
     public class PalletKeg
@@ -112,12 +112,7 @@ namespace KegID.Model
         public string Contents { get; set; }
         public DateTimeOffset ReceivedDate { get; set; }
         public string PalletId { get; set; }
-        public object SkuId { get; set; }
-        public object SkuCode { get; set; }
-        public object SkuName { get; set; }
-        public object SlgSkuId { get; set; }
-        public object SlgSkuCode { get; set; }
-        public object SlgSkuName { get; set; }
+        public string PalletName { get; set; }
     }
 
 }

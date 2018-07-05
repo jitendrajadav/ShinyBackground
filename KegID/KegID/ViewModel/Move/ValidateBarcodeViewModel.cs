@@ -108,7 +108,6 @@ namespace KegID.ViewModel
 
         private async void CancelCommandRecievierAsync()
         {
-            //await Application.Current.MainPage.Navigation.PopPopupAsync();
             await _navigationService.ClearPopupStackAsync(animated:false);
         }
 
@@ -116,36 +115,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack.LastOrDefault().GetType().Name))
-                //{
-                //    case ViewTypeEnum.ScanKegsView:
-                //        ValidToScanKegPagesMsg scanKegsMsg = new ValidToScanKegPagesMsg
-                //        {
-                //            Partner = model
-                //        };
-                //        MessagingCenter.Send(scanKegsMsg, "ValidToScanKegPagesMsg");
-                //await SimpleIoc.Default.GetInstance<ScanKegsViewModel>().AssignValidatedValueAsync(model);
-                //        break;
-
-                //    case ViewTypeEnum.FillScanView:
-                //        ValidToFillScanPagesMsg fillScanMsg = new ValidToFillScanPagesMsg
-                //        {
-                //            Partner = model
-                //        };
-                //        MessagingCenter.Send(fillScanMsg, "ValidToFillScanPagesMsg");
-                //SimpleIoc.Default.GetInstance<FillScanViewModel>().AssignValidatedValueAsync(model);
-                //        break;
-
-                //    case ViewTypeEnum.MaintainScanView:
-                //        ValidToMaintainPagesMsg maintainMsg = new ValidToMaintainPagesMsg
-                //        {
-                //            Partner = model
-                //        };
-                //        MessagingCenter.Send(maintainMsg, "ValidToMaintainPagesMsg");
-                //SimpleIoc.Default.GetInstance<MaintainScanViewModel>().AssignValidatedValueAsync(model);
-                //        break;
-                //}
-
                 try
                 {
                     var param = new NavigationParameters
@@ -198,11 +167,6 @@ namespace KegID.ViewModel
             finally
             {
             }
-        }
-
-        public override void OnNavigatedFrom(INavigationParameters parameters)
-        {
-
         }
 
         public override void OnNavigatingTo(INavigationParameters parameters)

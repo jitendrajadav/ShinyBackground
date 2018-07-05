@@ -380,11 +380,11 @@ namespace KegID.Model.PrintPDF
         [XmlElement(ElementName = "LocationName", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
         public string LocationName { get; set; }
         [XmlElement(ElementName = "ReceivedDate", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-        public ReceivedDate ReceivedDate { get; set; }
+        public string ReceivedDate { get; set; }
         [XmlElement(ElementName = "PalletId", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
         public string PalletId { get; set; }
         [XmlElement(ElementName = "PalletName", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-        public PalletName PalletName { get; set; }
+        public string PalletName { get; set; }
     }
 
     [XmlRoot(ElementName = "LocationId", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]

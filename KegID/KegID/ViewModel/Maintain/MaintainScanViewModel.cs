@@ -195,7 +195,7 @@ namespace KegID.ViewModel
                 {
                     BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = GetIconByPlatform.GetIcon(ValidationOK);
                 }
-                //await Application.Current.MainPage.Navigation.PopPopupAsync();
+
                 await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
 
                 foreach (var item in BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode))
@@ -368,7 +368,10 @@ namespace KegID.ViewModel
                 try
                 {
                     Loader.StartLoading();
-                    var location = await Geolocation.GetLocationAsync();
+                    var request = new GeolocationRequest(GeolocationAccuracy.Medium);
+                    var location = await Geolocation.GetLastKnownLocationAsync();
+                    if (location == null)
+                        location = await Geolocation.GetLocationAsync(request);
                     List<MaintainKeg> kegs = new List<MaintainKeg>();
                     MaintainKeg keg = null;
 

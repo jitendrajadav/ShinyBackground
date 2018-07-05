@@ -329,8 +329,6 @@ namespace KegID.ViewModel
 
             StockLocation.FullName = "Barcode Brewing";
             TargetLocation.FullName = "None";
-
-            //HandleReceivedMessages();
         }
 
         #endregion
@@ -421,7 +419,6 @@ namespace KegID.ViewModel
                         Barcode = item.Barcode,
                         ScanDate = DateTimeOffset.Now,
                         Tags = ConstantManager.Tags,
-                        ValidationStatus = 4
                     };
 
                     palletItems.Add(pallet);
@@ -445,10 +442,7 @@ namespace KegID.ViewModel
 
                 if (value.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                 {
-                    //SimpleIoc.Default.GetInstance<PalletizeDetailViewModel>().LoadInfo(value);
-
                     Loader.StopLoading();
-                    //await Application.Current.MainPage.Navigation.PushModalAsync(new PalletizeDetailView(), animated: false);
                     var param = new NavigationParameters
                     {
                         { "LoadInfo", value }
@@ -496,8 +490,6 @@ namespace KegID.ViewModel
                     BarcodeScan = true
                 };
                 MessagingCenter.Send(msg, "PalletToScanKegPagesMsg");
-
-                //SimpleIoc.Default.GetInstance<ScanKegsViewModel>().BarcodeScanCommandReciever();
             }
             catch (Exception ex)
             {
@@ -514,7 +506,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new ScanKegsView(), animated: false);
                 await _navigationService.NavigateAsync(new Uri("ScanKegsView", UriKind.Relative), useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
@@ -527,7 +518,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView(), animated: false);
                 await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
@@ -540,7 +530,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView(), animated: false);
                 await _navigationService.NavigateAsync(new Uri("PartnersView", UriKind.Relative), useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
@@ -554,7 +543,6 @@ namespace KegID.ViewModel
             try
             {
                 TargetLocationPartner = true;
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView(), animated: false);
                 await _navigationService.NavigateAsync(new Uri("PartnersView", UriKind.Relative), useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
@@ -568,7 +556,6 @@ namespace KegID.ViewModel
             try
             {
                 await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
-                //await Application.Current.MainPage.Navigation.PopModalAsync();
                 IsCameraVisible = false;
             }
             catch (Exception ex)
@@ -614,11 +601,6 @@ namespace KegID.ViewModel
                 AddInfoTitle = ConstantManager.TagsStr;
                 Tags = ConstantManager.Tags;
             }
-        }
-
-        public override void OnNavigatedFrom(INavigationParameters parameters)
-        {
-            //MessagingCenter.Unsubscribe<ScanKegToPalletPagesMsg>(this, "ScanKegToPalletPagesMsg");
         }
 
         #endregion

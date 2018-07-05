@@ -485,7 +485,6 @@
     <Content Include="FodyWeavers.xml" />
     <BundleResource Include="Resources\manifestkegstar.xslt" />
     <BundleResource Include="Resources\manifestprint.xslt" />
-    <BundleResource Include="Resources\palletprint.xslt" />
     <BundleResource Include="Resources\palletprintnew.xslt" />
     <BundleResource Include="Resources\repairmanifestprint.xslt" />
     <Content Include="Libs\XamarinDataManLibrary.dll" />

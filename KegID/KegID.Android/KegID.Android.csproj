@@ -474,9 +474,6 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="Assets\palletprint.xslt" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidAsset Include="Assets\palletprintnew.xslt" />
   </ItemGroup>
   <ItemGroup>

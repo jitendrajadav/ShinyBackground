@@ -7,9 +7,9 @@ namespace KegID.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class PalletizeView : ContentPage
 	{
-		public PalletizeView ()
-		{
-			InitializeComponent ();
-		}
+        public PalletizeView()
+        {
+            InitializeComponent();
+        }
 	}
 }

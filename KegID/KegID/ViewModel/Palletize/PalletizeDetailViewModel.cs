@@ -20,7 +20,7 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        private PalletManifest PalletPrintModels = null;
+        private Model.PrintPDF.Pallet PalletPrintModels = null;
         private readonly INavigationService _navigationService;
         public IMoveService _moveService { get; set; }
         public SearchPalletResponseModel Model { get; set; }
@@ -368,7 +368,7 @@ namespace KegID.ViewModel
             string output = String.Empty;
             try
             {
-                var xslInput = DependencyService.Get<IXsltContent>().GetXsltContent("palletprint.xslt");
+                var xslInput = DependencyService.Get<IXsltContent>().GetXsltContent("palletprintnew.xslt");
 
                 var xmlInput =
 
@@ -417,11 +417,63 @@ namespace KegID.ViewModel
         {
             try
             {
-                PalletPrintModels = new PalletManifest
+                PalletPrintModels = new Model.PrintPDF.Pallet
                 {
+                    Barcode = value.Barcode,
+                    BuildDate = value.BuildDate.UtcDateTime.ToShortDateString(),
+                    PalletId = value.PalletId,
+                    Location = value.Location,
+                    Owner = value.Owner,
+                    StockLocation = value.StockLocation,
+                    Container = new Container { Nil = "" },
+                    CreatedDate = DateTimeOffset.UtcNow.Date.ToShortDateString(),
+                    DateInfo = new DateInfo { },
+                    TargetLocation = value.TargetLocation,
 
+                    PalletItems = new PalletItems { PalletItem = new List<Model.PrintPDF.PalletItem> { } },
+                    SummaryItems = new SummaryItems
+                    {
+                        SummaryItem = new List<SummaryItem>
+                           {
+                                new SummaryItem
+                                {
+                                     Combination = "test",
+                                      Contents= "1/4 contents",
+                                       Quantity = "1",
+                                        Size = "1/2"
+                                }
+                           }
+                    }
                 };
 
+                foreach (var item in value.PalletItems)
+                {
+                    PalletPrintModels.PalletItems.PalletItem.Add(new Model.PrintPDF.PalletItem
+                    {
+                        Barcode = item.Barcode,
+                        Contents = item.Contents,
+                        //ContentsKey = item.Contents,
+                        DateScanned = item.DateScanned.Date.ToShortDateString(),
+                        Keg = new Model.PrintPDF.Keg
+                        {
+                            Barcode = item.Keg.Barcode,
+                            Contents = item.Keg.Contents,
+                            KegId = item.Keg.KegId,
+                            LocationId = item.Keg.LocationId,
+                            LocationName = item.Keg.LocationName,
+                            OwnerId = item.Keg.OwnerId,
+                            OwnerName = item.Keg.OwnerName,
+                            PalletId = item.Keg.PalletId,
+                            PalletName = item.Keg.PalletName,
+                            ReceivedDate = item.Keg.ReceivedDate.Date.ToShortDateString(),
+                            SizeName = item.Keg.SizeName,
+                            TypeName = item.Keg.TypeName
+                        },
+                        PalletId = item.PalletId,
+                        IsActive = item.IsActive.ToString(),
+                        //Tags = item.Tags,
+                    });
+                }
                 ManifestId = value.Barcode;
                 PartnerTypeName = value.StockLocation.PartnerTypeName;
                 StockLocation = value.StockLocation.FullName;

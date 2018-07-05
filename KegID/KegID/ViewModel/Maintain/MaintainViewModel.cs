@@ -174,7 +174,6 @@ namespace KegID.ViewModel
 
         private async void HomeCommandRecieverAsync()
         {
-            //await Application.Current.MainPage.Navigation.PopModalAsync();
             await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
         }
 
@@ -182,7 +181,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView(), animated: false);
                 await _navigationService.NavigateAsync(new Uri("PartnersView", UriKind.Relative), useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
@@ -197,7 +195,6 @@ namespace KegID.ViewModel
                 var flag = ConstantManager.MaintainTypeCollection.Where(x => x.IsToggled == true);
                 if (flag != null)
                 {
-                    //await Application.Current.MainPage.Navigation.PushModalAsync(new MaintainScanView(), animated: false);
                     await _navigationService.NavigateAsync(new Uri("MaintainScanView", UriKind.Relative), useModalNavigation: true, animated: false);
                 }
                 else
@@ -207,11 +204,6 @@ namespace KegID.ViewModel
             {
                 Crashes.TrackError(ex);
             }
-        }
-
-        public override void OnNavigatedFrom(INavigationParameters parameters)
-        {
-
         }
 
         public override void OnNavigatingTo(INavigationParameters parameters)

@@ -93,9 +93,9 @@ namespace KegID.Model
     {
         public string Property { get; set; }
         public string Value { get; set; }
-        //public string PropertyName { get; set; }
-        //public string PropertyValue { get; set; }
-        //public string Name { get; set; }
+        public string PropertyName { get; set; }
+        public string PropertyValue { get; set; }
+        public string Name { get; set; }
     }
 
     public class GeneralTag 

@@ -195,22 +195,14 @@ namespace KegID.ViewModel
             {
                 TrackingNo = Uuid.GetUuId();
                 StockLocation = ConstantManager.Partner.FullName + "\n" + ConstantManager.Partner.PartnerTypeName;
-                //StockLocation = SimpleIoc.Default.GetInstance<MaintainViewModel>().PartnerModel.FullName + "\n" + SimpleIoc.Default.GetInstance<MaintainViewModel>().PartnerModel.PartnerTypeName;
                 ItemCount = barcodeCollection.Count;
                 Barcodes = barcodeCollection.Select(x => x.Barcode).ToList();
-                //SimpleIoc.Default.GetInstance<ContentTagsViewModel>().ContentCollection = barcodeCollection.Select(x => x.Barcode).ToList();
-
                 Contents = string.Empty;
             }
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
             }
-        }
-
-        public override void OnNavigatedFrom(INavigationParameters parameters)
-        {
-
         }
 
         public override void OnNavigatingTo(INavigationParameters parameters)
