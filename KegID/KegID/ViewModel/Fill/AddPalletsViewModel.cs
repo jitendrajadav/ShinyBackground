@@ -194,8 +194,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //SimpleIoc.Default.GetInstance<FillScanViewModel>().GenerateManifestIdAsync(model);
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new FillScanView(), animated: false);
                 var param = new NavigationParameters
                     {
                         { "model", model }
@@ -213,7 +211,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //await Application.Current.MainPage.Navigation.PopModalAsync();
                 await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
@@ -227,9 +224,6 @@ namespace KegID.ViewModel
             var barcodes = ConstantManager.Barcodes;
             var tags = ConstantManager.Tags;
             var partnerModel = ConstantManager.Partner;
-            //var barcodes = SimpleIoc.Default.GetInstance<FillScanViewModel>().BarcodeCollection;
-            //var tags = SimpleIoc.Default.GetInstance<FillScanViewModel>().Tags;
-            //var partnerModel = SimpleIoc.Default.GetInstance<FillViewModel>().PartnerModel;
 
             if (barcodes.Count == 0)
             {
@@ -250,7 +244,6 @@ namespace KegID.ViewModel
                     palletItem = new TItem
                     {
                         Barcode = item.Barcode,
-                        //palletItem. = SimpleIoc.Default.GetInstance<FillViewModel>().NewBatchModel.BatchId,
                         //palletItem.Contents = "";
                         //palletItem.HeldOnPalletId = "";
                         //palletItem.KegId = "";
@@ -279,7 +272,6 @@ namespace KegID.ViewModel
                     ReferenceKey = "",
                     //Tags = tags
                 };
-                //newPallet.TargetLocation = "";
                 foreach (var item in tags)
                     newPallet.Tags.Add(item);
                 foreach (var item in palletItems)
@@ -306,9 +298,7 @@ namespace KegID.ViewModel
                         var manifest = await _moveService.GetManifestAsync(AppSettings.User.SessionId, manifestResult.ManifestId);
                         if (manifest.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                         {
-                            //SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().AssignInitialValue(manifest,string.Empty);
                             Loader.StopLoading();
-                            //await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestDetailView(), animated: false);
                             var param = new NavigationParameters
                             {
                                 { "manifest", manifest }
@@ -348,8 +338,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //SimpleIoc.Default.GetInstance<FillScanViewModel>().GenerateManifestIdAsync(null);
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new FillScanView(), animated: false);
                 var param = new NavigationParameters
                     {
                         { "GenerateManifestIdAsync", "GenerateManifestIdAsync" }
@@ -434,12 +422,6 @@ namespace KegID.ViewModel
                 Crashes.TrackError(ex);
             }
         }
-
-        public override void OnNavigatedFrom(INavigationParameters parameters)
-        {
-            //MessagingCenter.Unsubscribe<FillScanToAddPalletPagesMsg>(this, "FillScanToAddPalletPagesMsg");
-        }
-
 
         public async override void OnNavigatingTo(INavigationParameters parameters)
         {

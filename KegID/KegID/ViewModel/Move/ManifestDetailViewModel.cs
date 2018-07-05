@@ -294,6 +294,7 @@ namespace KegID.ViewModel
                     {
                         ManifestItem = manifest.ManifestItems,
                     },
+                    
                     TrackingNumber = manifest.TrackingNumber,
                     ShipDate = DateTimeOffset.UtcNow.Date.ToShortDateString(),
                     SenderPartner = manifest.SenderPartner,

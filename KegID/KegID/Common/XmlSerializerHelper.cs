@@ -22,6 +22,7 @@ namespace KegID.Common
             doc.WriteTo(xw);
             return sb.ToString();
         }
+
         public string GetSerializedString<T>(T objectToSerialize)
         {
             var serializer = new XmlSerializer(typeof(T));

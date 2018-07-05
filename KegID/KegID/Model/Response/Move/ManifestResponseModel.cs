@@ -89,7 +89,7 @@ namespace KegID.Model
         public long Quantity { get; set; }
         public object HandlingCondition { get; set; }
         public CreatedManifestKeg Keg { get; set; }
-        public object Pallet { get; set; }
+        public Pallet Pallet { get; set; }
         public DateTimeOffset ScanDate { get; set; }
         public object Notes { get; set; }
         public object ReferenceKey { get; set; }
