@@ -19,8 +19,8 @@ namespace KegID.ViewModel
     public class PalletizeDetailViewModel : BaseViewModel
     {
         #region Properties
-        private PalletManifest PalletPrintModels;
 
+        private PalletManifest PalletPrintModels = null;
         private readonly INavigationService _navigationService;
         public IMoveService _moveService { get; set; }
         public SearchPalletResponseModel Model { get; set; }
@@ -333,7 +333,6 @@ namespace KegID.ViewModel
             try
             {
                 await _navigationService.NavigateAsync(new Uri("PalletizeView", UriKind.Relative), useModalNavigation: true, animated: false);
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new PalletizeView(), animated: false);
             }
             catch (Exception ex)
             {
@@ -346,7 +345,6 @@ namespace KegID.ViewModel
             try
             {
                 await _navigationService.NavigateAsync(new Uri("MoveView", UriKind.Relative), useModalNavigation: true, animated: false);
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new MoveView(), animated: false);
             }
             catch (Exception ex)
             {
@@ -356,7 +354,6 @@ namespace KegID.ViewModel
 
         private async void GridTappedCommandRecieverAsync()
         {
-            //await Application.Current.MainPage.Navigation.PushModalAsync(new ContentTagsView(), animated: false);
             var param = new NavigationParameters
                             {
                                 { "Barcode", Barcodes }
@@ -413,7 +410,6 @@ namespace KegID.ViewModel
 
         private async void HomeCommandCommandRecieverAsync()
         {
-            //await Application.Current.MainPage.Navigation.PopModalAsync();
             await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
         }
 
@@ -421,6 +417,11 @@ namespace KegID.ViewModel
         {
             try
             {
+                PalletPrintModels = new PalletManifest
+                {
+
+                };
+
                 ManifestId = value.Barcode;
                 PartnerTypeName = value.StockLocation.PartnerTypeName;
                 StockLocation = value.StockLocation.FullName;
@@ -428,7 +429,6 @@ namespace KegID.ViewModel
                 ShippingDate = value.BuildDate.Date;
                 ItemCount = value.PalletItems.Count;
                 Barcodes = value.PalletItems.Select(selector: x => x.Barcode).ToList();
-                //SimpleIoc.Default.GetInstance<ContentTagsViewModel>().ContentCollection = value.PalletItems.Select(selector: x => x.Barcode).ToList();
             }
             catch (Exception ex)
             {
@@ -451,17 +451,11 @@ namespace KegID.ViewModel
                 ShippingDate = model.BuildDate.Date;
                 ItemCount = (int)model.BuildCount;
                 Barcodes = new List<string> { model.Barcode };
-                //SimpleIoc.Default.GetInstance<ContentTagsViewModel>().ContentCollection = new List<string> { model.Barcode };
             }
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
             }
-        }
-
-        public override void OnNavigatedFrom(INavigationParameters parameters)
-        {
-            
         }
 
         public override void OnNavigatingTo(INavigationParameters parameters)

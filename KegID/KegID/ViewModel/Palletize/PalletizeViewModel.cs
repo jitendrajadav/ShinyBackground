@@ -337,21 +337,6 @@ namespace KegID.ViewModel
 
         #region Methods
 
-        //void HandleReceivedMessages()
-        //{
-        //    MessagingCenter.Subscribe<ScanKegToPalletPagesMsg>(this, "ScanKegToPalletPagesMsg", message =>
-        //    {
-        //        Device.BeginInvokeOnMainThread(() =>
-        //        {
-        //            var value = message;
-        //            if (value != null)
-        //            {
-        //                AssingScanKegsValue(value.Barcodes);
-        //            }
-        //        });
-        //    });
-        //}
-
         public void GenerateManifestIdAsync(PalletModel palletModel)
         {
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());

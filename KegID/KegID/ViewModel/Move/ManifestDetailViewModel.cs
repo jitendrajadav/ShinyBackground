@@ -21,8 +21,6 @@ namespace KegID.ViewModel
 
         private readonly INavigationService _navigationService;
         private Manifest manifestPrintModels = null;
-        private FillManifest FillManifestPrintModels = null;
-        
         public List<string> Barcode { get; set; }
 
         #region TrackingNumber
