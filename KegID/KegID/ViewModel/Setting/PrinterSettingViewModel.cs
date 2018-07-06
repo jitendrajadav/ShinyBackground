@@ -74,7 +74,7 @@ namespace KegID.ViewModel
                 }
 
                 _IsBluetoothOn = value;
-                ConstantManager.IsIPAddr = _IsBluetoothOn;
+                ConstantManager.IsIPAddr = !_IsBluetoothOn;
                 RaisePropertyChanged(IsBluetoothOnPropertyName);
             }
         }
@@ -178,7 +178,6 @@ namespace KegID.ViewModel
         #region Methods
         private async void SelectPrinterCommandRecieverAsync()
         {
-            //await Application.Current.MainPage.Navigation.PushModalAsync(new SelectPrinterView());
             await _navigationService.NavigateAsync(new Uri("SelectPrinterView", UriKind.Relative), useModalNavigation: true, animated: false);
         }
 

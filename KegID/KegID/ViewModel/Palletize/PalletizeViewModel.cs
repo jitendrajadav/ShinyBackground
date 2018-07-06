@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using KegID.Common;
 using KegID.LocalDb;
@@ -444,17 +445,18 @@ namespace KegID.ViewModel
                 if (value.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                 {
                     Loader.StopLoading();
+
+                    //new Task(new Action(() =>
+                    //{
+                        PrintPallet();
+                    //}
+                    //)).Start();
+
                     var param = new NavigationParameters
                     {
                         { "LoadInfo", value }
                     };
                     await _navigationService.NavigateAsync(new Uri("PalletizeDetailView", UriKind.Relative), param, useModalNavigation: true, animated: false);
-
-                    new Task(new Action(() =>
-                    {
-                        PrintPallet();
-                    }
-                   )).Start();
                 }
                 else
                 {
@@ -464,7 +466,7 @@ namespace KegID.ViewModel
             }
             catch (Exception ex)
             {
-                 Crashes.TrackError(ex);
+                Crashes.TrackError(ex);
             }
             finally
             {
@@ -473,7 +475,7 @@ namespace KegID.ViewModel
                 pallet = null;
                 barCodeCollection = null;
                 palletRequestModel = null;
-                Cleanup();
+                //Cleanup();
             }
         }
 
@@ -481,12 +483,17 @@ namespace KegID.ViewModel
         {
             try
             {
-                string header = string.Format(ZebraPrinterManager.palletHeader, ManifestId, StockLocation.ParentPartnerName, StockLocation.Address1, StockLocation.City + "," + StockLocation.State + " " + StockLocation.PostalCode, "", StockLocation.ParentPartnerName, ConstantManager.ContentsCode, DateTimeOffset.UtcNow.Date.ToShortDateString(), "1", "", ConstantManager.Contents,
-                                    "1", "", "", "", "", "", "", "", "", "",
-                                    "", "", "", "", "", "", "", "", "", "",
-                                    "", ManifestId, ManifestId);
+                 var addresss = StockLocation;
+                 string header = string.Format(ZebraPrinterManager.palletHeader, ManifestId, addresss.ParentPartnerName, addresss.Address1, addresss.City + "," + addresss.State + " " + addresss.PostalCode, "", addresss.ParentPartnerName, ConstantManager.ContentsCode, DateTimeOffset.UtcNow.Date.ToShortDateString(), "1", "", ConstantManager.Contents,
+                                     "1", "", "", "", "", "", "", "", "", "",
+                                     "", "", "", "", "", "", "", "", "", "",
+                                     "", ManifestId, ManifestId);
+                new Thread(() =>
+                {
+                    ZebraPrinterManager.SendZplPallet(header, ConstantManager.IsIPAddr, ConstantManager.IPAddr);
 
-                ZebraPrinterManager.SendZplPallet(header, ConstantManager.IsIPAddr, ConstantManager.IPAddr);
+             }).Start();
+
             }
             catch (Exception ex)
             {

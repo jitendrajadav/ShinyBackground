@@ -98,7 +98,7 @@ namespace KegID.Views
         {
             new Task(new Action(() =>
             {
-                StartUSBDiscovery();
+                StartBluetoothDiscovery();
             })).Start();
         }
         private void StartUSBDiscovery()
