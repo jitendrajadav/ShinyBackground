@@ -530,8 +530,11 @@ namespace KegID.ViewModel
         {
             try
             {
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView(), animated: false);
-                await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), useModalNavigation: true, animated: false);
+                var param = new NavigationParameters
+                    {
+                        {"viewTypeEnum",ViewTypeEnum.AddBatchView }
+                    };
+                await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), param, useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {

@@ -3,6 +3,7 @@ using KegID.LocalDb;
 using KegID.Messages;
 using KegID.Model;
 using Microsoft.AppCenter.Crashes;
+using Prism.Navigation;
 using Realms;
 using System;
 using System.Collections.Generic;
@@ -13,73 +14,63 @@ using Xamarin.Forms.Xaml;
 namespace KegID.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class AddTagsView : ContentPage
+    public partial class AddTagsView : ContentPage , INavigationAware
     {
         public AddTagsView()
         {
             InitializeComponent();
-            LoadAddTagsAsync();
         }
 
-        private void LoadAddTagsAsync()
+        private void LoadAddTagsAsync(ViewTypeEnum viewTypeEnum)
         {
             try
             {
-                if (Application.Current.MainPage.Navigation.ModalStack.Count > 1)
+                switch (viewTypeEnum)
                 {
-                    switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack.LastOrDefault().GetType().Name))
-                    {
-                        case ViewTypeEnum.ScanKegsView:
-                        case ViewTypeEnum.FillScanView:
-                            if (ConstantManager.IsFromScanned)
-                            {
-                                OnAddMoreTagsClickedAsync(TagsTypeEnum.BestByDate);
-                                OnAddMoreTagsClickedAsync(TagsTypeEnum.ProductionDate);
-                                OnAddMoreTagsClickedAsync(TagsTypeEnum.AssetType);
-                                OnAddMoreTagsClickedAsync(TagsTypeEnum.Size);
-                                OnAddMoreTagsClickedAsync(TagsTypeEnum.Contents);
-                                OnAddMoreTagsClickedAsync(TagsTypeEnum.Batch);
-                            }
-                            else
-                            {
-                                OnAddMoreTagsClickedAsync(TagsTypeEnum.BestByDate);
-                                OnAddMoreTagsClickedAsync(TagsTypeEnum.ProductionDate);
-                                OnAddMoreTagsClickedAsync(TagsTypeEnum.AssetType);
-                                OnAddMoreTagsClickedAsync(TagsTypeEnum.Size);
-                            }
-                            break;
-                        case ViewTypeEnum.AddBatchView:
-                            OnAddTagsClicked(null, null);
-                            break;
-                        case ViewTypeEnum.EditKegView:
-                            OnAddMoreTagsClickedAsync(TagsTypeEnum.Volume);
-                            OnAddMoreTagsClickedAsync(TagsTypeEnum.Note);
-                            break;
-                        case ViewTypeEnum.MoveView:
+                    case ViewTypeEnum.ScanKegsView:
+                    case ViewTypeEnum.FillScanView:
+                        if (ConstantManager.IsFromScanned)
+                        {
                             OnAddMoreTagsClickedAsync(TagsTypeEnum.BestByDate);
                             OnAddMoreTagsClickedAsync(TagsTypeEnum.ProductionDate);
-                            break;
-                        case ViewTypeEnum.BulkUpdateScanView:
-                            OnAddMoreTagsClickedAsync(TagsTypeEnum.Volume);
-                            break;
-                    }
-                }
-                else if (Application.Current.MainPage.Navigation.ModalStack.LastOrDefault().GetType().Name == ViewTypeEnum.PalletizeView.ToString())
-                {
-                    OnAddMoreTagsClickedAsync(TagsTypeEnum.Zone);
-                    OnAddMoreTagsClickedAsync(TagsTypeEnum.Area);
-                    OnAddMoreTagsClickedAsync(TagsTypeEnum.Slot);
-                    OnAddMoreTagsClickedAsync(TagsTypeEnum.SSCC);
-                    OnAddMoreTagsClickedAsync(TagsTypeEnum.Note);
-                    OnAddMoreTagsClickedAsync(TagsTypeEnum.Batch);
-                    OnAddMoreTagsClickedAsync(TagsTypeEnum.GTIN);
-                    OnAddMoreTagsClickedAsync(TagsTypeEnum.ProductionDate);
-                    OnAddMoreTagsClickedAsync(TagsTypeEnum.ExpiryDate);
-                }
-                else if (Application.Current.MainPage.Navigation.ModalStack.LastOrDefault().GetType().Name == ViewTypeEnum.MoveView.ToString())
-                {
-                    OnAddMoreTagsClickedAsync(TagsTypeEnum.BestByDate);
-                    OnAddMoreTagsClickedAsync(TagsTypeEnum.ProductionDate);
+                            OnAddMoreTagsClickedAsync(TagsTypeEnum.AssetType);
+                            OnAddMoreTagsClickedAsync(TagsTypeEnum.Size);
+                            OnAddMoreTagsClickedAsync(TagsTypeEnum.Contents);
+                            OnAddMoreTagsClickedAsync(TagsTypeEnum.Batch);
+                        }
+                        else
+                        {
+                            OnAddMoreTagsClickedAsync(TagsTypeEnum.BestByDate);
+                            OnAddMoreTagsClickedAsync(TagsTypeEnum.ProductionDate);
+                            OnAddMoreTagsClickedAsync(TagsTypeEnum.AssetType);
+                            OnAddMoreTagsClickedAsync(TagsTypeEnum.Size);
+                        }
+                        break;
+                    case ViewTypeEnum.AddBatchView:
+                        OnAddTagsClicked(null, null);
+                        break;
+                    case ViewTypeEnum.EditKegView:
+                        OnAddMoreTagsClickedAsync(TagsTypeEnum.Volume);
+                        OnAddMoreTagsClickedAsync(TagsTypeEnum.Note);
+                        break;
+                    case ViewTypeEnum.MoveView:
+                        OnAddMoreTagsClickedAsync(TagsTypeEnum.BestByDate);
+                        OnAddMoreTagsClickedAsync(TagsTypeEnum.ProductionDate);
+                        break;
+                    case ViewTypeEnum.BulkUpdateScanView:
+                        OnAddMoreTagsClickedAsync(TagsTypeEnum.Volume);
+                        break;
+                    case ViewTypeEnum.PalletizeView:
+                        OnAddMoreTagsClickedAsync(TagsTypeEnum.Zone);
+                        OnAddMoreTagsClickedAsync(TagsTypeEnum.Area);
+                        OnAddMoreTagsClickedAsync(TagsTypeEnum.Slot);
+                        OnAddMoreTagsClickedAsync(TagsTypeEnum.SSCC);
+                        OnAddMoreTagsClickedAsync(TagsTypeEnum.Note);
+                        OnAddMoreTagsClickedAsync(TagsTypeEnum.Batch);
+                        OnAddMoreTagsClickedAsync(TagsTypeEnum.GTIN);
+                        OnAddMoreTagsClickedAsync(TagsTypeEnum.ProductionDate);
+                        OnAddMoreTagsClickedAsync(TagsTypeEnum.ExpiryDate);
+                        break;
                 }
             }
             catch (Exception ex)
@@ -397,6 +388,24 @@ namespace KegID.Views
                 tag = null;
                 tagsStr = string.Empty;
             }
+        }
+
+        public void OnNavigatingTo(INavigationParameters parameters)
+        {
+            if (parameters.ContainsKey("viewTypeEnum"))
+            {
+                LoadAddTagsAsync(parameters.GetValue<ViewTypeEnum>("viewTypeEnum"));
+            }
+        }
+
+        public void OnNavigatedTo(INavigationParameters parameters)
+        {
+            
+        }
+
+        public void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            
         }
     }
 }

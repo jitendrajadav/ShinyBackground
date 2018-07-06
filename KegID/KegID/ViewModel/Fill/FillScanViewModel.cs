@@ -485,7 +485,11 @@ namespace KegID.ViewModel
                 }
                 else
                 {
-                    await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), useModalNavigation: true, animated: false);
+                    var param = new NavigationParameters
+                    {
+                        {"viewTypeEnum",ViewTypeEnum.FillScanView }
+                    };
+                    await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), param, useModalNavigation: true, animated: false);
                 }
             }
             catch (Exception ex)
@@ -715,7 +719,11 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), useModalNavigation: true, animated: false);
+                var param = new NavigationParameters
+                    {
+                        {"viewTypeEnum",ViewTypeEnum.FillScanView }
+                    };
+                await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), param, useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {

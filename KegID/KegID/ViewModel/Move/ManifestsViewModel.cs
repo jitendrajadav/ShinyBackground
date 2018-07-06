@@ -315,8 +315,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //SimpleIoc.Default.GetInstance<MoveViewModel>().AssignInitialValue(model.ManifestId, model.ManifestItems.Count > 0 ? model.ManifestItems.FirstOrDefault().Barcode : string.Empty, model.ManifestItemsCount > 0 ? model.ManifestItemsCount.ToString() : string.Empty, model.OwnerName, model.ReceiverId, true);
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new MoveView(), animated: false);
                 var param = new NavigationParameters
                     {
                         { "AssignInitialValue", model }
@@ -334,7 +332,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //await Application.Current.MainPage.Navigation.PopModalAsync();
                 await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
@@ -345,7 +342,6 @@ namespace KegID.ViewModel
 
         private async void ActionSearchCommandRecieverAsync()
         {
-            //await Application.Current.MainPage.Navigation.PushModalAsync(new SearchManifestsView(), animated: false);
             await _navigationService.NavigateAsync(new Uri("SearchManifestsView", UriKind.Relative), useModalNavigation: true, animated: false);
         }
 
@@ -420,11 +416,6 @@ namespace KegID.ViewModel
             QueuedBackgroundColor = "Transparent";
             DraftTextColor = "#4E6388";
             DraftBackgroundColor = "Transparent";
-        }
-
-        public override void OnNavigatedFrom(INavigationParameters parameters)
-        {
-            
         }
 
         public override void OnNavigatingTo(INavigationParameters parameters)

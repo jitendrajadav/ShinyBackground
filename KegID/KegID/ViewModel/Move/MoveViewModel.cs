@@ -489,7 +489,6 @@ namespace KegID.ViewModel
             try
             {
                 var result = await _dialogService.DisplayActionSheetAsync("Cancel? \n Would you like to save this manifest as a draft or delete?",null,null, "Delete manifest", "Save as draft");
-                //var result = await Application.Current.MainPage.DisplayActionSheet("Cancel? \n Would you like to save this manifest as a draft or delete?", null,null, "Delete manifest", "Save as draft");
                 if (result == "Delete manifest")
                 {
                     await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
@@ -512,7 +511,11 @@ namespace KegID.ViewModel
 
         private async void MoreInfoCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), useModalNavigation: true, animated: false);
+            var param = new NavigationParameters
+                    {
+                        {"viewTypeEnum",ViewTypeEnum.MoveView }
+                    };
+            await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), param, useModalNavigation: true, animated: false);
         }
 
         private async void ScanKegsCommadRecieverAsync()
@@ -521,8 +524,6 @@ namespace KegID.ViewModel
             {
                 if (!string.IsNullOrEmpty(ConstantManager.Partner?.PartnerId))
                 {
-                    //await Application.Current.MainPage.Navigation.PushModalAsync(new ScanKegsView(), animated: false);
-                    //SimpleIoc.Default.GetInstance<ScanKegsViewModel>().AssignInitialValue(ConstantManager.Barcode);
                     var param = new NavigationParameters
                     {
                         { "Barcode", ConstantManager.Barcode }
@@ -544,13 +545,11 @@ namespace KegID.ViewModel
             try
             {
                 ConstantManager.Barcode = _barcode;
-                //Barcode = _barcode;
                 ManifestId = !string.IsNullOrEmpty(_kegId) ? _kegId : Uuid.GetUuId();
                 AddKegs = !string.IsNullOrEmpty(_addKegs) ? string.Format("{0} Item", _addKegs) : "Add Kegs";
                 if (!string.IsNullOrEmpty(_destination))
                 {
                     Destination = _destination;
-                    //PartnerModel.PartnerId = _partnerId;
                     ConstantManager.Partner = new PartnerModel
                     {
                         PartnerId = _partnerId
@@ -625,12 +624,6 @@ namespace KegID.ViewModel
                 var KegId = parameters.GetValue<string>("KegId");
                 AssignInitialValue(KegId, Barcode, "1", string.Empty, string.Empty, true);
             }
-            
-        }
-
-        public override void OnNavigatedFrom(INavigationParameters parameters)
-        {
-           // MessagingCenter.Unsubscribe<ScanKegToMovePagesMsg>(this, "ScanKegToMovePagesMsg");
         }
 
         #endregion

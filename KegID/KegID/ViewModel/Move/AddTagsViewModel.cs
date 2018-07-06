@@ -121,11 +121,6 @@ namespace KegID.ViewModel
             MessagingCenter.Unsubscribe<PagesMessage>(this, "PagesMessage");
         }
 
-        public override void OnNavigatingTo(INavigationParameters parameters)
-        {
-            
-        }
-
         #endregion
 
         #region Methods

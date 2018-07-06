@@ -399,7 +399,11 @@ namespace KegID.ViewModel
                 else
                 {
                     ConstantManager.IsFromScanned = true;
-                    await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), useModalNavigation: true, animated: false);
+                    var param = new NavigationParameters
+                    {
+                        {"viewTypeEnum",ViewTypeEnum.ScanKegsView }
+                    };
+                    await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), param, useModalNavigation: true, animated: false);
                 }
             }
             catch (Exception ex)
@@ -464,8 +468,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //await Application.Current.MainPage.Navigation.PushPopupAsync(new ValidateBarcodeView());
-                //SimpleIoc.Default.GetInstance<ValidateBarcodeViewModel>().LoadBarcodeValue(model);
                 var param = new NavigationParameters
                             {
                                 { "model", model }
@@ -482,7 +484,11 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), useModalNavigation: true, animated: false);
+                var param = new NavigationParameters
+                    {
+                        {"viewTypeEnum",ViewTypeEnum.ScanKegsView }
+                    };
+                await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), param, useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {
@@ -510,8 +516,6 @@ namespace KegID.ViewModel
 
                             break;
                         case "Assign sizes":
-                            //SimpleIoc.Default.GetInstance<AssignSizesViewModel>().AssignInitialValueAsync(alert);
-                            //await Application.Current.MainPage.Navigation.PushModalAsync(new AssignSizesView(), animated: false);
                             var param = new NavigationParameters
                             {
                                 { "alert", alert }
@@ -554,6 +558,7 @@ namespace KegID.ViewModel
             {
                 ConstantManager.Barcodes = BarcodeCollection.ToList();
                 ConstantManager.Contents = SelectedBrand?.BrandName;
+                ConstantManager.ContentsCode = SelectedBrand?.BrandCode;
                 if (BarcodeCollection.Any(x => x?.Kegs?.Partners?.Count > 1))
                     await NavigateToValidatePartner(BarcodeCollection.Where(x => x?.Kegs?.Partners?.Count > 1).ToList());
                 else
@@ -677,8 +682,6 @@ namespace KegID.ViewModel
                         { "Tags", ConstantManager.Tags },{ "TagsStr", TagsStr },{ "ViewTypeEnum", ViewTypeEnum.ScanKegsView }
                     };
                 await _navigationService.NavigateAsync(new Uri("CognexScanView", UriKind.Relative), param, useModalNavigation: true, animated: false);
-
-                //await BarcodeScanner.BarcodeScanAsync(_moveService, ConstantManager.Tags, TagsStr, ViewTypeEnum.ScanKegsView.ToString(),_navigationService);
             }
             catch (Exception ex)
             {
@@ -750,8 +753,6 @@ namespace KegID.ViewModel
 
                 if (HasDone && model.Kegs?.FirstOrDefault()?.MaintenanceItems?.Count < 0)
                 {
-                    //await Application.Current.MainPage.Navigation.PopPopupAsync();
-                    //await Application.Current.MainPage.Navigation.PopModalAsync();
                     await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
                     await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
                     Cleanup();

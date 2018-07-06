@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using KegID.Common;
 using KegID.LocalDb;
 using KegID.Messages;
@@ -449,6 +450,11 @@ namespace KegID.ViewModel
                     };
                     await _navigationService.NavigateAsync(new Uri("PalletizeDetailView", UriKind.Relative), param, useModalNavigation: true, animated: false);
 
+                    new Task(new Action(() =>
+                    {
+                        PrintPallet();
+                    }
+                   )).Start();
                 }
                 else
                 {
@@ -468,6 +474,23 @@ namespace KegID.ViewModel
                 barCodeCollection = null;
                 palletRequestModel = null;
                 Cleanup();
+            }
+        }
+
+        public void PrintPallet()
+        {
+            try
+            {
+                string header = string.Format(ZebraPrinterManager.palletHeader, ManifestId, StockLocation.ParentPartnerName, StockLocation.Address1, StockLocation.City + "," + StockLocation.State + " " + StockLocation.PostalCode, "", StockLocation.ParentPartnerName, ConstantManager.ContentsCode, DateTimeOffset.UtcNow.Date.ToShortDateString(), "1", "", ConstantManager.Contents,
+                                    "1", "", "", "", "", "", "", "", "", "",
+                                    "", "", "", "", "", "", "", "", "", "",
+                                    "", ManifestId, ManifestId);
+
+                ZebraPrinterManager.SendZplPallet(header, ConstantManager.IsIPAddr, ConstantManager.IPAddr);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
             }
         }
 
@@ -518,7 +541,11 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), useModalNavigation: true, animated: false);
+                var param = new NavigationParameters
+                    {
+                        {"viewTypeEnum",ViewTypeEnum.PalletizeView }
+                    };
+                await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), param, useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {

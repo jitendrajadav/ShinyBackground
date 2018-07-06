@@ -439,11 +439,12 @@ namespace KegID.ViewModel
                 }
                 else
                 {
-                    
                     ConstantManager.IsFromScanned = true;
-                    await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), useModalNavigation: true, animated: false);
-                    //IsFromScanned = true;
-                    //await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView(), animated: false);
+                    var param = new NavigationParameters
+                    {
+                        {"viewTypeEnum",ViewTypeEnum.BulkUpdateScanView }
+                    };
+                    await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), param,useModalNavigation: true, animated: false);
                 }
             }
             catch (Exception ex)
@@ -475,8 +476,11 @@ namespace KegID.ViewModel
         {
             try
             {
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new AddTagsView(), animated: false);
-                await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), useModalNavigation: true, animated: false);
+                var param = new NavigationParameters
+                    {
+                        {"viewTypeEnum",ViewTypeEnum.BulkUpdateScanView }
+                    };
+                await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), param,useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {
