@@ -451,13 +451,13 @@ namespace KegID.ViewModel
                     PalletPrintModels.PalletItems.PalletItem.Add(new Model.PrintPDF.PalletItem
                     {
                         Barcode = item.Barcode,
-                        Contents = item.Contents,
+                        Contents = ConstantManager.Contents,
                         //ContentsKey = item.Contents,
                         DateScanned = item.DateScanned.Date.ToShortDateString(),
                         Keg = new Model.PrintPDF.Keg
                         {
                             Barcode = item.Keg.Barcode,
-                            Contents = item.Keg.Contents,
+                            Contents = "Future Factory",
                             KegId = item.Keg.KegId,
                             LocationId = item.Keg.LocationId,
                             LocationName = item.Keg.LocationName,
