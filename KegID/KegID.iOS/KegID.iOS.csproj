@@ -480,16 +480,10 @@
     </BundleResource>
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="..\KegID\Assets\test.jpg">
-      <Link>Resources\test.jpg</Link>
-    </BundleResource>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="FodyWeavers.xml" />
     <BundleResource Include="Resources\manifestkegstar.xslt" />
     <BundleResource Include="Resources\manifestprint.xslt" />
     <BundleResource Include="Resources\palletprintnew.xslt" />
     <BundleResource Include="Resources\repairmanifestprint.xslt" />
-    <Content Include="Libs\XamarinDataManLibrary.dll" />
   </ItemGroup>
 </Project>

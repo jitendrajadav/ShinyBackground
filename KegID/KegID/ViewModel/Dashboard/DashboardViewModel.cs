@@ -372,8 +372,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //SimpleIoc.Default.GetInstance<MoveViewModel>().ManifestId = Uuid.GetUuId();
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new MoveView(), animated: false);
                 var param = new NavigationParameters
                 {
                     { "ManifestId", Uuid.GetUuId() }
@@ -391,7 +389,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new DashboardPartnersView(), animated: false);
                 await _navigationService.NavigateAsync(new Uri("DashboardPartnersView", UriKind.Relative), useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
@@ -404,7 +401,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new KegSearchView(), animated: false);
                 await _navigationService.NavigateAsync(new Uri("KegSearchView", UriKind.Relative), useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
@@ -417,7 +413,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new DashboardPartnersView(), animated: false);
                 await _navigationService.NavigateAsync(new Uri("DashboardPartnersView", UriKind.Relative), useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
@@ -430,14 +425,11 @@ namespace KegID.ViewModel
         {
             try
             {
-                //SimpleIoc.Default.GetInstance<InventoryViewModel>().InitialAssignValueAsync(currentPage: 0);
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new InventoryView(), animated: false);
                 var param = new NavigationParameters
                     {
                         { "currentPage", 0 }
                     };
                 await _navigationService.NavigateAsync(new Uri("InventoryView", UriKind.Relative), param, useModalNavigation: true, animated: false);
-
             }
             catch (Exception ex)
             {
@@ -449,14 +441,11 @@ namespace KegID.ViewModel
         {
             try
             {
-                //SimpleIoc.Default.GetInstance<InventoryViewModel>().InitialAssignValueAsync(currentPage: 1);
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new InventoryView(), animated: false);
                 var param = new NavigationParameters
                     {
                         { "currentPage", 1 }
                     };
                 await _navigationService.NavigateAsync(new Uri("InventoryView", UriKind.Relative), param, useModalNavigation: true, animated: false);
-
             }
             catch (Exception ex)
             {
@@ -468,14 +457,11 @@ namespace KegID.ViewModel
         {
             try
             {
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestsView(), animated: false);
-                //SimpleIoc.Default.GetInstance<ManifestsViewModel>().LoadDraftManifestAsync();
                 var param = new NavigationParameters
                     {
                         { "LoadDraftManifestAsync", "LoadDraftManifestAsync" }
                     };
                 await _navigationService.NavigateAsync(new Uri("ManifestsView", UriKind.Relative), param, useModalNavigation: true, animated: false);
-
             }
             catch (Exception ex)
             {
@@ -502,7 +488,6 @@ namespace KegID.ViewModel
 
         private async void FillCommandRecieverAsync()
         {
-            //await Application.Current.MainPage.Navigation.PushModalAsync(new FillView(), animated: false);
             await _navigationService.NavigateAsync(new Uri("FillView", UriKind.Relative), useModalNavigation: true, animated: false);
         }
 
@@ -510,8 +495,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //SimpleIoc.Default.GetInstance<PalletizeViewModel>().GenerateManifestIdAsync(null);
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new PalletizeView(), animated: false);
                 var param = new NavigationParameters
                     {
                         { "GenerateManifestIdAsync", "GenerateManifestIdAsync" }
@@ -528,7 +511,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new SearchPalletView(), animated: false);
                 await _navigationService.NavigateAsync(new Uri("SearchPalletView", UriKind.Relative), useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
@@ -541,8 +523,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //await SimpleIoc.Default.GetInstance<MaintainViewModel>().LoadMaintenanceTypeAsync();
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new MaintainView(), animated: false);
                 var param = new NavigationParameters
                     {
                         { "LoadMaintenanceTypeAsync", "LoadMaintenanceTypeAsync" }
@@ -585,7 +565,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //await Application.Current.MainPage.Navigation.PushPopupAsync(new SettingView());
                 await _navigationService.NavigateAsync(new Uri("SettingView", UriKind.Relative), useModalNavigation: true, animated: false);
             }
             catch (Exception ex)

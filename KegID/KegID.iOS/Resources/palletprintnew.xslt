@@ -261,14 +261,14 @@
                                         <div id="dateinfo">
                                             <span id="builddatetext">
 
-                                                <xsl:text disable-output-escaping="yes">&amp;nbsp;
+                                                <xsl:text disable-output-escaping="yes">
                                                 </xsl:text>
-                                                <xsl:call-template name="formatdatetime">
+                                                <!--<xsl:call-template name="formatdatetime">
                                                     <xsl:with-param
                                                         name="datestr"
                                                         select="k:CreatedDate[1]/node()[2]/node()[1]"></xsl:with-param>
-                                                </xsl:call-template>
-
+                                                </xsl:call-template>-->
+                                              <xsl:value-of select="k:CreatedDate"/>
                                             </span>
                                         </div>
                                     </td>
@@ -445,7 +445,7 @@
         </xsl:variable>
 
         <xsl:value-of select="$dd"/>
-        <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
+        <xsl:text disable-output-escaping="yes">&amp;</xsl:text>
         <xsl:choose>
             <xsl:when test="$MM=1">Jan</xsl:when>
             <xsl:when test="$MM=2">Feb</xsl:when>
@@ -460,16 +460,16 @@
             <xsl:when test="$MM=11">Nov</xsl:when>
             <xsl:when test="$MM=12">Dec</xsl:when>
         </xsl:choose>
-        <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
+        <xsl:text disable-output-escaping="yes"></xsl:text>
         <xsl:value-of select="$yyyy"/>
-        <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
+        <xsl:text disable-output-escaping="yes"></xsl:text>
         <xsl:value-of select="$hh"/>:
         <xsl:value-of select="$mm"/>
-        <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
+        <xsl:text disable-output-escaping="yes"></xsl:text>
     </xsl:template>
 
     <xsl:template name="space">
-        <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
+        <xsl:text disable-output-escaping="yes"></xsl:text>
     </xsl:template>
 
     <xsl:template name="footertemplate">
