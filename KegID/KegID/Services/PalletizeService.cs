@@ -2,7 +2,6 @@
 using KegID.Common;
 using KegID.Model;
 using Newtonsoft.Json;
-using static KegID.Common.Helper;
 
 namespace KegID.Services
 {
@@ -10,17 +9,25 @@ namespace KegID.Services
     {
         public async Task<PalletResponseModel> PostPalletAsync(PalletRequestModel inModel, string sessionId, string RequestType)
         {
-            string url = string.Format(Configuration.PostPalletUrl, sessionId);
-            string content = JsonConvert.SerializeObject(inModel);
-            var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Send, content, RequestType: RequestType);
-
-            var outModel = DeserializeObject<PalletResponseModel>(value.Response, GetJsonSetting());
-            if (outModel != null)
+            PalletResponseModel outModel = null;
+            try
             {
-                outModel.Response = new KegIDResponse
+                string url = string.Format(Configuration.PostPalletUrl, sessionId);
+                string content = JsonConvert.SerializeObject(inModel);
+                var value = await App.kegIDClient.ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Send, content, RequestType: RequestType);
+
+                outModel = App.kegIDClient.DeserializeObject<PalletResponseModel>(value.Response);
+                if (outModel != null)
                 {
-                    StatusCode = value.StatusCode
-                };
+                    outModel.Response = new KegIDResponse
+                    {
+                        StatusCode = value.StatusCode
+                    };
+                }
+            }
+            catch (System.Exception)
+            {
+
             }
             return outModel;
         }

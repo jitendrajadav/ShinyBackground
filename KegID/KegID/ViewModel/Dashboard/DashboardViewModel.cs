@@ -5,7 +5,6 @@ using KegID.Services;
 using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
-using Rg.Plugins.Popup.Extensions;
 using System;
 using System.Globalization;
 using Xamarin.Forms;
@@ -21,17 +20,8 @@ namespace KegID.ViewModel
 
         #region Stock
 
-        /// <summary>
-        /// The <see cref="Stock" /> property's name.
-        /// </summary>
-        public const string StockPropertyName = "Stock";
-
         private string _Stock = "0";
 
-        /// <summary>
-        /// Sets and gets the Stock property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
         public string Stock
         {
             get
@@ -41,13 +31,7 @@ namespace KegID.ViewModel
 
             set
             {
-                if (_Stock == value)
-                {
-                    return;
-                }
-
-                _Stock = value;
-                RaisePropertyChanged(StockPropertyName);
+                SetProperty(ref _Stock,value);
             }
         }
 

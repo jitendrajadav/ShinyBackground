@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using KegID.Common;
 using KegID.Model;
 using Newtonsoft.Json;
-using static KegID.Common.Helper;
 
 namespace KegID.Services
 {
@@ -15,22 +14,35 @@ namespace KegID.Services
             {
                 Response = new KegIDResponse()
             };
-            string url = string.Format(Configuration.GetMaintenanceTypeUrl, sessionId);
-            var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
+            try
+            {
+                string url = string.Format(Configuration.GetMaintenanceTypeUrl, sessionId);
+                var value = await App.kegIDClient.ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
-            model.MaintainTypeReponseModel = !string.IsNullOrEmpty(value.Response) ? DeserializeObject<IList<MaintainTypeReponseModel>>(value.Response, GetJsonSetting()) : new List<MaintainTypeReponseModel>();
-            model.Response.StatusCode = value.StatusCode;
+                model.MaintainTypeReponseModel = !string.IsNullOrEmpty(value.Response) ? App.kegIDClient.DeserializeObject<IList<MaintainTypeReponseModel>>(value.Response) : new List<MaintainTypeReponseModel>();
+                model.Response.StatusCode = value.StatusCode;
+            }
+            catch (System.Exception)
+            {
 
+            }
             return model;
         }
 
         public async Task<KegIDResponse> PostMaintenanceDoneAsync(MaintenanceDoneRequestModel model, string sessionId, string RequestType)
         {
-            string url = string.Format(Configuration.PostMaintenanceDoneUrl, sessionId);
-            string content = JsonConvert.SerializeObject(model);
-            var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Send, content, RequestType: RequestType);
+            KegIDResponse outModel = null;
+            try
+            {
+                string url = string.Format(Configuration.PostMaintenanceDoneUrl, sessionId);
+                string content = JsonConvert.SerializeObject(model);
+                outModel = await App.kegIDClient.ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Send, content, RequestType: RequestType);
+            }
+            catch (System.Exception)
+            {
 
-            return value;
+            }
+            return outModel;
         }
     }
 }

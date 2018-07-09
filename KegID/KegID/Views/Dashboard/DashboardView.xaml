@@ -191,7 +191,7 @@
                         HorizontalOptions="End"
                         TextColor="#4E6388"
                         FontSize="Medium"
-                        Text="{Binding Stock}">
+                        Text="{Binding Stock,Mode=TwoWay}">
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding Path=BindingContext.StockCommand, 
                                                         Source={x:Reference Name=lblInventory}}"
@@ -225,7 +225,7 @@
                         HorizontalOptions="End"
                         TextColor="#4E6388"
                         FontSize="Medium"
-                        Text="{Binding Empty}">
+                        Text="{Binding Empty,Mode=TwoWay}">
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding Path=BindingContext.EmptyCommand, 
                                                         Source={x:Reference Name=lblEmpty}}"
@@ -259,7 +259,7 @@
                         FontSize="Medium"
                         HorizontalOptions="End"
                         TextColor="#4E6388"
-                        Text="{Binding InUse}">
+                        Text="{Binding InUse,Mode=TwoWay}">
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding Path=BindingContext.InUsePartnerCommand, 
                                                         Source={x:Reference Name=lblInUse}}"
@@ -294,7 +294,7 @@
                         HorizontalOptions="End"
                         HorizontalTextAlignment="End"
                         TextColor="#4E6388"
-                        Text="{Binding Total}"/>
+                        Text="{Binding Total,Mode=TwoWay}"/>
 
                 </Grid>
 
@@ -380,7 +380,7 @@
                         FontSize="Medium"
                         HorizontalOptions="Center"
                         HorizontalTextAlignment="Center"
-                        Text="{Binding AverageCycle}"/>
+                        Text="{Binding AverageCycle,Mode=TwoWay}"/>
 
                     <BoxView
                         Grid.Row="4"
@@ -416,7 +416,7 @@
                         Grid.Column="1"
                         FontSize="Medium"
                         HorizontalTextAlignment="Center"
-                        Text="{Binding Atriskegs}"/>
+                        Text="{Binding Atriskegs,Mode=TwoWay}"/>
 
                 </Grid>
 

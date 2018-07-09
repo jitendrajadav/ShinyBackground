@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using KegID.Common;
 using KegID.Model;
-using static KegID.Common.Helper;
 
 namespace KegID.Services
 {
@@ -14,11 +13,18 @@ namespace KegID.Services
             {
                 Response = new KegIDResponse()
             };
-            string url = string.Format(Configuration.GetBatchUrl, sessionId);
-            var value = await ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
+            try
+            {
+                string url = string.Format(Configuration.GetBatchUrl, sessionId);
+                var value = await App.kegIDClient.ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
-            model.BatchModel = !string.IsNullOrEmpty(value.Response) ? DeserializeObject<IList<BatchModel>>(value.Response, GetJsonSetting()) : new List<BatchModel>();
-            model.Response.StatusCode = value.StatusCode;
+                model.BatchModel = !string.IsNullOrEmpty(value.Response) ? App.kegIDClient.DeserializeObject<IList<BatchModel>>(value.Response) : new List<BatchModel>();
+                model.Response.StatusCode = value.StatusCode;
+            }
+            catch (System.Exception)
+            {
+
+            }
             return model;
         }
 
