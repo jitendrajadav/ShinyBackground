@@ -18,8 +18,8 @@ namespace KegID.ViewModel
         #region Properties
 
         private const string Cloud = "collectionscloud.png";
-        private IMoveService _moveService { get; set; }
-        INavigationService _navigationService;
+        private readonly IMoveService _moveService;
+        private readonly INavigationService _navigationService;
         public IList<Tag> Tags { get; set; }
         public string TagsStr { get; set; }
         public string Page { get; set; }
@@ -165,11 +165,6 @@ namespace KegID.ViewModel
                         { "models", models }
                     };
             await _navigationService.GoBackAsync(param, useModalNavigation: true, animated: false);
-        }
-
-        public override void OnNavigatedFrom(INavigationParameters parameters)
-        {
-
         }
 
         public override void OnNavigatingTo(INavigationParameters parameters)

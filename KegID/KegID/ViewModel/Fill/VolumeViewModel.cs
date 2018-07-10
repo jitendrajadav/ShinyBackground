@@ -89,29 +89,16 @@ namespace KegID.ViewModel
         {
             try
             {
-                //SimpleIoc.Default.GetInstance<AddBatchViewModel>().VolumeChar = model;
-                //await Application.Current.MainPage.Navigation.PopModalAsync();
                 var param = new NavigationParameters
                     {
                         { "model", model }
                     };
                 await _navigationService.GoBackAsync(param, useModalNavigation: true, animated: false);
-
             }
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
             }
-        }
-
-        public override void OnNavigatedFrom(INavigationParameters parameters)
-        {
-            
-        }
-
-        public override void OnNavigatingTo(INavigationParameters parameters)
-        {
-            
         }
 
         #endregion

@@ -16,16 +16,14 @@ namespace KegID.ViewModel
 {
     public class LoginViewModel : BaseViewModel
     {
-
         #region Properties
 
         private readonly IPageDialogService _dialogService;
-        public static IAccountService _accountService { get; set; }
-        private static IMoveService _moveService { get; set; }
-        private static IMaintainService _maintainService { get; set; }
-        private static IDashboardService _dashboardService { get; set; }
-        private static IFillService _fillService { get; set; }
+        private readonly IAccountService _accountService;
+        private readonly IMaintainService _maintainService;
         private readonly INavigationService _navigationService;
+        private readonly IInitializeMetaData _initializeMetaData;
+        private readonly IGetIconByPlatform _getIconByPlatform;
 
         #region Username
 
@@ -141,21 +139,21 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public LoginViewModel(IAccountService accountService, INavigationService navigationService, IMoveService moveService, IMaintainService maintainService, IDashboardService dashboardService, IFillService fillService, IPageDialogService dialogService)
+        public LoginViewModel(IAccountService accountService, INavigationService navigationService, IInitializeMetaData initializeMetaData, IMaintainService maintainService, IPageDialogService dialogService, IGetIconByPlatform getIconByPlatform)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _dialogService = dialogService;
             _accountService = accountService;
-            _moveService = moveService;
+            _initializeMetaData = initializeMetaData;
             _maintainService = maintainService;
-            _dashboardService = dashboardService;
-            _fillService = fillService;
+            _getIconByPlatform = getIconByPlatform;
+
             LoginCommand = new DelegateCommand(LoginCommandRecieverAsync);
             KegIDCommand = new DelegateCommand(KegIDCommandReciever);
 
             Username = "test@kegid.com";
             Password = "beer2keg";
-            BgImage = GetIconByPlatform.GetIcon("kegbg.png");
+            BgImage = _getIconByPlatform.GetIcon("kegbg.png");
         }
 
         #endregion
@@ -227,8 +225,7 @@ namespace KegID.ViewModel
                                     RealmDb.Add(item);
                                 }
                             });
-
-                            await InitializeMetaData.LoadInitializeMetaData(_moveService, _dashboardService, _maintainService, _fillService); 
+                            await _initializeMetaData.LoadInitializeMetaData();
                         }
                     }
                     catch (Exception ex)

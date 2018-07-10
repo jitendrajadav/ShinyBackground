@@ -1,5 +1,5 @@
-﻿using KegID.Common;
-using KegID.Messages;
+﻿using KegID.Messages;
+using KegID.Services;
 using Prism.Commands;
 using Prism.Navigation;
 using System;
@@ -97,6 +97,10 @@ namespace KegID.ViewModel
             HandleReceivedMessages();
         }
 
+        #endregion
+
+        #region Methods
+
         private void HandleReceivedMessages()
         {
             MessagingCenter.Subscribe<PagesMessage>(this, "PagesMessage", message =>
@@ -120,10 +124,6 @@ namespace KegID.ViewModel
         {
             MessagingCenter.Unsubscribe<PagesMessage>(this, "PagesMessage");
         }
-
-        #endregion
-
-        #region Methods
 
         #endregion
     }

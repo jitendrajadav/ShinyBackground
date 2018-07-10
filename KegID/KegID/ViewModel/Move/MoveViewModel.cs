@@ -11,7 +11,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
@@ -21,7 +20,9 @@ namespace KegID.ViewModel
 
         private readonly INavigationService _navigationService;
         private readonly IPageDialogService _dialogService;
-        public IMoveService _moveService { get; set; }
+        private readonly IMoveService _moveService;
+        private readonly IManifestManager _manifestManager;
+
         public string Contents { get; set; }
 
         #region ManifestId
@@ -314,11 +315,12 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public MoveViewModel(IMoveService moveService, INavigationService navigationService, IPageDialogService dialogService)
+        public MoveViewModel(IMoveService moveService, INavigationService navigationService, IPageDialogService dialogService, IManifestManager manifestManager)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _dialogService = dialogService;
             _moveService = moveService;
+            _manifestManager = manifestManager;
 
             SelectLocationCommand = new DelegateCommand(SelectLocationCommandRecieverAsync);
             MoreInfoCommand = new DelegateCommand(MoreInfoCommandRecieverAsync);
@@ -446,7 +448,7 @@ namespace KegID.ViewModel
 
         public async Task<ManifestModel> GenerateManifest()
         {
-            return await ManifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.MOVE_MANIFEST, manifestId: ManifestId,
+            return await _manifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.MOVE_MANIFEST, manifestId: ManifestId,
                                 barcodeCollection: ConstantManager.Barcodes, tags: Tags??new List<Tag>(), partnerModel: ConstantManager.Partner, newPallets: new List<NewPallet>(), 
                                 batches: new List<NewBatch>(), closedBatches: new List<string>(), validationStatus: 2, contents: Contents);
         }

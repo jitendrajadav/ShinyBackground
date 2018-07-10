@@ -246,7 +246,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView(), animated: false);
                 await _navigationService.NavigateAsync(new Uri("PartnersView", UriKind.Relative), useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
@@ -259,7 +258,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //await Application.Current.MainPage.Navigation.PopModalAsync();
                 await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
@@ -271,8 +269,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //SimpleIoc.Default.GetInstance<PalletSearchedListViewModel>().GetPalletSearchAsync(PartnerModel?.PartnerId, FromDate.ToShortDateString(), ToDate.ToShortDateString(), string.Empty, string.Empty);
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new PalletSearchedListView(), animated: false);
                 var param = new NavigationParameters
                     {
                         { "GetPalletSearchAsync", PartnerModel?.PartnerId },{ "FromDate", FromDate.ToShortDateString() },{ "ToDate", ToDate.ToShortDateString() }
@@ -284,11 +280,6 @@ namespace KegID.ViewModel
             {
                 Crashes.TrackError(ex);
             }
-        }
-
-        public override void OnNavigatedFrom(INavigationParameters parameters)
-        {
-            
         }
 
         public override void OnNavigatingTo(INavigationParameters parameters)

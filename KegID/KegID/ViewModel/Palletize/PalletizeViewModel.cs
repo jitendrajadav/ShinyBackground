@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using KegID.Common;
 using KegID.LocalDb;
 using KegID.Messages;
@@ -22,8 +21,9 @@ namespace KegID.ViewModel
         #region Properties
 
         private readonly INavigationService _navigationService;
-        public IPalletizeService _palletizeService { get; set; }
-        public IMoveService _moveService { get; set; }
+        private readonly IPalletizeService _palletizeService;
+        private readonly IMoveService _moveService;
+        private readonly IZebraPrinterManager _zebraPrinterManager;
         public bool TargetLocationPartner { get; set; }
 
         #region StockLocation
@@ -314,12 +314,13 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public PalletizeViewModel(IPalletizeService palletizeService, IMoveService moveService, INavigationService navigationService)
+        public PalletizeViewModel(IPalletizeService palletizeService, IMoveService moveService, INavigationService navigationService, IZebraPrinterManager zebraPrinterManager)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
-
             _moveService = moveService;
             _palletizeService = palletizeService;
+            _zebraPrinterManager = zebraPrinterManager;
+
             CancelCommand = new DelegateCommand(CancelCommandRecieverAsync);
             PartnerCommand = new DelegateCommand(PartnerCommandRecieverAsync);
             AddTagsCommand = new DelegateCommand(AddTagsCommandRecieverAsync);
@@ -446,12 +447,7 @@ namespace KegID.ViewModel
                 {
                     Loader.StopLoading();
 
-                    //new Task(new Action(() =>
-                    //{
-                        PrintPallet();
-                    //}
-                    //)).Start();
-
+                    PrintPallet();
                     var param = new NavigationParameters
                     {
                         { "LoadInfo", value }
@@ -484,13 +480,13 @@ namespace KegID.ViewModel
             try
             {
                  var addresss = StockLocation;
-                 string header = string.Format(ZebraPrinterManager.palletHeader, ManifestId, addresss.ParentPartnerName, addresss.Address1, addresss.City + "," + addresss.State + " " + addresss.PostalCode, "", addresss.ParentPartnerName, ConstantManager.ContentsCode, DateTimeOffset.UtcNow.Date.ToShortDateString(), "1", "", ConstantManager.Contents,
+                 string header = string.Format(_zebraPrinterManager.PalletHeader, ManifestId, addresss.ParentPartnerName, addresss.Address1, addresss.City + "," + addresss.State + " " + addresss.PostalCode, "", addresss.ParentPartnerName, ConstantManager.ContentsCode, DateTimeOffset.UtcNow.Date.ToShortDateString(), "1", "", ConstantManager.Contents,
                                      "1", "", "", "", "", "", "", "", "", "",
                                      "", "", "", "", "", "", "", "", "", "",
                                      "", ManifestId, ManifestId);
                 new Thread(() =>
                 {
-                    ZebraPrinterManager.SendZplPallet(header, ConstantManager.IsIPAddr, ConstantManager.IPAddr);
+                    _zebraPrinterManager.SendZplPallet(header, ConstantManager.IsIPAddr, ConstantManager.IPAddr);
 
              }).Start();
 

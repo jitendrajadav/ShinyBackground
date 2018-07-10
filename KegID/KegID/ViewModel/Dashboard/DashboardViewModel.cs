@@ -1,12 +1,15 @@
 ﻿using KegID.Common;
+using KegID.LocalDb;
 using KegID.Messages;
 using KegID.Model;
 using KegID.Services;
 using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
+using Realms;
 using System;
 using System.Globalization;
+using System.Linq;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -16,7 +19,8 @@ namespace KegID.ViewModel
         #region Properties
 
         private readonly INavigationService _navigationService;
-        public IDashboardService _dashboardService { get; set; }
+        private readonly IDashboardService _dashboardService;
+        private readonly IGetIconByPlatform _getIconByPlatform;
 
         #region Stock
 
@@ -330,12 +334,13 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public DashboardViewModel(IDashboardService dashboardService, INavigationService navigationService)
+        public DashboardViewModel(IDashboardService dashboardService, INavigationService navigationService, IGetIconByPlatform getIconByPlatform)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
 
             _dashboardService = dashboardService;
-            BgImage = GetIconByPlatform.GetIcon("kegbg.png");
+            _getIconByPlatform = getIconByPlatform;
+            BgImage = _getIconByPlatform.GetIcon("kegbg.png");
 
             MoveCommand = new DelegateCommand(MoveCommandRecieverAsync);
             MoreCommand = new DelegateCommand(MoreCommandRecieverAsync);
@@ -473,7 +478,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                var collection = ConstantManager.CheckDraftmaniFestsAsync();
+                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                var collection = RealmDb.All<ManifestModel>().Where(x => x.IsDraft == true).ToList();
                 if (collection.Count > 0)
                 {
                     DraftmaniFests = collection.Count;

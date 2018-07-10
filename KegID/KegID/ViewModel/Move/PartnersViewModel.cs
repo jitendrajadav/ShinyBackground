@@ -10,7 +10,6 @@ using Realms;
 using KegID.LocalDb;
 using Prism.Commands;
 using Prism.Navigation;
-using System.Threading;
 
 namespace KegID.ViewModel
 {
@@ -18,9 +17,9 @@ namespace KegID.ViewModel
     {
         #region Properties
 
+        private readonly IMoveService _moveService;
         private readonly INavigationService _navigationService;
         public bool BrewerStockOn { get; set; }
-        public IMoveService _moveService { get; set; }
 
         #region IsWorking
 
@@ -451,11 +450,6 @@ namespace KegID.ViewModel
             {
                 Crashes.TrackError(ex);
             }
-        }
-
-        public override void OnNavigatedFrom(INavigationParameters parameters)
-        {
-            
         }
 
         public override void OnNavigatingTo(INavigationParameters parameters)

@@ -1,6 +1,6 @@
-﻿using KegID.Common;
-using KegID.LocalDb;
+﻿using KegID.LocalDb;
 using KegID.Model;
+using KegID.Services;
 using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
@@ -162,7 +162,6 @@ namespace KegID.ViewModel
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                 var result = RealmDb.All<MaintainTypeReponseModel>().ToList();
 
-                //var result = await SimpleIoc.Default.GetInstance<MaintainScanViewModel>().LoadMaintenanceTypeAsync();
                 ConstantManager.MaintainTypeCollection = result.Where(x => x.ActivationMethod == "ReverseOnly").OrderBy(x => x.Name).ToList();
                 MaintainTypeCollection = ConstantManager.MaintainTypeCollection;
             }
@@ -188,6 +187,7 @@ namespace KegID.ViewModel
                 Crashes.TrackError(ex);
             }
         }
+
         private async void NextCommandRecieverAsync()
         {
             try

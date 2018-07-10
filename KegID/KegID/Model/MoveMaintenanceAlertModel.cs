@@ -1,5 +1,5 @@
-﻿using KegID.Common;
-using KegID.LocalDb;
+﻿using KegID.LocalDb;
+using KegID.Services;
 using KegID.ViewModel;
 using Realms;
 using System.Collections.Generic;
@@ -108,7 +108,6 @@ namespace KegID.Model
                 if (!_selectedUType.HasInitial)
                 {
                     ConstantManager.VerifiedBarcodes.FirstOrDefault().HasMaintenaceVerified = true;
-                    //SimpleIoc.Default.GetInstance<AssignSizesViewModel>().MaintenanceVerified();
                     var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                     RealmDb.Write(() =>
                     {

@@ -19,7 +19,7 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        public IDashboardService DashboardService { get; set; }
+        private readonly IDashboardService _dashboardService;
         private readonly INavigationService _navigationService;
         private readonly IPageDialogService _dialogService;
         public LocationInfo Posision { get; set; }
@@ -692,11 +692,11 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public KegStatusViewModel(IDashboardService _dashboardService, INavigationService navigationService, IPageDialogService dialogService)
+        public KegStatusViewModel(IDashboardService dashboardService, INavigationService navigationService, IPageDialogService dialogService)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _dialogService = dialogService;
-            DashboardService = _dashboardService;
+            _dashboardService = dashboardService;
             KegsCommand = new DelegateCommand(KegsCommandRecieverAsync);
             EditCommand = new DelegateCommand(EditCommandRecieverAsync);
             InvalidToolsCommand = new DelegateCommand(InvalidToolsCommandRecieverAsync);
@@ -714,8 +714,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new MoveView(), animated: false);
-                //SimpleIoc.Default.GetInstance<MoveViewModel>().AssignInitialValue(KegId, Barcode, "1", string.Empty, string.Empty, true);
                 var param = new NavigationParameters
                     {
                         { "AssignInitialValueFromKegStatus", Barcode }, {"KegId",KegId }
@@ -742,7 +740,7 @@ namespace KegID.ViewModel
                 TypeName = _typeName;
                 SizeName = _sizeName;
 
-                var kegStatus = await DashboardService.GetKegStatusAsync(KegId, AppSettings.User.SessionId);
+                var kegStatus = await _dashboardService.GetKegStatusAsync(KegId, AppSettings.User.SessionId);
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                 var addMaintenanceCollection = RealmDb.All<MaintainTypeReponseModel>().ToList();
                 KegHasAlert = kegStatus.MaintenanceAlerts.Count > 0 ? true : false;
@@ -772,7 +770,7 @@ namespace KegID.ViewModel
                     Lon = kegStatus.Location.Lon
                 };
 
-                var value = await DashboardService.GetKegMaintenanceHistoryAsync(KegId, AppSettings.User.SessionId);
+                var value = await _dashboardService.GetKegMaintenanceHistoryAsync(KegId, AppSettings.User.SessionId);
                 MaintenancePerformedCollection = value.KegMaintenanceHistoryResponseModel;
 
                 if (value.KegMaintenanceHistoryResponseModel.Count > 0)
@@ -794,7 +792,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //await Application.Current.MainPage.Navigation.PopModalAsync();
                 await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
                 KegHasAlert = false;
                 Alerts = null;
@@ -811,8 +808,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //SimpleIoc.Default.GetInstance<EditKegViewModel>().AssingInitialValue(KegId, Barcode, Owner, TypeName, SizeName);
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new EditKegView(), animated: false);
                 var param = new NavigationParameters
                     {
                         { "AssignInitialValue", Barcode }, {"KegId",KegId },{"Owner",Owner },{"TypeName",TypeName },{"SizeName",SizeName }
@@ -854,8 +849,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //SimpleIoc.Default.GetInstance<PartnerInfoMapViewModel>().AssignInitialValue(Posision.Lat, Posision.Lon, Posision.Label, Posision.Address);
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new PartnerInfoMapView(), animated: false);
                 var param = new NavigationParameters
                     {
                         { "Posision", Posision }
@@ -868,49 +861,6 @@ namespace KegID.ViewModel
                 Crashes.TrackError(ex);
             }
         }
-
-        //private async void AddAlertPerticularKegAsync(MaintenanceAlert _model)
-        //{
-        //    List<long> neededTypes = MaintenanceCollection.Where(x => x.Id == _model.Id).Select(x => x.Id).ToList();
-        //    var model = new AddMaintenanceAlertRequestModel
-        //    {
-        //        AlertCc = "",
-        //        DueDate = _model.DueDate,
-        //        KegId = KegId,
-        //        Message = _model.Message,
-        //        NeededTypes = neededTypes,
-        //        ReminderDays = 5
-        //    };
-
-        //    Loader.StartLoading();
-        //    var result = await DashboardService.PostMaintenanceAlertAsync(model, AppSettings.User.SessionId, Configuration.PostedMaintenanceAlert);
-
-        //    if (result.StatusCode == System.Net.HttpStatusCode.OK)
-        //    {
-        //        SelectedMaintenance = null;
-        //        await Application.Current.MainPage.DisplayAlert("Alert", "Alert adedd successfuly", "Ok");
-        //        try
-        //        {
-        //            foreach (var item in result.AddMaintenanceAlertResponseModel)
-        //            {
-        //                var removal = MaintenanceCollection.Where(x => x.Id == item.MaintenanceType.Id).FirstOrDefault();
-        //                if (removal != null)
-        //                {
-        //                    MaintenanceCollection.Remove(removal);
-        //                    RemoveMaintenanceCollection.Add(removal);
-        //                }
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //             Crashes.TrackError(ex);
-        //        }
-        //        finally
-        //        {
-        //            Loader.StopLoading();
-        //        }
-        //    }
-        //}
 
         private async void AddAlertCommandRecieverAsync()
         {
@@ -928,7 +878,7 @@ namespace KegID.ViewModel
                 };
 
                 Loader.StartLoading();
-                var result = await DashboardService.PostMaintenanceAlertAsync(model, AppSettings.User.SessionId, Configuration.PostedMaintenanceAlert);
+                var result = await _dashboardService.PostMaintenanceAlertAsync(model, AppSettings.User.SessionId, Configuration.PostedMaintenanceAlert);
 
                 if (result.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                 {
@@ -972,7 +922,7 @@ namespace KegID.ViewModel
                 };
                 try
                 {
-                    var result = await DashboardService.PostMaintenanceDeleteAlertUrlAsync(model, AppSettings.User.SessionId, Configuration.DeleteTypeMaintenanceAlert);
+                    var result = await _dashboardService.PostMaintenanceDeleteAlertUrlAsync(model, AppSettings.User.SessionId, Configuration.DeleteTypeMaintenanceAlert);
                     if (result.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                     {
                         Loader.StopLoading();
@@ -1002,11 +952,6 @@ namespace KegID.ViewModel
             }
         }
 
-        public override void OnNavigatedFrom(INavigationParameters parameters)
-        {
-
-        }
-
         public async override void OnNavigatingTo(INavigationParameters parameters)
         {
             if (parameters.ContainsKey("KegStatusModel"))
@@ -1015,55 +960,6 @@ namespace KegID.ViewModel
                 await LoadMaintenanceHistoryAsync(model.KegId, model.Contents, model.HeldDays, model.PossessorName, model.Barcode, model.TypeName, model.SizeName);
             }
         }
-
-        //private async void RemoveAlertPerticularKegAsync(MaintenanceAlert _model)
-        //{
-        //    var neededTypes = RemoveMaintenanceCollection.Where(x=>x.Id == _model.Id).Select(x => x.Id).FirstOrDefault();
-        //    //var model = new DeleteMaintenanceAlertRequestModel
-        //    //{
-        //    //    AlertCc = "",
-        //    //    DueDate = DateTimeOffset.Now,
-        //    //    KegId = KegId,
-        //    //    Message = _model.Message,
-        //    //    NeededTypes = neededTypes,
-        //    //    ReminderDays = 10
-        //    //};
-        //    //var resutl = await DashboardService.PostMaintenanceDeleteAlertUrlAsync(model, AppSettings.User.SessionId, Configuration.PostedMaintenanceAlert);
-        //    Loader.StartLoading();
-        //    var model = new DeleteMaintenanceAlertRequestModel
-        //    {
-        //        KegId = KegId,
-        //        TypeId = neededTypes,
-        //    };
-        //    try
-        //    {
-        //        var result = await DashboardService.PostMaintenanceDeleteAlertUrlAsync(model, AppSettings.User.SessionId, Configuration.DeleteTypeMaintenanceAlert);
-        //        if (result.StatusCode == System.Net.HttpStatusCode.OK)
-        //        {
-        //            RemoveSelecetedMaintenance = null;
-
-        //            await Application.Current.MainPage.DisplayAlert("Alert", "Alert removed successfuly", "Ok");
-        //            foreach (var item in result.AddMaintenanceAlertResponseModel)
-        //            {
-        //                var removedItem = RemoveMaintenanceCollection.Where(x => x.Id != item.MaintenanceType.Id).First();
-        //                if (removedItem != null)
-        //                {
-        //                    RemoveMaintenanceCollection.Remove(removedItem);
-        //                    MaintenanceCollection.Add(removedItem);
-        //                }
-        //                break;
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //         Crashes.TrackError(ex);
-        //    }
-        //    finally
-        //    {
-        //        Loader.StopLoading();
-        //    }
-        //}
 
         #endregion
 

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using KegID.Common;
+using KegID.Services;
 using Prism.Commands;
 using Prism.Navigation;
 
@@ -11,6 +11,7 @@ namespace KegID.ViewModel
         #region Properties
 
         private readonly INavigationService _navigationService;
+        private readonly IZebraPrinterManager _zebraPrinterManager;
 
         #region SelectedPrinter
 
@@ -163,9 +164,10 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public PrinterSettingViewModel(INavigationService navigationService)
+        public PrinterSettingViewModel(INavigationService navigationService, IZebraPrinterManager zebraPrinterManager)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+            _zebraPrinterManager = zebraPrinterManager;
 
             CancelCommand = new DelegateCommand(CancelCommandRecieverAsync);
             SaveCommand = new DelegateCommand(SaveCommandRecieverAsync);
@@ -184,25 +186,18 @@ namespace KegID.ViewModel
         private void PrinterTestCommandReciever()
         {
             new Task(new Action(() => {
-                ZebraPrinterManager.SendZplPallet(ZebraPrinterManager.testPrint,IsBluetoothOn, IpAddress);
+                _zebraPrinterManager.SendZplPallet(_zebraPrinterManager.TestPrint,IsBluetoothOn, IpAddress);
             })).Start();
         }
 
         private async void CancelCommandRecieverAsync()
         {
-            //await Application.Current.MainPage.Navigation.PopModalAsync();
             await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
         }
 
         private async void SaveCommandRecieverAsync()
         {
-            //await Application.Current.MainPage.Navigation.PopModalAsync();
             await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
-        }
-
-        public override void OnNavigatedFrom(INavigationParameters parameters)
-        {
-
         }
 
         public override void OnNavigatingTo(INavigationParameters parameters)

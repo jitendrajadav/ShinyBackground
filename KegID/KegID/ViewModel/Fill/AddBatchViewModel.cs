@@ -457,7 +457,6 @@ namespace KegID.ViewModel
             try
             {
                 await _navigationService.NavigateAsync(new Uri("VolumeView", UriKind.Relative), useModalNavigation: true, animated: false);
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new VolumeView(), animated: false);
             }
             catch (Exception ex)
             {
@@ -469,7 +468,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new BrandView(), animated: false);
                 await _navigationService.NavigateAsync(new Uri("BrandView", UriKind.Relative), useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
@@ -517,7 +515,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //await Application.Current.MainPage.Navigation.PopModalAsync();
                 await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
@@ -553,11 +550,6 @@ namespace KegID.ViewModel
             {
                 Crashes.TrackError(ex);
             }
-        }
-
-        public override void OnNavigatedFrom(INavigationParameters parameters)
-        {
-
         }
 
         public override void OnNavigatingTo(INavigationParameters parameters)

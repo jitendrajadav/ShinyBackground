@@ -1,26 +1,13 @@
-﻿using KegID.Model;
-using Microsoft.AppCenter.Crashes;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
-using Xamarin.Essentials;
-
-namespace KegID.Common
+﻿namespace KegID.Common
 {
-    public enum HttpMethodType
-    {
-        Get,
-        Post,
-        Send,
-        Put,
-        Delete
-    }
+    //public enum HttpMethodType
+    //{
+    //    Get,
+    //    Post,
+    //    Send,
+    //    Put,
+    //    Delete
+    //}
 
     //public class Helper
     //{

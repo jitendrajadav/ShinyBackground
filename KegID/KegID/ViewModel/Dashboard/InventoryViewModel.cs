@@ -18,7 +18,7 @@ namespace KegID.ViewModel
 
         public int CurrentPage { get; internal set; }
         private readonly INavigationService _navigationService;
-        public IDashboardService _dashboardService { get; set; }
+        private readonly IDashboardService _dashboardService;
 
         #region StockInventoryCollection
 
@@ -113,7 +113,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //await Application.Current.MainPage.Navigation.PopModalAsync();
                 await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
@@ -172,10 +171,6 @@ namespace KegID.ViewModel
             {
                 Crashes.TrackError(ex);
             }
-        }
-
-        public override void OnNavigatedFrom(INavigationParameters parameters)
-        {
         }
 
         public override void OnNavigatingTo(INavigationParameters parameters)

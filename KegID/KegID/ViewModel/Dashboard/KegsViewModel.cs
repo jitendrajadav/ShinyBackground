@@ -15,7 +15,7 @@ namespace KegID.ViewModel
         #region Properties
 
         private readonly INavigationService _navigationService;
-        public IDashboardService _dashboardService { get; set; }
+        private readonly IDashboardService _dashboardService;
 
         #region KegsTitle
         /// <summary>
@@ -112,7 +112,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //await Application.Current.MainPage.Navigation.PopModalAsync();
                 await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
@@ -125,15 +124,11 @@ namespace KegID.ViewModel
         {
             try
             {
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new KegStatusView(), animated: false);
-                //await SimpleIoc.Default.GetInstance<KegStatusViewModel>().LoadMaintenanceHistoryAsync(model.KegId, model.Contents, model.HeldDays, model.PossessorName, model.Barcode, model.TypeName, model.SizeName);
                 var param = new NavigationParameters
                     {
                         { "KegStatusModel", model }
                     };
                 await _navigationService.NavigateAsync(new Uri("KegStatusView", UriKind.Relative), param, useModalNavigation: true, animated: false);
-
-
             }
             catch (Exception ex)
             {
@@ -153,16 +148,6 @@ namespace KegID.ViewModel
             {
                 Crashes.TrackError(ex);
             }
-        }
-
-        public override void OnNavigatedFrom(INavigationParameters parameters)
-        {
-            
-        }
-
-        public override void OnNavigatingTo(INavigationParameters parameters)
-        {
-            
         }
 
         #endregion

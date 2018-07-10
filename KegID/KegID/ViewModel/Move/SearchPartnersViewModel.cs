@@ -14,7 +14,7 @@ namespace KegID.ViewModel
         #region Properties
 
         private readonly INavigationService _navigationService;
-        public IMoveService _moveService { get; set; }
+        private readonly IMoveService _moveService;
 
         #region BackPartners
 
@@ -171,7 +171,6 @@ namespace KegID.ViewModel
 
         private async void BackPartnersCommandRecieverAsync()
         {
-            //await Application.Current.MainPage.Navigation.PopModalAsync();
             await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
         }
 
@@ -181,10 +180,7 @@ namespace KegID.ViewModel
             {
                 if (model != null)
                 {
-                    //SimpleIoc.Default.GetInstance<MoveViewModel>().PartnerModel = model;
                     ConstantManager.Partner = model;
-                    //await Application.Current.MainPage.Navigation.PopModalAsync();
-                    //await Application.Current.MainPage.Navigation.PopModalAsync();
                     await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
                     await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
                 }
@@ -193,16 +189,6 @@ namespace KegID.ViewModel
             {
                 Crashes.TrackError(ex);
             }
-        }
-
-        public override void OnNavigatedFrom(INavigationParameters parameters)
-        {
-            
-        }
-
-        public override void OnNavigatingTo(INavigationParameters parameters)
-        {
-            
         }
 
         #endregion

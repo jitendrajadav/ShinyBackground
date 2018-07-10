@@ -5,7 +5,6 @@ using System.Collections.ObjectModel;
 using Xamarin.Forms;
 using System.Collections.Generic;
 using System;
-using KegID.Common;
 using System.Threading.Tasks;
 using Microsoft.AppCenter.Crashes;
 using KegID.Messages;
@@ -24,11 +23,14 @@ namespace KegID.ViewModel
 
         private readonly INavigationService _navigationService;
         private readonly IPageDialogService _dialogService;
+        private readonly IMoveService _moveService;
+        private readonly IManifestManager _manifestManager;
+        private readonly IGetIconByPlatform _getIconByPlatform;
+
         private const string Maintenace = "maintenace.png";
         private const string ValidationOK = "validationok.png";
         private const string Cloud = "collectionscloud.png";
         public bool HasDone { get; set; }
-        public IMoveService _moveService { get; set; }
 
         #region BarcodeCollection
 
@@ -168,39 +170,6 @@ namespace KegID.ViewModel
 
         #endregion
 
-        //#region Tags
-        ///// <summary>
-        ///// The <see cref="Tags" /> property's name.
-        ///// </summary>
-        //public const string TagsPropertyName = "Tags";
-
-        //private List<Tag> _tags = new List<Tag>();
-
-        ///// <summary>
-        ///// Sets and gets the Tags property.
-        ///// Changes to that property's value raise the PropertyChanged event. 
-        ///// </summary>
-        //public List<Tag> Tags
-        //{
-        //    get
-        //    {
-        //        return _tags;
-        //    }
-
-        //    set
-        //    {
-        //        if (_tags == value)
-        //        {
-        //            return;
-        //        }
-
-        //        _tags = value;
-        //        RaisePropertyChanged(TagsPropertyName);
-        //    }
-        //}
-
-        //#endregion
-
         #region TagsStr
 
         /// <summary>
@@ -285,11 +254,13 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public ScanKegsViewModel(IMoveService moveService, INavigationService navigationService, IPageDialogService dialogService)
+        public ScanKegsViewModel(IMoveService moveService, INavigationService navigationService, IPageDialogService dialogService, IManifestManager manifestManager, IGetIconByPlatform getIconByPlatform)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _dialogService = dialogService;
             _moveService = moveService;
+            _manifestManager = manifestManager;
+            _getIconByPlatform = getIconByPlatform;
 
             DoneCommand = new DelegateCommand(DoneCommandRecieverAsync);
             BarcodeScanCommand = new DelegateCommand(BarcodeScanCommandReciever);
@@ -323,7 +294,7 @@ namespace KegID.ViewModel
                                 var oldBarcode = BarcodeCollection.Where(x => x.Barcode == value.Barcodes.Barcode).FirstOrDefault();
                                 oldBarcode.Pallets = value.Barcodes.Pallets;
                                 oldBarcode.Kegs = value.Barcodes.Kegs;
-                                oldBarcode.Icon = value?.Barcodes?.Kegs?.Partners.Count > 1 ? GetIconByPlatform.GetIcon("validationquestion.png") : value?.Barcodes?.Kegs?.Partners?.Count == 0 ? GetIconByPlatform.GetIcon("validationerror.png") : GetIconByPlatform.GetIcon("validationok.png");
+                                oldBarcode.Icon = value?.Barcodes?.Kegs?.Partners.Count > 1 ? _getIconByPlatform.GetIcon("validationquestion.png") : value?.Barcodes?.Kegs?.Partners?.Count == 0 ? _getIconByPlatform.GetIcon("validationerror.png") : _getIconByPlatform.GetIcon("validationok.png");
                                 oldBarcode.IsScanned = true;
                             });
                         }
@@ -447,8 +418,6 @@ namespace KegID.ViewModel
                         }
                         else
                         {
-                            //await Application.Current.MainPage.Navigation.PushModalAsync(new ScanInfoView(), animated: false);
-                            //SimpleIoc.Default.GetInstance<ScanInfoViewModel>().AssignInitialValue(model);
                             var param = new NavigationParameters
                             {
                                 { "model", model }
@@ -645,7 +614,7 @@ namespace KegID.ViewModel
                             }
                             else
                             {
-                                ManifestModel manifestModel = await ManifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.MOVE_MANIFEST,
+                                ManifestModel manifestModel = await _manifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.MOVE_MANIFEST,
                                                                 manifestId: ConstantManager.ManifestId, barcodeCollection: BarcodeCollection.Where(t=>t.IsScanned == false).ToList(), tags: ConstantManager.Tags, 
                                                                 partnerModel: ConstantManager.Partner, newPallets: new List<NewPallet>(),
                                                                 batches: new List<NewBatch>(), closedBatches: new List<string>(), validationStatus: 2, contents: SelectedBrand?.BrandName);
@@ -726,7 +695,7 @@ namespace KegID.ViewModel
                     var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                     await RealmDb.WriteAsync((realmdb) =>
                      {
-                         BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = GetIconByPlatform.GetIcon(Maintenace);
+                         BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = _getIconByPlatform.GetIcon(Maintenace);
                      });
                 }
                 else
@@ -734,7 +703,7 @@ namespace KegID.ViewModel
                     var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                     await RealmDb.WriteAsync((realmdb) =>
                     {
-                        BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = GetIconByPlatform.GetIcon(ValidationOK);
+                        BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = _getIconByPlatform.GetIcon(ValidationOK);
                     });
                 }
 
@@ -761,7 +730,7 @@ namespace KegID.ViewModel
                 {
                     var check = BarcodeCollection.Where(x => x?.Kegs?.Partners?.Count > 1).ToList();
                     if (check.Count == 0)
-                    {    //await Application.Current.MainPage.Navigation.PopPopupAsync();
+                    {    
                         await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
                     }
                 }

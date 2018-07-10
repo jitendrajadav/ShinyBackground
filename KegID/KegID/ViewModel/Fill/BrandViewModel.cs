@@ -77,10 +77,7 @@ namespace KegID.ViewModel
             try
             {
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                var all = RealmDb.All<BrandModel>().ToList();
-
-                BrandCollection = all;
-                // SimpleIoc.Default.GetInstance<ScanKegsViewModel>().LoadBrandAsync();
+                BrandCollection = RealmDb.All<BrandModel>().ToList();
             }
             catch (Exception ex)
             {
@@ -92,9 +89,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //SimpleIoc.Default.GetInstance<AddBatchViewModel>().BrandModel = model;
-                //await Application.Current.MainPage.Navigation.PopModalAsync();
-
                 var param = new NavigationParameters
                     {
                         { "model", model }
@@ -106,16 +100,6 @@ namespace KegID.ViewModel
             {
                 Crashes.TrackError(ex);
             }
-        }
-
-        public override void OnNavigatedFrom(INavigationParameters parameters)
-        {
-            
-        }
-
-        public override void OnNavigatingTo(INavigationParameters parameters)
-        {
-            
         }
 
         #endregion

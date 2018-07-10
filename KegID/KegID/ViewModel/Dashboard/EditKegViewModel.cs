@@ -16,7 +16,7 @@ namespace KegID.ViewModel
 
         private readonly INavigationService _navigationService;
         private readonly IPageDialogService _dialogService;
-        public IDashboardService DashboardService { get; set; }
+        private readonly IDashboardService _dashboardService;
         public string KegId { get; set; }
         public string Barcode { get; set; }
         public string TypeName { get; set; }
@@ -241,11 +241,11 @@ namespace KegID.ViewModel
 
         #region Contructor
 
-        public EditKegViewModel(IDashboardService _dashboardService, INavigationService navigationService, IPageDialogService dialogService)
+        public EditKegViewModel(IDashboardService dashboardService, INavigationService navigationService, IPageDialogService dialogService)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _dialogService = dialogService;
-            DashboardService = _dashboardService;
+            _dashboardService = dashboardService;
             CancelCommand = new DelegateCommand(CancelCommandRecieverAsync);
             SaveCommand = new DelegateCommand(SaveCommandRecieverAsync);
             PartnerCommand = new DelegateCommand(PartnerCommandRecieverAsync);
@@ -308,7 +308,7 @@ namespace KegID.ViewModel
                     Colors = ""
                 };
 
-                var Result = await DashboardService.PostKegAsync(model, AppSettings.User.SessionId, Configuration.NewKeg);
+                var Result = await _dashboardService.PostKegAsync(model, AppSettings.User.SessionId, Configuration.NewKeg);
 
             }
             catch (Exception ex)
@@ -333,7 +333,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new SizeView(), animated: false);
                 await _navigationService.NavigateAsync(new Uri("SizeView", UriKind.Relative), useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
@@ -385,10 +384,6 @@ namespace KegID.ViewModel
             {
                 Crashes.TrackError(ex);
             }
-        }
-
-        public override void OnNavigatedFrom(INavigationParameters parameters)
-        {
         }
 
         public override void OnNavigatingTo(INavigationParameters parameters)

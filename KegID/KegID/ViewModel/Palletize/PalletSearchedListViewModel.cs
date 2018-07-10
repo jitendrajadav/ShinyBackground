@@ -14,7 +14,7 @@ namespace KegID.ViewModel
         #region Properties
 
         private readonly INavigationService _navigationService;
-        public IDashboardService _dashboardService { get; set; }
+        private readonly IDashboardService _dashboardService;
 
         #region PalletSearchCollection
 
@@ -79,7 +79,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //await Application.Current.MainPage.Navigation.PopModalAsync();
                 await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
@@ -106,24 +105,16 @@ namespace KegID.ViewModel
         {
             try
             {
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new PalletizeDetailView(), animated: false);
-                //SimpleIoc.Default.GetInstance<PalletizeDetailViewModel>().AssingIntialValueAsync(model, true);
                 var param = new NavigationParameters
                     {
                         { "model", model }
                     };
                 await _navigationService.NavigateAsync(new Uri("PalletizeDetailView", UriKind.Relative), param, useModalNavigation: true, animated: false);
-
             }
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
             }
-        }
-
-        public override void OnNavigatedFrom(INavigationParameters parameters)
-        {
-
         }
 
         public override void OnNavigatingTo(INavigationParameters parameters)

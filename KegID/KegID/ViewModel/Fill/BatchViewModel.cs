@@ -16,7 +16,7 @@ namespace KegID.ViewModel
         #region Properties
 
         private readonly INavigationService _navigationService;
-        public IFillService _fillService { get; set; }
+        private readonly IFillService _fillService;
 
         #region BatchCollection
 
@@ -82,7 +82,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new AddBatchView(), animated: false);
                 await _navigationService.NavigateAsync(new Uri("AddBatchView", UriKind.Relative), useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
@@ -122,16 +121,6 @@ namespace KegID.ViewModel
             {
                  Crashes.TrackError(ex);
             }
-        }
-
-        public override void OnNavigatedFrom(INavigationParameters parameters)
-        {
-
-        }
-
-        public override void OnNavigatingTo(INavigationParameters parameters)
-        {
-
         }
 
         #endregion

@@ -14,7 +14,7 @@ namespace KegID.ViewModel
         #region Properties
 
         private readonly INavigationService _navigationService;
-        public IMoveService _moveService { get; set; }
+        private readonly IMoveService _moveService;
 
         #region SearchManifestsCollection
 
@@ -80,7 +80,6 @@ namespace KegID.ViewModel
             try
             {
                 await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
-                //await Application.Current.MainPage.Navigation.PopModalAsync();
             }
             catch (Exception ex)
             {
@@ -97,10 +96,7 @@ namespace KegID.ViewModel
                 var manifest = await _moveService.GetManifestAsync(AppSettings.User.SessionId, model.ManifestId);
                 if (manifest.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                 {
-                    //SimpleIoc.Default.GetInstance<ManifestDetailViewModel>().AssignInitialValue(manifest,string.Empty);
-
                     Loader.StopLoading();
-                    //await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestDetailView(), animated: false);
                     var param = new NavigationParameters
                     {
                         { "manifest", manifest }
@@ -117,11 +113,6 @@ namespace KegID.ViewModel
             {
                 Loader.StopLoading();
             }
-        }
-
-        public override void OnNavigatedFrom(INavigationParameters parameters)
-        {
-            
         }
 
         public override void OnNavigatingTo(INavigationParameters parameters)

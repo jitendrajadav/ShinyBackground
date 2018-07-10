@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using KegID.Common;
 using KegID.Messages;
 using KegID.Model;
 using KegID.Services;
@@ -16,7 +15,7 @@ namespace KegID.ViewModel
         #region Properties
 
         private readonly INavigationService _navigationService;
-        public IMoveService _moveService { get; set; }
+        private readonly IMoveService _moveService;
 
         #region Barcode
 
@@ -133,8 +132,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //SimpleIoc.Default.GetInstance<KegSearchedListViewModel>().LoadKegSearchAsync(Barcode);
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new KegSearchedListView(), animated: false);
                 var param = new NavigationParameters
                     {
                         { "LoadKegSearchAsync", Barcode }
@@ -152,7 +149,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //await Application.Current.MainPage.Navigation.PopModalAsync();
                 await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
@@ -170,8 +166,6 @@ namespace KegID.ViewModel
                         { "Tags", null },{ "TagsStr", string.Empty },{ "ViewTypeEnum", ViewTypeEnum.KegSearchView }
                     };
                 await _navigationService.NavigateAsync(new Uri("CognexScanView", UriKind.Relative), param, useModalNavigation: true, animated: false);
-
-                //await BarcodeScanner.BarcodeScanSingleAsync(_moveService, null, string.Empty,_navigationService);
             }
             catch (Exception ex)
             {
@@ -184,7 +178,6 @@ namespace KegID.ViewModel
             try
             {
                 await _navigationService.NavigateAsync(new Uri("BulkUpdateScanView", UriKind.Relative), useModalNavigation: true, animated: false);
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new BulkUpdateScanView(), animated: false);
             }
             catch (Exception ex)
             {
@@ -210,8 +203,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //SimpleIoc.Default.GetInstance<KegSearchedListViewModel>().LoadKegSearchAsync(barcodes.Id);
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new KegSearchedListView(), animated: false);
                 var param = new NavigationParameters
                     {
                         { "LoadKegSearchAsync", barcodes }

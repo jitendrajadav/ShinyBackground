@@ -19,7 +19,7 @@ namespace KegID.ViewModel
 
         private readonly INavigationService _navigationService;
         private readonly IPageDialogService _dialogService;
-        public IMoveService _moveService { get; set; }
+        private readonly IMoveService _moveService;
 
         #region IsInternalOn
 
@@ -912,14 +912,11 @@ namespace KegID.ViewModel
         {
             try
             {
-                //SimpleIoc.Default.GetInstance<EditAddressViewModel>().AddressTitle = "Billing Address";
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new EditAddressView(), animated: false);
                 var param = new NavigationParameters
                     {
                         { "AddressTitle", "Billing Address" }
                     };
                 await _navigationService.NavigateAsync(new Uri("EditAddressView", UriKind.Relative), param, useModalNavigation: true, animated: false);
-
             }
             catch (Exception ex)
             {
@@ -931,14 +928,11 @@ namespace KegID.ViewModel
         {
             try
             {
-                //SimpleIoc.Default.GetInstance<EditAddressViewModel>().AddressTitle = "Shipping Address";
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new EditAddressView(), animated: false);
                 var param = new NavigationParameters
                     {
                         { "AddressTitle", "Shipping Address" }
                     };
                 await _navigationService.NavigateAsync(new Uri("EditAddressView", UriKind.Relative), param, useModalNavigation: true, animated: false);
-
             }
             catch (Exception ex)
             {
@@ -1042,8 +1036,6 @@ namespace KegID.ViewModel
                     {
                         Crashes.TrackError(ex);
                     }
-
-                    //await Application.Current.MainPage.Navigation.PopModalAsync();
                 }
             }
             catch (Exception ex)
@@ -1085,11 +1077,6 @@ namespace KegID.ViewModel
             {
                  Crashes.TrackError(ex);
             }
-        }
-
-        public override void OnNavigatedFrom(INavigationParameters parameters)
-        {
-            
         }
 
         public override void OnNavigatingTo(INavigationParameters parameters)

@@ -21,8 +21,9 @@ namespace KegID.ViewModel
 
         private readonly IPageDialogService _dialogService;
         private readonly INavigationService _navigationService;
-        public IPalletizeService _palletizeService { get; set; }
-        public IMoveService _moveService { get; set; }
+        private readonly IPalletizeService _palletizeService;
+        private readonly IMoveService _moveService;
+        private readonly IManifestManager _manifestManager;
 
         #region AddPalletsTitle
 
@@ -173,12 +174,13 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public AddPalletsViewModel(IPalletizeService palletizeService, IMoveService moveService, INavigationService navigationService, IPageDialogService dialogService)
+        public AddPalletsViewModel(IPalletizeService palletizeService, IMoveService moveService, INavigationService navigationService, IPageDialogService dialogService, IManifestManager manifestManager)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _dialogService = dialogService;
             _palletizeService = palletizeService;
             _moveService = moveService;
+            _manifestManager = manifestManager;
 
             SubmitCommand = new DelegateCommand(SubmitCommandRecieverAsync);
             FillScanCommand = new DelegateCommand(FillScanCommandRecieverAsync);
@@ -284,7 +286,7 @@ namespace KegID.ViewModel
 
             Loader.StartLoading();
 
-            var model = await ManifestManager.GetManifestDraft(EventTypeEnum.FILL_MANIFEST, Uuid.GetUuId(),
+            var model = await _manifestManager.GetManifestDraft(EventTypeEnum.FILL_MANIFEST, Uuid.GetUuId(),
                     barcodes, tags, partnerModel, newPallets, new List<NewBatch>(), closedBatches, 4);
 
             if (model != null)

@@ -4,9 +4,15 @@ using Xamarin.Forms;
 
 namespace KegID.Common
 {
-    public class Loader
+    public interface ILoader
     {
-        public static void StartLoading(string message = "Loading...")
+        void StartLoading(string message= "Loading...");
+        void StopLoading();
+    }
+
+    public class Loader : ILoader
+    {
+        public void StartLoading(string message = "Loading...")
         {
             try
             {
@@ -21,7 +27,7 @@ namespace KegID.Common
             }
         }
 
-        public static void StopLoading()
+        public void StopLoading()
         {
             try
             {

@@ -103,16 +103,6 @@ namespace KegID.ViewModel
             }
         }
 
-        public override void OnNavigatedFrom(INavigationParameters parameters)
-        {
-            
-        }
-
-        public override void OnNavigatingTo(INavigationParameters parameters)
-        {
-            
-        }
-
         #endregion
     }
 }

@@ -1,10 +1,10 @@
 ﻿using Xamarin.Forms;
 
-namespace KegID.Common
+namespace KegID.Services
 {
-    public static class GetIconByPlatform
+    public class GetIconByPlatform : IGetIconByPlatform
     {
-        public static string GetIcon(string image)
+        public string GetIcon(string image)
         {
             string value = string.Empty;
             switch (Device.RuntimePlatform)

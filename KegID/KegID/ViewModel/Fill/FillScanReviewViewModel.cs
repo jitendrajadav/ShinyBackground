@@ -1,4 +1,5 @@
 ﻿using KegID.Common;
+using KegID.Services;
 using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
@@ -176,8 +177,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //SimpleIoc.Default.GetInstance<AddPalletsViewModel>().SubmitCommandRecieverAsync();
-
                 try
                 {
                     var param = new NavigationParameters
@@ -210,7 +209,6 @@ namespace KegID.ViewModel
             {
                 var partner = ConstantManager.Partner;
                 var content = "";//BatchButtonTitle;
-                //var partner = SimpleIoc.Default.GetInstance<FillViewModel>().PartnerModel;
                 //var content = SimpleIoc.Default.GetInstance<FillViewModel>().BatchButtonTitle;
                 TrackingNumber = Uuid.GetUuId();
                 ManifestTo = partner.FullName + "\n" + partner.PartnerTypeCode;

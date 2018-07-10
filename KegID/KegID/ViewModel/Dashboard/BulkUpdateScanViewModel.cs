@@ -20,11 +20,11 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        private readonly INavigationService _navigationService;
-
         private const string Cloud = "collectionscloud.png";
-        public IMoveService _moveService { get; set; }
-        public IDashboardService _dashboardService { get; set; }
+        private readonly INavigationService _navigationService;
+        private readonly IMoveService _moveService;
+        private readonly IDashboardService _dashboardService;
+        private readonly IGetIconByPlatform _getIconByPlatform;
 
         #region ManaulBarcode
 
@@ -312,11 +312,12 @@ namespace KegID.ViewModel
 
         #region Contructor
 
-        public BulkUpdateScanViewModel(IMoveService moveService, IDashboardService dashboardService, INavigationService navigationService)
+        public BulkUpdateScanViewModel(IMoveService moveService, IDashboardService dashboardService, INavigationService navigationService, IGetIconByPlatform getIconByPlatform)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _moveService = moveService;
             _dashboardService = dashboardService;
+            _getIconByPlatform = getIconByPlatform;
 
             AddTagsCommand = new DelegateCommand(AddTagsCommandRecieverAsync);
             BarcodeManualCommand = new DelegateCommand(BarcodeManualCommandRecieverAsync);
@@ -349,7 +350,7 @@ namespace KegID.ViewModel
                             var oldBarcode = BarcodeCollection.Where(x => x.Barcode == value.Barcodes.Barcode).FirstOrDefault();
                             oldBarcode.Pallets = value.Barcodes.Pallets;
                             oldBarcode.Kegs = value.Barcodes.Kegs;
-                            oldBarcode.Icon = value?.Barcodes?.Kegs?.Partners.Count > 1 ? GetIconByPlatform.GetIcon("validationquestion.png") : value?.Barcodes?.Kegs?.Partners?.Count == 0 ? GetIconByPlatform.GetIcon("validationerror.png") : GetIconByPlatform.GetIcon("validationok.png");
+                            oldBarcode.Icon = value?.Barcodes?.Kegs?.Partners.Count > 1 ? _getIconByPlatform.GetIcon("validationquestion.png") : value?.Barcodes?.Kegs?.Partners?.Count == 0 ? _getIconByPlatform.GetIcon("validationerror.png") : _getIconByPlatform.GetIcon("validationok.png");
                             oldBarcode.IsScanned = true;
                         });
                     }
@@ -409,8 +410,6 @@ namespace KegID.ViewModel
                 }
                 else
                 {
-                    //await Application.Current.MainPage.Navigation.PushModalAsync(new ScanInfoView(), animated: false);
-                    //SimpleIoc.Default.GetInstance<ScanInfoViewModel>().AssignInitialValue(model);
                     var param = new NavigationParameters
                     {
                         { "model", model }
@@ -457,8 +456,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //await Application.Current.MainPage.Navigation.PushPopupAsync(new ValidateBarcodeView());
-                //SimpleIoc.Default.GetInstance<ValidateBarcodeViewModel>().LoadBarcodeValue(model);
                 var param = new NavigationParameters
                     {
                         { "model", model }
@@ -527,8 +524,6 @@ namespace KegID.ViewModel
                         { "Tags", Tags },{ "TagsStr", TagsStr },{ "ViewTypeEnum", ViewTypeEnum.BulkUpdateScanView }
                     };
                 await _navigationService.NavigateAsync(new Uri("CognexScanView", UriKind.Relative), param, useModalNavigation: true, animated: false);
-
-                //await BarcodeScanner.BarcodeScanAsync(_moveService, Tags, TagsStr, ViewTypeEnum.BulkUpdateScanView.ToString(),_navigationService);
             }
             catch (Exception ex)
             {
@@ -587,12 +582,10 @@ namespace KegID.ViewModel
                     var value = await _dashboardService.PostKegUploadAsync(model, AppSettings.User.SessionId, Configuration.MassUpdateKegList);
                     if (value.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                     {
-                        //await Application.Current.MainPage.Navigation.PopModalAsync();
                         var param = new NavigationParameters
                         {
                             { "AssingSuccessMsgAsync", "AssingSuccessMsgAsync" }
                         };
-                        //SimpleIoc.Default.GetInstance<KegSearchViewModel>().AssingSuccessMsgAsync();
                         await _navigationService.GoBackAsync(param, useModalNavigation: true, animated: false);
                     }
                 }
@@ -608,7 +601,6 @@ namespace KegID.ViewModel
             try
             {
                 await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
-                //await Application.Current.MainPage.Navigation.PopModalAsync();
             }
             catch (Exception ex)
             {
@@ -627,10 +619,6 @@ namespace KegID.ViewModel
             {
                 Crashes.TrackError(ex);
             }
-        }
-
-        public override void OnNavigatedFrom(INavigationParameters parameters)
-        {
         }
 
         public override void OnNavigatingTo(INavigationParameters parameters)

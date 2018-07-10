@@ -1,19 +1,19 @@
 ﻿using LinkOS.Plugin;
 using LinkOS.Plugin.Abstractions;
 using Microsoft.AppCenter.Crashes;
-using Prism.Services;
 using System;
 using System.Text;
 using Xamarin.Forms;
 
-namespace KegID.Common
+namespace KegID.Services
 {
-    public static class ZebraPrinterManager
+    public class ZebraPrinterManager: IZebraPrinterManager
     {
-        public static IDiscoveredPrinter myPrinter;
+        public IConstantManager ConstantManager { get; set; }
+        public IDiscoveredPrinter MyPrinter { get; set; }
         //private static readonly IPageDialogService _dialogService;
 
-        public const String testPrint = "^XA^FO17,16^GB379,371,8^FS^FT65,255^A0N,135,134^FDTEST^FS^XZ";
+        public String TestPrint { get; set; } = "^XA^FO17,16^GB379,371,8^FS^FT65,255^A0N,135,134^FDTEST^FS^XZ";
 
         #region ZPL Printer fill pallet format
 
@@ -31,7 +31,7 @@ namespace KegID.Common
 
                 */
 
-        public const String palletHeader =
+        public String PalletHeader { get; set; } =
                             /*
                              Some basics of ZPL. Find more information here : http://www.zebra.com
 
@@ -285,7 +285,7 @@ namespace KegID.Common
                             "^XZ";
         #endregion
 
-        public static void SendZplPallet(string header,bool IsIpAddr, string ipAddr)
+        public void SendZplPallet(string header,bool IsIpAddr, string ipAddr)
         {
             IConnection connection = null;
             try
@@ -296,8 +296,8 @@ namespace KegID.Common
                 }
                 else
                 {
-                    myPrinter = ConstantManager.PrinterSetting;
-                    connection = myPrinter.Connection;
+                    MyPrinter = ConstantManager.PrinterSetting;
+                    connection = MyPrinter.Connection;
                 }
                 connection.Open();
                 IZebraPrinter printer = ZebraPrinterFactory.Current.GetInstance(connection);
@@ -320,14 +320,14 @@ namespace KegID.Common
             }
         }
 
-        public static byte[] GetBytes(string str)
+        private byte[] GetBytes(string str)
         {
             byte[] bytes = new byte[str.Length];
             bytes = Encoding.UTF8.GetBytes(str);
             return bytes;
         }
 
-        public static bool CheckPrinterLanguage(IConnection connection)
+        public bool CheckPrinterLanguage(IConnection connection)
         {
             if (!connection.IsConnected)
                 connection.Open();
@@ -360,7 +360,7 @@ namespace KegID.Common
             return true;
         }
 
-        public static bool PreCheckPrinterStatus(IZebraPrinter printer)
+        public bool PreCheckPrinterStatus(IZebraPrinter printer)
         {
             // Check the printer status
             IPrinterStatus status = printer.CurrentStatus;

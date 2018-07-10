@@ -1,7 +1,7 @@
-﻿using KegID.Common;
-using KegID.LocalDb;
+﻿using KegID.LocalDb;
 using KegID.Messages;
 using KegID.Model;
+using KegID.Services;
 using Microsoft.AppCenter.Crashes;
 using Prism.Navigation;
 using Realms;
@@ -339,44 +339,13 @@ namespace KegID.Views
                 {
                     tagsStr = tagsStr + item.Property + item.Value + ";";
                 }
-
-                //switch ((ViewTypeEnum)Enum.Parse(typeof(ViewTypeEnum), Application.Current.MainPage.Navigation.ModalStack[Application.Current.MainPage.Navigation.ModalStack.Count - 2].GetType().Name))
-                //{
-                //    case ViewTypeEnum.ScanKegsView:
-                //        SimpleIoc.Default.GetInstance<ScanKegsViewModel>().AssignAddTagsValue(tags, tagsStr);
-                //        break;
-                //    case ViewTypeEnum.MoveView:
-                //        SimpleIoc.Default.GetInstance<MoveViewModel>().AssignAddTagsValue(tags, tagsStr);
-                //        break;
-                //    case ViewTypeEnum.PalletizeView:
-                //        SimpleIoc.Default.GetInstance<PalletizeViewModel>().AddInfoTitle = tagsStr;
-                //        break;
-                //    case ViewTypeEnum.FillScanView:
-                //        SimpleIoc.Default.GetInstance<FillScanViewModel>().AssignAddTagsValue(tags, tagsStr);
-                //        break;
-                //    case ViewTypeEnum.AddBatchView:
-                //        SimpleIoc.Default.GetInstance<AddBatchViewModel>().AssignAddTagsValue(tags, tagsStr);
-                //        break;
-                //    case ViewTypeEnum.EditKegView:
-                //        SimpleIoc.Default.GetInstance<EditKegViewModel>().AssignAddTagsValue(tags, tagsStr);
-                //        break;
-                //    case ViewTypeEnum.BulkUpdateScanView:
-                //        SimpleIoc.Default.GetInstance<BulkUpdateScanViewModel>().AssignAddTagsValue(tags, tagsStr);
-                //        break;
-                //}
                 ConstantManager.Tags = tags;
                 ConstantManager.TagsStr = tagsStr;
-                //var param = new INavigationParameters
-                //        {
-                //            { "Tags", tags }
-                //        };
-                //await _navigationService.GoBackAsync(param, useModalNavigation: true);
                 PagesMessage pagesMessage = new PagesMessage
                 {
                     AssingValue = true
                 };
                 MessagingCenter.Send(pagesMessage, "PagesMessage");
-                //await Application.Current.MainPage.Navigation.PopModalAsync();
             }
             catch (Exception ex)
             {

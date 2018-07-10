@@ -1,6 +1,4 @@
-﻿using KegID.Common;
-using KegID.Model;
-using Microsoft.AppCenter.Crashes;
+﻿using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
 using System;
@@ -45,52 +43,12 @@ namespace KegID.ViewModel
         {
             try
             {
-                //await Application.Current.MainPage.Navigation.PopModalAsync();
                 await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
             }
-        }
-
-        internal void AssignInitialValue(double _lat, double _lon, string _lable, string _address)
-        {
-            try
-            {
-                //Position = new LocationInfo
-                //{
-                //    Lat = _lat,
-                //    Lon = _lon,
-                //    Label = _lable,
-                //    Address = _address
-                //};
-                ConstantManager.Position = new LocationInfo
-                {
-                    Lat = _lat,
-                    Lon = _lon,
-                    Label = _lable,
-                    Address = _address
-                };
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
-        }
-
-        public override void OnNavigatedFrom(INavigationParameters parameters)
-        {
-            
-        }
-
-        public override void OnNavigatingTo(INavigationParameters parameters)
-        {
-            //if (parameters.ContainsKey("PartnerInfoModel"))
-            //{
-            //    var value = parameters.GetValue<PartnerInfoResponseModel>("PartnerInfoModel");
-            //    AssignInitialValue(value.Lat, value.Lat, value.BillAddress.City, value.BillAddress.Line1);
-            //}
         }
 
         #endregion

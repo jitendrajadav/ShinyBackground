@@ -1,6 +1,6 @@
-﻿using KegID.Common;
-using KegID.Messages;
+﻿using KegID.Messages;
 using KegID.Model;
+using KegID.Services;
 using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
@@ -311,8 +311,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //SimpleIoc.Default.GetInstance<FillScanViewModel>().AssignInitValue(NewBatchModel, SizeButtonTitle, PartnerModel);
-
                 FillToFillScanPagesMsg msg = new FillToFillScanPagesMsg
                 {
                     BatchModel = NewBatchModel,
@@ -338,10 +336,6 @@ namespace KegID.ViewModel
                             { "IsPalletze",IsPalletze},{ "ManifestId","Filling " + SizeButtonTitle + " kegs with " + BatchButtonTitle + " " + DestinationTitle},
                         };
                         await _navigationService.NavigateAsync(new Uri("FillScanView", UriKind.Relative), param, useModalNavigation: true, animated: false);
-
-                        //SimpleIoc.Default.GetInstance<FillScanViewModel>().IsPalletze = IsPalletze;
-                        //SimpleIoc.Default.GetInstance<FillScanViewModel>().ManifestId = "Filling " + SizeButtonTitle + " kegs with " + BatchButtonTitle + " " + DestinationTitle;
-                        //await Application.Current.MainPage.Navigation.PushModalAsync(new FillScanView(), animated: false);
                     }
                 }
                 else
@@ -359,8 +353,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //SimpleIoc.Default.GetInstance<PartnersViewModel>().BrewerStockOn = true;
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView());
                 var param = new NavigationParameters
                     {
                         { "BrewerStockOn", true }

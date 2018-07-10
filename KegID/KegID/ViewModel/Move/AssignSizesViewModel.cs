@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using KegID.Common;
 using KegID.LocalDb;
 using KegID.Model;
+using KegID.Services;
 using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
@@ -283,8 +283,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //SimpleIoc.Default.GetInstance<ScanKegsViewModel>().AssignSizesValue(VerifiedBarcodes);
-                //Application.Current.MainPage.Navigation.PopModalAsync();
                 var param = new NavigationParameters
                         {
                             { "AssignSizesValue", ConstantManager.VerifiedBarcodes }
@@ -429,16 +427,6 @@ namespace KegID.ViewModel
             {
                 Crashes.TrackError(ex);
             }
-        }
-
-        public override void OnNavigatedFrom(INavigationParameters parameters)
-        {
-            
-        }
-
-        public override void OnNavigatingTo(INavigationParameters parameters)
-        {
-            
         }
 
         #endregion

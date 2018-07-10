@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
-using KegID.Common;
 using KegID.LocalDb;
 using KegID.Model;
 using KegID.Services;
@@ -18,7 +17,7 @@ namespace KegID.ViewModel
         #region Properties
 
         private readonly INavigationService _navigationService;
-        public IMoveService _moveService { get; set; }
+        private readonly IMoveService _moveService;
 
         #region ManifestCollection
 

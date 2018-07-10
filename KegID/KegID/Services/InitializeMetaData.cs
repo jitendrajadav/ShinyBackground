@@ -1,6 +1,6 @@
-﻿using KegID.LocalDb;
+﻿using KegID.Common;
+using KegID.LocalDb;
 using KegID.Model;
-using KegID.Services;
 using Microsoft.AppCenter.Crashes;
 using Realms;
 using System;
@@ -8,25 +8,38 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace KegID.Common
+namespace KegID.Services
 {
-    public static class InitializeMetaData
+    public class InitializeMetaData : IInitializeMetaData
     {
-        public static async Task LoadInitializeMetaData(IMoveService _moveService, IDashboardService _dashboardService,IMaintainService _maintainService, IFillService _fillService)
+        private IMoveService _moveService { get; set; }
+        private IMaintainService _maintainService { get; set; }
+        private IDashboardService _dashboardService { get; set; }
+        private IFillService _fillService { get; set; }
+
+        public InitializeMetaData(IMoveService moveService, IDashboardService dashboardService, IMaintainService maintainService, IFillService fillService)
         {
-            await LoadAssetSizeAsync(_moveService);
-            await LoadAssetTypeAsync(_moveService);
-            await LoadAssetVolumeAsync(_dashboardService);
-            await LoadOwnerAsync(_moveService);
-            await LoadDashboardPartnersAsync(_dashboardService);
-            await LoadPartnersAsync(_moveService);
-            await LoadBrandAsync(_moveService);
-            await LoadMaintenanceTypeAsync(_maintainService);
-            await LoadBatchAsync(_fillService);
-            await LoadPartnerTypeAsync(_moveService);
+            _moveService = moveService;
+            _maintainService = maintainService;
+            _dashboardService = dashboardService;
+            _fillService = fillService;
         }
 
-        public static async Task LoadBatchAsync(IFillService _fillService)
+        public async Task LoadInitializeMetaData()
+        {
+            await LoadAssetSizeAsync();
+            await LoadAssetTypeAsync();
+            await LoadAssetVolumeAsync();
+            await LoadOwnerAsync();
+            await LoadDashboardPartnersAsync();
+            await LoadPartnersAsync();
+            await LoadBrandAsync();
+            await LoadMaintenanceTypeAsync();
+            await LoadBatchAsync();
+            await LoadPartnerTypeAsync();
+        }
+
+        public async Task LoadBatchAsync()
         {
             try
             {
@@ -61,7 +74,7 @@ namespace KegID.Common
             }
         }
 
-        public static async Task<IList<MaintainTypeReponseModel>> LoadMaintenanceTypeAsync(IMaintainService _maintainService)
+        public async Task<IList<MaintainTypeReponseModel>> LoadMaintenanceTypeAsync()
         {
             var model = await _maintainService.GetMaintainTypeAsync(AppSettings.User.SessionId);
             try
@@ -90,7 +103,7 @@ namespace KegID.Common
             }
         }
 
-        private static async Task LoadPartnersAsync(IMoveService _moveService)
+        private async Task LoadPartnersAsync()
         {
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             try
@@ -122,7 +135,7 @@ namespace KegID.Common
             }
         }
 
-        private static async Task LoadBrandAsync(IMoveService _moveService)
+        private async Task LoadBrandAsync()
         {
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             try
@@ -153,7 +166,7 @@ namespace KegID.Common
             }
         }
 
-        private static async Task LoadDashboardPartnersAsync(IDashboardService _dashboardService)
+        private async Task LoadDashboardPartnersAsync()
         {
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             try
@@ -184,7 +197,7 @@ namespace KegID.Common
             }
         }
 
-        private static async Task LoadAssetSizeAsync(IMoveService _moveService)
+        private async Task LoadAssetSizeAsync()
         {
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             List<AssetSizeModel> assetSizeModel = null;
@@ -220,7 +233,7 @@ namespace KegID.Common
             }
         }
 
-        private static async Task LoadAssetTypeAsync(IMoveService _moveService)
+        private async Task LoadAssetTypeAsync()
         {
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             List<AssetTypeModel> assetTypeModels = null;
@@ -258,7 +271,7 @@ namespace KegID.Common
             }
         }
 
-        private static async Task LoadAssetVolumeAsync(IDashboardService _dashboardService)
+        private async Task LoadAssetVolumeAsync()
         {
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             List<AssetVolumeModel> assetVolumeModel = null;
@@ -296,7 +309,7 @@ namespace KegID.Common
             }
         }
 
-        private static async Task LoadOwnerAsync(IMoveService _moveService)
+        private async Task LoadOwnerAsync()
         {
             try
             {
@@ -326,7 +339,7 @@ namespace KegID.Common
             }
         }
 
-        public async static Task LoadPartnerTypeAsync(IMoveService _moveService)
+        public async Task LoadPartnerTypeAsync()
         {
             try
             {

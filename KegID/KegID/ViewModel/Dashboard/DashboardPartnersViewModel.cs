@@ -9,7 +9,6 @@ using Realms;
 using KegID.LocalDb;
 using Prism.Commands;
 using Prism.Navigation;
-using KegID.Common;
 
 namespace KegID.ViewModel
 {
@@ -18,7 +17,7 @@ namespace KegID.ViewModel
         #region Properties
 
         private readonly INavigationService _navigationService;
-        public IDashboardService _dashboardService { get; set; }
+        private readonly IDashboardService _dashboardService;
         public IList<PossessorResponseModel> AllPartners { get; set; }
 
         #region IsWorking
@@ -431,7 +430,6 @@ namespace KegID.ViewModel
             {
                 if (model != null)
                 {
-                    //PartnerId = model.Location.PartnerId;
                     try
                     {
                         ConstantManager.DBPartnerId = model.Location.PartnerId;
@@ -439,8 +437,6 @@ namespace KegID.ViewModel
                     catch (Exception)
                     {
                     }
-                    //SimpleIoc.Default.GetInstance<PartnerInfoViewModel>().PartnerModel = model.Location;
-                    //await Application.Current.MainPage.Navigation.PushModalAsync(new PartnerInfoView(), animated: false);
                     var param = new NavigationParameters
                     {
                         { "PartnerModel", model }
@@ -500,7 +496,6 @@ namespace KegID.ViewModel
 
         private async void BackCommandRecieverAsync()
         {
-            //await Application.Current.MainPage.Navigation.PopModalAsync();
             await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
         }
 
@@ -508,7 +503,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new AddPartnerView(), animated: false);
                 await _navigationService.NavigateAsync(new Uri("AddPartnerView", UriKind.Relative), useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
@@ -521,11 +515,6 @@ namespace KegID.ViewModel
         {
             //base.Cleanup();
             //PartnerCollection = null;
-        }
-
-        public override void OnNavigatedFrom(INavigationParameters parameters)
-        {
-
         }
 
         public override void OnNavigatingTo(INavigationParameters parameters)

@@ -119,7 +119,13 @@ namespace KegID
             containerRegistry.Register<IFillService, FillService>();
             containerRegistry.Register<IPalletizeService, PalletizeService>();
             containerRegistry.Register<IMaintainService, MaintainService>();
+            containerRegistry.Register<IInitializeMetaData, InitializeMetaData>();
+            containerRegistry.Register<IZebraPrinterManager, ZebraPrinterManager>();
+            containerRegistry.Register<ILoader, Loader>();
+            containerRegistry.Register<IManifestManager, ManifestManager>();
+            containerRegistry.Register<IGetIconByPlatform, GetIconByPlatform>();
         }
+        
 
         protected override void OnStart()
         {

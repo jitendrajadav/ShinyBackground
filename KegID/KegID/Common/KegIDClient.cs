@@ -12,6 +12,15 @@ using Xamarin.Essentials;
 
 namespace KegID.Common
 {
+    public enum HttpMethodType
+    {
+        Get,
+        Post,
+        Send,
+        Put,
+        Delete
+    }
+
     public class KegIDClient
     {
         private readonly HttpClient _client;

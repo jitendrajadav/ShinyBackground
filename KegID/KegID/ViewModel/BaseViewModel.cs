@@ -1,4 +1,6 @@
-﻿using KegID.Localization;
+﻿using KegID.Common;
+using KegID.Localization;
+using KegID.Services;
 using Prism.Mvvm;
 using Prism.Navigation;
 
@@ -6,6 +8,7 @@ namespace KegID.ViewModel
 {
     public abstract class BaseViewModel : BindableBase, INavigationAware
     {
+        public ILoader  Loader { get; set; }
         public LocalizedResources Resources
         {
             get;
@@ -14,6 +17,7 @@ namespace KegID.ViewModel
 
         public BaseViewModel()
         {
+            Loader = new Loader();
             Resources = new LocalizedResources(typeof(KegIDResource), App.CurrentLanguage);
         }
 

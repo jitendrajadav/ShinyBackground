@@ -21,9 +21,13 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        private readonly INavigationService _navigationService;
         private const string Cloud = "collectionscloud.png";
-        public IMoveService _moveService { get; set; }
+
+        private readonly INavigationService _navigationService;
+        private readonly IMoveService _moveService;
+        private readonly IZebraPrinterManager _zebraPrinterManager;
+        private readonly IGetIconByPlatform _getIconByPlatform;
+
         public string BatchId { get; set; }
         public BatchModel BatchModel { get; private set; }
         public string SizeButtonTitle { get; private set; }
@@ -286,11 +290,13 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public FillScanViewModel(IMoveService moveService, INavigationService navigationService)
+        public FillScanViewModel(IMoveService moveService, INavigationService navigationService, IZebraPrinterManager zebraPrinterManager, IGetIconByPlatform getIconByPlatform)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
 
             _moveService = moveService;
+            _getIconByPlatform = getIconByPlatform;
+            _zebraPrinterManager = zebraPrinterManager;
 
             CancelCommand = new DelegateCommand(CancelCommandRecieverAsync);
             BarcodeScanCommand = new DelegateCommand(BarcodeScanCommandRecieverAsync);
@@ -324,7 +330,7 @@ namespace KegID.ViewModel
                             var oldBarcode = BarcodeCollection.Where(x => x.Barcode == value.Barcodes.Barcode).FirstOrDefault();
                             oldBarcode.Pallets = value.Barcodes.Pallets;
                             oldBarcode.Kegs = value.Barcodes.Kegs;
-                            oldBarcode.Icon = value?.Barcodes?.Kegs?.Partners.Count > 1 ? GetIconByPlatform.GetIcon("validationquestion.png") : value?.Barcodes?.Kegs?.Partners?.Count == 0 ? GetIconByPlatform.GetIcon("validationerror.png") : GetIconByPlatform.GetIcon("validationok.png");
+                            oldBarcode.Icon = value?.Barcodes?.Kegs?.Partners.Count > 1 ? _getIconByPlatform.GetIcon("validationquestion.png") : value?.Barcodes?.Kegs?.Partners?.Count == 0 ? _getIconByPlatform.GetIcon("validationerror.png") : _getIconByPlatform.GetIcon("validationok.png");
                             oldBarcode.IsScanned = true;
                         });
                     }
@@ -648,12 +654,12 @@ namespace KegID.ViewModel
         {
             try
             {
-                string header = string.Format(ZebraPrinterManager.palletHeader, BatchId, PartnerModel.ParentPartnerName, PartnerModel.Address1, PartnerModel.City + "," + PartnerModel.State + " " + PartnerModel.PostalCode, "", PartnerModel.ParentPartnerName, BatchModel.BatchCode, DateTimeOffset.UtcNow.Date.ToShortDateString(), "1", "", BatchModel.BrandName,
+                string header = string.Format(_zebraPrinterManager.PalletHeader, BatchId, PartnerModel.ParentPartnerName, PartnerModel.Address1, PartnerModel.City + "," + PartnerModel.State + " " + PartnerModel.PostalCode, "", PartnerModel.ParentPartnerName, BatchModel.BatchCode, DateTimeOffset.UtcNow.Date.ToShortDateString(), "1", "", BatchModel.BrandName,
                                     "1", "", "", "", "", "", "", "", "", "",
                                     "", "", "", "", "", "", "", "", "", "",
                                     "", BatchId, BatchId);
 
-                ZebraPrinterManager.SendZplPallet(header,ConstantManager.IsIPAddr,ConstantManager.IPAddr);
+                _zebraPrinterManager.SendZplPallet(header,ConstantManager.IsIPAddr,ConstantManager.IPAddr);
             }
             catch (Exception ex)
             {
@@ -736,7 +742,7 @@ namespace KegID.ViewModel
             try
             {
                 var unusedPerner = BarcodeCollection.Where(x => x.Kegs.Partners != model).Select(x => x.Kegs.Partners.FirstOrDefault()).FirstOrDefault();
-                BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = GetIconByPlatform.GetIcon("validationquestion.png");
+                BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = _getIconByPlatform.GetIcon("validationquestion.png");
 
                await AssignValidateBarcodeValueAsync();
 

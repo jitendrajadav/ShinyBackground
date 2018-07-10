@@ -21,13 +21,16 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        private readonly INavigationService _navigationService;
         private const string Maintenace = "maintenace.png";
         private const string ValidationOK = "validationok.png";
         private const string Cloud = "collectionscloud.png";
-        public IMoveService _moveService { get; set; }
-        public IMaintainService _maintainService { get; set; }
-        public IList<MaintainTypeReponseModel> MaintainTypeReponseModel { get; set; }
+
+        private readonly INavigationService _navigationService;
+        private readonly IMoveService _moveService;
+        private readonly IMaintainService _maintainService;
+        private readonly IGetIconByPlatform _getIconByPlatform;
+
+        private IList<MaintainTypeReponseModel> MaintainTypeReponseModel { get; set; }
 
         #region ManaulBarcode
 
@@ -112,12 +115,13 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public MaintainScanViewModel(IMoveService moveService, IMaintainService maintainService, INavigationService navigationService)
+        public MaintainScanViewModel(IMoveService moveService, IMaintainService maintainService, INavigationService navigationService, IGetIconByPlatform getIconByPlatform)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
 
             _moveService = moveService;
             _maintainService = maintainService;
+            _getIconByPlatform = getIconByPlatform;
 
             SubmitCommand = new DelegateCommand(SubmitCommandRecieverAsync);
             BackCommand = new DelegateCommand(BackCommandRecieverAsync);
@@ -149,7 +153,7 @@ namespace KegID.ViewModel
                             var oldBarcode = BarcodeCollection.Where(x => x.Barcode == value.Barcodes.Barcode).FirstOrDefault();
                             oldBarcode.Pallets = value.Barcodes.Pallets;
                             oldBarcode.Kegs = value.Barcodes.Kegs;
-                            oldBarcode.Icon = value?.Barcodes?.Kegs?.Partners.Count > 1 ? GetIconByPlatform.GetIcon("validationquestion.png") : value?.Barcodes?.Kegs?.Partners?.Count == 0 ? GetIconByPlatform.GetIcon("validationerror.png") : GetIconByPlatform.GetIcon("validationok.png");
+                            oldBarcode.Icon = value?.Barcodes?.Kegs?.Partners.Count > 1 ? _getIconByPlatform.GetIcon("validationquestion.png") : value?.Barcodes?.Kegs?.Partners?.Count == 0 ? _getIconByPlatform.GetIcon("validationerror.png") : _getIconByPlatform.GetIcon("validationok.png");
                             oldBarcode.IsScanned = true;
                         });
                     }
@@ -189,11 +193,11 @@ namespace KegID.ViewModel
                 var unusedPerner = BarcodeCollection.Where(x => x.Kegs.Partners != model).Select(x => x.Kegs.Partners.FirstOrDefault()).FirstOrDefault();
                 if (model.Kegs.FirstOrDefault().MaintenanceItems?.Count > 0)
                 {
-                    BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = GetIconByPlatform.GetIcon(Maintenace);
+                    BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = _getIconByPlatform.GetIcon(Maintenace);
                 }
                 else
                 {
-                    BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = GetIconByPlatform.GetIcon(ValidationOK);
+                    BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = _getIconByPlatform.GetIcon(ValidationOK);
                 }
 
                 await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
@@ -416,10 +420,7 @@ namespace KegID.ViewModel
 
                     if (kegIDResponse.StatusCode == System.Net.HttpStatusCode.NoContent.ToString())
                     {
-                        //SimpleIoc.Default.GetInstance<MaintainDetailViewModel>().LoadInfo(BarcodeCollection);
-
                         Loader.StopLoading();
-                        //await Application.Current.MainPage.Navigation.PushModalAsync(new MaintainDetailView(), animated: false);
                         var param = new NavigationParameters
                         {
                             { "BarcodeModel", BarcodeCollection }

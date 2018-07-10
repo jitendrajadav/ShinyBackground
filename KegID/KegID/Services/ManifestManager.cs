@@ -1,4 +1,5 @@
-﻿using KegID.Model;
+﻿using KegID.Common;
+using KegID.Model;
 using Microsoft.AppCenter.Crashes;
 using System;
 using System.Collections.Generic;
@@ -6,11 +7,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 
-namespace KegID.Common
+namespace KegID.Services
 {
-    public static class ManifestManager
+    public class ManifestManager : IManifestManager
     {
-        public static async Task<ManifestModel> GetManifestDraft(EventTypeEnum eventTypeEnum, string manifestId, IList<BarcodeModel> barcodeCollection,
+        public async Task<ManifestModel> GetManifestDraft(EventTypeEnum eventTypeEnum, string manifestId, IList<BarcodeModel> barcodeCollection,
             List<Tag> tags, PartnerModel partnerModel, List<NewPallet> newPallets, List<NewBatch> batches, List<string> closedBatches, long validationStatus, string contents = "")
         {
             ManifestModel manifestModel = null;

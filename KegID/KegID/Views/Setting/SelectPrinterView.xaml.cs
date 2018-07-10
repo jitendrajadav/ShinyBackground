@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using KegID.Common;
 using KegID.DependencyServices;
 using KegID.Services;
 using LinkOS.Plugin;
@@ -15,7 +14,9 @@ namespace KegID.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class SelectPrinterView : ContentPage
 	{
-		public SelectPrinterView ()
+        public IConstantManager ConstantManager { get; set; }
+
+        public SelectPrinterView ()
 		{
 			InitializeComponent ();
 

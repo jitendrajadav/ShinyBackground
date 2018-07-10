@@ -22,8 +22,8 @@ namespace KegID.ViewModel
 
         private Model.PrintPDF.Pallet PalletPrintModels = null;
         private readonly INavigationService _navigationService;
-        public IMoveService _moveService { get; set; }
-        public SearchPalletResponseModel Model { get; set; }
+        private readonly IMoveService _moveService;
+        private SearchPalletResponseModel Model { get; set; }
         public List<string> Barcodes { get; private set; }
 
         #region ManifestId

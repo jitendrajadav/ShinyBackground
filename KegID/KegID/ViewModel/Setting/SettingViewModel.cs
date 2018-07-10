@@ -16,7 +16,7 @@ namespace KegID.ViewModel
 
         private readonly IPageDialogService _dialogService;
         private readonly INavigationService _navigationService;
-        public IDashboardService _dashboardService { get; set; }
+        private readonly IDashboardService _dashboardService;
 
         #endregion
 
@@ -51,7 +51,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //SimpleIoc.Default.GetInstance<DashboardViewModel>().RefreshDashboardRecieverAsync(true);
                 SettingToDashboardMsg msg = new SettingToDashboardMsg
                 {
                     IsRefresh = true

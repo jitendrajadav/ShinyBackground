@@ -13,10 +13,9 @@ namespace KegID.ViewModel
     {
         #region Properties
 
+        private readonly IMoveService _moveService;
         private readonly INavigationService _navigationService;
-
         public bool IsManifestDestination { get; set; }
-        public IMoveService _moveService { get; set; }
 
         #region TrackingNumber
 
@@ -292,8 +291,6 @@ namespace KegID.ViewModel
             {
                 var value = await _moveService.GetManifestSearchAsync(AppSettings.User.SessionId, TrackingNumber, Barcode, ManifestSender, ManifestDestination, Referencekey, FromDate.ToString("MM/dd/yyyy", CultureInfo.CreateSpecificCulture("en-US")), ToDate.ToString("MM/dd/yyyy", CultureInfo.CreateSpecificCulture("en-US")));
 
-                //SimpleIoc.Default.GetInstance<SearchedManifestsListViewModel>().SearchManifestsCollection = value.ManifestSearchResponseModel;
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new SearchedManifestsListView(), animated: false);
                 var param = new NavigationParameters
                     {
                         { "SearchManifestsCollection", value.ManifestSearchResponseModel }
@@ -312,9 +309,7 @@ namespace KegID.ViewModel
             try
             {
                 IsManifestDestination = true;
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView(), animated: false);
                 await _navigationService.NavigateAsync(new Uri("PartnersView", UriKind.Relative), useModalNavigation: true, animated: false);
-
             }
             catch (Exception ex)
             {
@@ -327,7 +322,6 @@ namespace KegID.ViewModel
             try
             {
                 await _navigationService.NavigateAsync(new Uri("PartnersView", UriKind.Relative), useModalNavigation: true, animated: false);
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new PartnersView(), animated: false);
             }
             catch (Exception ex)
             {
@@ -338,7 +332,6 @@ namespace KegID.ViewModel
         private async void ManifestsCommandRecieverAsync()
         {
             await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
-            //await Application.Current.MainPage.Navigation.PopModalAsync();
         }
 
         internal void AssignPartnerValue(PartnerModel model)
@@ -357,11 +350,6 @@ namespace KegID.ViewModel
             {
                 Crashes.TrackError(ex);
             }
-        }
-
-        public override void OnNavigatedFrom(INavigationParameters parameters)
-        {
-            
         }
 
         public override void OnNavigatingTo(INavigationParameters parameters)

@@ -5,7 +5,6 @@ using KegID.Common;
 using KegID.DependencyServices;
 using KegID.Model;
 using KegID.Services;
-using KegID.Views;
 using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
@@ -18,7 +17,7 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        public IDashboardService _dashboardService { get; set; }
+        private readonly IDashboardService _dashboardService;
         private readonly INavigationService _navigationService;
 
         string translatedNumber;
@@ -372,36 +371,6 @@ namespace KegID.ViewModel
             try
             {
                 await SendEmail("KegID","Mail Sending",new List<string> { "test@kegid.com" });
-                // Send Sms
-                //var smsMessenger = CrossMessaging.Current.SmsMessenger;
-                //if (smsMessenger.CanSendSms)
-                //    smsMessenger.SendSms("+27213894839493", "Well hello there from Xam.Messaging.Plugin");
-
-
-                //var emailMessenger = CrossMessaging.Current.EmailMessenger;
-                //if (emailMessenger.CanSendEmail)
-                //{
-                //    // Send simple e-mail to single receiver without attachments, bcc, cc etc.
-                //    emailMessenger.SendEmail("to.plugins@xamarin.com", "Xamarin Messaging Plugin", "Well hello there from Xam.Messaging.Plugin");
-
-                //    // Alternatively use EmailBuilder fluent interface to construct more complex e-mail with multiple recipients, bcc, attachments etc. 
-                //    var email = new EmailMessageBuilder()
-                //      .To("to.plugins@xamarin.com")
-                //      .Cc("cc.plugins@xamarin.com")
-                //      .Bcc(new[] { "bcc1.plugins@xamarin.com", "bcc2.plugins@xamarin.com" })
-                //      .Subject("Xamarin Messaging Plugin")
-                //      .Body("Well hello there from Xam.Messaging.Plugin")
-                //      .Build();
-
-                //    emailMessenger.SendEmail(email);
-                //}
-
-                // Construct HTML email (iOS and Android only)
-                //var email = new EmailMessageBuilder()
-                //  .To("to.plugins@xamarin.com")
-                //  .Subject("Xamarin Messaging Plugin")
-                //  .BodyAsHtml("Well hello there from <a>Xam.Messaging.Plugin</a>")
-                //  .Build();
             }
             catch (Exception ex)
             {
@@ -454,14 +423,11 @@ namespace KegID.ViewModel
         {
             try
             {
-                //SimpleIoc.Default.GetInstance<MoveViewModel>().AssignInitialValue(string.Empty, string.Empty, string.Empty, PartnerModel.FullName, PartnerModel.PartnerId, true);
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new MoveView(), animated: false);
                 var param = new NavigationParameters
                     {
                         { "PartnerModel", PartnerModel }
                     };
                 await _navigationService.NavigateAsync(new Uri("MoveView", UriKind.Relative), param, useModalNavigation: true, animated: false);
-
             }
             catch (Exception ex)
             {
@@ -473,8 +439,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //SimpleIoc.Default.GetInstance<PartnerInfoMapViewModel>().AssignInitialValue(PartnerInfoModel.Lat, PartnerInfoModel.Lon, PartnerInfoModel.BillAddress.City, PartnerInfoModel.BillAddress.Line1);
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new PartnerInfoMapView(), animated: false);
                 var param = new NavigationParameters
                     {
                         { "PartnerInfoModel", PartnerInfoModel }
@@ -499,7 +463,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new KegsView(), animated: false);
                 await _navigationService.NavigateAsync(new Uri("KegsView", UriKind.Relative), useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
@@ -604,8 +567,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new AddPartnerView(), animated: false);
-                //SimpleIoc.Default.GetInstance<AddPartnerViewModel>().LoadPartnerAsync(PartnerInfoModel);
                 var param = new NavigationParameters
                     {
                         { "PartnerInfoModel", PartnerInfoModel }
@@ -623,18 +584,12 @@ namespace KegID.ViewModel
         {
             try
             {
-                //await Application.Current.MainPage.Navigation.PopModalAsync();
                 await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
             }
-        }
-
-        public override void OnNavigatedFrom(INavigationParameters parameters)
-        {
-            
         }
 
         public override void OnNavigatingTo(INavigationParameters parameters)
