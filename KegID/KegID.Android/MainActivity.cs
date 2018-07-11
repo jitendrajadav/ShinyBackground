@@ -5,7 +5,6 @@ using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
 using CarouselView.FormsPlugin.Android;
-using KegID.Droid.DependencyServices;
 using KegID.Droid.Services;
 using KegID.Messages;
 using Microsoft.AppCenter.Crashes;
@@ -41,7 +40,7 @@ namespace KegID.Droid
             TintedImageRenderer.Init();
             Xamarin.Essentials.Platform.Init(this, bundle);
 
-            DependencyService.Register<OpenAppService>();
+            //DependencyService.Register<OpenAppService>();
 
             try
             {

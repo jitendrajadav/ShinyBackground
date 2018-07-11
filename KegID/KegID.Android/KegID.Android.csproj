@@ -170,9 +170,7 @@
     <Compile Include="DependencyServices\Share.cs" />
     <Compile Include="DependencyServices\ShareFileImplementation.cs" />
     <Compile Include="DependencyServices\XsltContent.cs" />
-    <Compile Include="ImageHelper.cs" />
     <Compile Include="MainActivity.cs" />
-    <Compile Include="PeriodicService.cs" />
     <Compile Include="Renderers\CustomButtonRenderer.cs" />
     <Compile Include="Renderers\ExtendedViewCellRenderer.cs" />
     <Compile Include="Renderers\NativeAndroidListViewAdapter.cs" />
