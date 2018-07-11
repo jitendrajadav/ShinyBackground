@@ -25,6 +25,7 @@ namespace KegID.ViewModel
         private readonly IMoveService _moveService;
         private readonly IDashboardService _dashboardService;
         private readonly IGetIconByPlatform _getIconByPlatform;
+        private readonly IUuidManager _uuidManager;
 
         #region ManaulBarcode
 
@@ -312,12 +313,13 @@ namespace KegID.ViewModel
 
         #region Contructor
 
-        public BulkUpdateScanViewModel(IMoveService moveService, IDashboardService dashboardService, INavigationService navigationService, IGetIconByPlatform getIconByPlatform)
+        public BulkUpdateScanViewModel(IMoveService moveService, IDashboardService dashboardService, INavigationService navigationService, IGetIconByPlatform getIconByPlatform, IUuidManager uuidManager)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _moveService = moveService;
             _dashboardService = dashboardService;
             _getIconByPlatform = getIconByPlatform;
+            _uuidManager = uuidManager;
 
             AddTagsCommand = new DelegateCommand(AddTagsCommandRecieverAsync);
             BarcodeManualCommand = new DelegateCommand(BarcodeManualCommandRecieverAsync);
@@ -569,7 +571,7 @@ namespace KegID.ViewModel
                             Barcode = item.Barcode,
                             //Tags = item.Tags,
                             AssetVolume = item.TagsStr,
-                            KegId = Uuid.GetUuId(),
+                            KegId = _uuidManager.GetUuId(),
                             OwnerId = AppSettings.User.CompanyId,
                             OwnerSkuId = "",
                             ProfileId = "",

@@ -38,8 +38,6 @@ namespace KegID
                 NavigationService.NavigateAsync(nameof(KegID.MainPage));
             else
                 NavigationService.NavigateAsync(nameof(LoginView));
-
-            SyncManager.NotifyConnectivityChanged();
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -124,8 +122,11 @@ namespace KegID
             containerRegistry.Register<ILoader, Loader>();
             containerRegistry.Register<IManifestManager, ManifestManager>();
             containerRegistry.Register<IGetIconByPlatform, GetIconByPlatform>();
+            containerRegistry.Register<ISyncManager, SyncManager>();
+            containerRegistry.Register<IUuidManager, UuidManager>();
+            containerRegistry.Register<ICalcCheckDigitMngr, CalcCheckDigitMngr>();
         }
-        
+
 
         protected override void OnStart()
         {

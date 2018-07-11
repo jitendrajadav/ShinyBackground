@@ -1,5 +1,4 @@
-﻿using KegID.Common;
-using KegID.Services;
+﻿using KegID.Services;
 using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
@@ -13,6 +12,7 @@ namespace KegID.ViewModel
         #region Properties
 
         private readonly INavigationService _navigationService;
+        private readonly IUuidManager _uuidManager;
 
         #region TrackingNumber
 
@@ -161,9 +161,10 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public FillScanReviewViewModel(INavigationService navigationService)
+        public FillScanReviewViewModel(INavigationService navigationService, IUuidManager uuidManager)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+            _uuidManager = uuidManager;
 
             ScanCommand = new DelegateCommand(ScanCommandRecieverAsync);
             SubmitCommand = new DelegateCommand(SubmitCommandReciever);
@@ -210,7 +211,7 @@ namespace KegID.ViewModel
                 var partner = ConstantManager.Partner;
                 var content = "";//BatchButtonTitle;
                 //var content = SimpleIoc.Default.GetInstance<FillViewModel>().BatchButtonTitle;
-                TrackingNumber = Uuid.GetUuId();
+                TrackingNumber = _uuidManager.GetUuId();
                 ManifestTo = partner.FullName + "\n" + partner.PartnerTypeCode;
                 ItemCount = _count;
                 Contents = !string.IsNullOrEmpty(content) ? content : "No contens";

@@ -24,6 +24,9 @@ namespace KegID.ViewModel
         private readonly IPalletizeService _palletizeService;
         private readonly IMoveService _moveService;
         private readonly IZebraPrinterManager _zebraPrinterManager;
+        private readonly IUuidManager _uuidManager;
+        private readonly ICalcCheckDigitMngr _calcCheckDigitMngr;
+
         public bool TargetLocationPartner { get; set; }
 
         #region StockLocation
@@ -314,12 +317,14 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public PalletizeViewModel(IPalletizeService palletizeService, IMoveService moveService, INavigationService navigationService, IZebraPrinterManager zebraPrinterManager)
+        public PalletizeViewModel(IPalletizeService palletizeService, IMoveService moveService, INavigationService navigationService, IZebraPrinterManager zebraPrinterManager, IUuidManager uuidManager, ICalcCheckDigitMngr calcCheckDigitMngr)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _moveService = moveService;
             _palletizeService = palletizeService;
             _zebraPrinterManager = zebraPrinterManager;
+            _uuidManager = uuidManager;
+            _calcCheckDigitMngr = calcCheckDigitMngr;
 
             CancelCommand = new DelegateCommand(CancelCommandRecieverAsync);
             PartnerCommand = new DelegateCommand(PartnerCommandRecieverAsync);
@@ -362,7 +367,7 @@ namespace KegID.ViewModel
                     }
                 }
                 barCode = prefix.ToString().PadLeft(9, '0') + lastCharOfYear + dayOfYear + secondsInDayTillNow + (millisecond / 100);
-                var checksumDigit = PermissionsUtils.CalculateCheckDigit(barCode);
+                var checksumDigit = _calcCheckDigitMngr.CalculateCheckDigit(barCode);
                 ManifestId = barCode + checksumDigit;
             }
             catch (Exception ex)
@@ -432,7 +437,7 @@ namespace KegID.ViewModel
                     Barcode = ManifestId.Split('-').LastOrDefault(),
                     BuildDate = DateTimeOffset.Now,
                     OwnerId = AppSettings.User.CompanyId,
-                    PalletId = Uuid.GetUuId(),
+                    PalletId = _uuidManager.GetUuId(),
                     PalletItems = palletItems,
                     ReferenceKey = "",
                     StockLocation = StockLocation.PartnerId,

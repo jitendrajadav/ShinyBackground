@@ -21,6 +21,7 @@ namespace KegID.ViewModel
         private readonly INavigationService _navigationService;
         private readonly IDashboardService _dashboardService;
         private readonly IGetIconByPlatform _getIconByPlatform;
+        private readonly IUuidManager _uuidManager;
 
         #region Stock
 
@@ -334,12 +335,14 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public DashboardViewModel(IDashboardService dashboardService, INavigationService navigationService, IGetIconByPlatform getIconByPlatform)
+        public DashboardViewModel(IDashboardService dashboardService, INavigationService navigationService, IGetIconByPlatform getIconByPlatform, IUuidManager uuidManager)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
 
             _dashboardService = dashboardService;
             _getIconByPlatform = getIconByPlatform;
+            _uuidManager = uuidManager;
+
             BgImage = _getIconByPlatform.GetIcon("kegbg.png");
 
             MoveCommand = new DelegateCommand(MoveCommandRecieverAsync);
@@ -379,7 +382,7 @@ namespace KegID.ViewModel
             {
                 var param = new NavigationParameters
                 {
-                    { "ManifestId", Uuid.GetUuId() }
+                    { "ManifestId", _uuidManager.GetUuId() }
                 };
                 await _navigationService.NavigateAsync(new Uri("MoveView", UriKind.Relative), param, useModalNavigation: true, animated: false);
 

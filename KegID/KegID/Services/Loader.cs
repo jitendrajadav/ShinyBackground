@@ -2,14 +2,8 @@
 using System;
 using Xamarin.Forms;
 
-namespace KegID.Common
+namespace KegID.Services
 {
-    public interface ILoader
-    {
-        void StartLoading(string message= "Loading...");
-        void StopLoading();
-    }
-
     public class Loader : ILoader
     {
         public void StartLoading(string message = "Loading...")

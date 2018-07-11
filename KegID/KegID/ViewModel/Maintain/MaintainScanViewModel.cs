@@ -29,6 +29,7 @@ namespace KegID.ViewModel
         private readonly IMoveService _moveService;
         private readonly IMaintainService _maintainService;
         private readonly IGetIconByPlatform _getIconByPlatform;
+        private readonly IUuidManager _uuidManager;
 
         private IList<MaintainTypeReponseModel> MaintainTypeReponseModel { get; set; }
 
@@ -115,13 +116,14 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public MaintainScanViewModel(IMoveService moveService, IMaintainService maintainService, INavigationService navigationService, IGetIconByPlatform getIconByPlatform)
+        public MaintainScanViewModel(IMoveService moveService, IMaintainService maintainService, INavigationService navigationService, IGetIconByPlatform getIconByPlatform, IUuidManager uuidManager)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
 
             _moveService = moveService;
             _maintainService = maintainService;
             _getIconByPlatform = getIconByPlatform;
+            _uuidManager = uuidManager;
 
             SubmitCommand = new DelegateCommand(SubmitCommandRecieverAsync);
             BackCommand = new DelegateCommand(BackCommandRecieverAsync);
@@ -408,7 +410,7 @@ namespace KegID.ViewModel
                     model.MaintenanceDoneRequestModel.DatePerformed = DateTimeOffset.Now.AddDays(-2);
                     model.MaintenanceDoneRequestModel.Kegs = kegs;
                     model.MaintenanceDoneRequestModel.LocationId = ConstantManager.Partner.PartnerId;
-                    model.MaintenanceDoneRequestModel.MaintenancePostingId = Uuid.GetUuId();
+                    model.MaintenanceDoneRequestModel.MaintenancePostingId = _uuidManager.GetUuId();
                     //model.MaintenanceDoneRequestModel.Operator = "Bent Neck";
                     //model.MaintenanceDoneRequestModel.SourceKey = "";
                     //model.MaintenanceDoneRequestModel.SubmittedDate = DateTimeOffset.Now;

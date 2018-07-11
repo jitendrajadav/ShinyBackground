@@ -12,14 +12,14 @@
 		&lt;key&gt;model&lt;/key&gt;
 		&lt;string&gt;iPhone7,2&lt;/string&gt;
 		&lt;key&gt;os-version&lt;/key&gt;
-		&lt;string&gt;11.4&lt;/string&gt;
+		&lt;string&gt;11.4.1&lt;/string&gt;
 		&lt;key&gt;os&lt;/key&gt;
 		&lt;string&gt;iOS&lt;/string&gt;
 	&lt;/dict&gt;
 &lt;/dict&gt;
 &lt;/plist&gt;
 </TargetiOSDevice>
-    <SelectedDevice>Device</SelectedDevice>
+    <SelectedDevice>SLG iPhone</SelectedDevice>
     <ProjectView>ProjectFiles</ProjectView>
     <DefaultDevice>iPhone 8 iOS 11.3</DefaultDevice>
     <DeveloperId />

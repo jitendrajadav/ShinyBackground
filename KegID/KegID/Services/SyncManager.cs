@@ -6,17 +6,17 @@ using System.Linq;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
-namespace KegID.Common
+namespace KegID.Services
 {
-    public static class SyncManager
+    public class SyncManager : ISyncManager
     {
-        public static void NotifyConnectivityChanged()
+        public void NotifyConnectivityChanged()
         {
             // Register for connectivity changes, be sure to unsubscribe when finished
             Connectivity.ConnectivityChanged += Connectivity_ConnectivityChanged;
         }
 
-        private static void Connectivity_ConnectivityChanged(ConnectivityChangedEventArgs e)
+        private void Connectivity_ConnectivityChanged(ConnectivityChangedEventArgs e)
         {
             var access = e.NetworkAccess;
             var profiles = e.Profiles;

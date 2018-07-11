@@ -1,5 +1,4 @@
-﻿using KegID.Common;
-using KegID.Services;
+﻿using KegID.Services;
 using System.Diagnostics;
 using System.Linq;
 using Xamarin.Forms;
@@ -10,8 +9,6 @@ namespace KegID.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MaintainDetailView : ContentPage
     {
-        public IConstantManager ConstantManager { get; set; }
-
         public MaintainDetailView()
         {
             InitializeComponent();

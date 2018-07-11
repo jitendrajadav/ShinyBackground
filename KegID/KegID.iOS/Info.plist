@@ -85,15 +85,15 @@
 	</array>
 	<key>XSLaunchImageAssets</key>
 	<string>Resources/Media.xcassets/LaunchImages.launchimage</string>
-	<key>XSAppIconAssets</key>
-	<string>Resources/Media.xcassets/AppIcons.appiconset</string>
 	<key>UIStatusBarStyle</key>
 	<string>UIStatusBarStyleLightContent</string>
 	<key>UISupportedExternalAccessoryProtocols</key>
 	<array>
 		<string>com.cognex.dmcc</string>
 		<string>com.demo.data</string>
-    <string>com.zebra.rawport</string>
+		<string>com.zebra.rawport</string>
 	</array>
+	<key>XSAppIconAssets</key>
+	<string>Resources/Media.xcassets/AppIcons.appiconset</string>
 </dict>
 </plist>

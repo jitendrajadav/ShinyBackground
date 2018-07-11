@@ -15,6 +15,8 @@ namespace KegID.ViewModel
         #region Properties
 
         private readonly INavigationService _navigationService;
+        private readonly IUuidManager _uuidManager;
+
         public List<string> Barcodes { get; private set; }
 
         #region TrackingNo
@@ -164,9 +166,10 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public MaintainDetailViewModel(INavigationService navigationService)
+        public MaintainDetailViewModel(INavigationService navigationService, IUuidManager uuidManager)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+            _uuidManager = uuidManager;
 
             HomeCommand = new DelegateCommand(HomeCommandCommandRecieverAsync);
             GridTappedCommand = new DelegateCommand(GridTappedCommandRecieverAsync);
@@ -194,7 +197,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                TrackingNo = Uuid.GetUuId();
+                TrackingNo = _uuidManager.GetUuId();
                 StockLocation = ConstantManager.Partner.FullName + "\n" + ConstantManager.Partner.PartnerTypeName;
                 ItemCount = barcodeCollection.Count;
                 Barcodes = barcodeCollection.Select(x => x.Barcode).ToList();

@@ -1,5 +1,6 @@
 ﻿using KegID.Common;
 using KegID.Model;
+using KegID.Services;
 using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
@@ -13,6 +14,7 @@ namespace KegID.ViewModel
         #region Properties
 
         private readonly INavigationService _navigationService;
+        private readonly IUuidManager _uuidManager;
 
         #region BrandButtonTitle
 
@@ -437,9 +439,10 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public AddBatchViewModel(INavigationService navigationService)
+        public AddBatchViewModel(INavigationService navigationService, IUuidManager uuidManager)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+            _uuidManager = uuidManager;
 
             AddTagsCommand = new DelegateCommand(AddTagsCommandRecieverAsync);
             CancelCommand = new DelegateCommand(CancelCommandRecieverAsync);
@@ -483,7 +486,7 @@ namespace KegID.ViewModel
                 //NewBatchModel.Tags = Tags;
                 NewBatchModel.Abv = AlcoholContent;
                 NewBatchModel.BatchCode = BatchCode;
-                NewBatchModel.BatchId = Uuid.GetUuId();
+                NewBatchModel.BatchId = _uuidManager.GetUuId();
                 NewBatchModel.BestBeforeDate = BestByDate.ToShortDateString();
                 NewBatchModel.BrandName = BrandButtonTitle;
                 NewBatchModel.BrewDate = BrewDate.ToShortDateString();

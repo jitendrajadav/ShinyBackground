@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using KegID.Common;
 using KegID.LocalDb;
 using KegID.Messages;
 using KegID.Model;
@@ -27,6 +26,7 @@ namespace KegID.ViewModel
         private readonly IMoveService _moveService;
         private readonly IZebraPrinterManager _zebraPrinterManager;
         private readonly IGetIconByPlatform _getIconByPlatform;
+        private readonly ICalcCheckDigitMngr _calcCheckDigitMngr;
 
         public string BatchId { get; set; }
         public BatchModel BatchModel { get; private set; }
@@ -290,13 +290,14 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public FillScanViewModel(IMoveService moveService, INavigationService navigationService, IZebraPrinterManager zebraPrinterManager, IGetIconByPlatform getIconByPlatform)
+        public FillScanViewModel(IMoveService moveService, INavigationService navigationService, IZebraPrinterManager zebraPrinterManager, IGetIconByPlatform getIconByPlatform, ICalcCheckDigitMngr calcCheckDigitMngr)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
 
             _moveService = moveService;
             _getIconByPlatform = getIconByPlatform;
             _zebraPrinterManager = zebraPrinterManager;
+            _calcCheckDigitMngr = calcCheckDigitMngr;
 
             CancelCommand = new DelegateCommand(CancelCommandRecieverAsync);
             BarcodeScanCommand = new DelegateCommand(BarcodeScanCommandRecieverAsync);
@@ -454,7 +455,7 @@ namespace KegID.ViewModel
                             }
                         }
                         barCode = prefix.ToString().PadLeft(9, '0') + lastCharOfYear + dayOfYear + secondsInDayTillNow + (millisecond / 100);
-                        var checksumDigit = PermissionsUtils.CalculateCheckDigit(barCode);
+                        var checksumDigit = _calcCheckDigitMngr.CalculateCheckDigit(barCode);
                         BatchId = barCode + checksumDigit;
                         ManifestId = "Pallet #" + BatchId;
                     }

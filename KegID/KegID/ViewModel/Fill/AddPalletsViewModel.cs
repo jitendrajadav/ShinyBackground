@@ -24,6 +24,7 @@ namespace KegID.ViewModel
         private readonly IPalletizeService _palletizeService;
         private readonly IMoveService _moveService;
         private readonly IManifestManager _manifestManager;
+        private readonly IUuidManager _uuidManager;
 
         #region AddPalletsTitle
 
@@ -174,13 +175,14 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public AddPalletsViewModel(IPalletizeService palletizeService, IMoveService moveService, INavigationService navigationService, IPageDialogService dialogService, IManifestManager manifestManager)
+        public AddPalletsViewModel(IPalletizeService palletizeService, IMoveService moveService, INavigationService navigationService, IPageDialogService dialogService, IManifestManager manifestManager, IUuidManager uuidManager)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _dialogService = dialogService;
             _palletizeService = palletizeService;
             _moveService = moveService;
             _manifestManager = manifestManager;
+            _uuidManager = uuidManager;
 
             SubmitCommand = new DelegateCommand(SubmitCommandRecieverAsync);
             FillScanCommand = new DelegateCommand(FillScanCommandRecieverAsync);
@@ -269,7 +271,7 @@ namespace KegID.ViewModel
                     StockLocationId = partnerModel.PartnerId,
                     StockLocationName = partnerModel.FullName,
                     OwnerId = AppSettings.User.CompanyId,
-                    PalletId = Uuid.GetUuId(),
+                    PalletId = _uuidManager.GetUuId(),
                     //PalletItems = palletItems,
                     ReferenceKey = "",
                     //Tags = tags
@@ -286,7 +288,7 @@ namespace KegID.ViewModel
 
             Loader.StartLoading();
 
-            var model = await _manifestManager.GetManifestDraft(EventTypeEnum.FILL_MANIFEST, Uuid.GetUuId(),
+            var model = await _manifestManager.GetManifestDraft(EventTypeEnum.FILL_MANIFEST, _uuidManager.GetUuId(),
                     barcodes, tags, partnerModel, newPallets, new List<NewBatch>(), closedBatches, 4);
 
             if (model != null)

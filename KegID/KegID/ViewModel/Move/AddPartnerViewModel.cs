@@ -20,6 +20,7 @@ namespace KegID.ViewModel
         private readonly INavigationService _navigationService;
         private readonly IPageDialogService _dialogService;
         private readonly IMoveService _moveService;
+        private readonly IUuidManager _uuidManager;
 
         #region IsInternalOn
 
@@ -890,11 +891,12 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public AddPartnerViewModel(IMoveService moveService, INavigationService navigationService, IPageDialogService dialogService)
+        public AddPartnerViewModel(IMoveService moveService, INavigationService navigationService, IPageDialogService dialogService, IUuidManager uuidManager)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _dialogService = dialogService;
             _moveService = moveService;
+            _uuidManager = uuidManager;
 
             CalcelCommand = new DelegateCommand(CalcelCommandRecieverAsync);
             SubmitCommand = new DelegateCommand(SubmitCommandRecieverAsync);
@@ -973,8 +975,8 @@ namespace KegID.ViewModel
                 Notes = Notes,
                 FirstName = PartnerName,
                 LastName = PartnerName,
-                ParentPartnerId = IsInternalOn ? AppSettings.User.CompanyId : Uuid.GetUuId(),
-                PartnerId = Uuid.GetUuId(),
+                ParentPartnerId = IsInternalOn ? AppSettings.User.CompanyId : _uuidManager.GetUuId(),
+                PartnerId = _uuidManager.GetUuId(),
                 PartnerName = PartnerName,
                 PartnerTypeCode = SelectedPartnerType.Code,
                 Phone = Phone,

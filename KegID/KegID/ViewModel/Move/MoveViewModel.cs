@@ -22,6 +22,7 @@ namespace KegID.ViewModel
         private readonly IPageDialogService _dialogService;
         private readonly IMoveService _moveService;
         private readonly IManifestManager _manifestManager;
+        private readonly IUuidManager _uuidManager;
 
         public string Contents { get; set; }
 
@@ -315,12 +316,13 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public MoveViewModel(IMoveService moveService, INavigationService navigationService, IPageDialogService dialogService, IManifestManager manifestManager)
+        public MoveViewModel(IMoveService moveService, INavigationService navigationService, IPageDialogService dialogService, IManifestManager manifestManager, IUuidManager uuidManager)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _dialogService = dialogService;
             _moveService = moveService;
             _manifestManager = manifestManager;
+            _uuidManager = uuidManager;
 
             SelectLocationCommand = new DelegateCommand(SelectLocationCommandRecieverAsync);
             MoreInfoCommand = new DelegateCommand(MoreInfoCommandRecieverAsync);
@@ -547,7 +549,7 @@ namespace KegID.ViewModel
             try
             {
                 ConstantManager.Barcode = _barcode;
-                ManifestId = !string.IsNullOrEmpty(_kegId) ? _kegId : Uuid.GetUuId();
+                ManifestId = !string.IsNullOrEmpty(_kegId) ? _kegId : _uuidManager.GetUuId();
                 AddKegs = !string.IsNullOrEmpty(_addKegs) ? string.Format("{0} Item", _addKegs) : "Add Kegs";
                 if (!string.IsNullOrEmpty(_destination))
                 {
@@ -585,7 +587,7 @@ namespace KegID.ViewModel
                 IsSubmitVisible = false;
                 IsRequiredVisible = true;
                 Destination = "Select a location";
-                ManifestId = Uuid.GetUuId();
+                ManifestId = _uuidManager.GetUuId();
                 Tags = null;
             }
             catch (Exception ex)
