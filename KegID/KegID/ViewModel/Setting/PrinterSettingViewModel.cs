@@ -202,7 +202,10 @@ namespace KegID.ViewModel
 
         public override void OnNavigatingTo(INavigationParameters parameters)
         {
-            SelectedPrinter = ConstantManager.SelectedPrinter;
+            if (parameters.ContainsKey("friendlyLbl"))
+                SelectedPrinter = parameters.GetValue<string>("friendlyLbl");
+            else
+                SelectedPrinter = "No printers found";
         }
 
         #endregion

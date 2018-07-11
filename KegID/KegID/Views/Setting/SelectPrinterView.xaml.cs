@@ -8,14 +8,13 @@ using Microsoft.AppCenter.Crashes;
 using System.Collections.ObjectModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using KegID.Messages;
 
 namespace KegID.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class SelectPrinterView : ContentPage
 	{
-        public IConstantManager ConstantManager { get; set; }
-
         public SelectPrinterView ()
 		{
 			InitializeComponent ();
@@ -231,16 +230,19 @@ namespace KegID.Views
             OnPrinterSelected?.Invoke((IDiscoveredPrinter)e.SelectedItem);
             try
             {
+                SelectPrinterMsg selectPrinterMsg = new SelectPrinterMsg
+                {
+                    IDiscoveredPrinter = ((IDiscoveredPrinter)e.SelectedItem),
+                    friendlyLbl = friendlyLbl.Text ?? ((IDiscoveredPrinter)e.SelectedItem).Address
+                };
+                MessagingCenter.Send(selectPrinterMsg, "SelectPrinterMsg");
                 ConstantManager.PrinterSetting = ((IDiscoveredPrinter)e.SelectedItem);
-                Application.Current.MainPage.Navigation.PopModalAsync();
-                ConstantManager.SelectedPrinter = friendlyLbl.Text ?? ((IDiscoveredPrinter)e.SelectedItem).Address;
             }
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
             }
         }
-
     }
 
     public enum ConnectionType

@@ -9,7 +9,7 @@ namespace KegID.Services
         public static IDiscoveredPrinter PrinterSetting { get; set; }
         public static string IPAddr { get; set; }
         public static bool IsIPAddr { get; set; }
-        public static string SelectedPrinter { get; set; } = "No printers found";
+        //public static string SelectedPrinter { get; set; } = "No printers found";
         public static LocationInfo Position { get; set; }
         public static bool IsFromScanned { get; set; }
         public static List<BarcodeModel> VerifiedBarcodes { get; set; }

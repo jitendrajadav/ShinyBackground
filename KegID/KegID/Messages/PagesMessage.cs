@@ -1,5 +1,5 @@
 ﻿using KegID.Model;
-using System.Collections.Generic;
+using LinkOS.Plugin.Abstractions;
 
 namespace KegID.Messages
 {
@@ -8,37 +8,16 @@ namespace KegID.Messages
         public bool AssingValue { get; set; }
     }
 
-    //public class ValidToScanKegPagesMsg
-    //{
-    //    public Partner Partner { get; set; }
-    //}
-    //public class ValidToFillScanPagesMsg
-    //{
-    //    public Partner Partner { get; set; }
-    //}
-    //public class ValidToMaintainPagesMsg
-    //{
-    //    public Partner Partner { get; set; }
-    //}
-    //public class ScanKegToMovePagesMsg
-    //{
-    //    public List<BarcodeModel> Barcodes { get; set; }
-    //    public List<Tag> Tags { get; set; }
-    //    public string Contents { get; set; }
-    //}
-    //public class ScanKegToPalletPagesMsg
-    //{
-    //    public List<BarcodeModel> Barcodes { get; set; }
-    //}
+    public class SelectPrinterMsg
+    {
+        public IDiscoveredPrinter IDiscoveredPrinter { get; set; }
+        public string friendlyLbl { get; set; }
+    }
+
     public class PalletToScanKegPagesMsg
     {
         public bool BarcodeScan { get; set; }
     }
-
-    //public class PalletToContentTagsPagesMsg
-    //{
-    //    public List<string> Barcode { get; set; }
-    //}
 
     public class FillToFillScanPagesMsg
     {
@@ -47,25 +26,15 @@ namespace KegID.Messages
         public PartnerModel PartnerModel { get; set; }
     }
 
-    //public class FillScanToAddPalletPagesMsg
-    //{
-    //    public IList<BarcodeModel> BarcodeModels { get; set; }
-    //    public string BatchId { get; set; }
-    //}
-
     public class AddPalletToFillScanMsg
     {
         public bool CleanUp { get; set; }
     }
+
     public class BarcodeScannerToKegSearchMsg
     {
         public Barcode Barcodes { get; set; }
     }
-
-    //public class FillScanToAddPalletSubmitMsg
-    //{
-    //    public bool IsSubmit { get; set; }
-    //}
 
     public class SettingToDashboardMsg
     {

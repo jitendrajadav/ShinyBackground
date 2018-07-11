@@ -9,9 +9,8 @@ namespace KegID.Services
 {
     public class ZebraPrinterManager: IZebraPrinterManager
     {
-        public IConstantManager ConstantManager { get; set; }
-        public IDiscoveredPrinter MyPrinter { get; set; }
         //private static readonly IPageDialogService _dialogService;
+        public static IDiscoveredPrinter myPrinter;
 
         public String TestPrint { get; set; } = "^XA^FO17,16^GB379,371,8^FS^FT65,255^A0N,135,134^FDTEST^FS^XZ";
 
@@ -296,8 +295,8 @@ namespace KegID.Services
                 }
                 else
                 {
-                    MyPrinter = ConstantManager.PrinterSetting;
-                    connection = MyPrinter.Connection;
+                    myPrinter = ConstantManager.PrinterSetting;
+                    connection = myPrinter.Connection;
                 }
                 connection.Open();
                 IZebraPrinter printer = ZebraPrinterFactory.Current.GetInstance(connection);

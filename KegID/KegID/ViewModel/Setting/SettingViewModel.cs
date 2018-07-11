@@ -16,7 +16,7 @@ namespace KegID.ViewModel
 
         private readonly IPageDialogService _dialogService;
         private readonly INavigationService _navigationService;
-        private readonly IDashboardService _dashboardService;
+        //private readonly IDashboardService _dashboardService;
 
         #endregion
 
