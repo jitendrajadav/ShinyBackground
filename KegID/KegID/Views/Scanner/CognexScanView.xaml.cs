@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using Microsoft.AppCenter.Crashes;
+using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace KegID.Views
@@ -14,7 +15,7 @@ namespace KegID.Views
             }
             catch (System.Exception ex)
             {
-
+                Crashes.TrackError(ex);
             }
         }
 

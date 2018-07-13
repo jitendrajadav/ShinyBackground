@@ -9,6 +9,7 @@ using KegID.Droid.Services;
 using KegID.Messages;
 using Microsoft.AppCenter.Crashes;
 using Plugin.CrossPlatformTintedImage.Android;
+using Plugin.CurrentActivity;
 using Prism;
 using Prism.Ioc;
 using Xamarin.Forms;
@@ -39,7 +40,7 @@ namespace KegID.Droid
             Xamarin.FormsMaps.Init(this, bundle);
             TintedImageRenderer.Init();
             Xamarin.Essentials.Platform.Init(this, bundle);
-
+            CrossCurrentActivity.Current.Init(this, bundle);
             //DependencyService.Register<OpenAppService>();
 
             try

@@ -11,17 +11,18 @@ namespace KegID.Droid.DependencyServices
     {
         public UniqueIdentifierValue GetUniqueIdentifier()
         {
-            UniqueIdentifierValue _UniqueIdentifier = new UniqueIdentifierValue();
-
-            _UniqueIdentifier.Serial = Android.OS.Build.Serial;
-            _UniqueIdentifier.Model = Android.OS.Build.Model;
-            _UniqueIdentifier.Manufacturer = Android.OS.Build.Manufacturer;
-            _UniqueIdentifier.Product = Android.OS.Build.Product;
-            _UniqueIdentifier.User = Android.OS.Build.User;
-            _UniqueIdentifier.Id = Android.OS.Build.Id;
-            _UniqueIdentifier.Device = Android.OS.Build.Device;
-            _UniqueIdentifier.Host = Android.OS.Build.Host;
-            _UniqueIdentifier.Display = Android.OS.Build.Display;
+            UniqueIdentifierValue _UniqueIdentifier = new UniqueIdentifierValue
+            {
+                Serial = Android.OS.Build.Serial,
+                Model = Android.OS.Build.Model,
+                Manufacturer = Android.OS.Build.Manufacturer,
+                Product = Android.OS.Build.Product,
+                User = Android.OS.Build.User,
+                Id = Android.OS.Build.Id,
+                Device = Android.OS.Build.Device,
+                Host = Android.OS.Build.Host,
+                Display = Android.OS.Build.Display
+            };
 
             return _UniqueIdentifier;
         }

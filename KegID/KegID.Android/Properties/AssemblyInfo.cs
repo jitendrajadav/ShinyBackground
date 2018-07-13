@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Android.App;
 
@@ -38,7 +37,7 @@ using Android.App;
 //[assembly: UsesFeature("android.hardware.location.network", Required = false)]
 
 #if DEBUG
-[assembly: Application(Debuggable=true)]
+[assembly: Application(Debuggable = true)]
 #else
 [assembly: Application(Debuggable = false)]
 #endif

@@ -8,6 +8,7 @@ using Android.Webkit;
 using Java.IO;
 using KegID.DependencyServices;
 using KegID.Droid.DependencyServices;
+using Plugin.CurrentActivity;
 using Xamarin.Forms;
 
 [assembly: Dependency(typeof(ShareFileImplementation))]
@@ -35,7 +36,7 @@ namespace KegID.Droid.DependencyServices
             }
 
             if (webpage == null)
-                webpage = new Android.Webkit.WebView(Forms.Context);
+                webpage = new Android.Webkit.WebView(CrossCurrentActivity.Current.AppContext);
 
             int width = 2959;
             int height = 3873;
@@ -102,7 +103,7 @@ namespace KegID.Droid.DependencyServices
             {
                 using (var webClient = new WebClient())
                 {
-                    var uri = new System.Uri(fileUri);
+                    var uri = new Uri(fileUri);
                     var bytes = await webClient.DownloadDataTaskAsync(uri);
                     var filePath = WriteFile(fileName, bytes);
                     ShareLocalFile(filePath, title);
@@ -129,7 +130,7 @@ namespace KegID.Droid.DependencyServices
             try
             {
                 var localFolder = Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads).AbsolutePath;
-                localPath = System.IO.Path.Combine(localFolder, fileName);
+                localPath = Path.Combine(localFolder, fileName);
                 System.IO.File.WriteAllBytes(localPath, bytes); // write to local storage
 
                 return string.Format("file://{0}/{1}", localFolder, fileName);
@@ -146,7 +147,7 @@ namespace KegID.Droid.DependencyServices
 
     class WebViewCallBack : WebViewClient
     {
-        string fileNameWithPath = null;
+        readonly string fileNameWithPath = null;
 
         public WebViewCallBack(string path)
         {
