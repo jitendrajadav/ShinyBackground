@@ -5,12 +5,6 @@ using Plugin.CurrentActivity;
 
 namespace KegID.Droid
 {
-
-//#if DEBUG
-//    [Application(Debuggable = true)]
-//#else
-//[Application(Debuggable = false)]
-//#endif
     public class MainApplication : Application
     {
         public MainApplication(IntPtr handle, JniHandleOwnership transer)

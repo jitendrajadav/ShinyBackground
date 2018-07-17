@@ -319,7 +319,6 @@ namespace KegID.ViewModel
                         { "AssignInitialValue", model }
                     };
                 await _navigationService.NavigateAsync(new Uri("MoveView", UriKind.Relative), param, useModalNavigation: true, animated: false);
-
             }
             catch (Exception ex)
             {
