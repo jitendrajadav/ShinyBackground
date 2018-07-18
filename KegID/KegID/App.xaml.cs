@@ -142,9 +142,9 @@ namespace KegID
         protected override void OnSleep ()
 		{
             // Handle when your app sleeps
-            Current.Properties["SleepDate"] = DateTimeOffset.Now.ToString("O");
+            //Current.Properties["SleepDate"] = DateTimeOffset.Now.ToString("O");
             //Current.Properties["FirstName"] = _backgroundPage.FirstName;
-            //serviceProvider.Dispose();
+            serviceProvider.Dispose();
         }
 
         protected override void OnResume ()
