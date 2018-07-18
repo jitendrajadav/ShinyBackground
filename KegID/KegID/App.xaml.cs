@@ -136,7 +136,7 @@ namespace KegID
                    "ios=b80b8476-04cf-4fc3-b7f7-be06ba7f2213",
                    typeof(Analytics), typeof(Crashes));
 
-            LoadPersistedValues();
+            //LoadPersistedValues();
         }
 
         protected override void OnSleep ()
@@ -150,7 +150,7 @@ namespace KegID
         protected override void OnResume ()
 		{
             // Handle when your app resumes
-            LoadPersistedValues();
+            //LoadPersistedValues();
         }
 
         private void LoadPersistedValues()

@@ -198,7 +198,7 @@ namespace KegID.ViewModel
                     }
                     try
                     {
-                        await _navigationService.NavigateAsync(new Uri("MainPage", UriKind.Relative),useModalNavigation:true, animated: false);
+                        await _navigationService.NavigateAsync(new Uri("/MainPage", UriKind.Absolute), animated: false);
                     }
                     catch (Exception ex)
                     {
