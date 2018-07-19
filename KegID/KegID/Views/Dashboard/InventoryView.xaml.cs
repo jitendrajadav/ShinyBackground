@@ -1,7 +1,5 @@
 ﻿using Prism.Navigation;
 using System;
-using Xamarin.Forms.PlatformConfiguration;
-using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
 using Xamarin.Forms.Xaml;
 
 namespace KegID.Views
@@ -12,7 +10,6 @@ namespace KegID.Views
         public InventoryView()
         {
             InitializeComponent();
-            On<Android>().SetToolbarPlacement(ToolbarPlacement.Bottom);
         }
 
         public void OnNavigatedFrom(INavigationParameters parameters)

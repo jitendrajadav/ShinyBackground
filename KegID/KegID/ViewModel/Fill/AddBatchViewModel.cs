@@ -501,10 +501,6 @@ namespace KegID.ViewModel
                 NewBatchModel.RecipeId = AppSettings.User.CompanyId;
                 NewBatchModel.SourceKey = "";
 
-                //var result = await _fillService.PostBatchAsync(batchRequestModel, Configuration.SessionId, Configuration.NewBatch);
-                //SimpleIoc.Default.GetInstance<FillViewModel>().BatchButtonTitle = BrandButtonTitle + BatchCode;
-                //await Application.Current.MainPage.Navigation.PopModalAsync();
-                //await Application.Current.MainPage.Navigation.PopModalAsync();
                 await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
                 await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
             }

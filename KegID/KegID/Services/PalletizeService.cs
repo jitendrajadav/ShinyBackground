@@ -16,7 +16,7 @@ namespace KegID.Services
                 string content = JsonConvert.SerializeObject(inModel);
                 var value = await App.kegIDClient.ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Send, content, RequestType: RequestType);
 
-                outModel = App.kegIDClient.DeserializeObject<PalletResponseModel>(value.Response);
+                outModel = value.Response != null ? App.kegIDClient.DeserializeObject<PalletResponseModel>(value.Response) : new PalletResponseModel();
                 if (outModel != null)
                 {
                     outModel.Response = new KegIDResponse

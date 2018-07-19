@@ -442,8 +442,6 @@ namespace KegID.ViewModel
                         { "PartnerModel", model }
                     };
                     await _navigationService.NavigateAsync(new Uri("PartnerInfoView", UriKind.Relative), param, useModalNavigation: true, animated: false);
-
-                    Cleanup();
                 }
             }
             catch (Exception ex)
@@ -509,12 +507,6 @@ namespace KegID.ViewModel
             {
                 Crashes.TrackError(ex);
             }
-        }
-
-        public void Cleanup()
-        {
-            //base.Cleanup();
-            //PartnerCollection = null;
         }
 
         public override void OnNavigatingTo(INavigationParameters parameters)

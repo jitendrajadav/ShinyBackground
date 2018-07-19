@@ -476,7 +476,7 @@ namespace KegID.ViewModel
                 pallet = null;
                 barCodeCollection = null;
                 palletRequestModel = null;
-                //Cleanup();
+                Cleanup();
             }
         }
 
@@ -603,12 +603,11 @@ namespace KegID.ViewModel
         {
             try
             {
-                //base.Cleanup();
-                StockLocation = null;
-                TargetLocation = null;
                 AddInfoTitle = "Add info";
                 AddKegs = "Add Kegs";
                 IsSubmitVisible = false;
+                StockLocation.FullName = "Barcode Brewing";
+                TargetLocation.FullName = "None";
                 Tags = null;
             }
             catch (Exception ex)
@@ -619,7 +618,7 @@ namespace KegID.ViewModel
 
         public override void OnNavigatingTo(INavigationParameters parameters)
         {
-            if (ConstantManager.Barcodes != null)
+            if (ConstantManager.Barcodes != null && ConstantManager.Barcodes.Count > 0)
             {
                 AssingScanKegsValue(ConstantManager.Barcodes);
             }

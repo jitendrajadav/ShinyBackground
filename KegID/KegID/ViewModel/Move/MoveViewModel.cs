@@ -572,17 +572,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                //Barcode = string.Empty;
-                AddKegs = "Add Kegs";
                 TagsStr = "Add info";
-                try
-                {
-                    //PartnerModel = null;
-                }
-                catch (Exception ex)
-                {
-                     Crashes.TrackError(ex);
-                }
+                AddKegs = "Add Kegs";
                 IsSaveDraftVisible = false;
                 IsSubmitVisible = false;
                 IsRequiredVisible = true;
@@ -594,13 +585,11 @@ namespace KegID.ViewModel
             {
                  Crashes.TrackError(ex);
             }
-
-            //base.Cleanup();
         }
 
         public override void OnNavigatingTo(INavigationParameters parameters)
         {
-            if (ConstantManager.Barcodes != null)
+            if (ConstantManager.Barcodes != null && ConstantManager.Barcodes.Count > 0)
                 AssingScanKegsValue(ConstantManager.Barcodes.ToList(), ConstantManager.Tags, ConstantManager.Contents);
 
             if (parameters.ContainsKey("ManifestId"))

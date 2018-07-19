@@ -2,6 +2,7 @@
 using KegID.DependencyServices;
 using KegID.Model;
 using KegID.Model.PrintPDF;
+using KegID.Services;
 using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
@@ -278,6 +279,7 @@ namespace KegID.ViewModel
 
         private async void ManifestsCommandRecieverAsync()
         {
+            ConstantManager.Barcodes.Clear();
             await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
         }
 
