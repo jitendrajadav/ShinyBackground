@@ -358,8 +358,10 @@ namespace KegID.ViewModel
         {
             try
             {
-                //await Application.Current.MainPage.Navigation.PopModalAsync();
-                await _navigationService.GoBackAsync(useModalNavigation:true, animated: false);
+                await _navigationService.GoBackAsync(new NavigationParameters
+                {
+                    { "Cleanup","Cleanup" }
+                }, useModalNavigation:true, animated: false);
             }
             catch (Exception ex)
             {
@@ -443,8 +445,14 @@ namespace KegID.ViewModel
                 finally
                 {
                     Loader.StopLoading();
+                    Cleanup();
                 }
             }
+        }
+
+        private void Cleanup()
+        {
+            BarcodeCollection.Clear();
         }
 
         public override void OnNavigatedFrom(INavigationParameters parameters)

@@ -606,8 +606,13 @@ namespace KegID.ViewModel
                 AddInfoTitle = "Add info";
                 AddKegs = "Add Kegs";
                 IsSubmitVisible = false;
-                StockLocation.FullName = "Barcode Brewing";
-                TargetLocation.FullName = "None";
+                // Update an object with a transaction
+                using (var trans = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
+                {
+                    StockLocation.FullName = "Barcode Brewing";
+                    TargetLocation.FullName = "None";
+                    trans.Commit();
+                }
                 Tags = null;
             }
             catch (Exception ex)

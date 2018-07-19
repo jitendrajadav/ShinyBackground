@@ -2248,7 +2248,7 @@ namespace KegID {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Stock ocation:.
+        ///   Looks up a localized string similar to Stock location:.
         /// </summary>
         internal static string label_stock_location {
             get {

@@ -1582,7 +1582,7 @@
     <value>Type:</value>
   </data>
   <data name="label_stock_location" xml:space="preserve">
-    <value>Stock ocation:</value>
+    <value>Stock location:</value>
   </data>
   <data name="label_target_location" xml:space="preserve">
     <value>Target location:</value>
