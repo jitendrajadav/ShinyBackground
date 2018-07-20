@@ -320,11 +320,14 @@ namespace KegID.ViewModel
                 if (model != null)
                 {
                     ConstantManager.Partner = model;
-                    var param = new NavigationParameters
+                    //var param = new NavigationParameters
+                    //{
+                    //    { "model", model }
+                    //};
+                    await _navigationService.GoBackAsync(new NavigationParameters
                     {
                         { "model", model }
-                    };
-                    await _navigationService.GoBackAsync(param, useModalNavigation: true, animated: false);
+                    }, useModalNavigation: true, animated: false);
 
                     Cleanup();
                 }
@@ -341,6 +344,7 @@ namespace KegID.ViewModel
             AllPartners = RealmDb.All<PartnerModel>().ToList();
             try
             {
+                PartnerCollection = null;
                 if (AllPartners.Count > 0)
                 {
                     if (BrewerStockOn)

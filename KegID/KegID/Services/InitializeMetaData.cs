@@ -49,13 +49,13 @@ namespace KegID.Services
                 if (value.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                 {
                     var batches = value.BatchModel.Where(p => p.BrandName != string.Empty).OrderBy(x => x.BrandName).ToList();
-                    RealmDb.Write(() =>
+                    await RealmDb.WriteAsync((realmDb) =>
                     {
                         foreach (var item in batches)
                         {
                             try
                             {
-                                RealmDb.Add(item);
+                                realmDb.Add(item);
                             }
                             catch (Exception ex)
                             {
@@ -80,13 +80,13 @@ namespace KegID.Services
             try
             {
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                RealmDb.Write(() =>
+               await RealmDb.WriteAsync((realmDb) =>
                 {
                     foreach (var item in model.MaintainTypeReponseModel)
                     {
                         try
                         {
-                            RealmDb.Add(item);
+                            realmDb.Add(item);
                         }
                         catch (Exception ex)
                         {

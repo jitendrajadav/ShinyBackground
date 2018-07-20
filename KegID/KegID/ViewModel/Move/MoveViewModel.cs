@@ -367,11 +367,14 @@ namespace KegID.ViewModel
                         if (manifest.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                         {
                             Loader.StopLoading();
-                            var param = new NavigationParameters
+                            //var param = new NavigationParameters
+                            //{
+                            //    { "manifest", manifest },{ "Contents", Contents }
+                            //};
+                            await _navigationService.NavigateAsync(new Uri("ManifestDetailView", UriKind.Relative), new NavigationParameters
                             {
                                 { "manifest", manifest },{ "Contents", Contents }
-                            };
-                            await _navigationService.NavigateAsync(new Uri("ManifestDetailView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+                            }, useModalNavigation: true, animated: false);
                         }
                         else
                         {
@@ -429,11 +432,14 @@ namespace KegID.ViewModel
                 Loader.StopLoading();
                 //await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestsView(), animated: false);
                 //SimpleIoc.Default.GetInstance<ManifestsViewModel>().LoadDraftManifestAsync();
-                var param = new NavigationParameters
+                //var param = new NavigationParameters
+                //    {
+                //        { "LoadDraftManifestAsync", "LoadDraftManifestAsync" }
+                //    };
+                await _navigationService.NavigateAsync(new Uri("ManifestsView", UriKind.Relative), new NavigationParameters
                     {
                         { "LoadDraftManifestAsync", "LoadDraftManifestAsync" }
-                    };
-                await _navigationService.NavigateAsync(new Uri("ManifestsView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+                    }, useModalNavigation: true, animated: false);
 
             }
             catch (Exception ex)
@@ -515,11 +521,14 @@ namespace KegID.ViewModel
 
         private async void MoreInfoCommandRecieverAsync()
         {
-            var param = new NavigationParameters
+            //var param = new NavigationParameters
+            //        {
+            //            {"viewTypeEnum",ViewTypeEnum.MoveView }
+            //        };
+            await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), new NavigationParameters
                     {
                         {"viewTypeEnum",ViewTypeEnum.MoveView }
-                    };
-            await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+                    }, useModalNavigation: true, animated: false);
         }
 
         private async void ScanKegsCommadRecieverAsync()
@@ -528,11 +537,14 @@ namespace KegID.ViewModel
             {
                 if (!string.IsNullOrEmpty(ConstantManager.Partner?.PartnerId))
                 {
-                    var param = new NavigationParameters
+                    //var param = new NavigationParameters
+                    //{
+                    //    { "Barcode", ConstantManager.Barcode }
+                    //};
+                    await _navigationService.NavigateAsync(new Uri("ScanKegsView", UriKind.Relative), new NavigationParameters
                     {
                         { "Barcode", ConstantManager.Barcode }
-                    };
-                    await _navigationService.NavigateAsync(new Uri("ScanKegsView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+                    }, useModalNavigation: true, animated: false);
 
                 }
                 else

@@ -914,11 +914,14 @@ namespace KegID.ViewModel
         {
             try
             {
-                var param = new NavigationParameters
+                //var param = new NavigationParameters
+                //    {
+                //        { "AddressTitle", "Billing Address" }
+                //    };
+                await _navigationService.NavigateAsync(new Uri("EditAddressView", UriKind.Relative), new NavigationParameters
                     {
                         { "AddressTitle", "Billing Address" }
-                    };
-                await _navigationService.NavigateAsync(new Uri("EditAddressView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+                    }, useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {
@@ -930,11 +933,14 @@ namespace KegID.ViewModel
         {
             try
             {
-                var param = new NavigationParameters
+                //var param = new NavigationParameters
+                //    {
+                //        { "AddressTitle", "Shipping Address" }
+                //    };
+                await _navigationService.NavigateAsync(new Uri("EditAddressView", UriKind.Relative), new NavigationParameters
                     {
                         { "AddressTitle", "Shipping Address" }
-                    };
-                await _navigationService.NavigateAsync(new Uri("EditAddressView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+                    }, useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {
@@ -1019,20 +1025,24 @@ namespace KegID.ViewModel
                             PhoneNumber = newPartnerRequestModel.PartnerName,
                             PostalCode = newPartnerRequestModel.BillAddress != null ? newPartnerRequestModel.BillAddress.PostalCode : string.Empty,
                             SourceKey = newPartnerRequestModel.RouteName,
-                            State = newPartnerRequestModel.BillAddress != null ? newPartnerRequestModel.BillAddress.State : string.Empty
+                            State = newPartnerRequestModel.BillAddress != null ? newPartnerRequestModel.BillAddress.State : string.Empty,
+                            FullName = newPartnerRequestModel.PartnerName,
                         };
                         var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                        RealmDb.Write(() =>
-                        {
-                            RealmDb.Add(partnerModel);
-                        });
+                        await RealmDb.WriteAsync((realmDb) =>
+                         {
+                             realmDb.Add(partnerModel);
+                         });
                         //SimpleIoc.Default.GetInstance<PartnersViewModel>().PartnerCollection.Add(partnerModel);
                         //SimpleIoc.Default.GetInstance<PartnersViewModel>().AllPartners.Add(partnerModel);
-                        var param = new NavigationParameters
+                        //var param = new NavigationParameters
+                        //{
+                        //    { "partnerModel", partnerModel }
+                        //};
+                        await _navigationService.GoBackAsync(new NavigationParameters
                         {
                             { "partnerModel", partnerModel }
-                        };
-                        await _navigationService.GoBackAsync(param, useModalNavigation: true, animated: false);
+                        }, useModalNavigation: true, animated: false);
                     }
                     catch (Exception ex)
                     {

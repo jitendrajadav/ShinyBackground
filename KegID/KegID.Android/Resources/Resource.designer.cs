@@ -2253,27 +2253,6 @@ namespace KegID.Droid
 			global::Com.ViewPagerIndicator.Resource.Styleable.CirclePageIndicator_vpiStrokeWidth = global::KegID.Droid.Resource.Styleable.CirclePageIndicator_vpiStrokeWidth;
 			global::Com.ViewPagerIndicator.Resource.Styleable.ViewPagerIndicator = global::KegID.Droid.Resource.Styleable.ViewPagerIndicator;
 			global::Com.ViewPagerIndicator.Resource.Styleable.ViewPagerIndicator_vpiCirclePageIndicatorStyle = global::KegID.Droid.Resource.Styleable.ViewPagerIndicator_vpiCirclePageIndicatorStyle;
-			global::Microsoft.AppCenter.Distribute.Resource.String.appcenter_distribute_dialog_actioned_on_disabled_toast = global::KegID.Droid.Resource.String.appcenter_distribute_dialog_actioned_on_disabled_toast;
-			global::Microsoft.AppCenter.Distribute.Resource.String.appcenter_distribute_download_progress_number_format = global::KegID.Droid.Resource.String.appcenter_distribute_download_progress_number_format;
-			global::Microsoft.AppCenter.Distribute.Resource.String.appcenter_distribute_downloading_mandatory_update = global::KegID.Droid.Resource.String.appcenter_distribute_downloading_mandatory_update;
-			global::Microsoft.AppCenter.Distribute.Resource.String.appcenter_distribute_install = global::KegID.Droid.Resource.String.appcenter_distribute_install;
-			global::Microsoft.AppCenter.Distribute.Resource.String.appcenter_distribute_install_ready_message = global::KegID.Droid.Resource.String.appcenter_distribute_install_ready_message;
-			global::Microsoft.AppCenter.Distribute.Resource.String.appcenter_distribute_install_ready_title = global::KegID.Droid.Resource.String.appcenter_distribute_install_ready_title;
-			global::Microsoft.AppCenter.Distribute.Resource.String.appcenter_distribute_notification_category = global::KegID.Droid.Resource.String.appcenter_distribute_notification_category;
-			global::Microsoft.AppCenter.Distribute.Resource.String.appcenter_distribute_unknown_sources_dialog_message = global::KegID.Droid.Resource.String.appcenter_distribute_unknown_sources_dialog_message;
-			global::Microsoft.AppCenter.Distribute.Resource.String.appcenter_distribute_unknown_sources_dialog_settings = global::KegID.Droid.Resource.String.appcenter_distribute_unknown_sources_dialog_settings;
-			global::Microsoft.AppCenter.Distribute.Resource.String.appcenter_distribute_update_dialog_download = global::KegID.Droid.Resource.String.appcenter_distribute_update_dialog_download;
-			global::Microsoft.AppCenter.Distribute.Resource.String.appcenter_distribute_update_dialog_message_mandatory = global::KegID.Droid.Resource.String.appcenter_distribute_update_dialog_message_mandatory;
-			global::Microsoft.AppCenter.Distribute.Resource.String.appcenter_distribute_update_dialog_message_optional = global::KegID.Droid.Resource.String.appcenter_distribute_update_dialog_message_optional;
-			global::Microsoft.AppCenter.Distribute.Resource.String.appcenter_distribute_update_dialog_postpone = global::KegID.Droid.Resource.String.appcenter_distribute_update_dialog_postpone;
-			global::Microsoft.AppCenter.Distribute.Resource.String.appcenter_distribute_update_dialog_title = global::KegID.Droid.Resource.String.appcenter_distribute_update_dialog_title;
-			global::Microsoft.AppCenter.Distribute.Resource.String.appcenter_distribute_update_dialog_view_release_notes = global::KegID.Droid.Resource.String.appcenter_distribute_update_dialog_view_release_notes;
-			global::Microsoft.AppCenter.Distribute.Resource.String.appcenter_distribute_update_failed_dialog_ignore = global::KegID.Droid.Resource.String.appcenter_distribute_update_failed_dialog_ignore;
-			global::Microsoft.AppCenter.Distribute.Resource.String.appcenter_distribute_update_failed_dialog_message = global::KegID.Droid.Resource.String.appcenter_distribute_update_failed_dialog_message;
-			global::Microsoft.AppCenter.Distribute.Resource.String.appcenter_distribute_update_failed_dialog_reinstall = global::KegID.Droid.Resource.String.appcenter_distribute_update_failed_dialog_reinstall;
-			global::Microsoft.AppCenter.Distribute.Resource.String.appcenter_distribute_update_failed_dialog_title = global::KegID.Droid.Resource.String.appcenter_distribute_update_failed_dialog_title;
-			global::Microsoft.AppCenter.Push.Android.Resource.Drawable.ic_stat_notify_dot = global::KegID.Droid.Resource.Drawable.ic_stat_notify_dot;
-			global::Microsoft.AppCenter.Push.Android.Resource.String.library_name = global::KegID.Droid.Resource.String.library_name;
 			global::Xamarin.Forms.Platform.Android.Resource.Attribute.actionBarSize = global::KegID.Droid.Resource.Attribute.actionBarSize;
 			global::ZXing.Net.Mobile.Forms.Android.Resource.Layout.zxingscanneractivitylayout = global::KegID.Droid.Resource.Layout.zxingscanneractivitylayout;
 			global::ZXing.Net.Mobile.Forms.Android.Resource.Layout.zxingscannerfragmentlayout = global::KegID.Droid.Resource.Layout.zxingscannerfragmentlayout;
@@ -4842,26 +4821,26 @@ namespace KegID.Droid
 			// aapt resource value: 0x7f020057
 			public const int avd_hide_password = 2130837591;
 			
+			// aapt resource value: 0x7f020185
+			public const int avd_hide_password_1 = 2130837893;
+			
 			// aapt resource value: 0x7f020186
-			public const int avd_hide_password_1 = 2130837894;
+			public const int avd_hide_password_2 = 2130837894;
 			
 			// aapt resource value: 0x7f020187
-			public const int avd_hide_password_2 = 2130837895;
-			
-			// aapt resource value: 0x7f020188
-			public const int avd_hide_password_3 = 2130837896;
+			public const int avd_hide_password_3 = 2130837895;
 			
 			// aapt resource value: 0x7f020058
 			public const int avd_show_password = 2130837592;
 			
+			// aapt resource value: 0x7f020188
+			public const int avd_show_password_1 = 2130837896;
+			
 			// aapt resource value: 0x7f020189
-			public const int avd_show_password_1 = 2130837897;
+			public const int avd_show_password_2 = 2130837897;
 			
 			// aapt resource value: 0x7f02018a
-			public const int avd_show_password_2 = 2130837898;
-			
-			// aapt resource value: 0x7f02018b
-			public const int avd_show_password_3 = 2130837899;
+			public const int avd_show_password_3 = 2130837898;
 			
 			// aapt resource value: 0x7f020059
 			public const int btn_trigger = 2130837593;
@@ -5506,265 +5485,262 @@ namespace KegID.Droid
 			public const int ic_mr_button_grey = 2130837806;
 			
 			// aapt resource value: 0x7f02012f
-			public const int ic_stat_notify_dot = 2130837807;
+			public const int ic_successstatus = 2130837807;
 			
 			// aapt resource value: 0x7f020130
-			public const int ic_successstatus = 2130837808;
+			public const int ic_vol_type_speaker_dark = 2130837808;
 			
 			// aapt resource value: 0x7f020131
-			public const int ic_vol_type_speaker_dark = 2130837809;
+			public const int ic_vol_type_speaker_group_dark = 2130837809;
 			
 			// aapt resource value: 0x7f020132
-			public const int ic_vol_type_speaker_group_dark = 2130837810;
+			public const int ic_vol_type_speaker_group_light = 2130837810;
 			
 			// aapt resource value: 0x7f020133
-			public const int ic_vol_type_speaker_group_light = 2130837811;
+			public const int ic_vol_type_speaker_light = 2130837811;
 			
 			// aapt resource value: 0x7f020134
-			public const int ic_vol_type_speaker_light = 2130837812;
+			public const int ic_vol_type_tv_dark = 2130837812;
 			
 			// aapt resource value: 0x7f020135
-			public const int ic_vol_type_tv_dark = 2130837813;
+			public const int ic_vol_type_tv_light = 2130837813;
 			
 			// aapt resource value: 0x7f020136
-			public const int ic_vol_type_tv_light = 2130837814;
+			public const int icon = 2130837814;
 			
 			// aapt resource value: 0x7f020137
-			public const int icon = 2130837815;
+			public const int invalidtools = 2130837815;
 			
 			// aapt resource value: 0x7f020138
-			public const int invalidtools = 2130837816;
+			public const int kegbg = 2130837816;
 			
 			// aapt resource value: 0x7f020139
-			public const int kegbg = 2130837817;
+			public const int kegflatfilledartboard = 2130837817;
 			
 			// aapt resource value: 0x7f02013a
-			public const int kegflatfilledartboard = 2130837818;
+			public const int keghalostraight = 2130837818;
 			
 			// aapt resource value: 0x7f02013b
-			public const int keghalostraight = 2130837819;
+			public const int keghalostraightwhite = 2130837819;
 			
 			// aapt resource value: 0x7f02013c
-			public const int keghalostraightwhite = 2130837820;
+			public const int kegidbanner = 2130837820;
 			
 			// aapt resource value: 0x7f02013d
-			public const int kegidbanner = 2130837821;
+			public const int kegidbannerwhite = 2130837821;
 			
 			// aapt resource value: 0x7f02013e
-			public const int kegidbannerwhite = 2130837822;
+			public const int kegidicon = 2130837822;
 			
 			// aapt resource value: 0x7f02013f
-			public const int kegidicon = 2130837823;
+			public const int kegidlogo = 2130837823;
 			
 			// aapt resource value: 0x7f020140
-			public const int kegidlogo = 2130837824;
+			public const int logout = 2130837824;
 			
 			// aapt resource value: 0x7f020141
-			public const int logout = 2130837825;
+			public const int maintenace = 2130837825;
 			
 			// aapt resource value: 0x7f020142
-			public const int maintenace = 2130837826;
+			public const int manifests = 2130837826;
 			
 			// aapt resource value: 0x7f020143
-			public const int manifests = 2130837827;
+			public const int manifestsfilledartboard = 2130837827;
 			
 			// aapt resource value: 0x7f020144
-			public const int manifestsfilledartboard = 2130837828;
+			public const int menurefresh = 2130837828;
 			
 			// aapt resource value: 0x7f020145
-			public const int menurefresh = 2130837829;
+			public const int more = 2130837829;
 			
 			// aapt resource value: 0x7f020146
-			public const int more = 2130837830;
+			public const int movekegs = 2130837830;
 			
 			// aapt resource value: 0x7f020147
-			public const int movekegs = 2130837831;
+			public const int mr_button_connected_dark = 2130837831;
 			
 			// aapt resource value: 0x7f020148
-			public const int mr_button_connected_dark = 2130837832;
+			public const int mr_button_connected_light = 2130837832;
 			
 			// aapt resource value: 0x7f020149
-			public const int mr_button_connected_light = 2130837833;
+			public const int mr_button_connecting_dark = 2130837833;
 			
 			// aapt resource value: 0x7f02014a
-			public const int mr_button_connecting_dark = 2130837834;
+			public const int mr_button_connecting_light = 2130837834;
 			
 			// aapt resource value: 0x7f02014b
-			public const int mr_button_connecting_light = 2130837835;
+			public const int mr_button_dark = 2130837835;
 			
 			// aapt resource value: 0x7f02014c
-			public const int mr_button_dark = 2130837836;
+			public const int mr_button_light = 2130837836;
 			
 			// aapt resource value: 0x7f02014d
-			public const int mr_button_light = 2130837837;
+			public const int mr_dialog_close_dark = 2130837837;
 			
 			// aapt resource value: 0x7f02014e
-			public const int mr_dialog_close_dark = 2130837838;
+			public const int mr_dialog_close_light = 2130837838;
 			
 			// aapt resource value: 0x7f02014f
-			public const int mr_dialog_close_light = 2130837839;
+			public const int mr_dialog_material_background_dark = 2130837839;
 			
 			// aapt resource value: 0x7f020150
-			public const int mr_dialog_material_background_dark = 2130837840;
+			public const int mr_dialog_material_background_light = 2130837840;
 			
 			// aapt resource value: 0x7f020151
-			public const int mr_dialog_material_background_light = 2130837841;
+			public const int mr_group_collapse = 2130837841;
 			
 			// aapt resource value: 0x7f020152
-			public const int mr_group_collapse = 2130837842;
+			public const int mr_group_expand = 2130837842;
 			
 			// aapt resource value: 0x7f020153
-			public const int mr_group_expand = 2130837843;
+			public const int mr_media_pause_dark = 2130837843;
 			
 			// aapt resource value: 0x7f020154
-			public const int mr_media_pause_dark = 2130837844;
+			public const int mr_media_pause_light = 2130837844;
 			
 			// aapt resource value: 0x7f020155
-			public const int mr_media_pause_light = 2130837845;
+			public const int mr_media_play_dark = 2130837845;
 			
 			// aapt resource value: 0x7f020156
-			public const int mr_media_play_dark = 2130837846;
+			public const int mr_media_play_light = 2130837846;
 			
 			// aapt resource value: 0x7f020157
-			public const int mr_media_play_light = 2130837847;
+			public const int mr_media_stop_dark = 2130837847;
 			
 			// aapt resource value: 0x7f020158
-			public const int mr_media_stop_dark = 2130837848;
+			public const int mr_media_stop_light = 2130837848;
 			
 			// aapt resource value: 0x7f020159
-			public const int mr_media_stop_light = 2130837849;
+			public const int mr_vol_type_audiotrack_dark = 2130837849;
 			
 			// aapt resource value: 0x7f02015a
-			public const int mr_vol_type_audiotrack_dark = 2130837850;
+			public const int mr_vol_type_audiotrack_light = 2130837850;
 			
 			// aapt resource value: 0x7f02015b
-			public const int mr_vol_type_audiotrack_light = 2130837851;
+			public const int navigation_empty_icon = 2130837851;
 			
 			// aapt resource value: 0x7f02015c
-			public const int navigation_empty_icon = 2130837852;
+			public const int navigationback = 2130837852;
 			
 			// aapt resource value: 0x7f02015d
-			public const int navigationback = 2130837853;
+			public const int new0 = 2130837853;
 			
 			// aapt resource value: 0x7f02015e
-			public const int new0 = 2130837854;
+			public const int new1 = 2130837854;
 			
 			// aapt resource value: 0x7f02015f
-			public const int new1 = 2130837855;
+			public const int new2 = 2130837855;
 			
 			// aapt resource value: 0x7f020160
-			public const int new2 = 2130837856;
+			public const int newkeg = 2130837856;
 			
 			// aapt resource value: 0x7f020161
-			public const int newkeg = 2130837857;
+			public const int Next = 2130837857;
 			
 			// aapt resource value: 0x7f020162
-			public const int Next = 2130837858;
+			public const int notification_action_background = 2130837858;
 			
 			// aapt resource value: 0x7f020163
-			public const int notification_action_background = 2130837859;
+			public const int notification_bg = 2130837859;
 			
 			// aapt resource value: 0x7f020164
-			public const int notification_bg = 2130837860;
+			public const int notification_bg_low = 2130837860;
 			
 			// aapt resource value: 0x7f020165
-			public const int notification_bg_low = 2130837861;
+			public const int notification_bg_low_normal = 2130837861;
 			
 			// aapt resource value: 0x7f020166
-			public const int notification_bg_low_normal = 2130837862;
+			public const int notification_bg_low_pressed = 2130837862;
 			
 			// aapt resource value: 0x7f020167
-			public const int notification_bg_low_pressed = 2130837863;
+			public const int notification_bg_normal = 2130837863;
 			
 			// aapt resource value: 0x7f020168
-			public const int notification_bg_normal = 2130837864;
+			public const int notification_bg_normal_pressed = 2130837864;
 			
 			// aapt resource value: 0x7f020169
-			public const int notification_bg_normal_pressed = 2130837865;
-			
-			// aapt resource value: 0x7f02016a
-			public const int notification_icon_background = 2130837866;
-			
-			// aapt resource value: 0x7f020184
-			public const int notification_template_icon_bg = 2130837892;
-			
-			// aapt resource value: 0x7f020185
-			public const int notification_template_icon_low_bg = 2130837893;
-			
-			// aapt resource value: 0x7f02016b
-			public const int notification_tile_bg = 2130837867;
-			
-			// aapt resource value: 0x7f02016c
-			public const int notify_panel_notification_icon_bg = 2130837868;
-			
-			// aapt resource value: 0x7f02016d
-			public const int overlay = 2130837869;
-			
-			// aapt resource value: 0x7f02016e
-			public const int pallet = 2130837870;
-			
-			// aapt resource value: 0x7f02016f
-			public const int palletsmall = 2130837871;
-			
-			// aapt resource value: 0x7f020170
-			public const int palletsquarefilledartboard = 2130837872;
-			
-			// aapt resource value: 0x7f020171
-			public const int partners = 2130837873;
-			
-			// aapt resource value: 0x7f020172
-			public const int pencil = 2130837874;
-			
-			// aapt resource value: 0x7f020173
-			public const int Prev = 2130837875;
-			
-			// aapt resource value: 0x7f020174
-			public const int pushpin = 2130837876;
-			
-			// aapt resource value: 0x7f020175
-			public const int question = 2130837877;
-			
-			// aapt resource value: 0x7f020176
-			public const int repair = 2130837878;
-			
-			// aapt resource value: 0x7f020177
-			public const int roundedbg = 2130837879;
-			
-			// aapt resource value: 0x7f020178
-			public const int roundedbgdark = 2130837880;
-			
-			// aapt resource value: 0x7f020179
-			public const int setting = 2130837881;
-			
-			// aapt resource value: 0x7f02017a
-			public const int tags = 2130837882;
-			
-			// aapt resource value: 0x7f02017b
-			public const int tooltip_frame_dark = 2130837883;
-			
-			// aapt resource value: 0x7f02017c
-			public const int tooltip_frame_light = 2130837884;
-			
-			// aapt resource value: 0x7f02017d
-			public const int triangle = 2130837885;
-			
-			// aapt resource value: 0x7f02017e
-			public const int Up = 2130837886;
-			
-			// aapt resource value: 0x7f02017f
-			public const int validationerror = 2130837887;
-			
-			// aapt resource value: 0x7f020180
-			public const int validationok = 2130837888;
-			
-			// aapt resource value: 0x7f020181
-			public const int validationquestion = 2130837889;
-			
-			// aapt resource value: 0x7f020182
-			public const int warn = 2130837890;
+			public const int notification_icon_background = 2130837865;
 			
 			// aapt resource value: 0x7f020183
-			public const int zoom = 2130837891;
+			public const int notification_template_icon_bg = 2130837891;
+			
+			// aapt resource value: 0x7f020184
+			public const int notification_template_icon_low_bg = 2130837892;
+			
+			// aapt resource value: 0x7f02016a
+			public const int notification_tile_bg = 2130837866;
+			
+			// aapt resource value: 0x7f02016b
+			public const int notify_panel_notification_icon_bg = 2130837867;
+			
+			// aapt resource value: 0x7f02016c
+			public const int overlay = 2130837868;
+			
+			// aapt resource value: 0x7f02016d
+			public const int pallet = 2130837869;
+			
+			// aapt resource value: 0x7f02016e
+			public const int palletsmall = 2130837870;
+			
+			// aapt resource value: 0x7f02016f
+			public const int palletsquarefilledartboard = 2130837871;
+			
+			// aapt resource value: 0x7f020170
+			public const int partners = 2130837872;
+			
+			// aapt resource value: 0x7f020171
+			public const int pencil = 2130837873;
+			
+			// aapt resource value: 0x7f020172
+			public const int Prev = 2130837874;
+			
+			// aapt resource value: 0x7f020173
+			public const int pushpin = 2130837875;
+			
+			// aapt resource value: 0x7f020174
+			public const int question = 2130837876;
+			
+			// aapt resource value: 0x7f020175
+			public const int repair = 2130837877;
+			
+			// aapt resource value: 0x7f020176
+			public const int roundedbg = 2130837878;
+			
+			// aapt resource value: 0x7f020177
+			public const int roundedbgdark = 2130837879;
+			
+			// aapt resource value: 0x7f020178
+			public const int setting = 2130837880;
+			
+			// aapt resource value: 0x7f020179
+			public const int tags = 2130837881;
+			
+			// aapt resource value: 0x7f02017a
+			public const int tooltip_frame_dark = 2130837882;
+			
+			// aapt resource value: 0x7f02017b
+			public const int tooltip_frame_light = 2130837883;
+			
+			// aapt resource value: 0x7f02017c
+			public const int triangle = 2130837884;
+			
+			// aapt resource value: 0x7f02017d
+			public const int Up = 2130837885;
+			
+			// aapt resource value: 0x7f02017e
+			public const int validationerror = 2130837886;
+			
+			// aapt resource value: 0x7f02017f
+			public const int validationok = 2130837887;
+			
+			// aapt resource value: 0x7f020180
+			public const int validationquestion = 2130837888;
+			
+			// aapt resource value: 0x7f020181
+			public const int warn = 2130837889;
+			
+			// aapt resource value: 0x7f020182
+			public const int zoom = 2130837890;
 			
 			static Drawable()
 			{
@@ -6916,63 +6892,6 @@ namespace KegID.Droid
 			
 			// aapt resource value: 0x7f080046
 			public const int appbar_scrolling_view_behavior = 2131230790;
-			
-			// aapt resource value: 0x7f08004f
-			public const int appcenter_distribute_dialog_actioned_on_disabled_toast = 2131230799;
-			
-			// aapt resource value: 0x7f080050
-			public const int appcenter_distribute_download_progress_number_format = 2131230800;
-			
-			// aapt resource value: 0x7f080051
-			public const int appcenter_distribute_downloading_mandatory_update = 2131230801;
-			
-			// aapt resource value: 0x7f080052
-			public const int appcenter_distribute_install = 2131230802;
-			
-			// aapt resource value: 0x7f080053
-			public const int appcenter_distribute_install_ready_message = 2131230803;
-			
-			// aapt resource value: 0x7f080054
-			public const int appcenter_distribute_install_ready_title = 2131230804;
-			
-			// aapt resource value: 0x7f080055
-			public const int appcenter_distribute_notification_category = 2131230805;
-			
-			// aapt resource value: 0x7f080056
-			public const int appcenter_distribute_unknown_sources_dialog_message = 2131230806;
-			
-			// aapt resource value: 0x7f080057
-			public const int appcenter_distribute_unknown_sources_dialog_settings = 2131230807;
-			
-			// aapt resource value: 0x7f080058
-			public const int appcenter_distribute_update_dialog_download = 2131230808;
-			
-			// aapt resource value: 0x7f080059
-			public const int appcenter_distribute_update_dialog_message_mandatory = 2131230809;
-			
-			// aapt resource value: 0x7f08005a
-			public const int appcenter_distribute_update_dialog_message_optional = 2131230810;
-			
-			// aapt resource value: 0x7f08005b
-			public const int appcenter_distribute_update_dialog_postpone = 2131230811;
-			
-			// aapt resource value: 0x7f08005c
-			public const int appcenter_distribute_update_dialog_title = 2131230812;
-			
-			// aapt resource value: 0x7f08005d
-			public const int appcenter_distribute_update_dialog_view_release_notes = 2131230813;
-			
-			// aapt resource value: 0x7f08005e
-			public const int appcenter_distribute_update_failed_dialog_ignore = 2131230814;
-			
-			// aapt resource value: 0x7f08005f
-			public const int appcenter_distribute_update_failed_dialog_message = 2131230815;
-			
-			// aapt resource value: 0x7f080060
-			public const int appcenter_distribute_update_failed_dialog_reinstall = 2131230816;
-			
-			// aapt resource value: 0x7f080061
-			public const int appcenter_distribute_update_failed_dialog_title = 2131230817;
 			
 			// aapt resource value: 0x7f080047
 			public const int bottom_sheet_behavior = 2131230791;

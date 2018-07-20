@@ -437,11 +437,14 @@ namespace KegID.ViewModel
                     catch (Exception)
                     {
                     }
-                    var param = new NavigationParameters
+                    //var param = new NavigationParameters
+                    //{
+                    //    { "PartnerModel", model }
+                    //};
+                    await _navigationService.NavigateAsync(new Uri("PartnerInfoView", UriKind.Relative), new NavigationParameters
                     {
                         { "PartnerModel", model }
-                    };
-                    await _navigationService.NavigateAsync(new Uri("PartnerInfoView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+                    }, useModalNavigation: true, animated: false);
                 }
             }
             catch (Exception ex)

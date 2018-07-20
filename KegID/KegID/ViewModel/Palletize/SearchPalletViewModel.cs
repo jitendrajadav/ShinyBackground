@@ -269,11 +269,14 @@ namespace KegID.ViewModel
         {
             try
             {
-                var param = new NavigationParameters
+                //var param = new NavigationParameters
+                //    {
+                //        { "GetPalletSearchAsync", PartnerModel?.PartnerId },{ "FromDate", FromDate.ToShortDateString() },{ "ToDate", ToDate.ToShortDateString() }
+                //    };
+                await _navigationService.NavigateAsync(new Uri("PalletSearchedListView", UriKind.Relative), new NavigationParameters
                     {
                         { "GetPalletSearchAsync", PartnerModel?.PartnerId },{ "FromDate", FromDate.ToShortDateString() },{ "ToDate", ToDate.ToShortDateString() }
-                    };
-                await _navigationService.NavigateAsync(new Uri("PalletSearchedListView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+                    }, useModalNavigation: true, animated: false);
 
             }
             catch (Exception ex)

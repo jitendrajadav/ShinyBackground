@@ -96,11 +96,14 @@ namespace KegID.ViewModel
             {
                 if (model != null)
                 {
-                    var param = new NavigationParameters
+                    //var param = new NavigationParameters
+                    //{
+                    //    { "BatchModel", model }
+                    //};
+                    await _navigationService.GoBackAsync(new NavigationParameters
                     {
                         { "BatchModel", model }
-                    };
-                    await _navigationService.GoBackAsync(param, useModalNavigation: true, animated: false);
+                    }, useModalNavigation: true, animated: false);
 
                 }
             }

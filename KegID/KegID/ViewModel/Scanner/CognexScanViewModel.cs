@@ -160,11 +160,14 @@ namespace KegID.ViewModel
             };
             MessagingCenter.Send(message, "StartLongRunningTaskMessage");
 
-            var param = new NavigationParameters
+            //var param = new NavigationParameters
+            //        {
+            //            { "models", models }
+            //        };
+            await _navigationService.GoBackAsync(new NavigationParameters
                     {
                         { "models", models }
-                    };
-            await _navigationService.GoBackAsync(param, useModalNavigation: true, animated: false);
+                    }, useModalNavigation: true, animated: false);
         }
 
         public override void OnNavigatingTo(INavigationParameters parameters)

@@ -453,11 +453,14 @@ namespace KegID.ViewModel
                     Loader.StopLoading();
 
                     PrintPallet();
-                    var param = new NavigationParameters
+                    //var param = new NavigationParameters
+                    //{
+                    //    { "LoadInfo", value }
+                    //};
+                    await _navigationService.NavigateAsync(new Uri("PalletizeDetailView", UriKind.Relative), new NavigationParameters
                     {
                         { "LoadInfo", value }
-                    };
-                    await _navigationService.NavigateAsync(new Uri("PalletizeDetailView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+                    }, useModalNavigation: true, animated: false);
                 }
                 else
                 {
@@ -549,11 +552,14 @@ namespace KegID.ViewModel
         {
             try
             {
-                var param = new NavigationParameters
+                //var param = new NavigationParameters
+                //    {
+                //        {"viewTypeEnum",ViewTypeEnum.PalletizeView }
+                //    };
+                await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), new NavigationParameters
                     {
                         {"viewTypeEnum",ViewTypeEnum.PalletizeView }
-                    };
-                await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+                    }, useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {

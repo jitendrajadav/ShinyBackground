@@ -1,8 +1,8 @@
-﻿using Xamarin.Forms;
+﻿//using Xamarin.Forms;
 
-namespace KegID.Controls
-{
-    public class CustomNavigationPage : NavigationPage
-    {
-    }
-}
+//namespace KegID.Controls
+//{
+//    public class CustomNavigationPage : NavigationPage
+//    {
+//    }
+//}

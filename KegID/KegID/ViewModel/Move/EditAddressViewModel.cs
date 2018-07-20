@@ -331,11 +331,14 @@ namespace KegID.ViewModel
                 //    SimpleIoc.Default.GetInstance<AddPartnerViewModel>().BillAddress = address;
 
                 //await Application.Current.MainPage.Navigation.PopModalAsync();
-                var param = new NavigationParameters
+                //var param = new NavigationParameters
+                //        {
+                //            { "EditAddress", address },{ "IsShipping", IsShipping }
+                //        };
+                await _navigationService.GoBackAsync(new NavigationParameters
                         {
                             { "EditAddress", address },{ "IsShipping", IsShipping }
-                        };
-                await _navigationService.GoBackAsync(param, useModalNavigation: true, animated: false);
+                        }, useModalNavigation: true, animated: false);
 
                 CleanupData();
             }

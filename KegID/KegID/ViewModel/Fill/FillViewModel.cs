@@ -323,19 +323,25 @@ namespace KegID.ViewModel
                 {
                     if (IsPalletze)
                     {
-                        var param = new NavigationParameters
+                        //var param = new NavigationParameters
+                        //{
+                        //    { "AddPalletsTitle", "Filling " + SizeButtonTitle + " kegs with " + BatchButtonTitle + "\n" + DestinationTitle }
+                        //};
+                        await _navigationService.NavigateAsync(new Uri("AddPalletsView", UriKind.Relative), new NavigationParameters
                         {
                             { "AddPalletsTitle", "Filling " + SizeButtonTitle + " kegs with " + BatchButtonTitle + "\n" + DestinationTitle }
-                        };
-                        await _navigationService.NavigateAsync(new Uri("AddPalletsView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+                        }, useModalNavigation: true, animated: false);
                     }
                     else
                     {
-                        var param = new NavigationParameters
+                        //var param = new NavigationParameters
+                        //{
+                        //    { "IsPalletze",IsPalletze},{ "ManifestId","Filling " + SizeButtonTitle + " kegs with " + BatchButtonTitle + " " + DestinationTitle},
+                        //};
+                        await _navigationService.NavigateAsync(new Uri("FillScanView", UriKind.Relative), new NavigationParameters
                         {
                             { "IsPalletze",IsPalletze},{ "ManifestId","Filling " + SizeButtonTitle + " kegs with " + BatchButtonTitle + " " + DestinationTitle},
-                        };
-                        await _navigationService.NavigateAsync(new Uri("FillScanView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+                        }, useModalNavigation: true, animated: false);
                     }
                 }
                 else
@@ -353,11 +359,14 @@ namespace KegID.ViewModel
         {
             try
             {
-                var param = new NavigationParameters
+                //var param = new NavigationParameters
+                //    {
+                //        { "BrewerStockOn", true }
+                //    };
+                await _navigationService.NavigateAsync(new Uri("PartnersView", UriKind.Relative), new NavigationParameters
                     {
                         { "BrewerStockOn", true }
-                    };
-                await _navigationService.NavigateAsync(new Uri("PartnersView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+                    }, useModalNavigation: true, animated: false);
 
             }
             catch (Exception ex)

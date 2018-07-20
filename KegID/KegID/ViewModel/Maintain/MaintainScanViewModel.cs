@@ -231,11 +231,14 @@ namespace KegID.ViewModel
                 }
                 else
                 {
-                    var param = new NavigationParameters
+                    //var param = new NavigationParameters
+                    //{
+                    //    {"viewTypeEnum",ViewTypeEnum.MaintainScanView }
+                    //};
+                    await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), new NavigationParameters
                     {
                         {"viewTypeEnum",ViewTypeEnum.MaintainScanView }
-                    };
-                    await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+                    }, useModalNavigation: true, animated: false);
                 }
             }
             catch (Exception ex)
@@ -260,11 +263,14 @@ namespace KegID.ViewModel
                 {
                     //await Application.Current.MainPage.Navigation.PushModalAsync(new ScanInfoView(), animated: false);
                     //SimpleIoc.Default.GetInstance<ScanInfoViewModel>().AssignInitialValue(model);
-                    var param = new NavigationParameters
+                    //var param = new NavigationParameters
+                    //{
+                    //    { "model", model }
+                    //};
+                    await _navigationService.NavigateAsync(new Uri("ScanInfoView", UriKind.Relative), new NavigationParameters
                     {
                         { "model", model }
-                    };
-                    await _navigationService.NavigateAsync(new Uri("ScanInfoView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+                    }, useModalNavigation: true, animated: false);
 
                 }
             }
@@ -280,11 +286,14 @@ namespace KegID.ViewModel
             {
                 //await Application.Current.MainPage.Navigation.PushPopupAsync(new ValidateBarcodeView());
                 //SimpleIoc.Default.GetInstance<ValidateBarcodeViewModel>().LoadBarcodeValue(models);
-                var param = new NavigationParameters
+                //var param = new NavigationParameters
+                //    {
+                //        { "model", models }
+                //    };
+                await _navigationService.NavigateAsync(new Uri("ValidateBarcodeView", UriKind.Relative), new NavigationParameters
                     {
                         { "model", models }
-                    };
-                await _navigationService.NavigateAsync(new Uri("ValidateBarcodeView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+                    }, useModalNavigation: true, animated: false);
 
             }
             catch (Exception ex)
@@ -327,11 +336,14 @@ namespace KegID.ViewModel
         {
             try
             {
-                var param = new NavigationParameters
+                //var param = new NavigationParameters
+                //    {
+                //        { "Tags", null },{ "TagsStr", string.Empty },{ "ViewTypeEnum", ViewTypeEnum.MaintainScanView }
+                //    };
+                await _navigationService.NavigateAsync(new Uri("CognexScanView", UriKind.Relative), new NavigationParameters
                     {
                         { "Tags", null },{ "TagsStr", string.Empty },{ "ViewTypeEnum", ViewTypeEnum.MaintainScanView }
-                    };
-                await _navigationService.NavigateAsync(new Uri("CognexScanView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+                    }, useModalNavigation: true, animated: false);
 
                 //await BarcodeScanner.BarcodeScanAsync(_moveService, null, string.Empty, ViewTypeEnum.MaintainScanView.ToString(), _navigationService);
             }
@@ -408,7 +420,7 @@ namespace KegID.ViewModel
                     {
                         MaintenanceDoneRequestModel = new MaintenanceDoneRequestModel()
                     };
-                    model.MaintenanceDoneRequestModel.ActionsPerformed = ConstantManager.MaintainTypeCollection.Where(x=>x.IsToggled == true).Select(y=>y.Id).ToList();
+                    model.MaintenanceDoneRequestModel.ActionsPerformed = ConstantManager.MaintainTypeCollection.Where(x => x.IsToggled == true).Select(y => y.Id).ToList();
                     model.MaintenanceDoneRequestModel.DatePerformed = DateTimeOffset.Now.AddDays(-2);
                     model.MaintenanceDoneRequestModel.Kegs = kegs;
                     model.MaintenanceDoneRequestModel.LocationId = ConstantManager.Partner.PartnerId;
@@ -425,12 +437,17 @@ namespace KegID.ViewModel
                     if (kegIDResponse.StatusCode == System.Net.HttpStatusCode.NoContent.ToString())
                     {
                         Loader.StopLoading();
-                        var param = new NavigationParameters
-                        {
-                            { "BarcodeModel", BarcodeCollection }
-                        };
-                        await _navigationService.NavigateAsync(new Uri("MaintainDetailView", UriKind.Relative), param, useModalNavigation: true, animated: false);
-
+                        //var param = new NavigationParameters
+                        //{
+                        //    { "BarcodeModel", BarcodeCollection }
+                        //};
+                        await _navigationService.NavigateAsync(new Uri("MaintainDetailView", UriKind.Relative), 
+                            new NavigationParameters
+                            {
+                                {
+                                    "BarcodeModel", BarcodeCollection
+                                }
+                            }, useModalNavigation: true, animated: false);
                     }
                     else
                     {
@@ -440,7 +457,7 @@ namespace KegID.ViewModel
                 }
                 catch (Exception ex)
                 {
-                     Crashes.TrackError(ex);
+                    Crashes.TrackError(ex);
                 }
                 finally
                 {

@@ -221,11 +221,14 @@ namespace KegID.ViewModel
 
         private async void GridTappedCommandRecieverAsync()
         {
-            var param = new NavigationParameters
+            //var param = new NavigationParameters
+            //                {
+            //                    { "Barcode", Barcode }
+            //                };
+            await _navigationService.NavigateAsync(new Uri("ContentTagsView", UriKind.Relative), new NavigationParameters
                             {
                                 { "Barcode", Barcode }
-                            };
-            await _navigationService.NavigateAsync(new Uri("ContentTagsView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+                            }, useModalNavigation: true, animated: false);
         }
 
         private void ShareCommandRecieverAsync()

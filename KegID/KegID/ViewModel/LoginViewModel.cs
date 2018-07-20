@@ -210,19 +210,19 @@ namespace KegID.ViewModel
                         {
                             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
 
-                            RealmDb.Write(() =>
+                          await  RealmDb.WriteAsync((realmDb) =>
                             {
-                                RealmDb.Add(model.LoginModel);
+                                realmDb.Add(model.LoginModel);
                             });
                             var vAllEmployees = RealmDb.All<LoginModel>();
 
                             var maintenance = await _maintainService.GetMaintainTypeAsync(AppSettings.User.SessionId);
 
-                            RealmDb.Write(() =>
+                          await RealmDb.WriteAsync((realmDb) =>
                             {
                                 foreach (var item in maintenance.MaintainTypeReponseModel)
                                 {
-                                    RealmDb.Add(item);
+                                    realmDb.Add(item);
                                 }
                             });
                             await _initializeMetaData.LoadInitializeMetaData();

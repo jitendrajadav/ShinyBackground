@@ -52,7 +52,7 @@
 
             <controls:TintedImage 
                 IsVisible="{Binding KegHasAlert}"
-                TintColor="#FAD283"
+                TintColor="{StaticResource selectTextColor}"
                 x:Name="imgInvalidTools"
                 Grid.Row="1"
                 HeightRequest="40"
