@@ -283,15 +283,10 @@ namespace KegID.ViewModel
         {
             try
             {
-                //var param = new NavigationParameters
-                //        {
-                //            { "AssignSizesValue", ConstantManager.VerifiedBarcodes }
-                //        };
                 await _navigationService.GoBackAsync(new NavigationParameters
                         {
                             { "AssignSizesValue", ConstantManager.VerifiedBarcodes }
                         }, useModalNavigation: true, animated: false);
-
             }
             catch (Exception ex)
             {

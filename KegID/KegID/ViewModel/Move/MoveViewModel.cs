@@ -367,10 +367,6 @@ namespace KegID.ViewModel
                         if (manifest.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                         {
                             Loader.StopLoading();
-                            //var param = new NavigationParameters
-                            //{
-                            //    { "manifest", manifest },{ "Contents", Contents }
-                            //};
                             await _navigationService.NavigateAsync(new Uri("ManifestDetailView", UriKind.Relative), new NavigationParameters
                             {
                                 { "manifest", manifest },{ "Contents", Contents }
@@ -430,17 +426,10 @@ namespace KegID.ViewModel
                 }
 
                 Loader.StopLoading();
-                //await Application.Current.MainPage.Navigation.PushModalAsync(new ManifestsView(), animated: false);
-                //SimpleIoc.Default.GetInstance<ManifestsViewModel>().LoadDraftManifestAsync();
-                //var param = new NavigationParameters
-                //    {
-                //        { "LoadDraftManifestAsync", "LoadDraftManifestAsync" }
-                //    };
                 await _navigationService.NavigateAsync(new Uri("ManifestsView", UriKind.Relative), new NavigationParameters
                     {
                         { "LoadDraftManifestAsync", "LoadDraftManifestAsync" }
                     }, useModalNavigation: true, animated: false);
-
             }
             catch (Exception ex)
             {
@@ -521,10 +510,6 @@ namespace KegID.ViewModel
 
         private async void MoreInfoCommandRecieverAsync()
         {
-            //var param = new NavigationParameters
-            //        {
-            //            {"viewTypeEnum",ViewTypeEnum.MoveView }
-            //        };
             await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), new NavigationParameters
                     {
                         {"viewTypeEnum",ViewTypeEnum.MoveView }
@@ -537,15 +522,10 @@ namespace KegID.ViewModel
             {
                 if (!string.IsNullOrEmpty(ConstantManager.Partner?.PartnerId))
                 {
-                    //var param = new NavigationParameters
-                    //{
-                    //    { "Barcode", ConstantManager.Barcode }
-                    //};
                     await _navigationService.NavigateAsync(new Uri("ScanKegsView", UriKind.Relative), new NavigationParameters
                     {
                         { "Barcode", ConstantManager.Barcode }
                     }, useModalNavigation: true, animated: false);
-
                 }
                 else
                     await _dialogService.DisplayAlertAsync("Error", "Please select a destination first.", "Ok");

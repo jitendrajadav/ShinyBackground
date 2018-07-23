@@ -38,10 +38,6 @@ namespace KegID.ViewModel
                     var value = message;
                     if (value != null)
                     {
-                        //var param = new NavigationParameters
-                        //{
-                        //    {"IDiscoveredPrinter",value.IDiscoveredPrinter },{"friendlyLbl",value.friendlyLbl }
-                        //};
                         await _navigationService.GoBackAsync(new NavigationParameters
                         {
                             {"IDiscoveredPrinter",value.IDiscoveredPrinter },{"friendlyLbl",value.friendlyLbl }

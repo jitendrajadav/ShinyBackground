@@ -314,10 +314,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //var param = new NavigationParameters
-                //    {
-                //        { "AssignInitialValue", model }
-                //    };
                 await _navigationService.NavigateAsync(new Uri("MoveView", UriKind.Relative), new NavigationParameters
                     {
                         { "AssignInitialValue", model }

@@ -231,10 +231,6 @@ namespace KegID.ViewModel
                 }
                 else
                 {
-                    //var param = new NavigationParameters
-                    //{
-                    //    {"viewTypeEnum",ViewTypeEnum.MaintainScanView }
-                    //};
                     await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), new NavigationParameters
                     {
                         {"viewTypeEnum",ViewTypeEnum.MaintainScanView }
@@ -261,17 +257,10 @@ namespace KegID.ViewModel
                 }
                 else
                 {
-                    //await Application.Current.MainPage.Navigation.PushModalAsync(new ScanInfoView(), animated: false);
-                    //SimpleIoc.Default.GetInstance<ScanInfoViewModel>().AssignInitialValue(model);
-                    //var param = new NavigationParameters
-                    //{
-                    //    { "model", model }
-                    //};
                     await _navigationService.NavigateAsync(new Uri("ScanInfoView", UriKind.Relative), new NavigationParameters
                     {
                         { "model", model }
                     }, useModalNavigation: true, animated: false);
-
                 }
             }
             catch (Exception ex)
@@ -284,17 +273,10 @@ namespace KegID.ViewModel
         {
             try
             {
-                //await Application.Current.MainPage.Navigation.PushPopupAsync(new ValidateBarcodeView());
-                //SimpleIoc.Default.GetInstance<ValidateBarcodeViewModel>().LoadBarcodeValue(models);
-                //var param = new NavigationParameters
-                //    {
-                //        { "model", models }
-                //    };
                 await _navigationService.NavigateAsync(new Uri("ValidateBarcodeView", UriKind.Relative), new NavigationParameters
                     {
                         { "model", models }
                     }, useModalNavigation: true, animated: false);
-
             }
             catch (Exception ex)
             {
@@ -336,16 +318,10 @@ namespace KegID.ViewModel
         {
             try
             {
-                //var param = new NavigationParameters
-                //    {
-                //        { "Tags", null },{ "TagsStr", string.Empty },{ "ViewTypeEnum", ViewTypeEnum.MaintainScanView }
-                //    };
                 await _navigationService.NavigateAsync(new Uri("CognexScanView", UriKind.Relative), new NavigationParameters
                     {
                         { "Tags", null },{ "TagsStr", string.Empty },{ "ViewTypeEnum", ViewTypeEnum.MaintainScanView }
                     }, useModalNavigation: true, animated: false);
-
-                //await BarcodeScanner.BarcodeScanAsync(_moveService, null, string.Empty, ViewTypeEnum.MaintainScanView.ToString(), _navigationService);
             }
             catch (Exception ex)
             {
@@ -437,10 +413,6 @@ namespace KegID.ViewModel
                     if (kegIDResponse.StatusCode == System.Net.HttpStatusCode.NoContent.ToString())
                     {
                         Loader.StopLoading();
-                        //var param = new NavigationParameters
-                        //{
-                        //    { "BarcodeModel", BarcodeCollection }
-                        //};
                         await _navigationService.NavigateAsync(new Uri("MaintainDetailView", UriKind.Relative), 
                             new NavigationParameters
                             {

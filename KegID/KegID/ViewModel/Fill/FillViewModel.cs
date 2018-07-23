@@ -323,10 +323,6 @@ namespace KegID.ViewModel
                 {
                     if (IsPalletze)
                     {
-                        //var param = new NavigationParameters
-                        //{
-                        //    { "AddPalletsTitle", "Filling " + SizeButtonTitle + " kegs with " + BatchButtonTitle + "\n" + DestinationTitle }
-                        //};
                         await _navigationService.NavigateAsync(new Uri("AddPalletsView", UriKind.Relative), new NavigationParameters
                         {
                             { "AddPalletsTitle", "Filling " + SizeButtonTitle + " kegs with " + BatchButtonTitle + "\n" + DestinationTitle }
@@ -334,10 +330,6 @@ namespace KegID.ViewModel
                     }
                     else
                     {
-                        //var param = new NavigationParameters
-                        //{
-                        //    { "IsPalletze",IsPalletze},{ "ManifestId","Filling " + SizeButtonTitle + " kegs with " + BatchButtonTitle + " " + DestinationTitle},
-                        //};
                         await _navigationService.NavigateAsync(new Uri("FillScanView", UriKind.Relative), new NavigationParameters
                         {
                             { "IsPalletze",IsPalletze},{ "ManifestId","Filling " + SizeButtonTitle + " kegs with " + BatchButtonTitle + " " + DestinationTitle},
@@ -359,15 +351,10 @@ namespace KegID.ViewModel
         {
             try
             {
-                //var param = new NavigationParameters
-                //    {
-                //        { "BrewerStockOn", true }
-                //    };
                 await _navigationService.NavigateAsync(new Uri("PartnersView", UriKind.Relative), new NavigationParameters
                     {
                         { "BrewerStockOn", true }
                     }, useModalNavigation: true, animated: false);
-
             }
             catch (Exception ex)
             {
@@ -383,7 +370,6 @@ namespace KegID.ViewModel
         private async void SizeCommandRecieverAsync()
         {
             await _navigationService.NavigateAsync(new Uri("SizeView", UriKind.Relative), useModalNavigation: true, animated: false);
-
         }
 
         public override void OnNavigatingTo(INavigationParameters parameters)

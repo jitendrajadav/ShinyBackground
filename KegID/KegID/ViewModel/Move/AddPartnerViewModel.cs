@@ -914,10 +914,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //var param = new NavigationParameters
-                //    {
-                //        { "AddressTitle", "Billing Address" }
-                //    };
                 await _navigationService.NavigateAsync(new Uri("EditAddressView", UriKind.Relative), new NavigationParameters
                     {
                         { "AddressTitle", "Billing Address" }
@@ -933,10 +929,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //var param = new NavigationParameters
-                //    {
-                //        { "AddressTitle", "Shipping Address" }
-                //    };
                 await _navigationService.NavigateAsync(new Uri("EditAddressView", UriKind.Relative), new NavigationParameters
                     {
                         { "AddressTitle", "Shipping Address" }
@@ -1033,12 +1025,6 @@ namespace KegID.ViewModel
                          {
                              realmDb.Add(partnerModel);
                          });
-                        //SimpleIoc.Default.GetInstance<PartnersViewModel>().PartnerCollection.Add(partnerModel);
-                        //SimpleIoc.Default.GetInstance<PartnersViewModel>().AllPartners.Add(partnerModel);
-                        //var param = new NavigationParameters
-                        //{
-                        //    { "partnerModel", partnerModel }
-                        //};
                         await _navigationService.GoBackAsync(new NavigationParameters
                         {
                             { "partnerModel", partnerModel }

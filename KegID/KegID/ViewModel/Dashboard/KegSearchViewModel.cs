@@ -132,15 +132,10 @@ namespace KegID.ViewModel
         {
             try
             {
-                //var param = new NavigationParameters
-                //    {
-                //        { "LoadKegSearchAsync", Barcode }
-                //    };
                 await _navigationService.NavigateAsync(new Uri("KegSearchedListView", UriKind.Relative), new NavigationParameters
                     {
                         { "LoadKegSearchAsync", Barcode }
                     }, useModalNavigation: true, animated: false);
-
             }
             catch (Exception ex)
             {
@@ -164,10 +159,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //var param = new NavigationParameters
-                //    {
-                //        { "Tags", null },{ "TagsStr", string.Empty },{ "ViewTypeEnum", ViewTypeEnum.KegSearchView }
-                //    };
                 await _navigationService.NavigateAsync(new Uri("CognexScanView", UriKind.Relative), new NavigationParameters
                     {
                         { "Tags", null },{ "TagsStr", string.Empty },{ "ViewTypeEnum", ViewTypeEnum.KegSearchView }
@@ -209,10 +200,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //var param = new NavigationParameters
-                //    {
-                //        { "LoadKegSearchAsync", barcodes }
-                //    };
                 await _navigationService.NavigateAsync(new Uri("KegSearchedListView", UriKind.Relative), new NavigationParameters
                     {
                         { "LoadKegSearchAsync", barcodes }

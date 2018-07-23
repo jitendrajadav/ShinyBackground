@@ -117,10 +117,6 @@ namespace KegID.ViewModel
             {
                 try
                 {
-                    //var param = new NavigationParameters
-                    //{
-                    //    { "Partner", model }
-                    //};
                     var formsNav = ((Prism.Common.IPageAware)_navigationService).Page;
                     var page = formsNav.Navigation.ModalStack.Last();
                     (page?.BindingContext as INavigationAware)?.OnNavigatingTo(new NavigationParameters

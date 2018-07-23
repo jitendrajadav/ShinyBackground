@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using KegID.Common;
 using KegID.Services;
 using System.Linq;
 using System.Collections.Generic;
@@ -320,10 +319,6 @@ namespace KegID.ViewModel
                 if (model != null)
                 {
                     ConstantManager.Partner = model;
-                    //var param = new NavigationParameters
-                    //{
-                    //    { "model", model }
-                    //};
                     await _navigationService.GoBackAsync(new NavigationParameters
                     {
                         { "model", model }
@@ -446,7 +441,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //base.Cleanup();
                 BrewerStockOn = false;
                 PartnerCollection = null;
             }

@@ -124,10 +124,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //var param = new NavigationParameters
-                //    {
-                //        { "KegStatusModel", model }
-                //    };
                 await _navigationService.NavigateAsync(new Uri("KegStatusView", UriKind.Relative), new NavigationParameters
                     {
                         { "KegStatusModel", model }

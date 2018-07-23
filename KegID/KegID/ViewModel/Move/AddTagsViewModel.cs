@@ -110,10 +110,6 @@ namespace KegID.ViewModel
                     var value = message;
                     if (value != null)
                     {
-                        //var param = new NavigationParameters
-                        //        {
-                        //            { "AddTags", ConstantManager.Tags }
-                        //        };
                         await _navigationService.GoBackAsync(new NavigationParameters
                                 {
                                     { "AddTags", ConstantManager.Tags }

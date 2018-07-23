@@ -90,15 +90,10 @@ namespace KegID.ViewModel
         {
             try
             {
-                //var param = new NavigationParameters
-                //    {
-                //        { "model", model }
-                //    };
                 await _navigationService.NavigateAsync(new Uri("KegStatusView", UriKind.Relative), new NavigationParameters
                     {
                         { "model", model }
                     }, useModalNavigation: true, animated: false);
-
             }
             catch (Exception ex)
             {

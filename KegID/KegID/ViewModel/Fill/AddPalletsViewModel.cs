@@ -198,15 +198,10 @@ namespace KegID.ViewModel
         {
             try
             {
-                //var param = new NavigationParameters
-                //    {
-                //        { "model", model }
-                //    };
                 await _navigationService.NavigateAsync(new Uri("FillScanView", UriKind.Relative), new NavigationParameters
                     {
                         { "model", model }
                     }, useModalNavigation: true, animated: false);
-
             }
             catch (Exception ex)
             {
@@ -306,10 +301,6 @@ namespace KegID.ViewModel
                         if (manifest.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                         {
                             Loader.StopLoading();
-                            //var param = new NavigationParameters
-                            //{
-                            //    { "manifest", manifest }
-                            //};
                             await _navigationService.NavigateAsync(new Uri("ManifestDetailView", UriKind.Relative), new NavigationParameters
                             {
                                 { "manifest", manifest }
@@ -348,10 +339,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //var param = new NavigationParameters
-                //    {
-                //        { "GenerateManifestIdAsync", "GenerateManifestIdAsync" }
-                //    };
                 await _navigationService.NavigateAsync(new Uri("FillScanView", UriKind.Relative), new NavigationParameters
                     {
                         { "GenerateManifestIdAsync", "GenerateManifestIdAsync" }
@@ -420,7 +407,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //base.Cleanup();
                 PalletCollection.Clear();
                 Kegs = default(string);
                 AddPalletToFillScanMsg msg = new AddPalletToFillScanMsg

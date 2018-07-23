@@ -451,12 +451,8 @@ namespace KegID.ViewModel
                 if (value.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                 {
                     Loader.StopLoading();
-
                     PrintPallet();
-                    //var param = new NavigationParameters
-                    //{
-                    //    { "LoadInfo", value }
-                    //};
+
                     await _navigationService.NavigateAsync(new Uri("PalletizeDetailView", UriKind.Relative), new NavigationParameters
                     {
                         { "LoadInfo", value }
@@ -552,10 +548,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //var param = new NavigationParameters
-                //    {
-                //        {"viewTypeEnum",ViewTypeEnum.PalletizeView }
-                //    };
                 await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), new NavigationParameters
                     {
                         {"viewTypeEnum",ViewTypeEnum.PalletizeView }

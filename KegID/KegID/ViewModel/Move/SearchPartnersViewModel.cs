@@ -157,7 +157,6 @@ namespace KegID.ViewModel
                 {
                     PartnerSearchCollection = value.PartnerModel;
                 }
-                
             }
             catch (Exception ex)
             {

@@ -714,15 +714,10 @@ namespace KegID.ViewModel
         {
             try
             {
-                //var param = new NavigationParameters
-                //    {
-                //        { "AssignInitialValueFromKegStatus", Barcode }, {"KegId",KegId }
-                //    };
                 await _navigationService.NavigateAsync(new Uri("MoveView", UriKind.Relative), new NavigationParameters
                     {
                         { "AssignInitialValueFromKegStatus", Barcode }, {"KegId",KegId }
                     }, useModalNavigation: true, animated: false);
-
             }
             catch (Exception ex)
             {
@@ -811,15 +806,10 @@ namespace KegID.ViewModel
         {
             try
             {
-                //var param = new NavigationParameters
-                //    {
-                //        { "AssignInitialValue", Barcode }, {"KegId",KegId },{"Owner",Owner },{"TypeName",TypeName },{"SizeName",SizeName }
-                //    };
                 await _navigationService.NavigateAsync(new Uri("EditKegView", UriKind.Relative), new NavigationParameters
                     {
                         { "AssignInitialValue", Barcode }, {"KegId",KegId },{"Owner",Owner },{"TypeName",TypeName },{"SizeName",SizeName }
                     }, useModalNavigation: true, animated: false);
-
             }
             catch (Exception ex)
             {
@@ -855,15 +845,10 @@ namespace KegID.ViewModel
         {
             try
             {
-                //var param = new NavigationParameters
-                //    {
-                //        { "Posision", Posision }
-                //    };
                 await _navigationService.NavigateAsync(new Uri("PartnerInfoMapView", UriKind.Relative), new NavigationParameters
                     {
                         { "Posision", Posision }
                     }, useModalNavigation: true, animated: false);
-
             }
             catch (Exception ex)
             {

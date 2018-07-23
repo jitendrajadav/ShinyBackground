@@ -97,15 +97,10 @@ namespace KegID.ViewModel
                 if (manifest.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                 {
                     Loader.StopLoading();
-                    //var param = new NavigationParameters
-                    //{
-                    //    { "manifest", manifest }
-                    //};
                     await _navigationService.NavigateAsync(new Uri("ManifestDetailView", UriKind.Relative), new NavigationParameters
                     {
                         { "manifest", manifest }
                     }, useModalNavigation: true, animated: false);
-
                 }
             }
             catch (Exception ex)

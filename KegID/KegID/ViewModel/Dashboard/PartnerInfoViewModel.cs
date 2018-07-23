@@ -423,10 +423,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //var param = new NavigationParameters
-                //    {
-                //        { "PartnerModel", PartnerModel }
-                //    };
                 await _navigationService.NavigateAsync(new Uri("MoveView", UriKind.Relative), new NavigationParameters
                     {
                         { "PartnerModel", PartnerModel }
@@ -442,10 +438,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //var param = new NavigationParameters
-                //    {
-                //        { "PartnerInfoModel", PartnerInfoModel }
-                //    };
                 ConstantManager.Position = new LocationInfo
                 {
                     Lat = PartnerInfoModel.Lat,
@@ -457,7 +449,6 @@ namespace KegID.ViewModel
                     {
                         { "PartnerInfoModel", PartnerInfoModel }
                     }, useModalNavigation: true, animated: false);
-
             }
             catch (Exception ex)
             {
@@ -573,15 +564,10 @@ namespace KegID.ViewModel
         {
             try
             {
-                //var param = new NavigationParameters
-                //    {
-                //        { "PartnerInfoModel", PartnerInfoModel }
-                //    };
                 await _navigationService.NavigateAsync(new Uri("AddPartnerView", UriKind.Relative), new NavigationParameters
                     {
                         { "PartnerInfoModel", PartnerInfoModel }
                     }, useModalNavigation: true, animated: false);
-
             }
             catch (Exception ex)
             {

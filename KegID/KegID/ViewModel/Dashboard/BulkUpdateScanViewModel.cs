@@ -412,10 +412,6 @@ namespace KegID.ViewModel
                 }
                 else
                 {
-                    //var param = new NavigationParameters
-                    //{
-                    //    { "model", model }
-                    //};
                     await _navigationService.NavigateAsync(new Uri("ScanInfoView", UriKind.Relative), new NavigationParameters
                     {
                         { "model", model }
@@ -444,10 +440,6 @@ namespace KegID.ViewModel
                 else
                 {
                     ConstantManager.IsFromScanned = true;
-                    //var param = new NavigationParameters
-                    //{
-                    //    {"viewTypeEnum",ViewTypeEnum.BulkUpdateScanView }
-                    //};
                     await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), new NavigationParameters
                     {
                         {"viewTypeEnum",ViewTypeEnum.BulkUpdateScanView }
@@ -464,10 +456,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //var param = new NavigationParameters
-                //    {
-                //        { "model", model }
-                //    };
                 await _navigationService.NavigateAsync(new Uri("ValidateBarcodeView", UriKind.Relative), new NavigationParameters
                     {
                         { "model", model }
@@ -484,10 +472,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //var param = new NavigationParameters
-                //    {
-                //        {"viewTypeEnum",ViewTypeEnum.BulkUpdateScanView }
-                //    };
                 await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), new NavigationParameters
                     {
                         {"viewTypeEnum",ViewTypeEnum.BulkUpdateScanView }
@@ -533,10 +517,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //var param = new NavigationParameters
-                //    {
-                //        { "Tags", Tags },{ "TagsStr", TagsStr },{ "ViewTypeEnum", ViewTypeEnum.BulkUpdateScanView }
-                //    };
                 await _navigationService.NavigateAsync(new Uri("CognexScanView", UriKind.Relative), new NavigationParameters
                     {
                         { "Tags", Tags },{ "TagsStr", TagsStr },{ "ViewTypeEnum", ViewTypeEnum.BulkUpdateScanView }
@@ -599,10 +579,6 @@ namespace KegID.ViewModel
                     var value = await _dashboardService.PostKegUploadAsync(model, AppSettings.User.SessionId, Configuration.MassUpdateKegList);
                     if (value.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                     {
-                        //var param = new NavigationParameters
-                        //{
-                        //    { "AssingSuccessMsgAsync", "AssingSuccessMsgAsync" }
-                        //};
                         await _navigationService.GoBackAsync(new NavigationParameters
                         {
                             { "AssingSuccessMsgAsync", "AssingSuccessMsgAsync" }

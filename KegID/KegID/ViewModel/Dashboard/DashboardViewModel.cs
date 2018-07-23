@@ -380,15 +380,10 @@ namespace KegID.ViewModel
         {
             try
             {
-                //var param = new NavigationParameters
-                //{
-                //    { "ManifestId", _uuidManager.GetUuId() }
-                //};
                 await _navigationService.NavigateAsync(new Uri("MoveView", UriKind.Relative), new NavigationParameters
                 {
                     { "ManifestId", _uuidManager.GetUuId() }
                 }, useModalNavigation: true, animated: false);
-
             }
             catch (Exception ex)
             {
@@ -436,10 +431,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //var param = new NavigationParameters
-                //    {
-                //        { "currentPage", 0 }
-                //    };
                 await _navigationService.NavigateAsync(new Uri("InventoryView", UriKind.Relative), new NavigationParameters
                     {
                         { "currentPage", 0 }
@@ -455,10 +446,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //var param = new NavigationParameters
-                //    {
-                //        { "currentPage", 1 }
-                //    };
                 await _navigationService.NavigateAsync(new Uri("InventoryView", UriKind.Relative), new NavigationParameters
                     {
                         { "currentPage", 1 }
@@ -474,10 +461,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //var param = new NavigationParameters
-                //    {
-                //        { "LoadDraftManifestAsync", "LoadDraftManifestAsync" }
-                //    };
                 await _navigationService.NavigateAsync(new Uri("ManifestsView", UriKind.Relative), new NavigationParameters
                     {
                         { "LoadDraftManifestAsync", "LoadDraftManifestAsync" }
@@ -516,10 +499,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //var param = new NavigationParameters
-                //    {
-                //        { "GenerateManifestIdAsync", "GenerateManifestIdAsync" }
-                //    };
                 await _navigationService.NavigateAsync(new Uri("PalletizeView", UriKind.Relative), new NavigationParameters
                     {
                         { "GenerateManifestIdAsync", "GenerateManifestIdAsync" }
@@ -547,10 +526,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //var param = new NavigationParameters
-                //    {
-                //        { "LoadMaintenanceTypeAsync", "LoadMaintenanceTypeAsync" }
-                //    };
                 await _navigationService.NavigateAsync(new Uri("MaintainView", UriKind.Relative), new NavigationParameters
                     {
                         { "LoadMaintenanceTypeAsync", "LoadMaintenanceTypeAsync" }

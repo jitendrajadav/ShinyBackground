@@ -221,10 +221,6 @@ namespace KegID.ViewModel
 
         private async void GridTappedCommandRecieverAsync()
         {
-            //var param = new NavigationParameters
-            //                {
-            //                    { "Barcode", Barcode }
-            //                };
             await _navigationService.NavigateAsync(new Uri("ContentTagsView", UriKind.Relative), new NavigationParameters
                             {
                                 { "Barcode", Barcode }
@@ -242,8 +238,6 @@ namespace KegID.ViewModel
 
                 var xmlInput =
 
-                //new XmlSerializerHelper()
-                //    .Serialize(manifestPrintModels);
                  new XmlSerializerHelper()
                     .GetSerializedString(manifestPrintModels);
 

@@ -160,10 +160,6 @@ namespace KegID.ViewModel
             };
             MessagingCenter.Send(message, "StartLongRunningTaskMessage");
 
-            //var param = new NavigationParameters
-            //        {
-            //            { "models", models }
-            //        };
             await _navigationService.GoBackAsync(new NavigationParameters
                     {
                         { "models", models }

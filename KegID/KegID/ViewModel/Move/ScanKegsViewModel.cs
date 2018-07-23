@@ -370,10 +370,6 @@ namespace KegID.ViewModel
                 else
                 {
                     ConstantManager.IsFromScanned = true;
-                    //var param = new NavigationParameters
-                    //{
-                    //    {"viewTypeEnum",ViewTypeEnum.ScanKegsView }
-                    //};
                     await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), new NavigationParameters
                     {
                         {"viewTypeEnum",ViewTypeEnum.ScanKegsView }
@@ -421,10 +417,6 @@ namespace KegID.ViewModel
                         }
                         else
                         {
-                            //var param = new NavigationParameters
-                            //{
-                            //    { "model", model }
-                            //};
                             await _navigationService.NavigateAsync(new Uri("ScanInfoView", UriKind.Relative), new NavigationParameters
                             {
                                 { "model", model }
@@ -443,10 +435,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //var param = new NavigationParameters
-                //            {
-                //                { "model", model }
-                //            };
                 await _navigationService.NavigateAsync(new Uri("ValidateBarcodeView", UriKind.Relative), new NavigationParameters
                             {
                                 { "model", model }
@@ -462,10 +450,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //var param = new NavigationParameters
-                //    {
-                //        {"viewTypeEnum",ViewTypeEnum.ScanKegsView }
-                //    };
                 await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), new NavigationParameters
                     {
                         {"viewTypeEnum",ViewTypeEnum.ScanKegsView }
@@ -534,7 +518,6 @@ namespace KegID.ViewModel
 
         private async Task NavigateNextPage()
         {
-            
             try
             {
                 ConstantManager.Barcodes = BarcodeCollection.ToList();
@@ -658,10 +641,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //var param = new NavigationParameters
-                //    {
-                //        { "Tags", ConstantManager.Tags },{ "TagsStr", TagsStr },{ "ViewTypeEnum", ViewTypeEnum.ScanKegsView }
-                //    };
                 await _navigationService.NavigateAsync(new Uri("CognexScanView", UriKind.Relative), new NavigationParameters
                     {
                         { "Tags", ConstantManager.Tags },{ "TagsStr", TagsStr },{ "ViewTypeEnum", ViewTypeEnum.ScanKegsView }

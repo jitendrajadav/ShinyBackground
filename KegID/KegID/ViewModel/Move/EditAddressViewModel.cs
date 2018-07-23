@@ -326,15 +326,6 @@ namespace KegID.ViewModel
                     IsShipping = true;
                 else
                     IsShipping = false;
-                //    SimpleIoc.Default.GetInstance<AddPartnerViewModel>().ShipAddress = address;
-                //else
-                //    SimpleIoc.Default.GetInstance<AddPartnerViewModel>().BillAddress = address;
-
-                //await Application.Current.MainPage.Navigation.PopModalAsync();
-                //var param = new NavigationParameters
-                //        {
-                //            { "EditAddress", address },{ "IsShipping", IsShipping }
-                //        };
                 await _navigationService.GoBackAsync(new NavigationParameters
                         {
                             { "EditAddress", address },{ "IsShipping", IsShipping }
@@ -368,13 +359,7 @@ namespace KegID.ViewModel
 
         private async void BackCommandRecieverAsync()
         {
-            //await Application.Current.MainPage.Navigation.PopModalAsync();
             await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
-        }
-
-        public override void OnNavigatedFrom(INavigationParameters parameters)
-        {
-
         }
 
         public override void OnNavigatingTo(INavigationParameters parameters)
