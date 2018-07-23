@@ -13,7 +13,7 @@ namespace KegID.Services
         public static LocationInfo Position { get; set; }
         public static bool IsFromScanned { get; set; }
         public static List<BarcodeModel> VerifiedBarcodes { get; set; }
-        public static IList<BarcodeModel> Barcodes { get; set; }
+        public static IList<BarcodeModel> Barcodes { get; set; } = new List<BarcodeModel>();
         public static string Barcode { get; set; }
         public static string ManifestId { get; set; }
         public static PartnerModel Partner { get; set; }

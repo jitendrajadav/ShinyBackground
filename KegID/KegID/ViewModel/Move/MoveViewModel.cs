@@ -415,10 +415,10 @@ namespace KegID.ViewModel
 
                 try
                 {
-                    RealmDb.Write(() =>
-                    {
-                        var Result = RealmDb.Add(manifestModel, true);
-                    });
+                    await RealmDb.WriteAsync((realmDb) =>
+                     {
+                         realmDb.Add(manifestModel, true);
+                     });
                 }
                 catch (Exception ex)
                 {
@@ -446,7 +446,7 @@ namespace KegID.ViewModel
         public async Task<ManifestModel> GenerateManifest()
         {
             return await _manifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.MOVE_MANIFEST, manifestId: ManifestId,
-                                barcodeCollection: ConstantManager.Barcodes, tags: Tags??new List<Tag>(), partnerModel: ConstantManager.Partner, newPallets: new List<NewPallet>(), 
+                                barcodeCollection: ConstantManager.Barcodes, tags: Tags ?? new List<Tag>(), partnerModel: ConstantManager.Partner, newPallets: new List<NewPallet>(),
                                 batches: new List<NewBatch>(), closedBatches: new List<string>(), validationStatus: 2, contents: Contents);
         }
 
@@ -491,10 +491,20 @@ namespace KegID.ViewModel
                 if (result == "Delete manifest")
                 {
                     await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+
+                    // Delete an object with a transaction
+                    //var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                    //var manifest = RealmDb.All<ManifestModel>().First(b => b.ManifestId == ManifestId);
+                    //using (var trans = RealmDb.BeginWrite())
+                    //{
+                    //    RealmDb.Remove(manifest);
+                    //    trans.Commit();
+                    //}
                 }
                 else
                 {
                     //Save Draft Logic here...
+                    SaveDraftCommandRecieverAsync();
                 }
             }
             catch (Exception ex)
