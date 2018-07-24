@@ -76,6 +76,7 @@
                     </Grid.ColumnDefinitions>
 
                     <Label
+                        Grid.ColumnSpan="3"
                         x:Name="lblBrand"
                         Style="{StaticResource LabelNormalStyle}"
                         Grid.Row="0"

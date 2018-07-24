@@ -501,8 +501,7 @@ namespace KegID.ViewModel
                 NewBatchModel.RecipeId = AppSettings.User.CompanyId;
                 NewBatchModel.SourceKey = "";
 
-                await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
-                await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+                await _navigationService.GoBackAsync(new NavigationParameters { { "NewBatchModel", NewBatchModel } }, useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {
@@ -552,7 +551,14 @@ namespace KegID.ViewModel
 
         public override void OnNavigatingTo(INavigationParameters parameters)
         {
-
+            if (parameters.ContainsKey("BrandModel"))
+            {
+                BrandModel = parameters.GetValue<BrandModel>("BrandModel");
+            }
+            if (parameters.ContainsKey("VolumeModel"))
+            {
+                VolumeChar = parameters.GetValue<string>("VolumeModel");
+            }
         }
 
         #endregion

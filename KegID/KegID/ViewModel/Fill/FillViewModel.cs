@@ -387,6 +387,10 @@ namespace KegID.ViewModel
             {
                 SizeButtonTitle = parameters.GetValue<string>("SizeModel");
             }
+            if (parameters.ContainsKey("NewBatchModel"))
+            {
+                NewBatchModel = parameters.GetValue<BatchModel>("NewBatchModel");
+            }
         }
         
         #endregion

@@ -121,6 +121,14 @@ namespace KegID.ViewModel
             }
         }
 
+        public async override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            if (parameters.ContainsKey("NewBatchModel"))
+            {
+                await _navigationService.GoBackAsync(parameters, useModalNavigation: true, animated: false);
+            }
+        }
+
         #endregion
     }
 }

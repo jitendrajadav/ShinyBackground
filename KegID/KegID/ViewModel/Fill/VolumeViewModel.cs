@@ -91,7 +91,7 @@ namespace KegID.ViewModel
             {
                 await _navigationService.GoBackAsync(new NavigationParameters
                     {
-                        { "model", model }
+                        { "VolumeModel", model }
                     }, useModalNavigation: true, animated: false);
             }
             catch (Exception ex)

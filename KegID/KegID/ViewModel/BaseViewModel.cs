@@ -26,14 +26,15 @@ namespace KegID.ViewModel
 
         }
 
+
         public virtual void OnNavigatedTo(INavigationParameters parameters)
         {
-
+            
         }
 
         public virtual void OnNavigatingTo(INavigationParameters parameters)
         {
-
+           
         }
     }
 }

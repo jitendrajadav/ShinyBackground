@@ -18,6 +18,7 @@ namespace KegID.Views
 
         public void OnNavigatedTo(INavigationParameters parameters)
         {
+
         }
 
         public void OnNavigatingTo(INavigationParameters parameters)
