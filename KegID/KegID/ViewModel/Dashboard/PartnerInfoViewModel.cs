@@ -377,6 +377,7 @@ namespace KegID.ViewModel
                 Crashes.TrackError(ex);
             }
         }
+
         public async Task SendEmail(string subject, string body, List<string> recipients)
         {
             try

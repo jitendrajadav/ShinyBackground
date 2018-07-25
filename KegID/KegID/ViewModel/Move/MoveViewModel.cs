@@ -627,6 +627,11 @@ namespace KegID.ViewModel
                 var KegId = parameters.GetValue<string>("KegId");
                 AssignInitialValue(KegId, Barcode, "1", string.Empty, string.Empty, true);
             }
+
+            if (parameters.ContainsKey("PartnerModel"))
+            {
+                Destination = parameters.GetValue<PossessorLocation>("PartnerModel").FullName;
+            }
         }
 
         #endregion
