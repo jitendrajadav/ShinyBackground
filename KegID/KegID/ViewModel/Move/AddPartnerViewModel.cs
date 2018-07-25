@@ -1086,6 +1086,22 @@ namespace KegID.ViewModel
                 else
                     BillAddress = parameters.GetValue<Address>("EditAddress");
             }
+            if (parameters.ContainsKey("PartnerInfoModel"))
+            {
+                var value = parameters.GetValue<PartnerInfoResponseModel>("PartnerInfoModel");
+                ShipAddress = value.ShipAddress;
+                BillAddress = value.BillAddress;
+                PartnerName = value.FullName;
+                SelectedPartnerType = PartnerTypeCollectioin.Where(x => x.Code == value.PartnerTypeCode).FirstOrDefault();
+                IsInternalOn = value.IsInternal;
+                IsSharedOn = value.IsShared;
+                ContactName = value.ContactName;
+                Phone = value.Phone;
+                ContactEmail = value.ContactEmail;
+                AccountNumber = value.AccountNumber;
+                ReferenceKey = value.ReferenceKey;
+                Notes = value.Notes;
+            }
         }
 
         #endregion
