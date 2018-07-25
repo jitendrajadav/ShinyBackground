@@ -151,7 +151,7 @@ namespace KegID.ViewModel
             LoginCommand = new DelegateCommand(LoginCommandRecieverAsync);
             KegIDCommand = new DelegateCommand(KegIDCommandReciever);
 
-            Username = "test@kegid.com";
+            Username = "test@kegid.com";//"demo@kegid.com";
             Password = "beer2keg";
             BgImage = _getIconByPlatform.GetIcon("kegbg.png");
         }
@@ -203,28 +203,28 @@ namespace KegID.ViewModel
                     catch (Exception ex)
                     {
                         Crashes.TrackError(ex);
-                    }                    
+                    }
                     try
                     {
                         if (!IsLogOut)
                         {
                             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
 
-                          await  RealmDb.WriteAsync((realmDb) =>
-                            {
-                                realmDb.Add(model.LoginModel);
-                            });
+                            await RealmDb.WriteAsync((realmDb) =>
+                             {
+                                 realmDb.Add(model.LoginModel);
+                             });
                             var vAllEmployees = RealmDb.All<LoginModel>();
 
                             var maintenance = await _maintainService.GetMaintainTypeAsync(AppSettings.User.SessionId);
 
-                          await RealmDb.WriteAsync((realmDb) =>
-                            {
-                                foreach (var item in maintenance.MaintainTypeReponseModel)
-                                {
-                                    realmDb.Add(item);
-                                }
-                            });
+                            await RealmDb.WriteAsync((realmDb) =>
+                              {
+                                  foreach (var item in maintenance.MaintainTypeReponseModel)
+                                  {
+                                      realmDb.Add(item);
+                                  }
+                              });
                             await _initializeMetaData.LoadInitializeMetaData();
                         }
                     }
@@ -236,7 +236,7 @@ namespace KegID.ViewModel
                 else
                 {
                     Loader.StopLoading();
-                   await _dialogService.DisplayAlertAsync("Error", "Error while login please check", "Ok");
+                    await _dialogService.DisplayAlertAsync("Error", "Error while login please check", "Ok");
                 }
             }
             catch (Exception ex)

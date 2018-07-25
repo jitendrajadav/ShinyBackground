@@ -410,7 +410,7 @@ namespace KegID.ViewModel
         private async void HomeCommandCommandRecieverAsync()
         {
             ConstantManager.Barcodes.Clear();
-            await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+            await _navigationService.GoBackAsync(new NavigationParameters { { "PalletHome", "PalletHome" } }, useModalNavigation: true, animated: false);
         }
 
         internal void LoadInfo(PalletResponseModel value)

@@ -99,7 +99,6 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DependencyServices\OpenAppService.cs" />
     <Compile Include="DependencyServices\PhoneDialerUWP.cs" />
     <Compile Include="DependencyServices\UWPCloseApplication.cs" />
     <Compile Include="DependencyServices\UWPUniqueIdentifier.cs" />

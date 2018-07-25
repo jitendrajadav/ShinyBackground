@@ -130,8 +130,8 @@
                     HorizontalOptions="FillAndExpand"/>
 
                 <StackLayout
+                    Spacing="0"
                     Grid.Row="3"
-                    Margin="10"
                     HorizontalOptions="FillAndExpand"
                     x:Name="maintenancePerformedStack"
                     Grid.Column="1"/>

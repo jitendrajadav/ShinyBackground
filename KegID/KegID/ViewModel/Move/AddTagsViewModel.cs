@@ -94,7 +94,6 @@ namespace KegID.ViewModel
         public AddTagsViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
-            HandleReceivedMessages();
         }
 
         #endregion
@@ -117,6 +116,11 @@ namespace KegID.ViewModel
                     }
                 });
             });
+        }
+
+        public override void OnNavigatingTo(INavigationParameters parameters)
+        {
+            HandleReceivedMessages();
         }
 
         public override void OnNavigatedFrom(INavigationParameters parameters)

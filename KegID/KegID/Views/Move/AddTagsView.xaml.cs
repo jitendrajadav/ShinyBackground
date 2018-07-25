@@ -164,20 +164,16 @@ namespace KegID.Views
                     case TagsTypeEnum.AssetType:
                         var assetType = LoadAssetTypeAsync();
                         valueEntry.ItemsSource = assetType.Select(x => x.AssetType).ToList();
-                        //valueEntry.ItemDisplayBinding = new Binding("AssetType");
                         break;
 
                     case TagsTypeEnum.Size:
                         var assetSize = LoadAssetSizeAsync();
                         valueEntry.ItemsSource = assetSize.Select(x => x.AssetSize).ToList();
-                        //valueEntry.ItemDisplayBinding = new Binding("AssetSize");
                         break;
 
                     case TagsTypeEnum.Contents:
                         var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                         var result = RealmDb.All<BrandModel>().ToList();
-
-                        //var result = SimpleIoc.Default.GetInstance<ScanKegsViewModel>().LoadBrandAsync();
                         valueEntry.ItemsSource = result.ToList();
                         valueEntry.ItemDisplayBinding = new Binding("BrandName");
                         break;
@@ -185,8 +181,6 @@ namespace KegID.Views
                     case TagsTypeEnum.Batch:
                         var RealmDb1 = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                         var Batchresult = RealmDb1.All<BatchModel>().ToList();
-
-                        //var Batchresult = await SimpleIoc.Default.GetInstance<BatchViewModel>().LoadBatchAsync();
                         valueEntry.ItemsSource = Batchresult.ToList();
                         valueEntry.ItemDisplayBinding = new Binding("BrandName");
                         break;

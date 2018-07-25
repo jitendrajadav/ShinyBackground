@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using KegID.Common;
 using KegID.Model;
 using KegID.Services;
 using Microsoft.AppCenter.Crashes;
@@ -189,7 +188,7 @@ namespace KegID.ViewModel
 
         private async void HomeCommandCommandRecieverAsync()
         {
-            await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+            await _navigationService.GoBackAsync(new NavigationParameters { { "MaintainHome", "MaintainHome" } }, useModalNavigation: true, animated: false);
         }
 
         internal void LoadInfo(IList<BarcodeModel> barcodeCollection)

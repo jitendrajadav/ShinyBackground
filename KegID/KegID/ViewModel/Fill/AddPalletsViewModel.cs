@@ -422,6 +422,14 @@ namespace KegID.ViewModel
             }
         }
 
+        public async override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            if (parameters.ContainsKey("MoveHome"))
+            {
+                await _navigationService.GoBackAsync(parameters, useModalNavigation: true, animated: false);
+            }
+        }
+
         public async override void OnNavigatingTo(INavigationParameters parameters)
         {
             if (parameters.ContainsKey("Barcodes"))

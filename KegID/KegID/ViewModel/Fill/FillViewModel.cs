@@ -372,6 +372,14 @@ namespace KegID.ViewModel
             await _navigationService.NavigateAsync(new Uri("SizeView", UriKind.Relative), useModalNavigation: true, animated: false);
         }
 
+        public async override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            if (parameters.ContainsKey("MoveHome"))
+            {
+                await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+            }
+        }
+
         public override void OnNavigatingTo(INavigationParameters parameters)
         {
             if (parameters.ContainsKey("model"))

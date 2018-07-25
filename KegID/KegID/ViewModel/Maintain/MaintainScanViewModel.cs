@@ -444,6 +444,14 @@ namespace KegID.ViewModel
             BarcodeCollection.Clear();
         }
 
+        public async override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            if (parameters.ContainsKey("MaintainHome"))
+            {
+                await _navigationService.GoBackAsync(parameters, useModalNavigation: true, animated: false);
+            }
+        }
+
         public override void OnNavigatedFrom(INavigationParameters parameters)
         {
             MessagingCenter.Unsubscribe<MaintainScanMessage>(this, "MaintainScanMessage");

@@ -845,6 +845,7 @@ namespace KegID.ViewModel
         {
             try
             {
+                ConstantManager.Position = Posision;
                 await _navigationService.NavigateAsync(new Uri("PartnerInfoMapView", UriKind.Relative), new NavigationParameters
                     {
                         { "Posision", Posision }
