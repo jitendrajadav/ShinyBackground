@@ -785,6 +785,10 @@ namespace KegID.ViewModel
             {
                 AssignSizesValue(ConstantManager.VerifiedBarcodes);
             }
+            if (parameters.ContainsKey("Barcode"))
+            {
+                BarcodeCollection.Add( new BarcodeModel { Barcode = parameters.GetValue<string>("Barcode"), Icon = ValidationOK });
+            }
         }
 
         #endregion

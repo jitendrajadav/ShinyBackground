@@ -11,6 +11,7 @@
         public const string NewPallet = "NewPallet";
         public const string PostedMaintenanceDone = "PostedMaintenanceDone";
         public const string NewKeg = "NewKeg";
+        public const string Keg = "Keg";
         public const string PostedMaintenanceAlert = "PostedMaintenanceAlert";
         public const string DeleteTypeMaintenanceAlert = "DeleteType";
         public const string KegUploadModel = "KegUploadModel";

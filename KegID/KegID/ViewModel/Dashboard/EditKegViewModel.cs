@@ -275,9 +275,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                var vlaue1 = SelectedItemType;
-                var vlaue5 = TagsStr;
-
                 var model = new KegRequestModel
                 {
                     KegId = KegId,
@@ -287,8 +284,8 @@ namespace KegID.ViewModel
                     Notes = "",
                     ReferenceKey = "",
                     ProfileId = "",
-                    AssetType = "",
-                    AssetSize = "",
+                    AssetType = SelectedItemType,
+                    AssetSize = Size,
                     AssetVolume = "",
                     AssetDescription = "",
                     OwnerSkuId = "",
@@ -308,7 +305,9 @@ namespace KegID.ViewModel
                     Colors = ""
                 };
 
-                var Result = await _dashboardService.PostKegAsync(model, AppSettings.User.SessionId, Configuration.NewKeg);
+                // It is earlier
+                //var Result = await _dashboardService.PostKegAsync(model, AppSettings.User.SessionId, Configuration.NewKeg);
+                var Result = await _dashboardService.PostKegAsync(model, KegId, AppSettings.User.SessionId, Configuration.Keg);
 
             }
             catch (Exception ex)
@@ -394,6 +393,14 @@ namespace KegID.ViewModel
             if (parameters.ContainsKey("SizeModel"))
             {
                 Size = parameters.GetValue<string>("SizeModel");
+            }
+            if (parameters.ContainsKey("AssignInitialValue"))
+            {
+                AssingInitialValue(parameters.GetValue<string>("KegId"),parameters.GetValue<string>("Barcode"), parameters.GetValue<string>("Owner"), parameters.GetValue<string>("TypeName"), parameters.GetValue<string>("SizeName"));
+            }
+            if (parameters.ContainsKey("AddTags"))
+            {
+                AssignAddTagsValue(ConstantManager.Tags, ConstantManager.TagsStr);
             }
         }
 

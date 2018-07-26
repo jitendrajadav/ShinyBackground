@@ -17,7 +17,7 @@ namespace KegID.Model
 
     public class AddMaintenanceAlertModel 
     {
-        public IList<AddMaintenanceAlertResponseModel> AddMaintenanceAlertResponseModel { get; }
+        public IList<AddMaintenanceAlertResponseModel> AddMaintenanceAlertResponseModel { get; set; }
         public KegIDResponse Response { get; set; }
     }
 }

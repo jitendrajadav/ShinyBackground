@@ -170,7 +170,6 @@ namespace KegID.Views
 
         private void DiscoveryHandler_OnDiscoveryFinished(object sender)
         {
-            System.Diagnostics.Debug.WriteLine("On Discovery Finished:" + connetionType.ToString());
 
             if (connetionType == ConnectionType.USB)
             {

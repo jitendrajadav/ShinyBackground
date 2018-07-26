@@ -260,11 +260,14 @@ namespace KegID.Services
             return model;
         }
 
-        public async Task<object> PostKegAsync(KegRequestModel model, string sessionId, string RequestType)
+        public async Task<object> PostKegAsync(KegRequestModel model, string kegId, string sessionId, string RequestType)
         {
             //ManifestModelGet manifestModelGet = new ManifestModelGet();
-
-            string url = string.Format(Configuration.PostKegUrl, sessionId);
+           
+            // It is earlier
+            //string url = string.Format(Configuration.PostKegUrl, sessionId);
+            string url = string.Format(Configuration.GetKegStatusByKegIdUrl, kegId, sessionId);
+            
             string content = JsonConvert.SerializeObject(model);
             var value = await App.kegIDClient.ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Send, content, RequestType: RequestType);
 
@@ -300,7 +303,8 @@ namespace KegID.Services
         {
             AddMaintenanceAlertModel outModel = new AddMaintenanceAlertModel
             {
-                Response = new KegIDResponse()
+                Response = new KegIDResponse(),
+                AddMaintenanceAlertResponseModel = new List<AddMaintenanceAlertResponseModel>()
             };
             try
             {
@@ -325,7 +329,8 @@ namespace KegID.Services
         {
             AddMaintenanceAlertModel outModel = new AddMaintenanceAlertModel
             {
-                Response = new KegIDResponse()
+                Response = new KegIDResponse(),
+                AddMaintenanceAlertResponseModel = new List<AddMaintenanceAlertResponseModel>()
             };
             try
             {

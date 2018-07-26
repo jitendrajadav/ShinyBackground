@@ -872,15 +872,15 @@ namespace KegID.ViewModel
                     ReminderDays = 5
                 };
 
-                Loader.StartLoading();
-                var result = await _dashboardService.PostMaintenanceAlertAsync(model, AppSettings.User.SessionId, Configuration.PostedMaintenanceAlert);
-
-                if (result.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
+                try
                 {
-                    Loader.StopLoading();
-                    await _dialogService.DisplayAlertAsync("Alert", "Alert adedd successfuly", "Ok");
-                    try
+                    Loader.StartLoading();
+                    var result = await _dashboardService.PostMaintenanceAlertAsync(model, AppSettings.User.SessionId, Configuration.PostedMaintenanceAlert);
+
+                    if (result.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                     {
+                        await _dialogService.DisplayAlertAsync("Alert", "Alert adedd successfuly", "Ok");
+
                         foreach (var item in result.AddMaintenanceAlertResponseModel)
                         {
                             var removal = MaintenanceCollection.Where(x => x.Id == item.MaintenanceType.Id).FirstOrDefault();
@@ -891,16 +891,16 @@ namespace KegID.ViewModel
                             }
                         }
                     }
-                    catch (Exception ex)
-                    {
-                         Crashes.TrackError(ex);
-                    }
-                    finally
-                    {
-                        Loader.StopLoading();
-                        SelectedMaintenance = null;
-                    }
-                } 
+                }
+                catch (Exception ex)
+                {
+                    Crashes.TrackError(ex);
+                }
+                finally
+                {
+                    Loader.StopLoading();
+                    SelectedMaintenance = null;
+                }
             }
         }
 

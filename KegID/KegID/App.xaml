@@ -21,6 +21,7 @@
             <Color x:Key="lightGrayPlaceholderColor">#D2D0DE</Color>
             <Color x:Key="scanCounterColor">#B7EB35</Color>
             <Color x:Key="textLabelColor">#555555</Color>
+            <Color x:Key="alertGoldColor">#F7D68A</Color>
 
             <OnPlatform x:Key="ButtonLargeFontSize" x:TypeArguments="x:Double" iOS="40" Android="40" WinPhone="40"/>
             <OnPlatform x:Key="LargeFontSize" x:TypeArguments="x:Double" iOS="30" Android="30" WinPhone="30"/>
