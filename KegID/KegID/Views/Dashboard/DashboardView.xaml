@@ -608,17 +608,17 @@
                     VerticalOptions="Center"
                     WidthRequest="10"
                     CornerRadius="5"
-                    BackgroundColor="Gray"
+                    BackgroundColor="LightGray"
                     />
 
                 <Button
                     Grid.Column="1"
                     HorizontalOptions="Start"
-                    HeightRequest="10"
+                    HeightRequest="16"
                     VerticalOptions="Center"
-                    WidthRequest="10"
-                    CornerRadius="5"
-                    BackgroundColor="LightGray"/>
+                    WidthRequest="16"
+                    CornerRadius="8"
+                    BackgroundColor="Gray"/>
 
                 <Label
                     Grid.ColumnSpan="2"

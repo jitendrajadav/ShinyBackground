@@ -6,6 +6,6 @@ namespace KegID.Services
     public interface IAccountService
     {
         Task<LoginResponseModel> AuthenticateAsync(string username, string password);
-        Task<object> DeviceCheckinAsync(DeviceCheckinRequestModel inputModel, string sessionId, string RequestType);
+        Task<KegIDResponse> DeviceCheckinAsync(DeviceCheckinRequestModel inputModel, string sessionId, string RequestType);
     }
 }

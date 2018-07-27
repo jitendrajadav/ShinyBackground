@@ -31,28 +31,12 @@ namespace KegID.Services
             return model;
         }
 
-        public async Task<object> DeviceCheckinAsync(DeviceCheckinRequestModel inModel, string sessionId, string RequestType)
+        public async Task<KegIDResponse> DeviceCheckinAsync(DeviceCheckinRequestModel inModel, string sessionId, string RequestType)
         {
-            DeviceCheckinResponseModel model = new DeviceCheckinResponseModel
-            {
-                Response = new KegIDResponse()
-            };
-
             string url = string.Format(Configuration.DeviceCheckinUrl, sessionId);
             string content = JsonConvert.SerializeObject(inModel);
             var value = await App.kegIDClient.ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Send, content, RequestType: RequestType);
-
-            model.DeviceCheckinModel = !string.IsNullOrEmpty(value.Response) ? App.kegIDClient.DeserializeObject<LoginModel>(value.Response) : new LoginModel();
-            try
-            {
-                model.Response.StatusCode = value.StatusCode;
-            }
-            catch (System.Exception ex)
-            {
-                Crashes.TrackError(ex);
-                return null;
-            }
-            return model;
+            return value;
         }
     }
 }

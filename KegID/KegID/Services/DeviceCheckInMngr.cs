@@ -3,6 +3,7 @@ using KegID.DependencyServices;
 using KegID.Model;
 using Prism.Navigation;
 using System;
+using System.Net;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 
@@ -21,7 +22,7 @@ namespace KegID.Services
 
         public async Task DeviceCheckInAync()
         {
-           var deviceInfo = Xamarin.Forms.DependencyService.Get<IUniqueIdentifier>().GetUniqueIdentifier();
+           //var deviceInfo = Xamarin.Forms.DependencyService.Get<IUniqueIdentifier>().GetUniqueIdentifier();
 
             DeviceCheckinRequestModel deviceModel = new DeviceCheckinRequestModel
             {
@@ -34,11 +35,7 @@ namespace KegID.Services
             };
 
             var value = await _accountService.DeviceCheckinAsync(deviceModel, AppSettings.User.SessionId, Configuration.DeviceCheckin);
-            if (false)
-            {
-
-            }
-            else
+            if (value.StatusCode != HttpStatusCode.NoContent.ToString())
             {
                 var param = new NavigationParameters
                     {

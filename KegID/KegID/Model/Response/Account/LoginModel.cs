@@ -47,11 +47,5 @@ namespace KegID.Model
         public LoginModel LoginModel { get; set; }
         public KegIDResponse Response { get; set; }
     }
-
-    public class DeviceCheckinResponseModel
-    {
-        public object DeviceCheckinModel { get; set; }
-        public KegIDResponse Response { get; set; }
-    }
 }
 

@@ -32,7 +32,7 @@
         /// </summary>
         public const string GetLoginUserUrl = ServiceUrl + "login/get?username={0}&password={1}";
         public const string GetUserUrl = ServiceUrl + "user/get?username={0}&password={1}";
-        public const string DeviceCheckinUrl = ServiceUrl + "DeviceCheckin/sessionId={0}";
+        public const string DeviceCheckinUrl = ServiceUrl + "DeviceCheckin/?sessionId={0}";
 
         /// <summary>
         /// Dashboard Service Url
