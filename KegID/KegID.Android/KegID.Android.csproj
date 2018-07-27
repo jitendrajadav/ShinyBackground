@@ -155,12 +155,8 @@
   <ItemGroup>
     <Compile Include="DependencyServices\AndroidCloseApplication.cs" />
     <Compile Include="DependencyServices\AndroidUniqueIdentifier.cs" />
-    <Compile Include="DependencyServices\FileStore.cs" />
-    <Compile Include="DependencyServices\FileUtilImplementation.cs" />
-    <Compile Include="DependencyServices\OpenAppService.cs" />
     <Compile Include="DependencyServices\PhoneDialerAndroid.cs" />
     <Compile Include="DependencyServices\PrinterDiscoveryImplementation.cs" />
-    <Compile Include="DependencyServices\Share.cs" />
     <Compile Include="DependencyServices\ShareFileImplementation.cs" />
     <Compile Include="DependencyServices\XsltContent.cs" />
     <Compile Include="MainActivity.cs" />
@@ -169,6 +165,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Services\LongRunningTaskService.cs" />
+    <Compile Include="SplashActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -454,6 +451,7 @@
   <ItemGroup>
     <Content Include="FodyWeavers.xml" />
     <AndroidResource Include="Resources\drawable\icon.png" />
+    <AndroidResource Include="Resources\drawable\splashscreen.png" />
   </ItemGroup>
   <ItemGroup>
     <ProguardConfiguration Include="proguard_custom.cfg" />

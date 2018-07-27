@@ -11,6 +11,10 @@ namespace KegID.Droid.DependencyServices
     {
         public UniqueIdentifierValue GetUniqueIdentifier()
         {
+            var context = Android.App.Application.Context;
+            var name = context.PackageManager.GetPackageInfo(context.PackageName, 0).VersionName;
+            var code = context.PackageManager.GetPackageInfo(context.PackageName, 0).VersionCode;
+
             UniqueIdentifierValue _UniqueIdentifier = new UniqueIdentifierValue
             {
                 Serial = Android.OS.Build.Serial,
@@ -21,7 +25,9 @@ namespace KegID.Droid.DependencyServices
                 Id = Android.OS.Build.Id,
                 Device = Android.OS.Build.Device,
                 Host = Android.OS.Build.Host,
-                Display = Android.OS.Build.Display
+                Display = Android.OS.Build.Display,
+                AppVersion = name,
+                OS = Android.OS.Build.Board
             };
 
             return _UniqueIdentifier;

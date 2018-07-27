@@ -16,6 +16,7 @@
         public const string DeleteTypeMaintenanceAlert = "DeleteType";
         public const string KegUploadModel = "KegUploadModel";
         public const string MassUpdateKegList = "MassUpdateKegList";
+        public const string DeviceCheckin = "DeviceCheckin";
         
 
         public const string StageAPIUrl = "https://stageapi.kegid.com/api/";
@@ -31,6 +32,7 @@
         /// </summary>
         public const string GetLoginUserUrl = ServiceUrl + "login/get?username={0}&password={1}";
         public const string GetUserUrl = ServiceUrl + "user/get?username={0}&password={1}";
+        public const string DeviceCheckinUrl = ServiceUrl + "DeviceCheckin/sessionId={0}";
 
         /// <summary>
         /// Dashboard Service Url

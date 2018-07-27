@@ -125,6 +125,7 @@ namespace KegID
             containerRegistry.Register<ISyncManager, SyncManager>();
             containerRegistry.Register<IUuidManager, UuidManager>();
             containerRegistry.Register<ICalcCheckDigitMngr, CalcCheckDigitMngr>();
+            containerRegistry.Register<IDeviceCheckInMngr, DeviceCheckInMngr>();
         }
 
 

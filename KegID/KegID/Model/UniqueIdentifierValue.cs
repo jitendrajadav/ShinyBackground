@@ -10,9 +10,9 @@
         public string Id { get; set; }
         public string Device { get; set; }
         public string Name { get; set; }
-        public string OSName { get; set; }
+        public string OS { get; set; }
         public string Host { get; set; }
         public string Display { get; set; }
-        public string Version { get; set; }
+        public string AppVersion { get; set; }
     }
 }

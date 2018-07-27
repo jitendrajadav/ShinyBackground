@@ -4,6 +4,7 @@ using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
+using Android.Views;
 using CarouselView.FormsPlugin.Android;
 using KegID.Droid.Services;
 using KegID.Messages;
@@ -16,13 +17,18 @@ using Xamarin.Forms;
 
 namespace KegID.Droid
 {
-    [Activity(Label = "KegID", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(Label = "KegID", Icon = "@drawable/icon", Theme = "@style/splashscreen", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, LaunchMode = LaunchMode.SingleTop)]
     public class MainActivity : Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         private static Activity myActivity;
 
         protected override void OnCreate(Bundle bundle)
         {
+            base.Window.RequestFeature(WindowFeatures.ActionBar);
+            // Name of the MainActivity theme you had there before.
+            // Or you can use global::Android.Resource.Style.ThemeHoloLight
+            base.SetTheme(Resource.Style.MainTheme);
+
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
 

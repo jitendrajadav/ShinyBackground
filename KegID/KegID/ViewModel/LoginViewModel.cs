@@ -1,4 +1,5 @@
 ﻿using KegID.Common;
+using KegID.DependencyServices;
 using KegID.LocalDb;
 using KegID.Model;
 using KegID.Services;
@@ -151,8 +152,9 @@ namespace KegID.ViewModel
             LoginCommand = new DelegateCommand(LoginCommandRecieverAsync);
             KegIDCommand = new DelegateCommand(KegIDCommandReciever);
 
-            Username = "test@kegid.com";//"demo@kegid.com";
-            Password = "beer2keg";
+            //Username = "test@kegid.com";//"demo@kegid.com";
+            //Password = "beer2keg";
+
             BgImage = _getIconByPlatform.GetIcon("kegbg.png");
         }
 
@@ -211,20 +213,20 @@ namespace KegID.ViewModel
                             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
 
                             await RealmDb.WriteAsync((realmDb) =>
-                             {
-                                 realmDb.Add(model.LoginModel);
-                             });
+                            {
+                                realmDb.Add(model.LoginModel);
+                            });
                             var vAllEmployees = RealmDb.All<LoginModel>();
 
                             var maintenance = await _maintainService.GetMaintainTypeAsync(AppSettings.User.SessionId);
 
                             await RealmDb.WriteAsync((realmDb) =>
-                              {
-                                  foreach (var item in maintenance.MaintainTypeReponseModel)
-                                  {
-                                      realmDb.Add(item);
-                                  }
-                              });
+                            {
+                                foreach (var item in maintenance.MaintainTypeReponseModel)
+                                {
+                                    realmDb.Add(item);
+                                }
+                            });
                             await _initializeMetaData.LoadInitializeMetaData();
                         }
                     }

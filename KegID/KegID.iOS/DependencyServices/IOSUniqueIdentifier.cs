@@ -29,7 +29,20 @@ namespace KegID.iOS.DependencyServices
 
         public UniqueIdentifierValue GetUniqueIdentifier()
         {
-            throw new NotImplementedException();
+            UniqueIdentifierValue _UniqueIdentifier = new UniqueIdentifierValue
+            {
+                //Serial = NSBundle.MainBundle.Serial,
+                //Model = NSBundle.MainBundle.Model,
+                //Manufacturer = NSBundle.MainBundle.Manufacturer,
+                //Product = NSBundle.MainBundle.Product,
+                //User = NSBundle.MainBundle.User,
+                //Id = NSBundle.MainBundle.Id,
+                //Device = NSBundle.MainBundle.Device,
+                //Host = NSBundle.MainBundle.Host,
+                //Display = NSBundle.MainBundle.Display
+            };
+
+            return _UniqueIdentifier;
         }
     }
 
