@@ -532,17 +532,21 @@ namespace KegID.ViewModel
             {
                 if (!string.IsNullOrEmpty(ConstantManager.Partner?.PartnerId))
                 {
-                    await _navigationService.NavigateAsync(new Uri("ScanKegsView", UriKind.Relative), new NavigationParameters
+                    if (ConstantManager.Barcode != null)
                     {
-                        { "Barcode", ConstantManager.Barcode }
-                    }, useModalNavigation: true, animated: false);
+                        await _navigationService.NavigateAsync(new Uri("ScanKegsView", UriKind.Relative), new NavigationParameters
+                        {
+                            { "Barcode", ConstantManager.Barcode }
+                        }, useModalNavigation: true, animated: false);
+                    }
+                    await _navigationService.NavigateAsync(new Uri("ScanKegsView", UriKind.Relative), useModalNavigation: true, animated: false);
                 }
                 else
                     await _dialogService.DisplayAlertAsync("Error", "Please select a destination first.", "Ok");
             }
             catch (Exception ex)
             {
-                 Crashes.TrackError(ex);
+                Crashes.TrackError(ex);
             }
         }
 
