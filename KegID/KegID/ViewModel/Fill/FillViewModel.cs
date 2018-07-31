@@ -6,6 +6,7 @@ using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
 using System;
+using System.Linq;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -382,22 +383,23 @@ namespace KegID.ViewModel
 
         public override void OnNavigatingTo(INavigationParameters parameters)
         {
-            if (parameters.ContainsKey("model"))
+            switch (parameters.Keys.FirstOrDefault())
             {
-                PartnerModel = parameters.GetValue<PartnerModel>("model");
-                ConstantManager.Partner = PartnerModel;
-            }
-            if (parameters.ContainsKey("BatchModel"))
-            {
-                NewBatchModel = parameters.GetValue<BatchModel>("BatchModel");
-            }
-            if (parameters.ContainsKey("SizeModel"))
-            {
-                SizeButtonTitle = parameters.GetValue<string>("SizeModel");
-            }
-            if (parameters.ContainsKey("NewBatchModel"))
-            {
-                NewBatchModel = parameters.GetValue<BatchModel>("NewBatchModel");
+                case "model":
+                    PartnerModel = parameters.GetValue<PartnerModel>("model");
+                    ConstantManager.Partner = PartnerModel;
+                    break;
+                case "BatchModel":
+                    NewBatchModel = parameters.GetValue<BatchModel>("BatchModel");
+                    break;
+                case "SizeModel":
+                    SizeButtonTitle = parameters.GetValue<string>("SizeModel");
+                    break;
+                case "NewBatchModel":
+                    NewBatchModel = parameters.GetValue<BatchModel>("NewBatchModel");
+                    break;
+                default:
+                    break;
             }
         }
         

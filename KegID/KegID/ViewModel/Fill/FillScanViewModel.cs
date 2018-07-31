@@ -762,31 +762,30 @@ namespace KegID.ViewModel
 
         public async override void OnNavigatingTo(INavigationParameters parameters)
         {
-            if (parameters.ContainsKey("Partner"))
+            switch (parameters.Keys.FirstOrDefault())
             {
-              await AssignValidatedValueAsync(parameters.GetValue<Partner>("Partner"));
-            }
-            if (parameters.ContainsKey("IsPalletze"))
-            {
-                IsPalletze = parameters.GetValue<bool>("IsPalletze");
-                ManifestId = parameters.GetValue<string>("ManifestId");
-            }
-            if (parameters.ContainsKey("model"))
-            {
-                GenerateManifestIdAsync(parameters.GetValue<PalletModel>("model"));
-            }
-            if (parameters.ContainsKey("GenerateManifestIdAsync"))
-            {
-                GenerateManifestIdAsync(null);
-            }
-            if (parameters.ContainsKey("models"))
-            {
-                AssignBarcodeScannerValue(parameters.GetValue<IList<BarcodeModel>>("models"));
-            }
-            if (parameters.ContainsKey("AddTags"))
-            {
-                Tags = ConstantManager.Tags;
-                TagsStr = ConstantManager.TagsStr;
+                case "Partner":
+                    await AssignValidatedValueAsync(parameters.GetValue<Partner>("Partner"));
+                    break;
+                case "IsPalletze":
+                    IsPalletze = parameters.GetValue<bool>("IsPalletze");
+                    ManifestId = parameters.GetValue<string>("ManifestId");
+                    break;
+                case "model":
+                    GenerateManifestIdAsync(parameters.GetValue<PalletModel>("model"));
+                    break;
+                case "GenerateManifestIdAsync":
+                    GenerateManifestIdAsync(null);
+                    break;
+                case "models":
+                    AssignBarcodeScannerValue(parameters.GetValue<IList<BarcodeModel>>("models"));
+                    break;
+                case "AddTags":
+                    Tags = ConstantManager.Tags;
+                    TagsStr = ConstantManager.TagsStr;
+                    break;
+                default:
+                    break;
             }
         }
 

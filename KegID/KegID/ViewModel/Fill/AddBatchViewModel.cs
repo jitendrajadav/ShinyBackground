@@ -6,6 +6,7 @@ using Prism.Commands;
 using Prism.Navigation;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace KegID.ViewModel
 {
@@ -551,13 +552,16 @@ namespace KegID.ViewModel
 
         public override void OnNavigatingTo(INavigationParameters parameters)
         {
-            if (parameters.ContainsKey("BrandModel"))
+            switch (parameters.Keys.FirstOrDefault())
             {
-                BrandModel = parameters.GetValue<BrandModel>("BrandModel");
-            }
-            if (parameters.ContainsKey("VolumeModel"))
-            {
-                VolumeChar = parameters.GetValue<string>("VolumeModel");
+                case "BrandModel":
+                    BrandModel = parameters.GetValue<BrandModel>("BrandModel");
+                    break;
+                case "VolumeModel":
+                    VolumeChar = parameters.GetValue<string>("VolumeModel");
+                    break;
+                default:
+                    break;
             }
         }
 

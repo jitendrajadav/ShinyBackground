@@ -460,13 +460,16 @@ namespace KegID.ViewModel
 
         public async override void OnNavigatingTo(INavigationParameters parameters)
         {
-            if (parameters.ContainsKey("Partner"))
+            switch (parameters.Keys.FirstOrDefault())
             {
-                await AssignValidatedValueAsync(parameters.GetValue<Partner>("Partner"));
-            }
-            if (parameters.ContainsKey("models"))
-            {
-                AssignBarcodeScannerValue(parameters.GetValue<IList<BarcodeModel>>("models"));
+                case "Partner":
+                    await AssignValidatedValueAsync(parameters.GetValue<Partner>("Partner"));
+                    break;
+                case "models":
+                    AssignBarcodeScannerValue(parameters.GetValue<IList<BarcodeModel>>("models"));
+                    break;
+                default:
+                    break;
             }
         }
 

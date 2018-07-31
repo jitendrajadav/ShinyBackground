@@ -630,21 +630,22 @@ namespace KegID.ViewModel
         public override void OnNavigatingTo(INavigationParameters parameters)
         {
             if (ConstantManager.Barcodes != null && ConstantManager.Barcodes.Count > 0)
-            {
                 AssingScanKegsValue(ConstantManager.Barcodes);
-            }
-            if (parameters.ContainsKey("model"))
+
+            switch (parameters.Keys.FirstOrDefault())
             {
-                AssignPartnerValue(parameters.GetValue<PartnerModel>("model"));
-            }
-            if (parameters.ContainsKey("GenerateManifestIdAsync"))
-            {
-                GenerateManifestIdAsync(null);
-            }
-            if (parameters.ContainsKey("AddTags"))
-            {
-                AddInfoTitle = ConstantManager.TagsStr;
-                Tags = ConstantManager.Tags;
+                case "model":
+                    AssignPartnerValue(parameters.GetValue<PartnerModel>("model"));
+                    break;
+                case "GenerateManifestIdAsync":
+                    GenerateManifestIdAsync(null);
+                    break;
+                case "AddTags":
+                    AddInfoTitle = ConstantManager.TagsStr;
+                    Tags = ConstantManager.Tags;
+                    break;
+                default:
+                    break;
             }
         }
 

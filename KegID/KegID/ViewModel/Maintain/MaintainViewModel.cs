@@ -216,13 +216,16 @@ namespace KegID.ViewModel
 
         public override void OnNavigatingTo(INavigationParameters parameters)
         {
-            if (parameters.ContainsKey("model"))
+            switch (parameters.Keys.FirstOrDefault())
             {
-                PartnerModel= parameters.GetValue<PartnerModel>("model");
-            }
-            if (parameters.ContainsKey("Cleanup"))
-            {
-                Cleanup();
+                case "model":
+                    PartnerModel = parameters.GetValue<PartnerModel>("model");
+                    break;
+                case "Cleanup":
+                    Cleanup();
+                    break;
+                default:
+                    break;
             }
         }
 

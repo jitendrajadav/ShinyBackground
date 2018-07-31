@@ -432,21 +432,22 @@ namespace KegID.ViewModel
 
         public async override void OnNavigatingTo(INavigationParameters parameters)
         {
-            if (parameters.ContainsKey("Barcodes"))
+            switch (parameters.Keys.FirstOrDefault())
             {
-                AssignFillScanValue(parameters.GetValue<IList<BarcodeModel>>("Barcodes"), parameters.GetValue<string>("ManifestId"));
-            }
-            if (parameters.ContainsKey("AddPalletsTitle"))
-            {
-                AddPalletsTitle = parameters.GetValue<string>("AddPalletsTitle");
-            }
-            if (parameters.ContainsKey("SubmitCommandRecieverAsync"))
-            {
-                SubmitCommandRecieverAsync();
-            }
-            if (parameters.ContainsKey("AssignValueToAddPalletAsync"))
-            {
-               await AssignValueToAddPalletAsync(parameters.GetValue<string>("AssignValueToAddPalletAsync"), parameters.GetValue<IList<BarcodeModel>>("BarcodesCollection"));
+                case "Barcodes":
+                    AssignFillScanValue(parameters.GetValue<IList<BarcodeModel>>("Barcodes"), parameters.GetValue<string>("ManifestId"));
+                    break;
+                case "AddPalletsTitle":
+                    AddPalletsTitle = parameters.GetValue<string>("AddPalletsTitle");
+                    break;
+                case "SubmitCommandRecieverAsync":
+                    SubmitCommandRecieverAsync();
+                    break;
+                case "AssignValueToAddPalletAsync":
+                    await AssignValueToAddPalletAsync(parameters.GetValue<string>("AssignValueToAddPalletAsync"), parameters.GetValue<IList<BarcodeModel>>("BarcodesCollection"));
+                    break;
+                default:
+                    break;
             }
         }
 

@@ -512,13 +512,16 @@ namespace KegID.ViewModel
 
         public override void OnNavigatingTo(INavigationParameters parameters)
         {
-            if (parameters.ContainsKey("LoadInfo"))
+            switch (parameters.Keys.FirstOrDefault())
             {
-                LoadInfo(parameters.GetValue<PalletResponseModel>("LoadInfo"));
-            }
-            if (parameters.ContainsKey("model"))
-            {
-                AssingIntialValueAsync(parameters.GetValue<SearchPalletResponseModel>("model"),true);
+                case "LoadInfo":
+                    LoadInfo(parameters.GetValue<PalletResponseModel>("LoadInfo"));
+                    break;
+                case "model":
+                    AssingIntialValueAsync(parameters.GetValue<SearchPalletResponseModel>("model"), true);
+                    break;
+                default:
+                    break;
             }
         }
 

@@ -319,13 +319,16 @@ namespace KegID.ViewModel
 
         public override void OnNavigatingTo(INavigationParameters parameters)
         {
-            if (parameters.ContainsKey("manifest"))
+            switch (parameters.Keys.FirstOrDefault())
             {
-                AssignInitialValue(parameters.GetValue<ManifestResponseModel>("manifest"),string.Empty);
-            }
-            if (parameters.ContainsKey("AssignInitialValue"))
-            {
-                AssignInitialValue(parameters.GetValue<ManifestResponseModel>("AssignInitialValue"), string.Empty);
+                case "manifest":
+                    AssignInitialValue(parameters.GetValue<ManifestResponseModel>("manifest"), string.Empty);
+                    break;
+                case "AssignInitialValue":
+                    AssignInitialValue(parameters.GetValue<ManifestResponseModel>("AssignInitialValue"), string.Empty);
+                    break;
+                default:
+                    break;
             }
         }
 

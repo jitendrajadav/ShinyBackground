@@ -1079,29 +1079,38 @@ namespace KegID.ViewModel
 
         public override void OnNavigatingTo(INavigationParameters parameters)
         {
-            if (parameters.ContainsKey("EditAddress"))
+            switch (parameters.Keys.FirstOrDefault())
             {
-                if (parameters.GetValue<bool>("IsShipping"))
-                    ShipAddress = parameters.GetValue<Address>("EditAddress");
-                else
-                    BillAddress = parameters.GetValue<Address>("EditAddress");
+                case "EditAddress":
+                    if (parameters.GetValue<bool>("IsShipping"))
+                        ShipAddress = parameters.GetValue<Address>("EditAddress");
+                    else
+                        BillAddress = parameters.GetValue<Address>("EditAddress");
+                    break;
+                case "PartnerInfoModel":
+                    AssignValueAddress(parameters);
+                    break;
+                default:
+                    break;
             }
-            if (parameters.ContainsKey("PartnerInfoModel"))
-            {
-                var value = parameters.GetValue<PartnerInfoResponseModel>("PartnerInfoModel");
-                ShipAddress = value.ShipAddress;
-                BillAddress = value.BillAddress;
-                PartnerName = value.FullName;
-                SelectedPartnerType = PartnerTypeCollectioin.Where(x => x.Code == value.PartnerTypeCode).FirstOrDefault();
-                IsInternalOn = value.IsInternal;
-                IsSharedOn = value.IsShared;
-                ContactName = value.ContactName;
-                Phone = value.Phone;
-                ContactEmail = value.ContactEmail;
-                AccountNumber = value.AccountNumber;
-                ReferenceKey = value.ReferenceKey;
-                Notes = value.Notes;
-            }
+
+        }
+
+        private void AssignValueAddress(INavigationParameters parameters)
+        {
+            var value = parameters.GetValue<PartnerInfoResponseModel>("PartnerInfoModel");
+            ShipAddress = value.ShipAddress;
+            BillAddress = value.BillAddress;
+            PartnerName = value.FullName;
+            SelectedPartnerType = PartnerTypeCollectioin.Where(x => x.Code == value.PartnerTypeCode).FirstOrDefault();
+            IsInternalOn = value.IsInternal;
+            IsSharedOn = value.IsShared;
+            ContactName = value.ContactName;
+            Phone = value.Phone;
+            ContactEmail = value.ContactEmail;
+            AccountNumber = value.AccountNumber;
+            ReferenceKey = value.ReferenceKey;
+            Notes = value.Notes;
         }
 
         #endregion

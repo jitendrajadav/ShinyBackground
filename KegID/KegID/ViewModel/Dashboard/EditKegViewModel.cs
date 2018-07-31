@@ -7,6 +7,7 @@ using Prism.Navigation;
 using Prism.Services;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace KegID.ViewModel
 {
@@ -386,21 +387,22 @@ namespace KegID.ViewModel
 
         public override void OnNavigatingTo(INavigationParameters parameters)
         {
-            if (parameters.ContainsKey("model"))
+            switch (parameters.Keys.FirstOrDefault())
             {
-                PartnerModel = parameters.GetValue<PartnerModel>("model");
-            }
-            if (parameters.ContainsKey("SizeModel"))
-            {
-                Size = parameters.GetValue<string>("SizeModel");
-            }
-            if (parameters.ContainsKey("AssignInitialValue"))
-            {
-                AssingInitialValue(parameters.GetValue<string>("KegId"),parameters.GetValue<string>("Barcode"), parameters.GetValue<string>("Owner"), parameters.GetValue<string>("TypeName"), parameters.GetValue<string>("SizeName"));
-            }
-            if (parameters.ContainsKey("AddTags"))
-            {
-                AssignAddTagsValue(ConstantManager.Tags, ConstantManager.TagsStr);
+                case "model":
+                    PartnerModel = parameters.GetValue<PartnerModel>("model");
+                    break;
+                case "SizeModel":
+                    Size = parameters.GetValue<string>("SizeModel");
+                    break;
+                case "AssignInitialValue":
+                    AssingInitialValue(parameters.GetValue<string>("KegId"), parameters.GetValue<string>("Barcode"), parameters.GetValue<string>("Owner"), parameters.GetValue<string>("TypeName"), parameters.GetValue<string>("SizeName"));
+                    break;
+                case "AddTags":
+                    AssignAddTagsValue(ConstantManager.Tags, ConstantManager.TagsStr);
+                    break;
+                default:
+                    break;
             }
         }
 

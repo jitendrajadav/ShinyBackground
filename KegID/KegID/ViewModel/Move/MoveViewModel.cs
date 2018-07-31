@@ -606,35 +606,33 @@ namespace KegID.ViewModel
             if (ConstantManager.Barcodes != null && ConstantManager.Barcodes.Count > 0)
                 AssingScanKegsValue(ConstantManager.Barcodes.ToList(), ConstantManager.Tags, ConstantManager.Contents);
 
-            if (parameters.ContainsKey("ManifestId"))
+            switch (parameters.Keys.FirstOrDefault())
             {
-                ManifestId = parameters.GetValue<string>("ManifestId");
-            }
-            if (parameters.ContainsKey("model"))
-            {
-                Destination = ConstantManager.Partner.FullName;
-                IsRequiredVisible = false;
-                IsSaveDraftVisible = true;
-            }
-            if (parameters.ContainsKey("AddTags"))
-            {
-                AssignAddTagsValue(ConstantManager.Tags, ConstantManager.TagsStr);
-            }
-            if (parameters.ContainsKey("AssignInitialValue"))
-            {
-                var model = parameters.GetValue<ManifestModel>("AssignInitialValue");
-                AssignInitialValue(model.ManifestId, model.ManifestItems.Count > 0 ? model.ManifestItems.FirstOrDefault().Barcode : string.Empty, model.ManifestItemsCount > 0 ? model.ManifestItemsCount.ToString() : string.Empty, model.OwnerName, model.ReceiverId, true);
-            }
-            if (parameters.ContainsKey("AssignInitialValueFromKegStatus"))
-            {
-                var Barcode = parameters.GetValue<string>("AssignInitialValueFromKegStatus");
-                var KegId = parameters.GetValue<string>("KegId");
-                AssignInitialValue(KegId, Barcode, "1", string.Empty, string.Empty, true);
-            }
-
-            if (parameters.ContainsKey("PartnerModel"))
-            {
-                Destination = parameters.GetValue<PossessorLocation>("PartnerModel").FullName;
+                case "ManifestId":
+                    ManifestId = parameters.GetValue<string>("ManifestId");
+                    break;
+                case "model":
+                    Destination = ConstantManager.Partner.FullName;
+                    IsRequiredVisible = false;
+                    IsSaveDraftVisible = true;
+                    break;
+                case "AddTags":
+                    AssignAddTagsValue(ConstantManager.Tags, ConstantManager.TagsStr);
+                    break;
+                case "AssignInitialValue":
+                    var model = parameters.GetValue<ManifestModel>("AssignInitialValue");
+                    AssignInitialValue(model.ManifestId, model.ManifestItems.Count > 0 ? model.ManifestItems.FirstOrDefault().Barcode : string.Empty, model.ManifestItemsCount > 0 ? model.ManifestItemsCount.ToString() : string.Empty, model.OwnerName, model.ReceiverId, true);
+                    break;
+                case "AssignInitialValueFromKegStatus":
+                    var Barcode = parameters.GetValue<string>("AssignInitialValueFromKegStatus");
+                    var KegId = parameters.GetValue<string>("KegId");
+                    AssignInitialValue(KegId, Barcode, "1", string.Empty, string.Empty, true);
+                    break;
+                case "PartnerModel":
+                    Destination = parameters.GetValue<PossessorLocation>("PartnerModel").FullName;
+                    break;
+                default:
+                    break;
             }
         }
 
