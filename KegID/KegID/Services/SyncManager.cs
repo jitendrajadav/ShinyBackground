@@ -16,7 +16,7 @@ namespace KegID.Services
             Connectivity.ConnectivityChanged += Connectivity_ConnectivityChanged;
         }
 
-        private void Connectivity_ConnectivityChanged(ConnectivityChangedEventArgs e)
+        private void Connectivity_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
         {
             var access = e.NetworkAccess;
             var profiles = e.Profiles;
