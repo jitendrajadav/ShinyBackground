@@ -769,25 +769,25 @@ namespace KegID.ViewModel
 
         public async override void OnNavigatingTo(INavigationParameters parameters)
         {
-            if (parameters.ContainsKey("Partner"))
+            switch (parameters.Keys.FirstOrDefault())
             {
-                await AssignValidatedValueAsync(parameters.GetValue<Partner>("Partner"));
-            }
-            if (parameters.ContainsKey("AddTags"))
-            {
-                AssignAddTagsValue(ConstantManager.Tags, ConstantManager.TagsStr);
-            }
-            if (parameters.ContainsKey("models"))
-            {
-                AssignBarcodeScannerValue(parameters.GetValue<IList<BarcodeModel>>("models"));
-            }
-            if (parameters.ContainsKey("AssignSizesValue"))
-            {
-                AssignSizesValue(ConstantManager.VerifiedBarcodes);
-            }
-            if (parameters.ContainsKey("Barcode"))
-            {
-                BarcodeCollection.Add( new BarcodeModel { Barcode = parameters.GetValue<string>("Barcode"), Icon = ValidationOK });
+                case "Partner":
+                    await AssignValidatedValueAsync(parameters.GetValue<Partner>("Partner"));
+                    break;
+                case "AddTags":
+                    AssignAddTagsValue(ConstantManager.Tags, ConstantManager.TagsStr);
+                    break;
+                case "models":
+                    AssignBarcodeScannerValue(parameters.GetValue<IList<BarcodeModel>>("models"));
+                    break;
+                case "AssignSizesValue":
+                    AssignSizesValue(ConstantManager.VerifiedBarcodes);
+                    break;
+                case "Barcode":
+                    BarcodeCollection.Add(new BarcodeModel { Barcode = parameters.GetValue<string>("Barcode"), Icon = ValidationOK });
+                    break;
+                default:
+                    break;
             }
         }
 
