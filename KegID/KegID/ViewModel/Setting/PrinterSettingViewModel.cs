@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
+using KegID.Common;
 using KegID.Services;
 using Prism.Commands;
 using Prism.Navigation;
+using Xamarin.Essentials;
 
 namespace KegID.ViewModel
 {
@@ -151,6 +153,210 @@ namespace KegID.ViewModel
 
         #endregion
 
+        #region PrintEveryManifest
+
+        /// <summary>
+        /// The <see cref="PrintEveryManifest" /> property's name.
+        /// </summary>
+        public const string PrintEveryManifestPropertyName = "PrintEveryManifest";
+
+        private bool _PrintEveryManifest = false;
+
+        /// <summary>
+        /// Sets and gets the PrintEveryManifest property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public bool PrintEveryManifest
+        {
+            get
+            {
+                return _PrintEveryManifest;
+            }
+
+            set
+            {
+                if (_PrintEveryManifest == value)
+                {
+                    return;
+                }
+
+                _PrintEveryManifest = value;
+                RaisePropertyChanged(PrintEveryManifestPropertyName);
+            }
+        }
+
+        #endregion
+
+        #region PrintEveryPallet
+
+        /// <summary>
+        /// The <see cref="PrintEveryPallet" /> property's name.
+        /// </summary>
+        public const string PrintEveryPalletPropertyName = "PrintEveryPallet";
+
+        private bool _PrintEveryPallet = false;
+
+        /// <summary>
+        /// Sets and gets the PrintEveryPallet property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public bool PrintEveryPallet
+        {
+            get
+            {
+                return _PrintEveryPallet;
+            }
+
+            set
+            {
+                if (_PrintEveryPallet == value)
+                {
+                    return;
+                }
+
+                _PrintEveryPallet = value;
+                RaisePropertyChanged(PrintEveryPalletPropertyName);
+            }
+        }
+
+        #endregion
+
+        #region PalletLabelCopies
+
+        /// <summary>
+        /// The <see cref="PalletLabelCopies" /> property's name.
+        /// </summary>
+        public const string PalletLabelCopiesPropertyName = "PalletLabelCopies";
+
+        private int _PalletLabelCopies = 1;
+
+        /// <summary>
+        /// Sets and gets the PalletLabelCopies property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public int PalletLabelCopies
+        {
+            get
+            {
+                return _PalletLabelCopies;
+            }
+
+            set
+            {
+                if (_PalletLabelCopies == value)
+                {
+                    return;
+                }
+
+                _PalletLabelCopies = value;
+                RaisePropertyChanged(PalletLabelCopiesPropertyName);
+            }
+        }
+
+        #endregion
+
+        #region BeepOnValidScans
+
+        /// <summary>
+        /// The <see cref="BeepOnValidScans" /> property's name.
+        /// </summary>
+        public const string BeepOnValidScansPropertyName = "BeepOnValidScans";
+
+        private bool _BeepOnValidScans = false;
+
+        /// <summary>
+        /// Sets and gets the BeepOnValidScans property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public bool BeepOnValidScans
+        {
+            get
+            {
+                return _BeepOnValidScans;
+            }
+
+            set
+            {
+                if (_BeepOnValidScans == value)
+                {
+                    return;
+                }
+
+                _BeepOnValidScans = value;
+                RaisePropertyChanged(BeepOnValidScansPropertyName);
+            }
+        }
+
+        #endregion
+
+        #region BatchScan
+
+        /// <summary>
+        /// The <see cref="BatchScan" /> property's name.
+        /// </summary>
+        public const string BatchScanPropertyName = "BatchScan";
+
+        private bool _BatchScan = false;
+
+        /// <summary>
+        /// Sets and gets the BatchScan property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public bool BatchScan
+        {
+            get
+            {
+                return _BatchScan;
+            }
+
+            set
+            {
+                if (_BatchScan == value)
+                {
+                    return;
+                }
+
+                _BatchScan = value;
+                RaisePropertyChanged(BatchScanPropertyName);
+            }
+        }
+
+        #endregion
+
+        #region Version
+
+        /// <summary>
+        /// The <see cref="Version" /> property's name.
+        /// </summary>
+        public const string VersionPropertyName = "Version";
+
+        private string _Version = string.Empty;
+
+        /// <summary>
+        /// Sets and gets the Version property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public string Version
+        {
+            get
+            {
+                return _Version;
+            }
+
+            set
+            {
+                if (_Version == value)
+                {
+                    return;
+                }
+
+                _Version = value;
+                RaisePropertyChanged(VersionPropertyName);
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Commands
@@ -173,6 +379,8 @@ namespace KegID.ViewModel
             SaveCommand = new DelegateCommand(SaveCommandRecieverAsync);
             SelectPrinterCommand = new DelegateCommand(SelectPrinterCommandRecieverAsync);
             PrinterTestCommand = new DelegateCommand(PrinterTestCommandReciever);
+
+            Version = "Version " + AppInfo.VersionString;
         }
 
         #endregion
@@ -185,8 +393,9 @@ namespace KegID.ViewModel
 
         private void PrinterTestCommandReciever()
         {
-            new Task(new Action(() => {
-                _zebraPrinterManager.SendZplPallet(_zebraPrinterManager.TestPrint,IsBluetoothOn, IpAddress);
+            new Task(new Action(() =>
+            {
+                _zebraPrinterManager.SendZplPalletAsync(_zebraPrinterManager.TestPrint, IsBluetoothOn, IpAddress);
             })).Start();
         }
 
@@ -197,7 +406,32 @@ namespace KegID.ViewModel
 
         private async void SaveCommandRecieverAsync()
         {
+            UpdatePrintingSetting();
             await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+        }
+
+        private void UpdatePrintingSetting()
+        {
+            AppSettings.PrintEveryManifest = PrintEveryManifest;
+            AppSettings.PrintEveryPallet = PrintEveryPallet;
+            AppSettings.PalletLabelCopies = PalletLabelCopies;
+            AppSettings.BeepOnValidScans = BeepOnValidScans;
+            AppSettings.IsBluetoothOn = IsBluetoothOn;
+            AppSettings.IpAddress = IpAddress;
+            AppSettings.Port = Port;
+            AppSettings.FriendlyLbl = SelectedPrinter;
+        }
+
+        private void AssignPrintingSetting()
+        {
+            PrintEveryManifest = AppSettings.PrintEveryManifest;
+            PrintEveryPallet = AppSettings.PrintEveryPallet;
+            PalletLabelCopies = AppSettings.PalletLabelCopies;
+            BeepOnValidScans = AppSettings.BeepOnValidScans;
+            IsBluetoothOn = AppSettings.IsBluetoothOn;
+            IpAddress = AppSettings.IpAddress;
+            Port = AppSettings.Port;
+            SelectedPrinter = AppSettings.FriendlyLbl;
         }
 
         public override void OnNavigatingTo(INavigationParameters parameters)
@@ -206,6 +440,8 @@ namespace KegID.ViewModel
                 SelectedPrinter = parameters.GetValue<string>("friendlyLbl");
             else
                 SelectedPrinter = "No printers found";
+
+            AssignPrintingSetting();
         }
 
         #endregion

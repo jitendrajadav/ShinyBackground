@@ -1393,6 +1393,15 @@ namespace KegID {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Beeps on valid scans.
+        /// </summary>
+        internal static string label_beeps_on_valid_scan {
+            get {
+                return ResourceManager.GetString("label_beeps_on_valid_scan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bent Chime.
         /// </summary>
         internal static string label_bent_chime {
@@ -4323,6 +4332,15 @@ namespace KegID {
         internal static string test_sessionid {
             get {
                 return ResourceManager.GetString("test_sessionid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to AboutApp.
+        /// </summary>
+        internal static string title_about_app {
+            get {
+                return ResourceManager.GetString("title_about_app", resourceCulture);
             }
         }
         

@@ -38,7 +38,7 @@ namespace KegID.UWP.DependencyServices
             _uniqueidentifiervalue.Model = deviceInformation.SystemProductName;
             _uniqueidentifiervalue.Manufacturer = deviceInformation.SystemManufacturer;
             _uniqueidentifiervalue.Name = deviceInformation.FriendlyName;
-            _uniqueidentifiervalue.OSName = deviceInformation.OperatingSystem;
+            _uniqueidentifiervalue.OS = deviceInformation.OperatingSystem;
 
             return _uniqueidentifiervalue;
         }

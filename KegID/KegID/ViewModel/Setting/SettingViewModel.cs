@@ -26,6 +26,7 @@ namespace KegID.ViewModel
         public DelegateCommand SupportCommand { get; }
         public DelegateCommand LogOutSettingCommand { get; }
         public DelegateCommand RefreshSettingCommand { get; }
+        public DelegateCommand AboutAppCommand { get; }
 
         #endregion
 
@@ -40,11 +41,32 @@ namespace KegID.ViewModel
             SupportCommand = new DelegateCommand(SupportCommandRecieverAsync);
             PrinterSettingCommand = new DelegateCommand(PrinterSettingCommandRecieverAsync);
             LogOutSettingCommand = new DelegateCommand(LogOutSettingCommandRecieverAsync);
+            AboutAppCommand = new DelegateCommand(AboutAppCommandRecieverAsync);
         }
 
         #endregion
 
         #region Methods
+        private async void AboutAppCommandRecieverAsync()
+        {
+            try
+            {
+                try
+                {
+                    await _navigationService.NavigateAsync(new Uri("AboutAppView", UriKind.Relative), useModalNavigation: true, animated: false);
+                }
+                catch (Exception ex)
+                {
+                    Crashes.TrackError(ex);
+                }
+                await _navigationService.ClearPopupStackAsync("SettingView", null);
+
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
+        }
 
         private void RefreshSettingCommandRecieverAsync()
         {
@@ -118,7 +140,6 @@ namespace KegID.ViewModel
             {
                 await _navigationService.NavigateAsync(new Uri("WhatIsNewView", UriKind.Relative), useModalNavigation: true, animated: false);
                 await _navigationService.ClearPopupStackAsync("SettingView", null);
-
             }
             catch (Exception ex)
             {

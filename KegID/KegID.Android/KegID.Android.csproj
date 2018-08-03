@@ -140,10 +140,10 @@
       <Version>2.4.3.840</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms">
-      <Version>3.1.0.637273</Version>
+      <Version>3.1.0.697729</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms.Maps">
-      <Version>3.1.0.637273</Version>
+      <Version>3.1.0.697729</Version>
     </PackageReference>
     <PackageReference Include="ZXing.Net.Mobile">
       <Version>2.4.1</Version>
@@ -443,6 +443,9 @@
     <AndroidAsset Include="Assets\repairmanifestprint.xslt" />
   </ItemGroup>
   <ItemGroup>
+    <AndroidResource Include="..\KegID\Assets\new3.png">
+      <Link>Resources\drawable\new3.png</Link>
+    </AndroidResource>
     <Content Include="FodyWeavers.xml" />
     <AndroidResource Include="Resources\drawable\icon.png" />
     <AndroidResource Include="Resources\drawable\splashscreen.png" />

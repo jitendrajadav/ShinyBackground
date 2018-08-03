@@ -1,5 +1,4 @@
 ﻿using KegID.Common;
-using KegID.DependencyServices;
 using KegID.LocalDb;
 using KegID.Model;
 using KegID.Services;
@@ -23,7 +22,6 @@ namespace KegID.ViewModel
         private readonly IAccountService _accountService;
         private readonly IMaintainService _maintainService;
         private readonly INavigationService _navigationService;
-        private readonly IInitializeMetaData _initializeMetaData;
         private readonly IGetIconByPlatform _getIconByPlatform;
 
         #region Username
@@ -140,12 +138,11 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public LoginViewModel(IAccountService accountService, INavigationService navigationService, IInitializeMetaData initializeMetaData, IMaintainService maintainService, IPageDialogService dialogService, IGetIconByPlatform getIconByPlatform)
+        public LoginViewModel(IAccountService accountService, INavigationService navigationService, IMaintainService maintainService, IPageDialogService dialogService, IGetIconByPlatform getIconByPlatform)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _dialogService = dialogService;
             _accountService = accountService;
-            _initializeMetaData = initializeMetaData;
             _maintainService = maintainService;
             _getIconByPlatform = getIconByPlatform;
 
@@ -200,7 +197,10 @@ namespace KegID.ViewModel
                     }
                     try
                     {
-                        await _navigationService.NavigateAsync(new Uri("/MainPage", UriKind.Absolute), animated: false);
+                        if (AppSettings.IsFreshInstall)
+                            await _navigationService.NavigateAsync(new Uri("WhatIsNewView", UriKind.Relative), useModalNavigation: true, animated: false);
+                        else
+                            await _navigationService.NavigateAsync(new Uri("/MainPage", UriKind.RelativeOrAbsolute), animated: false);
                     }
                     catch (Exception ex)
                     {
@@ -211,23 +211,10 @@ namespace KegID.ViewModel
                         if (!IsLogOut)
                         {
                             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-
                             await RealmDb.WriteAsync((realmDb) =>
                             {
                                 realmDb.Add(model.LoginModel);
                             });
-                            var vAllEmployees = RealmDb.All<LoginModel>();
-
-                            var maintenance = await _maintainService.GetMaintainTypeAsync(AppSettings.User.SessionId);
-
-                            await RealmDb.WriteAsync((realmDb) =>
-                            {
-                                foreach (var item in maintenance.MaintainTypeReponseModel)
-                                {
-                                    realmDb.Add(item);
-                                }
-                            });
-                            await _initializeMetaData.LoadInitializeMetaData();
                         }
                     }
                     catch (Exception ex)

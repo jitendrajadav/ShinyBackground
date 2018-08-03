@@ -1,4 +1,5 @@
-﻿using KegID.Model;
+﻿using KegID.Messages;
+using KegID.Model;
 using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -9,6 +10,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace KegID.Common
 {
@@ -42,6 +44,10 @@ namespace KegID.Common
                 {
                     kegIDResponse.Response = await response.Content.ReadAsStringAsync();
                 }
+                else
+                {
+                    InvalidServiceCall();
+                }
 
                 kegIDResponse.StatusCode = response.StatusCode.ToString();
 
@@ -52,6 +58,11 @@ namespace KegID.Common
             }
 
             return kegIDResponse;
+        }
+
+        private void InvalidServiceCall()
+        {
+            MessagingCenter.Send(new InvalidServiceCall { IsInvalidCall = true }, "InvalidServiceCall");
         }
 
         public async Task<KegIDResponse> Send(string Url, string Json, string RequestType)
@@ -74,7 +85,10 @@ namespace KegID.Common
                 {
                     kegIDResponse.Response = await response.Content.ReadAsStringAsync();
                 }
-
+                else
+                {
+                    InvalidServiceCall();
+                }
                 kegIDResponse.StatusCode = response.StatusCode.ToString();
             }
             catch (Exception ex)
@@ -100,7 +114,10 @@ namespace KegID.Common
                 {
                     kegIDResponse.Response = await response.Content.ReadAsStringAsync();
                 }
-
+                else
+                {
+                    InvalidServiceCall();
+                }
                 kegIDResponse.StatusCode = response.StatusCode.ToString();
 
             }
@@ -178,6 +195,7 @@ namespace KegID.Common
             };
         }
     }
+
     public class CustomIntConverter : JsonConverter
     {
         public override bool CanConvert(Type objectType) => (objectType == typeof(int));
@@ -197,7 +215,6 @@ namespace KegID.Common
 
             throw new FormatException();
         }
-
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {

@@ -1,6 +1,7 @@
 ﻿using LinkOS.Plugin;
 using LinkOS.Plugin.Abstractions;
 using Microsoft.AppCenter.Crashes;
+using Prism.Services;
 using System;
 using System.Text;
 using Xamarin.Forms;
@@ -9,7 +10,7 @@ namespace KegID.Services
 {
     public class ZebraPrinterManager: IZebraPrinterManager
     {
-        //private static readonly IPageDialogService _dialogService;
+        private readonly IPageDialogService _dialogService;
         public static IDiscoveredPrinter myPrinter;
 
         public String TestPrint { get; set; } = "^XA^FO17,16^GB379,371,8^FS^FT65,255^A0N,135,134^FDTEST^FS^XZ";
@@ -284,7 +285,12 @@ namespace KegID.Services
                             "^XZ";
         #endregion
 
-        public void SendZplPallet(string header,bool IsIpAddr, string ipAddr)
+        public ZebraPrinterManager(IPageDialogService dialogService)
+        {
+            _dialogService = dialogService;
+        }
+
+        public void SendZplPalletAsync(string header,bool IsIpAddr, string ipAddr)
         {
             IConnection connection = null;
             try
@@ -310,7 +316,11 @@ namespace KegID.Services
             catch (Exception ex)
             {
                 // Connection Exceptions and issues are caught here
-                Crashes.TrackError(ex);
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    await _dialogService.DisplayAlertAsync("Error", "Could not connect to printer", "Ok");
+                });
+                    Crashes.TrackError(ex);
             }
             finally
             {

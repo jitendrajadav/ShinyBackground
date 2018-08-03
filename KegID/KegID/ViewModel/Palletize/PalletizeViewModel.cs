@@ -461,7 +461,6 @@ namespace KegID.ViewModel
                 else
                 {
                     Loader.StopLoading();
-                    //SimpleIoc.Default.GetInstance<LoginViewModel>().InvalideServiceCallAsync();
                 }
             }
             catch (Exception ex)
@@ -490,7 +489,7 @@ namespace KegID.ViewModel
                                      "", ManifestId, ManifestId);
                 new Thread(() =>
                 {
-                    _zebraPrinterManager.SendZplPallet(header, ConstantManager.IsIPAddr, ConstantManager.IPAddr);
+                    _zebraPrinterManager.SendZplPalletAsync(header, ConstantManager.IsIPAddr, ConstantManager.IPAddr);
 
              }).Start();
 

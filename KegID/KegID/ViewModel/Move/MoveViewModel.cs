@@ -375,7 +375,6 @@ namespace KegID.ViewModel
                         else
                         {
                             Loader.StopLoading();
-                            //@default.GetInstance<LoginViewModel>().InvalideServiceCallAsync();
                         }
                     }
                     catch (Exception ex)

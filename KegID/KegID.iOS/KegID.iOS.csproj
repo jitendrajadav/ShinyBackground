@@ -194,10 +194,10 @@
       <Version>2.4.3.840</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms">
-      <Version>3.1.0.637273</Version>
+      <Version>3.1.0.697729</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms.Maps">
-      <Version>3.1.0.637273</Version>
+      <Version>3.1.0.697729</Version>
     </PackageReference>
     <PackageReference Include="ZXing.Net.Mobile">
       <Version>2.4.1</Version>
@@ -449,6 +449,9 @@
     </BundleResource>
   </ItemGroup>
   <ItemGroup>
+    <BundleResource Include="..\KegID\Assets\new3.png">
+      <Link>Resources\new3.png</Link>
+    </BundleResource>
     <Content Include="FodyWeavers.xml" />
     <BundleResource Include="Resources\manifestkegstar.xslt" />
     <BundleResource Include="Resources\manifestprint.xslt" />

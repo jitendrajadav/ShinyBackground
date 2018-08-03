@@ -27,6 +27,7 @@ namespace KegID.Services
 
         public async Task LoadInitializeMetaData()
         {
+            await LoadMaintainTypeAsync();
             await LoadAssetSizeAsync();
             await LoadAssetTypeAsync();
             await LoadAssetVolumeAsync();
@@ -37,6 +38,27 @@ namespace KegID.Services
             await LoadMaintenanceTypeAsync();
             await LoadBatchAsync();
             await LoadPartnerTypeAsync();
+        }
+
+        private async Task LoadMaintainTypeAsync()
+        {
+            try
+            {
+                var maintenance = await _maintainService.GetMaintainTypeAsync(AppSettings.User.SessionId);
+                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+
+                await RealmDb.WriteAsync((realmDb) =>
+                {
+                    foreach (var item in maintenance.MaintainTypeReponseModel)
+                    {
+                        realmDb.Add(item);
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         public async Task LoadBatchAsync()

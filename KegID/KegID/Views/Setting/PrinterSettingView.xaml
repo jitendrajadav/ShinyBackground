@@ -25,6 +25,8 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
@@ -67,6 +69,7 @@
                 HorizontalOptions="Start" />
 
             <Switch
+                IsToggled="{Binding PrintEveryManifest}"
                 OnColor="#4CD864"
                 HorizontalOptions="End"
                 Grid.Column="1"
@@ -81,6 +84,7 @@
                 HorizontalOptions="Start" />
 
             <Switch
+                IsToggled="{Binding PrintEveryPallet}"
                 OnColor="#4CD864"
                 HorizontalOptions="End"
                 Grid.Column="1"
@@ -95,21 +99,38 @@
                 HorizontalOptions="Start" />
 
             <Entry
+                Text="{Binding PalletLabelCopies}"
                 HorizontalOptions="FillAndExpand"
                 Grid.Column="1"
+                Keyboard="Numeric"
                 Grid.Row="4"/>
+
+            <Label 
+                Grid.Row="5"
+                TextColor="Black"
+                FontSize="Medium"
+                Text="{Binding Resources[label_beeps_on_valid_scan]}"
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="Start" />
+
+            <Switch
+                IsToggled="{Binding BeepOnValidScans}"
+                OnColor="#4CD864"
+                HorizontalOptions="End"
+                Grid.Column="1"
+                Grid.Row="5"/>
 
             <BoxView
                 Margin="-10,0,-10,0"
                 Grid.ColumnSpan="2"
-                Grid.Row="5"
+                Grid.Row="6"
                 BackgroundColor="Black"
                 HeightRequest="1"
                 VerticalOptions="Start"
                 HorizontalOptions="FillAndExpand"/>
             
             <Label 
-                Grid.Row="6"
+                Grid.Row="7"
                 Text="{Binding Resources[label_zebra_printer]}"
                 TextColor="Black"
                 FontSize="Medium"
@@ -117,7 +138,7 @@
                 HorizontalOptions="Start" />
 
             <Label 
-                Grid.Row="7"
+                Grid.Row="8"
                 Text="{Binding Resources[pref_print_via_bluetooth]}"
                 TextColor="Black"
                 FontSize="Medium"
@@ -129,11 +150,11 @@
                 HorizontalOptions="End"
                 Grid.Column="1"
                 OnColor="#4CD864"
-                Grid.Row="7"/>
+                Grid.Row="8"/>
            
             <Label 
                 IsVisible="{Binding IsBluetoothOn,Mode=TwoWay}"
-                Grid.Row="8"
+                Grid.Row="9"
                 Text="{Binding Resources[label_printer]}"
                 TextColor="Black"
                 FontSize="Medium"
@@ -147,14 +168,15 @@
                 Style="{StaticResource TopButtonTitleStyle}"
                 Text="{Binding SelectedPrinter}"
                 Command="{Binding SelectPrinterCommand}"
-                Grid.Row="8"/>
+                Grid.Row="9"/>
             
             <Label
                 IsVisible="{Binding IsBluetoothOn,Converter={StaticResource InvertedBooleanConverter}}"
-                Grid.Row="9"
+                Grid.Row="10"
                 Text="{Binding Resources[label_ip_host]}"
                 TextColor="Black"
                 FontSize="Medium"
+                Margin="0,0,0,5"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="Start" />
 
@@ -163,13 +185,15 @@
                 HorizontalOptions="FillAndExpand"
                 Text="{Binding IpAddress}"
                 Grid.Column="1"
-                Grid.Row="9"/>
+                Margin="0,0,0,5"
+                Grid.Row="10"/>
 
             <Label 
                 IsVisible="{Binding IsBluetoothOn,Converter={StaticResource InvertedBooleanConverter}}"
-                Grid.Row="10"
+                Grid.Row="11"
                 Text="{Binding Resources[pref_port]}"
                 TextColor="Black"
+                Margin="0,0,0,5"
                 FontSize="Medium"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="Start" />
@@ -179,7 +203,9 @@
                 HorizontalOptions="FillAndExpand"
                 Text="{Binding Port}"
                 Grid.Column="1"
-                Grid.Row="10"/>
+                Margin="0,0,0,5"
+                Keyboard="Numeric"
+                Grid.Row="11"/>
 
             <Button
                 BackgroundColor="Transparent"
@@ -187,10 +213,18 @@
                 VerticalOptions="Center"
                 HorizontalOptions="Center"
                 Grid.ColumnSpan="2"
-                Grid.Row="11"
+                Grid.Row="12"
                 FontSize="Medium"
                 Text="{Binding Resources[button_test_printer]}"
                 Command="{Binding PrinterTestCommand}"/>
+
+            <Label 
+                Grid.Row="13"
+                Text="{Binding Version}"
+                TextColor="Black"
+                FontSize="Micro"
+                VerticalOptions="EndAndExpand" 
+                HorizontalOptions="Start" />
 
         </Grid>
     </ContentPage.Content>

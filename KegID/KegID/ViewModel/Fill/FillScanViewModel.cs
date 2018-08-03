@@ -650,7 +650,7 @@ namespace KegID.ViewModel
                                     "", "", "", "", "", "", "", "", "", "",
                                     "", BatchId, BatchId);
 
-                _zebraPrinterManager.SendZplPallet(header,ConstantManager.IsIPAddr,ConstantManager.IPAddr);
+                _zebraPrinterManager.SendZplPalletAsync(header,ConstantManager.IsIPAddr,ConstantManager.IPAddr);
             }
             catch (Exception ex)
             {

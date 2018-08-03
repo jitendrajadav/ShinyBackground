@@ -4,7 +4,6 @@ using KegID.ViewModel;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
-using System;
 using Prism.Unity;
 using Prism.Ioc;
 using Prism;
@@ -13,6 +12,7 @@ using Xamarin.Forms;
 using Prism.Plugin.Popups;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net.Http;
+using Prism.Navigation;
 
 namespace KegID
 {
@@ -102,7 +102,8 @@ namespace KegID
             containerRegistry.RegisterForNavigation<SearchPalletView, SearchPalletViewModel>();
             containerRegistry.RegisterForNavigation<PrinterSettingView, PrinterSettingViewModel>();
             containerRegistry.RegisterForNavigation<SettingView, SettingViewModel>();
-
+            containerRegistry.RegisterForNavigation<AboutAppView, AboutAppViewModel>();
+            
             containerRegistry.RegisterForNavigation<WhatIsNewView, WhatIsNewViewModel>();
             containerRegistry.RegisterForNavigation<LoginView, LoginViewModel>();
             containerRegistry.RegisterForNavigation<MainPage, MainViewModel>();
@@ -128,7 +129,6 @@ namespace KegID
             containerRegistry.Register<IDeviceCheckInMngr, DeviceCheckInMngr>();
         }
 
-
         protected override void OnStart()
         {
             //AppCenter.LogLevel = LogLevel.Verbose;
@@ -136,40 +136,17 @@ namespace KegID
                    "android=31ceef42-fd24-49d3-8e7e-21f144355dde;" +
                    "ios=b80b8476-04cf-4fc3-b7f7-be06ba7f2213",
                    typeof(Analytics), typeof(Crashes));
-
-            //LoadPersistedValues();
         }
 
         protected override void OnSleep ()
 		{
-            // Handle when your app sleeps
-            //Current.Properties["SleepDate"] = DateTimeOffset.Now.ToString("O");
-            //Current.Properties["FirstName"] = _backgroundPage.FirstName;
             serviceProvider.Dispose();
+            AppSettings.IsFreshInstall = false;
         }
 
         protected override void OnResume ()
 		{
             // Handle when your app resumes
-            //LoadPersistedValues();
-        }
-
-        private void LoadPersistedValues()
-        {
-            if (Current.Properties.ContainsKey("SleepDate"))
-            {
-                var value = (string)Current.Properties["SleepDate"];
-                if (DateTimeOffset.TryParse(value, out DateTimeOffset sleepDate))
-                {
-                    //_backgroundPage.SleepDate = sleepDate;
-                }
-            }
-
-            if (Current.Properties.ContainsKey("FirstName"))
-            {
-                var firstName = (string)Current.Properties["FirstName"];
-                //_backgroundPage.FirstName = firstName;
-            }
         }
     }
 }

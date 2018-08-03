@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KegID.Views.AboutAppView">
+    
+    <ContentPage.Content>
+        
+        <Grid
+            ColumnSpacing="0"
+            RowSpacing="0"
+            Margin="10,0,10,0">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Button
+                x:Name="lblCancel"
+                Style="{StaticResource TopButtonTitleStyle}"
+                HorizontalOptions="Start"
+                Text="{Binding Resources[dialog_print_negative]}"
+                Command="{Binding CancelCommand}"
+                />
+
+            <BoxView
+                Margin="-10,0,-10,0"
+                Grid.Row="1"
+                BackgroundColor="Black"
+                HeightRequest="1"
+                VerticalOptions="Start"
+                HorizontalOptions="FillAndExpand"/>
+            
+            <Grid 
+                Grid.Row="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30*"/>
+                    <ColumnDefinition Width="70*"/>
+                </Grid.ColumnDefinitions>
+
+                <Label 
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Text="Version"
+                    VerticalOptions="CenterAndExpand" 
+                    HorizontalOptions="End" />
+
+                <Label 
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Text="{Binding Version}"
+                    VerticalOptions="CenterAndExpand" 
+                    HorizontalOptions="CenterAndExpand" />
+
+                <Label 
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Text="Environment"
+                    VerticalOptions="CenterAndExpand" 
+                    HorizontalOptions="End" />
+
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Text="{Binding Environment}"
+                    VerticalOptions="CenterAndExpand" 
+                    HorizontalOptions="CenterAndExpand" />
+
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

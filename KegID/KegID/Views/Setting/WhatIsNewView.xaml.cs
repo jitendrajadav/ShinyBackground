@@ -1,7 +1,7 @@
-﻿
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using System;
+using KegID.Messages;
 
 namespace KegID.Views
 {
@@ -15,16 +15,21 @@ namespace KegID.Views
 
         void Handle_PositionSelected(object sender, CarouselView.FormsPlugin.Abstractions.PositionSelectedEventArgs e)
         {
-            if (e.NewValue == 2)
+            if (e.NewValue == 3)
                 btnNavigation.Text = "Got It.";
             else 
                 btnNavigation.Text = "Next >";
         }
 
-        public async void NavigationCommand(object sender, EventArgs e)
+        public void NavigationCommand(object sender, EventArgs e)
         {
-            if (whatsNew.Position == 2)
-                await Application.Current.MainPage.Navigation.PopModalAsync();
+            if (whatsNew.Position == 3)
+            {
+                MessagingCenter.Send(new WhatsNewViewToModel
+                {
+                    IsBack = true
+                }, "WhatsNewViewToModel");
+            }
             else
                 whatsNew.Position++;
         }

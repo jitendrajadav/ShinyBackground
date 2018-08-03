@@ -139,6 +139,32 @@
                                                          CommandParameter="{Binding}"/>
                     </Label.GestureRecognizers>
                 </Label>
+                
+                <BoxView
+                    BackgroundColor="LightGray"
+                    HeightRequest="1"
+                    VerticalOptions="Start"
+                    HorizontalOptions="FillAndExpand"/>
+
+                <Label
+                    Margin="20,0,0,0"
+                    HeightRequest="50"
+                    x:Name="lblAboutApp"
+                    VerticalOptions="CenterAndExpand"
+                    VerticalTextAlignment="Center"
+                    HorizontalOptions="StartAndExpand"
+                    HorizontalTextAlignment="Start"
+                    BackgroundColor="Transparent"
+                    TextColor="{StaticResource selectTextColor}"
+                    Text="{Binding Resources[title_about_app]}"
+                    FontSize="Medium">
+
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Path=BindingContext.AboutAppCommand, 
+                                                        Source={x:Reference Name=lblAboutApp}}"
+                                                         CommandParameter="{Binding}"/>
+                    </Label.GestureRecognizers>
+                </Label>
 
                 <BoxView
                     BackgroundColor="LightGray"

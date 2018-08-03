@@ -40,4 +40,15 @@ namespace KegID.Messages
     {
         public bool IsRefresh { get; set; }
     }
+
+    public class WhatsNewViewToModel
+    {
+        public bool IsBack { get; set; }
+    }
+
+    public class InvalidServiceCall
+    {
+        public bool IsInvalidCall { get; set; }
+    }
+
 }

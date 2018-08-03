@@ -1764,4 +1764,10 @@
   <data name="label_printer" xml:space="preserve">
     <value>Printer</value>
   </data>
+  <data name="title_about_app" xml:space="preserve">
+    <value>AboutApp</value>
+  </data>
+  <data name="label_beeps_on_valid_scan" xml:space="preserve">
+    <value>Beeps on valid scans</value>
+  </data>
 </root>

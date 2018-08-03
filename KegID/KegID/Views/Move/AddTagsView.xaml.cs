@@ -331,7 +331,7 @@ namespace KegID.Views
 
                 foreach (var item in tags)
                 {
-                    tagsStr = tagsStr + item.Property + item.Value + ";";
+                    tagsStr = tagsStr + item.Property + " : " + item.Value + ";";
                 }
                 ConstantManager.Tags = tags;
                 ConstantManager.TagsStr = tagsStr;

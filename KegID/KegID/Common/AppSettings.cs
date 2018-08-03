@@ -180,6 +180,72 @@ namespace KegID.Common
             set => Settings.AddOrUpdateValue(nameof(HasBooking), value);
         }
 
+        public static bool IsFreshInstall
+        {
+            get => Settings.GetValueOrDefault(nameof(IsFreshInstall), true);
+            set => Settings.AddOrUpdateValue(nameof(IsFreshInstall), value);
+        }
+
+        public static bool IsMetaDataLoaded
+        {
+            get => Settings.GetValueOrDefault(nameof(IsMetaDataLoaded), false);
+            set => Settings.AddOrUpdateValue(nameof(IsMetaDataLoaded), value);
+        }
+
+        public static bool PrintEveryManifest
+        {
+            get => Settings.GetValueOrDefault(nameof(PrintEveryManifest), false);
+            set => Settings.AddOrUpdateValue(nameof(PrintEveryManifest), value);
+        }
+
+        public static bool PrintEveryPallet
+        {
+            get => Settings.GetValueOrDefault(nameof(PrintEveryPallet), false);
+            set => Settings.AddOrUpdateValue(nameof(PrintEveryPallet), value);
+        }
+
+        public static int PalletLabelCopies
+        {
+            get => Settings.GetValueOrDefault(nameof(PalletLabelCopies), 1);
+            set => Settings.AddOrUpdateValue(nameof(PalletLabelCopies), value);
+        }
+
+        public static bool BeepOnValidScans
+        {
+            get => Settings.GetValueOrDefault(nameof(BeepOnValidScans), false);
+            set => Settings.AddOrUpdateValue(nameof(BeepOnValidScans), value);
+        }
+
+        public static bool BatchScan
+        {
+            get => Settings.GetValueOrDefault(nameof(BatchScan), false);
+            set => Settings.AddOrUpdateValue(nameof(BatchScan), value);
+        }
+
+        public static bool IsBluetoothOn
+        {
+            get => Settings.GetValueOrDefault(nameof(IsBluetoothOn), false);
+            set => Settings.AddOrUpdateValue(nameof(IsBluetoothOn), value);
+        }
+
+        public static string IpAddress
+        {
+            get => Settings.GetValueOrDefault(nameof(IpAddress), string.Empty);
+            set => Settings.AddOrUpdateValue(nameof(IpAddress), value);
+        }
+
+        public static string Port
+        {
+            get => Settings.GetValueOrDefault(nameof(Port), string.Empty);
+            set => Settings.AddOrUpdateValue(nameof(Port), value);
+        }
+
+        public static string FriendlyLbl
+        {
+            get => Settings.GetValueOrDefault(nameof(FriendlyLbl), string.Empty);
+            set => Settings.AddOrUpdateValue(nameof(FriendlyLbl), value);
+        }
+
         public static void RemoveUserData()
         {
             Settings.Remove(nameof(User));
