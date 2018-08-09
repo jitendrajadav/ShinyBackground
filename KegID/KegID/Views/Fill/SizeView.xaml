@@ -9,13 +9,14 @@
     <ContentPage.Content>
         
         <ListView 
-                Margin="10,0,10,0"
-                Grid.Row="2"
-                x:Name="sizeListView"
-                SeparatorVisibility="Default"
-                SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
-                HasUnevenRows="true"
-                ItemsSource="{Binding SizeCollection}">
+            Margin="10,0,10,0"
+            Grid.Row="2"
+            SelectionMode="None"
+            x:Name="sizeListView"
+            SeparatorVisibility="Default"
+            SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
+            HasUnevenRows="true"
+            ItemsSource="{Binding SizeCollection}">
             
             <ListView.Behaviors>
                 <behaviors:EventToCommandBehavior

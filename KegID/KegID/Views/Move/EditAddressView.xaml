@@ -91,6 +91,7 @@
                 Text="{Binding Country}"/>
             
             <Button
+                Command="{Binding GetCurrentLocationCommand}"
                 Style="{StaticResource BottomButtonTitleStyle}"
                 Grid.Row="9"
                 Text="{Binding Resources[menu_action_get_location]}"/>

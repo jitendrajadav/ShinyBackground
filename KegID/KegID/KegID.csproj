@@ -15,8 +15,11 @@
 
   <ItemGroup>
     <Compile Remove="Model\Response\Fill\**" />
+    <Compile Remove="PrintTemplates\**" />
     <EmbeddedResource Remove="Model\Response\Fill\**" />
+    <EmbeddedResource Remove="PrintTemplates\**" />
     <None Remove="Model\Response\Fill\**" />
+    <None Remove="PrintTemplates\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,23 +37,17 @@
     <PackageReference Include="Prism.Plugin.Popups" Version="2.0.0.528-pre" />
     <PackageReference Include="Prism.Unity.Forms" Version="7.1.0.172-pre" />
     <PackageReference Include="Realm" Version="3.1.0" />
+    <PackageReference Include="Scandit.BarcodePicker.Unified" Version="5.8.1.10" />
     <PackageReference Include="Xam.Plugins.Settings" Version="4.0.0.10-beta" />
     <PackageReference Include="Xamarin.Essentials" Version="0.9.1-preview" />
     <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.3.840" />
     <PackageReference Include="Xamarin.Forms" Version="3.1.0.697729" />
     <PackageReference Include="Xamarin.Forms.Maps" Version="3.1.0.697729" />
-    <PackageReference Include="ZXing.Net.Mobile" Version="2.4.1" />
-    <PackageReference Include="ZXing.Net.Mobile.Forms" Version="2.4.1" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="App.xaml.cs">
       <DependentUpon>*.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="KegIDResource.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>KegIDResource.resx</DependentUpon>
     </Compile>
     <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="MainPage.xaml.cs">
       <DependentUpon>*.xaml</DependentUpon>
@@ -72,6 +69,9 @@
     </Compile>
     <Compile Update="Views\Palletize\PalletizeDetailView.xaml.cs">
       <DependentUpon>PalletizeDetailView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Scanner\ScanditScanView.xaml.cs">
+      <DependentUpon>ScanditScanView.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Setting\WhatIsNewView.xaml.cs">
       <DependentUpon>WhatIsNewView.xaml</DependentUpon>
@@ -200,7 +200,7 @@
     <EmbeddedResource Update="Views\Palletize\SearchPalletView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Scanner\CognexScanView.xaml">
+    <EmbeddedResource Update="Views\Scanner\ScanditScanView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Setting\AboutAppView.xaml">

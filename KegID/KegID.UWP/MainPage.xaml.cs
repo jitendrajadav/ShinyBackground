@@ -6,6 +6,7 @@ using System;
 using KegID.Common;
 using Prism;
 using Prism.Ioc;
+using System.Reflection;
 
 namespace KegID.UWP
 {
@@ -14,8 +15,41 @@ namespace KegID.UWP
         public MainPage()
         {
             InitializeComponent();
+            SetupAdditionalEncodingProviders();
             Xamarin.FormsMaps.Init(AppSettings.BingMapsApiKey);
             LoadApplication(new KegID.App(new UwpInitializer()));
+        }
+
+        // setup additional encoding providers using reflection. In your own application, it's typically sufficient to just 
+        // call Encoding.RegisterProvider(CodePagesEncodingProvider.Instance). We use reflection to make this also work with 
+        // older .NET versions that don't yet have the functionality.
+        private void SetupAdditionalEncodingProviders()
+        {
+            var encodingType = Type.GetType("System.Text.Encoding, Windows, ContentType=WindowsRuntime");
+            var codePagesEncodingProviderType = Type.GetType("System.Text.CodePagesEncodingProvider, Windows, ContentType=WindowsRuntime");
+            if (encodingType == null || codePagesEncodingProviderType == null)
+            {
+                return;
+            }
+            var registerProviderMethod = encodingType.GetRuntimeMethod("RegisterProvider", new Type[] { codePagesEncodingProviderType });
+            var instanceProperty = codePagesEncodingProviderType.GetRuntimeProperty("Instance");
+            if (registerProviderMethod == null || instanceProperty == null)
+            {
+                return;
+            }
+            try
+            {
+                var theInstance = instanceProperty.GetValue(null);
+                if (theInstance == null)
+                {
+                    return;
+                }
+                registerProviderMethod.Invoke(null, new object[] { theInstance });
+            }
+            catch (TargetInvocationException)
+            {
+                return;
+            }
         }
 
         private async void MainPage_Loaded(object sender, RoutedEventArgs e)

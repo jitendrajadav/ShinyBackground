@@ -51,7 +51,6 @@ namespace KegID.UWP
                 TintedImageRenderer.Init();
                 FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
                 Rg.Plugins.Popup.Popup.Init();
-                ZXing.Net.Mobile.Forms.WindowsUniversal.ZXingScannerViewRenderer.Init();
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {

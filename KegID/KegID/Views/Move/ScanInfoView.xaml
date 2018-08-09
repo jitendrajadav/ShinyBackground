@@ -30,6 +30,9 @@
                 Grid.ColumnSpan="2"
                 Text="{Binding Resources[title_scan_info_manifest]}"
                 VerticalOptions="CenterAndExpand" 
+                Style="{StaticResource LabelTitleStyle}"
+                TextColor="Black"
+                FontAttributes="Bold"
                 HorizontalOptions="CenterAndExpand" />
 
             <Button
@@ -52,6 +55,9 @@
             <Label
                 VerticalOptions="Center"
                 Grid.Row="1"
+                Style="{StaticResource LabelTitleStyle}"
+                FontAttributes="Bold"
+                Grid.ColumnSpan="2"
                 TextColor="White"
                 Text="{Binding Barcode}"/>
 
@@ -59,6 +65,12 @@
                 VerticalOptions="Center"
                 Grid.Row="2"
                 Text="{Binding Resources[label_alt_barcode]}"/>
+
+            <Label
+                VerticalOptions="Center"
+                Grid.Row="2"
+                Grid.Column="1"
+                Text="{Binding AltBarcode}"/>
 
             <Label
                 VerticalOptions="Center"

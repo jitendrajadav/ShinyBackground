@@ -57,6 +57,7 @@
             <ListView
                 x:Name="lstSearchPartners"
                 Grid.Row="2"
+                SelectionMode="None"
                 SeparatorVisibility="Default"
                 SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
                 HasUnevenRows="True"

@@ -288,15 +288,15 @@ namespace KegID.ViewModel
                     {
                         try
                         {
-                            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                            RealmDb.Write(() =>
+                            using (var db = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
                             {
                                 var oldBarcode = BarcodeCollection.Where(x => x.Barcode == value.Barcodes.Barcode).FirstOrDefault();
                                 oldBarcode.Pallets = value.Barcodes.Pallets;
                                 oldBarcode.Kegs = value.Barcodes.Kegs;
                                 oldBarcode.Icon = value?.Barcodes?.Kegs?.Partners.Count > 1 ? _getIconByPlatform.GetIcon("validationquestion.png") : value?.Barcodes?.Kegs?.Partners?.Count == 0 ? _getIconByPlatform.GetIcon("validationerror.png") : _getIconByPlatform.GetIcon("validationok.png");
                                 oldBarcode.IsScanned = true;
-                            });
+                                db.Commit();
+                            }
                         }
                         catch (Exception ex)
                         {
@@ -577,9 +577,16 @@ namespace KegID.ViewModel
                     {
                         Barcode = ManaulBarcode,
                         TagsStr = TagsStr,
-                        Icon = Cloud,
-                        Page = ViewTypeEnum.ScanKegsView.ToString()
+                        Icon = _getIconByPlatform.GetIcon(Cloud),
+                        Page = ViewTypeEnum.ScanKegsView.ToString(),
+                        Contents = SelectedBrand?.BrandName
                     };
+
+                    if (ConstantManager.Tags != null)
+                    {
+                        foreach (var item in ConstantManager.Tags)
+                            model.Tags.Add(item); 
+                    }
 
                     BarcodeCollection.Add(model);
 
@@ -601,10 +608,10 @@ namespace KegID.ViewModel
                         {
                             if (IsManifestExist != null)
                             {
-                                RealmDb.Write(() =>
+                               await RealmDb.WriteAsync((realmDb) =>
                                 {
                                     IsManifestExist.BarcodeModels.Add(model);
-                                    RealmDb.Add(IsManifestExist, true);
+                                    realmDb.Add(IsManifestExist, true);
                                 });
                             }
                             else
@@ -616,9 +623,9 @@ namespace KegID.ViewModel
 
                                 manifestModel.IsQueue = true;
 
-                                RealmDb.Write(() =>
+                                await RealmDb.WriteAsync((realmDb) =>
                                 {
-                                    RealmDb.Add(manifestModel, true);
+                                    realmDb.Add(manifestModel, true);
                                 });
                             }
                         }
@@ -641,7 +648,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("CognexScanView", UriKind.Relative), new NavigationParameters
+                await _navigationService.NavigateAsync(new Uri("ScanditScanView", UriKind.Relative), new NavigationParameters
                     {
                         { "Tags", ConstantManager.Tags },{ "TagsStr", TagsStr },{ "ViewTypeEnum", ViewTypeEnum.ScanKegsView }
                     }, useModalNavigation: true, animated: false);

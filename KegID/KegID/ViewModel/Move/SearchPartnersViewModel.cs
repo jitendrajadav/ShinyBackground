@@ -180,8 +180,7 @@ namespace KegID.ViewModel
                 if (model != null)
                 {
                     ConstantManager.Partner = model;
-                    await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
-                    await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+                    await _navigationService.GoBackAsync(new NavigationParameters { { "GoBackPartner", model } }, useModalNavigation: true, animated: false);
                 }
             }
             catch (Exception ex)

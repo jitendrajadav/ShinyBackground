@@ -47,6 +47,7 @@
             <ListView 
                 Margin="5,0,5,0"
                 Grid.Row="2"
+                SelectionMode="None"
                 x:Name="stockInventoryListView"
                 SeparatorVisibility="Default"
                 SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
@@ -95,6 +96,7 @@
                                     VerticalTextAlignment="Center" 
                                     FontSize="{StaticResource ListViewTitleFont}"
                                     Text="{Binding OwnerName}" />
+                                
                                 <Label 
                                     Grid.Column="1"
                                     VerticalOptions="FillAndExpand" 
@@ -103,10 +105,11 @@
                                     Text="{Binding Size}" />
 
                                 <Label 
+                                    Margin="0,0,5,0"
                                     Grid.Column="2"
                                     VerticalOptions="FillAndExpand" 
                                     VerticalTextAlignment="Center"
-                                    HorizontalTextAlignment="Center"
+                                    HorizontalTextAlignment="End"
                                     FontSize="{StaticResource ListViewTitleFont}"
                                     Text="{Binding Quantity}" />
                             </Grid>
@@ -114,6 +117,30 @@
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
+                
+                <ListView.Footer>
+                    <Grid
+                        Padding="0,5"
+                        BackgroundColor="{StaticResource lightGrayColor}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="45*"/>
+                            <ColumnDefinition Width="30*"/>
+                            <ColumnDefinition Width="25*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                            FontAttributes="Bold"
+                            Grid.ColumnSpan="2"
+                            Text="{Binding Resources[label_totals]}"/>
+
+                        <Label
+                            Margin="0,0,5,0"
+                            FontAttributes="Bold"
+                            Grid.Column="2"
+                            HorizontalOptions="EndAndExpand"
+                            Text="{Binding StockTotals}"/>
+                    </Grid>
+                </ListView.Footer>
             </ListView>
         </Grid>
     </ContentPage>
@@ -153,13 +180,14 @@
                 Text="{Binding Resources[content_list_empty]}"/>
 
             <ListView 
+                SelectionMode="None"
                 Margin="5,0,5,0"
                 Grid.Row="2"
                 x:Name="emptyInventoryListView"
                 SeparatorVisibility="Default"
                 SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
                 HasUnevenRows="true"
-                ItemsSource="{Binding EnptyInventoryCollection}">
+                ItemsSource="{Binding EmptyInventoryCollection}">
 
                 <ListView.Header>
                     <Grid
@@ -203,6 +231,7 @@
                                     VerticalTextAlignment="Center" 
                                     FontSize="{StaticResource ListViewTitleFont}"
                                     Text="{Binding OwnerName}" />
+                                
                                 <Label 
                                     Grid.Column="1"
                                     VerticalOptions="FillAndExpand" 
@@ -211,10 +240,11 @@
                                     Text="{Binding Size}" />
 
                                 <Label 
+                                    Margin="0,0,5,0"
                                     Grid.Column="2"
                                     VerticalOptions="FillAndExpand" 
                                     VerticalTextAlignment="Center"
-                                    HorizontalTextAlignment="Center"
+                                    HorizontalTextAlignment="End"
                                     FontSize="{StaticResource ListViewTitleFont}"
                                     Text="{Binding Quantity}" />
                             </Grid>
@@ -222,6 +252,31 @@
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
+                
+                <ListView.Footer>
+                    <Grid
+                        Padding="0,5"
+                        BackgroundColor="{StaticResource lightGrayColor}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="45*"/>
+                            <ColumnDefinition Width="30*"/>
+                            <ColumnDefinition Width="25*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                            FontAttributes="Bold"
+                            Grid.ColumnSpan="2"
+                            Text="{Binding Resources[label_totals]}"/>
+
+                        <Label
+                            FontAttributes="Bold"
+                            Grid.Column="2"
+                            Margin="0,0,5,0"
+                            HorizontalOptions="EndAndExpand"
+                            Text="{Binding EmptyTotals}"/>
+                    </Grid>
+                </ListView.Footer>
+
             </ListView>
 
         </Grid>

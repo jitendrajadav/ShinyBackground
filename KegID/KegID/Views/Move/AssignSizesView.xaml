@@ -149,6 +149,7 @@
                     x:Name="lstMaintenaceAlert"
                     Grid.Row="5"
                     Grid.ColumnSpan="2"
+                    SelectionMode="None"
                     SeparatorVisibility="Default"
                     SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
                     HasUnevenRows="True"

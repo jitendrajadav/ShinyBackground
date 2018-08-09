@@ -95,6 +95,7 @@
                 Margin="10,0,10,0"
                 x:Name="lstPartners"
                 Grid.Row="2"
+                SelectionMode="None"
                 VerticalOptions="FillAndExpand"
                 SeparatorVisibility="Default"
                 SeparatorColor="{StaticResource lightGrayPlaceholderColor}"

@@ -35,6 +35,7 @@
                 SeparatorVisibility="Default"
                 SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
                 HasUnevenRows="True"
+                SelectionMode="None"
                 CachingStrategy="RecycleElement"
                 ItemsSource="{Binding PalletSearchCollection}">
 

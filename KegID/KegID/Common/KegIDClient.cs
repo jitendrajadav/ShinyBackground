@@ -29,7 +29,19 @@ namespace KegID.Common
 
         public KegIDClient(HttpClient client)
         {
-            _client = client;
+            _client = GetHttpClient();//client;
+        }
+
+        public HttpClient GetHttpClient()
+        {
+            HttpClient httpClient = new HttpClient()
+            {
+                //BaseAddress = new Uri(BaseUrl)
+            };
+            httpClient.DefaultRequestHeaders.Accept.Clear();
+            httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+            return httpClient;
         }
 
         public async Task<KegIDResponse> Get(string Url, string Json)

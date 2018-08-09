@@ -33,6 +33,7 @@ namespace KegID.Model
         public string Icon { get; set; }
         public string TagsStr { get; set; }
         public IList<Tag> Tags { get; }
+        public string Contents { get; set; }
         public string Page { get; set; }
         public bool HasMaintenaceVerified { get; set; }
         public bool IsScanned { get; set; }

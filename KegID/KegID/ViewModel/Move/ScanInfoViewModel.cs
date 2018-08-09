@@ -1,9 +1,7 @@
-﻿using KegID.LocalDb;
-using KegID.Model;
+﻿using KegID.Model;
 using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
-using Realms;
 using System;
 using System.Linq;
 
@@ -44,6 +42,40 @@ namespace KegID.ViewModel
 
                 _Barcode = value;
                 RaisePropertyChanged(BarcodePropertyName);
+            }
+        }
+
+        #endregion
+
+        #region AltBarcode
+
+        /// <summary>
+        /// The <see cref="AltBarcode" /> property's name.
+        /// </summary>
+        public const string AltBarcodePropertyName = "AltBarcode";
+
+        private string _AltBarcode = default(string);
+
+        /// <summary>
+        /// Sets and gets the AltBarcode property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public string AltBarcode
+        {
+            get
+            {
+                return _AltBarcode;
+            }
+
+            set
+            {
+                if (_AltBarcode == value)
+                {
+                    return;
+                }
+
+                _AltBarcode = value;
+                RaisePropertyChanged(AltBarcodePropertyName);
             }
         }
 
@@ -253,14 +285,13 @@ namespace KegID.ViewModel
 
         internal void AssignInitialValue(BarcodeModel _barcode)
         {
-            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-            var manifest = RealmDb.All<ManifestModel>().Where(x => x.BarcodeModels.Any(p => p.Barcode == _barcode.Barcode)).FirstOrDefault();
             try
             {
                 Barcode = string.Format(" Barcode {0} ", _barcode.Barcode);
-                Ownername = manifest.OwnerName;
-                Size = _barcode.Tags[2].Value;
-                Contents = _barcode.Kegs.Contents.FirstOrDefault();
+                //AltBarcode = _barcode.Barcode;
+                Ownername = _barcode?.Kegs?.Partners?.FirstOrDefault()?.FullName;
+                Size = _barcode?.Tags[3]?.Value;
+                Contents = _barcode.Contents;
                 Batch = _barcode.Kegs.Batches.FirstOrDefault();
                 Location = _barcode.Kegs.Locations.FirstOrDefault().Name;
             }

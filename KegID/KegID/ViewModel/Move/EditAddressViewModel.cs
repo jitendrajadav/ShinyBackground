@@ -3,6 +3,8 @@ using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
 using System;
+using System.Linq;
+using Xamarin.Essentials;
 
 namespace KegID.ViewModel
 {
@@ -11,6 +13,7 @@ namespace KegID.ViewModel
         #region Properties
 
         private readonly INavigationService _navigationService;
+        public bool IsShipping { get; private set; }
 
         #region AddressTitle
 
@@ -290,7 +293,7 @@ namespace KegID.ViewModel
 
         public DelegateCommand BackCommand { get; }
         public DelegateCommand DoneCommand { get; }
-        public bool IsShipping { get; private set; }
+        public DelegateCommand GetCurrentLocationCommand { get; }
 
         #endregion
 
@@ -302,11 +305,60 @@ namespace KegID.ViewModel
 
             BackCommand = new DelegateCommand(BackCommandRecieverAsync);
             DoneCommand = new DelegateCommand(DoneCommandRecieverAsync);
+            GetCurrentLocationCommand = new DelegateCommand(GetCurrentLocationCommandRecieverAsync);
         }
 
         #endregion
 
         #region Methods
+
+        private async void GetCurrentLocationCommandRecieverAsync()
+        {
+            var request = new GeolocationRequest(GeolocationAccuracy.Medium);
+            var location = await Geolocation.GetLastKnownLocationAsync();
+            if (location == null)
+                 location = await Geolocation.GetLocationAsync(request);
+            try
+            {
+                var placemarks = await Geocoding.GetPlacemarksAsync(location.Latitude, location.Longitude);
+
+                var placemark = placemarks?.FirstOrDefault();
+                if (placemark != null)
+                {
+                    var geocodeAddress =
+                        $"AdminArea:       {placemark.AdminArea}\n" +
+                        $"CountryCode:     {placemark.CountryCode}\n" +
+                        $"CountryName:     {placemark.CountryName}\n" +
+                        $"FeatureName:     {placemark.FeatureName}\n" +
+                        $"Locality:        {placemark.Locality}\n" +
+                        $"PostalCode:      {placemark.PostalCode}\n" +
+                        $"SubAdminArea:    {placemark.SubAdminArea}\n" +
+                        $"SubLocality:     {placemark.SubLocality}\n" +
+                        $"SubThoroughfare: {placemark.SubThoroughfare}\n" +
+                        $"Thoroughfare:    {placemark.Thoroughfare}\n";
+
+
+                    Line1 = placemark.SubLocality;
+                    Line2 = placemark.Locality;
+                    Line3 = placemark.SubAdminArea;
+                    City = placemark.Locality;
+                    State = placemark.AdminArea;
+                    PostalCode = placemark.PostalCode;
+                    Country = placemark.CountryCode;
+
+                    Console.WriteLine(geocodeAddress);
+                }
+            }
+            catch (FeatureNotSupportedException fnsEx)
+            {
+                // Feature not supported on device
+            }
+            catch (Exception ex)
+            {
+                // Handle exception that may have occurred in geocoding
+            }
+        }
+
         private async void DoneCommandRecieverAsync()
         {
             try

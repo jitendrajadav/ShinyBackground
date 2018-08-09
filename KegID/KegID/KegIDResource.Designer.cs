@@ -2347,6 +2347,15 @@ namespace KegID {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Totals.
+        /// </summary>
+        internal static string label_totals {
+            get {
+                return ResourceManager.GetString("label_totals", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tracking #.
         /// </summary>
         internal static string label_trackingnum {

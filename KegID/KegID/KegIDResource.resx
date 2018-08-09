@@ -1770,4 +1770,7 @@
   <data name="label_beeps_on_valid_scan" xml:space="preserve">
     <value>Beeps on valid scans</value>
   </data>
+  <data name="label_totals" xml:space="preserve">
+    <value>Totals</value>
+  </data>
 </root>

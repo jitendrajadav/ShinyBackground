@@ -75,21 +75,20 @@
 
             <Grid
                 ColumnSpacing="0"
-                Padding="0"
                 HorizontalOptions="Center"
                 VerticalOptions="Center"
                 Grid.Row="2">
                 <Grid.Margin>
                     <OnPlatform x:TypeArguments="Thickness">
-                        <On Platform="iOS, WinPhone, Windows, UWP" Value="0,5,0,20" />
-                        <On Platform="Android" Value="0,5,0,20" />
+                        <On Platform="iOS, WinPhone, Windows, UWP" Value="0,0,0,5" />
+                        <On Platform="Android" Value="0,0,0,5" />
                     </OnPlatform>
                 </Grid.Margin>
                 
                 <Grid.HeightRequest>
                     <OnPlatform x:TypeArguments="x:Double">
-                        <On Platform="iOS" Value="30" />
-                        <On Platform="Android, WinPhone, Windows, UWP" Value="35" />
+                        <On Platform="iOS" Value="35" />
+                        <On Platform="Android, WinPhone, Windows, UWP" Value="40" />
                     </OnPlatform>
                 </Grid.HeightRequest>
                 
@@ -109,7 +108,7 @@
                     <Button.Margin>
                         <OnPlatform x:TypeArguments="Thickness">
                             <On Platform="iOS, WinPhone, Windows, UWP" Value="0" />
-                            <On Platform="Android" Value="0,0,-4,0" />
+                            <On Platform="Android" Value="0,0,0,0" />
                         </OnPlatform>
                     </Button.Margin>
                 </Button>
@@ -125,7 +124,7 @@
                     <Button.Margin>
                         <OnPlatform x:TypeArguments="Thickness">
                             <On Platform="iOS, WinPhone, Windows, UWP" Value="0" />
-                            <On Platform="Android" Value="-4,0,-4,0" />
+                            <On Platform="Android" Value="0,0,0,0" />
                         </OnPlatform>
                     </Button.Margin>
                 </Button>
@@ -141,7 +140,7 @@
                     <Button.Margin>
                         <OnPlatform x:TypeArguments="Thickness">
                             <On Platform="iOS, WinPhone, Windows, UWP" Value="0" />
-                            <On Platform="Android" Value="-4,0,0,0" />
+                            <On Platform="Android" Value="0,0,0,0" />
                         </OnPlatform>
                     </Button.Margin>
                 </Button>
@@ -154,6 +153,7 @@
                 SeparatorVisibility="Default"
                 SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
                 HasUnevenRows="True"
+                SelectionMode="None"
                 CachingStrategy="RecycleElement"
                 ItemsSource="{Binding ManifestCollection}">
 

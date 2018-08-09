@@ -118,11 +118,12 @@ namespace KegID.ViewModel
                 }
 
                 _ShipAddress = value;
-                string ship = _ShipAddress.Line1 + _ShipAddress.Line2 + _ShipAddress.Line3 + _ShipAddress.City + _ShipAddress.State + _ShipAddress.PostalCode + _ShipAddress.Country;
+                string ship = UpdateAddress(_ShipAddress);
                 ShippingAddress = !string.IsNullOrEmpty(ship) ? ship : "Edit address";
                 RaisePropertyChanged(ShipAddressPropertyName);
             }
         }
+
 
         #endregion
 
@@ -154,7 +155,7 @@ namespace KegID.ViewModel
                 }
 
                 _BillAddress = value;
-                string bill = _BillAddress.Line1 + _BillAddress.Line2 + _BillAddress.Line3 + _BillAddress.City + _BillAddress.State + _BillAddress.PostalCode + _BillAddress.Country;
+                string bill = UpdateAddress(_BillAddress); 
                 BillingAddress = !string.IsNullOrEmpty(bill) ? bill : "Edit address";
                 RaisePropertyChanged(BillAddressPropertyName);
             }
@@ -909,6 +910,27 @@ namespace KegID.ViewModel
         #endregion
 
         #region Methods
+
+        private string UpdateAddress(Address address)
+        {
+            string addressLable = string.Empty;
+            if (!string.IsNullOrEmpty(address.Line1))
+                addressLable = address.Line1 + " ; ";
+            if (!string.IsNullOrEmpty(address.Line2))
+                addressLable += address.Line2 + " ; ";
+            if (!string.IsNullOrEmpty(address.Line3))
+                addressLable += address.Line3 + " ; ";
+            if (!string.IsNullOrEmpty(address.City))
+                addressLable += address.City + " ; ";
+            if (!string.IsNullOrEmpty(address.State))
+                addressLable += address.State + " ; ";
+            if (!string.IsNullOrEmpty(address.PostalCode))
+                addressLable += address.PostalCode + " ; ";
+            if (!string.IsNullOrEmpty(address.Country))
+                addressLable += address.Country + " ; ";
+            return addressLable;
+        }
+
 
         private async void BillingAddressCommandRecieverAsync()
         {

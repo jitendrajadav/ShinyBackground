@@ -82,6 +82,7 @@ namespace KegID.Services
                     //NewBatches = batches,
                     //Tags = tags.ToList(),
                     //ClosedBatches = closedBatches
+                    ManifestItemsCount = manifestItemlst.Count
                 };
 
                 foreach (var item in barcodeCollection)

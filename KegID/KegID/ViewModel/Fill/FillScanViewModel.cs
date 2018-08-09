@@ -325,15 +325,15 @@ namespace KegID.ViewModel
                     var value = message;
                     if (value != null)
                     {
-                        var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                        RealmDb.Write(() =>
+                        using (var db = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
                         {
                             var oldBarcode = BarcodeCollection.Where(x => x.Barcode == value.Barcodes.Barcode).FirstOrDefault();
                             oldBarcode.Pallets = value.Barcodes.Pallets;
                             oldBarcode.Kegs = value.Barcodes.Kegs;
                             oldBarcode.Icon = value?.Barcodes?.Kegs?.Partners.Count > 1 ? _getIconByPlatform.GetIcon("validationquestion.png") : value?.Barcodes?.Kegs?.Partners?.Count == 0 ? _getIconByPlatform.GetIcon("validationerror.png") : _getIconByPlatform.GetIcon("validationok.png");
                             oldBarcode.IsScanned = true;
-                        });
+                            db.Commit();
+                        };
                     }
                 });
             });

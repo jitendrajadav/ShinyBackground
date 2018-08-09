@@ -54,35 +54,103 @@ namespace KegID.ViewModel
 
         #endregion
 
-        #region EnptyInventoryCollection
+        #region EmptyInventoryCollection
 
         /// <summary>
-        /// The <see cref="EnptyInventoryCollection" /> property's name.
+        /// The <see cref="EmptyInventoryCollection" /> property's name.
         /// </summary>
-        public const string EnptyInventoryCollectionPropertyName = "EnptyInventoryCollection";
+        public const string EmptyInventoryCollectionPropertyName = "EmptyInventoryCollection";
 
-        private IList<InventoryResponseModel> _EnptyInventoryCollection = null;
+        private IList<InventoryResponseModel> _EmptyInventoryCollection = null;
 
         /// <summary>
-        /// Sets and gets the EnptyInventoryCollection property.
+        /// Sets and gets the EmptyInventoryCollection property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public IList<InventoryResponseModel> EnptyInventoryCollection
+        public IList<InventoryResponseModel> EmptyInventoryCollection
         {
             get
             {
-                return _EnptyInventoryCollection;
+                return _EmptyInventoryCollection;
             }
 
             set
             {
-                if (_EnptyInventoryCollection == value)
+                if (_EmptyInventoryCollection == value)
                 {
                     return;
                 }
 
-                _EnptyInventoryCollection = value;
-                RaisePropertyChanged(EnptyInventoryCollectionPropertyName);
+                _EmptyInventoryCollection = value;
+                RaisePropertyChanged(EmptyInventoryCollectionPropertyName);
+            }
+        }
+
+        #endregion
+
+        #region StockTotals
+
+        /// <summary>
+        /// The <see cref="StockTotals" /> property's name.
+        /// </summary>
+        public const string StockTotalsPropertyName = "StockTotals";
+
+        private long _StockTotals = 0;
+
+        /// <summary>
+        /// Sets and gets the StockTotals property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public long StockTotals
+        {
+            get
+            {
+                return _StockTotals;
+            }
+
+            set
+            {
+                if (_StockTotals == value)
+                {
+                    return;
+                }
+
+                _StockTotals = value;
+                RaisePropertyChanged(StockTotalsPropertyName);
+            }
+        }
+
+        #endregion
+
+        #region EmptyTotals
+
+        /// <summary>
+        /// The <see cref="EmptyTotals" /> property's name.
+        /// </summary>
+        public const string EmptyTotalsPropertyName = "EmptyTotals";
+
+        private long _EmptyTotals = 0;
+
+        /// <summary>
+        /// Sets and gets the EmptyTotals property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public long EmptyTotals
+        {
+            get
+            {
+                return _EmptyTotals;
+            }
+
+            set
+            {
+                if (_EmptyTotals == value)
+                {
+                    return;
+                }
+
+                _EmptyTotals = value;
+                RaisePropertyChanged(EmptyTotalsPropertyName);
             }
         }
 
@@ -129,15 +197,18 @@ namespace KegID.ViewModel
                 Loader.StartLoading();
                 model = await _dashboardService.GetInventoryAsync(AppSettings.User.SessionId);
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                RealmDb.Write(() =>
+                await RealmDb.WriteAsync((realmDb) =>
                 {
                     foreach (var item in model.InventoryResponseModel)
                     {
-                        RealmDb.Add(item);
+                        realmDb.Add(item);
                     }
                 });
                 StockInventoryCollection = model.InventoryResponseModel.Where(x => x.Status != "Empty").ToList();
-                EnptyInventoryCollection = model.InventoryResponseModel.Where(x => x.Status == "Empty").ToList();
+                EmptyInventoryCollection = model.InventoryResponseModel.Where(x => x.Status == "Empty").ToList();
+
+                StockTotals = StockInventoryCollection.Sum(x => x.Quantity);
+                EmptyTotals = EmptyInventoryCollection.Sum(x=>x.Quantity);
             }
             catch (Exception ex)
             {
@@ -160,7 +231,10 @@ namespace KegID.ViewModel
                 if (model.Count > 0)
                 {
                     StockInventoryCollection = model.Where(x => x.Status != "Empty").ToList();
-                    EnptyInventoryCollection = model.Where(x => x.Status == "Empty").ToList();
+                    EmptyInventoryCollection = model.Where(x => x.Status == "Empty").ToList();
+
+                    StockTotals = StockInventoryCollection.Sum(x => x.Quantity);
+                    EmptyTotals = EmptyInventoryCollection.Sum(x => x.Quantity);
                 }
                 else
                 {

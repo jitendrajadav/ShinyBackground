@@ -1,8 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:forms="clr-namespace:ZXing.Net.Mobile.Forms;assembly=ZXing.Net.Mobile.Forms"
-             x:Class="KegID.Views.CognexScanView">
+             x:Class="KegID.Views.ScanditScanView"
+             xmlns:scandit="clr-namespace:Scandit.BarcodePicker.Unified;assembly=Scandit.BarcodePicker.Unified"
+             >
     
     <ContentPage.Content>
 
@@ -15,19 +16,10 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            
-            <forms:ZXingScannerView
-                x:Name="zxing"
-                IsScanning="{Binding IsScanning}" 
-                IsAnalyzing="{Binding IsAnalyzing}" 
-                Result="{Binding Result, Mode=TwoWay}" 
-                ScanResultCommand="{Binding QRScanResultCommand}"/>
 
-            <forms:ZXingDefaultOverlay 
-                ShowFlashButton="True" 
-                FlashButtonClicked="ZXingDefaultOverlay_FlashButtonClicked"
-                Opacity="0.9"/>
-            
+            <!--<scandit:BarcodePicker 
+                x:Name="thePicker" />-->
+
             <Label
                 Grid.Row="1"
                 VerticalOptions="End"

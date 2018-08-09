@@ -20,13 +20,14 @@
             BackgroundColor="White">
             
             <ListView
-                    x:Name="lstValidateBarcode"
-                    Grid.Row="1"
-                    SeparatorVisibility="Default"
-                    SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
-                    HasUnevenRows="True"
-                    CachingStrategy="RecycleElement"
-                    ItemsSource="{Binding PartnerCollection}">
+                x:Name="lstValidateBarcode"
+                Grid.Row="1"
+                SeparatorVisibility="Default"
+                SelectionMode="None"
+                SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
+                HasUnevenRows="True"
+                CachingStrategy="RecycleElement"
+                ItemsSource="{Binding PartnerCollection}">
 
                 <ListView.Behaviors>
                     <behaviors:EventToCommandBehavior

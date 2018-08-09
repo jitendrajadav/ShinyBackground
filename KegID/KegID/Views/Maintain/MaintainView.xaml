@@ -71,6 +71,7 @@
                         Margin="10,0,10,0"
                         x:Name="lstMaintainType"
                         Grid.Row="0"
+                        SelectionMode="None"
                         Grid.ColumnSpan="2"
                         SeparatorVisibility="Default"
                         SeparatorColor="{StaticResource lightGrayPlaceholderColor}"

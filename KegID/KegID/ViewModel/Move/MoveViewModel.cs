@@ -25,6 +25,7 @@ namespace KegID.ViewModel
         private readonly IUuidManager _uuidManager;
 
         public string Contents { get; set; }
+        public IList<BarcodeModel> Barcodes { get; set; }
 
         #region ManifestId
 
@@ -353,10 +354,10 @@ namespace KegID.ViewModel
 
                         try
                         {
-                            RealmDb.Write(() =>
-                                               {
-                                                   RealmDb.Add(manifestPostModel);
-                                               });
+                            await RealmDb.WriteAsync((realmDb) =>
+                                                {
+                                                    realmDb.Add(manifestPostModel);
+                                                });
                         }
                         catch (Exception ex)
                         {
@@ -409,7 +410,6 @@ namespace KegID.ViewModel
                 Loader.StartLoading();
 
                 manifestModel = await GenerateManifest();
-
                 manifestModel.IsDraft = true;
 
                 try
@@ -455,11 +455,11 @@ namespace KegID.ViewModel
             {
                 Contents = _contents;
                 Tags = _tags;
-                ConstantManager.Barcodes = _barcodes;
-                if (ConstantManager.Barcodes.Count > 1)
-                    AddKegs = string.Format("{0} Items", ConstantManager.Barcodes.Count);
-                else if (ConstantManager.Barcodes.Count == 1)
-                    AddKegs = string.Format("{0} Item", ConstantManager.Barcodes.Count);
+                Barcodes = _barcodes;
+                if (_barcodes.Count > 1)
+                    AddKegs = string.Format("{0} Items", _barcodes.Count);
+                else if (_barcodes.Count == 1)
+                    AddKegs = string.Format("{0} Item", _barcodes.Count);
                 if (!IsSubmitVisible)
                     IsSubmitVisible = true;
             }
@@ -500,7 +500,7 @@ namespace KegID.ViewModel
                     //    trans.Commit();
                     //}
                 }
-                else
+                else if (result == "Save as draft")
                 {
                     //Save Draft Logic here...
                     SaveDraftCommandRecieverAsync();
@@ -531,14 +531,15 @@ namespace KegID.ViewModel
             {
                 if (!string.IsNullOrEmpty(ConstantManager.Partner?.PartnerId))
                 {
-                    if (ConstantManager.Barcode != null)
+                    if (Barcodes != null)
                     {
                         await _navigationService.NavigateAsync(new Uri("ScanKegsView", UriKind.Relative), new NavigationParameters
                         {
-                            { "Barcode", ConstantManager.Barcode }
+                            { "models", Barcodes }
                         }, useModalNavigation: true, animated: false);
                     }
-                    await _navigationService.NavigateAsync(new Uri("ScanKegsView", UriKind.Relative), useModalNavigation: true, animated: false);
+                    else
+                        await _navigationService.NavigateAsync(new Uri("ScanKegsView", UriKind.Relative), useModalNavigation: true, animated: false);
                 }
                 else
                     await _dialogService.DisplayAlertAsync("Error", "Please select a destination first.", "Ok");
@@ -585,6 +586,8 @@ namespace KegID.ViewModel
                 Destination = "Select a location";
                 ManifestId = _uuidManager.GetUuId();
                 Tags = null;
+                Barcodes = null;
+                ConstantManager.Barcodes.Clear();
             }
             catch (Exception ex)
             {

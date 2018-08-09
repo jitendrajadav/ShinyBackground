@@ -41,15 +41,10 @@ namespace KegID.iOS
             Forms.Init();
             CarouselViewRenderer.Init();
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
-            ZXing.Net.Mobile.Forms.iOS.Platform.Init();
             Xamarin.FormsMaps.Init();
             Rg.Plugins.Popup.Popup.Init();
             TintedImageRenderer.Init();
-            //DependencyService.Register<OpenAppService>();
             UIApplication.SharedApplication.SetMinimumBackgroundFetchInterval(UIApplication.BackgroundFetchIntervalMinimum);
-
-            //DependencyService.Register<FileStore>();
-            //DependencyService.Register<Share>();
 
             try
             {

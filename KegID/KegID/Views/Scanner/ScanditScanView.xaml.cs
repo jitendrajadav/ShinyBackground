@@ -5,9 +5,9 @@ using Xamarin.Forms.Xaml;
 namespace KegID.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class CognexScanView : ContentPage
+	public partial class ScanditScanView : ContentPage
 	{
-        public CognexScanView ()
+        public ScanditScanView()
 		{
             try
             {
@@ -19,9 +19,9 @@ namespace KegID.Views
             }
         }
 
-        private void ZXingDefaultOverlay_FlashButtonClicked(Button sender, System.EventArgs e)
-        {
-            zxing.IsTorchOn = !zxing.IsTorchOn;
-        }
+        //private void ZXingDefaultOverlay_FlashButtonClicked(Button sender, System.EventArgs e)
+        //{
+        //    zxing.IsTorchOn = !zxing.IsTorchOn;
+        //}
     }
 }

@@ -99,6 +99,7 @@
                 <ListView
                     x:Name="lstPallets"
                     Grid.Row="2"
+                    SelectionMode="None"
                     VerticalOptions="FillAndExpand"
                     SeparatorVisibility="Default"
                     SeparatorColor="{StaticResource lightGrayPlaceholderColor}"

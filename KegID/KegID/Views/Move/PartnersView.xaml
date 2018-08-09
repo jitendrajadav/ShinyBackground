@@ -139,20 +139,11 @@
                 </SearchBar.HeightRequest>
             </SearchBar>
 
-            <!--working fine needs to revamp code-->
-            <!--<nativeControl:NativeListView
-                Grid.Row="2"
-                Margin="10,0,10,0"
-                SeparatorVisibility="Default"
-                SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
-                HasUnevenRows="True"
-                VerticalOptions="FillAndExpand"
-                Items="{Binding PartnerCollection}"/>-->
-
             <ListView
                 Margin="10,0,10,0"
                 x:Name="lstPartners"
                 Grid.Row="2"
+                SelectionMode="None"
                 VerticalOptions="FillAndExpand"
                 SeparatorVisibility="Default"
                 SeparatorColor="{StaticResource lightGrayPlaceholderColor}"

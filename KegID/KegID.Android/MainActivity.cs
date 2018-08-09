@@ -42,13 +42,10 @@ namespace KegID.Droid
             CarouselViewRenderer.Init();
             Rg.Plugins.Popup.Popup.Init(this, bundle);
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init(true);
-            ZXing.Net.Mobile.Forms.Android.Platform.Init();
             Xamarin.FormsMaps.Init(this, bundle);
             TintedImageRenderer.Init();
             Xamarin.Essentials.Platform.Init(this, bundle);
             CrossCurrentActivity.Current.Init(this, bundle);
-            //DependencyService.Register<OpenAppService>();
-
             try
             {
                 LoadApplication(new App(new AndroidInitializer()));
@@ -83,10 +80,7 @@ namespace KegID.Droid
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
         {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-
-            ZXing.Net.Mobile.Android.PermissionsHandler.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 

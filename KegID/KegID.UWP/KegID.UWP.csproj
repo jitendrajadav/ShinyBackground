@@ -131,6 +131,9 @@
     <Content Include="..\KegID\Assets\check.png">
       <Link>Assets\check.png</Link>
     </Content>
+    <Content Include="..\KegID\Assets\collectionscloud.png">
+      <Link>Assets\collectionscloud.png</Link>
+    </Content>
     <Content Include="..\KegID\Assets\collectionslabels.png">
       <Link>Assets\collectionslabels.png</Link>
     </Content>
@@ -139,6 +142,9 @@
     </Content>
     <Content Include="..\KegID\Assets\exit.png">
       <Link>Assets\exit.png</Link>
+    </Content>
+    <Content Include="..\KegID\Assets\Fill.png">
+      <Link>Assets\Fill.png</Link>
     </Content>
     <Content Include="..\KegID\Assets\fillkegs.png">
       <Link>Assets\fillkegs.png</Link>
@@ -184,9 +190,6 @@
     </Content>
     <Content Include="..\KegID\Assets\menurefresh.png">
       <Link>Assets\menurefresh.png</Link>
-    </Content>
-    <Content Include="..\KegID\Assets\more.png">
-      <Link>Assets\more.png</Link>
     </Content>
     <Content Include="..\KegID\Assets\movekegs.png">
       <Link>Assets\movekegs.png</Link>
@@ -244,6 +247,9 @@
     </Content>
     <Content Include="..\KegID\Assets\validationerror.png">
       <Link>Assets\validationerror.png</Link>
+    </Content>
+    <Content Include="..\KegID\Assets\validationok.png">
+      <Link>Assets\validationok.png</Link>
     </Content>
     <Content Include="..\KegID\Assets\validationquestion.png">
       <Link>Assets\validationquestion.png</Link>
@@ -341,6 +347,9 @@
     <PackageReference Include="runtime.win10-arm64.runtime.native.System.IO.Compression">
       <Version>4.3.2</Version>
     </PackageReference>
+    <PackageReference Include="Scandit.BarcodePicker.Unified">
+      <Version>5.8.1.10</Version>
+    </PackageReference>
     <PackageReference Include="Xam.Plugins.Settings">
       <Version>4.0.0.10-beta</Version>
     </PackageReference>
@@ -356,12 +365,6 @@
     </PackageReference>
     <PackageReference Include="Xamarin.Forms.Maps">
       <Version>3.1.0.697729</Version>
-    </PackageReference>
-    <PackageReference Include="ZXing.Net.Mobile">
-      <Version>2.4.1</Version>
-    </PackageReference>
-    <PackageReference Include="ZXing.Net.Mobile.Forms">
-      <Version>2.4.1</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
@@ -387,9 +390,7 @@
       <Name>KegID</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Renderers\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
