@@ -246,40 +246,6 @@ namespace KegID.ViewModel
 
         #endregion
 
-        #region BgImage
-
-        /// <summary>
-        /// The <see cref="BgImage" /> property's name.
-        /// </summary>
-        public const string BgImagePropertyName = "BgImage";
-
-        private string _BgImage = "Assets/kegbg.png";
-
-        /// <summary>
-        /// Sets and gets the BgImage property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string BgImage
-        {
-            get
-            {
-                return _BgImage;
-            }
-
-            set
-            {
-                if (_BgImage == value)
-                {
-                    return;
-                }
-
-                _BgImage = value;
-                RaisePropertyChanged(BgImagePropertyName);
-            }
-        }
-
-        #endregion
-
         #region IsVisibleDraftmaniFestsLabel
 
         /// <summary>
@@ -342,8 +308,6 @@ namespace KegID.ViewModel
             _dashboardService = dashboardService;
             _getIconByPlatform = getIconByPlatform;
             _uuidManager = uuidManager;
-
-            BgImage = _getIconByPlatform.GetIcon("kegbg.png");
 
             MoveCommand = new DelegateCommand(MoveCommandRecieverAsync);
             MoreCommand = new DelegateCommand(MoreCommandRecieverAsync);

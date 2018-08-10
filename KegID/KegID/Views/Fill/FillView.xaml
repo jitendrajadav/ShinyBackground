@@ -4,6 +4,8 @@
              x:Class="KegID.Views.FillView"
              Title="{Binding Resources[title_activity_fill_manifest]}"
              BackgroundColor="{StaticResource pageBGColor}"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             ios:Page.UseSafeArea="true"
              >
 
     <ContentPage.Content>

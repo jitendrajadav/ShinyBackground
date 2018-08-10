@@ -4,7 +4,10 @@
              x:Class="KegID.Views.MaintainView"
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
              Title="Maintenance Items"
-             BackgroundColor="{StaticResource pageBGColor}">
+             BackgroundColor="{StaticResource pageBGColor}"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             ios:Page.UseSafeArea="true"
+             >
 
     <ContentPage.Content>
        

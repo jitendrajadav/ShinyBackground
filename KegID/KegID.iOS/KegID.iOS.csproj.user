@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetiOSDevice>
     </TargetiOSDevice>
-    <SelectedDevice>SLG iPhone Player</SelectedDevice>
+    <SelectedDevice>Device</SelectedDevice>
     <ProjectView>ProjectFiles</ProjectView>
     <DefaultDevice>iPhone 8 iOS 11.3</DefaultDevice>
     <DeveloperId />

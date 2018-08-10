@@ -3,6 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="KegID.Views.MenuView"
              BackgroundColor="{StaticResource pageBGColor}"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             ios:Page.UseSafeArea="true"
              >
     
     <ContentPage.Content>
@@ -12,7 +14,21 @@
                 AbsoluteLayout.LayoutFlags="All" 
                 AbsoluteLayout.LayoutBounds="1, 1, 1, 1"
                 Source="{Binding BgImage}" 
-                Aspect="AspectFill"/>
+                Aspect="AspectFill">
+                <Image.Source>
+                    <OnPlatform x:TypeArguments="ImageSource">
+                        <On Platform="iOS">
+                            <FileImageSource File="kegbg.png"/>
+                        </On>
+                        <On Platform="Android">
+                            <FileImageSource File="kegbg.png"/>
+                        </On>
+                        <On Platform="UWP">
+                            <FileImageSource File="Assets/kegbg.png"/>
+                        </On>
+                    </OnPlatform>
+                </Image.Source>
+            </Image>
 
             <Grid
                 AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0, 0, 1, 1">

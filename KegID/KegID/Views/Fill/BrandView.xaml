@@ -4,6 +4,8 @@
              x:Class="KegID.Views.BrandView"
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
              BackgroundColor="{StaticResource pageBGColor}"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             ios:Page.UseSafeArea="true"
              >
 
     <ContentPage.Content>

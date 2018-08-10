@@ -4,6 +4,8 @@
              x:Class="KegID.Views.MoveView"
              Title="{Binding Resources[title_create_manifest]}"
              BackgroundColor="{StaticResource pageBGColor}"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             ios:Page.UseSafeArea="true"
              >
 
     <ContentPage.Content>
