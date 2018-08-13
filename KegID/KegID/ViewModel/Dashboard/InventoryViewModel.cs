@@ -171,6 +171,7 @@ namespace KegID.ViewModel
 
             _dashboardService = dashboardService;
             HomeCommand = new DelegateCommand(HomeCommandRecieverAsync);
+            InventoryCommandRecieverAsync();
         }
 
         #endregion

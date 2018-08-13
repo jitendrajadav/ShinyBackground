@@ -3646,44 +3646,44 @@ namespace KegID.Droid
 		public partial class Color
 		{
 			
-			// aapt resource value: 0x7f08005f
-			public const int abc_background_cache_hint_selector_material_dark = 2131230815;
-			
 			// aapt resource value: 0x7f080060
-			public const int abc_background_cache_hint_selector_material_light = 2131230816;
+			public const int abc_background_cache_hint_selector_material_dark = 2131230816;
 			
 			// aapt resource value: 0x7f080061
-			public const int abc_btn_colored_borderless_text_material = 2131230817;
+			public const int abc_background_cache_hint_selector_material_light = 2131230817;
 			
 			// aapt resource value: 0x7f080062
-			public const int abc_btn_colored_text_material = 2131230818;
+			public const int abc_btn_colored_borderless_text_material = 2131230818;
 			
 			// aapt resource value: 0x7f080063
-			public const int abc_color_highlight_material = 2131230819;
+			public const int abc_btn_colored_text_material = 2131230819;
 			
 			// aapt resource value: 0x7f080064
-			public const int abc_hint_foreground_material_dark = 2131230820;
+			public const int abc_color_highlight_material = 2131230820;
 			
 			// aapt resource value: 0x7f080065
-			public const int abc_hint_foreground_material_light = 2131230821;
+			public const int abc_hint_foreground_material_dark = 2131230821;
+			
+			// aapt resource value: 0x7f080066
+			public const int abc_hint_foreground_material_light = 2131230822;
 			
 			// aapt resource value: 0x7f08000c
 			public const int abc_input_method_navigation_guard = 2131230732;
 			
-			// aapt resource value: 0x7f080066
-			public const int abc_primary_text_disable_only_material_dark = 2131230822;
-			
 			// aapt resource value: 0x7f080067
-			public const int abc_primary_text_disable_only_material_light = 2131230823;
+			public const int abc_primary_text_disable_only_material_dark = 2131230823;
 			
 			// aapt resource value: 0x7f080068
-			public const int abc_primary_text_material_dark = 2131230824;
+			public const int abc_primary_text_disable_only_material_light = 2131230824;
 			
 			// aapt resource value: 0x7f080069
-			public const int abc_primary_text_material_light = 2131230825;
+			public const int abc_primary_text_material_dark = 2131230825;
 			
 			// aapt resource value: 0x7f08006a
-			public const int abc_search_url_text = 2131230826;
+			public const int abc_primary_text_material_light = 2131230826;
+			
+			// aapt resource value: 0x7f08006b
+			public const int abc_search_url_text = 2131230827;
 			
 			// aapt resource value: 0x7f08000d
 			public const int abc_search_url_text_normal = 2131230733;
@@ -3694,29 +3694,29 @@ namespace KegID.Droid
 			// aapt resource value: 0x7f08000f
 			public const int abc_search_url_text_selected = 2131230735;
 			
-			// aapt resource value: 0x7f08006b
-			public const int abc_secondary_text_material_dark = 2131230827;
-			
 			// aapt resource value: 0x7f08006c
-			public const int abc_secondary_text_material_light = 2131230828;
+			public const int abc_secondary_text_material_dark = 2131230828;
 			
 			// aapt resource value: 0x7f08006d
-			public const int abc_tint_btn_checkable = 2131230829;
+			public const int abc_secondary_text_material_light = 2131230829;
 			
 			// aapt resource value: 0x7f08006e
-			public const int abc_tint_default = 2131230830;
+			public const int abc_tint_btn_checkable = 2131230830;
 			
 			// aapt resource value: 0x7f08006f
-			public const int abc_tint_edittext = 2131230831;
+			public const int abc_tint_default = 2131230831;
 			
 			// aapt resource value: 0x7f080070
-			public const int abc_tint_seek_thumb = 2131230832;
+			public const int abc_tint_edittext = 2131230832;
 			
 			// aapt resource value: 0x7f080071
-			public const int abc_tint_spinner = 2131230833;
+			public const int abc_tint_seek_thumb = 2131230833;
 			
 			// aapt resource value: 0x7f080072
-			public const int abc_tint_switch_track = 2131230834;
+			public const int abc_tint_spinner = 2131230834;
+			
+			// aapt resource value: 0x7f080073
+			public const int abc_tint_switch_track = 2131230835;
 			
 			// aapt resource value: 0x7f080010
 			public const int accent_material_dark = 2131230736;
@@ -3775,8 +3775,8 @@ namespace KegID.Droid
 			// aapt resource value: 0x7f08005e
 			public const int cellback = 2131230814;
 			
-			// aapt resource value: 0x7f080073
-			public const int common_google_signin_btn_text_dark = 2131230835;
+			// aapt resource value: 0x7f080074
+			public const int common_google_signin_btn_text_dark = 2131230836;
 			
 			// aapt resource value: 0x7f080000
 			public const int common_google_signin_btn_text_dark_default = 2131230720;
@@ -3790,8 +3790,8 @@ namespace KegID.Droid
 			// aapt resource value: 0x7f080003
 			public const int common_google_signin_btn_text_dark_pressed = 2131230723;
 			
-			// aapt resource value: 0x7f080074
-			public const int common_google_signin_btn_text_light = 2131230836;
+			// aapt resource value: 0x7f080075
+			public const int common_google_signin_btn_text_light = 2131230837;
 			
 			// aapt resource value: 0x7f080004
 			public const int common_google_signin_btn_text_light_default = 2131230724;
@@ -3805,8 +3805,8 @@ namespace KegID.Droid
 			// aapt resource value: 0x7f080007
 			public const int common_google_signin_btn_text_light_pressed = 2131230727;
 			
-			// aapt resource value: 0x7f080075
-			public const int common_google_signin_btn_tint = 2131230837;
+			// aapt resource value: 0x7f080076
+			public const int common_google_signin_btn_tint = 2131230838;
 			
 			// aapt resource value: 0x7f08005b
 			public const int default_circle_indicator_fill_color = 2131230811;
@@ -3820,8 +3820,8 @@ namespace KegID.Droid
 			// aapt resource value: 0x7f080048
 			public const int design_bottom_navigation_shadow_color = 2131230792;
 			
-			// aapt resource value: 0x7f080076
-			public const int design_error = 2131230838;
+			// aapt resource value: 0x7f080077
+			public const int design_error = 2131230839;
 			
 			// aapt resource value: 0x7f080049
 			public const int design_fab_shadow_end_color = 2131230793;
@@ -3847,8 +3847,8 @@ namespace KegID.Droid
 			// aapt resource value: 0x7f080050
 			public const int design_snackbar_background_color = 2131230800;
 			
-			// aapt resource value: 0x7f080077
-			public const int design_tint_password_toggle = 2131230839;
+			// aapt resource value: 0x7f080078
+			public const int design_tint_password_toggle = 2131230840;
 			
 			// aapt resource value: 0x7f08001e
 			public const int dim_foreground_disabled_material_dark = 2131230750;
@@ -3964,17 +3964,20 @@ namespace KegID.Droid
 			// aapt resource value: 0x7f080040
 			public const int secondary_text_disabled_material_light = 2131230784;
 			
+			// aapt resource value: 0x7f08005f
+			public const int splash_background = 2131230815;
+			
 			// aapt resource value: 0x7f080041
 			public const int switch_thumb_disabled_material_dark = 2131230785;
 			
 			// aapt resource value: 0x7f080042
 			public const int switch_thumb_disabled_material_light = 2131230786;
 			
-			// aapt resource value: 0x7f080078
-			public const int switch_thumb_material_dark = 2131230840;
-			
 			// aapt resource value: 0x7f080079
-			public const int switch_thumb_material_light = 2131230841;
+			public const int switch_thumb_material_dark = 2131230841;
+			
+			// aapt resource value: 0x7f08007a
+			public const int switch_thumb_material_light = 2131230842;
 			
 			// aapt resource value: 0x7f080043
 			public const int switch_thumb_normal_material_dark = 2131230787;
@@ -4800,26 +4803,26 @@ namespace KegID.Droid
 			// aapt resource value: 0x7f020057
 			public const int avd_hide_password = 2130837591;
 			
-			// aapt resource value: 0x7f02017d
-			public const int avd_hide_password_1 = 2130837885;
-			
 			// aapt resource value: 0x7f02017e
-			public const int avd_hide_password_2 = 2130837886;
+			public const int avd_hide_password_1 = 2130837886;
 			
 			// aapt resource value: 0x7f02017f
-			public const int avd_hide_password_3 = 2130837887;
+			public const int avd_hide_password_2 = 2130837887;
+			
+			// aapt resource value: 0x7f020180
+			public const int avd_hide_password_3 = 2130837888;
 			
 			// aapt resource value: 0x7f020058
 			public const int avd_show_password = 2130837592;
 			
-			// aapt resource value: 0x7f020180
-			public const int avd_show_password_1 = 2130837888;
-			
 			// aapt resource value: 0x7f020181
-			public const int avd_show_password_2 = 2130837889;
+			public const int avd_show_password_1 = 2130837889;
 			
 			// aapt resource value: 0x7f020182
-			public const int avd_show_password_3 = 2130837890;
+			public const int avd_show_password_2 = 2130837890;
+			
+			// aapt resource value: 0x7f020183
+			public const int avd_show_password_3 = 2130837891;
 			
 			// aapt resource value: 0x7f020059
 			public const int camera = 2130837593;
@@ -5619,11 +5622,11 @@ namespace KegID.Droid
 			// aapt resource value: 0x7f020162
 			public const int notification_icon_background = 2130837858;
 			
-			// aapt resource value: 0x7f02017b
-			public const int notification_template_icon_bg = 2130837883;
-			
 			// aapt resource value: 0x7f02017c
-			public const int notification_template_icon_low_bg = 2130837884;
+			public const int notification_template_icon_bg = 2130837884;
+			
+			// aapt resource value: 0x7f02017d
+			public const int notification_template_icon_low_bg = 2130837885;
 			
 			// aapt resource value: 0x7f020163
 			public const int notification_tile_bg = 2130837859;
@@ -5668,34 +5671,37 @@ namespace KegID.Droid
 			public const int setting = 2130837872;
 			
 			// aapt resource value: 0x7f020171
-			public const int splashscreen = 2130837873;
+			public const int splash_screen = 2130837873;
 			
 			// aapt resource value: 0x7f020172
-			public const int tags = 2130837874;
+			public const int splashscreen = 2130837874;
 			
 			// aapt resource value: 0x7f020173
-			public const int tooltip_frame_dark = 2130837875;
+			public const int tags = 2130837875;
 			
 			// aapt resource value: 0x7f020174
-			public const int tooltip_frame_light = 2130837876;
+			public const int tooltip_frame_dark = 2130837876;
 			
 			// aapt resource value: 0x7f020175
-			public const int triangle = 2130837877;
+			public const int tooltip_frame_light = 2130837877;
 			
 			// aapt resource value: 0x7f020176
-			public const int Up = 2130837878;
+			public const int triangle = 2130837878;
 			
 			// aapt resource value: 0x7f020177
-			public const int validationerror = 2130837879;
+			public const int Up = 2130837879;
 			
 			// aapt resource value: 0x7f020178
-			public const int validationok = 2130837880;
+			public const int validationerror = 2130837880;
 			
 			// aapt resource value: 0x7f020179
-			public const int validationquestion = 2130837881;
+			public const int validationok = 2130837881;
 			
 			// aapt resource value: 0x7f02017a
-			public const int warn = 2130837882;
+			public const int validationquestion = 2130837882;
+			
+			// aapt resource value: 0x7f02017b
+			public const int warn = 2130837883;
 			
 			static Drawable()
 			{
@@ -7561,6 +7567,15 @@ namespace KegID.Droid
 			// aapt resource value: 0x7f0d0193
 			public const int MainTheme_Base = 2131558803;
 			
+			// aapt resource value: 0x7f0d0196
+			public const int MyTheme = 2131558806;
+			
+			// aapt resource value: 0x7f0d0195
+			public const int MyTheme_Base = 2131558805;
+			
+			// aapt resource value: 0x7f0d0197
+			public const int MyTheme_Splash = 2131558807;
+			
 			// aapt resource value: 0x7f0d002d
 			public const int Platform_AppCompat = 2131558445;
 			
@@ -8247,9 +8262,6 @@ namespace KegID.Droid
 			
 			// aapt resource value: 0x7f0d000a
 			public const int Widget_MediaRouter_MediaRouteButton = 2131558410;
-			
-			// aapt resource value: 0x7f0d0195
-			public const int splashscreen = 2131558805;
 			
 			static Style()
 			{

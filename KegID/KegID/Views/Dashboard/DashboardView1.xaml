@@ -1,10 +1,16 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KegID.Views.DashboardView1"
+             Title="Dashboard"
              xmlns:controls="clr-namespace:Plugin.CrossPlatformTintedImage.Abstractions;assembly=Plugin.CrossPlatformTintedImage.Abstractions"
-             x:Class="KegID.Views.DashboardView">
-  <ContentView.Content>
-      
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             ios:Page.UseSafeArea="true"
+             BackgroundColor="{StaticResource pageBGColor}"
+             >
+    
+    <ContentPage.Content>
+        
         <Grid
             RowSpacing="0">
             <Grid.RowDefinitions>
@@ -21,7 +27,7 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="50"/>
                 </Grid.ColumnDefinitions>
-
+                
                 <Image 
                     VerticalOptions="Center"
                     Grid.Column="0"
@@ -76,7 +82,7 @@
                 </controls:TintedImage>
 
             </Grid>
-
+          
             <BoxView
                 Margin="0,0,-10,0"
                 Grid.Row="1"
@@ -92,7 +98,7 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-
+               
                 <Grid
                     RowSpacing="0"
                     ColumnSpacing="0"
@@ -133,7 +139,7 @@
                         WidthRequest="1"
                         VerticalOptions="FillAndExpand"
                         HorizontalOptions="Start"/>
-
+                    
                     <BoxView
                         Grid.Row="1"
                         Grid.RowSpan="8"
@@ -367,7 +373,7 @@
                         HeightRequest="1"
                         VerticalOptions="Start"
                         HorizontalOptions="FillAndExpand"/>
-
+                    
                     <Label
                         Style="{StaticResource LabelLeftAlign}"
                         Grid.Row="3"
@@ -404,7 +410,7 @@
                         HeightRequest="1"
                         VerticalOptions="Start"
                         HorizontalOptions="FillAndExpand"/>
-
+                    
                     <Label
                         Style="{StaticResource LabelLeftAlign}"
                         Grid.Row="7"
@@ -582,18 +588,54 @@
                     </Label.GestureRecognizers>
                 </Label>
             </Grid>
-
-            <Label
-                Grid.Row="4"
-                HeightRequest="35"
-                TextColor="White"
-                VerticalTextAlignment="Center"
-                HorizontalOptions="FillAndExpand"
-                HorizontalTextAlignment="Center"
-                BackgroundColor="Red"
-                IsVisible="{Binding IsVisibleDraftmaniFestsLabel}"
-                Text="{Binding DraftmaniFests,StringFormat='{0} draft manifests'}"/>
             
+            <Grid
+                VerticalOptions="End"
+                HorizontalOptions="FillAndExpand"
+                Grid.Row="4">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button
+                    Grid.Column="0"
+                    HorizontalOptions="End"
+                    HeightRequest="10"
+                    VerticalOptions="Center"
+                    WidthRequest="10"
+                    CornerRadius="5"
+                    BackgroundColor="LightGray"
+                    />
+
+                <Button
+                    Grid.Column="1"
+                    HorizontalOptions="Start"
+                    HeightRequest="16"
+                    VerticalOptions="Center"
+                    WidthRequest="16"
+                    CornerRadius="8"
+                    BackgroundColor="Gray"/>
+
+                <Label
+                    Grid.ColumnSpan="2"
+                    Grid.Row="1"
+                    HeightRequest="35"
+                    TextColor="White"
+                    VerticalTextAlignment="Center"
+                    HorizontalOptions="FillAndExpand"
+                    HorizontalTextAlignment="Center"
+                    BackgroundColor="Red"
+                    IsVisible="{Binding IsVisibleDraftmaniFestsLabel}"
+                    Text="{Binding DraftmaniFests,StringFormat='{0} draft manifests'}"/>
+
+            </Grid>
+
         </Grid>
-    </ContentView.Content>
-</ContentView>
+    </ContentPage.Content>
+</ContentPage>

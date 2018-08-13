@@ -91,7 +91,7 @@ namespace KegID.ViewModel
                     if (AppSettings.IsFreshInstall)
                     {
                         AppSettings.IsFreshInstall = false;
-                        await _navigationService.NavigateAsync(new Uri("/MainPage", UriKind.RelativeOrAbsolute), animated: false);
+                        await _navigationService.NavigateAsync(new Uri("/MainPage", UriKind.Absolute), animated: false);
                         try
                         {
                             Loader.StartLoading();

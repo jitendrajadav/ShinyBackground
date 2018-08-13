@@ -6,9 +6,9 @@ using Xamarin.Forms.Xaml;
 namespace KegID.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class MenuView : ContentPage
+	public partial class MenuView1 : ContentPage
 	{
-		public MenuView ()
+		public MenuView1 ()
 		{
             try
             {

@@ -55,8 +55,8 @@ namespace KegID
             containerRegistry.RegisterForNavigation<NavigationPage>();
 
             containerRegistry.RegisterForNavigation<LoginView, LoginViewModel>();
-            containerRegistry.RegisterForNavigation<DashboardView, DashboardViewModel>();
-            containerRegistry.RegisterForNavigation<MenuView, DashboardViewModel>();
+            //containerRegistry.RegisterForNavigation<DashboardView, DashboardViewModel>();
+            //containerRegistry.RegisterForNavigation<MenuView, DashboardViewModel>();
             containerRegistry.RegisterForNavigation<ScanditScanView, ScanditScanViewModel>();
 
             containerRegistry.RegisterForNavigation<SelectPrinterView, SelectPrinterViewModel>();

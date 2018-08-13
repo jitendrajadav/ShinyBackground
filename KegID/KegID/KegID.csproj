@@ -55,6 +55,15 @@
     <Compile Update="Views\Dashboard\DashboardPartnersView.xaml.cs">
       <DependentUpon>DashboardPartnersView.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\Dashboard\DashboardView1.xaml.cs">
+      <DependentUpon>DashboardView1.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Dashboard\DashboardView.xaml.cs">
+      <DependentUpon>DashboardView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Dashboard\MenuView.xaml.cs">
+      <DependentUpon>MenuView.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\Fill\FillScanReviewView.xaml.cs">
       <DependentUpon>FillScanReviewView.xaml</DependentUpon>
     </Compile>
@@ -63,6 +72,9 @@
     </Compile>
     <Compile Update="Views\Maintain\MaintainDetailView.xaml.cs">
       <DependentUpon>MaintainDetailView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Master\MenuView1.xaml.cs">
+      <DependentUpon>MenuView1.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Move\ContentTagsView.xaml.cs">
       <DependentUpon>ContentTagsView.xaml</DependentUpon>
@@ -110,6 +122,12 @@
     <EmbeddedResource Update="Views\Dashboard\PartnerInfoView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\Dashboard\MenuView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Dashboard\DashboardView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\Fill\AddBatchView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -125,7 +143,7 @@
     <EmbeddedResource Update="Views\Fill\VolumeView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Master\MenuView.xaml">
+    <EmbeddedResource Update="Views\Master\MenuView1.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Move\AddPartnerView.xaml">
@@ -161,7 +179,7 @@
     <EmbeddedResource Update="Views\Move\SearchPartnersView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Dashboard\DashboardView.xaml">
+    <EmbeddedResource Update="Views\Dashboard\DashboardView1.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Fill\BatchView.xaml">

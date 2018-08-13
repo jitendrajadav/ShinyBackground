@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="KegID.Views.MenuView"
+             x:Class="KegID.Views.MenuView1"
              BackgroundColor="{StaticResource pageBGColor}"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              ios:Page.UseSafeArea="true"
@@ -13,7 +13,6 @@
             <Image 
                 AbsoluteLayout.LayoutFlags="All" 
                 AbsoluteLayout.LayoutBounds="1, 1, 1, 1"
-                Source="{Binding BgImage}" 
                 Aspect="AspectFill">
                 <Image.Source>
                     <OnPlatform x:TypeArguments="ImageSource">
@@ -50,8 +49,8 @@
                     HeightRequest="50">
                     <Image.Margin>
                         <OnPlatform x:TypeArguments="Thickness">
-                            <On Platform="iOS" Value="0,22,0,0" />
-                            <On Platform="Android, WinPhone, Windows" Value="0,0,0,0" />
+                            <On Platform="iOS" Value="0,24,0,2" />
+                            <On Platform="Android, WinPhone, Windows" Value="0,2,0,2" />
                         </OnPlatform>
                     </Image.Margin>
                     <Image.Source>
