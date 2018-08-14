@@ -5,6 +5,7 @@ using KegID.Model;
 using KegID.Services;
 using Prism.Commands;
 using Prism.Navigation;
+using Prism.Services;
 using Scandit.BarcodePicker.Unified;
 using Scandit.BarcodePicker.Unified.Abstractions;
 using System;
@@ -21,6 +22,8 @@ namespace KegID.ViewModel
         private const string Cloud = "collectionscloud.png";
         private readonly IMoveService _moveService;
         private readonly INavigationService _navigationService;
+        private readonly IPageDialogService _dialogService;
+
         public IList<Tag> Tags { get; set; }
         public string TagsStr { get; set; }
         public string Page { get; set; }
@@ -87,10 +90,11 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public ScanditScanViewModel(IMoveService moveService, INavigationService navigationService)
+        public ScanditScanViewModel(IMoveService moveService, INavigationService navigationService, IPageDialogService dialogService)
         {
             _navigationService = navigationService;
             _moveService = moveService;
+            _dialogService = dialogService;
 
             DoneCommand = new DelegateCommand(DoneCommandRecieverAsync);
 

@@ -55,9 +55,6 @@
     <Compile Update="Views\Dashboard\DashboardPartnersView.xaml.cs">
       <DependentUpon>DashboardPartnersView.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\Dashboard\DashboardView1.xaml.cs">
-      <DependentUpon>DashboardView1.xaml</DependentUpon>
-    </Compile>
     <Compile Update="Views\Dashboard\DashboardView.xaml.cs">
       <DependentUpon>DashboardView.xaml</DependentUpon>
     </Compile>
@@ -72,9 +69,6 @@
     </Compile>
     <Compile Update="Views\Maintain\MaintainDetailView.xaml.cs">
       <DependentUpon>MaintainDetailView.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\Master\MenuView1.xaml.cs">
-      <DependentUpon>MenuView1.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Move\ContentTagsView.xaml.cs">
       <DependentUpon>ContentTagsView.xaml</DependentUpon>
@@ -143,9 +137,6 @@
     <EmbeddedResource Update="Views\Fill\VolumeView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Master\MenuView1.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
     <EmbeddedResource Update="Views\Move\AddPartnerView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -177,9 +168,6 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Move\SearchPartnersView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\Dashboard\DashboardView1.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Fill\BatchView.xaml">
