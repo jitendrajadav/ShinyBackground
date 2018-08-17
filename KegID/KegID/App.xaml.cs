@@ -32,6 +32,10 @@ namespace KegID
         public App(IPlatformInitializer initializer = null) : base(initializer) { }
         protected override void OnInitialized()
         {
+            // Initialize Live Reload.
+#if DEBUG
+            LiveReload.Init();
+#endif
             InitializeComponent();
 
             serviceProvider = new ServiceCollection()

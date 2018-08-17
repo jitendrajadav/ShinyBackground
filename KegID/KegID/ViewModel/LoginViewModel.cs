@@ -197,10 +197,18 @@ namespace KegID.ViewModel
                     }
                     try
                     {
+                        // If it is Android or iOS
                         if (AppSettings.IsFreshInstall)
                             await _navigationService.NavigateAsync(new Uri("/NavigationPage/WhatIsNewView", UriKind.Absolute), useModalNavigation: true, animated: false);
                         else
-                            await _navigationService.NavigateAsync(new Uri("/NavigationPage/MainPage", UriKind.Relative), useModalNavigation: true, animated: false);
+                            await _navigationService.NavigateAsync(new Uri("/NavigationPage/MainPage", UriKind.Absolute), useModalNavigation: true, animated: false);
+
+                        // If it is UWP
+                        //if (AppSettings.IsFreshInstall)
+                        //    await _navigationService.NavigateAsync(new Uri("/NavigationPage/WhatIsNewView", UriKind.RelativeOrAbsolute), useModalNavigation: true, animated: false);
+                        //else
+                        //    await _navigationService.NavigateAsync(new Uri("/NavigationPage/MainPage", UriKind.RelativeOrAbsolute), useModalNavigation: true, animated: false);
+
                     }
                     catch (Exception ex)
                     {

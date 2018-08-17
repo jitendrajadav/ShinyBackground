@@ -19,6 +19,7 @@ namespace KegID.ViewModel
         public int CurrentPage { get; internal set; }
         private readonly INavigationService _navigationService;
         private readonly IDashboardService _dashboardService;
+        private bool isNavigated;
 
         #region StockInventoryCollection
 
@@ -171,7 +172,6 @@ namespace KegID.ViewModel
 
             _dashboardService = dashboardService;
             HomeCommand = new DelegateCommand(HomeCommandRecieverAsync);
-            InventoryCommandRecieverAsync();
         }
 
         #endregion
@@ -198,18 +198,19 @@ namespace KegID.ViewModel
                 Loader.StartLoading();
                 model = await _dashboardService.GetInventoryAsync(AppSettings.User.SessionId);
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                await RealmDb.WriteAsync((realmDb) =>
+                RealmDb.Write(()=>
                 {
                     foreach (var item in model.InventoryResponseModel)
                     {
-                        realmDb.Add(item);
+                        RealmDb.Add(item);
                     }
                 });
+
                 StockInventoryCollection = model.InventoryResponseModel.Where(x => x.Status != "Empty").ToList();
                 EmptyInventoryCollection = model.InventoryResponseModel.Where(x => x.Status == "Empty").ToList();
 
                 StockTotals = StockInventoryCollection.Sum(x => x.Quantity);
-                EmptyTotals = EmptyInventoryCollection.Sum(x=>x.Quantity);
+                EmptyTotals = EmptyInventoryCollection.Sum(x => x.Quantity);
             }
             catch (Exception ex)
             {
@@ -250,10 +251,20 @@ namespace KegID.ViewModel
 
         public override void OnNavigatingTo(INavigationParameters parameters)
         {
-            if (parameters.ContainsKey("currentPage"))
+            if (!isNavigated)
             {
-                InitialAssignValueAsync(parameters.GetValue<int>("currentPage"));
+                if (parameters.ContainsKey("currentPage"))
+                {
+                    InitialAssignValueAsync(parameters.GetValue<int>("currentPage"));
+                    isNavigated = true;
+                }
             }
+        }
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            base.OnNavigatedFrom(parameters);
+            isNavigated = false;
         }
 
         #endregion
