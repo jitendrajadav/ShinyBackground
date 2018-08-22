@@ -436,7 +436,7 @@ namespace KegID.ViewModel
                 {
                     Barcode = ManifestId.Split('-').LastOrDefault(),
                     BuildDate = DateTimeOffset.Now,
-                    OwnerId = AppSettings.User.CompanyId,
+                    OwnerId = AppSettings.CompanyId,
                     PalletId = _uuidManager.GetUuId(),
                     PalletItems = palletItems,
                     ReferenceKey = "",
@@ -446,7 +446,7 @@ namespace KegID.ViewModel
                     Tags = ConstantManager.Tags
                 };
 
-                var value = await _palletizeService.PostPalletAsync(palletRequestModel, AppSettings.User.SessionId, Configuration.NewPallet);
+                var value = await _palletizeService.PostPalletAsync(palletRequestModel, AppSettings.SessionId, Configuration.NewPallet);
 
                 if (value.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                 {
@@ -455,7 +455,7 @@ namespace KegID.ViewModel
 
                     await _navigationService.NavigateAsync(new Uri("PalletizeDetailView", UriKind.Relative), new NavigationParameters
                     {
-                        { "LoadInfo", value }
+                        { "LoadInfo", value },{ "Contents", ConstantManager.Contents }
                     }, useModalNavigation: true, animated: false);
                 }
                 else

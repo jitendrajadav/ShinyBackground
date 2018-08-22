@@ -6,6 +6,7 @@ namespace KegID.Services
 {
     public static class ConstantManager /*: IConstantManager*/
     {
+        public static Xamarin.Essentials.Location Location { get; set; }
         public static IDiscoveredPrinter PrinterSetting { get; set; }
         public static string IPAddr { get; set; }
         public static bool IsIPAddr { get; set; }

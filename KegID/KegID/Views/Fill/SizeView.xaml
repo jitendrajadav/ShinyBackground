@@ -10,15 +10,34 @@
 
     <ContentPage.Content>
         
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+        <Grid
+            Grid.Row="0"
+            Padding="0,5"
+            BackgroundColor="{StaticResource lightGrayColor}">
+
+            <Label
+                Style="{StaticResource LabelTitleStyle}"
+                TextColor="Black"
+                HorizontalOptions="CenterAndExpand"
+                Text="{Binding Resources[title_select_size]}"/>
+        </Grid>
+        
         <ListView 
             Margin="10,0,10,0"
-            Grid.Row="2"
+            Grid.Row="1"
             SelectionMode="None"
             x:Name="sizeListView"
             SeparatorVisibility="Default"
             SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
             HasUnevenRows="true"
-            ItemsSource="{Binding SizeCollection}">
+            ItemsSource="{Binding SizeCollection}"
+            >
             
             <ListView.Behaviors>
                 <behaviors:EventToCommandBehavior
@@ -46,7 +65,8 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        
+        </Grid>
+
     </ContentPage.Content>
     
 </ContentPage>

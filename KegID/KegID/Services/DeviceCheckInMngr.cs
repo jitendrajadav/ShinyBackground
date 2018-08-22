@@ -31,10 +31,10 @@ namespace KegID.Services
                 DeviceModel = DeviceInfo.Model,
                 OS = DeviceInfo.Platform,
                 PushToken = "",
-                UserId = AppSettings.User.UserId
+                UserId = AppSettings.UserId
             };
 
-            var value = await _accountService.DeviceCheckinAsync(deviceModel, AppSettings.User.SessionId, Configuration.DeviceCheckin);
+            var value = await _accountService.DeviceCheckinAsync(deviceModel, AppSettings.SessionId, Configuration.DeviceCheckin);
             if (value.StatusCode != HttpStatusCode.NoContent.ToString())
             {
                 var param = new NavigationParameters

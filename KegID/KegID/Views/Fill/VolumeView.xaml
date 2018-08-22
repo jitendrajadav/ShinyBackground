@@ -10,30 +10,49 @@
 
     <ContentPage.Content>
         
-        <ListView 
-            Margin="10,0,10,0"
-            Grid.Row="2"
-            x:Name="volumeListView"
-            SeparatorVisibility="Default"
-            SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
-            HasUnevenRows="true"
-            SelectionMode="None"
-            ItemsSource="{Binding VolumeCollection}">
-           
-            <ListView.Behaviors>
-                <behaviors:EventToCommandBehavior
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid
+                Grid.Row="0"
+                Padding="0,5"
+                BackgroundColor="{StaticResource lightGrayColor}">
+
+                <Label
+                    Style="{StaticResource LabelTitleStyle}"
+                    TextColor="Black"
+                    HorizontalOptions="CenterAndExpand"
+                    Text="{Binding Resources[title_select_volume]}"/>
+            </Grid>
+            
+            <ListView 
+                Margin="10,0,10,0"
+                Grid.Row="1"
+                x:Name="volumeListView"
+                SeparatorVisibility="Default"
+                SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
+                HasUnevenRows="true"
+                SelectionMode="None"
+                ItemsSource="{Binding VolumeCollection}">
+
+                <ListView.Behaviors>
+                    <behaviors:EventToCommandBehavior
                             EventName="ItemTapped" 
                             Command="{Binding ItemTappedCommand}"
                             Converter="{StaticResource ItemTappedConverter}"/>
-            </ListView.Behaviors>
+                </ListView.Behaviors>
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextCell Height="40" Text="{Binding}"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
             
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <TextCell Height="40" Text="{Binding}"/>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-        
+        </Grid>
     </ContentPage.Content>
     
 </ContentPage>

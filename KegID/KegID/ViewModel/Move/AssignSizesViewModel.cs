@@ -427,6 +427,14 @@ namespace KegID.ViewModel
             }
         }
 
+        public override void OnNavigatingTo(INavigationParameters parameters)
+        {
+            if (parameters.ContainsKey("alert"))
+            {
+                AssignInitialValueAsync(parameters.GetValue<List<BarcodeModel>>("alert"));
+            }
+        }
+
         #endregion
     }
 }

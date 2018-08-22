@@ -541,9 +541,13 @@ namespace KegID.ViewModel
         {
             try
             {
-                foreach (var item in verifiedBarcodes)
+                using (var db = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
                 {
-                    BarcodeCollection.Where(x => x.Barcode == item.Barcode).FirstOrDefault().HasMaintenaceVerified = item.HasMaintenaceVerified;
+                    foreach (var item in verifiedBarcodes)
+                    {
+                        BarcodeCollection.Where(x => x.Barcode == item.Barcode).FirstOrDefault().HasMaintenaceVerified = item.HasMaintenaceVerified;
+                    }
+                    db.Commit();
                 }
             }
             catch (Exception ex)

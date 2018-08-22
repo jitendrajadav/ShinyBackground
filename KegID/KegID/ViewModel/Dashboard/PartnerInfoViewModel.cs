@@ -408,7 +408,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                PartnerInfoModel = await _dashboardService.GetPartnerInfoAsync(AppSettings.User.SessionId, ConstantManager.DBPartnerId);
+                PartnerInfoModel = await _dashboardService.GetPartnerInfoAsync(AppSettings.SessionId, ConstantManager.DBPartnerId);
                 KegsHeld = PartnerInfoModel.KegsHeld.ToString();
                 Notes = PartnerInfoModel.Notes;
                 Ref = PartnerInfoModel.ReferenceKey;

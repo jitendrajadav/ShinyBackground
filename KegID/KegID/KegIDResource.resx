@@ -1765,12 +1765,24 @@
     <value>Printer</value>
   </data>
   <data name="title_about_app" xml:space="preserve">
-    <value>AboutApp</value>
+    <value>About KegID</value>
   </data>
   <data name="label_beeps_on_valid_scan" xml:space="preserve">
     <value>Beeps on valid scans</value>
   </data>
   <data name="label_totals" xml:space="preserve">
     <value>Totals</value>
+  </data>
+  <data name="title_select_batch" xml:space="preserve">
+    <value>Select Batch</value>
+  </data>
+  <data name="title_select_brand" xml:space="preserve">
+    <value>Select Brand</value>
+  </data>
+  <data name="title_select_size" xml:space="preserve">
+    <value>Select Size</value>
+  </data>
+  <data name="title_select_volume" xml:space="preserve">
+    <value>Select Volume</value>
   </data>
 </root>

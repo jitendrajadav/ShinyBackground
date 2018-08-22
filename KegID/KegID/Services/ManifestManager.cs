@@ -18,11 +18,6 @@ namespace KegID.Services
             List<ManifestItem> manifestItemlst = new List<ManifestItem>();
             ManifestItem manifestItem = null;
 
-            var request = new GeolocationRequest(GeolocationAccuracy.Medium);
-            var location = await Geolocation.GetLastKnownLocationAsync();
-            if (location == null)
-                location = await Geolocation.GetLocationAsync(request);
-
             try
             {
                 foreach (var item in barcodeCollection)
@@ -67,12 +62,12 @@ namespace KegID.Services
                 {
                     ManifestId = manifestId,
                     EventTypeId = (long)eventTypeEnum,
-                    Latitude = (long)location.Latitude,
-                    Longitude = (long)location.Longitude,
+                    Latitude = ConstantManager.Location != null ? (long)ConstantManager.Location.Latitude : 0,
+                    Longitude = ConstantManager.Location != null ? (long)ConstantManager.Location.Longitude : 0,
                     SubmittedDate = DateTimeOffset.UtcNow.Date,
                     ShipDate = DateTimeOffset.UtcNow.Date,
 
-                    SenderId = AppSettings.User.CompanyId,
+                    SenderId = AppSettings.CompanyId,
                     ReceiverId = partnerModel.PartnerId,
                     //DestinationName = partnerModel.FullName,
                     //DestinationTypeCode = partnerModel.LocationCode,

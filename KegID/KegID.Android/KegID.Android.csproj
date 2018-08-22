@@ -146,10 +146,10 @@
       <Version>2.4.3.840</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms">
-      <Version>3.2.0.729530-pre2</Version>
+      <Version>3.1.0.697729</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms.Maps">
-      <Version>3.2.0.729530-pre2</Version>
+      <Version>3.1.0.697729</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.LiveReload">
       <Version>0.3.27</Version>
@@ -447,15 +447,30 @@
     <AndroidResource Include="Resources\drawable\icon.png" />
     <AndroidResource Include="Resources\drawable\splashscreen.png" />
     <AndroidResource Include="Resources\drawable\splash_screen.xml" />
+    <AndroidResource Include="Resources\drawable\tab_indicator_ab_maintheme.xml" />
+    <AndroidResource Include="Resources\drawable-hdpi\tab_unselected_pressed_maintheme.9.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\tab_selected_focused_maintheme.9.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\tab_selected_maintheme.9.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\tab_selected_pressed_maintheme.9.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\tab_unselected_focused_maintheme.9.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\tab_unselected_maintheme.9.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\tab_selected_focused_maintheme.9.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\tab_selected_maintheme.9.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\tab_selected_pressed_maintheme.9.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\tab_unselected_focused_maintheme.9.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\tab_unselected_maintheme.9.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\tab_unselected_pressed_maintheme.9.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\tab_selected_focused_maintheme.9.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\tab_selected_maintheme.9.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\tab_selected_pressed_maintheme.9.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\tab_unselected_focused_maintheme.9.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\tab_unselected_maintheme.9.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\tab_unselected_pressed_maintheme.9.png" />
   </ItemGroup>
   <ItemGroup>
     <ProguardConfiguration Include="proguard_custom.cfg" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\drawable-hdpi\" />
-    <Folder Include="Resources\drawable-xhdpi\" />
-    <Folder Include="Resources\drawable-xxhdpi\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="ReplaceRefAssemblies" AfterTargets="_ResolveAssemblies">
     <ItemGroup>

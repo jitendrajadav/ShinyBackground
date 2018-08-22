@@ -738,7 +738,7 @@ namespace KegID.ViewModel
                 TypeName = _typeName;
                 SizeName = _sizeName;
 
-                var kegStatus = await _dashboardService.GetKegStatusAsync(KegId, AppSettings.User.SessionId);
+                var kegStatus = await _dashboardService.GetKegStatusAsync(KegId, AppSettings.SessionId);
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                 var addMaintenanceCollection = RealmDb.All<MaintainTypeReponseModel>().ToList();
                 KegHasAlert = kegStatus.MaintenanceAlerts.Count > 0 ? true : false;
@@ -768,7 +768,7 @@ namespace KegID.ViewModel
                     Lon = kegStatus.Location.Lon
                 };
 
-                var value = await _dashboardService.GetKegMaintenanceHistoryAsync(KegId, AppSettings.User.SessionId);
+                var value = await _dashboardService.GetKegMaintenanceHistoryAsync(KegId, AppSettings.SessionId);
                 MaintenancePerformedCollection = value.KegMaintenanceHistoryResponseModel;
 
                 if (value.KegMaintenanceHistoryResponseModel.Count > 0)
@@ -875,7 +875,7 @@ namespace KegID.ViewModel
                 try
                 {
                     Loader.StartLoading();
-                    var result = await _dashboardService.PostMaintenanceAlertAsync(model, AppSettings.User.SessionId, Configuration.PostedMaintenanceAlert);
+                    var result = await _dashboardService.PostMaintenanceAlertAsync(model, AppSettings.SessionId, Configuration.PostedMaintenanceAlert);
 
                     if (result.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                     {
@@ -917,7 +917,7 @@ namespace KegID.ViewModel
                 };
                 try
                 {
-                    var result = await _dashboardService.PostMaintenanceDeleteAlertUrlAsync(model, AppSettings.User.SessionId, Configuration.DeleteTypeMaintenanceAlert);
+                    var result = await _dashboardService.PostMaintenanceDeleteAlertUrlAsync(model, AppSettings.SessionId, Configuration.DeleteTypeMaintenanceAlert);
                     if (result.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                     {
                         Loader.StopLoading();

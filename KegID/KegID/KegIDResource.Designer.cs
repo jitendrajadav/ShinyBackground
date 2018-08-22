@@ -4345,7 +4345,7 @@ namespace KegID {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to AboutApp.
+        ///   Looks up a localized string similar to About KegID.
         /// </summary>
         internal static string title_about_app {
             get {
@@ -4944,6 +4944,42 @@ namespace KegID {
         internal static string title_searching {
             get {
                 return ResourceManager.GetString("title_searching", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select Batch.
+        /// </summary>
+        internal static string title_select_batch {
+            get {
+                return ResourceManager.GetString("title_select_batch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select Brand.
+        /// </summary>
+        internal static string title_select_brand {
+            get {
+                return ResourceManager.GetString("title_select_brand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select Size.
+        /// </summary>
+        internal static string title_select_size {
+            get {
+                return ResourceManager.GetString("title_select_size", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select Volume.
+        /// </summary>
+        internal static string title_select_volume {
+            get {
+                return ResourceManager.GetString("title_select_volume", resourceCulture);
             }
         }
         

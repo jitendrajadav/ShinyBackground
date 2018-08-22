@@ -493,13 +493,13 @@ namespace KegID.ViewModel
                 NewBatchModel.BrewDate = BrewDate.ToShortDateString();
                 NewBatchModel.BrewedVolume = VolumeDigit;
                 NewBatchModel.BrewedVolumeUom = VolumeChar;
-                NewBatchModel.CompanyId = AppSettings.User.CompanyId;
+                NewBatchModel.CompanyId = AppSettings.CompanyId;
                 NewBatchModel.CompletedDate = DateTime.Today.ToString();
                 NewBatchModel.IsCompleted = true;
                 NewBatchModel.PackageDate = PackageDate.ToString();
                 NewBatchModel.PackagedVolume = 12;
                 NewBatchModel.PackagedVolumeUom = "";
-                NewBatchModel.RecipeId = AppSettings.User.CompanyId;
+                NewBatchModel.RecipeId = AppSettings.CompanyId;
                 NewBatchModel.SourceKey = "";
 
                 await _navigationService.GoBackAsync(new NavigationParameters { { "NewBatchModel", NewBatchModel } }, useModalNavigation: true, animated: false);

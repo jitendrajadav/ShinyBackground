@@ -322,7 +322,7 @@ namespace KegID.ViewModel
             switch (parameters.Keys.FirstOrDefault())
             {
                 case "manifest":
-                    AssignInitialValue(parameters.GetValue<ManifestResponseModel>("manifest"), string.Empty);
+                    AssignInitialValue(parameters.GetValue<ManifestResponseModel>("manifest"), parameters.GetValue<string>("Contents"));
                     break;
                 case "AssignInitialValue":
                     AssignInitialValue(parameters.GetValue<ManifestResponseModel>("AssignInitialValue"), string.Empty);

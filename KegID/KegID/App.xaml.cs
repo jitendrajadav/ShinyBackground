@@ -47,7 +47,7 @@ namespace KegID
 
             kegIDClient = serviceProvider.GetService<KegIDClient>();
 
-            if (AppSettings.User != null)
+            if (!string.IsNullOrEmpty(AppSettings.SessionId))
                 NavigationService.NavigateAsync(nameof(KegID.MainPage));
             else
                 NavigationService.NavigateAsync(nameof(LoginView));

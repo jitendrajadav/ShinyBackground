@@ -12,6 +12,8 @@ using Prism.Commands;
 using Prism.Navigation;
 using KegID.Messages;
 using Prism.Services;
+using Realms;
+using KegID.LocalDb;
 
 namespace KegID.ViewModel
 {
@@ -268,7 +270,7 @@ namespace KegID.ViewModel
                     StockLocation = partnerModel.PartnerId,
                     StockLocationId = partnerModel.PartnerId,
                     StockLocationName = partnerModel.FullName,
-                    OwnerId = AppSettings.User.CompanyId,
+                    OwnerId = AppSettings.CompanyId,
                     PalletId = _uuidManager.GetUuId(),
                     //PalletItems = palletItems,
                     ReferenceKey = "",
@@ -293,17 +295,24 @@ namespace KegID.ViewModel
             {
                 try
                 {
-                    var manifestResult = await _moveService.PostManifestAsync(model, AppSettings.User.SessionId, Configuration.NewManifest);
+                    var manifestResult = await _moveService.PostManifestAsync(model, AppSettings.SessionId, Configuration.NewManifest);
 
                     if (manifestResult.ManifestId != null)
                     {
-                        var manifest = await _moveService.GetManifestAsync(AppSettings.User.SessionId, manifestResult.ManifestId);
+                        var manifest = await _moveService.GetManifestAsync(AppSettings.SessionId, manifestResult.ManifestId);
+
+                        string contents = string.Empty;
+                        contents = ConstantManager.Tags?[2]?.Value;
+                        if (string.IsNullOrEmpty(contents))
+                        {
+                            contents = ConstantManager.Tags?[3]?.Value;
+                        }
                         if (manifest.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                         {
                             Loader.StopLoading();
                             await _navigationService.NavigateAsync(new Uri("ManifestDetailView", UriKind.Relative), new NavigationParameters
                             {
-                                { "manifest", manifest }
+                                { "manifest", manifest },{ "Contents", contents }
                             }, useModalNavigation: true, animated: false);
                         }
                         else
@@ -385,13 +394,25 @@ namespace KegID.ViewModel
         {
             try
             {
-                PalletCollection.Add(new PalletModel()
+                PalletModel pallet = PalletCollection.Where(x => x.ManifestId == _manifest).FirstOrDefault();
+                if (pallet != null)
                 {
-                    Barcode = _barcodes,
-                    Count = _barcodes.Count(),
-                    ManifestId = _manifest
-                });
-
+                    using (var db = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
+                    {
+                        pallet.Barcode = _barcodes;
+                        pallet.Count = _barcodes.Count();
+                        db.Commit();
+                    }
+                }
+                else
+                {
+                    PalletCollection.Add(new PalletModel()
+                    {
+                        Barcode = _barcodes,
+                        Count = _barcodes.Count(),
+                        ManifestId = _manifest
+                    });
+                }
                 if (PalletCollection.Sum(x => x.Count) > 1)
                     Kegs = string.Format("({0} Kegs)", PalletCollection.Sum(x => x.Count));
                 else

@@ -26,7 +26,7 @@ namespace KegID
 
             foreach (var item in _barcodeId)
             {
-                BarcodeModel validateBarcodeModel = await _moveService.GetValidateBarcodeAsync(AppSettings.User.SessionId, item);
+                BarcodeModel validateBarcodeModel = await _moveService.GetValidateBarcodeAsync(AppSettings.SessionId, item);
                 validateBarcodeModel.Barcode = item;
                 if (validateBarcodeModel.Kegs != null)
                 {

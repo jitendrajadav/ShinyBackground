@@ -289,7 +289,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                var value = await _moveService.GetManifestSearchAsync(AppSettings.User.SessionId, TrackingNumber, Barcode, ManifestSender, ManifestDestination, Referencekey, FromDate.ToString("MM/dd/yyyy", CultureInfo.CreateSpecificCulture("en-US")), ToDate.ToString("MM/dd/yyyy", CultureInfo.CreateSpecificCulture("en-US")));
+                var value = await _moveService.GetManifestSearchAsync(AppSettings.SessionId, TrackingNumber, Barcode, ManifestSender, ManifestDestination, Referencekey, FromDate.ToString("MM/dd/yyyy", CultureInfo.CreateSpecificCulture("en-US")), ToDate.ToString("MM/dd/yyyy", CultureInfo.CreateSpecificCulture("en-US")));
                 await _navigationService.NavigateAsync(new Uri("SearchedManifestsListView", UriKind.Relative), new NavigationParameters
                     {
                         { "SearchManifestsCollection", value.ManifestSearchResponseModel }

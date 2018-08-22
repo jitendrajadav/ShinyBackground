@@ -44,7 +44,7 @@ namespace KegID.Services
         {
             try
             {
-                var maintenance = await _maintainService.GetMaintainTypeAsync(AppSettings.User.SessionId);
+                var maintenance = await _maintainService.GetMaintainTypeAsync(AppSettings.SessionId);
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
 
                 await RealmDb.WriteAsync((realmDb) =>
@@ -67,7 +67,7 @@ namespace KegID.Services
             {
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
 
-                var value = await _fillService.GetBatchListAsync(AppSettings.User.SessionId);
+                var value = await _fillService.GetBatchListAsync(AppSettings.SessionId);
                 if (value.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                 {
                     var batches = value.BatchModel.Where(p => p.BrandName != string.Empty).OrderBy(x => x.BrandName).ToList();
@@ -98,7 +98,7 @@ namespace KegID.Services
 
         public async Task<IList<MaintainTypeReponseModel>> LoadMaintenanceTypeAsync()
         {
-            var model = await _maintainService.GetMaintainTypeAsync(AppSettings.User.SessionId);
+            var model = await _maintainService.GetMaintainTypeAsync(AppSettings.SessionId);
             try
             {
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
@@ -130,7 +130,7 @@ namespace KegID.Services
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             try
             {
-                var value = await _moveService.GetPartnersListAsync(AppSettings.User.SessionId);
+                var value = await _moveService.GetPartnersListAsync(AppSettings.SessionId);
                 if (value.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                 {
                     var Partners = value.PartnerModel.Where(x => x.FullName != string.Empty).ToList();
@@ -162,7 +162,7 @@ namespace KegID.Services
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             try
             {
-                var value = await _moveService.GetBrandListAsync(AppSettings.User.SessionId);
+                var value = await _moveService.GetBrandListAsync(AppSettings.SessionId);
 
                 if (value.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                 {
@@ -193,7 +193,7 @@ namespace KegID.Services
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             try
             {
-                var value = await _dashboardService.GetDashboardPartnersListAsync(AppSettings.User.CompanyId, AppSettings.User.SessionId);
+                var value = await _dashboardService.GetDashboardPartnersListAsync(AppSettings.CompanyId, AppSettings.SessionId);
                 if (value.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                 {
                     var partners = value.PossessorResponseModel.Where(x => x.Location.FullName != string.Empty).ToList();
@@ -225,7 +225,7 @@ namespace KegID.Services
             List<AssetSizeModel> assetSizeModel = null;
             try
             {
-                var model = await _moveService.GetAssetSizeAsync(AppSettings.User.SessionId, false);
+                var model = await _moveService.GetAssetSizeAsync(AppSettings.SessionId, false);
                 assetSizeModel = new List<AssetSizeModel>();
                 foreach (var item in model)
                 {
@@ -261,7 +261,7 @@ namespace KegID.Services
             List<AssetTypeModel> assetTypeModels = null;
             try
             {
-                var model = await _moveService.GetAssetTypeAsync(AppSettings.User.SessionId, false);
+                var model = await _moveService.GetAssetTypeAsync(AppSettings.SessionId, false);
                 assetTypeModels = new List<AssetTypeModel>();
                 foreach (var item in model)
                 {
@@ -299,7 +299,7 @@ namespace KegID.Services
             List<AssetVolumeModel> assetVolumeModel = null;
             try
             {
-                var model = await _dashboardService.GetAssetVolumeAsync(AppSettings.User.SessionId, false);
+                var model = await _dashboardService.GetAssetVolumeAsync(AppSettings.SessionId, false);
 
                 assetVolumeModel = new List<AssetVolumeModel>();
                 foreach (var item in model)
@@ -336,7 +336,7 @@ namespace KegID.Services
             try
             {
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                var value = await _moveService.GetOwnerAsync(AppSettings.User.SessionId);
+                var value = await _moveService.GetOwnerAsync(AppSettings.SessionId);
                 await RealmDb.WriteAsync((realmDb) =>
                  {
                      foreach (var item in value.OwnerModel)
@@ -366,7 +366,7 @@ namespace KegID.Services
             try
             {
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                var value = await _moveService.GetPartnerTypeAsync(AppSettings.User.SessionId);
+                var value = await _moveService.GetPartnerTypeAsync(AppSettings.SessionId);
                 if (value.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                 {
                     await RealmDb.WriteAsync((realmDb) =>

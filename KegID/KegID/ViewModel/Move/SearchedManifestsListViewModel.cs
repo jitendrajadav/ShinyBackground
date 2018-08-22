@@ -93,7 +93,7 @@ namespace KegID.ViewModel
             {
                 Loader.StartLoading();
 
-                var manifest = await _moveService.GetManifestAsync(AppSettings.User.SessionId, model.ManifestId);
+                var manifest = await _moveService.GetManifestAsync(AppSettings.SessionId, model.ManifestId);
                 if (manifest.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                 {
                     Loader.StopLoading();

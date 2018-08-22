@@ -995,7 +995,7 @@ namespace KegID.ViewModel
                 Notes = Notes,
                 FirstName = PartnerName,
                 LastName = PartnerName,
-                ParentPartnerId = IsInternalOn ? AppSettings.User.CompanyId : _uuidManager.GetUuId(),
+                ParentPartnerId = IsInternalOn ? AppSettings.CompanyId : _uuidManager.GetUuId(),
                 PartnerId = _uuidManager.GetUuId(),
                 PartnerName = PartnerName,
                 PartnerTypeCode = SelectedPartnerType.Code,
@@ -1012,7 +1012,7 @@ namespace KegID.ViewModel
             try
             {
                 Loader.StartLoading();
-                var result = await _moveService.PostNewPartnerAsync(newPartnerRequestModel, AppSettings.User.SessionId, RequestType: Configuration.NewPartner);
+                var result = await _moveService.PostNewPartnerAsync(newPartnerRequestModel, AppSettings.SessionId, RequestType: Configuration.NewPartner);
 
                 if (result != null)
                 {

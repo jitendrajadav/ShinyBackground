@@ -6,7 +6,8 @@
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              ios:Page.UseSafeArea="true"
              xmlns:controls="clr-namespace:CarouselView.FormsPlugin.Abstractions;assembly=CarouselView.FormsPlugin.Abstractions"
-             xmlns:views="clr-namespace:KegID.Views">
+             xmlns:views="clr-namespace:KegID.Views"
+             >
 
     <controls:CarouselViewControl 
                 x:Name="myDashboard"

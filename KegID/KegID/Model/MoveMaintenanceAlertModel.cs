@@ -107,7 +107,11 @@ namespace KegID.Model
 
                 if (!_selectedUType.HasInitial)
                 {
-                    ConstantManager.VerifiedBarcodes.FirstOrDefault().HasMaintenaceVerified = true;
+                    using (var db = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
+                    {
+                        ConstantManager.VerifiedBarcodes.FirstOrDefault().HasMaintenaceVerified = true;
+                        db.Commit();
+                    }
                     var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                     RealmDb.Write(() =>
                     {
@@ -190,8 +194,11 @@ namespace KegID.Model
                     {
                         _selectedUSize.HasInitial = true;
                     });
-                    ConstantManager.VerifiedBarcodes.FirstOrDefault().HasMaintenaceVerified = true;
-
+                    using (var db = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
+                    {
+                        ConstantManager.VerifiedBarcodes.FirstOrDefault().HasMaintenaceVerified = true;
+                        db.Commit();
+                    }
                     //SimpleIoc.Default.GetInstance<AssignSizesViewModel>().MaintenanceVerified();
                 }
 
@@ -265,8 +272,11 @@ namespace KegID.Model
 
                 if (!_selectedUOwner.HasInitial)
                 {
-                    ConstantManager.VerifiedBarcodes.FirstOrDefault().HasMaintenaceVerified = true;
-
+                    using (var db = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
+                    {
+                        ConstantManager.VerifiedBarcodes.FirstOrDefault().HasMaintenaceVerified = true;
+                        db.Commit();
+                    }
                     //SimpleIoc.Default.GetInstance<AssignSizesViewModel>().MaintenanceVerified();
                     var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                     RealmDb.Write(() =>

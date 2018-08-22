@@ -288,8 +288,8 @@
                         FontSize="Medium"
                         VerticalOptions="Center"
                         HorizontalOptions="End"
+                        TextColor="#555555"
                         HorizontalTextAlignment="End"
-                        TextColor="#4E6388"
                         Text="{Binding Total,Mode=TwoWay}"/>
 
                 </Grid>

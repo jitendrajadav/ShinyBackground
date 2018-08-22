@@ -408,7 +408,7 @@ namespace KegID.ViewModel
                     model.MaintenanceDoneRequestModel.Longitude = (long)location.Longitude;
                     model.MaintenanceDoneRequestModel.Tags = new List<MaintenanceDoneRequestModelTag>();
 
-                    KegIDResponse kegIDResponse = await _maintainService.PostMaintenanceDoneAsync(model.MaintenanceDoneRequestModel, AppSettings.User.SessionId, Configuration.PostedMaintenanceDone);
+                    KegIDResponse kegIDResponse = await _maintainService.PostMaintenanceDoneAsync(model.MaintenanceDoneRequestModel, AppSettings.SessionId, Configuration.PostedMaintenanceDone);
 
                     if (kegIDResponse.StatusCode == System.Net.HttpStatusCode.NoContent.ToString())
                     {

@@ -323,11 +323,49 @@ namespace KegID.Common
             set => Settings.AddOrUpdateValue(nameof(FallbackMapsLocation), value);
         }
 
-        public static UserInfoModel User
+        public static string SessionId
         {
-            get => Settings.GetValueOrDefault(nameof(User), default(UserInfoModel));
+            get => Settings.GetValueOrDefault(nameof(SessionId), string.Empty);
 
-            set => Settings.AddOrUpdateValue(nameof(User), value);
+            set => Settings.AddOrUpdateValue(nameof(SessionId), value);
+        }
+        public static string CompanyId
+        {
+            get => Settings.GetValueOrDefault(nameof(CompanyId), string.Empty);
+
+            set => Settings.AddOrUpdateValue(nameof(CompanyId), value);
+        }
+
+        public static string MasterCompanyId
+        {
+            get => Settings.GetValueOrDefault(nameof(MasterCompanyId), string.Empty);
+
+            set => Settings.AddOrUpdateValue(nameof(MasterCompanyId), value);
+        }
+        public static string UserId
+        {
+            get => Settings.GetValueOrDefault(nameof(UserId), string.Empty);
+
+            set => Settings.AddOrUpdateValue(nameof(UserId), value);
+        }
+        public static string SessionExpires
+        {
+            get => Settings.GetValueOrDefault(nameof(SessionExpires), string.Empty);
+
+            set => Settings.AddOrUpdateValue(nameof(SessionExpires), value);
+        }
+        public static long Overdue_days
+        {
+            get => Settings.GetValueOrDefault(nameof(Overdue_days), 0);
+
+            set => Settings.AddOrUpdateValue(nameof(Overdue_days), value);
+        }
+
+        public static long At_risk_days
+        {
+            get => Settings.GetValueOrDefault(nameof(At_risk_days), 0);
+
+            set => Settings.AddOrUpdateValue(nameof(At_risk_days), value);
         }
 
         public static string MobileCenterAnalyticsAndroid
@@ -433,7 +471,7 @@ namespace KegID.Common
 
         public static void RemoveUserData()
         {
-            Settings.Remove(nameof(User));
+            Settings.Remove(nameof(SessionId));
         }
     }
 }

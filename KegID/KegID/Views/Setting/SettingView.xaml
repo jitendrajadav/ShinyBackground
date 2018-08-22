@@ -48,6 +48,21 @@
                 BackgroundColor="White">
 
                 <Label
+                    HeightRequest="50"
+                    Style="{StaticResource LabelTitleStyle}"
+                    x:Name="lblTitle"
+                    HorizontalOptions="CenterAndExpand"
+                    VerticalTextAlignment="Center"
+                    TextColor="Black"
+                    Text="{Binding Resources[label_settings]}"/>
+
+                <BoxView
+                    BackgroundColor="LightGray"
+                    HeightRequest="1"
+                    VerticalOptions="Start"
+                    HorizontalOptions="FillAndExpand"/>
+
+                <Label
                     Margin="20,0,10,0"
                     HeightRequest="50"
                     Style="{StaticResource LabelTitleStyle}"
@@ -74,11 +89,9 @@
                     Margin="20,0,0,0"
                     HeightRequest="50"
                     x:Name="lblPrinterSettings"
-                    BackgroundColor="Transparent"
-                    FontSize="Medium"
+                    Style="{StaticResource LabelTitleStyle}"
                     HorizontalOptions="StartAndExpand"
                     HorizontalTextAlignment="Start"
-                    VerticalOptions="CenterAndExpand"
                     VerticalTextAlignment="Center"
                     TextColor="{StaticResource selectTextColor}"
                     Text="{Binding Resources[label_printer_settings]}">
@@ -100,14 +113,13 @@
                     Margin="20,0,0,0"
                     HeightRequest="50"
                     x:Name="lblWhatsNew"
-                    BackgroundColor="Transparent"
-                    VerticalOptions="CenterAndExpand"
+                    Style="{StaticResource LabelTitleStyle}"
                     HorizontalOptions="StartAndExpand"
                     HorizontalTextAlignment="Start"
                     VerticalTextAlignment="Center"
                     TextColor="{StaticResource selectTextColor}"
                     Text="{Binding Resources[label_what_is_new]}"
-                    FontSize="Medium">
+                    >
 
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding Path=BindingContext.WhatsNewCommand, 
@@ -126,14 +138,13 @@
                     Margin="20,0,0,0"
                     HeightRequest="50"
                     x:Name="lblSupport"
-                    VerticalOptions="CenterAndExpand"
-                    VerticalTextAlignment="Center"
+                    Style="{StaticResource LabelTitleStyle}"
                     HorizontalOptions="StartAndExpand"
                     HorizontalTextAlignment="Start"
-                    BackgroundColor="Transparent"
+                    VerticalTextAlignment="Center"
                     TextColor="{StaticResource selectTextColor}"
                     Text="{Binding Resources[menu_action_support]}"
-                    FontSize="Medium">
+                    >
 
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding Path=BindingContext.SupportCommand, 
@@ -152,14 +163,12 @@
                     Margin="20,0,0,0"
                     HeightRequest="50"
                     x:Name="lblAboutApp"
-                    VerticalOptions="CenterAndExpand"
-                    VerticalTextAlignment="Center"
+                    Style="{StaticResource LabelTitleStyle}"
                     HorizontalOptions="StartAndExpand"
-                    HorizontalTextAlignment="Start"
-                    BackgroundColor="Transparent"
+                    VerticalTextAlignment="Center"
                     TextColor="{StaticResource selectTextColor}"
                     Text="{Binding Resources[title_about_app]}"
-                    FontSize="Medium">
+                    >
 
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding Path=BindingContext.AboutAppCommand, 
@@ -178,14 +187,13 @@
                     Margin="20,0,0,0"
                     HeightRequest="50"
                     x:Name="lblLogOut"
-                    VerticalOptions="CenterAndExpand"
-                    VerticalTextAlignment="Center"
+                    Style="{StaticResource LabelTitleStyle}"
                     HorizontalOptions="StartAndExpand"
                     HorizontalTextAlignment="Start"
-                    BackgroundColor="Transparent"
+                    VerticalTextAlignment="Center"
                     TextColor="{StaticResource selectTextColor}"
                     Text="{Binding Resources[menu_action_logout]}"
-                    FontSize="Medium">
+                    >
 
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding Path=BindingContext.LogOutSettingCommand, 

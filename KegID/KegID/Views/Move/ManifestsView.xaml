@@ -18,8 +18,8 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
             <Button
@@ -74,12 +74,77 @@
                 HeightRequest="1"
                 VerticalOptions="Start"
                 HorizontalOptions="FillAndExpand"/>
+            
+            <ListView
+                x:Name="lstManifest"
+                Grid.Row="2"
+                SeparatorVisibility="Default"
+                SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
+                HasUnevenRows="True"
+                SelectionMode="None"
+                CachingStrategy="RecycleElement"
+                ItemsSource="{Binding ManifestCollection}">
+
+                <ListView.Behaviors>
+                    <behaviors:EventToCommandBehavior
+                        EventName="ItemTapped" 
+                        Command="{Binding ItemTappedCommand}"
+                        Converter="{StaticResource ItemTappedConverter}"/>
+                </ListView.Behaviors>
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="65*"/>
+                                    <ColumnDefinition Width="35*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Label
+                                    FontSize="{StaticResource ListViewDetailFont}"
+                                    TextColor="{StaticResource selectTextColor}"
+                                    LineBreakMode="TailTruncation"
+                                    Text="{Binding OwnerName}"/>
+
+                                <Label
+                                    FontSize="{StaticResource ListViewDetailFont}"
+                                    TextColor="{StaticResource selectTextColor}"
+                                    Grid.Row="1"
+                                    Text="{Binding ShipDate, StringFormat='{0:dd/MM/yy}'}"/>
+
+                                <Label
+                                    FontSize="{StaticResource ListViewDetailFont}"
+                                    TextColor="{StaticResource selectTextColor}"
+                                    HorizontalOptions="End"
+                                    Grid.Column="1"
+                                    Text="{Binding ManifestId, StringFormat='# {0}',Converter={StaticResource StringToLast8CharacterConverter}}"/>
+
+                                <Label
+                                    FontSize="{StaticResource ListViewDetailFont}"
+                                    TextColor="{StaticResource selectTextColor}"
+                                    HorizontalOptions="End"
+                                    Grid.Column="1"
+                                    Grid.Row="1"
+                                    Text="{Binding ManifestItemsCount,StringFormat='{0} Items'}"/>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+
+            </ListView>
 
             <Grid
                 ColumnSpacing="0"
                 HorizontalOptions="Center"
                 VerticalOptions="Center"
-                Grid.Row="2">
+                Grid.Row="3">
                 <Grid.Margin>
                     <OnPlatform x:TypeArguments="Thickness">
                         <On Platform="iOS, WinPhone, Windows, UWP" Value="0,0,0,5" />
@@ -148,71 +213,6 @@
                 </Button>
 
             </Grid>
-            
-            <ListView
-                x:Name="lstManifest"
-                Grid.Row="3"
-                SeparatorVisibility="Default"
-                SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
-                HasUnevenRows="True"
-                SelectionMode="None"
-                CachingStrategy="RecycleElement"
-                ItemsSource="{Binding ManifestCollection}">
-
-                <ListView.Behaviors>
-                    <behaviors:EventToCommandBehavior
-                        EventName="ItemTapped" 
-                        Command="{Binding ItemTappedCommand}"
-                        Converter="{StaticResource ItemTappedConverter}"/>
-                </ListView.Behaviors>
-
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-                                
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="65*"/>
-                                    <ColumnDefinition Width="35*"/>
-                                </Grid.ColumnDefinitions>
-                                
-                                <Label
-                                    FontSize="{StaticResource ListViewDetailFont}"
-                                    TextColor="{StaticResource selectTextColor}"
-                                    LineBreakMode="TailTruncation"
-                                    Text="{Binding OwnerName}"/>
-
-                                <Label
-                                    FontSize="{StaticResource ListViewDetailFont}"
-                                    TextColor="{StaticResource selectTextColor}"
-                                    Grid.Row="1"
-                                    Text="{Binding ShipDate, StringFormat='{0:dd/MM/yy}'}"/>
-
-                                <Label
-                                    FontSize="{StaticResource ListViewDetailFont}"
-                                    TextColor="{StaticResource selectTextColor}"
-                                    HorizontalOptions="End"
-                                    Grid.Column="1"
-                                    Text="{Binding ManifestId, StringFormat='# {0}',Converter={StaticResource StringToLast8CharacterConverter}}"/>
-
-                                <Label
-                                    FontSize="{StaticResource ListViewDetailFont}"
-                                    TextColor="{StaticResource selectTextColor}"
-                                    HorizontalOptions="End"
-                                    Grid.Column="1"
-                                    Grid.Row="1"
-                                    Text="{Binding ManifestItemsCount,StringFormat='{0} Items'}"/>
-                            </Grid>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-
-            </ListView>
 
         </Grid>
     </ContentPage.Content>

@@ -537,7 +537,7 @@ namespace KegID.ViewModel
                     var model = new KegBulkUpdateItemRequestModel();
                     var MassUpdateKegKegs = new List<MassUpdateKeg>();
                     MassUpdateKeg MassUpdateKeg = null;
-                    var val = await _dashboardService.GetAssetVolumeAsync(AppSettings.User.SessionId, false);
+                    var val = await _dashboardService.GetAssetVolumeAsync(AppSettings.SessionId, false);
                     foreach (var item in BarcodeCollection)
                     {
                         MassUpdateKeg = new MassUpdateKeg
@@ -567,7 +567,7 @@ namespace KegID.ViewModel
                             //Tags = item.Tags,
                             AssetVolume = item.TagsStr,
                             KegId = _uuidManager.GetUuId(),
-                            OwnerId = AppSettings.User.CompanyId,
+                            OwnerId = AppSettings.CompanyId,
                             OwnerSkuId = "",
                             ProfileId = "",
                         };
@@ -576,7 +576,7 @@ namespace KegID.ViewModel
                     }
                     model.Kegs = MassUpdateKegKegs;
 
-                    var value = await _dashboardService.PostKegUploadAsync(model, AppSettings.User.SessionId, Configuration.MassUpdateKegList);
+                    var value = await _dashboardService.PostKegUploadAsync(model, AppSettings.SessionId, Configuration.MassUpdateKegList);
                     if (value.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                     {
                         await _navigationService.GoBackAsync(new NavigationParameters

@@ -559,7 +559,7 @@ namespace KegID.ViewModel
             {
                 if (refresh)
                     await _navigationService.ClearPopupStackAsync(animated: false);
-                Result = await _dashboardService.GetDeshboardDetailAsync(AppSettings.User.SessionId);
+                Result = await _dashboardService.GetDeshboardDetailAsync(AppSettings.SessionId);
                 Stock = Result.Stock.ToString("0,0", CultureInfo.InvariantCulture);
                 Empty = Result.Empty.ToString("0,0", CultureInfo.InvariantCulture);
                 InUse = Result.InUse.ToString("0,0", CultureInfo.InvariantCulture);

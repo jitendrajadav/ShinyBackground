@@ -139,7 +139,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                var value = await _dashboardService.GetKegPossessionAsync(AppSettings.User.SessionId, ConstantManager.DBPartnerId);
+                var value = await _dashboardService.GetKegPossessionAsync(AppSettings.SessionId, ConstantManager.DBPartnerId);
                 KegPossessionCollection = value.KegPossessionResponseModel;
                 KegsTitle = KegPossessionCollection.FirstOrDefault().PossessorName;
             }

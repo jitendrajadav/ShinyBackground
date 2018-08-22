@@ -10,9 +10,11 @@
 
     <ContentPage.Content>
         
-        <Grid>
+        <Grid
+            RowSpacing="0">
             
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
@@ -30,9 +32,21 @@
                 HeightRequest="1"
                 VerticalOptions="End"
                 HorizontalOptions="FillAndExpand"/>
+            
+            <Grid
+                Padding="0,5"
+                Grid.Row="1"
+                BackgroundColor="{StaticResource lightGrayColor}">
+
+                <Label
+                    Style="{StaticResource LabelTitleStyle}"
+                    TextColor="Black"
+                    HorizontalOptions="CenterAndExpand"
+                    Text="{Binding Resources[title_select_batch]}"/>
+            </Grid>
 
             <ListView
-                Grid.Row="1"
+                Grid.Row="2"
                 Margin="10,0,10,0"
                 x:Name="lstBatch"
                 SeparatorVisibility="Default"
@@ -40,7 +54,8 @@
                 HasUnevenRows="True"
                 SelectionMode="None"
                 CachingStrategy="RecycleElement"
-                ItemsSource="{Binding BatchCollection}">
+                ItemsSource="{Binding BatchCollection}"
+                >
 
                 <ListView.Behaviors>
                     <behaviors:EventToCommandBehavior

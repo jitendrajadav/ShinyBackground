@@ -492,7 +492,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                var manifest = await _moveService.GetManifestAsync(AppSettings.User.SessionId, model.Barcode);
+                var manifest = await _moveService.GetManifestAsync(AppSettings.SessionId, model.Barcode);
 
                 Model = model;
                 IsFromDashboard = v;

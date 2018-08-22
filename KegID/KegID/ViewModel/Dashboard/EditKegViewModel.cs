@@ -308,7 +308,7 @@ namespace KegID.ViewModel
 
                 // It is earlier
                 //var Result = await _dashboardService.PostKegAsync(model, AppSettings.User.SessionId, Configuration.NewKeg);
-                var Result = await _dashboardService.PostKegAsync(model, KegId, AppSettings.User.SessionId, Configuration.Keg);
+                var Result = await _dashboardService.PostKegAsync(model, KegId, AppSettings.SessionId, Configuration.Keg);
 
             }
             catch (Exception ex)

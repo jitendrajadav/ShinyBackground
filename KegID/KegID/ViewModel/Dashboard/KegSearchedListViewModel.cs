@@ -105,7 +105,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                var value = await _dashboardService.GetKegSearchAsync(AppSettings.User.SessionId, barcode, true);
+                var value = await _dashboardService.GetKegSearchAsync(AppSettings.SessionId, barcode, true);
                 KegSearchCollection = value.KegSearchResponseModel;
             }
             catch (Exception ex)

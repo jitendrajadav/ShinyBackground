@@ -92,7 +92,7 @@ namespace KegID.ViewModel
             try
             {
                 //needs to assing partnerId??string.Empty once backend is ready...
-                var value = await _dashboardService.GetPalletSearchAsync(AppSettings.User.SessionId, string.Empty, fromDate, toDate, kegs, kegOwnerId);
+                var value = await _dashboardService.GetPalletSearchAsync(AppSettings.SessionId, string.Empty, fromDate, toDate, kegs, kegOwnerId);
                 PalletSearchCollection = value.SearchPalletResponseModel;
             }
             catch (Exception ex)

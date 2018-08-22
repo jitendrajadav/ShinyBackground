@@ -17,7 +17,7 @@ using Xamarin.Forms;
 
 namespace KegID.Droid
 {
-    [Activity(Label = "KegID", Icon = "@drawable/icon", MainLauncher = false, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, LaunchMode = LaunchMode.SingleTop)]
+    [Activity(Label = "KegID", Icon = "@drawable/icon", Theme = "@style/MainTheme.Base", MainLauncher = false, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, LaunchMode = LaunchMode.SingleTop)]
     public class MainActivity : Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         private static Activity myActivity;

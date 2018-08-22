@@ -308,7 +308,7 @@ namespace KegID.ViewModel
             BarcodeManualCommand = new DelegateCommand(BarcodeManualCommandRecieverAsync);
             LabelItemTappedCommand = new DelegateCommand<BarcodeModel>((model) => LabelItemTappedCommandRecieverAsync(model));
             IconItemTappedCommand = new DelegateCommand<BarcodeModel>((model) => IconItemTappedCommandRecieverAsync(model));
-
+            HandleUnSubscirbeMessages();
             HandleReceivedMessages();
         }
 
@@ -316,7 +316,15 @@ namespace KegID.ViewModel
 
         #region Methods
 
-        void HandleReceivedMessages()
+        private void HandleUnSubscirbeMessages()
+        {
+            MessagingCenter.Unsubscribe<FillScanMessage>(this, "FillScanMessage");
+            MessagingCenter.Unsubscribe<FillToFillScanPagesMsg>(this, "FillToFillScanPagesMsg");
+            MessagingCenter.Unsubscribe<AddPalletToFillScanMsg>(this, "AddPalletToFillScanMsg");
+            MessagingCenter.Unsubscribe<CancelledMessage>(this, "CancelledMessage");
+        }
+
+        private void HandleReceivedMessages()
         {
             MessagingCenter.Subscribe<FillScanMessage>(this, "FillScanMessage", message =>
             {
@@ -327,12 +335,19 @@ namespace KegID.ViewModel
                     {
                         using (var db = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
                         {
-                            var oldBarcode = BarcodeCollection.Where(x => x.Barcode == value.Barcodes.Barcode).FirstOrDefault();
-                            oldBarcode.Pallets = value.Barcodes.Pallets;
-                            oldBarcode.Kegs = value.Barcodes.Kegs;
-                            oldBarcode.Icon = value?.Barcodes?.Kegs?.Partners.Count > 1 ? _getIconByPlatform.GetIcon("validationquestion.png") : value?.Barcodes?.Kegs?.Partners?.Count == 0 ? _getIconByPlatform.GetIcon("validationerror.png") : _getIconByPlatform.GetIcon("validationok.png");
-                            oldBarcode.IsScanned = true;
-                            db.Commit();
+                            try
+                            {
+                                var oldBarcode = BarcodeCollection.Where(x => x.Barcode == value.Barcodes.Barcode).FirstOrDefault();
+                                oldBarcode.Pallets = value?.Barcodes?.Pallets;
+                                oldBarcode.Kegs = value?.Barcodes?.Kegs;
+                                oldBarcode.Icon = value?.Barcodes?.Kegs?.Partners?.Count > 1 ? _getIconByPlatform.GetIcon("validationquestion.png") : value?.Barcodes?.Kegs?.Partners?.Count == 0 ? _getIconByPlatform.GetIcon("validationerror.png") : _getIconByPlatform.GetIcon("validationok.png");
+                                oldBarcode.IsScanned = true;
+                                db.Commit();
+                            }
+                            catch (Exception ex)
+                            {
+                                Crashes.TrackError(ex);
+                            }
                         };
                     }
                 });
@@ -432,8 +447,10 @@ namespace KegID.ViewModel
                 {
                     if (palletModel != null)
                     {
-                        ManifestId = palletModel.ManifestId;
-                        BarcodeCollection = new ObservableCollection<BarcodeModel>(palletModel.Barcode);
+                        BatchId = palletModel.ManifestId;
+                        ManifestId = "Pallet #" + BatchId;
+                        foreach (var item in palletModel.Barcode)
+                            BarcodeCollection.Add(item);
                     }
                     else
                     {
@@ -545,17 +562,25 @@ namespace KegID.ViewModel
         {
             try
             {
-                var isNew = BarcodeCollection.ToList().Any(x => x.Barcode == ManaulBarcode);
+                bool isNew = BarcodeCollection.ToList().Any(x => x.Barcode == ManaulBarcode);
                 if (!isNew)
                 {
-                    BarcodeModel model = new BarcodeModel
+                    try
                     {
-                        Barcode = ManaulBarcode,
-                        //Tags = Tags,
-                        TagsStr = TagsStr,
-                        Icon = Cloud
-                    };
-                    BarcodeCollection.Add(model);
+                        BarcodeModel model = new BarcodeModel
+                        {
+                            Barcode = ManaulBarcode,
+                            TagsStr = TagsStr,
+                            Icon = Cloud,
+                            Page = ViewTypeEnum.FillScanView.ToString(),
+                            Contents = Tags.Count >1 ? Tags?[2]?.Name : string.Empty
+                        };
+                        BarcodeCollection.Add(model);
+                    }
+                    catch (Exception ex)
+                    {
+                        Crashes.TrackError(ex);
+                    }
                     var message = new StartLongRunningTaskMessage
                     {
                         Barcode = new List<string>() { ManaulBarcode },

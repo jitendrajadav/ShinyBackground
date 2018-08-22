@@ -25,5 +25,18 @@ namespace KegID.Views
         {
             CurrentPage = Children[Convert.ToInt32(parameters["currentPage"])];
         }
+
+        private void TabbedPage_PagesChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (sender.ToString() == "cnEmpty")
+            {
+                //cnEmpty
+            }
+            else
+            {
+
+            }
+
+        }
     }
 }

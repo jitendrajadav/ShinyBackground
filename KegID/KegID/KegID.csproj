@@ -41,14 +41,19 @@
     <PackageReference Include="Xam.Plugins.Settings" Version="4.0.0.10-beta" />
     <PackageReference Include="Xamarin.Essentials" Version="0.10.0-preview" />
     <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.3.840" />
-    <PackageReference Include="Xamarin.Forms" Version="3.2.0.729530-pre2" />
-    <PackageReference Include="Xamarin.Forms.Maps" Version="3.2.0.729530-pre2" />
+    <PackageReference Include="Xamarin.Forms" Version="3.1.0.697729" />
+    <PackageReference Include="Xamarin.Forms.Maps" Version="3.1.0.697729" />
     <PackageReference Include="Xamarin.LiveReload" Version="0.3.27" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="App.xaml.cs">
       <DependentUpon>*.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="KegIDResource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>KegIDResource.resx</DependentUpon>
     </Compile>
     <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="MainPage.xaml.cs">
       <DependentUpon>*.xaml</DependentUpon>
