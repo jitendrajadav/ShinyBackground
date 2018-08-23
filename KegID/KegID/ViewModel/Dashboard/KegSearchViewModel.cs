@@ -114,7 +114,7 @@ namespace KegID.ViewModel
 
         #region Methods
 
-        void HandleReceivedMessages()
+        private void HandleReceivedMessages()
         {
             MessagingCenter.Subscribe<BarcodeScannerToKegSearchMsg>(this, "BarcodeScannerToKegSearchMsg", message =>
             {

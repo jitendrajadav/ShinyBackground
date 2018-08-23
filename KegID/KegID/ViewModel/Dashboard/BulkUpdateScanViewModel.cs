@@ -331,6 +331,8 @@ namespace KegID.ViewModel
 
             LoadAssetSizeAsync();
             LoadAssetTypeAsync();
+
+            HandleUnsubscribeMessages();
             HandleReceivedMessages();
         }
 
@@ -338,7 +340,13 @@ namespace KegID.ViewModel
 
         #region Methods
 
-        void HandleReceivedMessages()
+        private void HandleUnsubscribeMessages()
+        {
+            MessagingCenter.Unsubscribe<BulkUpdateScanMessage>(this, "BulkUpdateScanMessage");
+            MessagingCenter.Unsubscribe<CancelledMessage>(this, "CancelledMessage");
+        }
+
+        private void HandleReceivedMessages()
         {
             MessagingCenter.Subscribe<BulkUpdateScanMessage>(this, "BulkUpdateScanMessage", message => {
                 Device.BeginInvokeOnMainThread(() =>

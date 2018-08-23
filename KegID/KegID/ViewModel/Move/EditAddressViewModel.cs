@@ -351,10 +351,12 @@ namespace KegID.ViewModel
             }
             catch (FeatureNotSupportedException fnsEx)
             {
+                Crashes.TrackError(fnsEx);
                 // Feature not supported on device
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
                 // Handle exception that may have occurred in geocoding
             }
         }

@@ -332,6 +332,8 @@ namespace KegID.ViewModel
 
             RefreshDashboardRecieverAsync();
             CheckDraftmaniFestsAsync();
+
+            HandleUnsubscribeMessages();
             HandleReceivedMessages();
 
             Device.StartTimer(TimeSpan.FromDays(1), () =>
@@ -340,12 +342,18 @@ namespace KegID.ViewModel
                 DeviceCheckIn();
                 return true; // True = Repeat again, False = Stop the timer
             });
-
         }
 
         #endregion
 
         #region Methods
+
+        private void HandleUnsubscribeMessages()
+        {
+            MessagingCenter.Unsubscribe<SettingToDashboardMsg>(this, "SettingToDashboardMsg");
+            MessagingCenter.Unsubscribe<InvalidServiceCall>(this, "InvalidServiceCall");
+        }
+
         private void HandleReceivedMessages()
         {
             MessagingCenter.Subscribe<InvalidServiceCall>(this, "InvalidServiceCall", message =>
@@ -588,11 +596,6 @@ namespace KegID.ViewModel
             {
                 Crashes.TrackError(ex);
             }
-        }
-
-        public override void OnNavigatedFrom(INavigationParameters parameters)
-        {
-            MessagingCenter.Unsubscribe<SettingToDashboardMsg>(this, "SettingToDashboardMsg");
         }
 
         public override void OnNavigatingTo(INavigationParameters parameters)

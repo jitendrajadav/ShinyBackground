@@ -270,6 +270,7 @@ namespace KegID.ViewModel
             IconItemTappedCommand = new DelegateCommand<BarcodeModel>((model) => IconItemTappedCommandRecieverAsync(model));
             LoadBrand();
 
+            HandleUnsubscribeMessages();
             HandleReceivedMessages();
         }
 
@@ -277,7 +278,14 @@ namespace KegID.ViewModel
 
         #region Methods
 
-        void HandleReceivedMessages()
+        private void HandleUnsubscribeMessages()
+        {
+            MessagingCenter.Unsubscribe<ScanKegsMessage>(this, "ScanKegsMessage");
+            MessagingCenter.Unsubscribe<PalletToScanKegPagesMsg>(this, "PalletToScanKegPagesMsg");
+            MessagingCenter.Unsubscribe<CancelledMessage>(this, "CancelledMessage");
+
+        }
+        private void HandleReceivedMessages()
         {
             MessagingCenter.Subscribe<ScanKegsMessage>(this, "ScanKegsMessage", message =>
             {

@@ -321,8 +321,11 @@ namespace KegID.ViewModel
             PartnerCommand = new DelegateCommand(PartnerCommandRecieverAsync);
             KegsCommand = new DelegateCommand(KegsCommandRecieverAsync);
             InUsePartnerCommand = new DelegateCommand(InUsePartnerCommandRecieverAsync);
+
             RefreshDashboardRecieverAsync();
             CheckDraftmaniFestsAsync();
+
+            
             HandleReceivedMessages();
         }
 
@@ -330,10 +333,11 @@ namespace KegID.ViewModel
 
         #region Methods
 
-        void HandleReceivedMessages()
+        private void HandleReceivedMessages()
         {
-            MessagingCenter.Subscribe<SettingToDashboardMsg>(this, "SettingToDashboardMsg", message => {
-                Device.BeginInvokeOnMainThread(() => 
+            MessagingCenter.Subscribe<SettingToDashboardMsg>(this, "SettingToDashboardMsg", message =>
+            {
+                Device.BeginInvokeOnMainThread(() =>
                 {
                     RefreshDashboardRecieverAsync(true);
                 });
