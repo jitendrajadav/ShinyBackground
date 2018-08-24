@@ -36,7 +36,9 @@ namespace KegID.Droid.DependencyServices
             }
 
             if (webpage == null)
+            {
                 webpage = new Android.Webkit.WebView(CrossCurrentActivity.Current.AppContext);
+            }
 
             int width = 2959;
             int height = 3873;
@@ -145,7 +147,7 @@ namespace KegID.Droid.DependencyServices
         }
     }
 
-    class WebViewCallBack : WebViewClient
+    internal class WebViewCallBack : WebViewClient
     {
         readonly string fileNameWithPath = null;
 

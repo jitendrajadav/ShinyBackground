@@ -1,6 +1,5 @@
 ﻿using KegID.Common;
 using KegID.LocalDb;
-using KegID.Model;
 using KegID.Services;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
@@ -10,6 +9,7 @@ using Prism.Services;
 using Realms;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -154,14 +154,14 @@ namespace KegID.ViewModel
             //Password = "beer2keg";
 
             BgImage = _getIconByPlatform.GetIcon("kegbg.png");
-            GetLocation();
+            
         }
 
         #endregion
 
         #region Methods
 
-        private static async void GetLocation()
+        private async Task GetLocation()
         {
             try
             {
@@ -172,9 +172,9 @@ namespace KegID.ViewModel
                     ConstantManager.Location = await Geolocation.GetLocationAsync(request);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                Crashes.TrackError(ex);
             }
         }
 
@@ -189,6 +189,8 @@ namespace KegID.ViewModel
 
         private async void LoginCommandRecieverAsync()
         {
+            await GetLocation();
+
             try
             {
                 Loader.StartLoading();
@@ -199,8 +201,7 @@ namespace KegID.ViewModel
                     {
                         var overDues = model.LoginModel.Preferences.Where(x => x.PreferenceName == "OVERDUE_DAYS").Select(x => x.PreferenceValue).FirstOrDefault();
                         var atRisk = model.LoginModel.Preferences.Where(x => x.PreferenceName == "AT_RISK_DAYS").Select(x => x.PreferenceValue).FirstOrDefault();
-                        //AppSettings.User = new UserInfoModel
-                        //{
+
                         AppSettings.SessionId = model.LoginModel.SessionId;
                         AppSettings.CompanyId = model.LoginModel.CompanyId;
                         AppSettings.MasterCompanyId = model.LoginModel.MasterCompanyId;
@@ -208,7 +209,6 @@ namespace KegID.ViewModel
                         AppSettings.SessionExpires = model.LoginModel.SessionExpires;
                         AppSettings.Overdue_days = !string.IsNullOrEmpty(overDues) ? Convert.ToInt64(overDues) : 0;
                         AppSettings.At_risk_days = !string.IsNullOrEmpty(atRisk) ? Convert.ToInt64(atRisk) : 0;
-                        //};
                     }
                     catch (Exception ex)
                     {

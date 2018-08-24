@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
@@ -292,13 +293,14 @@ namespace KegID.ViewModel
 
         internal void LoadDraftManifestAsync()
         {
+            List<ManifestModel> collection;
             try
             {
                 ManifestCollection.Clear();
                 Loader.StartLoading();
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                var collection = RealmDb.All<ManifestModel>().Where(x => x.IsDraft == true && x.IsQueue == false).ToList();
-                ManifestCollection = new ObservableCollection<ManifestModel>(collection);
+                collection = RealmDb.All<ManifestModel>().Where(x => x.IsDraft == true && x.IsQueue == false).ToList();
+                AssignColletionToManifest(collection);
             }
             catch (Exception ex)
             {
@@ -307,6 +309,21 @@ namespace KegID.ViewModel
             finally
             {
                 Loader.StopLoading();
+                collection = null;
+            }
+        }
+
+        private void AssignColletionToManifest(List<ManifestModel> collection)
+        {
+            using (var db = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
+            {
+                for (int i = 0; i < collection.Count; i++)
+                {
+                    ManifestModel item = collection[i];
+                    item.SenderId = item.ManifestItemsCount > 1 ? item.ManifestItemsCount + " Items" : item.ManifestItemsCount + " Item";
+                    ManifestCollection.Add(item);
+                }
+                db.Commit();
             }
         }
 
@@ -329,7 +346,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+                await _navigationService.NavigateAsync(new Uri("/NavigationPage/MainPage", UriKind.Absolute), useModalNavigation: true, animated: false);
+                //await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {
@@ -344,13 +362,14 @@ namespace KegID.ViewModel
 
         private void QueuedCommandReciever()
         {
+            List<ManifestModel> collection;
             try
             {
                 ManifestCollection.Clear();
                 Loader.StartLoading();
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                var collection = RealmDb.All<ManifestModel>().Where(x => x.IsDraft == false && x.IsQueue == true).ToList();
-                ManifestCollection = new ObservableCollection<ManifestModel>(collection);
+                collection = RealmDb.All<ManifestModel>().Where(x => x.IsDraft == false && x.IsQueue == true).ToList();
+                AssignColletionToManifest(collection);
             }
             catch (Exception ex)
             {
@@ -359,6 +378,7 @@ namespace KegID.ViewModel
             finally
             {
                 Loader.StopLoading();
+                collection = null;
             }
 
             QueuedTextColor = "White";
@@ -390,13 +410,14 @@ namespace KegID.ViewModel
 
         private void RecentCommandReciever()
         {
+            List<ManifestModel> collection;
             try
             {
                 ManifestCollection.Clear();
                 Loader.StartLoading();
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                var collection = RealmDb.All<ManifestModel>().Where(x => x.SubmittedDate == DateTimeOffset.UtcNow.Date && x.IsDraft == false && x.IsQueue == false).ToList();
-                ManifestCollection = new ObservableCollection<ManifestModel>(collection);
+                collection = RealmDb.All<ManifestModel>().Where(x => x.SubmittedDate == DateTimeOffset.UtcNow.Date && x.IsDraft == false && x.IsQueue == false).ToList();
+                AssignColletionToManifest(collection);
             }
             catch (Exception ex)
             {
@@ -405,6 +426,7 @@ namespace KegID.ViewModel
             finally
             {
                 Loader.StopLoading();
+                collection = null;
             }
 
             RecentTextColor = "White";
@@ -417,7 +439,7 @@ namespace KegID.ViewModel
 
         public override void OnNavigatingTo(INavigationParameters parameters)
         {
-            if (parameters.ContainsKey("LoadDraftManifestAsync"))
+            //if (parameters.ContainsKey("LoadDraftManifestAsync"))
                 LoadDraftManifestAsync();
         }
 

@@ -344,7 +344,7 @@ namespace KegID.ViewModel
             {
                 Loader.StartLoading();
 
-                manifestPostModel = await GenerateManifest();
+                manifestPostModel = GenerateManifest();
                 if (manifestPostModel != null)
                 {
                     try
@@ -407,7 +407,7 @@ namespace KegID.ViewModel
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             try
             {
-                manifestModel = await GenerateManifest();
+                manifestModel = GenerateManifest();
                 if (manifestModel != null)
                 {
                     Loader.StartLoading();
@@ -447,11 +447,12 @@ namespace KegID.ViewModel
             }
         }
 
-        public async Task<ManifestModel> GenerateManifest()
+        public ManifestModel GenerateManifest()
         {
-            return await _manifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.MOVE_MANIFEST, manifestId: ManifestId,
-                                barcodeCollection: ConstantManager.Barcodes, tags: Tags ?? new List<Tag>(), partnerModel: ConstantManager.Partner, newPallets: new List<NewPallet>(),
-                                batches: new List<NewBatch>(), closedBatches: new List<string>(), validationStatus: 2, contents: Contents);
+            return _manifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.MOVE_MANIFEST, manifestId: ManifestId,
+                        barcodeCollection: ConstantManager.Barcodes, tags: Tags ?? new List<Tag>(), tagsStr: TagsStr, 
+                        partnerModel: ConstantManager.Partner, newPallets: new List<NewPallet>(), batches: new List<NewBatch>(), 
+                        closedBatches: new List<string>(), validationStatus: 2, contents: Contents);
         }
 
         internal void AssingScanKegsValue(List<BarcodeModel> _barcodes, List<Tag> _tags,string _contents)
@@ -491,19 +492,26 @@ namespace KegID.ViewModel
         {
             try
             {
-                var result = await _dialogService.DisplayActionSheetAsync("Cancel? \n Would you like to save this manifest as a draft or delete?",null,null, "Delete manifest", "Save as draft");
+                var result = await _dialogService.DisplayActionSheetAsync("Cancel? \n Would you like to save this manifest as a draft or delete?", null, null, "Delete manifest", "Save as draft");
                 if (result == "Delete manifest")
                 {
                     await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
 
                     // Delete an object with a transaction
-                    //var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                    //var manifest = RealmDb.All<ManifestModel>().First(b => b.ManifestId == ManifestId);
-                    //using (var trans = RealmDb.BeginWrite())
-                    //{
-                    //    RealmDb.Remove(manifest);
-                    //    trans.Commit();
-                    //}
+                    try
+                    {
+                        var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                        var manifest = RealmDb.All<ManifestModel>().First(b => b.ManifestId == ManifestId);
+                        using (var trans = RealmDb.BeginWrite())
+                        {
+                            RealmDb.Remove(manifest);
+                            trans.Commit();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Crashes.TrackError(ex);
+                    }
                 }
                 else if (result == "Save as draft")
                 {
@@ -513,7 +521,11 @@ namespace KegID.ViewModel
             }
             catch (Exception ex)
             {
-                 Crashes.TrackError(ex);
+                Crashes.TrackError(ex);
+            }
+            finally
+            {
+                Cleanup();
             }
         }
 
@@ -555,11 +567,25 @@ namespace KegID.ViewModel
             }
         }
 
-        internal void AssignInitialValue(string _kegId, string _barcode, string _addKegs, string _destination,string _partnerId, bool isSaveDraftVisible)
+        internal void AssignInitialValue(string _kegId, IList<ManifestItem> _barcode, string _addKegs, string _destination,string _partnerId, bool isSaveDraftVisible, IList<Tag> tags,string tagsStr)
         {
             try
             {
-                ConstantManager.Barcode = _barcode;
+                foreach (var item in _barcode)
+                {
+                    var model = new BarcodeModel
+                    {
+                        Barcode = item.Barcode
+                    };
+                    foreach (Tag tag in item?.Tags)
+                    {
+                        model.Tags.Add(tag);
+                    }
+                    ConstantManager.Barcodes.Add(model);
+                }
+                Barcodes = ConstantManager.Barcodes;
+                Tags = tags.ToList();
+                TagsStr = !string.IsNullOrEmpty(tagsStr) ? tagsStr : "Add info";
                 ManifestId = !string.IsNullOrEmpty(_kegId) ? _kegId : _uuidManager.GetUuId();
                 AddKegs = !string.IsNullOrEmpty(_addKegs) ? string.Format("{0} Item", _addKegs) : "Add Kegs";
                 if (!string.IsNullOrEmpty(_destination))
@@ -567,7 +593,8 @@ namespace KegID.ViewModel
                     Destination = _destination;
                     ConstantManager.Partner = new PartnerModel
                     {
-                        PartnerId = _partnerId
+                        PartnerId = _partnerId,
+                        FullName = _destination
                     };
                     IsRequiredVisible = false;
                 }
@@ -628,12 +655,16 @@ namespace KegID.ViewModel
                     break;
                 case "AssignInitialValue":
                     var model = parameters.GetValue<ManifestModel>("AssignInitialValue");
-                    AssignInitialValue(model.ManifestId, model.ManifestItems.Count > 0 ? model.ManifestItems.FirstOrDefault().Barcode : string.Empty, model.ManifestItemsCount > 0 ? model.ManifestItemsCount.ToString() : string.Empty, model.OwnerName, model.ReceiverId, true);
+                    AssignInitialValue(model.ManifestId, model.ManifestItems.Count > 0 ? model.ManifestItems : null, model.ManifestItemsCount > 0 ? model.ManifestItemsCount.ToString() : string.Empty, model.OwnerName, model.ReceiverId, true, model.Tags,model.TagsStr);
                     break;
                 case "AssignInitialValueFromKegStatus":
                     var Barcode = parameters.GetValue<string>("AssignInitialValueFromKegStatus");
                     var KegId = parameters.GetValue<string>("KegId");
-                    AssignInitialValue(KegId, Barcode, "1", string.Empty, string.Empty, true);
+                    List<ManifestItem> manifestItem = new List<ManifestItem>
+                    {
+                        new ManifestItem { Barcode = Barcode }
+                    };
+                    AssignInitialValue(KegId, manifestItem, "1", string.Empty, string.Empty, true,null,string.Empty);
                     break;
                 case "PartnerModel":
                     Destination = parameters.GetValue<PossessorLocation>("PartnerModel").FullName;

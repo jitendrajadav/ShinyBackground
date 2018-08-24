@@ -371,7 +371,7 @@ namespace KegID.ViewModel
             try
             {
                 if (AllPartners.Count > 0)
-                    PartnerCollection = new ObservableCollection<PossessorResponseModel>(AllPartners.OrderBy(x => x.Location.FullName));
+                    PartnerCollection = new ObservableCollection<PossessorResponseModel>(AllPartners.OrderByDescending(x => x.KegsHeld));
             }
             catch (Exception ex)
             {
@@ -453,8 +453,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                PartnerCollection = new ObservableCollection<PossessorResponseModel>(AllPartners.OrderBy(x => x.Location.FullName));
-
                 AlphabeticalBackgroundColor = "#4E6388";
                 AlphabeticalTextColor = "White";
 
@@ -463,6 +461,8 @@ namespace KegID.ViewModel
 
                 KegsHeldBackgroundColor = "White";
                 KegsHeldTextColor = "#4E6388";
+
+                PartnerCollection = new ObservableCollection<PossessorResponseModel>(AllPartners.OrderBy(x => x.Location.FullName));
             }
             catch (Exception ex)
             {
@@ -474,8 +474,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                PartnerCollection = new ObservableCollection<PossessorResponseModel>(AllPartners);
-
                 InternalBackgroundColor = "#4E6388";
                 InternalTextColor = "White";
 
@@ -484,6 +482,8 @@ namespace KegID.ViewModel
 
                 KegsHeldBackgroundColor = "White";
                 KegsHeldTextColor = "#4E6388";
+
+                PartnerCollection = new ObservableCollection<PossessorResponseModel>(AllPartners);
             }
             catch (Exception ex)
             {

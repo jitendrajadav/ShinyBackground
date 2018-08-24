@@ -4,15 +4,13 @@ using Microsoft.AppCenter.Crashes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Xamarin.Essentials;
 
 namespace KegID.Services
 {
     public class ManifestManager : IManifestManager
     {
-        public async Task<ManifestModel> GetManifestDraft(EventTypeEnum eventTypeEnum, string manifestId, IList<BarcodeModel> barcodeCollection,
-            List<Tag> tags, PartnerModel partnerModel, List<NewPallet> newPallets, List<NewBatch> batches, List<string> closedBatches, long validationStatus, string contents = "")
+        public ManifestModel GetManifestDraft(EventTypeEnum eventTypeEnum, string manifestId, IList<BarcodeModel> barcodeCollection,
+            List<Tag> tags, string tagsStr, PartnerModel partnerModel, List<NewPallet> newPallets, List<NewBatch> batches, List<string> closedBatches, long validationStatus, string contents = "")
         {
             ManifestModel manifestModel = null;
             List<ManifestItem> manifestItemlst = new List<ManifestItem>();
@@ -77,7 +75,8 @@ namespace KegID.Services
                     //NewBatches = batches,
                     //Tags = tags.ToList(),
                     //ClosedBatches = closedBatches
-                    ManifestItemsCount = manifestItemlst.Count
+                    ManifestItemsCount = manifestItemlst.Count,
+                    TagsStr = tagsStr
                 };
 
                 foreach (var item in barcodeCollection)

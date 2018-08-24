@@ -5,6 +5,7 @@
              x:Class="KegID.Views.WhatIsNewView"
              BackgroundColor="{StaticResource pageBGColor}"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              ios:Page.UseSafeArea="true"
              >
 
@@ -20,12 +21,36 @@
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
 
-            <controls:CarouselViewControl 
-                Grid.Row="0"
-                x:Name="whatsNew"
-                ItemsSource="{Binding WhatsNewItemsSource}"
+            <controls:CarouselViewControl
+                x:Name="myCarouselViewCtrl"
+                ItemsSource="{Binding ImageCollection}"
                 ShowIndicators="true"
-                PositionSelected="Handle_PositionSelected"/>
+                Orientation="Horizontal">
+                <controls:CarouselViewControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Path=BindingContext.KegFleetTappedCommand, Source={x:Reference Name=myCarouselViewCtrl}}"
+                                              CommandParameter="{Binding}"/>
+                            </Grid.GestureRecognizers>
+                            <ffimageloading:CachedImage
+                                Aspect="AspectFill"
+                                DownsampleToViewSize="False"
+                                FadeAnimationEnabled="True"
+                                FadeAnimationForCachedImages="True"
+                                Source="{Binding ImageUri}"
+                                ErrorPlaceholder="error.png">
+                                <ffimageloading:CachedImage.LoadingPlaceholder>
+                                    <OnPlatform x:TypeArguments="ImageSource">
+                                        <On Platform="UWP">Assets/loadingplaceholder.png</On>
+                                        <On Platform="Android, iOS">loadingplaceholder.png</On>
+                                    </OnPlatform>
+                                </ffimageloading:CachedImage.LoadingPlaceholder>
+                            </ffimageloading:CachedImage>
+                        </Grid>
+                    </DataTemplate>
+                </controls:CarouselViewControl.ItemTemplate>
+            </controls:CarouselViewControl>
             
             <Button
                 Margin="{StaticResource BottomAppBarButtonMargin}"

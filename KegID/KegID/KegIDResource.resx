@@ -1785,4 +1785,7 @@
   <data name="title_select_volume" xml:space="preserve">
     <value>Select Volume</value>
   </data>
+  <data name="title_about_kegid" xml:space="preserve">
+    <value>About KegID</value>
+  </data>
 </root>

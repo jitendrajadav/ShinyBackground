@@ -628,9 +628,9 @@ namespace KegID.ViewModel
                             }
                             else
                             {
-                                ManifestModel manifestModel = await _manifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.MOVE_MANIFEST,
+                                ManifestModel manifestModel = _manifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.MOVE_MANIFEST,
                                                                 manifestId: ConstantManager.ManifestId, barcodeCollection: BarcodeCollection.Where(t=>t.IsScanned == false).ToList(), tags: ConstantManager.Tags, 
-                                                                partnerModel: ConstantManager.Partner, newPallets: new List<NewPallet>(),
+                                                                TagsStr, partnerModel: ConstantManager.Partner, newPallets: new List<NewPallet>(),
                                                                 batches: new List<NewBatch>(), closedBatches: new List<string>(), validationStatus: 2, contents: SelectedBrand?.BrandName);
 
                                 manifestModel.IsQueue = true;

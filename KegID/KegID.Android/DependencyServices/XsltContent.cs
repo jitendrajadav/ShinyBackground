@@ -8,12 +8,12 @@ using Xamarin.Forms;
 [assembly: Dependency(typeof(XsltContent))]
 namespace KegID.Droid.DependencyServices
 {
-    class XsltContent : IXsltContent
+    internal class XsltContent : IXsltContent
     {
         public string GetXsltContent(string filename)
         {
             string content;
-            AssetManager assets = CrossCurrentActivity.Current.AppContext.Assets;//Forms.Context.Assets;
+            AssetManager assets = CrossCurrentActivity.Current.AppContext.Assets;
             using (StreamReader sr = new StreamReader(assets.Open(filename)))
             {
                 content = sr.ReadToEnd();

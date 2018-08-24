@@ -132,7 +132,7 @@
                                     HorizontalOptions="End"
                                     Grid.Column="1"
                                     Grid.Row="1"
-                                    Text="{Binding ManifestItemsCount,StringFormat='{0} Items'}"/>
+                                    Text="{Binding SenderId}"/>
                             </Grid>
                         </ViewCell>
                     </DataTemplate>

@@ -25,6 +25,12 @@
                 Text="{Binding Resources[dialog_print_negative]}"
                 Command="{Binding CancelCommand}"
                 />
+            
+            <Label
+                HorizontalOptions="Center"
+                Style="{StaticResource LabelTitleStyle}"
+                Text="{Binding Resources[title_about_kegid]}"
+                />
 
             <BoxView
                 Margin="-10,0,-10,0"

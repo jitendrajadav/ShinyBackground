@@ -1,11 +1,10 @@
-﻿using FFImageLoading.Forms;
-using KegID.Common;
+﻿using KegID.Common;
 using KegID.Messages;
 using KegID.Services;
 using Microsoft.AppCenter.Crashes;
 using Prism.Navigation;
 using System;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -17,35 +16,35 @@ namespace KegID.ViewModel
         private readonly INavigationService _navigationService;
         private readonly IInitializeMetaData _initializeMetaData;
 
-        #region WhatsNewItemsSource
+        #region ImageCollection
 
         /// <summary>
-        /// The <see cref="WhatsNewItemsSource" /> property's name.
+        /// The <see cref="ImageCollection" /> property's name.
         /// </summary>
-        public const string WhatsNewItemsSourcePropertyName = "WhatsNewItemsSource";
+        public const string ImageCollectionPropertyName = "ImageCollection";
 
-        private ObservableCollection<View> _WhatsNewItemsSource = null;
+        private IList<ImageClass> _imageCollection = null;
 
         /// <summary>
-        /// Sets and gets the WhatsNewItemsSource property.
+        /// Sets and gets the ImageCollection property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public ObservableCollection<View> WhatsNewItemsSource
+        public IList<ImageClass> ImageCollection
         {
             get
             {
-                return _WhatsNewItemsSource;
+                return _imageCollection;
             }
 
             set
             {
-                if (_WhatsNewItemsSource == value)
+                if (_imageCollection == value)
                 {
                     return;
                 }
 
-                _WhatsNewItemsSource = value;
-                RaisePropertyChanged(WhatsNewItemsSourcePropertyName);
+                _imageCollection = value;
+                RaisePropertyChanged(ImageCollectionPropertyName);
             }
         }
 
@@ -64,12 +63,12 @@ namespace KegID.ViewModel
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _initializeMetaData = initializeMetaData;
 
-            WhatsNewItemsSource = new ObservableCollection<View>()
+            ImageCollection = new List<ImageClass>
             {
-                new CachedImage() { Source = "new0.png", DownsampleToViewSize = false, Aspect = Aspect.Fill },
-                new CachedImage() { Source = "new1.png", DownsampleToViewSize = false, Aspect = Aspect.Fill },
-                new CachedImage() { Source = "new2.png", DownsampleToViewSize = false, Aspect = Aspect.Fill },
-                new CachedImage() { Source = "new3.png", DownsampleToViewSize = false, Aspect = Aspect.Fill }
+                new ImageClass{ ImageUri = "new0.png" },
+                new ImageClass{ ImageUri = "new1.png" },
+                new ImageClass{ ImageUri = "new2.png" },
+                new ImageClass{ ImageUri = "new3.png" },
             };
         }
 

@@ -4354,6 +4354,15 @@ namespace KegID {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to About KegID.
+        /// </summary>
+        internal static string title_about_kegid {
+            get {
+                return ResourceManager.GetString("title_about_kegid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Fill Kegs.
         /// </summary>
         internal static string title_activity_fill_manifest {

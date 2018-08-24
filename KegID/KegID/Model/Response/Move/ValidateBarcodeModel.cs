@@ -21,6 +21,7 @@ namespace KegID.Model
         public IList<ManifestItem> ManifestItems { get; }
         public IList<NewPallet> NewPallets { get; }
         public IList<Tag> Tags { get; }
+        public string TagsStr { get; set; }
         public IList<string> ClosedBatches { get; }
         public IList<NewBatch> NewBatches { get; }
         public bool IsDraft { get; set; }

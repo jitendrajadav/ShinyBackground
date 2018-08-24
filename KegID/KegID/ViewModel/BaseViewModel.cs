@@ -1,5 +1,4 @@
-﻿using KegID.Common;
-using KegID.Localization;
+﻿using KegID.Localization;
 using KegID.Services;
 using Prism.Mvvm;
 using Prism.Navigation;

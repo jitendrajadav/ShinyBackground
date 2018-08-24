@@ -1,93 +1,19 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:controls="clr-namespace:Plugin.CrossPlatformTintedImage.Abstractions;assembly=Plugin.CrossPlatformTintedImage.Abstractions"
              x:Class="KegID.Views.DashboardView">
   <ContentView.Content>
       
         <Grid
             RowSpacing="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-
-            <Grid
-                Grid.Row="0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="50"/>
-                </Grid.ColumnDefinitions>
-
-                <Image 
-                    VerticalOptions="Center"
-                    Grid.Column="0"
-                    HeightRequest="50">
-                    <Image.Margin>
-                        <OnPlatform x:TypeArguments="Thickness">
-                            <On Platform="iOS" Value="0,24,0,2" />
-                            <On Platform="Android, WinPhone, Windows" Value="0,2,0,2" />
-                        </OnPlatform>
-                    </Image.Margin>
-                    <Image.Source>
-                        <OnPlatform x:TypeArguments="ImageSource">
-                            <On Platform="iOS">
-                                <FileImageSource File="kegidbanner.png"/>
-                            </On>
-                            <On Platform="Android">
-                                <FileImageSource File="kegidbanner.png"/>
-                            </On>
-                            <On Platform="UWP">
-                                <FileImageSource File="Assets/kegidbanner.png"/>
-                            </On>
-                        </OnPlatform>
-                    </Image.Source>
-                </Image>
-
-                <controls:TintedImage 
-                    TintColor="{StaticResource selectTextColor}"
-                    x:Name="imgMore"
-                    HorizontalOptions="Center"                  
-                    VerticalOptions="Center"
-                    Grid.Column="1"
-                    HeightRequest="30"
-                    BackgroundColor="Transparent" >
-                    <controls:TintedImage.Source>
-                        <OnPlatform x:TypeArguments="FileImageSource">
-                            <On Platform="iOS">
-                                <FileImageSource File="setting.png"/>
-                            </On>
-                            <On Platform="Android">
-                                <FileImageSource File="setting.png"/>
-                            </On>
-                            <On Platform="UWP">
-                                <FileImageSource File="Assets/setting.png"/>
-                            </On>
-                        </OnPlatform>
-                    </controls:TintedImage.Source>
-                    <controls:TintedImage.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding Path=BindingContext.MoreCommand, 
-                                                        Source={x:Reference Name=imgMore}}"
-                                                         CommandParameter="{Binding}"/>
-                    </controls:TintedImage.GestureRecognizers>
-                </controls:TintedImage>
-
-            </Grid>
-
-            <BoxView
-                Margin="0,0,-10,0"
-                Grid.Row="1"
-                BackgroundColor="{StaticResource lightGrayPlaceholderColor}"
-                HeightRequest="1"
-                VerticalOptions="Start"
-                HorizontalOptions="FillAndExpand"/>
 
             <Grid 
                 Margin="10,50,10,10"
-                Grid.Row="2">
+                Grid.Row="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
@@ -421,7 +347,7 @@
             <Grid
                 Margin="20,10,10,100"
                 VerticalOptions="End"
-                Grid.Row="3">
+                Grid.Row="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="50"/>
                     <RowDefinition Height="50"/>
@@ -583,17 +509,6 @@
                 </Label>
             </Grid>
 
-            <Label
-                Grid.Row="4"
-                HeightRequest="35"
-                TextColor="White"
-                VerticalTextAlignment="Center"
-                HorizontalOptions="FillAndExpand"
-                HorizontalTextAlignment="Center"
-                BackgroundColor="Red"
-                IsVisible="{Binding IsVisibleDraftmaniFestsLabel}"
-                Text="{Binding DraftmaniFests,StringFormat='{0} draft manifests'}"/>
-            
         </Grid>
     </ContentView.Content>
 </ContentView>

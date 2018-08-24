@@ -288,8 +288,8 @@ namespace KegID.ViewModel
 
             Loader.StartLoading();
 
-            var model = await _manifestManager.GetManifestDraft(EventTypeEnum.FILL_MANIFEST, _uuidManager.GetUuId(),
-                    barcodes, tags, partnerModel, newPallets, new List<NewBatch>(), closedBatches, 4);
+            var model = _manifestManager.GetManifestDraft(EventTypeEnum.FILL_MANIFEST, _uuidManager.GetUuId(),
+                    barcodes, tags, string.Empty, partnerModel, newPallets, new List<NewBatch>(), closedBatches, 4);
 
             if (model != null)
             {

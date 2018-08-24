@@ -5,39 +5,115 @@
              BackgroundColor="{StaticResource pageBGColor}"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              ios:Page.UseSafeArea="true"
+             xmlns:cvt="clr-namespace:Plugin.CrossPlatformTintedImage.Abstractions;assembly=Plugin.CrossPlatformTintedImage.Abstractions"
              xmlns:controls="clr-namespace:CarouselView.FormsPlugin.Abstractions;assembly=CarouselView.FormsPlugin.Abstractions"
              xmlns:views="clr-namespace:KegID.Views"
              >
+    <Grid
+       RowSpacing="0">
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <Grid
+            Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="50"/>
+            </Grid.ColumnDefinitions>
 
-    <controls:CarouselViewControl 
-                x:Name="myDashboard"
-                ShowIndicators="true">
-        <controls:CarouselViewControl.ItemsSource>
-            <x:Array Type="{x:Type View}">
-                <views:MenuView />
-                <views:DashboardView />
-            </x:Array>
-        </controls:CarouselViewControl.ItemsSource>
+            <Image 
+                    VerticalOptions="Center"
+                    Grid.Column="0"
+                    HeightRequest="50">
+                <Image.Margin>
+                    <OnPlatform x:TypeArguments="Thickness">
+                        <On Platform="iOS" Value="0,24,0,2" />
+                        <On Platform="Android, WinPhone, Windows" Value="0,2,0,2" />
+                    </OnPlatform>
+                </Image.Margin>
+                <Image.Source>
+                    <OnPlatform x:TypeArguments="ImageSource">
+                        <On Platform="iOS">
+                            <FileImageSource File="kegidbanner.png"/>
+                        </On>
+                        <On Platform="Android">
+                            <FileImageSource File="kegidbanner.png"/>
+                        </On>
+                        <On Platform="UWP">
+                            <FileImageSource File="Assets/kegidbanner.png"/>
+                        </On>
+                    </OnPlatform>
+                </Image.Source>
+            </Image>
 
-    </controls:CarouselViewControl>
+            <cvt:TintedImage 
+                    TintColor="{StaticResource selectTextColor}"
+                    x:Name="imgMore"
+                    HorizontalOptions="Center"                  
+                    VerticalOptions="Center"
+                    Grid.Column="1"
+                    HeightRequest="30"
+                    BackgroundColor="Transparent" >
+                <cvt:TintedImage.Source>
+                    <OnPlatform x:TypeArguments="FileImageSource">
+                        <On Platform="iOS">
+                            <FileImageSource File="setting.png"/>
+                        </On>
+                        <On Platform="Android">
+                            <FileImageSource File="setting.png"/>
+                        </On>
+                        <On Platform="UWP">
+                            <FileImageSource File="Assets/setting.png"/>
+                        </On>
+                    </OnPlatform>
+                </cvt:TintedImage.Source>
+                <cvt:TintedImage.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.MoreCommand, 
+                                                        Source={x:Reference Name=imgMore}}"
+                                                         CommandParameter="{Binding}"/>
+                </cvt:TintedImage.GestureRecognizers>
+            </cvt:TintedImage>
+
+        </Grid>
+
+        <BoxView
+                Margin="0,0,-10,0"
+                Grid.Row="1"
+                BackgroundColor="{StaticResource lightGrayPlaceholderColor}"
+                HeightRequest="1"
+                VerticalOptions="Start"
+                HorizontalOptions="FillAndExpand"/>
+
+        <controls:CarouselViewControl 
+            Grid.Row="2"
+            x:Name="myDashboard"
+            ShowIndicators="true">
+            <controls:CarouselViewControl.ItemsSource>
+                <x:Array Type="{x:Type View}">
+                    <views:MenuView />
+                    <views:DashboardView />
+                </x:Array>
+            </controls:CarouselViewControl.ItemsSource>
+        </controls:CarouselViewControl>
+
+        <Label
+            Grid.Row="3"
+            TextColor="White"
+            VerticalTextAlignment="Center"
+            HorizontalOptions="FillAndExpand"
+            HorizontalTextAlignment="Center"
+            BackgroundColor="Red"
+            Style="{StaticResource LabelTitleStyle}"
+            IsVisible="{Binding IsVisibleDraftmaniFestsLabel}"
+            Text="{Binding DraftmaniFests,StringFormat='{0} draft manifests'}"/>
+
+    </Grid>
     
-    <!--<CarouselPage 
-    xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="KegID.MainPage"
-    xmlns:views="clr-namespace:KegID.Views"
-    NavigationPage.HasBackButton="False"
-    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
-    ios:Page.UseSafeArea="true"
-    BackgroundColor="{StaticResource pageBGColor}"
-    >
-
-    <CarouselPage.Children>
-        <views:MenuView />
-        <views:DashboardView />
-    </CarouselPage.Children>
-</CarouselPage>-->
-
 </ContentPage>
     
     
