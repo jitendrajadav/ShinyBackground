@@ -13,6 +13,7 @@ using Prism.Plugin.Popups;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net.Http;
 using Scandit.BarcodePicker.Unified;
+using Xamarin.Essentials;
 
 namespace KegID
 {
@@ -45,6 +46,7 @@ namespace KegID
 
             ScanditService.ScanditLicense.AppKey = appKey;
 
+            Geolocation.GetLocationAsync();
             kegIDClient = serviceProvider.GetService<KegIDClient>();
 
             if (!string.IsNullOrEmpty(AppSettings.SessionId))
@@ -59,8 +61,6 @@ namespace KegID
             containerRegistry.RegisterForNavigation<NavigationPage>();
 
             containerRegistry.RegisterForNavigation<LoginView, LoginViewModel>();
-            //containerRegistry.RegisterForNavigation<DashboardView, DashboardViewModel>();
-            //containerRegistry.RegisterForNavigation<MenuView, DashboardViewModel>();
             containerRegistry.RegisterForNavigation<ScanditScanView, ScanditScanViewModel>();
 
             containerRegistry.RegisterForNavigation<SelectPrinterView, SelectPrinterViewModel>();

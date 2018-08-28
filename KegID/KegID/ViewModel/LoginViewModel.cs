@@ -154,21 +154,21 @@ namespace KegID.ViewModel
             //Password = "beer2keg";
 
             BgImage = _getIconByPlatform.GetIcon("kegbg.png");
-            
+            GetLocation();
         }
 
         #endregion
 
         #region Methods
 
-        private async Task GetLocation()
+        private async void GetLocation()
         {
             try
             {
                 var current = Connectivity.NetworkAccess;
                 if (current == NetworkAccess.Internet)
                 {
-                    var request = new GeolocationRequest(GeolocationAccuracy.Medium);
+                    var request = new GeolocationRequest(GeolocationAccuracy.Medium,new TimeSpan(0,0,30));
                     ConstantManager.Location = await Geolocation.GetLocationAsync(request);
                 }
             }
@@ -189,8 +189,6 @@ namespace KegID.ViewModel
 
         private async void LoginCommandRecieverAsync()
         {
-            await GetLocation();
-
             try
             {
                 Loader.StartLoading();

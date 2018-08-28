@@ -40,7 +40,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string ManifestIdPropertyName = "ManifestId";
 
-        private string _ManifestId = default(string);
+        private string _ManifestId = default;
 
         /// <summary>
         /// Sets and gets the ManifestId property.
@@ -74,7 +74,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string ManaulBarcodePropertyName = "ManaulBarcode";
 
-        private string _ManaulBarcode = default(string);
+        private string _ManaulBarcode = default;
 
         /// <summary>
         /// Sets and gets the ManaulBarcode property.
@@ -108,7 +108,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string TagsStrPropertyName = "TagsStr";
 
-        private string _TagsStr = default(string);
+        private string _TagsStr = default;
 
 
         /// <summary>

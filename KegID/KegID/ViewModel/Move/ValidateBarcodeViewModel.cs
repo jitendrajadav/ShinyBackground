@@ -22,7 +22,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string MultipleKegsTitlePropertyName = "MultipleKegsTitle";
 
-        private string _MultipleKegsTitle = default(string);
+        private string _MultipleKegsTitle = default;
 
         /// <summary>
         /// Sets and gets the MultipleKegsTitle property.

@@ -216,7 +216,9 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-
+                                <ViewCell.ContextActions>
+                                    <MenuItem Text="Delete" Command="{Binding BindingContext.DeleteItemCommand, Source={x:Reference lstBarcode}}" CommandParameter="{Binding .}"/>
+                                </ViewCell.ContextActions>
                                 <Grid 
                                 RowSpacing="0"
                                 ColumnSpacing="0">

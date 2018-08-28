@@ -70,16 +70,13 @@ namespace KegID.ViewModel
                 new ImageClass{ ImageUri = "new2.png" },
                 new ImageClass{ ImageUri = "new3.png" },
             };
+
+            HandleReceivedMessages();
         }
 
         #endregion
 
         #region Methods
-
-        public override void OnNavigatingTo(INavigationParameters parameters)
-        {
-            HandleReceivedMessages();
-        }
 
         private void HandleReceivedMessages()
         {

@@ -35,7 +35,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string AddPalletsTitlePropertyName = "AddPalletsTitle";
 
-        private string _AddPalletsTitle = default(string);
+        private string _AddPalletsTitle = default;
 
         /// <summary>
         /// Sets and gets the AddPalletsTitle property.
@@ -69,7 +69,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string PalletsPropertyName = "Pallets";
 
-        private string _Pallets = default(string);
+        private string _Pallets = default;
 
         /// <summary>
         /// Sets and gets the Pallets property.
@@ -137,7 +137,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string KegsPropertyName = "Kegs";
 
-        private string _Kegs = default(string);
+        private string _Kegs = default;
 
         /// <summary>
         /// Sets and gets the Kegs property.
@@ -429,7 +429,7 @@ namespace KegID.ViewModel
             try
             {
                 PalletCollection.Clear();
-                Kegs = default(string);
+                Kegs = default;
                 AddPalletToFillScanMsg msg = new AddPalletToFillScanMsg
                 {
                     CleanUp = true

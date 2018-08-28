@@ -48,7 +48,7 @@ namespace KegID.iOS
 
             try
             {
-                LoadApplication(new App(new iOSInitializer()));
+                LoadApplication(new App(new IOSInitializer()));
             }
             catch (Exception ex)
             {
@@ -71,7 +71,7 @@ namespace KegID.iOS
         }
     }
 
-    public class iOSInitializer : IPlatformInitializer
+    public class IOSInitializer : IPlatformInitializer
     {
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {

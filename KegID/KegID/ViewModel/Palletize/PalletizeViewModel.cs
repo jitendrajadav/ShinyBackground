@@ -172,7 +172,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string ManifestIdPropertyName = "ManifestId";
 
-        private string _ManifestId = default(string);
+        private string _ManifestId = default;
 
         /// <summary>
         /// Sets and gets the ManifestId property.

@@ -10,7 +10,6 @@ using Realms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace KegID.ViewModel
 {
@@ -34,7 +33,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string ManifestIdPropertyName = "ManifestId";
 
-        private string _ManifestId = default(string);
+        private string _ManifestId = default;
 
         /// <summary>
         /// Sets and gets the ManifestId property.
@@ -412,16 +411,35 @@ namespace KegID.ViewModel
                 {
                     Loader.StartLoading();
                     manifestModel.IsDraft = true;
-                    try
+
+                    var isNew = RealmDb.Find<ManifestModel>(manifestModel.ManifestId);
+                    if (isNew != null)
                     {
-                        await RealmDb.WriteAsync((realmDb) =>
-                         {
-                             realmDb.Add(manifestModel, true);
-                         });
+                        try
+                        {
+                            RealmDb.Write(() =>
+                            {
+                                RealmDb.Add(manifestModel, update: true);
+                            });
+                        }
+                        catch (Exception ex)
+                        {
+                            Crashes.TrackError(ex);
+                        }
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        Crashes.TrackError(ex);
+                        try
+                        {
+                            await RealmDb.WriteAsync((realmDb) =>
+                            {
+                                realmDb.Add(manifestModel);
+                            });
+                        }
+                        catch (Exception ex)
+                        {
+                            Crashes.TrackError(ex);
+                        }
                     }
 
                     Loader.StopLoading();
@@ -495,8 +513,6 @@ namespace KegID.ViewModel
                 var result = await _dialogService.DisplayActionSheetAsync("Cancel? \n Would you like to save this manifest as a draft or delete?", null, null, "Delete manifest", "Save as draft");
                 if (result == "Delete manifest")
                 {
-                    await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
-
                     // Delete an object with a transaction
                     try
                     {
@@ -512,6 +528,8 @@ namespace KegID.ViewModel
                     {
                         Crashes.TrackError(ex);
                     }
+
+                    await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
                 }
                 else if (result == "Save as draft")
                 {
@@ -575,7 +593,9 @@ namespace KegID.ViewModel
                 {
                     var model = new BarcodeModel
                     {
-                        Barcode = item.Barcode
+                        Barcode = item.Barcode,
+                        Icon = item.Icon,
+                        TagsStr = item.TagsStr
                     };
                     foreach (Tag tag in item?.Tags)
                     {

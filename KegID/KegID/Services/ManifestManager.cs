@@ -27,6 +27,8 @@ namespace KegID.Services
                         ScanDate = DateTimeOffset.UtcNow.Date,
                         ValidationStatus = validationStatus,
                         KegId = item.Kegs?.Partners?.FirstOrDefault()?.Kegs?.FirstOrDefault().KegId,
+                        Icon = item.Icon,
+                        TagsStr = item.TagsStr
                         //Tags = tags,
                         //KegStatus = new List<KegStatus>()
                         //{

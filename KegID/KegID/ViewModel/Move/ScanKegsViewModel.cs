@@ -143,7 +143,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string ManaulBarcodePropertyName = "ManaulBarcode";
 
-        private string _ManaulBarcode = default(string);
+        private string _ManaulBarcode = default;
 
         /// <summary>
         /// Sets and gets the ManaulBarcode property.
@@ -177,7 +177,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string TagsStrPropertyName = "TagsStr";
 
-        private string _tagsStr = default(string);
+        private string _tagsStr = default;
 
         /// <summary>
         /// Sets and gets the TagsStr property.
@@ -211,7 +211,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string BatchPropertyName = "Batch";
 
-        private string _Batch = default(string);
+        private string _Batch = default;
 
         /// <summary>
         /// Sets and gets the Batch property.
@@ -249,6 +249,7 @@ namespace KegID.ViewModel
         public DelegateCommand AddTagsCommand { get; }
         public DelegateCommand<BarcodeModel> IconItemTappedCommand { get; }
         public DelegateCommand<BarcodeModel> LabelItemTappedCommand { get; }
+        public DelegateCommand<BarcodeModel> DeleteItemCommand { get; set; }
 
         #endregion
 
@@ -268,11 +269,13 @@ namespace KegID.ViewModel
             AddTagsCommand = new DelegateCommand(AddTagsCommandRecieverAsync);
             LabelItemTappedCommand = new DelegateCommand<BarcodeModel>((model) => LabelItemTappedCommandRecieverAsync(model));
             IconItemTappedCommand = new DelegateCommand<BarcodeModel>((model) => IconItemTappedCommandRecieverAsync(model));
+            DeleteItemCommand = new DelegateCommand<BarcodeModel>((model) => DeleteItemCommandReciever(model));
             LoadBrand();
 
             HandleUnsubscribeMessages();
             HandleReceivedMessages();
         }
+
 
         #endregion
 
@@ -285,6 +288,7 @@ namespace KegID.ViewModel
             MessagingCenter.Unsubscribe<CancelledMessage>(this, "CancelledMessage");
 
         }
+
         private void HandleReceivedMessages()
         {
             MessagingCenter.Subscribe<ScanKegsMessage>(this, "ScanKegsMessage", message =>
@@ -577,6 +581,10 @@ namespace KegID.ViewModel
                 Crashes.TrackError(ex);
             }
         }
+        private void DeleteItemCommandReciever(BarcodeModel model)
+        {
+            BarcodeCollection.Remove(model);
+        }
 
         private async void BarcodeManualCommandRecieverAsync()
         {
@@ -776,7 +784,7 @@ namespace KegID.ViewModel
             try
             {
                 BarcodeCollection.Clear();
-                TagsStr = default(string);
+                TagsStr = default;
                 SelectedBrand = null;
                 HasDone = false;
             }

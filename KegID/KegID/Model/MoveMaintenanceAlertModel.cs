@@ -16,7 +16,7 @@ namespace KegID.Model
         /// </summary>
         public const string BarcodeIdPropertyName = "BarcodeId";
 
-        private string _BarcodeId = default(string);
+        private string _BarcodeId = default;
 
         /// <summary>
         /// Sets and gets the BarcodeId property.

@@ -11,7 +11,8 @@ namespace KegID.Model
         public long ValidationStatus { get; set; }
         public string KegId { get; set; }
         public IList<Tag> Tags { get; }
-        //public List<KegStatus> KegStatus { get; set; }
+        public string Icon { get; set; }
+        public string TagsStr { get; set; }
     }
 
     public class KegStatus

@@ -25,6 +25,7 @@
                 x:Name="myCarouselViewCtrl"
                 ItemsSource="{Binding ImageCollection}"
                 ShowIndicators="true"
+                PositionSelected="Handle_PositionSelected"
                 Orientation="Horizontal">
                 <controls:CarouselViewControl.ItemTemplate>
                     <DataTemplate>
@@ -34,7 +35,7 @@
                                               CommandParameter="{Binding}"/>
                             </Grid.GestureRecognizers>
                             <ffimageloading:CachedImage
-                                Aspect="AspectFill"
+                                Aspect="Fill"
                                 DownsampleToViewSize="False"
                                 FadeAnimationEnabled="True"
                                 FadeAnimationForCachedImages="True"

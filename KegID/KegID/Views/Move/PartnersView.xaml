@@ -210,13 +210,6 @@
                     </OnPlatform>
                 </Grid.RowSpacing>
                 
-                <Grid.HeightRequest>
-                    <OnPlatform x:TypeArguments="x:Double">
-                        <On Platform="iOS" Value="35" />
-                        <On Platform="Android, WinPhone, Windows, UWP" Value="35" />
-                    </OnPlatform>
-                </Grid.HeightRequest>
-                
                 <Button
                     BorderRadius="0"
                     BorderWidth="1"

@@ -184,7 +184,7 @@ namespace KegID.Common
 
         public T DeserializeObject<T>(string response)
         {
-            T type = default(T);
+            T type = default;
             try
             {
                 return JsonConvert.DeserializeObject<T>(response, GetJsonSetting());
