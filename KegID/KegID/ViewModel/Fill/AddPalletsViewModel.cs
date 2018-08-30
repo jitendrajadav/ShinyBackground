@@ -229,10 +229,31 @@ namespace KegID.ViewModel
             var tags = ConstantManager.Tags;
             var partnerModel = ConstantManager.Partner;
 
-            if (barcodes.Count == 0)
+            if (PalletCollection.Count == 0)
             {
                 await _dialogService.DisplayAlertAsync("Error", "Error: Please add some scans.", "Ok");
                 return;
+            }
+
+            IEnumerable<PalletModel> empty = PalletCollection.Where(x => x.Barcode.Count == 0);
+            if (empty != null)
+            {
+                string result = await _dialogService.DisplayActionSheetAsync("Error? \n Some pallets have 0 scans. Do you want to edit them or remove the empty pallets.", null, null, "Remove empties", "Edit");
+                if (result == "Remove empties")
+                {
+                    foreach (var item in empty.Reverse())
+                    {
+                        PalletCollection.Remove(item);
+                    }
+                    if (PalletCollection.Count == 0)
+                    {
+                        return;
+                    }
+                }
+                if (result == "Edit")
+                {
+                    ItemTappedCommandRecieverAsync(empty.FirstOrDefault());
+                }
             }
 
             List<string> closedBatches = new List<string>();
@@ -435,7 +456,6 @@ namespace KegID.ViewModel
                     CleanUp = true
                 };
                 MessagingCenter.Send(msg, "AddPalletToFillScanMsg");
-                //SimpleIoc.Default.GetInstance<FillScanViewModel>().Cleanup();
             }
             catch (Exception ex)
             {
@@ -449,6 +469,11 @@ namespace KegID.ViewModel
             {
                 await _navigationService.GoBackAsync(parameters, useModalNavigation: true, animated: false);
             }
+            if (parameters.ContainsKey("FillKegsCommandRecieverAsync"))
+            {
+                FillKegsCommandRecieverAsync();
+            }
+
         }
 
         public async override void OnNavigatingTo(INavigationParameters parameters)

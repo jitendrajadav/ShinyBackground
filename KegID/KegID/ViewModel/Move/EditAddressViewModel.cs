@@ -397,13 +397,13 @@ namespace KegID.ViewModel
         {
             try
             {
-                Line1 = default(string);
-                Line2 = default(string);
-                Line3 = default(string);
-                City = default(string);
-                State = default(string);
-                PostalCode = default(string);
-                Country = default(string);
+                Line1 = default;
+                Line2 = default;
+                Line3 = default;
+                City = default;
+                State = default;
+                PostalCode = default;
+                Country = default;
             }
             catch (Exception ex)
             {
@@ -421,6 +421,14 @@ namespace KegID.ViewModel
             if (parameters.ContainsKey("AddressTitle"))
             {
                 AddressTitle = parameters.GetValue<string>("AddressTitle");
+            }
+        }
+
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            if (parameters.ContainsKey("BackCommandRecieverAsync"))
+            {
+                BackCommandRecieverAsync();
             }
         }
 

@@ -212,6 +212,10 @@ namespace KegID.ViewModel
             {
                 await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
             }
+            if (parameters.ContainsKey("HomeCommandRecieverAsync"))
+            {
+                HomeCommandRecieverAsync();
+            }
         }
 
         public override void OnNavigatingTo(INavigationParameters parameters)

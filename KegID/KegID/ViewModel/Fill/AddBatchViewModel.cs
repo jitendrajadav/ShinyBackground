@@ -565,6 +565,14 @@ namespace KegID.ViewModel
             }
         }
 
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            if (parameters.ContainsKey("CancelCommandRecieverAsync"))
+            {
+                CancelCommandRecieverAsync();
+            }
+        }
+
         #endregion
     }
 }

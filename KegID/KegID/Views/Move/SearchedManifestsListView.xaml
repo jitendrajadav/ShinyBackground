@@ -23,12 +23,14 @@
                 x:Name="lblSearchManifest"
                 Style="{StaticResource TopButtonTitleStyle}"
                 HorizontalOptions="Start"
-                Text="{Binding Resources[title_search_manifests]}"
+                Text="{Binding Resources[button_back]}"
                 Command="{Binding SearchManifestsCommand}"
                 />
 
-            <Label Text="{Binding Resources[title_manifest_list]}"
+            <Label 
+                Text="{Binding Resources[title_manifest_list]}"
                 VerticalOptions="Center" 
+                Style="{StaticResource LabelTitleStyle}"
                 HorizontalOptions="Center" />
 
             <BoxView

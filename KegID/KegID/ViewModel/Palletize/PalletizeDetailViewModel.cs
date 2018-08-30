@@ -317,7 +317,7 @@ namespace KegID.ViewModel
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
 
             _moveService = moveService;
-            HomeCommand = new DelegateCommand(HomeCommandCommandRecieverAsync);
+            HomeCommand = new DelegateCommand(HomeCommandRecieverAsync);
             ShareCommand = new DelegateCommand(ShareCommandReciever);
             GridTappedCommand = new DelegateCommand(GridTappedCommandRecieverAsync);
             MovePalletCommand = new DelegateCommand(MovePalletCommandRecieverAsync);
@@ -407,7 +407,7 @@ namespace KegID.ViewModel
             }
         }
 
-        private async void HomeCommandCommandRecieverAsync()
+        private async void HomeCommandRecieverAsync()
         {
             ConstantManager.Barcodes.Clear();
             await _navigationService.GoBackAsync(new NavigationParameters { { "PalletHome", "PalletHome" } }, useModalNavigation: true, animated: false);
@@ -522,6 +522,14 @@ namespace KegID.ViewModel
                     break;
                 default:
                     break;
+            }
+        }
+
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            if (parameters.ContainsKey("HomeCommandRecieverAsync"))
+            {
+                HomeCommandRecieverAsync();
             }
         }
 

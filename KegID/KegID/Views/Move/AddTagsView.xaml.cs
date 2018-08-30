@@ -21,6 +21,12 @@ namespace KegID.Views
             InitializeComponent();
         }
 
+        protected override bool OnBackButtonPressed()
+        {
+            SaveTagsClickedAsync(null, null);
+            return true;
+        }
+
         private void LoadAddTagsAsync(ViewTypeEnum viewTypeEnum)
         {
             try

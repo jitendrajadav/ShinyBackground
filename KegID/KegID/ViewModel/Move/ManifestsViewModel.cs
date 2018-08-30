@@ -347,7 +347,6 @@ namespace KegID.ViewModel
             try
             {
                 await _navigationService.NavigateAsync(new Uri("/NavigationPage/MainPage", UriKind.Absolute), useModalNavigation: true, animated: false);
-                //await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {
@@ -439,8 +438,15 @@ namespace KegID.ViewModel
 
         public override void OnNavigatingTo(INavigationParameters parameters)
         {
-            //if (parameters.ContainsKey("LoadDraftManifestAsync"))
-                LoadDraftManifestAsync();
+            LoadDraftManifestAsync();
+        }
+
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            if (parameters.ContainsKey("HomeCommandRecieverAsync"))
+            {
+                HomeCommandRecieverAsync();
+            }
         }
 
         #endregion

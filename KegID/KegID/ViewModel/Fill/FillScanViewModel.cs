@@ -450,7 +450,10 @@ namespace KegID.ViewModel
                         BatchId = palletModel.ManifestId;
                         ManifestId = "Pallet #" + BatchId;
                         foreach (var item in palletModel.Barcode)
+                        {
                             BarcodeCollection.Add(item);
+                            TagsStr = item.TagsStr ?? string.Empty;
+                        }
                     }
                     else
                     {
@@ -575,8 +578,14 @@ namespace KegID.ViewModel
                             Page = ViewTypeEnum.FillScanView.ToString(),
                             Contents = Tags.Count >1 ? Tags?[2]?.Name : string.Empty
                         };
+                        if (ConstantManager.Tags != null)
+                        {
+                            foreach (var item in ConstantManager.Tags)
+                                model.Tags.Add(item);
+                        }
                         BarcodeCollection.Add(model);
                     }
+                   
                     catch (Exception ex)
                     {
                         Crashes.TrackError(ex);
@@ -811,6 +820,14 @@ namespace KegID.ViewModel
                     break;
                 default:
                     break;
+            }
+        }
+
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            if (parameters.ContainsKey("CancelCommandRecieverAsync"))
+            {
+                CancelCommandRecieverAsync();
             }
         }
 

@@ -349,14 +349,41 @@ namespace KegID.ViewModel
                     try
                     {
                         var result = await _moveService.PostManifestAsync(manifestPostModel, AppSettings.SessionId, Configuration.NewManifest);
-                        var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-
                         try
                         {
-                            await RealmDb.WriteAsync((realmDb) =>
-                                                {
-                                                    realmDb.Add(manifestPostModel);
-                                                });
+                            string manifestId = manifestPostModel.ManifestId;
+                            var isNew = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).Find<ManifestModel>(manifestId);
+                            if (isNew != null)
+                            {
+                                try
+                                {
+                                    manifestPostModel.IsDraft = false;
+                                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                                    RealmDb.Write(() =>
+                                    {
+                                        RealmDb.Add(manifestPostModel, update: true);
+                                    });
+                                }
+                                catch (Exception ex)
+                                {
+                                    Crashes.TrackError(ex);
+                                }
+                            }
+                            else
+                            {
+                                try
+                                {
+                                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                                    await RealmDb.WriteAsync((realmDb) =>
+                                    {
+                                        realmDb.Add(manifestPostModel);
+                                    });
+                                }
+                                catch (Exception ex)
+                                {
+                                    Crashes.TrackError(ex);
+                                }
+                            }
                         }
                         catch (Exception ex)
                         {
@@ -403,7 +430,7 @@ namespace KegID.ViewModel
         private async void SaveDraftCommandRecieverAsync()
         {
             ManifestModel manifestModel = null;
-            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            
             try
             {
                 manifestModel = GenerateManifest();
@@ -411,12 +438,12 @@ namespace KegID.ViewModel
                 {
                     Loader.StartLoading();
                     manifestModel.IsDraft = true;
-
-                    var isNew = RealmDb.Find<ManifestModel>(manifestModel.ManifestId);
+                    var isNew = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).Find<ManifestModel>(manifestModel.ManifestId);
                     if (isNew != null)
                     {
                         try
                         {
+                            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                             RealmDb.Write(() =>
                             {
                                 RealmDb.Add(manifestModel, update: true);
@@ -431,6 +458,7 @@ namespace KegID.ViewModel
                     {
                         try
                         {
+                            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                             await RealmDb.WriteAsync((realmDb) =>
                             {
                                 realmDb.Add(manifestModel);
@@ -468,7 +496,7 @@ namespace KegID.ViewModel
         public ManifestModel GenerateManifest()
         {
             return _manifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.MOVE_MANIFEST, manifestId: ManifestId,
-                        barcodeCollection: ConstantManager.Barcodes, tags: Tags ?? new List<Tag>(), tagsStr: TagsStr, 
+                        barcodeCollection: ConstantManager.Barcodes ?? new List<BarcodeModel>(), tags: Tags ?? new List<Tag>(), tagsStr: TagsStr, 
                         partnerModel: ConstantManager.Partner, newPallets: new List<NewPallet>(), batches: new List<NewBatch>(), 
                         closedBatches: new List<string>(), validationStatus: 2, contents: Contents);
         }
@@ -514,21 +542,7 @@ namespace KegID.ViewModel
                 if (result == "Delete manifest")
                 {
                     // Delete an object with a transaction
-                    try
-                    {
-                        var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                        var manifest = RealmDb.All<ManifestModel>().First(b => b.ManifestId == ManifestId);
-                        using (var trans = RealmDb.BeginWrite())
-                        {
-                            RealmDb.Remove(manifest);
-                            trans.Commit();
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Crashes.TrackError(ex);
-                    }
-
+                    DeleteManifest(ManifestId);
                     await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
                 }
                 else if (result == "Save as draft")
@@ -544,6 +558,24 @@ namespace KegID.ViewModel
             finally
             {
                 Cleanup();
+            }
+        }
+
+        private void DeleteManifest(string manifestId)
+        {
+            try
+            {
+                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                var manifest = RealmDb.All<ManifestModel>().First(b => b.ManifestId == manifestId);
+                using (var trans = RealmDb.BeginWrite())
+                {
+                    RealmDb.Remove(manifest);
+                    trans.Commit();
+                }
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
             }
         }
 
@@ -607,7 +639,7 @@ namespace KegID.ViewModel
                 Tags = tags.ToList();
                 TagsStr = !string.IsNullOrEmpty(tagsStr) ? tagsStr : "Add info";
                 ManifestId = !string.IsNullOrEmpty(_kegId) ? _kegId : _uuidManager.GetUuId();
-                AddKegs = !string.IsNullOrEmpty(_addKegs) ? string.Format("{0} Item", _addKegs) : "Add Kegs";
+                AddKegs = !string.IsNullOrEmpty(_addKegs) ? Convert.ToUInt32(_addKegs) > 1 ? string.Format("{0} Items", _addKegs) : string.Format("{0} Item", _addKegs) : "Add Kegs";
                 if (!string.IsNullOrEmpty(_destination))
                 {
                     Destination = _destination;
@@ -647,11 +679,11 @@ namespace KegID.ViewModel
             }
         }
 
-        public async override void OnNavigatedTo(INavigationParameters parameters)
+        public override void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (parameters.ContainsKey("MoveHome"))
+            if (parameters.ContainsKey("CancelCommandRecieverAsync"))
             {
-                await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+                CancelCommandRecieverAsync();
             }
         }
 
@@ -674,17 +706,10 @@ namespace KegID.ViewModel
                     AssignAddTagsValue(ConstantManager.Tags, ConstantManager.TagsStr);
                     break;
                 case "AssignInitialValue":
-                    var model = parameters.GetValue<ManifestModel>("AssignInitialValue");
-                    AssignInitialValue(model.ManifestId, model.ManifestItems.Count > 0 ? model.ManifestItems : null, model.ManifestItemsCount > 0 ? model.ManifestItemsCount.ToString() : string.Empty, model.OwnerName, model.ReceiverId, true, model.Tags,model.TagsStr);
+                    AssignInitialValue(parameters);
                     break;
                 case "AssignInitialValueFromKegStatus":
-                    var Barcode = parameters.GetValue<string>("AssignInitialValueFromKegStatus");
-                    var KegId = parameters.GetValue<string>("KegId");
-                    List<ManifestItem> manifestItem = new List<ManifestItem>
-                    {
-                        new ManifestItem { Barcode = Barcode }
-                    };
-                    AssignInitialValue(KegId, manifestItem, "1", string.Empty, string.Empty, true,null,string.Empty);
+                    AssignInitialValueFromKegStatus(parameters);
                     break;
                 case "PartnerModel":
                     Destination = parameters.GetValue<PossessorLocation>("PartnerModel").FullName;
@@ -692,6 +717,24 @@ namespace KegID.ViewModel
                 default:
                     break;
             }
+        }
+
+        private void AssignInitialValueFromKegStatus(INavigationParameters parameters)
+        {
+            string Barcode = parameters.GetValue<string>("AssignInitialValueFromKegStatus");
+            string KegId = parameters.GetValue<string>("KegId");
+            List<ManifestItem> manifestItem = new List<ManifestItem>
+                    {
+                        new ManifestItem { Barcode = Barcode }
+                    };
+            AssignInitialValue(KegId, manifestItem, "1", string.Empty, string.Empty, true, null, string.Empty);
+        }
+
+        private void AssignInitialValue(INavigationParameters parameters)
+        {
+            ManifestModel model = parameters.GetValue<ManifestModel>("AssignInitialValue");
+            string id = model.ManifestId;
+            AssignInitialValue(id, model.ManifestItems.Count > 0 ? model.ManifestItems : null, model.ManifestItemsCount > 0 ? model.ManifestItemsCount.ToString() : string.Empty, model.OwnerName, model.ReceiverId, true, model.Tags, model.TagsStr);
         }
 
         #endregion

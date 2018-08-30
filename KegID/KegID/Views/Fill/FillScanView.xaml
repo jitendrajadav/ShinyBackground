@@ -42,6 +42,7 @@
                 TextColor="Black"/>
 
             <Grid
+                RowSpacing="0"
                 Margin="10,0,10,0"
                 Grid.Row="1">
                 
@@ -195,6 +196,7 @@
                 </controls:TintedImage>
 
                 <Button
+                    Margin="0,2,0,2"
                     Text="{Binding Resources[menu_action_print]}"
                     Grid.Row="3"
                     IsVisible="{Binding IsPalletze}"
@@ -308,7 +310,7 @@
                                         TextColor="{StaticResource lightGrayColor}"
                                         Grid.Row="1"
                                         FontSize="{StaticResource ListViewDetailFont}"
-                                        Text="{Binding Path=BindingContext.TagsStr,Source={x:Reference Name=lstFillScan}}"/>
+                                        Text="{Binding TagsStr}"/>
                                 </Grid>
                             </ViewCell>
                         </DataTemplate>

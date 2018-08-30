@@ -535,7 +535,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("ScanKegsView", UriKind.Relative), useModalNavigation: true, animated: false);
+                await _navigationService.NavigateAsync(new Uri("ScanKegsView", UriKind.Relative),new NavigationParameters { { "models", ConstantManager.Barcodes } }, useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {
@@ -623,6 +623,10 @@ namespace KegID.ViewModel
             if (parameters.ContainsKey("PalletHome"))
             {
                 await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+            }
+            if (parameters.ContainsKey("CancelCommandRecieverAsync"))
+            {
+                CancelCommandRecieverAsync();
             }
         }
 

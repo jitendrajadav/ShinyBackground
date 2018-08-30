@@ -444,6 +444,14 @@ namespace KegID.ViewModel
             AssignPrintingSetting();
         }
 
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            if (parameters.ContainsKey("CancelCommandRecieverAsync"))
+            {
+                CancelCommandRecieverAsync();
+            }
+        }
+
         #endregion
     }
 }

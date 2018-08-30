@@ -1,4 +1,6 @@
-﻿using Xamarin.Forms;
+﻿using Prism.Navigation;
+using System.Linq;
+using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace KegID.Views
@@ -11,9 +13,13 @@ namespace KegID.Views
 			InitializeComponent ();
 		}
 
-        protected override void OnDisappearing()
+        protected override bool OnBackButtonPressed()
         {
-            base.OnDisappearing();
+            (Application.Current.MainPage.Navigation.ModalStack.Last()?.BindingContext as INavigationAware)?.OnNavigatedTo(new NavigationParameters
+                    {
+                        { "CancelCommandRecieverAsync", "CancelCommandRecieverAsync" }
+                    });
+            return true;
         }
     }
 }

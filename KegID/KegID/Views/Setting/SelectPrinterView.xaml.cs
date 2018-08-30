@@ -9,6 +9,8 @@ using System.Collections.ObjectModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using KegID.Messages;
+using System.Linq;
+using Prism.Navigation;
 
 namespace KegID.Views
 {
@@ -241,6 +243,15 @@ namespace KegID.Views
             {
                 Crashes.TrackError(ex);
             }
+        }
+
+        protected override bool OnBackButtonPressed()
+        {
+            (Application.Current.MainPage.Navigation.ModalStack.Last()?.BindingContext as INavigationAware)?.OnNavigatedTo(new NavigationParameters
+                    {
+                        { "GoBackMethod", "GoBackMethod" }
+                    });
+            return true;
         }
     }
 

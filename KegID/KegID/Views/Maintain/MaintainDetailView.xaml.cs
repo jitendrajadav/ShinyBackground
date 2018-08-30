@@ -1,4 +1,5 @@
 ﻿using KegID.Services;
+using Prism.Navigation;
 using System.Diagnostics;
 using System.Linq;
 using Xamarin.Forms;
@@ -54,6 +55,15 @@ namespace KegID.Views
             {
                 items = null;
             }
+        }
+
+        protected override bool OnBackButtonPressed()
+        {
+            (Application.Current.MainPage.Navigation.ModalStack.Last()?.BindingContext as INavigationAware)?.OnNavigatedTo(new NavigationParameters
+                    {
+                        { "HomeCommandCommandRecieverAsync", "HomeCommandCommandRecieverAsync" }
+                    });
+            return true;
         }
     }
 }

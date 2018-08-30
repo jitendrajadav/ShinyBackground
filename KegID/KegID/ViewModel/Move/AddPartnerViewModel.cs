@@ -1135,6 +1135,14 @@ namespace KegID.ViewModel
             Notes = value.Notes;
         }
 
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            if (parameters.ContainsKey("CalcelCommandRecieverAsync"))
+            {
+                CalcelCommandRecieverAsync();
+            }
+        }
+
         #endregion
     }
 }

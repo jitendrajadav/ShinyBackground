@@ -459,6 +459,10 @@ namespace KegID.ViewModel
                         { "model", ConstantManager.Partner }
                     }, useModalNavigation: true, animated: false);
             }
+            if (parameters.ContainsKey("BackCommandRecieverAsync"))
+            {
+                BackCommandRecieverAsync();
+            }
         }
 
         public override void OnNavigatingTo(INavigationParameters parameters)

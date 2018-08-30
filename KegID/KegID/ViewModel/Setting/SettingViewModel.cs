@@ -47,6 +47,7 @@ namespace KegID.ViewModel
         #endregion
 
         #region Methods
+
         private async void AboutAppCommandRecieverAsync()
         {
             try

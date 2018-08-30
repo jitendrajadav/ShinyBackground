@@ -286,7 +286,6 @@ namespace KegID.ViewModel
             MessagingCenter.Unsubscribe<ScanKegsMessage>(this, "ScanKegsMessage");
             MessagingCenter.Unsubscribe<PalletToScanKegPagesMsg>(this, "PalletToScanKegPagesMsg");
             MessagingCenter.Unsubscribe<CancelledMessage>(this, "CancelledMessage");
-
         }
 
         private void HandleReceivedMessages()
@@ -815,6 +814,14 @@ namespace KegID.ViewModel
                     break;
                 default:
                     break;
+            }
+        }
+
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            if (parameters.ContainsKey("DoneCommandRecieverAsync"))
+            {
+                DoneCommandRecieverAsync();
             }
         }
 

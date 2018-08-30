@@ -1,5 +1,6 @@
 ﻿using KegID.Messages;
 using Prism.Navigation;
+using Prism.Services;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -9,6 +10,7 @@ namespace KegID.ViewModel
         #region Propreties
 
         private readonly INavigationService _navigationService;
+        private readonly IPageDialogService _dialogService;
 
         #endregion
 
@@ -19,9 +21,10 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public SelectPrinterViewModel(INavigationService navigationService)
+        public SelectPrinterViewModel(INavigationService navigationService, IPageDialogService dialogService)
         {
             _navigationService = navigationService;
+            _dialogService = dialogService;
             HandleReceivedMessages();
         }
 
@@ -36,20 +39,37 @@ namespace KegID.ViewModel
                 Device.BeginInvokeOnMainThread(async () =>
                 {
                     var value = message;
-                    if (value != null)
-                    {
-                        await _navigationService.GoBackAsync(new NavigationParameters
+                    await GoBackMethod(value);
+                });
+            });
+        }
+
+        private async System.Threading.Tasks.Task GoBackMethod(SelectPrinterMsg value)
+        {
+            if (value != null)
+            {
+                await _navigationService.GoBackAsync(new NavigationParameters
                         {
                             {"IDiscoveredPrinter",value.IDiscoveredPrinter },{"friendlyLbl",value.friendlyLbl }
                         }, useModalNavigation: true, animated: false);
-                    }
-                });
-            });
+            }
+            else
+            {
+                await _dialogService.DisplayAlertAsync("Error", "Error: Please select printer.", "Ok");
+            }
         }
 
         public override void OnNavigatedFrom(INavigationParameters parameters)
         {
             MessagingCenter.Unsubscribe<SelectPrinterMsg>(this, "SelectPrinterMsg");
+        }
+
+        public async override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            if (parameters.ContainsKey("GoBackMethod"))
+            {
+               await GoBackMethod(null);
+            }
         }
 
         #endregion

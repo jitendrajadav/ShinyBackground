@@ -8,6 +8,7 @@ using Realms;
 using KegID.LocalDb;
 using Prism.Commands;
 using Prism.Navigation;
+using Prism.Services;
 
 namespace KegID.ViewModel
 {
@@ -16,6 +17,7 @@ namespace KegID.ViewModel
         #region Properties
 
         private readonly INavigationService _navigationService;
+        private readonly IPageDialogService _dialogService;
         private readonly IFillService _fillService;
 
         #region BatchCollection
@@ -63,10 +65,10 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public BatchViewModel(IFillService fillService, INavigationService navigationService)
+        public BatchViewModel(IFillService fillService, INavigationService navigationService, IPageDialogService dialogService)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
-
+            _dialogService = dialogService;
             _fillService = fillService;
             ItemTappedCommand = new DelegateCommand<BatchModel>((model) => ItemTappedCommandRecieverAsync(model));
             AddBatchCommand = new DelegateCommand(AddBatchCommandRecieverAsync);
@@ -101,6 +103,10 @@ namespace KegID.ViewModel
                         { "BatchModel", model }
                     }, useModalNavigation: true, animated: false);
                 }
+                else
+                {
+                    await _dialogService.DisplayAlertAsync("Error", "Error: Please select batch.", "Ok");
+                }
             }
             catch (Exception ex)
             {
@@ -126,6 +132,10 @@ namespace KegID.ViewModel
             if (parameters.ContainsKey("NewBatchModel"))
             {
                 await _navigationService.GoBackAsync(parameters, useModalNavigation: true, animated: false);
+            }
+            if (parameters.ContainsKey("ItemTappedCommandRecieverAsync"))
+            {
+                ItemTappedCommandRecieverAsync(null);
             }
         }
 

@@ -3,6 +3,7 @@ using KegID.Model;
 using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
+using Prism.Services;
 using Realms;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace KegID.ViewModel
         #region Properties
 
         private readonly INavigationService _navigationService;
+        private readonly IPageDialogService _dialogService;
 
         #region BrandCollection
 
@@ -60,10 +62,10 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public BrandViewModel(INavigationService navigationService)
+        public BrandViewModel(INavigationService navigationService, IPageDialogService dialogService)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
-
+            _dialogService = dialogService;
             ItemTappedCommand = new DelegateCommand<BrandModel>((model)=>ItemTappedCommandRecieverAsync(model));
             LoadBrand();
         }
@@ -89,14 +91,29 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.GoBackAsync(new NavigationParameters
+                if (model != null)
+                {
+                    await _navigationService.GoBackAsync(new NavigationParameters
                     {
                         { "BrandModel", model }
                     }, useModalNavigation: true, animated: false);
+                }
+                else
+                {
+                    await _dialogService.DisplayAlertAsync("Error", "Error: Please select batch.", "Ok");
+                }
             }
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
+            }
+        }
+
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            if (parameters.ContainsKey("ItemTappedCommandRecieverAsync"))
+            {
+                ItemTappedCommandRecieverAsync(null);
             }
         }
 

@@ -26,10 +26,9 @@ namespace KegID.Services
                         Barcode = item.Barcode,
                         ScanDate = DateTimeOffset.UtcNow.Date,
                         ValidationStatus = validationStatus,
-                        KegId = item.Kegs?.Partners?.FirstOrDefault()?.Kegs?.FirstOrDefault().KegId,
+                        KegId = item.Kegs?.Partners?.FirstOrDefault()?.Kegs?.FirstOrDefault().KegId??default,
                         Icon = item.Icon,
-                        TagsStr = item.TagsStr
-                        //Tags = tags,
+                        TagsStr = item.TagsStr??default,
                         //KegStatus = new List<KegStatus>()
                         //{
                         //    new KegStatus()
@@ -47,9 +46,9 @@ namespace KegID.Services
                         //},
                     };
 
-                    if (tags != null)
+                    if (item.Tags != null)
                     {
-                        foreach (var tag in tags)
+                        foreach (var tag in item.Tags)
                         {
                             manifestItem.Tags.Add(tag);
                         }
@@ -68,10 +67,10 @@ namespace KegID.Services
                     ShipDate = DateTimeOffset.UtcNow.Date,
 
                     SenderId = AppSettings.CompanyId,
-                    ReceiverId = partnerModel.PartnerId,
+                    ReceiverId = partnerModel?.PartnerId,
                     //DestinationName = partnerModel.FullName,
                     //DestinationTypeCode = partnerModel.LocationCode,
-                    OwnerName = partnerModel.FullName,
+                    OwnerName = partnerModel?.FullName,
                     //ManifestItems= manifestItemlst,
                     //NewPallets = newPallets,
                     //NewBatches = batches,
