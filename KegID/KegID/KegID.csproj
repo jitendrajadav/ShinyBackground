@@ -1,10 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <DisableImplicitAssetTargetFallback>true</DisableImplicitAssetTargetFallback>
     <PackageTargetFallback>$(PackageTargetFallback);portable-win+net45+wp8+win81+wpa8</PackageTargetFallback>
     <LangVersion>7.2</LangVersion>
+    <SolutionDir>..\</SolutionDir>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -12,6 +13,7 @@
     <DebugSymbols>true</DebugSymbols>
     <PlatformTarget>x86</PlatformTarget>
     <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0</DefineConstants>
+    <SolutionDir>..\</SolutionDir>
   </PropertyGroup>
 
   <ItemGroup>

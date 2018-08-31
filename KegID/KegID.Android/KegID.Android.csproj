@@ -19,8 +19,6 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <AndroidKeyStore>false</AndroidKeyStore>
-  </PropertyGroup>
-  <PropertyGroup>
     <SolutionDir>..\</SolutionDir>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -40,6 +38,7 @@
     <JavaMaximumHeapSize>2G</JavaMaximumHeapSize>
     <EmbedAssembliesIntoApk>false</EmbedAssembliesIntoApk>
     <AndroidEnableMultiDex>true</AndroidEnableMultiDex>
+    <SolutionDir>..\</SolutionDir>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>false</DebugSymbols>
@@ -61,6 +60,7 @@
     <AndroidEnableMultiDex>true</AndroidEnableMultiDex>
     <AndroidLinkMode>SdkOnly</AndroidLinkMode>
     <AndroidCreatePackagePerAbi>false</AndroidCreatePackagePerAbi>
+    <SolutionDir>..\</SolutionDir>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mono.Android" />

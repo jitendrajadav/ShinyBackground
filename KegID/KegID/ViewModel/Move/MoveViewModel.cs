@@ -621,19 +621,22 @@ namespace KegID.ViewModel
         {
             try
             {
-                foreach (var item in _barcode)
+                if (_barcode != null)
                 {
-                    var model = new BarcodeModel
+                    foreach (var item in _barcode)
                     {
-                        Barcode = item.Barcode,
-                        Icon = item.Icon,
-                        TagsStr = item.TagsStr
-                    };
-                    foreach (Tag tag in item?.Tags)
-                    {
-                        model.Tags.Add(tag);
-                    }
-                    ConstantManager.Barcodes.Add(model);
+                        var model = new BarcodeModel
+                        {
+                            Barcode = item.Barcode,
+                            Icon = item.Icon,
+                            TagsStr = item.TagsStr
+                        };
+                        foreach (Tag tag in item?.Tags)
+                        {
+                            model.Tags.Add(tag);
+                        }
+                        ConstantManager.Barcodes.Add(model);
+                    } 
                 }
                 Barcodes = ConstantManager.Barcodes;
                 Tags = tags.ToList();

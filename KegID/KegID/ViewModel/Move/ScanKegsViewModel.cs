@@ -683,7 +683,10 @@ namespace KegID.ViewModel
             try
             {
                 foreach (var item in models)
+                {
                     BarcodeCollection.Add(item);
+                    TagsStr = item.TagsStr;
+                }
             }
             catch (Exception ex)
             {
