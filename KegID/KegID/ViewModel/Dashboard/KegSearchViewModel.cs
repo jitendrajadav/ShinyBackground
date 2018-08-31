@@ -225,6 +225,14 @@ namespace KegID.ViewModel
             }
         }
 
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            if (parameters.ContainsKey("HomeCommandRecieverAsync"))
+            {
+                HomeCommandRecieverAsync();
+            }
+        }
+
         #endregion
     }
 }

@@ -1,4 +1,6 @@
 ﻿using KegID.Services;
+using Prism.Navigation;
+using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using Xamarin.Forms.Xaml;
@@ -37,6 +39,15 @@ namespace KegID.Views
             map.Pins.Add(pin);
             map.MoveToRegion(MapSpan.FromCenterAndRadius(position, Distance.FromMiles(1.0)));
             MapControl.Children.Add(map);
+        }
+
+        protected override bool OnBackButtonPressed()
+        {
+            (Application.Current.MainPage.Navigation.ModalStack.Last()?.BindingContext as INavigationAware)?.OnNavigatedTo(new NavigationParameters
+                    {
+                        { "PartnerInfoCommandRecieverAsync", "PartnerInfoCommandRecieverAsync" }
+                    });
+            return true;
         }
     }
 }
