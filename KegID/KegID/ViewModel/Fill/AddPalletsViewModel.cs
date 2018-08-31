@@ -310,7 +310,7 @@ namespace KegID.ViewModel
 
             Loader.StartLoading();
 
-            var model = _manifestManager.GetManifestDraft(EventTypeEnum.FILL_MANIFEST, _uuidManager.GetUuId(),
+            ManifestModel model = _manifestManager.GetManifestDraft(EventTypeEnum.FILL_MANIFEST, _uuidManager.GetUuId(),
                     barcodes, tags, string.Empty, partnerModel, newPallets, new List<NewBatch>(), closedBatches, 4);
 
             if (model != null)
@@ -324,10 +324,24 @@ namespace KegID.ViewModel
                         var manifest = await _moveService.GetManifestAsync(AppSettings.SessionId, manifestResult.ManifestId);
 
                         string contents = string.Empty;
-                        contents = ConstantManager.Tags?[2]?.Value;
+                        try
+                        {
+                            contents = ConstantManager.Tags.Count > 2 ? ConstantManager.Tags?[2]?.Value ?? string.Empty : string.Empty;
+                        }
+                        catch (Exception ex)
+                        {
+                            Crashes.TrackError(ex);
+                        }
                         if (string.IsNullOrEmpty(contents))
                         {
-                            contents = ConstantManager.Tags?[3]?.Value;
+                            try
+                            {
+                                contents = ConstantManager.Tags.Count > 3 ? ConstantManager.Tags?[3]?.Value ?? string.Empty : string.Empty;
+                            }
+                            catch (Exception ex)
+                            {
+                                Crashes.TrackError(ex);
+                            }
                         }
                         if (manifest.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                         {

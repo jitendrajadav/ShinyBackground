@@ -576,7 +576,7 @@ namespace KegID.ViewModel
                             TagsStr = TagsStr,
                             Icon = Cloud,
                             Page = ViewTypeEnum.FillScanView.ToString(),
-                            Contents = Tags.Count >1 ? Tags?[2]?.Name : string.Empty
+                            Contents = Tags.Count > 2 ? Tags?[2]?.Name??string.Empty : string.Empty
                         };
                         if (ConstantManager.Tags != null)
                         {
