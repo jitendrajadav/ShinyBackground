@@ -196,7 +196,7 @@ namespace KegID.ViewModel
 
         #region Methods
 
-        private async void ItemTappedCommandRecieverAsync(PalletModel model)
+        private async Task ItemTappedCommandRecieverAsync(PalletModel model)
         {
             try
             {
@@ -236,7 +236,7 @@ namespace KegID.ViewModel
             }
 
             IEnumerable<PalletModel> empty = PalletCollection.Where(x => x.Barcode.Count == 0);
-            if (empty != null)
+            if (empty.ToList().Count > 0 )
             {
                 string result = await _dialogService.DisplayActionSheetAsync("Error? \n Some pallets have 0 scans. Do you want to edit them or remove the empty pallets.", null, null, "Remove empties", "Edit");
                 if (result == "Remove empties")
@@ -252,7 +252,8 @@ namespace KegID.ViewModel
                 }
                 if (result == "Edit")
                 {
-                    ItemTappedCommandRecieverAsync(empty.FirstOrDefault());
+                    await ItemTappedCommandRecieverAsync(empty.FirstOrDefault());
+                    return;
                 }
             }
 
