@@ -27,13 +27,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string BatchCollectionPropertyName = "BatchCollection";
 
-        private IList<BatchModel> _BatchCollection = null;
+        private IList<NewBatch> _BatchCollection = null;
 
         /// <summary>
         /// Sets and gets the BatchCollection property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public IList<BatchModel> BatchCollection
+        public IList<NewBatch> BatchCollection
         {
             get
             {
@@ -58,7 +58,7 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public DelegateCommand<BatchModel> ItemTappedCommand { get;}
+        public DelegateCommand<NewBatch> ItemTappedCommand { get;}
         public DelegateCommand AddBatchCommand { get; }
 
         #endregion
@@ -70,7 +70,7 @@ namespace KegID.ViewModel
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _dialogService = dialogService;
             _fillService = fillService;
-            ItemTappedCommand = new DelegateCommand<BatchModel>((model) => ItemTappedCommandRecieverAsync(model));
+            ItemTappedCommand = new DelegateCommand<NewBatch>((model) => ItemTappedCommandRecieverAsync(model));
             AddBatchCommand = new DelegateCommand(AddBatchCommandRecieverAsync);
 
             LoadBatchAsync();
@@ -92,7 +92,7 @@ namespace KegID.ViewModel
             }
         }
 
-        private async void ItemTappedCommandRecieverAsync(BatchModel model)
+        private async void ItemTappedCommandRecieverAsync(NewBatch model)
         {
             try
             {
@@ -119,7 +119,7 @@ namespace KegID.ViewModel
             try
             {
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                BatchCollection = RealmDb.All<BatchModel>().ToList();
+                BatchCollection = RealmDb.All<NewBatch>().ToList();
             }
             catch (Exception ex)
             {

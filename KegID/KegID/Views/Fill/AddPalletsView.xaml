@@ -119,6 +119,10 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
+                                <ViewCell.ContextActions>
+                                    <MenuItem Text="Delete" Command="{Binding BindingContext.DeleteItemCommand, Source={x:Reference lstPallets}}" CommandParameter="{Binding .}"/>
+                                </ViewCell.ContextActions>
+
                                 <Grid
                                     HeightRequest="50"
                                     VerticalOptions="Center">
@@ -133,7 +137,7 @@
                                         Margin="10,0,0,0"
                                         FontSize="{StaticResource ListViewTitleFont}"
                                         TextColor="Black"
-                                        Text="{Binding ManifestId}"/>
+                                        Text="{Binding BatchId}"/>
                                 
                                     <Label 
                                         Grid.Column="1"

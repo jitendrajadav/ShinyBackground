@@ -11,7 +11,7 @@ namespace KegID.Messages
     public class SelectPrinterMsg
     {
         public IDiscoveredPrinter IDiscoveredPrinter { get; set; }
-        public string friendlyLbl { get; set; }
+        public string FriendlyLbl { get; set; }
     }
 
     public class PalletToScanKegPagesMsg
@@ -19,11 +19,9 @@ namespace KegID.Messages
         public bool BarcodeScan { get; set; }
     }
 
-    public class FillToFillScanPagesMsg
+    public class MaintainDTToMaintMsg
     {
-        public BatchModel BatchModel { get; set; }
-        public string SizeButtonTitle { get; set; }
-        public PartnerModel PartnerModel { get; set; }
+        public bool CleanUp { get; set; }
     }
 
     public class AddPalletToFillScanMsg

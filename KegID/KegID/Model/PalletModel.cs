@@ -6,6 +6,7 @@ namespace KegID.Model
     public class PalletModel : BindableBase
     {
         public string ManifestId { get; set; }
+        public string BatchId { get; set; }
 
         #region Count
 

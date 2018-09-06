@@ -54,7 +54,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string AltBarcodePropertyName = "AltBarcode";
 
-        private string _AltBarcode = default(string);
+        private string _AltBarcode = default;
 
         /// <summary>
         /// Sets and gets the AltBarcode property.
@@ -88,7 +88,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string OwnernamePropertyName = "Ownername";
 
-        private string _Ownername = default(string);
+        private string _Ownername = default;
 
         /// <summary>
         /// Sets and gets the Ownername property.
@@ -121,7 +121,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string SizePropertyName = "Size";
 
-        private string _Size = default(string);
+        private string _Size = default;
 
         /// <summary>
         /// Sets and gets the Size property.
@@ -155,7 +155,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string ContentsPropertyName = "Contents";
 
-        private string _Contents = default(string);
+        private string _Contents = default;
 
         /// <summary>
         /// Sets and gets the Contents property.
@@ -189,7 +189,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string BatchPropertyName = "Batch";
 
-        private string _Batch = default(string);
+        private string _Batch = default;
 
         /// <summary>
         /// Sets and gets the Batch property.
@@ -223,7 +223,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string LocationPropertyName = "Location";
 
-        private string _Location = default(string);
+        private string _Location = default;
 
         /// <summary>
         /// Sets and gets the Location property.

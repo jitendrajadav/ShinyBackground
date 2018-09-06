@@ -22,6 +22,8 @@ namespace KegID.ViewModel
         private readonly IDashboardService _dashboardService;
         private readonly INavigationService _navigationService;
         private readonly IPageDialogService _dialogService;
+        private readonly IUuidManager _uuidManager;
+
         public LocationInfo Posision { get; set; }
         public List<MaintenanceAlert> Alerts { get; set; }
 
@@ -692,11 +694,13 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public KegStatusViewModel(IDashboardService dashboardService, INavigationService navigationService, IPageDialogService dialogService)
+        public KegStatusViewModel(IDashboardService dashboardService, INavigationService navigationService, IPageDialogService dialogService, IUuidManager uuidManager)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _dialogService = dialogService;
             _dashboardService = dashboardService;
+            _uuidManager = uuidManager;
+
             KegsCommand = new DelegateCommand(KegsCommandRecieverAsync);
             EditCommand = new DelegateCommand(EditCommandRecieverAsync);
             InvalidToolsCommand = new DelegateCommand(InvalidToolsCommandRecieverAsync);
@@ -716,7 +720,9 @@ namespace KegID.ViewModel
             {
                 await _navigationService.NavigateAsync(new Uri("MoveView", UriKind.Relative), new NavigationParameters
                     {
-                        { "AssignInitialValueFromKegStatus", Barcode }, {"KegId",KegId }
+                        { "AssignInitialValueFromKegStatus", Barcode },
+                        { "KegId", KegId },
+                        { "ManifestId", _uuidManager.GetUuId() }
                     }, useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
@@ -837,7 +843,7 @@ namespace KegID.ViewModel
             finally
             {
                 Alerts = null;
-                maintenanceStr = default(string);
+                maintenanceStr = default;
             }
         }
 

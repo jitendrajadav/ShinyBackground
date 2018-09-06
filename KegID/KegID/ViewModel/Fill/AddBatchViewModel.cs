@@ -58,7 +58,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string BatchCodePropertyName = "BatchCode";
 
-        private string _BatchCode = default(string);
+        private string _BatchCode = default;
 
         /// <summary>
         /// Sets and gets the BatchCode property.
@@ -92,13 +92,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string BrewDatePropertyName = "BrewDate";
 
-        private DateTime _BrewDate = DateTime.Now;
+        private DateTimeOffset _BrewDate = DateTime.Now;
 
         /// <summary>
         /// Sets and gets the BrewDate property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public DateTime BrewDate
+        public DateTimeOffset BrewDate
         {
             get
             {
@@ -126,7 +126,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string VolumeDigitPropertyName = "VolumeDigit";
 
-        private long _VolumeDigit = default(long);
+        private long _VolumeDigit = default;
 
         /// <summary>
         /// Sets and gets the VolumeDigit property.
@@ -160,7 +160,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string VolumeCharPropertyName = "VolumeChar";
 
-        private string _VolumeChar = default(string);
+        private string _VolumeChar = default;
 
         /// <summary>
         /// Sets and gets the VolumeChar property.
@@ -194,13 +194,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string PackageDatePropertyName = "PackageDate";
 
-        private DateTime _PackageDate = DateTime.Today;
+        private DateTimeOffset _PackageDate = DateTime.Today;
 
         /// <summary>
         /// Sets and gets the PackageDate property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public DateTime PackageDate
+        public DateTimeOffset PackageDate
         {
             get
             {
@@ -228,13 +228,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string BestByDatePropertyName = "BestByDate";
 
-        private DateTime _BestByDate = DateTime.Now;
+        private DateTimeOffset _BestByDate = DateTime.Now;
 
         /// <summary>
         /// Sets and gets the BestByDate property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public DateTime BestByDate
+        public DateTimeOffset BestByDate
         {
             get
             {
@@ -262,13 +262,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string AlcoholContentPropertyName = "AlcoholContent";
 
-        private double _AlcoholContent = default(double);
+        private long _AlcoholContent = default;
 
         /// <summary>
         /// Sets and gets the AlcoholContent property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public double AlcoholContent
+        public long AlcoholContent
         {
             get
             {
@@ -296,7 +296,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string TagsStrPropertyName = "TagsStr";
 
-        private string _TagsStr = default(string);
+        private string _TagsStr = default;
 
         /// <summary>
         /// Sets and gets the TagsStr property.
@@ -399,13 +399,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string NewBatchModelPropertyName = "NewBatchModel";
 
-        private BatchModel _NewBatchModel = new BatchModel();
+        private NewBatch _NewBatchModel = new NewBatch();
 
         /// <summary>
         /// Sets and gets the NewBatchModel property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public BatchModel NewBatchModel
+        public NewBatch NewBatchModel
         {
             get
             {
@@ -488,15 +488,15 @@ namespace KegID.ViewModel
                 NewBatchModel.Abv = AlcoholContent;
                 NewBatchModel.BatchCode = BatchCode;
                 NewBatchModel.BatchId = _uuidManager.GetUuId();
-                NewBatchModel.BestBeforeDate = BestByDate.ToShortDateString();
+                NewBatchModel.BestBeforeDate = BestByDate;
                 NewBatchModel.BrandName = BrandButtonTitle;
-                NewBatchModel.BrewDate = BrewDate.ToShortDateString();
+                NewBatchModel.BrewDate = BrewDate;
                 NewBatchModel.BrewedVolume = VolumeDigit;
                 NewBatchModel.BrewedVolumeUom = VolumeChar;
                 NewBatchModel.CompanyId = AppSettings.CompanyId;
-                NewBatchModel.CompletedDate = DateTime.Today.ToString();
+                NewBatchModel.CompletedDate = DateTime.Today;
                 NewBatchModel.IsCompleted = true;
-                NewBatchModel.PackageDate = PackageDate.ToString();
+                NewBatchModel.PackageDate = PackageDate;
                 NewBatchModel.PackagedVolume = 12;
                 NewBatchModel.PackagedVolumeUom = "";
                 NewBatchModel.RecipeId = AppSettings.CompanyId;

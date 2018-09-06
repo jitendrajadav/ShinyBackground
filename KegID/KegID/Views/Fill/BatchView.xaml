@@ -36,12 +36,12 @@
             <Grid
                 Padding="0,5"
                 Grid.Row="1"
-                BackgroundColor="{StaticResource lightGrayColor}">
+                BackgroundColor="{StaticResource selectTextColor}">
 
                 <Label
                     Style="{StaticResource LabelTitleStyle}"
-                    TextColor="Black"
                     HorizontalOptions="CenterAndExpand"
+                    TextColor="White"
                     Text="{Binding Resources[title_select_batch]}"/>
             </Grid>
 

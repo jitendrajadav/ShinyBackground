@@ -11,6 +11,7 @@ using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
+using Prism.Services;
 using Realms;
 using Xamarin.Forms;
 
@@ -21,17 +22,55 @@ namespace KegID.ViewModel
         #region Properties
 
         private const string Cloud = "collectionscloud.png";
+        private const string Maintenace = "maintenace.png";
+        private const string ValidationOK = "validationok.png";
 
         private readonly INavigationService _navigationService;
         private readonly IMoveService _moveService;
         private readonly IZebraPrinterManager _zebraPrinterManager;
         private readonly IGetIconByPlatform _getIconByPlatform;
         private readonly ICalcCheckDigitMngr _calcCheckDigitMngr;
+        private readonly IPageDialogService _dialogService;
 
         public string BatchId { get; set; }
-        public BatchModel BatchModel { get; private set; }
+        public NewBatch BatchModel { get; private set; }
         public string SizeButtonTitle { get; private set; }
         public PartnerModel PartnerModel { get; private set; }
+        public bool HasPrint { get; private set; }
+
+        #region Title
+
+        /// <summary>
+        /// The <see cref="Title" /> property's name.
+        /// </summary>
+        public const string TitlePropertyName = "Title";
+
+        private string _Title = default;
+
+        /// <summary>
+        /// Sets and gets the Title property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public string Title
+        {
+            get
+            {
+                return _Title;
+            }
+
+            set
+            {
+                if (_Title == value)
+                {
+                    return;
+                }
+
+                _Title = value;
+                RaisePropertyChanged(TitlePropertyName);
+            }
+        }
+
+        #endregion
 
         #region ManifestId
 
@@ -285,12 +324,13 @@ namespace KegID.ViewModel
         public DelegateCommand BarcodeManualCommand { get; }
         public DelegateCommand<BarcodeModel> IconItemTappedCommand { get;}
         public DelegateCommand<BarcodeModel> LabelItemTappedCommand { get; }
-
+        public DelegateCommand<BarcodeModel> DeleteItemCommand { get; }
+        
         #endregion
 
         #region Constructor
 
-        public FillScanViewModel(IMoveService moveService, INavigationService navigationService, IZebraPrinterManager zebraPrinterManager, IGetIconByPlatform getIconByPlatform, ICalcCheckDigitMngr calcCheckDigitMngr)
+        public FillScanViewModel(IMoveService moveService, INavigationService navigationService, IZebraPrinterManager zebraPrinterManager, IGetIconByPlatform getIconByPlatform, ICalcCheckDigitMngr calcCheckDigitMngr, IPageDialogService dialogService)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
 
@@ -298,6 +338,7 @@ namespace KegID.ViewModel
             _getIconByPlatform = getIconByPlatform;
             _zebraPrinterManager = zebraPrinterManager;
             _calcCheckDigitMngr = calcCheckDigitMngr;
+            _dialogService = dialogService;
 
             CancelCommand = new DelegateCommand(CancelCommandRecieverAsync);
             BarcodeScanCommand = new DelegateCommand(BarcodeScanCommandRecieverAsync);
@@ -308,6 +349,8 @@ namespace KegID.ViewModel
             BarcodeManualCommand = new DelegateCommand(BarcodeManualCommandRecieverAsync);
             LabelItemTappedCommand = new DelegateCommand<BarcodeModel>((model) => LabelItemTappedCommandRecieverAsync(model));
             IconItemTappedCommand = new DelegateCommand<BarcodeModel>((model) => IconItemTappedCommandRecieverAsync(model));
+            DeleteItemCommand = new DelegateCommand<BarcodeModel>((model) => DeleteItemCommandReciever(model));
+
             HandleUnSubscirbeMessages();
             HandleReceivedMessages();
         }
@@ -316,10 +359,14 @@ namespace KegID.ViewModel
 
         #region Methods
 
+        private void DeleteItemCommandReciever(BarcodeModel model)
+        {
+            BarcodeCollection.Remove(model);
+        }
+
         private void HandleUnSubscirbeMessages()
         {
             MessagingCenter.Unsubscribe<FillScanMessage>(this, "FillScanMessage");
-            MessagingCenter.Unsubscribe<FillToFillScanPagesMsg>(this, "FillToFillScanPagesMsg");
             MessagingCenter.Unsubscribe<AddPalletToFillScanMsg>(this, "AddPalletToFillScanMsg");
             MessagingCenter.Unsubscribe<CancelledMessage>(this, "CancelledMessage");
         }
@@ -330,17 +377,16 @@ namespace KegID.ViewModel
             {
                 Device.BeginInvokeOnMainThread(() =>
                 {
-                    var value = message;
-                    if (value != null)
+                    if (message != null)
                     {
                         using (var db = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
                         {
                             try
                             {
-                                var oldBarcode = BarcodeCollection.Where(x => x.Barcode == value.Barcodes.Barcode).FirstOrDefault();
-                                oldBarcode.Pallets = value?.Barcodes?.Pallets;
-                                oldBarcode.Kegs = value?.Barcodes?.Kegs;
-                                oldBarcode.Icon = value?.Barcodes?.Kegs?.Partners?.Count > 1 ? _getIconByPlatform.GetIcon("validationquestion.png") : value?.Barcodes?.Kegs?.Partners?.Count == 0 ? _getIconByPlatform.GetIcon("validationerror.png") : _getIconByPlatform.GetIcon("validationok.png");
+                                var oldBarcode = BarcodeCollection.Where(x => x.Barcode == message.Barcodes.Barcode).FirstOrDefault();
+                                oldBarcode.Pallets = message?.Barcodes?.Pallets;
+                                oldBarcode.Kegs = message?.Barcodes?.Kegs;
+                                oldBarcode.Icon = message?.Barcodes?.Kegs?.Partners?.Count > 1 ? _getIconByPlatform.GetIcon("validationquestion.png") : message?.Barcodes?.Kegs?.Partners?.Count == 0 ? _getIconByPlatform.GetIcon("validationerror.png") : _getIconByPlatform.GetIcon("validationok.png");
                                 oldBarcode.IsScanned = true;
                                 db.Commit();
                             }
@@ -349,18 +395,6 @@ namespace KegID.ViewModel
                                 Crashes.TrackError(ex);
                             }
                         };
-                    }
-                });
-            });
-
-            MessagingCenter.Subscribe<FillToFillScanPagesMsg>(this, "FillToFillScanPagesMsg", message =>
-            {
-                Device.BeginInvokeOnMainThread(() =>
-                {
-                    var value = message;
-                    if (value != null)
-                    {
-                        AssignInitValue(value.BatchModel, value.SizeButtonTitle, value.PartnerModel);
                     }
                 });
             });
@@ -386,11 +420,29 @@ namespace KegID.ViewModel
             });
         }
 
-        internal void AssignInitValue(BatchModel batchModel  , string sizeButtonTitle, PartnerModel partnerModel)
+        internal void AssignInitValue(INavigationParameters parameters)
         {
-            BatchModel = batchModel;
-            SizeButtonTitle = sizeButtonTitle;
-            PartnerModel = partnerModel;
+            try
+            {
+                BatchModel = parameters.GetValue<NewBatch>("NewBatchModel");
+                SizeButtonTitle = parameters.GetValue<string>("SizeButtonTitle");
+                PartnerModel = parameters.GetValue<PartnerModel>("PartnerModel");
+                IsPalletze = parameters.GetValue<bool>("IsPalletze");
+                Title = parameters.GetValue<string>("Title");
+                ManifestId = parameters.GetValue<string>("ManifestId");
+                IList<BarcodeModel> collection = parameters.GetValue<IList<BarcodeModel>>("Barcodes");
+                foreach (var item in collection)
+                {
+                    BarcodeCollection.Add(item);
+                    TagsStr = item.TagsStr;
+                }
+
+                GenerateManifestIdAsync(null);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         internal async Task AssignValidateBarcodeValueAsync()
@@ -405,7 +457,7 @@ namespace KegID.ViewModel
                     var page = formsNav.Navigation.ModalStack[formsNav.Navigation.ModalStack.Count-2];
                     (page?.BindingContext as INavigationAware)?.OnNavigatingTo(new NavigationParameters
                     {
-                        { "Barcodes", BarcodeCollection },{ "ManifestId", BatchId }
+                        { "Barcodes", BarcodeCollection },{ "BatchId", BatchId }
                     });
                 }
                 catch (Exception)
@@ -447,8 +499,8 @@ namespace KegID.ViewModel
                 {
                     if (palletModel != null)
                     {
-                        BatchId = palletModel.ManifestId;
-                        ManifestId = "Pallet #" + BatchId;
+                        BatchId = palletModel.BatchId;
+                        Title = "Pallet #" + BatchId;
                         foreach (var item in palletModel.Barcode)
                         {
                             BarcodeCollection.Add(item);
@@ -458,29 +510,40 @@ namespace KegID.ViewModel
                     else
                     {
                         BarcodeCollection.Clear();
-                        var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                        var preference = RealmDb.All<Preference>().Where(x => x.PreferenceName == "DashboardPreferences").ToList();
-
-                        foreach (var item in preference)
-                        {
-                            if (item.PreferenceValue.Contains("OldestKegs"))
-                            {
-                                var preferenceValue = JsonConvert.DeserializeObject<PreferenceValueResponseModel>(item.PreferenceValue);
-                                var value = preferenceValue.SelectedWidgets.Where(x => x.Id == "OldestKegs").FirstOrDefault();
-                                prefix = value.Pos.Y;
-                            }
-                        }
-                        barCode = prefix.ToString().PadLeft(9, '0') + lastCharOfYear + dayOfYear + secondsInDayTillNow + (millisecond / 100);
-                        var checksumDigit = _calcCheckDigitMngr.CalculateCheckDigit(barCode);
-                        BatchId = barCode + checksumDigit;
-                        ManifestId = "Pallet #" + BatchId;
+                        barCode = GenerateBatchId(ref prefix, lastCharOfYear, dayOfYear, secondsInDayTillNow, millisecond);
                     }
+                }
+                else
+                {
+                    barCode = GenerateBatchId(ref prefix, lastCharOfYear, dayOfYear, secondsInDayTillNow, millisecond);
                 }
             }
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
             }
+        }
+
+        private string GenerateBatchId(ref long prefix, string lastCharOfYear, int dayOfYear, int secondsInDayTillNow, int millisecond)
+        {
+            string barCode;
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            var preference = RealmDb.All<Preference>().Where(x => x.PreferenceName == "DashboardPreferences").ToList();
+
+            foreach (var item in preference)
+            {
+                if (item.PreferenceValue.Contains("OldestKegs"))
+                {
+                    var preferenceValue = JsonConvert.DeserializeObject<PreferenceValueResponseModel>(item.PreferenceValue);
+                    var value = preferenceValue.SelectedWidgets.Where(x => x.Id == "OldestKegs").FirstOrDefault();
+                    prefix = value.Pos.Y;
+                }
+            }
+            barCode = prefix.ToString().PadLeft(9, '0') + lastCharOfYear + dayOfYear + secondsInDayTillNow + (millisecond / 100);
+            var checksumDigit = _calcCheckDigitMngr.CalculateCheckDigit(barCode);
+            BatchId = barCode + checksumDigit;
+            Title = "Pallet #" + BatchId;
+            return barCode;
         }
 
         private static int SecondsInDayTillNow()
@@ -534,10 +597,33 @@ namespace KegID.ViewModel
                 }
                 else
                 {
-                    await _navigationService.NavigateAsync(new Uri("ScanInfoView", UriKind.Relative), new NavigationParameters
+                    if (model.Kegs.Partners?.FirstOrDefault()?.Kegs.FirstOrDefault().MaintenanceItems?.Count > 0)
                     {
-                        { "model", model }
-                    }, useModalNavigation: true, animated: false);
+                        string strAlert = string.Empty;
+                        for (int i = 0; i < model.Kegs.MaintenanceItems.Count; i++)
+                        {
+                            strAlert += "-" + model.Kegs.MaintenanceItems[i].Name + "\n";
+                            if (model.Kegs.Partners.FirstOrDefault().Kegs.FirstOrDefault().MaintenanceItems.Count == i)
+                            {
+                                break;
+                            }
+                        }
+                        await _dialogService.DisplayAlertAsync("Warning", "This keg needs the following maintenance performed:\n" + strAlert, "Ok");
+                    }
+                    else
+                    {
+                        if (model.Icon == "validationerror.png")
+                        {
+                            bool accept = await _dialogService.DisplayAlertAsync("Warning", "This scan could not be verified", "Keep", "Delete");
+                        }
+                        else
+                        {
+                            await _navigationService.NavigateAsync(new Uri("ScanInfoView", UriKind.Relative), new NavigationParameters
+                            {
+                                { "model", model }
+                            }, useModalNavigation: true, animated: false);
+                        }
+                    }
                 }
             }
             catch (Exception ex)
@@ -616,7 +702,7 @@ namespace KegID.ViewModel
                 {
                     await _navigationService.NavigateAsync(new Uri("FillScanReviewView", UriKind.Relative), new NavigationParameters
                     {
-                        { "BatchId", BatchId },{ "Count", BarcodeCollection.Count }
+                        { "BatchId", BatchId },{ "BarcodeCollection", BarcodeCollection }
                     }, useModalNavigation: true, animated: false);
                 }
             }
@@ -638,35 +724,130 @@ namespace KegID.ViewModel
 
         private async Task ValidateBarcode()
         {
+            HasPrint = true;
+            List<BarcodeModel> alert = BarcodeCollection.Where(x => x.Icon == "maintenace.png").ToList();
+            if (alert.Count > 0 && !alert.FirstOrDefault().HasMaintenaceVerified)
+            {
+                try
+                {
+                    string strBarcode = alert.FirstOrDefault().Barcode;
+                    var option = await _dialogService.DisplayActionSheetAsync("No keg with a barcode of \n" + strBarcode + " could be found",
+                        null, null, "Remove unverified scans", "Assign sizes", "Countinue with current scans", "Stay here");
+                    switch (option)
+                    {
+                        case "Remove unverified scans":
+                            BarcodeCollection.Remove(alert.FirstOrDefault());
+
+                            new Task(new Action(() =>
+                            {
+                                PrintPallet();
+                            }
+                                )).Start();
+
+                            await _navigationService.GoBackAsync(new NavigationParameters
+                                    {
+                                        { "AssignValueToAddPalletAsync", BatchId }, { "BarcodesCollection", BarcodeCollection },
+                                    },useModalNavigation: true, animated: false);
+                            break;
+                        case "Assign sizes":
+                            var param = new NavigationParameters
+                            {
+                                { "alert", alert }
+                            };
+                            await _navigationService.NavigateAsync(new Uri("AssignSizesView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+
+                            break;
+                        case "Countinue with current scans":
+                            await NavigateNextPage();
+                            break;
+
+                        case "Stay here":
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Crashes.TrackError(ex);
+                }
+            }
+            else
+            {
+                try
+                {
+                    await NavigateNextPage();
+                }
+                catch (Exception ex)
+                {
+                    Crashes.TrackError(ex);
+                }
+            }
+
+            #region Old Code
+            //List<BarcodeModel> result = new List<BarcodeModel>();
+            //try
+            //{
+            //    try
+            //    {
+            //        if (BarcodeCollection.Any(x => x?.Kegs?.Partners?.Count > 1))
+            //            await NavigateToValidatePartner(BarcodeCollection.Where(x => x?.Kegs?.Partners?.Count > 1).ToList());
+            //        else
+            //        {
+            //            new Task(new Action(() =>
+            //            {
+            //                PrintPallet();
+            //            }
+            //            )).Start();
+
+            //            try
+            //            {
+            //                ConstantManager.Barcodes = BarcodeCollection;
+            //                ConstantManager.Tags = Tags;
+
+            //                var formsNav = ((Prism.Common.IPageAware)_navigationService).Page;
+            //                var page = formsNav.Navigation.ModalStack[formsNav.Navigation.ModalStack.Count - 2];
+            //                (page?.BindingContext as INavigationAware)?.OnNavigatingTo(new NavigationParameters
+            //            {
+            //                { "AssignValueToAddPalletAsync", BatchId }, { "BarcodesCollection", BarcodeCollection },
+            //            });
+            //            }
+            //            catch (Exception)
+            //            {
+
+            //            }
+            //        }
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        Crashes.TrackError(ex);
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    Crashes.TrackError(ex);
+            //} 
+            #endregion
+        }
+        private async Task NavigateNextPage()
+        {
             try
             {
-                var result = BarcodeCollection.Where(x => x.Kegs.Partners.Count > 1).ToList();
-                if (result.Count > 0)
-                    await NavigateToValidatePartner(result.ToList());
+                ConstantManager.Barcodes = BarcodeCollection.ToList();
+                if (BarcodeCollection.Any(x => x?.Kegs?.Partners?.Count > 1))
+                    await NavigateToValidatePartner(BarcodeCollection.Where(x => x?.Kegs?.Partners?.Count > 1).ToList());
                 else
                 {
-                    new Task(new Action(() => 
-                    {
-                        PrintPallet();
-                    }
-                    )).Start();
+                    new Task(new Action(() =>
+                                {
+                                    PrintPallet();
+                                }
+                                )).Start();
 
-                    try
-                    {
-                        ConstantManager.Barcodes = BarcodeCollection;
-                        ConstantManager.Tags = Tags;
-
-                        var formsNav = ((Prism.Common.IPageAware)_navigationService).Page;
-                        var page = formsNav.Navigation.ModalStack[formsNav.Navigation.ModalStack.Count-2];
-                        (page?.BindingContext as INavigationAware)?.OnNavigatingTo(new NavigationParameters
-                        {
-                            { "AssignValueToAddPalletAsync", BatchId }, { "BarcodesCollection", BarcodeCollection },
-                        });
-                    }
-                    catch (Exception)
-                    {
-
-                    }
+                    await _navigationService.GoBackAsync(new NavigationParameters
+                                    {
+                                        { "AssignValueToAddPalletAsync", BatchId }, { "BarcodesCollection", BarcodeCollection },
+                                    }, useModalNavigation: true, animated: false);
                 }
             }
             catch (Exception ex)
@@ -674,7 +855,6 @@ namespace KegID.ViewModel
                 Crashes.TrackError(ex);
             }
         }
-
         public void PrintPallet()
         {
             try
@@ -696,7 +876,13 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+                await _navigationService.GoBackAsync(new NavigationParameters
+                {
+                    { "BarcodeCollection", BarcodeCollection },
+                    { "BatchId", BatchId },
+                    { "ManifestId", ManifestId },
+
+                },useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {
@@ -708,7 +894,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("CognexScanView", UriKind.Relative), new NavigationParameters
+                await _navigationService.NavigateAsync(new Uri("ScanditScanView", UriKind.Relative), new NavigationParameters
                     {
                         { "Tags", Tags },{ "TagsStr", TagsStr },{ "ViewTypeEnum", ViewTypeEnum.FillScanView }
                     }, useModalNavigation: true, animated: false);
@@ -764,14 +950,68 @@ namespace KegID.ViewModel
         {
             try
             {
-                var unusedPerner = BarcodeCollection.Where(x => x.Kegs.Partners != model).Select(x => x.Kegs.Partners.FirstOrDefault()).FirstOrDefault();
-                BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = _getIconByPlatform.GetIcon("validationquestion.png");
-
-               await AssignValidateBarcodeValueAsync();
-
-                foreach (var item in BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode))
+                IList<Partner> selecetdPertner = BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).Select(x => x.Kegs.Partners).FirstOrDefault();
+                Partner unusedPartner = null;
+                foreach (var item in selecetdPertner)
                 {
-                    item.Kegs.Partners.Remove(unusedPerner);
+                    if (item.FullName == model.FullName)
+                    {
+                    }
+                    else
+                    {
+                        unusedPartner = item;
+                        break;
+                    }
+                }
+                try
+                {
+                    if (model.Kegs.FirstOrDefault().MaintenanceItems?.Count > 0)
+                    {
+                        var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                        RealmDb.Write(() =>
+                        {
+                            BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = _getIconByPlatform.GetIcon(Maintenace);
+                        });
+                    }
+                    else
+                    {
+                        var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                        try
+                        {
+                            RealmDb.Write(() =>
+                            {
+                                BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = _getIconByPlatform.GetIcon(ValidationOK);
+                            });
+                        }
+                        catch (Exception ex)
+                        {
+                            Crashes.TrackError(ex);
+                        }
+                    }
+
+                    try
+                    {
+                        var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                        RealmDb.Write(() =>
+                       {
+                           BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Kegs.Partners.Remove(unusedPartner);
+                       });
+                    }
+                    catch (Exception ex)
+                    {
+                        Crashes.TrackError(ex);
+                    }
+
+                    if (!BarcodeCollection.Any(x => x?.Kegs?.Partners?.Count > 1))
+                        await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+                }
+                catch (Exception ex)
+                {
+                    Crashes.TrackError(ex);
+                }
+                finally
+                {
+                    unusedPartner = null;
                 }
             }
             catch (Exception ex)
@@ -802,8 +1042,7 @@ namespace KegID.ViewModel
                     await AssignValidatedValueAsync(parameters.GetValue<Partner>("Partner"));
                     break;
                 case "IsPalletze":
-                    IsPalletze = parameters.GetValue<bool>("IsPalletze");
-                    ManifestId = parameters.GetValue<string>("ManifestId");
+                    AssignInitValue(parameters);
                     break;
                 case "model":
                     GenerateManifestIdAsync(parameters.GetValue<PalletModel>("model"));

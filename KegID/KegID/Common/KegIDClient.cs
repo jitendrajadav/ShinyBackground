@@ -97,7 +97,7 @@ namespace KegID.Common
                 {
                     kegIDResponse.Response = await response.Content.ReadAsStringAsync();
                 }
-                else
+                else if(response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                 {
                     InvalidServiceCall();
                 }
@@ -126,7 +126,7 @@ namespace KegID.Common
                 {
                     kegIDResponse.Response = await response.Content.ReadAsStringAsync();
                 }
-                else
+                else if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                 {
                     InvalidServiceCall();
                 }

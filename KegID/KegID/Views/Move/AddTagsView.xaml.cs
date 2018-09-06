@@ -186,7 +186,7 @@ namespace KegID.Views
 
                     case TagsTypeEnum.Batch:
                         var RealmDb1 = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                        var Batchresult = RealmDb1.All<BatchModel>().ToList();
+                        var Batchresult = RealmDb1.All<NewBatch>().ToList();
                         valueEntry.ItemsSource = Batchresult.ToList();
                         valueEntry.ItemDisplayBinding = new Binding("BrandName");
                         break;
@@ -313,8 +313,8 @@ namespace KegID.Views
                         else if (child.GetType() == typeof(Picker))
                         {
                             if (((Picker)child).SelectedItem != null)
-                                if (((Picker)child).SelectedItem.GetType() == typeof(BatchModel))
-                                    tag.Value = ((BatchModel)((Picker)child).SelectedItem).BrandName;
+                                if (((Picker)child).SelectedItem.GetType() == typeof(NewBatch))
+                                    tag.Value = ((NewBatch)((Picker)child).SelectedItem).BrandName;
                                 else
                                     tag.Value = ((Picker)child).SelectedItem.ToString();
                         }

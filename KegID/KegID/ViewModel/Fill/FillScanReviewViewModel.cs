@@ -1,9 +1,18 @@
-﻿using KegID.Services;
+﻿using KegID.Common;
+using KegID.LocalDb;
+using KegID.Messages;
+using KegID.Model;
+using KegID.Services;
 using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
+using Prism.Services;
+using Realms;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
@@ -11,8 +20,15 @@ namespace KegID.ViewModel
     {
         #region Properties
 
+        private readonly IPageDialogService _dialogService;
         private readonly INavigationService _navigationService;
         private readonly IUuidManager _uuidManager;
+        private readonly IMoveService _moveService;
+        private readonly IManifestManager _manifestManager;
+
+        public IList<BarcodeModel> Barcodes { get; set; }
+        public string BatchId { get; set; }
+
 
         #region TrackingNumber
 
@@ -161,36 +177,207 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public FillScanReviewViewModel(INavigationService navigationService, IUuidManager uuidManager)
+        public FillScanReviewViewModel(INavigationService navigationService, IUuidManager uuidManager, IPageDialogService dialogService, IMoveService moveService, IManifestManager manifestManager)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _uuidManager = uuidManager;
+            _dialogService = dialogService;
+            _moveService = moveService;
+            _manifestManager = manifestManager;
 
             ScanCommand = new DelegateCommand(ScanCommandRecieverAsync);
-            SubmitCommand = new DelegateCommand(SubmitCommandReciever);
+            SubmitCommand = new DelegateCommand(SubmitCommandRecieverAsync);
         }
 
         #endregion
 
         #region Methods
 
-        private void SubmitCommandReciever()
+        private async void SubmitCommandRecieverAsync()
         {
-            try
+            var barcodes = ConstantManager.Barcodes;
+            var tags = ConstantManager.Tags;
+            var partnerModel = ConstantManager.Partner;
+
+            if (Barcodes.Count() == 0)
+            {
+                await _dialogService.DisplayAlertAsync("Error", "Error: Please add some scans.", "Ok");
+                return;
+            }
+
+            List<string> closedBatches = new List<string>();
+            List<NewPallet> newPallets = new List<NewPallet>();
+            NewPallet newPallet = null;
+            List<TItem> palletItems = new List<TItem>();
+            TItem palletItem = null;
+
+            foreach (var pallet in Barcodes)
+            {
+                    palletItem = new TItem
+                    {
+                        Barcode = pallet.Barcode,
+                        //palletItem.Contents = "";
+                        //palletItem.HeldOnPalletId = "";
+                        //palletItem.KegId = "";
+                        //palletItem.PalletId = "";
+                        ScanDate = DateTimeOffset.UtcNow.Date,
+                        TagsStr = pallet.TagsStr
+                        //palletItem.SkuId = "";
+                        //ValidationStatus = 4,
+                        //Tags = tags
+                    };
+
+                    if (pallet.Tags != null)
+                    {
+                        foreach (var tag in pallet.Tags)
+                        {
+                            palletItem.Tags.Add(tag);
+                        }
+                    }
+                    palletItems.Add(palletItem);
+
+                newPallet = new NewPallet
+                {
+                    Barcode = BatchId,
+                    //newPallet.BarcodeFormat = "";
+                    BuildDate = DateTimeOffset.UtcNow.Date,
+                    //newPallet.ManifestTypeId = 4;
+                    StockLocation = partnerModel?.PartnerId,
+                    StockLocationId = partnerModel?.PartnerId,
+                    StockLocationName = partnerModel?.FullName,
+                    OwnerId = AppSettings.CompanyId,
+                    PalletId = _uuidManager.GetUuId(),
+                    //PalletItems = palletItems,
+                    ReferenceKey = "",
+                    //Tags = tags
+                };
+                if (tags != null)
+                {
+                    foreach (var item in tags)
+                        newPallet.Tags.Add(item);
+                }
+                foreach (var item in palletItems)
+                    newPallet.PalletItems.Add(item);
+                newPallets.Add(newPallet);
+            }
+
+            Loader.StartLoading();
+
+            ManifestModel model = model = GenerateManifest();
+            if (model != null)
             {
                 try
                 {
-                    var formsNav = ((Prism.Common.IPageAware)_navigationService).Page;
-                    var page = formsNav.Navigation.ModalStack.Last();
-                    (page?.BindingContext as INavigationAware)?.OnNavigatingTo(new NavigationParameters
+                    ManifestModelGet manifestResult = await _moveService.PostManifestAsync(model, AppSettings.SessionId, Configuration.NewManifest);
+                    if (manifestResult.ManifestId != null)
                     {
-                        { "SubmitCommandRecieverAsync", "SubmitCommandRecieverAsync" }
-                    });
-                }
-                catch (Exception)
-                {
+                        try
+                        {
+                            model.IsDraft = false;
+                            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                            RealmDb.Write(() =>
+                            {
+                                RealmDb.Add(model, update: true);
+                            });
+                        }
+                        catch (Exception ex)
+                        {
+                            Crashes.TrackError(ex);
+                        }
 
+                        var manifest = await _moveService.GetManifestAsync(AppSettings.SessionId, manifestResult.ManifestId);
+                        string contents = string.Empty;
+                        try
+                        {
+                            contents = ConstantManager.Tags.Count > 2 ? ConstantManager.Tags?[2]?.Value ?? string.Empty : string.Empty;
+                        }
+                        catch (Exception ex)
+                        {
+                            Crashes.TrackError(ex);
+                        }
+                        if (string.IsNullOrEmpty(contents))
+                        {
+                            try
+                            {
+                                contents = ConstantManager.Tags.Count > 3 ? ConstantManager.Tags?[3]?.Value ?? string.Empty : string.Empty;
+                            }
+                            catch (Exception ex)
+                            {
+                                Crashes.TrackError(ex);
+                            }
+                        }
+                        if (manifest.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
+                        {
+                            Loader.StopLoading();
+                            await _navigationService.NavigateAsync(new Uri("ManifestDetailView", UriKind.Relative), new NavigationParameters
+                            {
+                                { "manifest", manifest },{ "Contents", contents }
+                            }, useModalNavigation: true, animated: false);
+                        }
+                        else
+                        {
+                            //SimpleIoc.Default.GetInstance<LoginViewModel>().InvalideServiceCallAsync();
+                        }
+                    }
                 }
+                catch (Exception ex)
+                {
+                    Crashes.TrackError(ex);
+                }
+                finally
+                {
+                    Loader.StopLoading();
+                    model = null;
+                    barcodes = null;
+                    tags = null;
+                    partnerModel = null;
+                    closedBatches = null;
+                    newPallets = null;
+                    newPallet = null;
+                    palletItems = null;
+                    //palletItem = null;
+                    Cleanup();
+                }
+            }
+            else
+                await _dialogService.DisplayAlertAsync("Alert", "Something goes wrong please check again", "Ok");
+        }
+
+        public ManifestModel GenerateManifest()
+        {
+            return _manifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.FILL_MANIFEST, manifestId: TrackingNumber,
+                        barcodeCollection: ConstantManager.Barcodes ?? new List<BarcodeModel>(), tags:  new List<Tag>(), tagsStr: default,
+                        partnerModel: ConstantManager.Partner, newPallets: new List<NewPallet>(), batches: new List<NewBatch>(),
+                        closedBatches: new List<string>(), validationStatus: 4, contents: Contents);
+        }
+
+
+        private async Task ItemTappedCommandRecieverAsync(PalletModel model)
+        {
+            try
+            {
+                await _navigationService.NavigateAsync(new Uri("FillScanView", UriKind.Relative), new NavigationParameters
+                    {
+                        { "model", model }
+                    }, useModalNavigation: true, animated: false);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
+        }
+
+        public void Cleanup()
+        {
+            try
+            {
+                //PalletCollection.Clear();
+                //Kegs = default;
+                AddPalletToFillScanMsg msg = new AddPalletToFillScanMsg
+                {
+                    CleanUp = true
+                };
+                MessagingCenter.Send(msg, "AddPalletToFillScanMsg");
             }
             catch (Exception ex)
             {
@@ -203,16 +390,19 @@ namespace KegID.ViewModel
             await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
         }
 
-        internal void AssignInitialValue(string _manifestId,int _count)
+        internal void AssignInitialValue(INavigationParameters parameters)
         {
             try
             {
+                Barcodes = parameters.GetValue<IList<BarcodeModel>>("BarcodeCollection");
+                BatchId = parameters.GetValue<string>("BatchId");
+
                 var partner = ConstantManager.Partner;
                 var content = "";//BatchButtonTitle;
-                //var content = SimpleIoc.Default.GetInstance<FillViewModel>().BatchButtonTitle;
+
                 TrackingNumber = _uuidManager.GetUuId();
                 ManifestTo = partner.FullName + "\n" + partner.PartnerTypeCode;
-                ItemCount = _count;
+                ItemCount = Barcodes.Count;
                 Contents = !string.IsNullOrEmpty(content) ? content : "No contens";
             }
             catch (Exception ex)
@@ -225,7 +415,7 @@ namespace KegID.ViewModel
         {
             if (parameters.ContainsKey("BatchId"))
             {
-                AssignInitialValue(parameters.GetValue<string>("BatchId"), parameters.GetValue<int>("Count"));
+                AssignInitialValue(parameters);
             }
         }
 

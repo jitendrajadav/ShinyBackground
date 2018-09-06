@@ -331,10 +331,37 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("MoveView", UriKind.Relative), new NavigationParameters
-                    {
-                        { "AssignInitialValue", model }
-                    }, useModalNavigation: true, animated: false);
+                switch ((EventTypeEnum)model.EventTypeId)
+                {
+                    case EventTypeEnum.MOVE_MANIFEST:
+                        await _navigationService.NavigateAsync(new Uri("MoveView", UriKind.Relative), new NavigationParameters
+                                {
+                                    { "AssignInitialValue", model }
+                                }, useModalNavigation: true, animated: false);
+                        break;
+                    case EventTypeEnum.SHIP_MANIFEST:
+                        break;
+                    case EventTypeEnum.RECEIVE_MANIFEST:
+                        break;
+                    case EventTypeEnum.FILL_MANIFEST:
+                        await _navigationService.NavigateAsync(new Uri("FillView", UriKind.Relative), new NavigationParameters
+                                {
+                                    { "AssignInitialValue", model }
+                                }, useModalNavigation: true, animated: false);
+                        break;
+                    case EventTypeEnum.PALLETIZE_MANIFEST:
+                        break;
+                    case EventTypeEnum.RETURN_MANIFEST:
+                        break;
+                    case EventTypeEnum.REPAIR_MANIFEST:
+                        break;
+                    case EventTypeEnum.COLLECT_MANIFEST:
+                        break;
+                    case EventTypeEnum.ARCHIVE_MANIFEST:
+                        break;
+                    default:
+                        break;
+                }
             }
             catch (Exception ex)
             {

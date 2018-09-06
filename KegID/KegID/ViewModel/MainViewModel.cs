@@ -222,7 +222,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string DraftmaniFestsPropertyName = "DraftmaniFests";
 
-        private int _DraftmaniFests = default(int);
+        private int _DraftmaniFests = default;
 
         /// <summary>
         /// Sets and gets the DraftmaniFests property.
@@ -515,7 +515,7 @@ namespace KegID.ViewModel
 
         private async void FillCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync(new Uri("FillView", UriKind.Relative), useModalNavigation: true, animated: false);
+            await _navigationService.NavigateAsync(new Uri("FillView", UriKind.Relative), new NavigationParameters { { "UuId", _uuidManager.GetUuId() } }, useModalNavigation: true, animated: false);
         }
 
         private async void PalletizeCommandRecieverAsync()

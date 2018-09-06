@@ -1,4 +1,5 @@
 ﻿using KegID.LocalDb;
+using KegID.Messages;
 using KegID.Model;
 using KegID.Services;
 using Microsoft.AppCenter.Crashes;
@@ -9,6 +10,7 @@ using Realms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
@@ -143,7 +145,27 @@ namespace KegID.ViewModel
             NextCommand = new DelegateCommand(NextCommandRecieverAsync);
             PartnerModel.FullName = "Select a location";
             ItemTappedCommand = new DelegateCommand<MaintainTypeReponseModel>((model) => ItemTappedCommandReciever(model));
+            
             LoadMaintenanceTypeAsync();
+
+            HandleUnsubscribeMessages();
+            HandleReceivedMessages();
+        }
+
+        private void HandleReceivedMessages()
+        {
+            MessagingCenter.Subscribe<MaintainDTToMaintMsg>(this, "MaintainDTToMaintMsg", message =>
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    Cleanup();
+                });
+            });
+        }
+
+        private void HandleUnsubscribeMessages()
+        {
+            MessagingCenter.Unsubscribe<MaintainDTToMaintMsg>(this, "MaintainDTToMaintMsg");
         }
 
         #endregion

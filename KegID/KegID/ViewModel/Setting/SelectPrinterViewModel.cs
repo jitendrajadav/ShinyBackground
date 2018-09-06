@@ -50,7 +50,7 @@ namespace KegID.ViewModel
             {
                 await _navigationService.GoBackAsync(new NavigationParameters
                         {
-                            {"IDiscoveredPrinter",value.IDiscoveredPrinter },{"friendlyLbl",value.friendlyLbl }
+                            {"IDiscoveredPrinter",value.IDiscoveredPrinter },{"friendlyLbl",value.FriendlyLbl }
                         }, useModalNavigation: true, animated: false);
             }
             else

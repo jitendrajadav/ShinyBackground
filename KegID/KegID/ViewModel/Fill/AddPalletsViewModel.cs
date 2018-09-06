@@ -27,6 +27,7 @@ namespace KegID.ViewModel
         private readonly IMoveService _moveService;
         private readonly IManifestManager _manifestManager;
         private readonly IUuidManager _uuidManager;
+        public string ManifestId { get; set; }
 
         #region AddPalletsTitle
 
@@ -172,6 +173,7 @@ namespace KegID.ViewModel
         public DelegateCommand FillScanCommand { get; }
         public DelegateCommand FillKegsCommand { get; }
         public DelegateCommand<PalletModel> ItemTappedCommand { get; }
+        public DelegateCommand<PalletModel> DeleteItemCommand { get; }
 
         #endregion
 
@@ -189,12 +191,19 @@ namespace KegID.ViewModel
             SubmitCommand = new DelegateCommand(SubmitCommandRecieverAsync);
             FillScanCommand = new DelegateCommand(FillScanCommandRecieverAsync);
             FillKegsCommand = new DelegateCommand(FillKegsCommandRecieverAsync);
-            ItemTappedCommand = new DelegateCommand<PalletModel>((model) => ItemTappedCommandRecieverAsync(model));
+            ItemTappedCommand = new DelegateCommand<PalletModel>(async (model) => await ItemTappedCommandRecieverAsync(model));
+            DeleteItemCommand = new DelegateCommand<PalletModel>((model) => DeleteItemCommandReciever(model));
         }
 
         #endregion
 
         #region Methods
+
+        private void DeleteItemCommandReciever(PalletModel model)
+        {
+            PalletCollection.Remove(model);
+            CountKegs();
+        }
 
         private async Task ItemTappedCommandRecieverAsync(PalletModel model)
         {
@@ -215,7 +224,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+                await _navigationService.GoBackAsync(new NavigationParameters { { "PalletCollection", PalletCollection } },useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {
@@ -236,7 +245,7 @@ namespace KegID.ViewModel
             }
 
             IEnumerable<PalletModel> empty = PalletCollection.Where(x => x.Barcode.Count == 0);
-            if (empty.ToList().Count > 0 )
+            if (empty.ToList().Count > 0)
             {
                 string result = await _dialogService.DisplayActionSheetAsync("Error? \n Some pallets have 0 scans. Do you want to edit them or remove the empty pallets.", null, null, "Remove empties", "Edit");
                 if (result == "Remove empties")
@@ -275,31 +284,42 @@ namespace KegID.ViewModel
                         //palletItem.KegId = "";
                         //palletItem.PalletId = "";
                         ScanDate = DateTimeOffset.UtcNow.Date,
+                        TagsStr = item.TagsStr
                         //palletItem.SkuId = "";
                         //ValidationStatus = 4,
                         //Tags = tags
                     };
 
+                    if (item.Tags != null)
+                    {
+                        foreach (var tag in item.Tags)
+                        {
+                            palletItem.Tags.Add(tag);
+                        }
+                    }
                     palletItems.Add(palletItem);
                 }
 
                 newPallet = new NewPallet
                 {
-                    Barcode = pallet.ManifestId,
+                    Barcode = pallet.BatchId,
                     //newPallet.BarcodeFormat = "";
                     BuildDate = DateTimeOffset.UtcNow.Date,
                     //newPallet.ManifestTypeId = 4;
-                    StockLocation = partnerModel.PartnerId,
-                    StockLocationId = partnerModel.PartnerId,
-                    StockLocationName = partnerModel.FullName,
+                    StockLocation = partnerModel?.PartnerId,
+                    StockLocationId = partnerModel?.PartnerId,
+                    StockLocationName = partnerModel?.FullName,
                     OwnerId = AppSettings.CompanyId,
                     PalletId = _uuidManager.GetUuId(),
                     //PalletItems = palletItems,
                     ReferenceKey = "",
                     //Tags = tags
                 };
-                foreach (var item in tags)
-                    newPallet.Tags.Add(item);
+                if (tags != null)
+                {
+                    foreach (var item in tags)
+                        newPallet.Tags.Add(item);
+                }
                 foreach (var item in palletItems)
                     newPallet.PalletItems.Add(item);
                 newPallets.Add(newPallet);
@@ -310,9 +330,17 @@ namespace KegID.ViewModel
 
             Loader.StartLoading();
 
-            ManifestModel model = _manifestManager.GetManifestDraft(EventTypeEnum.FILL_MANIFEST, _uuidManager.GetUuId(),
-                    barcodes, tags, string.Empty, partnerModel, newPallets, new List<NewBatch>(), closedBatches, 4);
+            ManifestModel model = null;
+            try
+            {
+                model = _manifestManager.GetManifestDraft(EventTypeEnum.FILL_MANIFEST, ManifestId??PalletCollection.FirstOrDefault().ManifestId,
+                barcodes, tags, string.Empty, partnerModel, newPallets, new List<NewBatch>(), closedBatches, 4);
 
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
             if (model != null)
             {
                 try
@@ -321,6 +349,20 @@ namespace KegID.ViewModel
 
                     if (manifestResult.ManifestId != null)
                     {
+                        try
+                        {
+                            model.IsDraft = false;
+                            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                            RealmDb.Write(() =>
+                            {
+                                RealmDb.Add(model, update: true);
+                            });
+                        }
+                        catch (Exception ex)
+                        {
+                            Crashes.TrackError(ex);
+                        }
+
                         var manifest = await _moveService.GetManifestAsync(AppSettings.SessionId, manifestResult.ManifestId);
 
                         string contents = string.Empty;
@@ -359,7 +401,7 @@ namespace KegID.ViewModel
                 }
                 catch (Exception ex)
                 {
-                     Crashes.TrackError(ex);
+                    Crashes.TrackError(ex);
                 }
                 finally
                 {
@@ -395,28 +437,20 @@ namespace KegID.ViewModel
             }
         }
 
-        internal async Task AssignValueToAddPalletAsync(string manifestId, IList<BarcodeModel> barcodes)
+        internal async Task AssignValueToAddPalletAsync(string _batchId, IList<BarcodeModel> barcodes)
         {
             try
             {
-                if (!PalletCollection.Any(x => x.ManifestId == manifestId))
+                if (!PalletCollection.Any(x => x.BatchId == _batchId))
                 {
-                    PalletCollection.Add(new PalletModel() { Barcode = barcodes, Count = barcodes.Count(), ManifestId = manifestId });
-
-                    if (PalletCollection.Sum(x => x.Count) > 1)
-                        Kegs = string.Format("({0} Kegs)", PalletCollection.Sum(x => x.Count));
-                    else
-                        Kegs = string.Format("({0} Keg)", PalletCollection.Sum(x => x.Count));
+                    PalletCollection.Add(new PalletModel() { Barcode = barcodes, Count = barcodes.Count(), BatchId = _batchId });
+                    CountKegs();
                 }
                 else
                 {
-                    PalletCollection.Where(x => x.ManifestId == manifestId).FirstOrDefault().Barcode = barcodes;
-                    PalletCollection.Where(x => x.ManifestId == manifestId).FirstOrDefault().Count = barcodes.Count;
-
-                    if (PalletCollection.Sum(x => x.Count) > 1)
-                        Kegs = string.Format("({0} Kegs)", PalletCollection.Sum(x => x.Count));
-                    else
-                        Kegs = string.Format("({0} Keg)", PalletCollection.Sum(x => x.Count));
+                    PalletCollection.Where(x => x.BatchId == _batchId).FirstOrDefault().Barcode = barcodes;
+                    PalletCollection.Where(x => x.BatchId == _batchId).FirstOrDefault().Count = barcodes.Count;
+                    CountKegs();
                 }
                 await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
             }
@@ -426,11 +460,19 @@ namespace KegID.ViewModel
             }
         }
 
-        internal void AssignFillScanValue(IList<BarcodeModel> _barcodes, string _manifest)
+        private void CountKegs()
+        {
+            if (PalletCollection.Sum(x => x.Count) > 1)
+                Kegs = string.Format("({0} Kegs)", PalletCollection.Sum(x => x.Count));
+            else
+                Kegs = string.Format("({0} Keg)", PalletCollection.Sum(x => x.Count));
+        }
+
+        internal void AssignFillScanValue(IList<BarcodeModel> _barcodes, string _batchId)
         {
             try
             {
-                PalletModel pallet = PalletCollection.Where(x => x.ManifestId == _manifest).FirstOrDefault();
+                PalletModel pallet = PalletCollection.Where(x => x.BatchId == _batchId).FirstOrDefault();
                 if (pallet != null)
                 {
                     using (var db = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
@@ -446,7 +488,7 @@ namespace KegID.ViewModel
                     {
                         Barcode = _barcodes,
                         Count = _barcodes.Count(),
-                        ManifestId = _manifest
+                        BatchId = _batchId,
                     });
                 }
                 if (PalletCollection.Sum(x => x.Count) > 1)
@@ -478,17 +520,34 @@ namespace KegID.ViewModel
             }
         }
 
-        public async override void OnNavigatedTo(INavigationParameters parameters)
+        public override void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (parameters.ContainsKey("MoveHome"))
-            {
-                await _navigationService.GoBackAsync(parameters, useModalNavigation: true, animated: false);
-            }
+            //if (parameters.ContainsKey("MoveHome"))
+            //{
+            //    await _navigationService.GoBackAsync(parameters, useModalNavigation: true, animated: false);
+            //}
             if (parameters.ContainsKey("FillKegsCommandRecieverAsync"))
             {
                 FillKegsCommandRecieverAsync();
             }
+        }
 
+        internal void AssignInitValue(INavigationParameters parameters)
+        {
+            try
+            {
+                AddPalletsTitle = parameters.GetValue<string>("AddPalletsTitle");
+                ManifestId = parameters.GetValue<string>("ManifestId");
+                if (parameters.GetValue<IList<PalletModel>>("PalletCollection") != null)
+                {
+                    PalletCollection = new ObservableCollection<PalletModel>(parameters.GetValue<IList<PalletModel>>("PalletCollection"));
+                }
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+
+            }
         }
 
         public async override void OnNavigatingTo(INavigationParameters parameters)
@@ -496,10 +555,10 @@ namespace KegID.ViewModel
             switch (parameters.Keys.FirstOrDefault())
             {
                 case "Barcodes":
-                    AssignFillScanValue(parameters.GetValue<IList<BarcodeModel>>("Barcodes"), parameters.GetValue<string>("ManifestId"));
+                    AssignFillScanValue(parameters.GetValue<IList<BarcodeModel>>("Barcodes"), parameters.GetValue<string>("BatchId"));
                     break;
                 case "AddPalletsTitle":
-                    AddPalletsTitle = parameters.GetValue<string>("AddPalletsTitle");
+                    AssignInitValue(parameters);
                     break;
                 case "SubmitCommandRecieverAsync":
                     SubmitCommandRecieverAsync();

@@ -34,7 +34,6 @@
                 VerticalOptions="CenterAndExpand" 
                 Style="{StaticResource LabelTitleStyle}"
                 TextColor="Black"
-                FontAttributes="Bold"
                 HorizontalOptions="CenterAndExpand" />
 
             <Button

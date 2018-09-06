@@ -40,7 +40,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string ManaulBarcodePropertyName = "ManaulBarcode";
 
-        private string _ManaulBarcode = default(string);
+        private string _ManaulBarcode = default;
 
         /// <summary>
         /// Sets and gets the ManaulBarcode property.
@@ -111,6 +111,8 @@ namespace KegID.ViewModel
         public DelegateCommand BarcodeManualCommand { get;}
         public DelegateCommand<BarcodeModel> IconItemTappedCommand { get;}
         public DelegateCommand<BarcodeModel> LabelItemTappedCommand { get;}
+        public DelegateCommand<BarcodeModel> DeleteItemCommand { get;}
+        
 
         #endregion
 
@@ -131,6 +133,7 @@ namespace KegID.ViewModel
             BarcodeManualCommand = new DelegateCommand(BarcodeManualCommandRecieverAsync);
             LabelItemTappedCommand = new DelegateCommand<BarcodeModel>((model) => LabelItemTappedCommandRecieverAsync(model));
             IconItemTappedCommand = new DelegateCommand<BarcodeModel>((model) => IconItemTappedCommandRecieverAsync(model));
+            DeleteItemCommand = new DelegateCommand<BarcodeModel>((model) => DeleteItemCommandReciever(model));
 
             LoadMaintenanceType();
             HandleReceivedMessages();
@@ -139,6 +142,11 @@ namespace KegID.ViewModel
         #endregion
 
         #region Methods
+
+        private void DeleteItemCommandReciever(BarcodeModel model)
+        {
+            BarcodeCollection.Remove(model);
+        }
 
         private void HandleReceivedMessages()
         {
@@ -318,7 +326,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("CognexScanView", UriKind.Relative), new NavigationParameters
+                await _navigationService.NavigateAsync(new Uri("ScanditScanView", UriKind.Relative), new NavigationParameters
                     {
                         { "Tags", null },{ "TagsStr", string.Empty },{ "ViewTypeEnum", ViewTypeEnum.MaintainScanView }
                     }, useModalNavigation: true, animated: false);
@@ -346,10 +354,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.GoBackAsync(new NavigationParameters
-                {
-                    { "Cleanup","Cleanup" }
-                }, useModalNavigation:true, animated: false);
+                await _navigationService.GoBackAsync(useModalNavigation:true, animated: false);
             }
             catch (Exception ex)
             {
@@ -442,6 +447,11 @@ namespace KegID.ViewModel
         private void Cleanup()
         {
             BarcodeCollection.Clear();
+            MaintainDTToMaintMsg message = new MaintainDTToMaintMsg
+            {
+                CleanUp = true
+            };
+            MessagingCenter.Send(message, "MaintainDTToMaintMsg");
         }
 
         public async override void OnNavigatedTo(INavigationParameters parameters)

@@ -627,9 +627,9 @@ namespace KegID.ViewModel
                     {
                         var model = new BarcodeModel
                         {
-                            Barcode = item.Barcode,
-                            Icon = item.Icon,
-                            TagsStr = item.TagsStr
+                            Barcode = item?.Barcode,
+                            Icon = item?.Icon,
+                            TagsStr = item?.TagsStr
                         };
                         foreach (Tag tag in item?.Tags)
                         {
@@ -639,7 +639,7 @@ namespace KegID.ViewModel
                     } 
                 }
                 Barcodes = ConstantManager.Barcodes;
-                Tags = tags.ToList();
+                Tags = tags?.ToList();
                 TagsStr = !string.IsNullOrEmpty(tagsStr) ? tagsStr : "Add info";
                 ManifestId = !string.IsNullOrEmpty(_kegId) ? _kegId : _uuidManager.GetUuId();
                 AddKegs = !string.IsNullOrEmpty(_addKegs) ? Convert.ToUInt32(_addKegs) > 1 ? string.Format("{0} Items", _addKegs) : string.Format("{0} Item", _addKegs) : "Add Kegs";

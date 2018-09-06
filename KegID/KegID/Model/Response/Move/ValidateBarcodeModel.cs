@@ -26,6 +26,7 @@ namespace KegID.Model
         public IList<NewBatch> NewBatches { get; }
         public bool IsDraft { get; set; }
         public bool IsQueue { get; set; }
+        public string Size { get; set; }
     }
 
     public class BarcodeModel : RealmObject

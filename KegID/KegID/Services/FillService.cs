@@ -18,7 +18,7 @@ namespace KegID.Services
                 string url = string.Format(Configuration.GetBatchUrl, sessionId);
                 var value = await App.kegIDClient.ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
 
-                model.BatchModel = !string.IsNullOrEmpty(value.Response) ? App.kegIDClient.DeserializeObject<IList<BatchModel>>(value.Response) : new List<BatchModel>();
+                model.BatchModel = !string.IsNullOrEmpty(value.Response) ? App.kegIDClient.DeserializeObject<IList<NewBatch>>(value.Response) : new List<NewBatch>();
                 model.Response.StatusCode = value.StatusCode;
             }
             catch (System.Exception)

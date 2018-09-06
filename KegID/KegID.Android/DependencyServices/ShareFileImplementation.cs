@@ -2,12 +2,16 @@
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
+using Android;
 using Android.Content;
+using Android.Content.PM;
 using Android.Graphics.Pdf;
+using Android.Support.V4.App;
 using Android.Webkit;
 using Java.IO;
 using KegID.DependencyServices;
 using KegID.Droid.DependencyServices;
+using Microsoft.AppCenter.Crashes;
 using Plugin.CurrentActivity;
 using Xamarin.Forms;
 
@@ -19,9 +23,42 @@ namespace KegID.Droid.DependencyServices
     /// </summary> 
     public class ShareFileImplementation : IShareFile
     {
+        // Storage Permissions
+        private static readonly int REQUEST_EXTERNAL_STORAGE = 1;
+        private static readonly string[] PERMISSIONS_STORAGE = {
+        Manifest.Permission.ReadExternalStorage,
+        Manifest.Permission.WriteExternalStorage
+};
+        /**
+ * Checks if the app has permission to write to device storage
+ *
+ * If the app does not has permission then the user will be prompted to grant permissions
+ *
+ * @param activity
+ */
+        public static void VerifyStoragePermissions()
+        {
+            // Check if we have write permission
+            var permission = Android.Support.V4.Content.ContextCompat.CheckSelfPermission(CrossCurrentActivity.Current.AppContext, Manifest.Permission.WriteExternalStorage);
+
+            if (permission != Permission.Granted)
+            {
+                // We don't have permission so prompt the user
+                ActivityCompat.RequestPermissions(CrossCurrentActivity.Current.Activity,
+                        PERMISSIONS_STORAGE,
+                        REQUEST_EXTERNAL_STORAGE
+                );
+            }
+            else
+            {
+
+            }
+        }
+
         public string SafeHTMLToPDF(string html, string filename)
         {
             Android.Webkit.WebView webpage = null;
+            VerifyStoragePermissions();
             var dir = new Java.IO.File(Android.OS.Environment.ExternalStorageDirectory.AbsolutePath + "/KegIdFiles/");
             var file = new Java.IO.File(dir + "/" + filename + ".pdf");
 
@@ -164,15 +201,16 @@ namespace KegID.Droid.DependencyServices
             myWebview.Draw(page.Canvas);
             document.FinishPage(page);
             Stream filestream = new MemoryStream();
-            FileOutputStream fos = new FileOutputStream(fileNameWithPath, false);
             try
             {
+                FileOutputStream fos = new FileOutputStream(fileNameWithPath, false);
                 document.WriteTo(filestream);
                 fos.Write(((MemoryStream)filestream).ToArray(), 0, (int)filestream.Length);
                 fos.Close();
             }
-            catch
+            catch (Exception ex)
             {
+                Crashes.TrackError(ex);
             }
         }
     }

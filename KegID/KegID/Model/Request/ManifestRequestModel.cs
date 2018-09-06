@@ -43,6 +43,8 @@ namespace KegID.Model
         public DateTimeOffset ScanDate { get; set; }
         //public long ValidationStatus { get; set; }
         public IList<Tag> Tags { get; }
+        public string TagsStr { get; set; }
+        public string Icon { get; set; }
         //public string Contents { get; set; }
         //public string KegId { get; set; }
         //public string PalletId { get; set; }
@@ -87,6 +89,7 @@ namespace KegID.Model
         //public string TargetLocation { get; set; }
         public string ReferenceKey { get; set; }
         public IList<Tag> Tags { get; }
+        public bool IsPalletze { get; set; }
     }
 
     public class Tag : RealmObject

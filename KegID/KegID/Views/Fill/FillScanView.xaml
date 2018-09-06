@@ -73,7 +73,7 @@
                 <Label
                     Margin="10,0,40,0"
                     Style="{StaticResource LabelTitleWhiteTextColorStyle}"
-                    Text="{Binding ManifestId}"
+                    Text="{Binding Title}"
                     IsVisible="{Binding IsPalletVisible}"
                     Font="16"
                     Grid.Row="0"/>
@@ -261,6 +261,9 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
+                                <ViewCell.ContextActions>
+                                    <MenuItem Text="Delete" Command="{Binding BindingContext.DeleteItemCommand, Source={x:Reference lstFillScan}}" CommandParameter="{Binding .}"/>
+                                </ViewCell.ContextActions>
                                 <Grid 
                                     VerticalOptions="Center"
                                     RowSpacing="0"

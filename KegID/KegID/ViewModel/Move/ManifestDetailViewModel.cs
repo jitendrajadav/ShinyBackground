@@ -31,7 +31,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string TrackingNumberPropertyName = "TrackingNumber";
 
-        private string _TrackingNumber = default(string);
+        private string _TrackingNumber = default;
 
         /// <summary>
         /// Sets and gets the TrackingNumber property.
@@ -65,7 +65,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string ManifestToPropertyName = "ManifestTo";
 
-        private string _ManifestTo = default(string);
+        private string _ManifestTo = default;
 
         /// <summary>
         /// Sets and gets the ManifestTo property.
@@ -231,7 +231,7 @@ namespace KegID.ViewModel
         {
             var share = DependencyService.Get<IShareFile>();
 
-            string output = String.Empty;
+            string output = string.Empty;
             try
             {
                 var xslInput = DependencyService.Get<IXsltContent>().GetXsltContent("manifestprint.xslt");
@@ -285,7 +285,15 @@ namespace KegID.ViewModel
         {
             try
             {
-                manifest.ManifestItems.FirstOrDefault().Contents = content;
+                try
+                {
+                    manifest.ManifestItems.FirstOrDefault().Contents = content;
+                }
+                catch (Exception ex)
+                {
+                    Crashes.TrackError(ex);
+                }
+
                 manifestPrintModels = new Manifest
                 {
                     ManifestItems = new ManifestItems

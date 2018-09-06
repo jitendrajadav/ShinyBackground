@@ -475,7 +475,7 @@ namespace KegID.ViewModel
         private async void DoneCommandRecieverAsync()
         {
             HasDone = true;
-            var alert = BarcodeCollection.Where(x => x.Icon == "maintenace.png").ToList();
+            List<BarcodeModel> alert = BarcodeCollection.Where(x => x.Icon == "maintenace.png").ToList();
             if (alert.Count > 0 && !alert.FirstOrDefault().HasMaintenaceVerified)
             {
                 try
@@ -696,7 +696,7 @@ namespace KegID.ViewModel
 
         internal async Task AssignValidatedValueAsync(Partner model)
         {
-            var selecetdPertner = BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).Select(x=>x.Kegs.Partners).FirstOrDefault();
+            IList<Partner> selecetdPertner = BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).Select(x=>x.Kegs.Partners).FirstOrDefault();
             Partner unusedPartner = null;
 
             foreach (var item in selecetdPertner)

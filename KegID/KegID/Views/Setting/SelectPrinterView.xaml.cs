@@ -234,7 +234,7 @@ namespace KegID.Views
                 SelectPrinterMsg selectPrinterMsg = new SelectPrinterMsg
                 {
                     IDiscoveredPrinter = ((IDiscoveredPrinter)e.SelectedItem),
-                    friendlyLbl = friendlyLbl.Text ?? ((IDiscoveredPrinter)e.SelectedItem).Address
+                    FriendlyLbl = friendlyLbl.Text ?? ((IDiscoveredPrinter)e.SelectedItem).Address
                 };
                 MessagingCenter.Send(selectPrinterMsg, "SelectPrinterMsg");
                 ConstantManager.PrinterSetting = ((IDiscoveredPrinter)e.SelectedItem);

@@ -17,11 +17,12 @@
             Margin="0,0,0,0">
            
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="50"/>
+                <RowDefinition Height="90*"/>
+                <RowDefinition Height="10*"/>
             </Grid.RowDefinitions>
 
             <controls:CarouselViewControl
+                VerticalOptions="FillAndExpand"
                 x:Name="myCarouselViewCtrl"
                 ItemsSource="{Binding ImageCollection}"
                 ShowIndicators="true"
@@ -54,7 +55,7 @@
             </controls:CarouselViewControl>
             
             <Button
-                Margin="{StaticResource BottomAppBarButtonMargin}"
+                VerticalOptions="EndAndExpand"
                 x:Name="btnNavigation"
                 Style="{StaticResource BottomButtonTitleStyle}"
                 Grid.Row="1"

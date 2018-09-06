@@ -19,11 +19,11 @@
             <Grid
                 Grid.Row="0"
                 Padding="0,5"
-                BackgroundColor="{StaticResource lightGrayColor}">
+                BackgroundColor="{StaticResource selectTextColor}">
 
                 <Label
                     Style="{StaticResource LabelTitleStyle}"
-                    TextColor="Black"
+                    TextColor="White"
                     HorizontalOptions="CenterAndExpand"
                     Text="{Binding Resources[title_select_volume]}"/>
             </Grid>

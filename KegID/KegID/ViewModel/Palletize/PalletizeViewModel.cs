@@ -11,6 +11,7 @@ using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
+using Prism.Services;
 using Realms;
 using Xamarin.Forms;
 
@@ -22,6 +23,7 @@ namespace KegID.ViewModel
 
         private readonly INavigationService _navigationService;
         private readonly IPalletizeService _palletizeService;
+        private readonly IPageDialogService _dialogService;
         private readonly IMoveService _moveService;
         private readonly IZebraPrinterManager _zebraPrinterManager;
         private readonly IUuidManager _uuidManager;
@@ -317,10 +319,11 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public PalletizeViewModel(IPalletizeService palletizeService, IMoveService moveService, INavigationService navigationService, IZebraPrinterManager zebraPrinterManager, IUuidManager uuidManager, ICalcCheckDigitMngr calcCheckDigitMngr)
+        public PalletizeViewModel(IPalletizeService palletizeService, IMoveService moveService, INavigationService navigationService, IZebraPrinterManager zebraPrinterManager, IUuidManager uuidManager, ICalcCheckDigitMngr calcCheckDigitMngr, IPageDialogService dialogService)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _moveService = moveService;
+            _dialogService = dialogService;
             _palletizeService = palletizeService;
             _zebraPrinterManager = zebraPrinterManager;
             _uuidManager = uuidManager;
@@ -587,8 +590,20 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
-                IsCameraVisible = false;
+                if (AddInfoTitle == "Add info" && AddKegs == "Add Kegs")
+                {
+                    await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+                    IsCameraVisible = false;
+                }
+                else
+                {
+                    bool result = await _dialogService.DisplayAlertAsync("Cancel?", "Are you sure you want to cancel?", "Leave", "Stay here");
+                    if (result)
+                    {
+                        await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+                        IsCameraVisible = false;
+                    }
+                }
             }
             catch (Exception ex)
             {
