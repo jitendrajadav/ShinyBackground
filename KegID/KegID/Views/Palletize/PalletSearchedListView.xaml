@@ -73,7 +73,7 @@
 
                                 <Label 
                                     Grid.Row="1"
-                                    LineBreakMode="MiddleTruncation"
+                                    LineBreakMode="TailTruncation"
                                     TextColor="{StaticResource lightGrayColor}" 
                                     Text="{Binding LocationName}" 
                                     FontSize="{StaticResource ListViewDetailFont}"/>

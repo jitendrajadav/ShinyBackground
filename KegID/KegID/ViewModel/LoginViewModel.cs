@@ -32,7 +32,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string UsernamePropertyName = "Username";
 
-        private string _Username = default(string);
+        private string _Username = default;
 
         /// <summary>
         /// Sets and gets the Username property.
@@ -66,7 +66,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string PasswordPropertyName = "Password";
 
-        private string _Password = default(string);
+        private string _Password = default;
 
         /// <summary>
         /// Sets and gets the Password property.
@@ -154,14 +154,13 @@ namespace KegID.ViewModel
             //Password = "beer2keg";
 
             BgImage = _getIconByPlatform.GetIcon("kegbg.png");
-            GetLocation();
         }
 
         #endregion
 
         #region Methods
 
-        private async void GetLocation()
+        private async Task GetLocation()
         {
             try
             {
@@ -189,6 +188,8 @@ namespace KegID.ViewModel
 
         private async void LoginCommandRecieverAsync()
         {
+            await GetLocation();
+
             try
             {
                 Loader.StartLoading();

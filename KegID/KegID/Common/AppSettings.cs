@@ -1,7 +1,4 @@
 ﻿using KegID.Converter;
-using KegID.Extensions;
-using KegID.Model;
-using LinkOS.Plugin.Abstractions;
 using Plugin.Settings;
 using Plugin.Settings.Abstractions;
 using Scandit.BarcodePicker.Unified;
@@ -472,6 +469,7 @@ namespace KegID.Common
         public static void RemoveUserData()
         {
             Settings.Remove(nameof(SessionId));
+            Settings.Clear();
         }
     }
 }

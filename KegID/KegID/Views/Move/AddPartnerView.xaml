@@ -121,7 +121,7 @@
                     Text="{Binding Resources[label_shipping_address]}"/>
 
                 <Label
-                    LineBreakMode="MiddleTruncation"
+                    LineBreakMode="TailTruncation"
                     Margin="10"
                     x:Name="lblShipigAddress"
                     Grid.Row="6"
@@ -143,7 +143,7 @@
                     Text="{Binding Resources[label_billing_address]}"/>
 
                 <Label
-                    LineBreakMode="MiddleTruncation"
+                    LineBreakMode="TailTruncation"
                     Margin="10"
                     x:Name="lblBillingAddress"
                     Style="{StaticResource LabelNormalStyle}"

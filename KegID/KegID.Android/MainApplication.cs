@@ -17,6 +17,5 @@ namespace KegID.Droid
             base.OnCreate();
             CrossCurrentActivity.Current.Init(this);
         }
-
     }
 }

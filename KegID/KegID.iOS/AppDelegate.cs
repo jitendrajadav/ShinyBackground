@@ -1,6 +1,5 @@
 ﻿using CarouselView.FormsPlugin.iOS;
 using Foundation;
-using KegID.iOS.DependencyServices;
 using KegID.iOS.Services;
 using KegID.Messages;
 using Microsoft.AppCenter.Crashes;
@@ -10,6 +9,8 @@ using Prism.Ioc;
 using System;
 using UIKit;
 using Xamarin.Forms;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Distribute;
 
 namespace KegID.iOS
 {
@@ -45,6 +46,9 @@ namespace KegID.iOS
             Rg.Plugins.Popup.Popup.Init();
             TintedImageRenderer.Init();
             UIApplication.SharedApplication.SetMinimumBackgroundFetchInterval(UIApplication.BackgroundFetchIntervalMinimum);
+
+            Distribute.DontCheckForUpdatesInDebug();
+            //AppCenter.Start("{Your Xamarin iOS App Secret}", typeof(Distribute));
 
             try
             {

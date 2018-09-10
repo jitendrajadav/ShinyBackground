@@ -290,7 +290,15 @@ namespace KegID.ViewModel
                 Barcode = string.Format(" Barcode {0} ", _barcode.Barcode);
                 //AltBarcode = _barcode.Barcode;
                 Ownername = _barcode?.Kegs?.Partners?.FirstOrDefault()?.FullName;
-                Size = _barcode?.Tags[3]?.Value;
+                try
+                {
+                    Size = _barcode?.Tags[3]?.Value;
+                }
+                catch (Exception ex)
+                {
+                    Size = _barcode?.Kegs.Sizes.FirstOrDefault();
+                    Crashes.TrackError(ex);
+                }
                 Contents = _barcode.Contents;
                 Batch = _barcode.Kegs.Batches.FirstOrDefault();
                 Location = _barcode.Kegs.Locations.FirstOrDefault().Name;

@@ -13,7 +13,9 @@ using Prism.Plugin.Popups;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net.Http;
 using Scandit.BarcodePicker.Unified;
-using Xamarin.Essentials;
+using Microsoft.AppCenter.Distribute;
+using System;
+using System.Threading.Tasks;
 
 namespace KegID
 {
@@ -46,11 +48,12 @@ namespace KegID
 
             ScanditService.ScanditLicense.AppKey = appKey;
 
-            Geolocation.GetLocationAsync();
             kegIDClient = serviceProvider.GetService<KegIDClient>();
 
             if (!string.IsNullOrEmpty(AppSettings.SessionId))
+            {
                 NavigationService.NavigateAsync(nameof(KegID.MainPage));
+            }
             else
                 NavigationService.NavigateAsync(nameof(LoginView));
         }
@@ -144,11 +147,15 @@ namespace KegID
 
         protected override void OnStart()
         {
+            Distribute.SetEnabledAsync(true);
+            // In this example OnReleaseAvailable is a method name in same class
+            Distribute.ReleaseAvailable = OnReleaseAvailable;
+
             //AppCenter.LogLevel = LogLevel.Verbose;
             AppCenter.Start("uwp=0404c586-124c-4b55-8848-910689b6881b;" +
                    "android=31ceef42-fd24-49d3-8e7e-21f144355dde;" +
                    "ios=b80b8476-04cf-4fc3-b7f7-be06ba7f2213",
-                   typeof(Analytics), typeof(Crashes));
+                   typeof(Analytics), typeof(Crashes), typeof(Distribute));
         }
 
         protected override void OnSleep ()
@@ -160,6 +167,47 @@ namespace KegID
         protected override void OnResume ()
 		{
             // Handle when your app resumes
+        }
+
+        private bool OnReleaseAvailable(ReleaseDetails releaseDetails)
+        {
+            // Look at releaseDetails public properties to get version information, release notes text or release notes URL
+            string versionName = releaseDetails.ShortVersion;
+            string versionCodeOrBuildNumber = releaseDetails.Version;
+            string releaseNotes = releaseDetails.ReleaseNotes;
+            Uri releaseNotesUrl = releaseDetails.ReleaseNotesUrl;
+
+            // custom dialog
+            var title = "Version " + versionName + " available!";
+            Task answer;
+
+            // On mandatory update, user cannot postpone
+            if (releaseDetails.MandatoryUpdate)
+            {
+                answer = Current.MainPage.DisplayAlert(title, releaseNotes, "Download and Install");
+            }
+            else
+            {
+                answer = Current.MainPage.DisplayAlert(title, releaseNotes, "Download and Install", "Maybe tomorrow...");
+            }
+            answer.ContinueWith((task) =>
+            {
+                // If mandatory or if answer was positive
+                if (releaseDetails.MandatoryUpdate || (task as Task<bool>).Result)
+                {
+                    // Notify SDK that user selected update
+                    Distribute.NotifyUpdateAction(UpdateAction.Update);
+                }
+                else
+                {
+                    // Notify SDK that user selected postpone (for 1 day)
+                    // Note that this method call is ignored by the SDK if the update is mandatory
+                    Distribute.NotifyUpdateAction(UpdateAction.Postpone);
+                }
+            });
+
+            // Return true if you are using your own dialog, false otherwise
+            return true;
         }
     }
 }

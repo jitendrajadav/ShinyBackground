@@ -1,9 +1,11 @@
 ﻿using Acr.UserDialogs;
+using Android;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.V4.App;
 using Android.Views;
 using CarouselView.FormsPlugin.Android;
 using KegID.Droid.Services;
@@ -13,6 +15,8 @@ using Plugin.CrossPlatformTintedImage.Android;
 using Plugin.CurrentActivity;
 using Prism;
 using Prism.Ioc;
+using System;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace KegID.Droid
@@ -22,6 +26,13 @@ namespace KegID.Droid
     {
         private static Activity myActivity;
 
+        // Storage Permissions
+        private static readonly int REQUEST_EXTERNAL_STORAGE = 1;
+        private static readonly string[] PERMISSIONS_STORAGE =
+            {
+                Manifest.Permission.ReadExternalStorage,
+                Manifest.Permission.WriteExternalStorage
+            };
         protected override void OnCreate(Bundle bundle)
         {
             base.Window.RequestFeature(WindowFeatures.ActionBar);
@@ -46,11 +57,12 @@ namespace KegID.Droid
             TintedImageRenderer.Init();
             Xamarin.Essentials.Platform.Init(this, bundle);
             CrossCurrentActivity.Current.Init(this, bundle);
+
             try
             {
                 LoadApplication(new App(new AndroidInitializer()));
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 Crashes.TrackError(ex);
             }
@@ -77,10 +89,35 @@ namespace KegID.Droid
             });
         }
 
+        protected async override void OnStart()
+        {
+            base.OnStart();
+            bool resutl = await VerifyStoragePermissions();
+        }
+
+        public Task<bool> VerifyStoragePermissions()
+        {
+            // Check if we have write permission
+            Permission permission = Android.Support.V4.Content.ContextCompat.CheckSelfPermission(CrossCurrentActivity.Current.AppContext, Manifest.Permission.WriteExternalStorage);
+
+            if (permission != Permission.Granted)
+            {
+                // We don't have permission so prompt the user
+                ActivityCompat.RequestPermissions(CrossCurrentActivity.Current.Activity,
+                        PERMISSIONS_STORAGE,
+                        REQUEST_EXTERNAL_STORAGE
+                );
+                return Task.FromResult(true);
+            }
+            else
+            {
+                return Task.FromResult(false);
+            }
+        }
+
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
         {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 

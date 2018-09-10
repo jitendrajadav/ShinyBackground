@@ -146,7 +146,7 @@
                 Grid.Row="6"/>
 
             <Label
-                LineBreakMode="MiddleTruncation"
+                LineBreakMode="TailTruncation"
                 x:Name="lblTagsStr"
                 HorizontalTextAlignment="Start"
                 HorizontalOptions="Start"

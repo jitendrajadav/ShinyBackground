@@ -33,7 +33,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string ManifestIdPropertyName = "ManifestId";
 
-        private string _ManifestId = default(string);
+        private string _ManifestId = default;
 
         /// <summary>
         /// Sets and gets the ManifestId property.
@@ -67,7 +67,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string StockLocationPropertyName = "StockLocation";
 
-        private string _StockLocation = default(string);
+        private string _StockLocation = default;
 
         /// <summary>
         /// Sets and gets the StockLocation property.
@@ -101,7 +101,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string PartnerTypeNamePropertyName = "PartnerTypeName";
 
-        private string _PartnerTypeName = default(string);
+        private string _PartnerTypeName = default;
 
         /// <summary>
         /// Sets and gets the PartnerTypeName property.
@@ -169,7 +169,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string TargetLocationPropertyName = "TargetLocation";
 
-        private string _TargetLocation = default(string);
+        private string _TargetLocation = default;
 
         /// <summary>
         /// Sets and gets the TargetLocation property.

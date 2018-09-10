@@ -59,8 +59,14 @@
 			<array>
 				<string>support.kegid.com</string>
 			</array>
-			<key>CFBundleURLTypes</key>
-			<string>Viewer</string>
+		</dict>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>appcenterURL</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>appcenter-b80b8476-04cf-4fc3-b7f7-be06ba7f2213</string>
+			</array>
 		</dict>
 	</array>
 	<key>NSLocationWhenInUseUsageDescription</key>
