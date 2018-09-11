@@ -9,7 +9,6 @@ using Prism.Ioc;
 using System;
 using UIKit;
 using Xamarin.Forms;
-using Microsoft.AppCenter;
 using Microsoft.AppCenter.Distribute;
 
 namespace KegID.iOS

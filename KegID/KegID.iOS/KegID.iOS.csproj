@@ -53,7 +53,7 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <MtouchArch>ARM64</MtouchArch>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignKey>iPhone Developer: jitendra.jadav@slg.com (3SGCHM877Y)</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
     <CodesignEntitlements>
     </CodesignEntitlements>
@@ -125,24 +125,12 @@
       <SubType>Designer</SubType>
     </None>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <BundleResource Include="Resources\AppCenterDistribute.bundle\Root.plist" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Default-568h%402x.png" />
-    <BundleResource Include="Resources\Default-Portrait.png" />
-    <BundleResource Include="Resources\Default-Portrait%402x.png" />
     <BundleResource Include="Resources\Default.png" />
-    <BundleResource Include="Resources\Default%402x.png" />
     <BundleResource Include="Resources\Icon-60%402x.png" />
     <BundleResource Include="Resources\Icon-60%403x.png" />
-    <BundleResource Include="Resources\Icon-76.png" />
-    <BundleResource Include="Resources\Icon-76%402x.png" />
-    <BundleResource Include="Resources\Icon-Small-40.png" />
-    <BundleResource Include="Resources\Icon-Small-40%402x.png" />
-    <BundleResource Include="Resources\Icon-Small-40%403x.png" />
-    <BundleResource Include="Resources\Icon-Small.png" />
-    <BundleResource Include="Resources\Icon-Small%402x.png" />
-    <BundleResource Include="Resources\Icon-Small%403x.png" />
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
   </ItemGroup>
   <ItemGroup>
@@ -469,24 +457,25 @@
     </BundleResource>
     <BundleResource Include="Resources\palletprintnew.xslt" />
     <BundleResource Include="Resources\repairmanifestprint.xslt" />
+    <BundleResource Include="Resources\KegID Splash750x1334.png" />
   </ItemGroup>
   <ItemGroup>
-    <ImageAsset Include="Media.xcassets\AppIcons.appiconset\Contents.json">
+    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Media.xcassets\AppIcons.appiconset\Icon-60@2x.png">
+    <ImageAsset Include="Assets.xcassets\Images.imageset\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Media.xcassets\AppIcons.appiconset\Icon-60@3x.png">
+    <ImageAsset Include="Assets.xcassets\Images.imageset\Default.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Media.xcassets\LaunchImages.launchimage\Contents.json">
+    <ImageAsset Include="Assets.xcassets\Images.imageset\Default1.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Media.xcassets\LaunchImages.launchimage\Default-568h@2x.png">
+    <ImageAsset Include="Assets.xcassets\Images.imageset\Default2.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Media.xcassets\LaunchImages.launchimage\Default@2x.png">
+    <ImageAsset Include="Assets.xcassets\LaunchImages.launchimage\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>
   </ItemGroup>
