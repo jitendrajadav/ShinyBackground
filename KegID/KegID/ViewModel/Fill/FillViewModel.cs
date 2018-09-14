@@ -529,7 +529,10 @@ namespace KegID.ViewModel
                         {
                             { "AddPalletsTitle", "Filling " + SizeButtonTitle + " kegs with " + BatchButtonTitle + "\n" + DestinationTitle },
                             {"PalletCollection",PalletCollection },
-                            {"ManifestId",ManifestId }
+                            {"ManifestId",ManifestId },
+                            {"PartnerModel",PartnerModel },
+                            {"NewBatchModel",NewBatchModel },
+                            {"SizeButtonTitle",SizeButtonTitle }
                         }, useModalNavigation: true, animated: false);
                     }
                     else

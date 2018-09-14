@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using KegID.LocalDb;
 using KegID.Messages;
@@ -510,6 +511,7 @@ namespace KegID.ViewModel
                     else
                     {
                         BarcodeCollection.Clear();
+
                         barCode = GenerateBatchId(ref prefix, lastCharOfYear, dayOfYear, secondsInDayTillNow, millisecond);
                     }
                 }
@@ -838,11 +840,13 @@ namespace KegID.ViewModel
                     await NavigateToValidatePartner(BarcodeCollection.Where(x => x?.Kegs?.Partners?.Count > 1).ToList());
                 else
                 {
-                    new Task(new Action(() =>
-                                {
-                                    PrintPallet();
-                                }
-                                )).Start();
+                    try
+                    {
+                        PrintPallet();
+                    }
+                    catch (Exception)
+                    {
+                    }
 
                     await _navigationService.GoBackAsync(new NavigationParameters
                                     {
@@ -855,6 +859,7 @@ namespace KegID.ViewModel
                 Crashes.TrackError(ex);
             }
         }
+
         public void PrintPallet()
         {
             try
@@ -863,8 +868,10 @@ namespace KegID.ViewModel
                                     "1", "", "", "", "", "", "", "", "", "",
                                     "", "", "", "", "", "", "", "", "", "",
                                     "", BatchId, BatchId);
-
-                _zebraPrinterManager.SendZplPalletAsync(header,ConstantManager.IsIPAddr,ConstantManager.IPAddr);
+                new Thread(() =>
+                {
+                    _zebraPrinterManager.SendZplPalletAsync(header,ConstantManager.IsIPAddr,ConstantManager.IPAddr);
+                }).Start();
             }
             catch (Exception ex)
             {
@@ -1049,6 +1056,15 @@ namespace KegID.ViewModel
                     break;
                 case "GenerateManifestIdAsync":
                     GenerateManifestIdAsync(null);
+                    try
+                    {
+                        BatchModel = parameters.GetValue<NewBatch>("NewBatchModel");
+                        SizeButtonTitle = parameters.GetValue<string>("SizeButtonTitle");
+                        PartnerModel = parameters.GetValue<PartnerModel>("PartnerModel");
+                    }
+                    catch (Exception)
+                    {
+                    }
                     break;
                 case "models":
                     AssignBarcodeScannerValue(parameters.GetValue<IList<BarcodeModel>>("models"));

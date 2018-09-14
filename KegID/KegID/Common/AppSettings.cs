@@ -462,7 +462,7 @@ namespace KegID.Common
 
         public static string FriendlyLbl
         {
-            get => Settings.GetValueOrDefault(nameof(FriendlyLbl), string.Empty);
+            get => Settings.GetValueOrDefault(nameof(FriendlyLbl), "Select printer");
             set => Settings.AddOrUpdateValue(nameof(FriendlyLbl), value);
         }
 

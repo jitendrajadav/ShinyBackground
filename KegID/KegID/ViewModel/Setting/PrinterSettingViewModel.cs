@@ -22,7 +22,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string SelectedPrinterPropertyName = "SelectedPrinter";
 
-        private string _SelectedPrinter = "";
+        private string _SelectedPrinter = "Select printer";
 
         /// <summary>
         /// Sets and gets the SelectedPrinter property.
@@ -91,7 +91,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string IpAddressPropertyName = "IpAddress";
 
-        private string _IpAddress = default(string);
+        private string _IpAddress = default;
 
         /// <summary>
         /// Sets and gets the IpAddress property.
@@ -126,7 +126,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string PortPropertyName = "Port";
 
-        private string _Port = default(string);
+        private string _Port = default;
 
         /// <summary>
         /// Sets and gets the Port property.

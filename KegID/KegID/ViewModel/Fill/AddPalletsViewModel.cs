@@ -28,6 +28,9 @@ namespace KegID.ViewModel
         private readonly IManifestManager _manifestManager;
         private readonly IUuidManager _uuidManager;
         public string ManifestId { get; set; }
+        public NewBatch BatchModel { get; private set; }
+        public string SizeButtonTitle { get; private set; }
+        public PartnerModel PartnerModel { get; private set; }
 
         #region AddPalletsTitle
 
@@ -428,7 +431,10 @@ namespace KegID.ViewModel
             {
                 await _navigationService.NavigateAsync(new Uri("FillScanView", UriKind.Relative), new NavigationParameters
                     {
-                        { "GenerateManifestIdAsync", "GenerateManifestIdAsync" }
+                        { "GenerateManifestIdAsync", "GenerateManifestIdAsync" },
+                        {"PartnerModel",PartnerModel },
+                            {"NewBatchModel",BatchModel },
+                            {"SizeButtonTitle",SizeButtonTitle }
                     }, useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
@@ -538,6 +544,10 @@ namespace KegID.ViewModel
             {
                 AddPalletsTitle = parameters.GetValue<string>("AddPalletsTitle");
                 ManifestId = parameters.GetValue<string>("ManifestId");
+                BatchModel = parameters.GetValue<NewBatch>("NewBatchModel");
+                SizeButtonTitle = parameters.GetValue<string>("SizeButtonTitle");
+                PartnerModel = parameters.GetValue<PartnerModel>("PartnerModel");
+
                 if (parameters.GetValue<IList<PalletModel>>("PalletCollection") != null)
                 {
                     PalletCollection = new ObservableCollection<PalletModel>(parameters.GetValue<IList<PalletModel>>("PalletCollection"));
