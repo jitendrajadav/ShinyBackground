@@ -458,25 +458,8 @@
     <BundleResource Include="Resources\palletprintnew.xslt" />
     <BundleResource Include="Resources\repairmanifestprint.xslt" />
     <BundleResource Include="Resources\KegID Splash750x1334.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Contents.json">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\Images.imageset\Contents.json">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\Images.imageset\Default.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\Images.imageset\Default1.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\Images.imageset\Default2.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\LaunchImages.launchimage\Contents.json">
-      <Visible>false</Visible>
-    </ImageAsset>
+    <BundleResource Include="Resources\KegID Splash1536-1.png" />
+    <BundleResource Include="Resources\KegID Splash1536.png" />
+    <BundleResource Include="Resources\KegID Splash640x1136-1.png" />
   </ItemGroup>
 </Project>

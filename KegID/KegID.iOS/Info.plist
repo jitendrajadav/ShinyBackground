@@ -21,22 +21,21 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>MinimumOSVersion</key>
-	<string>10.3</string>
+	<string>8.0</string>
 	<key>CFBundleDisplayName</key>
 	<string>KegID</string>
 	<key>CFBundleIdentifier</key>
 	<string>KegIDBeta</string>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
-	<key>CFBundleIconFiles</key>
-	<array>
+  <key>UILaunchStoryboardName</key>
+  <string>LaunchScreen</string>
+  <key>CFBundleIconFiles</key>
+  <array>
 		<string>Icon-60@2x</string>
 		<string>Icon-60@3x</string>
-		<string>Default@2x</string>
-		<string>Default-568h@2x</string>
+		<string>Default</string>
 	</array>
-	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
 	<key>CFBundleName</key>
 	<string>KegID</string>
 	<key>CFBundleURLTypes</key>
@@ -86,7 +85,7 @@
 		<string>com.demo.data</string>
 		<string>com.zebra.rawport</string>
 	</array>
-	<key>XSAppIconAssets</key>
-	<string>Resources/Media.xcassets/AppIcons.appiconset</string>
+	<!--<key>XSAppIconAssets</key>
+	<string>Resources/Media.xcassets/AppIcons.appiconset</string>-->
 </dict>
 </plist>
