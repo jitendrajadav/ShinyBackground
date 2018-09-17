@@ -7,7 +7,7 @@ namespace KegID.Services
     {
         String PalletHeader { get; set; }
         String TestPrint { get; set; }
-        void SendZplPalletAsync(string header, bool IsIpAddr, string ipAddr);
+        void SendZplPalletAsync(string header, string ipAddr);
         bool CheckPrinterLanguage(IConnection connection);
         bool PreCheckPrinterStatus(IZebraPrinter printer);
     }

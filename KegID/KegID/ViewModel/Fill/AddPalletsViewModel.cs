@@ -443,7 +443,7 @@ namespace KegID.ViewModel
             }
         }
 
-        internal async Task AssignValueToAddPalletAsync(string _batchId, IList<BarcodeModel> barcodes)
+        internal void AssignValueToAddPalletAsync(string _batchId, IList<BarcodeModel> barcodes)
         {
             try
             {
@@ -458,7 +458,7 @@ namespace KegID.ViewModel
                     PalletCollection.Where(x => x.BatchId == _batchId).FirstOrDefault().Count = barcodes.Count;
                     CountKegs();
                 }
-                await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+                //await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {
@@ -560,7 +560,7 @@ namespace KegID.ViewModel
             }
         }
 
-        public async override void OnNavigatingTo(INavigationParameters parameters)
+        public override void OnNavigatingTo(INavigationParameters parameters)
         {
             switch (parameters.Keys.FirstOrDefault())
             {
@@ -574,7 +574,7 @@ namespace KegID.ViewModel
                     SubmitCommandRecieverAsync();
                     break;
                 case "AssignValueToAddPalletAsync":
-                    await AssignValueToAddPalletAsync(parameters.GetValue<string>("AssignValueToAddPalletAsync"), parameters.GetValue<IList<BarcodeModel>>("BarcodesCollection"));
+                    AssignValueToAddPalletAsync(parameters.GetValue<string>("AssignValueToAddPalletAsync"), parameters.GetValue<IList<BarcodeModel>>("BarcodesCollection"));
                     break;
                 default:
                     break;

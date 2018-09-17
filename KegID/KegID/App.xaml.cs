@@ -16,6 +16,7 @@ using Scandit.BarcodePicker.Unified;
 using Microsoft.AppCenter.Distribute;
 using System;
 using System.Threading.Tasks;
+using LinkOS.Plugin.Abstractions;
 
 namespace KegID
 {
@@ -164,9 +165,9 @@ namespace KegID
             AppSettings.IsFreshInstall = false;
         }
 
-        protected override void OnResume ()
-		{
-            // Handle when your app resumes
+        protected override void OnResume()
+        {
+
         }
 
         private bool OnReleaseAvailable(ReleaseDetails releaseDetails)

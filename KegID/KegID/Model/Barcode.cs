@@ -17,7 +17,7 @@ namespace KegID.Model
         /// </summary>
         public const string IconPropertyName = "Icon";
 
-        private string _Icon = default(string);
+        private string _Icon = default;
 
         /// <summary>
         /// Sets and gets the Icon property.

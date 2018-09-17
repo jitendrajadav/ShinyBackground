@@ -1,4 +1,5 @@
 ﻿using KegID.Model;
+using LinkOS.Plugin;
 using LinkOS.Plugin.Abstractions;
 using System.Collections.Generic;
 
@@ -9,7 +10,7 @@ namespace KegID.Services
         public static Xamarin.Essentials.Location Location { get; set; }
         public static IDiscoveredPrinter PrinterSetting { get; set; }
         public static string IPAddr { get; set; }
-        public static bool IsIPAddr { get; set; }
+        //public static bool IsIPAddr { get; set; }
         //public static string SelectedPrinter { get; set; } = "No printers found";
         public static LocationInfo Position { get; set; }
         public static bool IsFromScanned { get; set; }

@@ -5,6 +5,7 @@ using KegID.Services;
 using Prism.Commands;
 using Prism.Navigation;
 using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
@@ -77,7 +78,7 @@ namespace KegID.ViewModel
                 }
 
                 _IsBluetoothOn = value;
-                ConstantManager.IsIPAddr = !_IsBluetoothOn;
+                AppSettings.IsBluetoothOn = _IsBluetoothOn;
                 RaisePropertyChanged(IsBluetoothOnPropertyName);
             }
         }
@@ -386,6 +387,7 @@ namespace KegID.ViewModel
         #endregion
 
         #region Methods
+
         private async void SelectPrinterCommandRecieverAsync()
         {
             await _navigationService.NavigateAsync(new Uri("SelectPrinterView", UriKind.Relative), useModalNavigation: true, animated: false);
@@ -395,7 +397,7 @@ namespace KegID.ViewModel
         {
             new Task(new Action(() =>
             {
-                _zebraPrinterManager.SendZplPalletAsync(_zebraPrinterManager.TestPrint, IsBluetoothOn, IpAddress);
+                _zebraPrinterManager.SendZplPalletAsync(_zebraPrinterManager.TestPrint, IpAddress);
             })).Start();
         }
 
@@ -416,7 +418,6 @@ namespace KegID.ViewModel
             AppSettings.PrintEveryPallet = PrintEveryPallet;
             AppSettings.PalletLabelCopies = PalletLabelCopies;
             AppSettings.BeepOnValidScans = BeepOnValidScans;
-            AppSettings.IsBluetoothOn = IsBluetoothOn;
             AppSettings.IpAddress = IpAddress;
             AppSettings.Port = Port;
             AppSettings.FriendlyLbl = SelectedPrinter;
@@ -437,9 +438,15 @@ namespace KegID.ViewModel
         public override void OnNavigatingTo(INavigationParameters parameters)
         {
             if (parameters.ContainsKey("friendlyLbl"))
+            {
                 SelectedPrinter = parameters.GetValue<string>("friendlyLbl");
+                AppSettings.FriendlyLbl = SelectedPrinter;
+                AppSettings.PrinterAddress = ConstantManager.PrinterSetting.Address;
+            }
             else
+            {
                 SelectedPrinter = "No printers found";
+            }
 
             AssignPrintingSetting();
         }

@@ -290,12 +290,12 @@ namespace KegID.Services
             _dialogService = dialogService;
         }
 
-        public void SendZplPalletAsync(string header,bool IsIpAddr, string ipAddr)
+        public void SendZplPalletAsync(string header, string ipAddr)
         {
             IConnection connection = null;
             try
             {
-                if (IsIpAddr)
+                if (!string.IsNullOrEmpty(ipAddr))
                 {
                     connection = ConnectionBuilder.Current.Build("TCP:" + ipAddr + ":9100"); 
                 }

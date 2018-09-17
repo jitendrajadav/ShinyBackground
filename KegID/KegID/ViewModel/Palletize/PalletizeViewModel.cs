@@ -492,7 +492,7 @@ namespace KegID.ViewModel
                                      "", ManifestId, ManifestId);
                 new Thread(() =>
                 {
-                    _zebraPrinterManager.SendZplPalletAsync(header, ConstantManager.IsIPAddr, ConstantManager.IPAddr);
+                    _zebraPrinterManager.SendZplPalletAsync(header, ConstantManager.IPAddr);
 
              }).Start();
 

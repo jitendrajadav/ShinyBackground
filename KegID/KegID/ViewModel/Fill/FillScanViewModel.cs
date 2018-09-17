@@ -785,52 +785,8 @@ namespace KegID.ViewModel
                     Crashes.TrackError(ex);
                 }
             }
-
-            #region Old Code
-            //List<BarcodeModel> result = new List<BarcodeModel>();
-            //try
-            //{
-            //    try
-            //    {
-            //        if (BarcodeCollection.Any(x => x?.Kegs?.Partners?.Count > 1))
-            //            await NavigateToValidatePartner(BarcodeCollection.Where(x => x?.Kegs?.Partners?.Count > 1).ToList());
-            //        else
-            //        {
-            //            new Task(new Action(() =>
-            //            {
-            //                PrintPallet();
-            //            }
-            //            )).Start();
-
-            //            try
-            //            {
-            //                ConstantManager.Barcodes = BarcodeCollection;
-            //                ConstantManager.Tags = Tags;
-
-            //                var formsNav = ((Prism.Common.IPageAware)_navigationService).Page;
-            //                var page = formsNav.Navigation.ModalStack[formsNav.Navigation.ModalStack.Count - 2];
-            //                (page?.BindingContext as INavigationAware)?.OnNavigatingTo(new NavigationParameters
-            //            {
-            //                { "AssignValueToAddPalletAsync", BatchId }, { "BarcodesCollection", BarcodeCollection },
-            //            });
-            //            }
-            //            catch (Exception)
-            //            {
-
-            //            }
-            //        }
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        Crashes.TrackError(ex);
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    Crashes.TrackError(ex);
-            //} 
-            #endregion
         }
+
         private async Task NavigateNextPage()
         {
             try
@@ -870,7 +826,7 @@ namespace KegID.ViewModel
                                     "", BatchId, BatchId);
                 new Thread(() =>
                 {
-                    _zebraPrinterManager.SendZplPalletAsync(header,ConstantManager.IsIPAddr,ConstantManager.IPAddr);
+                    _zebraPrinterManager.SendZplPalletAsync(header, ConstantManager.IPAddr);
                 }).Start();
             }
             catch (Exception ex)

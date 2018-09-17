@@ -1,8 +1,12 @@
 ﻿using KegID.Common;
+using KegID.DependencyServices;
 using KegID.LocalDb;
 using KegID.Messages;
 using KegID.Model;
 using KegID.Services;
+using KegID.Views;
+using LinkOS.Plugin;
+using LinkOS.Plugin.Abstractions;
 using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
@@ -10,6 +14,7 @@ using Realms;
 using System;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -342,11 +347,87 @@ namespace KegID.ViewModel
                 DeviceCheckIn();
                 return true; // True = Repeat again, False = Stop the timer
             });
+
+            StartPrinterSearch();
         }
 
         #endregion
 
         #region Methods
+
+        private void StartPrinterSearch()
+        {
+            new Task(new Action(() =>
+            {
+                StartBluetoothDiscovery();
+            })).Start();
+        }
+
+        ConnectionType connetionType;
+
+        private void StartBluetoothDiscovery()
+        {
+            IDiscoveryEventHandler bthandler = DiscoveryHandlerFactory.Current.GetInstance();
+            bthandler.OnDiscoveryError += DiscoveryHandler_OnDiscoveryError;
+            bthandler.OnDiscoveryFinished += DiscoveryHandler_OnDiscoveryFinished;
+            bthandler.OnFoundPrinter += DiscoveryHandler_OnFoundPrinter;
+            connetionType = ConnectionType.Bluetooth;
+            System.Diagnostics.Debug.WriteLine("Starting Bluetooth Discovery");
+            DependencyService.Get<IPrinterDiscovery>().FindBluetoothPrinters(bthandler);
+        }
+
+        private void DiscoveryHandler_OnFoundPrinter(object sender, IDiscoveredPrinter discoveredPrinter)
+        {
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                if (discoveredPrinter.Address == AppSettings.PrinterAddress)
+                {
+                    ConstantManager.PrinterSetting = discoveredPrinter;
+                }
+            });
+        }
+
+        private void StartNetworkDiscovery()
+        {
+            try
+            {
+                IDiscoveryEventHandler nwhandler = DiscoveryHandlerFactory.Current.GetInstance();
+                nwhandler.OnDiscoveryError += DiscoveryHandler_OnDiscoveryError;
+                nwhandler.OnDiscoveryFinished += DiscoveryHandler_OnDiscoveryFinished;
+                nwhandler.OnFoundPrinter += DiscoveryHandler_OnFoundPrinter;
+                connetionType = ConnectionType.Network;
+                System.Diagnostics.Debug.WriteLine("Starting Network Discovery");
+                NetworkDiscoverer.Current.LocalBroadcast(nwhandler);
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine("Network Exception: " + e.Message);
+            }
+        }
+
+        private void DiscoveryHandler_OnDiscoveryFinished(object sender)
+        {
+            if (connetionType == ConnectionType.USB)
+            {
+                StartBluetoothDiscovery();
+            }
+            else if (connetionType == ConnectionType.Bluetooth)
+            {
+                StartNetworkDiscovery();
+            }
+        }
+
+        private void DiscoveryHandler_OnDiscoveryError(object sender, string message)
+        {
+            if (connetionType == ConnectionType.USB)
+            {
+                StartBluetoothDiscovery();
+            }
+            else if (connetionType == ConnectionType.Bluetooth)
+            {
+                StartNetworkDiscovery();
+            }
+        }
 
         private void HandleUnsubscribeMessages()
         {

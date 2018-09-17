@@ -19,6 +19,8 @@ namespace KegID.Common
 
         // Mobile Center
         private const string DefaultMobileCenterAnalyticsAndroid = "YOUR_APPCENTER_ANDROID_ANALYTICS_ID";
+
+
         private const string DefaultMobileCenterAnalyticsIos = "YOUR_APPCENTER_IOS_ANALYTICS_ID";
         private const string DefaultMobileCenterAnalyticsWindows = "YOUR_APPCENTER_WINDOWS_ANALYTICS_ID";
 
@@ -172,7 +174,7 @@ namespace KegID.Common
             Settings.AddOrUpdateValue(setting, value);
         }
 
-        private static Double defaultDouble(string setting)
+        private static double defaultDouble(string setting)
         {
             switch (setting)
             {
@@ -458,6 +460,12 @@ namespace KegID.Common
         {
             get => Settings.GetValueOrDefault(nameof(Port), string.Empty);
             set => Settings.AddOrUpdateValue(nameof(Port), value);
+        }
+
+        public static string PrinterAddress
+        {
+            get => Settings.GetValueOrDefault(nameof(PrinterAddress), string.Empty);
+            set => Settings.AddOrUpdateValue(nameof(PrinterAddress), value);
         }
 
         public static string FriendlyLbl

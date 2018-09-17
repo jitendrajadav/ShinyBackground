@@ -17,6 +17,17 @@ namespace KegID.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class SelectPrinterView : ContentPage
 	{
+
+        public delegate void PrinterSelectedHandler(IDiscoveredPrinter printer);
+        public static event PrinterSelectedHandler OnPrinterSelected;
+        public delegate void MainPageHandler();
+
+        ObservableCollection<IDiscoveredPrinter> printerList;
+        ListView printerLv;
+        ConnectionType connetionType;
+        Label statusLbl;
+        Label friendlyLbl;
+
         public SelectPrinterView ()
 		{
 			InitializeComponent ();
@@ -74,18 +85,9 @@ namespace KegID.Views
             {
                 Children = { topSection, printerLv }
             };
+
             StartSearch();
         }
-
-        public delegate void PrinterSelectedHandler(IDiscoveredPrinter printer);
-        public static event PrinterSelectedHandler OnPrinterSelected;
-        public delegate void MainPageHandler();
-
-        ObservableCollection<IDiscoveredPrinter> printerList;
-        ListView printerLv;
-        ConnectionType connetionType;
-        Label statusLbl;
-        Label friendlyLbl;
 
         private void BackBtn_Clicked(object sender, EventArgs e)
         {
@@ -93,6 +95,7 @@ namespace KegID.Views
             //OnBackToMainPage?.Invoke();
             Application.Current.MainPage.Navigation.PopModalAsync();
         }
+
         /// <summary>
         /// Start discovery on all ports.  USB, then Bluetooth, then Network.
         /// </summary>
@@ -103,6 +106,7 @@ namespace KegID.Views
                 StartBluetoothDiscovery();
             })).Start();
         }
+
         private void StartUSBDiscovery()
         {
             OnStatusMessage("Discovering USB Printers");
@@ -237,7 +241,7 @@ namespace KegID.Views
                     FriendlyLbl = friendlyLbl.Text ?? ((IDiscoveredPrinter)e.SelectedItem).Address
                 };
                 MessagingCenter.Send(selectPrinterMsg, "SelectPrinterMsg");
-                ConstantManager.PrinterSetting = ((IDiscoveredPrinter)e.SelectedItem);
+                ConstantManager.PrinterSetting = (IDiscoveredPrinter)e.SelectedItem;
             }
             catch (Exception ex)
             {
