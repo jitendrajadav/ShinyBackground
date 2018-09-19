@@ -8,11 +8,11 @@ namespace KegID.Messages
         public bool AssingValue { get; set; }
     }
 
-    public class SelectPrinterMsg
-    {
-        public IDiscoveredPrinter IDiscoveredPrinter { get; set; }
-        public string FriendlyLbl { get; set; }
-    }
+    //public class SelectPrinterMsg
+    //{
+    //    public IDiscoveredPrinter IDiscoveredPrinter { get; set; }
+    //    public string FriendlyLbl { get; set; }
+    //}
 
     public class PalletToScanKegPagesMsg
     {

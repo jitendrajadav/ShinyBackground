@@ -6,19 +6,15 @@
              Title="Maintenance Items"
              BackgroundColor="{StaticResource pageBGColor}"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
              ios:Page.UseSafeArea="true"
              >
 
     <ContentPage.Content>
        
-        <Grid>
-            <Grid.RowSpacing>
-                <OnPlatform x:TypeArguments="x:Double">
-                    <On Platform="iOS" Value="5" />
-                    <On Platform="Android, WinPhone, Windows" Value="0" />
-                </OnPlatform>
-            </Grid.RowSpacing>
-
+        <Grid
+            RowSpacing="{OnPlatform Android=0,UWP=0,iOS=5}">
+           
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -77,6 +73,7 @@
                         SelectionMode="None"
                         Grid.ColumnSpan="2"
                         SeparatorVisibility="Default"
+                        android:ListView.IsFastScrollEnabled="true"
                         SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
                         HasUnevenRows="True"
                         CachingStrategy="RecycleElement"

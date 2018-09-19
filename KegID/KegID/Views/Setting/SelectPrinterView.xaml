@@ -2,10 +2,92 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="KegID.Views.SelectPrinterView"
+             xmlns:behaviors="clr-namespace:KegID.Behaviors"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
              ios:Page.UseSafeArea="true"
-             >
+             Title="Select a printer">
+    
     <ContentPage.Content>
-        
+        <Grid
+            ColumnSpacing="0"
+            Margin="10,0,10,0">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Button
+                x:Name="lblBack"
+                Style="{StaticResource TopButtonTitleStyle}"
+                HorizontalOptions="Start"
+                Text="{Binding Resources[dialog_print_negative]}"
+                Command="{Binding BackCommand}"
+                />
+            
+            <Label
+                HorizontalOptions="Center"
+                FontSize="Medium"
+                Style="{StaticResource LabelTitleStyle}"
+                Text="{Binding LabelMsg}"
+                />
+            
+            <BoxView
+                Margin="-10,0,-10,0"
+                Grid.Row="1"
+                BackgroundColor="Black"
+                HeightRequest="1"
+                VerticalOptions="Start"
+                HorizontalOptions="FillAndExpand"/>
+
+            <ListView
+                Margin="10,0,10,0"
+                x:Name="lstPrinters"
+                Grid.Row="2"
+                SelectionMode="None"
+                android:ListView.IsFastScrollEnabled="true"
+                VerticalOptions="FillAndExpand"
+                SeparatorVisibility="Default"
+                SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
+                HasUnevenRows="True"
+                CachingStrategy="RecycleElement"
+                ItemsSource="{Binding PrinterList}">
+
+                <ListView.Behaviors>
+                    <behaviors:EventToCommandBehavior
+                        EventName="ItemTapped" 
+                        Command="{Binding ItemTappedCommand}"
+                        Converter="{StaticResource ItemTappedConverter}"/>
+                </ListView.Behaviors>
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell Height="40">
+                            <StackLayout
+                                Orientation="Horizontal"
+                                Spacing="0">
+                                <Label 
+                                    FontAttributes="Bold"
+                                    Text="{Binding Address}"
+                                    LineBreakMode="TailTruncation"
+                                    FontSize="{StaticResource ListViewTitleFont}"/>
+                                
+                                <Label 
+                                    FontAttributes="Bold"
+                                    Text="{Binding FriendlyName}"
+                                    LineBreakMode="TailTruncation"
+                                    FontSize="{StaticResource ListViewTitleFont}"/>
+                                
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+
+            </ListView>
+
+        </Grid>
+
     </ContentPage.Content>
 </ContentPage>

@@ -12,13 +12,8 @@
         <ScrollView>
           
             <Grid
+                RowSpacing="3"
                 Margin="10,0,10,0">
-                <Grid.RowSpacing>
-                    <OnPlatform x:TypeArguments="x:Double">
-                        <On Platform="iOS" Value="3" />
-                        <On Platform="Android, WinPhone, Windows, UWP" Value="3" />
-                    </OnPlatform>
-                </Grid.RowSpacing>
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>

@@ -23,26 +23,17 @@
             <Image
                 HorizontalOptions="Center"
                 VerticalOptions="Start"
+                Margin="40"
                 BackgroundColor="Transparent">
-                <Image.Margin>
+                <!--<Image.Margin>
                     <OnPlatform x:TypeArguments="Thickness">
                         <On Platform="iOS" Value="40" />
                         <On Platform="Android, WinPhone, Windows, UWP" Value="40,0,40,40" />
                     </OnPlatform>
-                </Image.Margin>
+                </Image.Margin>-->
 
                 <Image.Source>
-                    <OnPlatform x:TypeArguments="ImageSource">
-                        <On Platform="iOS">
-                            <FileImageSource File="kegidlogo.png"/>
-                        </On>
-                        <On Platform="Android">
-                            <FileImageSource File="kegidlogo.png"/>
-                        </On>
-                        <On Platform="UWP">
-                            <FileImageSource File="Assets/kegidlogo.png"/>
-                        </On>
-                    </OnPlatform>
+                    <FileImageSource File="{OnPlatform Android=kegidlogo.png,iOS=kegidlogo.png, UWP=Assets/kegidlogo.png }"/>
                 </Image.Source>
             </Image>
 

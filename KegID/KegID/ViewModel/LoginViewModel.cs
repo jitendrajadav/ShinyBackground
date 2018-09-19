@@ -271,6 +271,7 @@ namespace KegID.ViewModel
             {
                 IsLogOut = true;
                 AppSettings.RemoveUserData();
+                AppSettings.IsFreshInstall = false;
             }
             else
                 IsLogOut = false;

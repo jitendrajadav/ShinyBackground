@@ -4,6 +4,7 @@
              x:Class="KegID.Views.KegsView"
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
              BackgroundColor="{StaticResource pageBGColor}"
+             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              ios:Page.UseSafeArea="true"
              >
@@ -50,6 +51,7 @@
                 x:Name="lstBarcode"
                 Grid.Row="2"
                 SelectionMode="None"
+                android:ListView.IsFastScrollEnabled="true"
                 VerticalOptions="FillAndExpand"
                 SeparatorVisibility="Default"
                 SeparatorColor="{StaticResource lightGrayPlaceholderColor}"

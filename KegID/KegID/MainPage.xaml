@@ -27,9 +27,10 @@
             </Grid.ColumnDefinitions>
 
             <Image 
-                    VerticalOptions="Center"
-                    Grid.Column="0"
-                    HeightRequest="50">
+                VerticalOptions="Center"
+                Grid.Column="0"
+                HeightRequest="50"
+                >
                 <Image.Margin>
                     <OnPlatform x:TypeArguments="Thickness">
                         <On Platform="iOS" Value="0,0,0,2" />
@@ -37,17 +38,7 @@
                     </OnPlatform>
                 </Image.Margin>
                 <Image.Source>
-                    <OnPlatform x:TypeArguments="ImageSource">
-                        <On Platform="iOS">
-                            <FileImageSource File="kegidbanner.png"/>
-                        </On>
-                        <On Platform="Android">
-                            <FileImageSource File="kegidbanner.png"/>
-                        </On>
-                        <On Platform="UWP">
-                            <FileImageSource File="Assets/kegidbanner.png"/>
-                        </On>
-                    </OnPlatform>
+                    <FileImageSource File="{OnPlatform Android=kegidbanner.png,iOS=kegidbanner.png, UWP=Assets/kegidbanner.png }"/>
                 </Image.Source>
             </Image>
 
@@ -60,17 +51,7 @@
                     HeightRequest="30"
                     BackgroundColor="Transparent" >
                 <cvt:TintedImage.Source>
-                    <OnPlatform x:TypeArguments="FileImageSource">
-                        <On Platform="iOS">
-                            <FileImageSource File="setting.png"/>
-                        </On>
-                        <On Platform="Android">
-                            <FileImageSource File="setting.png"/>
-                        </On>
-                        <On Platform="UWP">
-                            <FileImageSource File="Assets/setting.png"/>
-                        </On>
-                    </OnPlatform>
+                    <FileImageSource File="{OnPlatform Android=setting.png,iOS=setting.png, UWP=Assets/setting.png }"/>
                 </cvt:TintedImage.Source>
                 <cvt:TintedImage.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding Path=BindingContext.MoreCommand, 

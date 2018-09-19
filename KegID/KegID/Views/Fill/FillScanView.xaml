@@ -5,6 +5,7 @@
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
              xmlns:controls="clr-namespace:Plugin.CrossPlatformTintedImage.Abstractions;assembly=Plugin.CrossPlatformTintedImage.Abstractions"
              BackgroundColor="{StaticResource pageBGColor}"
+             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              ios:Page.UseSafeArea="true"
              >
@@ -42,16 +43,9 @@
                 TextColor="Black"/>
 
             <Grid
-                RowSpacing="0"
+                RowSpacing="10"
                 Margin="10,0,10,0"
                 Grid.Row="1">
-                
-                <Grid.RowSpacing>
-                    <OnPlatform x:TypeArguments="x:Double">
-                        <On Platform="iOS" Value="10" />
-                        <On Platform="Android, WinPhone, Windows" Value="10" />
-                    </OnPlatform>
-                </Grid.RowSpacing>
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -97,17 +91,7 @@
                     BackgroundColor="Transparent">
                     
                     <Image.Source>
-                        <OnPlatform x:TypeArguments="FileImageSource">
-                            <On Platform="iOS">
-                                <FileImageSource File="pencil.png"/>
-                            </On>
-                            <On Platform="Android">
-                                <FileImageSource File="pencil.png"/>
-                            </On>
-                            <On Platform="UWP">
-                                <FileImageSource File="Assets/pencil.png"/>
-                            </On>
-                        </OnPlatform>
+                        <FileImageSource File="{OnPlatform Android=pencil.png,iOS=pencil.png, UWP=Assets/pencil.png }"/>
                     </Image.Source>
                     
                     <Image.GestureRecognizers>
@@ -138,17 +122,7 @@
                     HorizontalOptions="End">
                     
                     <controls:TintedImage.Source>
-                        <OnPlatform x:TypeArguments="FileImageSource">
-                            <On Platform="iOS">
-                                <FileImageSource File="camera.png"/>
-                            </On>
-                            <On Platform="Android">
-                                <FileImageSource File="camera.png"/>
-                            </On>
-                            <On Platform="UWP">
-                                <FileImageSource File="Assets/camera.png"/>
-                            </On>
-                        </OnPlatform>
+                        <FileImageSource File="{OnPlatform Android=camera.png,iOS=camera.png, UWP=Assets/camera.png }"/>
                     </controls:TintedImage.Source>
                     
                     <controls:TintedImage.GestureRecognizers>
@@ -175,17 +149,7 @@
                     HorizontalOptions="End">
                     
                     <controls:TintedImage.Source>
-                        <OnPlatform x:TypeArguments="FileImageSource">
-                            <On Platform="iOS">
-                                <FileImageSource File="tags.png"/>
-                            </On>
-                            <On Platform="Android">
-                                <FileImageSource File="tags.png"/>
-                            </On>
-                            <On Platform="UWP">
-                                <FileImageSource File="Assets/tags.png"/>
-                            </On>
-                        </OnPlatform>
+                        <FileImageSource File="{OnPlatform Android=tags.png,iOS=tags.png, UWP=Assets/tags.png }"/>
                     </controls:TintedImage.Source>
                     
                     <controls:TintedImage.GestureRecognizers>
@@ -196,20 +160,12 @@
                 </controls:TintedImage>
 
                 <Button
-                    Margin="0,2,0,2"
                     Text="{Binding Resources[menu_action_print]}"
                     Grid.Row="3"
                     IsVisible="{Binding IsPalletze}"
                     Style="{StaticResource BottomButtonTitleStyle}"
+                    HeightRequest="50"
                     Command="{Binding PrintCommand}">
-                    
-                    <Button.HeightRequest>
-                        <OnPlatform x:TypeArguments="x:Double">
-                            <On Platform="iOS, WinPhone, Windows" Value="50" />
-                            <On Platform="Android" Value="50" />
-                        </OnPlatform>
-                    </Button.HeightRequest>
-                    
                     <Button.Margin>
                         <OnPlatform x:TypeArguments="Thickness">
                             <On Platform="iOS, WinPhone, Windows" Value="-15,-5,-15,-5" />
@@ -245,6 +201,7 @@
                     Grid.Row="5"
                     VerticalOptions="FillAndExpand"
                     SeparatorVisibility="Default"
+                    android:ListView.IsFastScrollEnabled="true"
                     SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
                     HasUnevenRows="True"
                     SelectionMode="None"

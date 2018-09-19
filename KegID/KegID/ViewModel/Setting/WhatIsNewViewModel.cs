@@ -87,6 +87,7 @@ namespace KegID.ViewModel
                     if (AppSettings.IsFreshInstall)
                     {
                         AppSettings.IsFreshInstall = false;
+
                         // If it is Android or iOS
                         await _navigationService.NavigateAsync(new Uri("/NavigationPage/MainPage", UriKind.Absolute), useModalNavigation: true, animated: false);
                         // If it is UWP

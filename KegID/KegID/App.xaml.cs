@@ -162,7 +162,6 @@ namespace KegID
         protected override void OnSleep ()
 		{
             serviceProvider.Dispose();
-            AppSettings.IsFreshInstall = false;
         }
 
         protected override void OnResume()

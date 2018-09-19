@@ -485,16 +485,15 @@ namespace KegID.ViewModel
         {
             try
             {
-                 var addresss = StockLocation;
-                 string header = string.Format(_zebraPrinterManager.PalletHeader, ManifestId, addresss.ParentPartnerName, addresss.Address1, addresss.City + "," + addresss.State + " " + addresss.PostalCode, "", addresss.ParentPartnerName, ConstantManager.ContentsCode, DateTimeOffset.UtcNow.Date.ToShortDateString(), "1", "", ConstantManager.Contents,
-                                     "1", "", "", "", "", "", "", "", "", "",
-                                     "", "", "", "", "", "", "", "", "", "",
-                                     "", ManifestId, ManifestId);
+                var addresss = StockLocation;
+                string header = string.Format(_zebraPrinterManager.PalletHeader, ManifestId, addresss.ParentPartnerName, addresss.Address1, addresss.City + "," + addresss.State + " " + addresss.PostalCode, "", addresss.ParentPartnerName, ConstantManager.ContentsCode, DateTimeOffset.UtcNow.Date.ToShortDateString(), "1", "", ConstantManager.Contents,
+                                    "1", "", "", "", "", "", "", "", "", "",
+                                    "", "", "", "", "", "", "", "", "", "",
+                                    "", ManifestId, ManifestId);
                 new Thread(() =>
                 {
                     _zebraPrinterManager.SendZplPalletAsync(header, ConstantManager.IPAddr);
-
-             }).Start();
+                }).Start();
 
             }
             catch (Exception ex)

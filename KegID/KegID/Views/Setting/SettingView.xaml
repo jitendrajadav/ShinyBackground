@@ -23,17 +23,7 @@
             VerticalOptions="EndAndExpand">
 
             <Image.Source>
-                <OnPlatform x:TypeArguments="FileImageSource">
-                    <On Platform="iOS">
-                        <FileImageSource File="triangle.png"/>
-                    </On>
-                    <On Platform="Android">
-                        <FileImageSource File="triangle.png"/>
-                    </On>
-                    <On Platform="UWP">
-                        <FileImageSource File="Assets/triangle.png"/>
-                    </On>
-                </OnPlatform>
+                <FileImageSource File="{OnPlatform Android=triangle.png,iOS=triangle.png, UWP=Assets/triangle.png }"/>
             </Image.Source>
         </Image>
 

@@ -40,17 +40,7 @@
                 HorizontalOptions="End">
 
                 <controls:TintedImage.Source>
-                    <OnPlatform x:TypeArguments="FileImageSource">
-                        <On Platform="iOS">
-                            <FileImageSource File="camera.png"/>
-                        </On>
-                        <On Platform="Android">
-                            <FileImageSource File="camera.png"/>
-                        </On>
-                        <On Platform="UWP">
-                            <FileImageSource File="Assets/camera.png"/>
-                        </On>
-                    </OnPlatform>
+                    <FileImageSource File="{OnPlatform Android=camera.png,iOS=camera.png, UWP=Assets/camera.png }"/>
                 </controls:TintedImage.Source>
 
                 <controls:TintedImage.GestureRecognizers>

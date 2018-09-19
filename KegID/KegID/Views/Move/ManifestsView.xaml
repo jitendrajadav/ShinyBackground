@@ -6,6 +6,7 @@
              BackgroundColor="{StaticResource pageBGColor}"
              xmlns:controls="clr-namespace:Plugin.CrossPlatformTintedImage.Abstractions;assembly=Plugin.CrossPlatformTintedImage.Abstractions"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
              ios:Page.UseSafeArea="true"
              >
     <ContentPage.Content>
@@ -45,17 +46,7 @@
                 >
 
                 <controls:TintedImage.Source>
-                    <OnPlatform x:TypeArguments="FileImageSource">
-                        <On Platform="iOS">
-                            <FileImageSource File="actionsearch.png"/>
-                        </On>
-                        <On Platform="Android">
-                            <FileImageSource File="actionsearch.png"/>
-                        </On>
-                        <On Platform="UWP">
-                            <FileImageSource File="Assets/actionsearch.png"/>
-                        </On>
-                    </OnPlatform>
+                    <FileImageSource File="{OnPlatform Android=actionsearch.png,iOS=actionsearch.png, UWP=Assets/actionsearch.png }"/>
                 </controls:TintedImage.Source>
 
                 <controls:TintedImage.GestureRecognizers>
@@ -78,6 +69,7 @@
             <ListView
                 x:Name="lstManifest"
                 Grid.Row="2"
+                android:ListView.IsFastScrollEnabled="true"
                 SeparatorVisibility="Default"
                 SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
                 HasUnevenRows="True"
@@ -144,34 +136,23 @@
                 ColumnSpacing="0"
                 HorizontalOptions="Center"
                 VerticalOptions="Center"
-                Grid.Row="3">
-                <Grid.Margin>
-                    <OnPlatform x:TypeArguments="Thickness">
-                        <On Platform="iOS, WinPhone, Windows, UWP" Value="0,0,0,5" />
-                        <On Platform="Android" Value="0,0,0,5" />
-                    </OnPlatform>
-                </Grid.Margin>
+                Grid.Row="3"
+                HeightRequest="35"
+                Margin="0,0,0,5">
                 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100"/>
                     <ColumnDefinition Width="100"/>
                     <ColumnDefinition Width="100"/>
                 </Grid.ColumnDefinitions>
-                
+
                 <Button
                     BorderWidth="1"
                     BorderColor="#4E6388"
                     TextColor="{Binding QueuedTextColor}"
                     BackgroundColor="{Binding QueuedBackgroundColor}"
                     Command="{Binding QueuedCommand}"
-                    Text="{Binding Resources[title_manifest_queued]}">
-                    <Button.Margin>
-                        <OnPlatform x:TypeArguments="Thickness">
-                            <On Platform="iOS, WinPhone, Windows, UWP" Value="0" />
-                            <On Platform="Android" Value="0,0,0,0" />
-                        </OnPlatform>
-                    </Button.Margin>
-                </Button>
+                    Text="{Binding Resources[title_manifest_queued]}"/>
 
                 <Button
                     Grid.Column="1"
@@ -180,14 +161,7 @@
                     TextColor="{Binding DraftTextColor}"
                     BackgroundColor="{Binding DraftBackgroundColor}"
                     Command="{Binding DraftCommand}"
-                    Text="{Binding Resources[title_manifest_draft]}">
-                    <Button.Margin>
-                        <OnPlatform x:TypeArguments="Thickness">
-                            <On Platform="iOS, WinPhone, Windows, UWP" Value="0" />
-                            <On Platform="Android" Value="0,0,0,0" />
-                        </OnPlatform>
-                    </Button.Margin>
-                </Button>
+                    Text="{Binding Resources[title_manifest_draft]}"/>
 
                 <Button
                     Grid.Column="2"
@@ -196,14 +170,7 @@
                     TextColor="{Binding RecentTextColor}"
                     BackgroundColor="{Binding RecentBackgroundColor}"
                     Command="{Binding RecentCommand}"
-                    Text="{Binding Resources[title_manifest_recent]}">
-                    <Button.Margin>
-                        <OnPlatform x:TypeArguments="Thickness">
-                            <On Platform="iOS, WinPhone, Windows, UWP" Value="0" />
-                            <On Platform="Android" Value="0,0,0,0" />
-                        </OnPlatform>
-                    </Button.Margin>
-                </Button>
+                    Text="{Binding Resources[title_manifest_recent]}"/>
 
             </Grid>
 

@@ -6,17 +6,13 @@
              xmlns:controls="clr-namespace:Plugin.CrossPlatformTintedImage.Abstractions;assembly=Plugin.CrossPlatformTintedImage.Abstractions"
              BackgroundColor="{StaticResource pageBGColor}"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
              ios:Page.UseSafeArea="true"
              >
 
     <ContentPage.Content>
-        <Grid>
-            <Grid.RowSpacing>
-                <OnPlatform x:TypeArguments="x:Double">
-                    <On Platform="iOS" Value="10" />
-                    <On Platform="Android, WinPhone, Windows, UWP" Value="0" />
-                </OnPlatform>
-            </Grid.RowSpacing>
+        <Grid
+            RowSpacing="0">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -47,15 +43,9 @@
             
             <Grid
                 Margin="10"
-                Grid.Row="1">
+                Grid.Row="1"
+                RowSpacing="0">
                 
-                <Grid.RowSpacing>
-                    <OnPlatform x:TypeArguments="x:Double">
-                        <On Platform="iOS" Value="10" />
-                        <On Platform="Android, WinPhone, Windows, UWP" Value="0" />
-                    </OnPlatform>
-                </Grid.RowSpacing>
-
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -123,17 +113,7 @@
                     HorizontalOptions="Center">
 
                     <controls:TintedImage.Source>
-                        <OnPlatform x:TypeArguments="FileImageSource">
-                            <On Platform="iOS">
-                                <FileImageSource File="camera.png"/>
-                            </On>
-                            <On Platform="Android">
-                                <FileImageSource File="camera.png"/>
-                            </On>
-                            <On Platform="UWP">
-                                <FileImageSource File="Assets/camera.png"/>
-                            </On>
-                        </OnPlatform>
+                        <FileImageSource File="{OnPlatform Android=camera.png,iOS=camera.png, UWP=Assets/camera.png }"/>
                     </controls:TintedImage.Source>
 
                     <controls:TintedImage.GestureRecognizers>
@@ -152,17 +132,7 @@
                     HorizontalOptions="Center">
 
                     <controls:TintedImage.Source>
-                        <OnPlatform x:TypeArguments="FileImageSource">
-                            <On Platform="iOS">
-                                <FileImageSource File="tags.png"/>
-                            </On>
-                            <On Platform="Android">
-                                <FileImageSource File="tags.png"/>
-                            </On>
-                            <On Platform="UWP">
-                                <FileImageSource File="Assets/tags.png"/>
-                            </On>
-                        </OnPlatform>
+                        <FileImageSource File="{OnPlatform Android=tags.png,iOS=tags.png, UWP=Assets/tags.png }"/>
                     </controls:TintedImage.Source>
 
                     <controls:TintedImage.GestureRecognizers>
@@ -176,14 +146,8 @@
                     Grid.Row="4"
                     Grid.ColumnSpan="3"
                     LineBreakMode="TailTruncation"
-                    Text="{Binding TagsStr}">
-                    <Label.FontSize>
-                        <OnPlatform x:TypeArguments="x:Double">
-                            <On Platform="iOS" Value="10" />
-                            <On Platform="Android, WinPhone, Windows, UWP" Value="12" />
-                        </OnPlatform>
-                    </Label.FontSize>
-                </Label>
+                    Text="{Binding TagsStr}"
+                    FontSize="10"/>
 
                 <BoxView
                     Margin="-10,0,-10,0"
@@ -214,6 +178,7 @@
                     Grid.Row="6"
                     Grid.ColumnSpan="3"
                     SeparatorVisibility="Default"
+                    android:ListView.IsFastScrollEnabled="true"
                     SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
                     HasUnevenRows="True"
                     SelectionMode="None"

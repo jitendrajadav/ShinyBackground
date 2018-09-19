@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="KegID.Views.AssignSizesView"
              BackgroundColor="{StaticResource pageBGColor}"
+             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              ios:Page.UseSafeArea="true"
              >
@@ -41,21 +42,9 @@
 
             <Grid
                 Margin="10,5,0,0"
+                RowSpacing="{OnPlatform iOS=5,Android=0,UWP=0}"
+                ColumnSpacing="{OnPlatform iOS=5,Android=0,UWP=0}"
                 Grid.Row="2">
-
-                <Grid.RowSpacing>
-                    <OnPlatform x:TypeArguments="x:Double">
-                        <On Platform="iOS" Value="5" />
-                        <On Platform="Android, WinPhone, Windows" Value="0" />
-                    </OnPlatform>
-                </Grid.RowSpacing>
-
-                <Grid.ColumnSpacing>
-                    <OnPlatform x:TypeArguments="x:Double">
-                        <On Platform="iOS" Value="5" />
-                        <On Platform="Android, WinPhone, Windows" Value="0" />
-                    </OnPlatform>
-                </Grid.ColumnSpacing>
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -153,6 +142,7 @@
                     Grid.ColumnSpan="2"
                     SelectionMode="None"
                     SeparatorVisibility="Default"
+                    android:ListView.IsFastScrollEnabled="true"
                     SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
                     HasUnevenRows="True"
                     CachingStrategy="RecycleElement"

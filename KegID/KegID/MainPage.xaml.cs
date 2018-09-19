@@ -8,8 +8,8 @@ namespace KegID
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MainPage : ContentPage
     {
-		public MainPage()
-		{
+        public MainPage()
+        {
             try
             {
                 InitializeComponent();
@@ -17,8 +17,8 @@ namespace KegID
             }
             catch (Exception ex)
             {
-                 Crashes.TrackError(ex);
+                Crashes.TrackError(ex);
             }
         }
-	}
+    }
 }

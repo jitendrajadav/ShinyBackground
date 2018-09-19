@@ -749,7 +749,7 @@ namespace KegID.ViewModel
                             await _navigationService.GoBackAsync(new NavigationParameters
                                     {
                                         { "AssignValueToAddPalletAsync", BatchId }, { "BarcodesCollection", BarcodeCollection },
-                                    },useModalNavigation: true, animated: false);
+                                    }, useModalNavigation: true, animated: false);
                             break;
                         case "Assign sizes":
                             var param = new NavigationParameters

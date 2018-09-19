@@ -4,6 +4,7 @@
              x:Class="KegID.Views.SearchedManifestsListView"
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
              BackgroundColor="{StaticResource pageBGColor}"
+             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              ios:Page.UseSafeArea="true"
              >
@@ -45,6 +46,7 @@
                 x:Name="lstSearchManifest"
                 Grid.Row="2"
                 SeparatorVisibility="Default"
+                android:ListView.IsFastScrollEnabled="true"
                 SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
                 HasUnevenRows="True"
                 SelectionMode="None"

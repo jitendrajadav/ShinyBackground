@@ -2,10 +2,10 @@
 using System.Threading.Tasks;
 using KegID.Common;
 using KegID.Services;
+using LinkOS.Plugin.Abstractions;
 using Prism.Commands;
 using Prism.Navigation;
 using Xamarin.Essentials;
-using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
@@ -437,11 +437,12 @@ namespace KegID.ViewModel
 
         public override void OnNavigatingTo(INavigationParameters parameters)
         {
-            if (parameters.ContainsKey("friendlyLbl"))
+            if (parameters.ContainsKey("IDiscoveredPrinter"))
             {
-                SelectedPrinter = parameters.GetValue<string>("friendlyLbl");
+                var printer = parameters.GetValue<IDiscoveredPrinter>("IDiscoveredPrinter");
+                SelectedPrinter = printer.Address;
                 AppSettings.FriendlyLbl = SelectedPrinter;
-                AppSettings.PrinterAddress = ConstantManager.PrinterSetting.Address;
+                AppSettings.PrinterAddress = SelectedPrinter;
             }
             else
             {

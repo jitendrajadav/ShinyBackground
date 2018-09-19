@@ -4,6 +4,7 @@
              x:Class="KegID.Views.BatchView"
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
              BackgroundColor="{StaticResource pageBGColor}"
+             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              ios:Page.UseSafeArea="true"
              >
@@ -50,6 +51,7 @@
                 Margin="10,0,10,0"
                 x:Name="lstBatch"
                 SeparatorVisibility="Default"
+                android:ListView.IsFastScrollEnabled="true"
                 SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
                 HasUnevenRows="True"
                 SelectionMode="None"

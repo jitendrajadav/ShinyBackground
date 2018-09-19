@@ -52,17 +52,7 @@
                 HorizontalOptions="End">
 
                 <controls:TintedImage.Source>
-                    <OnPlatform x:TypeArguments="FileImageSource">
-                        <On Platform="iOS">
-                            <FileImageSource File="actionshare.png"/>
-                        </On>
-                        <On Platform="Android">
-                            <FileImageSource File="actionshare.png"/>
-                        </On>
-                        <On Platform="UWP">
-                            <FileImageSource File="Assets/actionshare.png"/>
-                        </On>
-                    </OnPlatform>
+                    <FileImageSource File="{OnPlatform Android=actionshare.png,iOS=actionshare.png, UWP=Assets/actionshare.png }"/>
                 </controls:TintedImage.Source>
 
                 <controls:TintedImage.GestureRecognizers>

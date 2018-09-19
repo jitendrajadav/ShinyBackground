@@ -6,7 +6,7 @@
             BarBackgroundColor="#F1F1F1"
             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
             android:TabbedPage.ToolbarPlacement="Bottom"
-            android:TabbedPage.BarItemColor="#666666"
+            android:TabbedPage.BarItemColor="#7B7B7B"
             android:TabbedPage.BarSelectedItemColor="Black"
             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
             ios:Page.UseSafeArea="true"
@@ -14,6 +14,7 @@
 
         <ContentPage 
             x:Name="cnStock"
+            Icon="actionaccept.png"
             Title="{Binding Resources[label_stock]}">
            
             <Grid>
@@ -45,7 +46,6 @@
             </Button>
 
             <Label
-                VerticalOptions="EndAndExpand"
                 HorizontalOptions="Center"
                 Style="{StaticResource LabelTitleStyle}"
                 TextColor="Black"
@@ -79,6 +79,7 @@
                     x:Name="stockInventoryListView"
                     VerticalOptions="FillAndExpand"
                     SeparatorVisibility="Default"
+                    android:ListView.IsFastScrollEnabled="true"
                     CachingStrategy="RecycleElement"
                     SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
                     HasUnevenRows="true"
@@ -182,6 +183,7 @@
         </ContentPage>
 
         <ContentPage 
+            Icon="actionaccept.png"
             Title="{Binding Resources[content_list_empty]}"
             x:Name="cnEmpty">
             <Grid>
@@ -192,7 +194,6 @@
                 </Grid.RowDefinitions>
 
                 <Button
-                    VerticalOptions="EndAndExpand"
                     TextColor="{StaticResource selectTextColor}"
                     Style="{StaticResource TopButtonTitleStyle}"
                     HorizontalOptions="Start"
@@ -214,7 +215,6 @@
             </Button>
 
             <Label
-                VerticalOptions="EndAndExpand"
                 HorizontalOptions="Center"
                 Style="{StaticResource LabelTitleStyle}"
                 TextColor="Black"
@@ -248,6 +248,7 @@
                     x:Name="emptyInventoryListView"
                     CachingStrategy="RecycleElement"
                     SeparatorVisibility="Default"
+                    android:ListView.IsFastScrollEnabled="true"
                     SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
                     HasUnevenRows="true"
                     VerticalOptions="FillAndExpand"

@@ -15,17 +15,7 @@
                 AbsoluteLayout.LayoutBounds="1, 1, 3, 1"
                 Aspect="AspectFill">
                 <Image.Source>
-                    <OnPlatform x:TypeArguments="ImageSource">
-                        <On Platform="iOS">
-                            <FileImageSource File="kegbg.png"/>
-                        </On>
-                        <On Platform="Android">
-                            <FileImageSource File="kegbg.png"/>
-                        </On>
-                        <On Platform="UWP">
-                            <FileImageSource File="Assets/kegbg.png"/>
-                        </On>
-                    </OnPlatform>
+                    <FileImageSource File="{OnPlatform Android=kegbg.png,iOS=kegbg.png, UWP=Assets/kegbg.png }"/>
                 </Image.Source>
             </Image>
 
@@ -100,27 +90,11 @@
                     <Image 
                         Grid.Column="1"
                         Grid.Row="1"
+                        HeightRequest="50"
                         WidthRequest="40">
                         <Image.Source>
-                            <OnPlatform x:TypeArguments="ImageSource">
-                                <On Platform="iOS">
-                                    <FileImageSource File="newkeg.png"/>
-                                </On>
-                                <On Platform="Android">
-                                    <FileImageSource File="newkeg.png"/>
-                                </On>
-                                <On Platform="UWP">
-                                    <FileImageSource File="Assets/newkeg.png"/>
-                                </On>
-                            </OnPlatform>
+                            <FileImageSource File="{OnPlatform Android=newkeg.png,iOS=newkeg.png, UWP=Assets/newkeg.png }"/>
                         </Image.Source>
-                        <Image.HeightRequest>
-                            <OnPlatform x:TypeArguments="x:Double">
-                                <On Platform="iOS" Value="50" />
-                                <On Platform="Android, WinPhone, Windows" Value="50" />
-                            </OnPlatform>
-                        </Image.HeightRequest>
-
                     </Image>
 
                     <Label 
@@ -195,27 +169,11 @@
                     <Image 
                         Grid.Row="1"
                         Grid.Column="1"
+                        HeightRequest="50"
                         WidthRequest="40">
                         <Image.Source>
-                            <OnPlatform x:TypeArguments="ImageSource">
-                                <On Platform="iOS">
-                                    <FileImageSource File="fillkegs.png"/>
-                                </On>
-                                <On Platform="Android">
-                                    <FileImageSource File="fillkegs.png"/>
-                                </On>
-                                <On Platform="UWP">
-                                    <FileImageSource File="Assets/fillkegs.png"/>
-                                </On>
-                            </OnPlatform>
+                            <FileImageSource File="{OnPlatform Android=fillkegs.png,iOS=fillkegs.png, UWP=Assets/fillkegs.png }"/>
                         </Image.Source>
-                        <Image.HeightRequest>
-                            <OnPlatform x:TypeArguments="x:Double">
-                                <On Platform="iOS" Value="50" />
-                                <On Platform="Android, WinPhone, Windows" Value="50" />
-                            </OnPlatform>
-                        </Image.HeightRequest>
-
                     </Image>
 
                     <Label 
@@ -288,27 +246,11 @@
                     <Image 
                         Grid.Row="1"
                         Grid.Column="1"
+                        HeightRequest="50"
                         WidthRequest="40">
                         <Image.Source>
-                            <OnPlatform x:TypeArguments="ImageSource">
-                                <On Platform="iOS">
-                                    <FileImageSource File="pallet.png"/>
-                                </On>
-                                <On Platform="Android">
-                                    <FileImageSource File="pallet.png"/>
-                                </On>
-                                <On Platform="UWP">
-                                    <FileImageSource File="Assets/pallet.png"/>
-                                </On>
-                            </OnPlatform>
+                            <FileImageSource File="{OnPlatform Android=pallet.png,iOS=pallet.png, UWP=Assets/pallet.png }"/>
                         </Image.Source>
-                        <Image.HeightRequest>
-                            <OnPlatform x:TypeArguments="x:Double">
-                                <On Platform="iOS" Value="50" />
-                                <On Platform="Android, WinPhone, Windows" Value="50" />
-                            </OnPlatform>
-                        </Image.HeightRequest>
-
                     </Image>
 
                     <Label 
@@ -381,26 +323,11 @@
                     <Image 
                         Grid.Row="1"
                         Grid.Column="1"
+                        HeightRequest="50"
                         WidthRequest="40">
                         <Image.Source>
-                            <OnPlatform x:TypeArguments="ImageSource">
-                                <On Platform="iOS">
-                                    <FileImageSource File="repair.png"/>
-                                </On>
-                                <On Platform="Android">
-                                    <FileImageSource File="repair.png"/>
-                                </On>
-                                <On Platform="UWP">
-                                    <FileImageSource File="Assets/repair.png"/>
-                                </On>
-                            </OnPlatform>
+                            <FileImageSource File="{OnPlatform Android=repair.png,iOS=repair.png, UWP=Assets/repair.png }"/>
                         </Image.Source>
-                        <Image.HeightRequest>
-                            <OnPlatform x:TypeArguments="x:Double">
-                                <On Platform="iOS" Value="50" />
-                                <On Platform="Android, WinPhone, Windows" Value="50" />
-                            </OnPlatform>
-                        </Image.HeightRequest>
                     </Image>
 
                     <Label 

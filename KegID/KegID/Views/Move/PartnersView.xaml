@@ -6,6 +6,7 @@
              BackgroundColor="{StaticResource pageBGColor}"
              xmlns:controls="clr-namespace:Plugin.CrossPlatformTintedImage.Abstractions;assembly=Plugin.CrossPlatformTintedImage.Abstractions"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
              ios:Page.UseSafeArea="true"
              >
 
@@ -56,19 +57,8 @@
                     HorizontalOptions="End"
                     VerticalOptions="Center"
                     >
-
                     <controls:TintedImage.Source>
-                        <OnPlatform x:TypeArguments="FileImageSource">
-                            <On Platform="iOS">
-                                <FileImageSource File="actionsearch.png"/>
-                            </On>
-                            <On Platform="Android">
-                                <FileImageSource File="actionsearch.png"/>
-                            </On>
-                            <On Platform="UWP">
-                                <FileImageSource File="Assets/actionsearch.png"/>
-                            </On>
-                        </OnPlatform>
+                        <FileImageSource File="{OnPlatform Android=actionsearch.png,iOS=actionsearch.png, UWP=Assets/actionsearch.png }"/>
                     </controls:TintedImage.Source>
 
                     <controls:TintedImage.GestureRecognizers>
@@ -88,19 +78,8 @@
                     HorizontalOptions="Start"
                     VerticalOptions="Center"
                     >
-
                     <controls:TintedImage.Source>
-                        <OnPlatform x:TypeArguments="FileImageSource">
-                            <On Platform="iOS">
-                                <FileImageSource File="add.png"/>
-                            </On>
-                            <On Platform="Android">
-                                <FileImageSource File="add.png"/>
-                            </On>
-                            <On Platform="UWP">
-                                <FileImageSource File="Assets/add.png"/>
-                            </On>
-                        </OnPlatform>
+                        <FileImageSource File="{OnPlatform Android=add.png,iOS=add.png, UWP=Assets/add.png }"/>
                     </controls:TintedImage.Source>
 
                     <controls:TintedImage.GestureRecognizers>
@@ -127,24 +106,20 @@
                 PlaceholderColor="{StaticResource lightGrayColor}"
                 Text="{Binding PartnerName}"
                 SearchCommand="{Binding TextChangedCommand}" 
-                SearchCommandParameter="{Binding Text, Source={x:Reference SearchBar}}">
+                SearchCommandParameter="{Binding Text, Source={x:Reference SearchBar}}"
+                HeightRequest="{OnPlatform iOS=40,Android=40,UWP=40}">
                 
                 <SearchBar.Behaviors>
                     <behaviors:TextChangedBehavior />
                 </SearchBar.Behaviors>
                
-                <SearchBar.HeightRequest>
-                    <OnPlatform x:TypeArguments="x:Double">
-                        <On Platform="iOS" Value="40" />
-                        <On Platform="Android, WinPhone, Windows" Value="40" />
-                    </OnPlatform>
-                </SearchBar.HeightRequest>
             </SearchBar>
 
             <ListView
                 Margin="10,0,10,0"
                 x:Name="lstPartners"
                 Grid.Row="2"
+                android:ListView.IsFastScrollEnabled="true"
                 SelectionMode="None"
                 VerticalOptions="FillAndExpand"
                 SeparatorVisibility="Default"
@@ -192,24 +167,15 @@
                 ColumnSpacing="0"
                 VerticalOptions="Center"
                 HorizontalOptions="Center"
-                Grid.Row="3">
+                Grid.Row="3"
+                Margin="0,0,0,5"
+                HeightRequest="35"
+                RowSpacing="{OnPlatform Android=0,iOS=10}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100"/>
                     <ColumnDefinition Width="100"/>
                 </Grid.ColumnDefinitions>
-                <Grid.Margin>
-                    <OnPlatform x:TypeArguments="Thickness">
-                        <On Platform="iOS, WinPhone, Windows, UWP" Value="0,0,0,5" />
-                        <On Platform="Android" Value="0,0,0,5" />
-                    </OnPlatform>
-                </Grid.Margin>
-                <Grid.RowSpacing>
-                    <OnPlatform x:TypeArguments="x:Double">
-                        <On Platform="iOS" Value="10" />
-                        <On Platform="Android, WinPhone, Windows, UWP" Value="0" />
-                    </OnPlatform>
-                </Grid.RowSpacing>
-                
+
                 <Button
                     BorderRadius="0"
                     BorderWidth="1"
@@ -217,14 +183,7 @@
                     BackgroundColor="{Binding InternalBackgroundColor}"
                     TextColor="{Binding InternalTextColor}"
                     Text="{Binding Resources[label_internal]}"
-                    Command="{Binding InternalCommand}">
-                    <Button.Margin>
-                        <OnPlatform x:TypeArguments="Thickness">
-                            <On Platform="iOS, WinPhone, Windows, UWP" Value="0" />
-                            <On Platform="Android" Value="0,0,-4,0" />
-                        </OnPlatform>
-                    </Button.Margin>
-                </Button>
+                    Command="{Binding InternalCommand}"/>
 
                 <Button
                     BorderRadius="0"
@@ -234,15 +193,8 @@
                     BackgroundColor="{Binding AlphabeticalBackgroundColor}"
                     TextColor="{Binding AlphabeticalTextColor}"
                     Text="{Binding Resources[menu_action_sort_alphabetical]}"
-                    Command="{Binding AlphabeticalCommand}">
-                    <Button.Margin>
-                        <OnPlatform x:TypeArguments="Thickness">
-                            <On Platform="iOS, WinPhone, Windows, UWP" Value="0" />
-                            <On Platform="Android" Value="-4,0,0,0" />
-                        </OnPlatform>
-                    </Button.Margin>
-                </Button>
-               
+                    Command="{Binding AlphabeticalCommand}"/>
+
             </Grid>
         </Grid>
     </ContentPage.Content>

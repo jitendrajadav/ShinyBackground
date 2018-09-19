@@ -5,6 +5,7 @@
             x:Class="KegID.Views.ValidateBarcodeView"
             xmlns:popup="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
             xmlns:behaviors="clr-namespace:KegID.Behaviors"
+            xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"        
             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
             ios:Page.UseSafeArea="true"
             >
@@ -26,6 +27,7 @@
                 Grid.Row="1"
                 SeparatorVisibility="Default"
                 SelectionMode="None"
+                android:ListView.IsFastScrollEnabled="true"
                 SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
                 HasUnevenRows="True"
                 CachingStrategy="RecycleElement"

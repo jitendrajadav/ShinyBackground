@@ -6,6 +6,7 @@
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
              xmlns:controls="clr-namespace:Plugin.CrossPlatformTintedImage.Abstractions;assembly=Plugin.CrossPlatformTintedImage.Abstractions"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
              ios:Page.UseSafeArea="true"
              >
     
@@ -62,17 +63,7 @@
                 HorizontalOptions="End">
 
                 <controls:TintedImage.Source>
-                    <OnPlatform x:TypeArguments="FileImageSource">
-                        <On Platform="iOS">
-                            <FileImageSource File="invalidtools.png"/>
-                        </On>
-                        <On Platform="Android">
-                            <FileImageSource File="invalidtools.png"/>
-                        </On>
-                        <On Platform="UWP">
-                            <FileImageSource File="Assets/invalidtools.png"/>
-                        </On>
-                    </OnPlatform>
+                    <FileImageSource File="{OnPlatform Android=invalidtools.png,iOS=invalidtools.png, UWP=Assets/invalidtools.png }"/>
                 </controls:TintedImage.Source>
 
                 <controls:TintedImage.GestureRecognizers>
@@ -289,6 +280,7 @@
                         IsVisible="{Binding IsVisibleListView}"
                         x:Name="lstBarcode"
                         Grid.Row="20"
+                        android:ListView.IsFastScrollEnabled="true"
                         SelectionMode="None"
                         SeparatorVisibility="Default"
                         SeparatorColor="{StaticResource lightGrayPlaceholderColor}"

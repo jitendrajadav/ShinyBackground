@@ -43,14 +43,8 @@
             <Grid
                 Margin="10,0,10,0"
                 ColumnSpacing="0"
-                Grid.Row="1">
-                
-                <Grid.RowSpacing>
-                    <OnPlatform x:TypeArguments="x:Double">
-                        <On Platform="iOS" Value="2" />
-                        <On Platform="Android, WinPhone, Windows" Value="0" />
-                    </OnPlatform>
-                </Grid.RowSpacing>
+                Grid.Row="1"
+                RowSpacing="{OnPlatform Android=0,UWP=0,iOS=2}">
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -97,10 +91,7 @@
                     BackgroundColor="Transparent">
 
                     <Image.Source>
-                        <OnPlatform x:TypeArguments="ImageSource">
-                            <On Platform="iOS, Android" Value="pencil.png" />
-                            <On Platform="UWP" Value="Assets/pencil.png" />
-                        </OnPlatform>
+                        <FileImageSource File="{OnPlatform Android=pencil.png,iOS=pencil.png, UWP=Assets/pencil.png }"/>
                     </Image.Source>
 
                     <Image.GestureRecognizers>
@@ -118,10 +109,7 @@
                     VerticalOptions="FillAndExpand"
                     BackgroundColor="Transparent">
                     <Image.Source>
-                        <OnPlatform x:TypeArguments="ImageSource">
-                            <On Platform="iOS, Android" Value="camera.png" />
-                            <On Platform="UWP" Value="Assets/camera.png" />
-                        </OnPlatform>
+                        <FileImageSource File="{OnPlatform Android=camera.png,iOS=camera.png, UWP=Assets/camera.png }"/>
                     </Image.Source>
 
                     <Image.GestureRecognizers>

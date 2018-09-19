@@ -5,6 +5,7 @@
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
              BackgroundColor="{StaticResource pageBGColor}"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
              ios:Page.UseSafeArea="true"
              >
 
@@ -42,13 +43,8 @@
 
             <Grid
                 Margin="10,0,10,0"
-                Grid.Row="2">
-                <Grid.RowSpacing>
-                    <OnPlatform x:TypeArguments="x:Double">
-                        <On Platform="iOS" Value="5" />
-                        <On Platform="Android, WinPhone, Windows" Value="5" />
-                    </OnPlatform>
-                </Grid.RowSpacing>
+                Grid.Row="2"
+                RowSpacing="5">
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -104,6 +100,7 @@
                     SelectionMode="None"
                     VerticalOptions="FillAndExpand"
                     SeparatorVisibility="Default"
+                    android:ListView.IsFastScrollEnabled="true"
                     SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
                     HasUnevenRows="True"
                     CachingStrategy="RecycleElement"

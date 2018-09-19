@@ -41,14 +41,8 @@
 
             <Grid
                 Margin="10,0,10,0"
-                Grid.Row="1">
-                
-                <Grid.RowSpacing>
-                    <OnPlatform x:TypeArguments="x:Double">
-                        <On Platform="iOS" Value="2" />
-                        <On Platform="Android, WinPhone, Windows, UWP" Value="0" />
-                    </OnPlatform>
-                </Grid.RowSpacing>
+                Grid.Row="1"
+                RowSpacing="{OnPlatform iOS=2,Android=0,UWP=0}">
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>

@@ -369,17 +369,7 @@
                     Grid.Column="0"
                     Grid.Row="0">
                     <Image.Source>
-                        <OnPlatform x:TypeArguments="ImageSource">
-                            <On Platform="iOS">
-                                <FileImageSource File="manifests.png"/>
-                            </On>
-                            <On Platform="Android">
-                                <FileImageSource File="manifests.png"/>
-                            </On>
-                            <On Platform="UWP">
-                                <FileImageSource File="Assets/manifests.png"/>
-                            </On>
-                        </OnPlatform>
+                        <FileImageSource File="{OnPlatform Android=manifests.png,iOS=manifests.png, UWP=Assets/manifests.png }"/>
                     </Image.Source>
                 </Image>
 
@@ -406,17 +396,7 @@
                     Grid.Column="0"
                     Grid.Row="1">
                     <Image.Source>
-                        <OnPlatform x:TypeArguments="ImageSource">
-                            <On Platform="iOS">
-                                <FileImageSource File="pallet.png"/>
-                            </On>
-                            <On Platform="Android">
-                                <FileImageSource File="pallet.png"/>
-                            </On>
-                            <On Platform="UWP">
-                                <FileImageSource File="Assets/pallet.png"/>
-                            </On>
-                        </OnPlatform>
+                        <FileImageSource File="{OnPlatform Android=pallet.png,iOS=pallet.png, UWP=Assets/pallet.png }"/>
                     </Image.Source>
                 </Image>
 
@@ -444,17 +424,7 @@
                     Grid.Column="2"
                     Grid.Row="0">
                     <Image.Source>
-                        <OnPlatform x:TypeArguments="ImageSource">
-                            <On Platform="iOS">
-                                <FileImageSource File="partners.png"/>
-                            </On>
-                            <On Platform="Android">
-                                <FileImageSource File="partners.png"/>
-                            </On>
-                            <On Platform="UWP">
-                                <FileImageSource File="Assets/partners.png"/>
-                            </On>
-                        </OnPlatform>
+                        <FileImageSource File="{OnPlatform Android=partners.png,iOS=partners.png, UWP=Assets/partners.png }"/>
                     </Image.Source>
                 </Image>
 
@@ -480,17 +450,7 @@
                     Grid.Column="2"
                     Grid.Row="1">
                     <Image.Source>
-                        <OnPlatform x:TypeArguments="ImageSource">
-                            <On Platform="iOS">
-                                <FileImageSource File="movekegs.png"/>
-                            </On>
-                            <On Platform="Android">
-                                <FileImageSource File="movekegs.png"/>
-                            </On>
-                            <On Platform="UWP">
-                                <FileImageSource File="Assets/movekegs.png"/>
-                            </On>
-                        </OnPlatform>
+                        <FileImageSource File="{OnPlatform Android=movekegs.png,iOS=movekegs.png, UWP=Assets/movekegs.png }"/>
                     </Image.Source>
                 </Image>
 
