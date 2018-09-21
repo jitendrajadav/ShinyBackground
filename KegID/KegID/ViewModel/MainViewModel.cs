@@ -30,6 +30,7 @@ namespace KegID.ViewModel
         private readonly IDashboardService _dashboardService;
         private readonly IGetIconByPlatform _getIconByPlatform;
         private readonly IUuidManager _uuidManager;
+        ConnectionType connetionType;
 
         #region Stock
 
@@ -334,21 +335,33 @@ namespace KegID.ViewModel
 
             _syncManager.NotifyConnectivityChanged();
             DeviceCheckIn();
-
-            RefreshDashboardRecieverAsync();
-            CheckDraftmaniFestsAsync();
-
+            LoadMetadData();
             HandleUnsubscribeMessages();
             HandleReceivedMessages();
+        }
 
-            Device.StartTimer(TimeSpan.FromDays(1), () =>
+        private async void LoadMetadData()
+        {
+            if (!AppSettings.IsMetaDataLoaded)
             {
-                // Do something
-                DeviceCheckIn();
-                return true; // True = Repeat again, False = Stop the timer
-            });
-
-            StartPrinterSearch();
+                try
+                {
+                    Loader.StartLoading();
+                    await _initializeMetaData.LoadInitializeMetaData();
+                    await RefreshDashboardRecieverAsync();
+                    CheckDraftmaniFestsAsync();
+                    StartPrinterSearch();
+                }
+                catch (Exception ex)
+                {
+                    Crashes.TrackError(ex);
+                }
+                finally
+                {
+                    AppSettings.IsMetaDataLoaded = true;
+                    Loader.StopLoading();
+                }
+            }
         }
 
         #endregion
@@ -362,8 +375,6 @@ namespace KegID.ViewModel
                 StartBluetoothDiscovery();
             })).Start();
         }
-
-        ConnectionType connetionType;
 
         private void StartBluetoothDiscovery()
         {
@@ -459,25 +470,14 @@ namespace KegID.ViewModel
 
         private async void DeviceCheckIn()
         {
-            await _deviceCheckInMngr.DeviceCheckInAync();
-
-            if (!AppSettings.IsMetaDataLoaded)
+            Device.StartTimer(TimeSpan.FromDays(1), () =>
             {
-                try
-                {
-                    Loader.StartLoading();
-                    await _initializeMetaData.LoadInitializeMetaData();
-                }
-                catch (Exception ex)
-                {
-                    Crashes.TrackError(ex);
-                }
-                finally
-                {
-                    AppSettings.IsMetaDataLoaded = true;
-                    Loader.StopLoading();
-                }
-            }
+                // Do something
+                DeviceCheckIn();
+                return true; // True = Repeat again, False = Stop the timer
+            });
+
+            await _deviceCheckInMngr.DeviceCheckInAync();
         }
 
         private async void MoveCommandRecieverAsync()
@@ -641,7 +641,7 @@ namespace KegID.ViewModel
             }
         }
 
-        public async void RefreshDashboardRecieverAsync(bool refresh = false)
+        public async Task RefreshDashboardRecieverAsync(bool refresh = false)
         {
             DashboardResponseModel Result = null;
             try

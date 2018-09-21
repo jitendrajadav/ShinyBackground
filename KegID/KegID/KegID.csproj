@@ -41,9 +41,9 @@
     <PackageReference Include="Microsoft.Net.Http" Version="2.2.29" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="Plugin.CrossPlatformTintedImage" Version="1.0.0" />
-    <PackageReference Include="Prism.Forms" Version="7.1.0.172-pre" />
+    <PackageReference Include="Prism.Forms" Version="7.1.0.279-pre" />
     <PackageReference Include="Prism.Plugin.Popups" Version="2.0.0.528-pre" />
-    <PackageReference Include="Prism.Unity.Forms" Version="7.1.0.172-pre" />
+    <PackageReference Include="Prism.Unity.Forms" Version="7.1.0.279-pre" />
     <PackageReference Include="Realm" Version="3.2.0" />
     <PackageReference Include="Scandit.BarcodePicker.Unified" Version="5.8.2.10" />
     <PackageReference Include="Xam.Plugins.Settings" Version="4.0.0.10-beta" />

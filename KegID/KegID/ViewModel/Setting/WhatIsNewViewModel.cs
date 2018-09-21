@@ -92,20 +92,7 @@ namespace KegID.ViewModel
                         await _navigationService.NavigateAsync(new Uri("/NavigationPage/MainPage", UriKind.Absolute), useModalNavigation: true, animated: false);
                         // If it is UWP
                         //await _navigationService.NavigateAsync(new Uri("/NavigationPage/MainPage", UriKind.RelativeOrAbsolute), useModalNavigation: true, animated: false);
-                        try
-                        {
-                            Loader.StartLoading();
-                            await _initializeMetaData.LoadInitializeMetaData();
-                        }
-                        catch (Exception ex)
-                        {
-                            Crashes.TrackError(ex);
-                        }
-                        finally
-                        {
-                            AppSettings.IsMetaDataLoaded = true;
-                            Loader.StopLoading();
-                        }
+                       
                     }
                     else
                         await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);

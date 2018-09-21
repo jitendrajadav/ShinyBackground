@@ -219,13 +219,13 @@ namespace KegID.Views
 
         private IList<AssetSizeModel> LoadAssetSizeAsync()
         {
-            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            Realm RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             return RealmDb.All<AssetSizeModel>().ToList();
         }
 
         private IList<AssetTypeModel> LoadAssetTypeAsync()
         {
-            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            Realm RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             return RealmDb.All<AssetTypeModel>().ToList();
         }
 
@@ -269,7 +269,7 @@ namespace KegID.Views
             }
         }
 
-        void OnRemoveTagsClicked(object sender, EventArgs e)
+        private void OnRemoveTagsClicked(object sender, EventArgs e)
         {
             try
             {
