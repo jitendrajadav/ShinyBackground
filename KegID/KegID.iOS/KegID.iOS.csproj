@@ -188,7 +188,7 @@
       <Version>7.1.0.279-pre</Version>
     </PackageReference>
     <PackageReference Include="Prism.Plugin.Popups">
-      <Version>2.0.0.528-pre</Version>
+      <Version>2.1.0.182-pre</Version>
     </PackageReference>
     <PackageReference Include="Prism.Unity.Forms">
       <Version>7.1.0.279-pre</Version>

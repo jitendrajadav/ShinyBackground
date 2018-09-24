@@ -338,7 +338,15 @@ namespace KegID.ViewModel
             LoadMetadData();
             HandleUnsubscribeMessages();
             HandleReceivedMessages();
+
+            RefreshDashboardRecieverAsync();
+            CheckDraftmaniFestsAsync();
+            StartPrinterSearch();
         }
+
+        #endregion
+
+        #region Methods
 
         private async void LoadMetadData()
         {
@@ -348,9 +356,7 @@ namespace KegID.ViewModel
                 {
                     Loader.StartLoading();
                     await _initializeMetaData.LoadInitializeMetaData();
-                    await RefreshDashboardRecieverAsync();
-                    CheckDraftmaniFestsAsync();
-                    StartPrinterSearch();
+                    
                 }
                 catch (Exception ex)
                 {
@@ -364,9 +370,6 @@ namespace KegID.ViewModel
             }
         }
 
-        #endregion
-
-        #region Methods
 
         private void StartPrinterSearch()
         {
@@ -641,7 +644,7 @@ namespace KegID.ViewModel
             }
         }
 
-        public async Task RefreshDashboardRecieverAsync(bool refresh = false)
+        public async void RefreshDashboardRecieverAsync(bool refresh = false)
         {
             DashboardResponseModel Result = null;
             try
