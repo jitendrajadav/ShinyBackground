@@ -127,7 +127,6 @@ namespace KegID.ViewModel
                 {
                     return;
                 }
-
                 _SelectedBrand = value;
                 RaisePropertyChanged(SelectedBrandPropertyName);
             }
@@ -211,7 +210,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string BatchPropertyName = "Batch";
 
-        private string _Batch = default;
+        private string _Batch = string.Empty;
 
         /// <summary>
         /// Sets and gets the Batch property.
@@ -230,9 +229,7 @@ namespace KegID.ViewModel
                 {
                     return;
                 }
-
                 _Batch = value;
-                TagsStr = "Batch : " +_Batch;
                 RaisePropertyChanged(BatchPropertyName);
             }
         }
@@ -383,7 +380,8 @@ namespace KegID.ViewModel
                     ConstantManager.IsFromScanned = true;
                     await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), new NavigationParameters
                     {
-                        {"viewTypeEnum",ViewTypeEnum.ScanKegsView }
+                        {"viewTypeEnum",ViewTypeEnum.ScanKegsView },
+                        {"AddTagsViewInitialValue",model.Tags }
                     }, useModalNavigation: true, animated: false);
                 }
             }
@@ -463,7 +461,7 @@ namespace KegID.ViewModel
             {
                 await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), new NavigationParameters
                     {
-                        {"viewTypeEnum",ViewTypeEnum.ScanKegsView }
+                        {"viewTypeEnum", ViewTypeEnum.ScanKegsView },
                     }, useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
@@ -580,6 +578,7 @@ namespace KegID.ViewModel
                 Crashes.TrackError(ex);
             }
         }
+
         private void DeleteItemCommandReciever(BarcodeModel model)
         {
             BarcodeCollection.Remove(model);
@@ -592,6 +591,7 @@ namespace KegID.ViewModel
                 var isNew = BarcodeCollection.ToList().Any(x => x?.Kegs?.Partners?.FirstOrDefault()?.Kegs?.FirstOrDefault()?.Barcode == ManaulBarcode);
                 if (!isNew)
                 {
+                    UpdateTagsStr();
                     BarcodeModel model = new BarcodeModel()
                     {
                         Barcode = ManaulBarcode,
@@ -604,7 +604,7 @@ namespace KegID.ViewModel
                     if (ConstantManager.Tags != null)
                     {
                         foreach (var item in ConstantManager.Tags)
-                            model.Tags.Add(item); 
+                            model.Tags.Add(item);
                     }
 
                     BarcodeCollection.Add(model);
@@ -627,7 +627,7 @@ namespace KegID.ViewModel
                         {
                             if (IsManifestExist != null)
                             {
-                               await RealmDb.WriteAsync((realmDb) =>
+                                await RealmDb.WriteAsync((realmDb) =>
                                 {
                                     IsManifestExist.BarcodeModels.Add(model);
                                     realmDb.Add(IsManifestExist, true);
@@ -636,7 +636,7 @@ namespace KegID.ViewModel
                             else
                             {
                                 ManifestModel manifestModel = _manifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.MOVE_MANIFEST,
-                                                                manifestId: ConstantManager.ManifestId, barcodeCollection: BarcodeCollection.Where(t=>t.IsScanned == false).ToList(), tags: ConstantManager.Tags, 
+                                                                manifestId: ConstantManager.ManifestId, barcodeCollection: BarcodeCollection.Where(t => t.IsScanned == false).ToList(), tags: ConstantManager.Tags,
                                                                 TagsStr, partnerModel: ConstantManager.Partner, newPallets: new List<NewPallet>(),
                                                                 batches: new List<NewBatch>(), closedBatches: new List<string>(), validationStatus: 2, contents: SelectedBrand?.BrandName);
 
@@ -663,10 +663,46 @@ namespace KegID.ViewModel
             }
         }
 
+        private void UpdateTagsStr()
+        {
+            string tags = string.Empty;
+            if (ConstantManager.Tags != null)
+            {
+                if (!string.IsNullOrEmpty(SelectedBrand?.BrandName))
+                {
+                    if (!ConstantManager.Tags.Any(x => x.Property == "Contents"))
+                    {
+                        ConstantManager.Tags.Add(new Tag { Property = "Contents", Value = SelectedBrand?.BrandName });
+                    }
+                    else
+                    {
+                        ConstantManager.Tags.Find(x => x.Property == "Contents").Value = SelectedBrand?.BrandName;
+                    }
+                }
+                if (!string.IsNullOrEmpty(Batch))
+                {
+                    if (!ConstantManager.Tags.Any(x => x.Property == "Batch"))
+                    {
+                        ConstantManager.Tags.Add(new Tag { Property = "Batch", Value = Batch });
+                    }
+                    else
+                    {
+                        ConstantManager.Tags.Find(x => x.Property == "Batch").Value = Batch;
+                    }
+                }
+            }
+            foreach (Tag item in ConstantManager.Tags)
+            {
+                tags = tags + item.Property + " : " + item.Value + " ; ";
+            }
+            TagsStr = tags;
+        }
+
         internal async void BarcodeScanCommandReciever()
         {
             try
             {
+                UpdateTagsStr();
                 await _navigationService.NavigateAsync(new Uri("ScanditScanView", UriKind.Relative), new NavigationParameters
                     {
                         { "Tags", ConstantManager.Tags },{ "TagsStr", TagsStr },{ "ViewTypeEnum", ViewTypeEnum.ScanKegsView }
@@ -768,12 +804,12 @@ namespace KegID.ViewModel
             }
         }
 
-        internal void AssignAddTagsValue(List<Tag> _tags, string _tagsStr)
+        internal void AssignAddTagsValue(List<Tag> tags, string tagsStr)
         {
             try
             {
                 ConstantManager.IsFromScanned = false;
-                TagsStr = _tagsStr;
+                TagsStr = tagsStr;
             }
             catch (Exception ex)
             {

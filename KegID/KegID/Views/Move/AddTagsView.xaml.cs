@@ -27,7 +27,7 @@ namespace KegID.Views
             return true;
         }
 
-        private void LoadAddTagsAsync(ViewTypeEnum viewTypeEnum)
+        private void LoadAddTagsAsync(ViewTypeEnum viewTypeEnum, IList<Tag> tags = null)
         {
             try
             {
@@ -37,12 +37,12 @@ namespace KegID.Views
                     case ViewTypeEnum.FillScanView:
                         if (ConstantManager.IsFromScanned)
                         {
-                            OnAddMoreTagsClickedAsync(TagsTypeEnum.BestByDate);
-                            OnAddMoreTagsClickedAsync(TagsTypeEnum.ProductionDate);
-                            OnAddMoreTagsClickedAsync(TagsTypeEnum.AssetType);
-                            OnAddMoreTagsClickedAsync(TagsTypeEnum.Size);
-                            OnAddMoreTagsClickedAsync(TagsTypeEnum.Contents);
-                            OnAddMoreTagsClickedAsync(TagsTypeEnum.Batch);
+                            OnAddMoreTagsClickedAsync(TagsTypeEnum.BestByDate, tags.ToList().Find(x=>x.Property == "Best By Date").Value);
+                            OnAddMoreTagsClickedAsync(TagsTypeEnum.ProductionDate, tags.ToList().Find(x => x.Property == "Production Date").Value);
+                            OnAddMoreTagsClickedAsync(TagsTypeEnum.AssetType, tags.ToList().Find(x => x.Property == "Asset Type").Value);
+                            OnAddMoreTagsClickedAsync(TagsTypeEnum.Size, tags.ToList().Find(x => x.Property == "Size").Value);
+                            OnAddMoreTagsClickedAsync(TagsTypeEnum.Contents, tags.ToList().Find(x => x.Property == "Contents").Value);
+                            OnAddMoreTagsClickedAsync(TagsTypeEnum.Batch, tags.ToList().Find(x => x.Property == "Batch").Value);
                         }
                         else
                         {
@@ -85,7 +85,7 @@ namespace KegID.Views
             }
         }
 
-        private void OnAddMoreTagsClickedAsync(TagsTypeEnum title)
+        private void OnAddMoreTagsClickedAsync(TagsTypeEnum title,string selectedValue = "")
         {
             try
             {
@@ -94,63 +94,102 @@ namespace KegID.Views
 
                 grdTag.RowDefinitions.Add(new RowDefinition { Height = new GridLength(0, GridUnitType.Auto) });
 
-                Label nameEntry = new Label()
-                {
-                    VerticalOptions = LayoutOptions.Center,
-                };
-
                 customeTitle = title.ToString();
 
                 switch (title)
                 {
                     case TagsTypeEnum.BestByDate:
                         customeTitle = "Best By Date";
-                        break;
-                    case TagsTypeEnum.ProductionDate:
-                        customeTitle = "Production Date";
-                        break;
-                    case TagsTypeEnum.ExpiryDate:
-                        customeTitle = "Expiry Date";
-                        break;
-                    case TagsTypeEnum.AssetType:
-                        customeTitle = "Asset Type";
-                        break;
-                    case TagsTypeEnum.Size:
-                        customeTitle = "Size";
-                        break;
-                    case TagsTypeEnum.Contents:
-                        customeTitle = "Contents";
-                        break;
-                    case TagsTypeEnum.Batch:
-                        customeTitle = "Batch";
-                        break;
-                }
-                nameEntry.Text = customeTitle;
-                nameEntry.TextColor = Color.Black;
-                nameEntry.FontSize = 13;
-                nameEntry.LineBreakMode = LineBreakMode.TailTruncation;
-
-                switch (title)
-                {
-                    case TagsTypeEnum.BestByDate:
-                    case TagsTypeEnum.ProductionDate:
-                    case TagsTypeEnum.ExpiryDate:
                         valueEntry = new DatePicker()
                         {
                             VerticalOptions = LayoutOptions.Center,
                         };
+                        if (!string.IsNullOrEmpty(selectedValue))
+                        {
+                            valueEntry.Date = Convert.ToDateTime(selectedValue);
+                        }
+                        break;
+                    case TagsTypeEnum.ProductionDate:
+                        customeTitle = "Production Date";
+                        valueEntry = new DatePicker()
+                        {
+                            VerticalOptions = LayoutOptions.Center,
+                        };
+                        if (!string.IsNullOrEmpty(selectedValue))
+                        {
+                            valueEntry.Date = Convert.ToDateTime(selectedValue);
+                        }
+                        break;
+                    case TagsTypeEnum.ExpiryDate:
+                        customeTitle = "Expiry Date";
+                        valueEntry = new DatePicker()
+                        {
+                            VerticalOptions = LayoutOptions.Center,
+                        };
+                        if (!string.IsNullOrEmpty(selectedValue))
+                        {
+                            valueEntry.Date = Convert.ToDateTime(selectedValue);
+                        }
                         break;
                     case TagsTypeEnum.AssetType:
-                    case TagsTypeEnum.Size:
-                    case TagsTypeEnum.Contents:
-                    case TagsTypeEnum.Batch:
+                        customeTitle = "Asset Type";
                         valueEntry = new Picker()
                         {
                             VerticalOptions = LayoutOptions.Center,
                             Title = "Select " + customeTitle
                         };
+                        var assetType = LoadAssetTypeAsync();
+                        valueEntry.ItemsSource = assetType.Select(x => x.AssetType).ToList();
+                        if (!string.IsNullOrEmpty(selectedValue))
+                        {
+                            valueEntry.SelectedItem = selectedValue;
+                        }
                         break;
-                    case TagsTypeEnum.None:
+                    case TagsTypeEnum.Size:
+                        customeTitle = "Size";
+                        valueEntry = new Picker()
+                        {
+                            VerticalOptions = LayoutOptions.Center,
+                            Title = "Select " + customeTitle
+                        };
+                        var assetSize = LoadAssetSizeAsync();
+                        valueEntry.ItemsSource = assetSize.Select(x => x.AssetSize).ToList();
+                        if (!string.IsNullOrEmpty(selectedValue))
+                        {
+                            valueEntry.SelectedItem = selectedValue;
+                        }
+                        break;
+                    case TagsTypeEnum.Contents:
+                        customeTitle = "Contents";
+                        valueEntry = new Picker()
+                        {
+                            VerticalOptions = LayoutOptions.Center,
+                            Title = "Select " + customeTitle
+                        };
+                        var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                        var result = RealmDb.All<BrandModel>().ToList();
+                        valueEntry.ItemsSource = result.ToList();
+                        valueEntry.ItemDisplayBinding = new Binding("BrandName");
+                        if (!string.IsNullOrEmpty(selectedValue))
+                        {
+                            valueEntry.SelectedItem = result.ToList().Find(x=>x.BrandName == selectedValue);
+                        }
+                        break;
+                    case TagsTypeEnum.Batch:
+                        customeTitle = "Batch";
+                        valueEntry = new Picker()
+                        {
+                            VerticalOptions = LayoutOptions.Center,
+                            Title = "Select " + customeTitle
+                        };
+                        var RealmDb1 = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                        var Batchresult = RealmDb1.All<NewBatch>().ToList();
+                        valueEntry.ItemsSource = Batchresult.ToList();
+                        valueEntry.ItemDisplayBinding = new Binding("BrandName");
+                        if (!string.IsNullOrEmpty(selectedValue))
+                        {
+                            valueEntry.SelectedItem = Batchresult.ToList().Find(x=>x.BrandName == selectedValue);
+                        }
                         break;
                     default:
                         valueEntry = new Entry()
@@ -161,39 +200,14 @@ namespace KegID.Views
                         break;
                 }
 
-                switch (title)
+                Label nameEntry = new Label()
                 {
-                    case TagsTypeEnum.BestByDate:
-                    case TagsTypeEnum.ProductionDate:
-                    case TagsTypeEnum.ExpiryDate:
-                        break;
-                    case TagsTypeEnum.AssetType:
-                        var assetType = LoadAssetTypeAsync();
-                        valueEntry.ItemsSource = assetType.Select(x => x.AssetType).ToList();
-                        break;
-
-                    case TagsTypeEnum.Size:
-                        var assetSize = LoadAssetSizeAsync();
-                        valueEntry.ItemsSource = assetSize.Select(x => x.AssetSize).ToList();
-                        break;
-
-                    case TagsTypeEnum.Contents:
-                        var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                        var result = RealmDb.All<BrandModel>().ToList();
-                        valueEntry.ItemsSource = result.ToList();
-                        valueEntry.ItemDisplayBinding = new Binding("BrandName");
-                        break;
-
-                    case TagsTypeEnum.Batch:
-                        var RealmDb1 = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                        var Batchresult = RealmDb1.All<NewBatch>().ToList();
-                        valueEntry.ItemsSource = Batchresult.ToList();
-                        valueEntry.ItemDisplayBinding = new Binding("BrandName");
-                        break;
-
-                    default:
-                        break;
-                }
+                    VerticalOptions = LayoutOptions.Center,
+                    Text = customeTitle,
+                    TextColor = Color.Black,
+                    FontSize = 13,
+                    LineBreakMode = LineBreakMode.TailTruncation,
+                };
 
                 Button removeButton = new Button()
                 {
@@ -315,8 +329,10 @@ namespace KegID.Views
                             if (((Picker)child).SelectedItem != null)
                                 if (((Picker)child).SelectedItem.GetType() == typeof(NewBatch))
                                     tag.Value = ((NewBatch)((Picker)child).SelectedItem).BrandName;
-                                else
-                                    tag.Value = ((Picker)child).SelectedItem.ToString();
+                            else if (((Picker)child).SelectedItem.GetType() == typeof(BrandModel))
+                                tag.Value = ((BrandModel)((Picker)child).SelectedItem).BrandName;
+                            else
+                                tag.Value = ((Picker)child).SelectedItem.ToString();
                         }
 
                         else if (child.GetType() == typeof(Entry))
@@ -337,7 +353,7 @@ namespace KegID.Views
 
                 foreach (var item in tags)
                 {
-                    tagsStr = tagsStr + item.Property + " : " + item.Value + ";";
+                    tagsStr = tagsStr + item.Property + " : " + item.Value + " ; ";
                 }
                 ConstantManager.Tags = tags;
                 ConstantManager.TagsStr = tagsStr;
@@ -363,7 +379,14 @@ namespace KegID.Views
         {
             if (parameters.ContainsKey("viewTypeEnum"))
             {
-                LoadAddTagsAsync(parameters.GetValue<ViewTypeEnum>("viewTypeEnum"));
+                if (parameters.ContainsKey("AddTagsViewInitialValue"))
+                {
+                    LoadAddTagsAsync(parameters.GetValue<ViewTypeEnum>("viewTypeEnum"), parameters.GetValue<IList<Tag>>("AddTagsViewInitialValue"));
+                }
+                else
+                {
+                    LoadAddTagsAsync(parameters.GetValue<ViewTypeEnum>("viewTypeEnum"));
+                }
             }
         }
 
