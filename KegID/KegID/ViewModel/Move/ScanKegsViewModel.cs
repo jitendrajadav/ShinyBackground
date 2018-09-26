@@ -381,7 +381,7 @@ namespace KegID.ViewModel
                     await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), new NavigationParameters
                     {
                         {"viewTypeEnum",ViewTypeEnum.ScanKegsView },
-                        {"AddTagsViewInitialValue",model.Tags }
+                        {"AddTagsViewInitialValue",model }
                     }, useModalNavigation: true, animated: false);
                 }
             }
@@ -804,12 +804,40 @@ namespace KegID.ViewModel
             }
         }
 
-        internal void AssignAddTagsValue(List<Tag> tags, string tagsStr)
+        internal void AssignAddTagsValue(INavigationParameters parameters)
         {
             try
             {
+                if (parameters.ContainsKey("Barcode"))
+                {
+                    try
+                    {
+                        string barcode = parameters.GetValue<string>("Barcode");
+                        var oldBarcode = BarcodeCollection.Where(x => x.Barcode == barcode).FirstOrDefault();
+
+                        for (int i = oldBarcode.Tags.Count - 1; i >= 0; i--)
+                        {
+                            oldBarcode.Tags.RemoveAt(i);
+                        }
+                        
+                        using (var db = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
+                        {
+                            foreach (var item in ConstantManager.Tags)
+                            {
+                                oldBarcode.Tags.Add(item);
+                            }
+                            oldBarcode.TagsStr = ConstantManager.TagsStr;
+                            db.Commit();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Crashes.TrackError(ex);
+                    }
+                }
+
                 ConstantManager.IsFromScanned = false;
-                TagsStr = tagsStr;
+                TagsStr = ConstantManager.TagsStr;
             }
             catch (Exception ex)
             {
@@ -840,7 +868,7 @@ namespace KegID.ViewModel
                     await AssignValidatedValueAsync(parameters.GetValue<Partner>("Partner"));
                     break;
                 case "AddTags":
-                    AssignAddTagsValue(ConstantManager.Tags, ConstantManager.TagsStr);
+                    AssignAddTagsValue(parameters);
                     break;
                 case "models":
                     AssignBarcodeScannerValue(parameters.GetValue<IList<BarcodeModel>>("models"));

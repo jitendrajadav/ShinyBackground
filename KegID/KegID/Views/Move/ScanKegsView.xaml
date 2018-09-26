@@ -187,8 +187,8 @@
                                     <MenuItem Text="Delete" Command="{Binding BindingContext.DeleteItemCommand, Source={x:Reference lstBarcode}}" CommandParameter="{Binding .}"/>
                                 </ViewCell.ContextActions>
                                 <Grid 
-                                RowSpacing="0"
-                                ColumnSpacing="0">
+                                    RowSpacing="0"
+                                    ColumnSpacing="0">
 
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*"/>
@@ -196,8 +196,8 @@
                                     </Grid.RowDefinitions>
 
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="80*"/>
-                                        <ColumnDefinition Width="20*"/>
+                                        <ColumnDefinition Width="90*"/>
+                                        <ColumnDefinition Width="10*"/>
                                     </Grid.ColumnDefinitions>
 
                                     <Label 
@@ -218,9 +218,7 @@
                                     <Image 
                                         Grid.Column="1"
                                         Grid.RowSpan="2"
-                                        HeightRequest="30"
-                                        WidthRequest="30"
-                                        Margin="10,0,0,0"
+                                        Margin="1"
                                         VerticalOptions="Center"
                                         HorizontalOptions="Center"
                                         Source="{Binding Icon,Mode=TwoWay}">

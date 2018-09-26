@@ -232,8 +232,8 @@
                                         <RowDefinition Height="Auto"/>
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="80*"/>
-                                        <ColumnDefinition Width="20*"/>
+                                        <ColumnDefinition Width="90*"/>
+                                        <ColumnDefinition Width="10*"/>
                                     </Grid.ColumnDefinitions>
 
                                     <Label 
@@ -252,9 +252,7 @@
                                     <Image 
                                         Grid.Column="1"
                                         Grid.RowSpan="2"
-                                        HeightRequest="30"
-                                        WidthRequest="30"
-                                        Margin="10,0,0,0"
+                                        Margin="1"
                                         VerticalOptions="Center"
                                         HorizontalOptions="Center"
                                         Source="{Binding Icon,Mode=TwoWay}">
@@ -270,7 +268,13 @@
                                         TextColor="{StaticResource lightGrayColor}"
                                         Grid.Row="1"
                                         FontSize="{StaticResource ListViewDetailFont}"
-                                        Text="{Binding TagsStr}"/>
+                                        Text="{Binding TagsStr}">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Path=BindingContext.LabelItemTappedCommand, 
+                                                            Source={x:Reference Name=lstFillScan}}"
+                                                             CommandParameter="{Binding}"/>
+                                        </Label.GestureRecognizers>
+                                    </Label>
                                 </Grid>
                             </ViewCell>
                         </DataTemplate>

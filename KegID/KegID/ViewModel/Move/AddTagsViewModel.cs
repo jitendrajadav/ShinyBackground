@@ -109,10 +109,21 @@ namespace KegID.ViewModel
                     var value = message;
                     if (value != null)
                     {
-                        await _navigationService.GoBackAsync(new NavigationParameters
+                        if (!string.IsNullOrEmpty(value.Barcode))
+                        {
+                            await _navigationService.GoBackAsync(new NavigationParameters
                                 {
-                                    { "AddTags", ConstantManager.Tags }
-                                }, useModalNavigation: true, animated: false);
+                                    { "AddTags", ConstantManager.Tags },
+                                    { "Barcode", value.Barcode }
+                            }, useModalNavigation: true, animated: false);
+                        }
+                        else
+                        {
+                            await _navigationService.GoBackAsync(new NavigationParameters
+                                {
+                                    { "AddTags", ConstantManager.Tags },
+                            }, useModalNavigation: true, animated: false);
+                        }
                     }
                 });
             });

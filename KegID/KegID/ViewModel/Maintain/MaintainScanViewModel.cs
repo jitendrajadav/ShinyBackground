@@ -217,7 +217,7 @@ namespace KegID.ViewModel
                     item.Kegs.Partners.Remove(unusedPerner);
                 }
 
-                SubmitCommandRecieverAsync();
+                //SubmitCommandRecieverAsync();
             }
             catch (Exception ex)
             {
@@ -241,7 +241,8 @@ namespace KegID.ViewModel
                 {
                     await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), new NavigationParameters
                     {
-                        {"viewTypeEnum",ViewTypeEnum.MaintainScanView }
+                        {"viewTypeEnum",ViewTypeEnum.MaintainScanView },
+                        {"AddTagsViewInitialValue",model }
                     }, useModalNavigation: true, animated: false);
                 }
             }
@@ -444,6 +445,47 @@ namespace KegID.ViewModel
             }
         }
 
+        internal void AssignAddTagsValue(INavigationParameters parameters)
+        {
+            try
+            {
+                if (parameters.ContainsKey("Barcode"))
+                {
+                    try
+                    {
+                        string barcode = parameters.GetValue<string>("Barcode");
+                        var oldBarcode = BarcodeCollection.Where(x => x.Barcode == barcode).FirstOrDefault();
+
+                        for (int i = oldBarcode.Tags.Count - 1; i >= 0; i--)
+                        {
+                            oldBarcode.Tags.RemoveAt(i);
+                        }
+
+                        using (var db = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
+                        {
+                            foreach (var item in ConstantManager.Tags)
+                            {
+                                oldBarcode.Tags.Add(item);
+                            }
+                            oldBarcode.TagsStr = ConstantManager.TagsStr;
+                            db.Commit();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Crashes.TrackError(ex);
+                    }
+                }
+
+                //Tags = ConstantManager.Tags;
+                //TagsStr = ConstantManager.TagsStr;
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
+        }
+
         private void Cleanup()
         {
             BarcodeCollection.Clear();
@@ -481,6 +523,9 @@ namespace KegID.ViewModel
                     break;
                 case "models":
                     AssignBarcodeScannerValue(parameters.GetValue<IList<BarcodeModel>>("models"));
+                    break;
+                case "AddTags":
+                    AssignAddTagsValue(parameters);
                     break;
                 default:
                     break;

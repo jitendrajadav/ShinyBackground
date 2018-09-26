@@ -16,6 +16,7 @@ namespace KegID.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AddTagsView : ContentPage , INavigationAware
     {
+        BarcodeModel barcodeModel = null;
         public AddTagsView()
         {
             InitializeComponent();
@@ -27,29 +28,30 @@ namespace KegID.Views
             return true;
         }
 
-        private void LoadAddTagsAsync(ViewTypeEnum viewTypeEnum, IList<Tag> tags = null)
+        private void LoadAddTagsAsync(ViewTypeEnum viewTypeEnum, BarcodeModel barcode = null)
         {
             try
             {
+                barcodeModel = barcode;
                 switch (viewTypeEnum)
                 {
                     case ViewTypeEnum.ScanKegsView:
                     case ViewTypeEnum.FillScanView:
                         if (ConstantManager.IsFromScanned)
                         {
-                            OnAddMoreTagsClickedAsync(TagsTypeEnum.BestByDate, tags.ToList().Find(x=>x.Property == "Best By Date").Value);
-                            OnAddMoreTagsClickedAsync(TagsTypeEnum.ProductionDate, tags.ToList().Find(x => x.Property == "Production Date").Value);
-                            OnAddMoreTagsClickedAsync(TagsTypeEnum.AssetType, tags.ToList().Find(x => x.Property == "Asset Type").Value);
-                            OnAddMoreTagsClickedAsync(TagsTypeEnum.Size, tags.ToList().Find(x => x.Property == "Size").Value);
-                            OnAddMoreTagsClickedAsync(TagsTypeEnum.Contents, tags.ToList().Find(x => x.Property == "Contents").Value);
-                            OnAddMoreTagsClickedAsync(TagsTypeEnum.Batch, tags.ToList().Find(x => x.Property == "Batch").Value);
+                            OnAddMoreTagsClickedAsync(TagsTypeEnum.BestByDate, barcode?.Tags?.ToList().Find(x=>x.Property == "Best By Date")?.Value);
+                            OnAddMoreTagsClickedAsync(TagsTypeEnum.ProductionDate, barcode?.Tags?.ToList().Find(x => x.Property == "Production Date")?.Value);
+                            OnAddMoreTagsClickedAsync(TagsTypeEnum.AssetType, barcode?.Tags?.ToList().Find(x => x.Property == "Asset Type")?.Value);
+                            OnAddMoreTagsClickedAsync(TagsTypeEnum.Size, barcode?.Tags?.ToList().Find(x => x.Property == "Size")?.Value);
+                            OnAddMoreTagsClickedAsync(TagsTypeEnum.Contents, barcode?.Tags?.ToList().Find(x => x.Property == "Contents")?.Value);
+                            OnAddMoreTagsClickedAsync(TagsTypeEnum.Batch, barcode?.Tags?.ToList().Find(x => x.Property == "Batch")?.Value);
                         }
                         else
                         {
-                            OnAddMoreTagsClickedAsync(TagsTypeEnum.BestByDate);
-                            OnAddMoreTagsClickedAsync(TagsTypeEnum.ProductionDate);
-                            OnAddMoreTagsClickedAsync(TagsTypeEnum.AssetType);
-                            OnAddMoreTagsClickedAsync(TagsTypeEnum.Size);
+                            OnAddMoreTagsClickedAsync(TagsTypeEnum.BestByDate, barcode?.Tags?.ToList().Find(x => x.Property == "Best By Date")?.Value);
+                            OnAddMoreTagsClickedAsync(TagsTypeEnum.ProductionDate, barcode?.Tags?.ToList().Find(x => x.Property == "Production Date")?.Value);
+                            OnAddMoreTagsClickedAsync(TagsTypeEnum.AssetType, barcode?.Tags?.ToList().Find(x => x.Property == "Asset Type")?.Value);
+                            OnAddMoreTagsClickedAsync(TagsTypeEnum.Size, barcode?.Tags?.ToList().Find(x => x.Property == "Size")?.Value);
                         }
                         break;
                     case ViewTypeEnum.AddBatchView:
@@ -76,6 +78,13 @@ namespace KegID.Views
                         OnAddMoreTagsClickedAsync(TagsTypeEnum.GTIN);
                         OnAddMoreTagsClickedAsync(TagsTypeEnum.ProductionDate);
                         OnAddMoreTagsClickedAsync(TagsTypeEnum.ExpiryDate);
+                        break;
+                    case ViewTypeEnum.MaintainScanView:
+                        OnAddMoreTagsClickedAsync(TagsTypeEnum.BestByDate, barcode?.Tags?.ToList().Find(x => x.Property == "Best By Date")?.Value);
+                        OnAddMoreTagsClickedAsync(TagsTypeEnum.ProductionDate, barcode?.Tags?.ToList().Find(x => x.Property == "Production Date")?.Value);
+                        OnAddMoreTagsClickedAsync(TagsTypeEnum.AssetType, barcode?.Tags?.ToList().Find(x => x.Property == "Asset Type")?.Value);
+                        OnAddMoreTagsClickedAsync(TagsTypeEnum.Size, barcode?.Tags?.ToList().Find(x => x.Property == "Size")?.Value);
+                        OnAddMoreTagsClickedAsync(TagsTypeEnum.Contents, barcode?.Tags?.ToList().Find(x => x.Property == "Contents")?.Value);
                         break;
                 }
             }
@@ -176,19 +185,27 @@ namespace KegID.Views
                         }
                         break;
                     case TagsTypeEnum.Batch:
-                        customeTitle = "Batch";
-                        valueEntry = new Picker()
-                        {
-                            VerticalOptions = LayoutOptions.Center,
-                            Title = "Select " + customeTitle
-                        };
-                        var RealmDb1 = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                        var Batchresult = RealmDb1.All<NewBatch>().ToList();
-                        valueEntry.ItemsSource = Batchresult.ToList();
-                        valueEntry.ItemDisplayBinding = new Binding("BrandName");
                         if (!string.IsNullOrEmpty(selectedValue))
                         {
-                            valueEntry.SelectedItem = Batchresult.ToList().Find(x=>x.BrandName == selectedValue);
+                            valueEntry = new Entry()
+                            {
+                                VerticalOptions = LayoutOptions.Center,
+                                AutomationId = "Value",
+                                Text = selectedValue
+                            };
+                        }
+                        else
+                        {
+                            customeTitle = "Batch";
+                            valueEntry = new Picker()
+                            {
+                                VerticalOptions = LayoutOptions.Center,
+                                Title = "Select " + customeTitle
+                            };
+                            var RealmDb1 = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                            var Batchresult = RealmDb1.All<NewBatch>().ToList();
+                            valueEntry.ItemsSource = Batchresult.ToList();
+                            valueEntry.ItemDisplayBinding = new Binding("BrandName");
                         }
                         break;
                     default:
@@ -359,7 +376,8 @@ namespace KegID.Views
                 ConstantManager.TagsStr = tagsStr;
                 PagesMessage pagesMessage = new PagesMessage
                 {
-                    AssingValue = true
+                    AssingValue = true,
+                    Barcode = barcodeModel?.Barcode ?? ""
                 };
                 MessagingCenter.Send(pagesMessage, "PagesMessage");
             }
@@ -381,7 +399,7 @@ namespace KegID.Views
             {
                 if (parameters.ContainsKey("AddTagsViewInitialValue"))
                 {
-                    LoadAddTagsAsync(parameters.GetValue<ViewTypeEnum>("viewTypeEnum"), parameters.GetValue<IList<Tag>>("AddTagsViewInitialValue"));
+                    LoadAddTagsAsync(parameters.GetValue<ViewTypeEnum>("viewTypeEnum"), parameters.GetValue<BarcodeModel>("AddTagsViewInitialValue"));
                 }
                 else
                 {

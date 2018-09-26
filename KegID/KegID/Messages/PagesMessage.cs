@@ -6,6 +6,7 @@ namespace KegID.Messages
     public class PagesMessage
     {
         public bool AssingValue { get; set; }
+        public string Barcode { get; set; }
     }
 
     //public class SelectPrinterMsg
