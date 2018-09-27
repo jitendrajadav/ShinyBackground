@@ -124,11 +124,11 @@ namespace KegID
             containerRegistry.RegisterForNavigation<WhatIsNewView, WhatIsNewViewModel>();
             containerRegistry.RegisterForNavigation<LoginView, LoginViewModel>();
             containerRegistry.RegisterForNavigation<MainPage, MainViewModel>();
-
+            
             //Popup Navigation Register
             containerRegistry.RegisterPopupNavigationService();
 
-            //   Services Register
+            //Services Register
             containerRegistry.Register<IAccountService, AccountService>();
             containerRegistry.Register<IDashboardService, DashboardService>();
             containerRegistry.Register<IMoveService, MoveService>();

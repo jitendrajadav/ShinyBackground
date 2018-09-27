@@ -7,6 +7,7 @@
              BackgroundColor="{StaticResource pageBGColor}"
              xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:local="clr-namespace:KegID.Views"
              ios:Page.UseSafeArea="true"
              >
 
@@ -165,14 +166,7 @@
                     IsVisible="{Binding IsPalletze}"
                     Style="{StaticResource BottomButtonTitleStyle}"
                     HeightRequest="50"
-                    Command="{Binding PrintCommand}">
-                    <Button.Margin>
-                        <OnPlatform x:TypeArguments="Thickness">
-                            <On Platform="iOS, WinPhone, Windows" Value="-15,-5,-15,-5" />
-                            <On Platform="Android" Value="-10,2,-10,2" />
-                        </OnPlatform>
-                    </Button.Margin>
-                </Button>
+                    Command="{Binding PrintCommand}"/>
 
                 <BoxView
                     Margin="-10,0,-10,0"
@@ -195,8 +189,11 @@
                     TextColor="#B7EB35"
                     Style="{StaticResource LabelTitleWhiteTextColorStyle}"
                     Text="{Binding BarcodeCollection.Count}"/>
-            
-                <ListView
+              
+                <local:ScanItemView
+                    Grid.Row="5"/>
+
+                <!--<ListView
                     x:Name="lstFillScan"
                     Grid.Row="5"
                     VerticalOptions="FillAndExpand"
@@ -279,7 +276,7 @@
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
-                </ListView>
+                </ListView>-->
 
             </Grid>
         </Grid>

@@ -7,6 +7,7 @@
              xmlns:controls="clr-namespace:Plugin.CrossPlatformTintedImage.Abstractions;assembly=Plugin.CrossPlatformTintedImage.Abstractions"
              xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:local="clr-namespace:KegID.Views"
              ios:Page.UseSafeArea="true"
              >
 
@@ -167,7 +168,11 @@
                     VerticalOptions="Center"
                     Text="{Binding BarcodeCollection.Count}"/>
 
-                <ListView
+                <local:ScanItemView
+                    Grid.Row="4"
+                    Grid.ColumnSpan="3"/>
+                
+                <!--<ListView
                     Margin="10,0,10,0"
                     x:Name="lstBarcode"
                     Grid.Row="4"
@@ -247,7 +252,7 @@
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
-                </ListView>
+                </ListView>-->
 
             </Grid>
 

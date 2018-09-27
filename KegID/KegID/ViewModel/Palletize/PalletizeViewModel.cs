@@ -625,6 +625,7 @@ namespace KegID.ViewModel
                     trans.Commit();
                 }
                 Tags = null;
+                ConstantManager.Barcodes.Clear();
             }
             catch (Exception ex)
             {
