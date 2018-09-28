@@ -357,7 +357,7 @@
       <Version>7.1.0.279-pre</Version>
     </PackageReference>
     <PackageReference Include="Realm">
-      <Version>3.2.0</Version>
+      <Version>3.2.1</Version>
     </PackageReference>
     <PackageReference Include="runtime.win10-arm64.runtime.native.System.IO.Compression">
       <Version>4.3.2</Version>

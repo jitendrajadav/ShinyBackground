@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit" Version="2.4.0" />
+    <PackageReference Include="xunit.runner.console" Version="2.4.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Behaviors\" />
+    <Folder Include="Mocks\" />
+    <Folder Include="ViewModels\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
+
+</Project>

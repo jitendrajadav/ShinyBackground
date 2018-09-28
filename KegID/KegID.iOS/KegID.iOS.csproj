@@ -57,8 +57,7 @@
     <MtouchDebug>true</MtouchDebug>
     <CodesignEntitlements>
     </CodesignEntitlements>
-    <CodesignProvision>
-    </CodesignProvision>
+    <CodesignProvision>iOS Team Provisioning Profile: KegIDBeta</CodesignProvision>
     <MtouchLink>None</MtouchLink>
     <CodesignExtraArgs>
     </CodesignExtraArgs>
@@ -194,7 +193,7 @@
       <Version>7.1.0.279-pre</Version>
     </PackageReference>
     <PackageReference Include="Realm">
-      <Version>3.2.0</Version>
+      <Version>3.2.1</Version>
     </PackageReference>
     <PackageReference Include="Scandit.BarcodePicker.Unified">
       <Version>5.8.2.10</Version>
