@@ -37,9 +37,9 @@ namespace KegID
         protected override void OnInitialized()
         {
             // Initialize Live Reload.
-//#if DEBUG
-//            LiveReload.Init();
-//#endif
+            //#if DEBUG
+            //            LiveReload.Init();
+            //#endif
             InitializeComponent();
 
             serviceProvider = new ServiceCollection()

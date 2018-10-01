@@ -44,7 +44,7 @@
                     <behaviors:EventToCommandBehavior
                             EventName="ItemTapped" 
                             Command="{Binding ItemTappedCommand}"
-                            Converter="{StaticResource ItemTappedConverter}"/>
+                            EventArgsConverter="{StaticResource ItemTappedConverter}"/>
                 </ListView.Behaviors>
 
                 <ListView.ItemTemplate>
