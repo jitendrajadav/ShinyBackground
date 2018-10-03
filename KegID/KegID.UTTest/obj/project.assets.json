@@ -352,7 +352,7 @@
           "lib/netstandard1.0/Rg.Plugins.Popup.dll": {}
         }
       },
-      "Scandit.BarcodePicker.Unified/5.8.2.10": {
+      "Scandit.BarcodePicker.Unified/5.9.0.10": {
         "type": "package",
         "compile": {
           "lib/netstandard1.0/Scandit.BarcodePicker.Unified.Abstractions.dll": {},
@@ -859,7 +859,7 @@
           "Prism.Plugin.Popups": "2.1.0.182-pre",
           "Prism.Unity.Forms": "7.1.0.279-pre",
           "Realm": "3.2.1",
-          "Scandit.BarcodePicker.Unified": "5.8.2.10",
+          "Scandit.BarcodePicker.Unified": "5.9.0.10",
           "Xam.Plugins.Settings": "4.0.0.10-beta",
           "Xamarin.Essentials": "0.10.0-preview",
           "Xamarin.FFImageLoading.Forms": "2.4.3.840",
@@ -1712,10 +1712,10 @@
         "rg.plugins.popup.nuspec"
       ]
     },
-    "Scandit.BarcodePicker.Unified/5.8.2.10": {
-      "sha512": "HSwQyQo3Pw5pFNh5mWuPDe1Mdxwbo5DDMlMqhBBGzt7e4C3IbgeNokckqpPCf3brebWiz+VKA4NHvIQ9K5aupA==",
+    "Scandit.BarcodePicker.Unified/5.9.0.10": {
+      "sha512": "leiPYvHkN/QP2zcMv7aN5YsNRluEI7lRePXA/wzKpgbxDY5h2pv8AVpOlVxktbR5q6ifLpKrpwGfErlRhw8sUg==",
       "type": "package",
-      "path": "scandit.barcodepicker.unified/5.8.2.10",
+      "path": "scandit.barcodepicker.unified/5.9.0.10",
       "files": [
         ".signature.p7s",
         "lib/MonoAndroid10/Scandit.BarcodePicker.Unified.Abstractions.dll",
@@ -1749,7 +1749,7 @@
         "lib/wpa81/Scandit.BarcodePicker.Unified/Scandit.BarcodePicker.Unified.xr.xml",
         "lib/wpa81/Scandit.BarcodePicker.pri",
         "lib/wpa81/VideoInputRT.Interop.pri",
-        "scandit.barcodepicker.unified.5.8.2.10.nupkg.sha512",
+        "scandit.barcodepicker.unified.5.9.0.10.nupkg.sha512",
         "scandit.barcodepicker.unified.nuspec"
       ]
     },

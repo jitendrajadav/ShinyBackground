@@ -16,7 +16,6 @@ using Scandit.BarcodePicker.Unified;
 using Microsoft.AppCenter.Distribute;
 using System;
 using System.Threading.Tasks;
-using LinkOS.Plugin.Abstractions;
 
 namespace KegID
 {

@@ -41,8 +41,8 @@ namespace KegID.Droid.DependencyServices
                 webpage = new Android.Webkit.WebView(CrossCurrentActivity.Current.AppContext);
             }
 
-            int width = 2959;
-            int height = 3873;
+            int width = 3659;
+            int height = 4573;
 
             webpage.Layout(0, 0, width, height);
             webpage.LoadDataWithBaseURL("", html, "text/html", "UTF-8", null);
@@ -160,7 +160,7 @@ namespace KegID.Droid.DependencyServices
         public override void OnPageFinished(Android.Webkit.WebView myWebview, string url)
         {
             PdfDocument document = new PdfDocument();
-            PdfDocument.Page page = document.StartPage(new PdfDocument.PageInfo.Builder(2959, 3900, 1).Create());
+            PdfDocument.Page page = document.StartPage(new PdfDocument.PageInfo.Builder(3659, 4600, 1).Create());
 
             myWebview.Draw(page.Canvas);
             document.FinishPage(page);

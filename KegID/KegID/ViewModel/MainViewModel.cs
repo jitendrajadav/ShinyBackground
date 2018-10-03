@@ -370,7 +370,6 @@ namespace KegID.ViewModel
             }
         }
 
-
         private void StartPrinterSearch()
         {
             new Task(new Action(() =>
