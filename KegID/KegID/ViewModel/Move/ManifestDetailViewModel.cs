@@ -265,7 +265,7 @@ namespace KegID.ViewModel
 
             try
             {
-                string filePath = share.SafeHTMLToPDF(output, "Manifest");
+                string filePath = share.SafeHTMLToPDF(output, "Manifest",0);
                 share.ShareLocalFile(filePath,"Please check Manifest PDF",null);
             }
             catch (Exception ex)

@@ -20,8 +20,11 @@ namespace KegID.Droid.DependencyServices
     /// </summary> 
     public class ShareFileImplementation : IShareFile
     {
-        public string SafeHTMLToPDF(string html, string filename)
+        public string SafeHTMLToPDF(string html, string filename,int flag)
         {
+            int width = 0;
+            int height = 0;
+
             Android.Webkit.WebView webpage = null;
             var dir = new Java.IO.File(Android.OS.Environment.ExternalStorageDirectory.AbsolutePath + "/KegIdFiles/");
             var file = new Java.IO.File(dir + "/" + filename + ".pdf");
@@ -41,12 +44,19 @@ namespace KegID.Droid.DependencyServices
                 webpage = new Android.Webkit.WebView(CrossCurrentActivity.Current.AppContext);
             }
 
-            int width = 3659;
-            int height = 4573;
-
+            if (flag == 0)
+            {
+                width = 2959;
+                height = 3873;
+            }
+            else
+            {
+                width = 3659;
+                height = 4573;
+            }
             webpage.Layout(0, 0, width, height);
             webpage.LoadDataWithBaseURL("", html, "text/html", "UTF-8", null);
-            webpage.SetWebViewClient(new WebViewCallBack(file.ToString()));
+            webpage.SetWebViewClient(new WebViewCallBack(file.ToString(),flag));
 
             return file.ToString();
         }
@@ -150,18 +160,31 @@ namespace KegID.Droid.DependencyServices
 
     internal class WebViewCallBack : WebViewClient
     {
+        readonly int width = 0;
+        readonly int height = 0;
+
         readonly string fileNameWithPath = null;
 
-        public WebViewCallBack(string path)
+        public WebViewCallBack(string path,int flag)
         {
             fileNameWithPath = path;
+            if (flag == 0)
+            {
+                width = 2959;
+                height = 3900;
+            }
+            else
+            {
+                width = 3659;
+                height = 4600;
+            }
         }
 
         public override void OnPageFinished(Android.Webkit.WebView myWebview, string url)
         {
             PdfDocument document = new PdfDocument();
-            PdfDocument.Page page = document.StartPage(new PdfDocument.PageInfo.Builder(3659, 4600, 1).Create());
-
+            PdfDocument.Page page = document.StartPage(new PdfDocument.PageInfo.Builder(width, height, 1).Create());
+             
             myWebview.Draw(page.Canvas);
             document.FinishPage(page);
             Stream filestream = new MemoryStream();

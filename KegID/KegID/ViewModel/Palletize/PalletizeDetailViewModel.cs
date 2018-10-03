@@ -364,7 +364,7 @@ namespace KegID.ViewModel
         {
             var share = DependencyService.Get<IShareFile>();
 
-            string output = String.Empty;
+            string output = string.Empty;
             try
             {
                 var xslInput = DependencyService.Get<IXsltContent>().GetXsltContent("palletprintnew.xslt");
@@ -398,8 +398,8 @@ namespace KegID.ViewModel
 
             try
             {
-                string filePath = share.SafeHTMLToPDF(output, "Manifest");
-                share.ShareLocalFile(filePath, "Please check Manifest PDF", null);
+                string filePath = share.SafeHTMLToPDF(output, "Pallet",1);
+                share.ShareLocalFile(filePath, "Please check Pallet PDF", null);
             }
             catch (Exception ex)
             {

@@ -9,6 +9,7 @@ using Realms;
 using KegID.LocalDb;
 using Prism.Commands;
 using Prism.Navigation;
+using System.Threading.Tasks;
 
 namespace KegID.ViewModel
 {
@@ -18,6 +19,8 @@ namespace KegID.ViewModel
 
         private readonly IMoveService _moveService;
         private readonly INavigationService _navigationService;
+        private readonly IInitializeMetaData _initializeMetaData;
+
         public bool BrewerStockOn { get; set; }
 
         #region IsWorking
@@ -232,7 +235,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string PartnerNamePropertyName = "PartnerName";
 
-        private string _PartnerName = default(string);
+        private string _PartnerName = default;
 
         /// <summary>
         /// Sets and gets the PartnerName property.
@@ -277,11 +280,12 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public PartnersViewModel(IMoveService moveService, INavigationService navigationService)
+        public PartnersViewModel(IMoveService moveService, INavigationService navigationService, IInitializeMetaData initializeMetaData)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
 
             _moveService = moveService;
+            _initializeMetaData = initializeMetaData;
 
             InternalCommand = new DelegateCommand(InternalCommandReciever);
             AlphabeticalCommand = new DelegateCommand(AlphabeticalCommandReciever);
@@ -333,8 +337,10 @@ namespace KegID.ViewModel
             }
         }
 
-        public void LoadPartnersAsync()
+        public async Task LoadPartnersAsync()
         {
+            Loader.StartLoading();
+
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             AllPartners = RealmDb.All<PartnerModel>().ToList();
             try
@@ -346,6 +352,11 @@ namespace KegID.ViewModel
                         PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners.Where(x => x.PartnerTypeName == "Brewer - Stock").ToList());
                     else
                         PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners);
+                }
+                else
+                {
+                    await _initializeMetaData.LoadInitializeMetaData();
+                    await LoadPartnersAsync();
                 }
             }
             catch (Exception ex)
@@ -465,13 +476,13 @@ namespace KegID.ViewModel
             }
         }
 
-        public override void OnNavigatingTo(INavigationParameters parameters)
+        public async override void OnNavigatingTo(INavigationParameters parameters)
         {
             if (parameters.ContainsKey("BrewerStockOn"))
                 BrewerStockOn = true;
             else
                 BrewerStockOn = false;
-            LoadPartnersAsync();
+           await LoadPartnersAsync();
         }
 
         #endregion

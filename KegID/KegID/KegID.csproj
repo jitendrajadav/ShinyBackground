@@ -378,6 +378,9 @@
     <None Update="Views\Scanner\ScanditScanView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>
+    <None Update="Views\Scanner\ScanItemView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
     <None Update="Views\Setting\AboutAppView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>
