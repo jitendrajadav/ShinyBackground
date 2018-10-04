@@ -11,6 +11,7 @@
 
     <ContentPage.Content>
         <Grid
+            AutomationId="mainGrd"
             RowSpacing="0">
 
             <Grid.RowDefinitions>
@@ -19,11 +20,13 @@
             </Grid.RowDefinitions>
             
             <Grid
+                AutomationId="innerGrd"
                 Padding="0,5"
                 Grid.Row="0"
                 BackgroundColor="{StaticResource selectTextColor}">
 
                 <Label
+                    AutomationId="selectBrandLabel"
                     Style="{StaticResource LabelTitleStyle}"
                     TextColor="White"
                     HorizontalOptions="CenterAndExpand"
@@ -31,6 +34,7 @@
             </Grid>
             
             <ListView 
+                AutomationId="brandListView"
                 Margin="5,0,5,0"
                 Grid.Row="1"
                 x:Name="brandListView"

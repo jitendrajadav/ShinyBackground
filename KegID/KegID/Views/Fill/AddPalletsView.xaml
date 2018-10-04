@@ -12,6 +12,7 @@
     <ContentPage.Content>
         
         <Grid
+            AutomationId="mainGrd"
             RowSpacing="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -21,6 +22,7 @@
             </Grid.RowDefinitions>
 
             <Button
+                AutomationId="fillKegsButton"
                 x:Name="lblFillKegs"
                 Style="{StaticResource TopButtonTitleStyle}"
                 Text="{Binding Resources[title_activity_fill_manifest]}"
@@ -28,12 +30,14 @@
                 />
 
             <Label
+                AutomationId="addPalletLabel"
                 TextColor="Black"
                 Style="{StaticResource LabelTitleStyle}"
                 Text="{Binding Resources[title_pallet_add]}"
                 HorizontalOptions="Center"/>
 
             <BoxView
+                AutomationId="topBarSeperatorBoxView"
                 Grid.Row="1"
                 Margin="0,0,0,10"
                 BackgroundColor="{StaticResource lightGrayPlaceholderColor}"
@@ -42,6 +46,7 @@
                 HorizontalOptions="FillAndExpand"/>
 
             <Grid
+                AutomationId="innerGrd"
                 Margin="10,0,10,0"
                 Grid.Row="2"
                 RowSpacing="5">
@@ -54,11 +59,13 @@
 
 
                 <Label
+                    AutomationId="addPalletTitleLabel"
                     Grid.Row="0"
                     Style="{StaticResource LabelNormalStyle}"
                     Text="{Binding AddPalletsTitle}"/>
 
                 <BoxView
+                    AutomationId="lineSeperator1"
                     Margin="-10,0,-10,0"
                     Grid.Row="1"
                     BackgroundColor="{StaticResource bannerBGColor}"
@@ -66,16 +73,19 @@
                     HorizontalOptions="FillAndExpand"/>
 
                 <StackLayout
+                    AutomationId="stackLayout"
                     Grid.Row="1"
                     Orientation="Horizontal"
                     HorizontalOptions="Start"
                     VerticalOptions="Center">
                
                     <Label
+                        AutomationId="palletCountLabel"
                         Style="{StaticResource LabelTitleWhiteTextColorStyle}"
                         Text="{Binding PalletCollection.Count, StringFormat='Pallets: {0}'}"/>
                 
                     <Label
+                        AutomationId="kegsLabel"
                         TextColor="#B7EB35"
                         Style="{StaticResource LabelTitleWhiteTextColorStyle}"
                         Text="{Binding Kegs}"/>
@@ -83,6 +93,7 @@
                 </StackLayout>
 
                 <Button
+                    AutomationId="plusButton"
                     Grid.Row="1"
                     x:Name="imgAdd"
                     HorizontalOptions="End"   
@@ -95,6 +106,7 @@
                     VerticalOptions="Center"/>
 
                 <ListView
+                    AutomationId="palletListView"
                     x:Name="lstPallets"
                     Grid.Row="2"
                     SelectionMode="None"
@@ -153,6 +165,7 @@
         </Grid>
             
         <Button
+            AutomationId="submitButton"
             x:Name="lblSubmit"
             Margin="{StaticResource BottomAppBarButtonMargin}"
             Grid.Row="3"

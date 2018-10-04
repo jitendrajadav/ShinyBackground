@@ -12,6 +12,7 @@
     <ContentPage.Content>
         
         <Grid
+            AutomationId="mainGrd"
             RowSpacing="0">
             
             <Grid.RowDefinitions>
@@ -21,6 +22,7 @@
             </Grid.RowDefinitions>
 
             <Button
+                AutomationId="addBatchButton"
                 x:Name="lblAddBatch"
                 Style="{StaticResource TopButtonTitleStyle}"
                 Text="{Binding Resources[title_batch_add]}"
@@ -28,6 +30,7 @@
                 />
 
             <BoxView
+                AutomationId="topBarSeperatorBoxView"
                 Margin="-10,0,-10,0"
                 BackgroundColor="{StaticResource lightGrayPlaceholderColor}"
                 HeightRequest="1"
@@ -35,11 +38,13 @@
                 HorizontalOptions="FillAndExpand"/>
             
             <Grid
+                AutomationId="innerGrd"
                 Padding="0,5"
                 Grid.Row="1"
                 BackgroundColor="{StaticResource selectTextColor}">
 
                 <Label
+                    AutomationId="selectBatchLebel"
                     Style="{StaticResource LabelTitleStyle}"
                     HorizontalOptions="CenterAndExpand"
                     TextColor="White"
@@ -47,6 +52,7 @@
             </Grid>
 
             <ListView
+                AutomationId="batchListView"
                 Grid.Row="2"
                 Margin="10,0,10,0"
                 x:Name="lstBatch"

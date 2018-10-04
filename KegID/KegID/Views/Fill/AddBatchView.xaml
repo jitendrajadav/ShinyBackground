@@ -22,12 +22,14 @@
             </Grid.RowDefinitions>
 
             <Button
+                AutomationId="cancelButton"
                 x:Name="lblCancel"
                 Style="{StaticResource TopButtonTitleStyle}"
                 Text="{Binding Resources[dialog_print_negative]}"
                 Command="{Binding CancelCommand}"/>
 
             <Label
+                AutomationId="addBatchLabel"
                 Grid.ColumnSpan="3"
                 Style="{StaticResource LabelTitleStyle}"
                 TextColor="Black"
@@ -35,6 +37,7 @@
                 Text="{Binding Resources[title_batch_add]}"/>
             
             <BoxView
+                AutomationId="topBarSeperatorBoxView"
                 Grid.ColumnSpan="3"
                 Margin="0,0,0,10"
                 Grid.Row="1"
@@ -44,6 +47,7 @@
                 HorizontalOptions="FillAndExpand"/>
 
                 <Grid
+                    AutomationId="innerGrd"
                     Margin="10,0,10,0"
                     Grid.ColumnSpan="3"
                     Grid.Row="2"
@@ -68,6 +72,7 @@
                     </Grid.ColumnDefinitions>
 
                     <Label
+                        AutomationId="brandLabel"
                         Grid.ColumnSpan="3"
                         x:Name="lblBrand"
                         Style="{StaticResource LabelNormalStyle}"
@@ -82,11 +87,13 @@
                     </Label>
 
                     <Label
+                        AutomationId="batchCodeLabel"
                         Grid.Row="1"
                         Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Resources[label_batch_code]}"/>
 
                     <Entry 
+                        AutomationId="batchCodeEntry"
                         Grid.ColumnSpan="2"
                         Grid.Column="1"
                         HorizontalOptions="FillAndExpand"
@@ -94,22 +101,26 @@
                         Grid.Row="1"/>
 
                     <Label
+                        AutomationId="brewDateLabel"
                         Grid.Row="2"
                         Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Resources[label_brew_date]}"/>
 
                     <DatePicker 
+                        AutomationId="brewDatePicker"
                         Grid.Row="2"
                         Grid.ColumnSpan="2"
                         Grid.Column="1"
                         Date="{Binding BrewDate}"/>
 
                     <Label
+                        AutomationId="assetVolumeLabel"
                         Grid.Row="3"
                         Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Resources[label_asset_volume]}"/>
 
                     <Entry 
+                        AutomationId="volumeEntry"
                         Grid.Row="3"
                         Grid.Column="1"
                         HorizontalOptions="FillAndExpand"
@@ -117,6 +128,7 @@
                         Text="{Binding VolumeDigit}"/>
 
                     <Entry 
+                        AutomationId="volumeCharEntry"
                         Grid.Row="3"
                         Grid.Column="2"
                         HorizontalOptions="FillAndExpand"
@@ -129,33 +141,39 @@
                     </Entry>
 
                     <Label
+                        AutomationId="packageDateLabel"
                         Grid.Row="4"
                         Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Resources[label_package_date]}"/>
 
                     <DatePicker 
+                        AutomationId="packageDatePicker"
                         Grid.Row="4"
                         Grid.ColumnSpan="2"
                         Grid.Column="1"
                         Date="{Binding PackageDate}"/>
 
                     <Label
+                        AutomationId="bestByDateLabel"
                         Grid.Row="5"
                         Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Resources[label_bestby_date]}"/>
 
                     <DatePicker 
+                        AutomationId="bestByDatePicker"
                         Grid.Row="5"
                         Grid.ColumnSpan="2"
                         Grid.Column="1"
                         Date="{Binding BestByDate}"/>
 
                     <Label
+                        AutomationId="alcohalContentLabel"
                         Grid.Row="6"
                         Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Resources[label_alcohol_content]}"/>
 
                     <Entry 
+                        AutomationId="alcohalContentEntry"
                         Keyboard="Numeric"
                         Grid.Row="6"
                         Grid.Column="1"
@@ -164,6 +182,7 @@
                         Text="{Binding AlcoholContent}"/>
                    
                     <Label
+                        AutomationId="tagsStrLabel"
                         Style="{StaticResource LabelNormalStyle}"
                         Grid.ColumnSpan="2"
                         Text="{Binding TagsStr}"
@@ -173,6 +192,7 @@
                 
 
             <Button
+                AutomationId="doneButton"
                 x:Name="lblDone"
                 Grid.ColumnSpan="3"
                 Grid.Row="3"

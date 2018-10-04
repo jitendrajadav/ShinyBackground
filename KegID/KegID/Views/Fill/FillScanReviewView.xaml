@@ -10,6 +10,7 @@
     <ContentPage.Content>
         
         <Grid
+            AutomationId="mainGrd"
             Margin="10,0,10,0">
 
             <Grid.RowDefinitions>
@@ -22,6 +23,7 @@
             </Grid.RowDefinitions>
 
             <Button
+                AutomationId="scanButton"
                 x:Name="btnScan"
                 Style="{StaticResource TopButtonTitleStyle}"
                 HorizontalOptions="Start"
@@ -30,6 +32,7 @@
                 />
 
             <Label 
+                AutomationId="reviewLabel"
                 TextColor="Black"
                 Style="{StaticResource LabelTitleStyle}"
                 HorizontalOptions="Center"
@@ -37,6 +40,7 @@
                 />
 
             <BoxView
+                AutomationId="topBarSeperatorBoxView"
                 Margin="-10,0,-10,0"
                 Grid.Row="1"
                 BackgroundColor="{StaticResource bannerBGColor}"
@@ -44,6 +48,7 @@
                 HorizontalOptions="FillAndExpand"/>
 
             <Label 
+                AutomationId="trackingNumberLabel"
                 Grid.Row="1"
                 TextColor="White"
                 Text="{Binding TrackingNumber,StringFormat='Tracking #: {0}', Converter={StaticResource StringToLast8CharacterConverter}}"
@@ -52,6 +57,7 @@
                 HorizontalOptions="Start" />
 
             <Label 
+                AutomationId="labelToLabel"
                 Grid.Row="2"
                 FontSize="Medium"
                 Text="{Binding Resources[label_to]}"
@@ -59,6 +65,7 @@
                 HorizontalOptions="Start" />
             
             <Label 
+                AutomationId="manifestToLabel"
                 Grid.Row="3"
                 Margin="10,0,0,0"
                 FontSize="Medium"
@@ -67,6 +74,7 @@
                 HorizontalOptions="Start" />
 
             <Grid
+                AutomationId="innerGrd"
                 x:Name="grdContent"
                 Margin="10,30,10,0"
                 RowSpacing="0"
@@ -92,6 +100,7 @@
                 </Grid.ColumnDefinitions>
 
                 <BoxView
+                    AutomationId="boxView1"
                     Grid.Row="0"
                     Grid.ColumnSpan="5"
                     BackgroundColor="{StaticResource lightGrayColor}"
@@ -100,6 +109,7 @@
                     HorizontalOptions="FillAndExpand"/>
 
                 <BoxView
+                    AutomationId="boxView2"
                     Grid.Row="0"
                     Grid.RowSpan="7"
                     BackgroundColor="{StaticResource lightGrayColor}"
@@ -108,6 +118,7 @@
                     HorizontalOptions="Start"/>
 
                 <BoxView
+                    AutomationId="boxView3"
                     Grid.Row="6"
                     Grid.ColumnSpan="5"
                     BackgroundColor="{StaticResource lightGrayColor}"
@@ -116,6 +127,7 @@
                     HorizontalOptions="FillAndExpand"/>
 
                 <BoxView
+                    AutomationId="boxView4"
                     Grid.Row="0"
                     Grid.Column="4"
                     Grid.RowSpan="7"
@@ -125,6 +137,7 @@
                     HorizontalOptions="End"/>
 
                 <Label
+                    AutomationId="contentsLabel"
                     Grid.Column="1"
                     Grid.Row="1"
                     Grid.ColumnSpan="3"
@@ -139,6 +152,7 @@
                     Text="{Binding Contents}"/>
 
                 <BoxView
+                    AutomationId="boxView5"
                     Grid.Row="3"
                     Grid.Column="2"
                     Grid.RowSpan="3"
@@ -148,6 +162,7 @@
                     HorizontalOptions="End"/>
 
                 <BoxView
+                    AutomationId="boxView6"
                     Grid.Row="2"
                     Grid.ColumnSpan="4"
                     BackgroundColor="{StaticResource lightGrayColor}"
@@ -156,6 +171,7 @@
                     HorizontalOptions="FillAndExpand"/>
 
                 <Label
+                    AutomationId="typeLabel"
                     Margin="5"
                     Grid.Column="1"
                     Grid.Row="3"
@@ -163,6 +179,7 @@
                     Text="1/2 bbl"/>
 
                 <Label
+                    AutomationId="itemCountLabel"
                     Margin="5"
                     HorizontalOptions="End"
                     TextColor="{StaticResource selectTextColor}"
@@ -172,6 +189,7 @@
                     Text="{Binding ItemCount}"/>
 
                 <BoxView
+                    AutomationId="boxView7"
                     Grid.Row="4"
                     Grid.ColumnSpan="4"
                     BackgroundColor="{StaticResource lightGrayColor}"
@@ -180,6 +198,7 @@
                     HorizontalOptions="FillAndExpand"/>
 
                 <Label
+                    AutomationId="totalLabel"
                     Margin="5"
                     Grid.Column="1"
                     Grid.Row="5"
@@ -189,6 +208,7 @@
                     Text="{Binding Resources[label_total]}"/>
 
                 <Label
+                    AutomationId="itemCountValue"
                     Margin="5"
                     HorizontalOptions="End"
                     FontSize="Medium"
@@ -199,6 +219,7 @@
             </Grid>
             
             <Button
+                AutomationId="submitButton"
                 x:Name="lblSubmit"
                 Margin="{StaticResource BottomAppBarButtonMargin}"
                 Grid.Row="5"
