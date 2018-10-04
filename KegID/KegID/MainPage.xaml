@@ -10,6 +10,7 @@
              xmlns:views="clr-namespace:KegID.Views"
              >
     <Grid
+        AutomationId="mainGrd"
        RowSpacing="0">
         
         <Grid.RowDefinitions>
@@ -20,6 +21,7 @@
         </Grid.RowDefinitions>
         
         <Grid
+            AutomationId="innerGrd"
             Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -27,29 +29,25 @@
             </Grid.ColumnDefinitions>
 
             <Image 
+                AutomationId="imgBanner"
                 VerticalOptions="Center"
                 Grid.Column="0"
                 HeightRequest="50"
-                >
-                <Image.Margin>
-                    <OnPlatform x:TypeArguments="Thickness">
-                        <On Platform="iOS" Value="0,0,0,2" />
-                        <On Platform="Android, WinPhone, Windows" Value="0,2,0,2" />
-                    </OnPlatform>
-                </Image.Margin>
+                Margin="0,2,0,2">
                 <Image.Source>
                     <FileImageSource File="{OnPlatform Android=kegidbanner.png,iOS=kegidbanner.png, UWP=Assets/kegidbanner.png }"/>
                 </Image.Source>
             </Image>
 
             <cvt:TintedImage 
-                    TintColor="{StaticResource selectTextColor}"
-                    x:Name="imgMore"
-                    HorizontalOptions="Center"                  
-                    VerticalOptions="Center"
-                    Grid.Column="1"
-                    HeightRequest="30"
-                    BackgroundColor="Transparent" >
+                AutomationId="imgSetting"
+                TintColor="{StaticResource selectTextColor}"
+                x:Name="imgMore"
+                HorizontalOptions="Center"                  
+                VerticalOptions="Center"
+                Grid.Column="1"
+                HeightRequest="30"
+                BackgroundColor="Transparent" >
                 <cvt:TintedImage.Source>
                     <FileImageSource File="{OnPlatform Android=setting.png,iOS=setting.png, UWP=Assets/setting.png }"/>
                 </cvt:TintedImage.Source>
@@ -63,14 +61,16 @@
         </Grid>
 
         <BoxView
-                Margin="0,0,-10,0"
-                Grid.Row="1"
-                BackgroundColor="{StaticResource lightGrayPlaceholderColor}"
-                HeightRequest="1"
-                VerticalOptions="Start"
-                HorizontalOptions="FillAndExpand"/>
+            AutomationId="boxViewSeperator"
+            Margin="0,0,-10,0"
+            Grid.Row="1"
+            BackgroundColor="{StaticResource lightGrayPlaceholderColor}"
+            HeightRequest="1"
+            VerticalOptions="Start"
+            HorizontalOptions="FillAndExpand"/>
 
         <controls:CarouselViewControl 
+            AutomationId="carouselMain"
             Grid.Row="2"
             x:Name="myDashboard"
             ShowIndicators="true">
@@ -83,6 +83,7 @@
         </controls:CarouselViewControl>
 
         <Label
+            AutomationId="labelDraftMsg"
             Grid.Row="3"
             TextColor="White"
             VerticalTextAlignment="Center"

@@ -137,7 +137,7 @@ namespace KegID.iOS.DependencyServices
             return localPath;
         }
 
-        public string SafeHTMLToPDF(string html, string filename)
+        public string SafeHTMLToPDF(string html, string filename,int flag)
         {
             UIWebView webView = new UIWebView(new CGRect(0, 0, 6.5 * 72, 9 * 72));
 

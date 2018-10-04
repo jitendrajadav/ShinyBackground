@@ -11,7 +11,8 @@
 
     <ContentPage.Content>
         
-        <Grid>
+        <Grid
+            AutomationId="mainGrd">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -19,6 +20,7 @@
             </Grid.RowDefinitions>
 
             <Button
+                AutomationId="partnerInfoButton"
                 Style="{StaticResource TopButtonTitleStyle}"
                 x:Name="lblPartnerInfo"
                 HorizontalOptions="Start"
@@ -27,6 +29,7 @@
                 />
 
             <Label 
+                AutomationId="kegsLabel"
                 Text="{Binding Resources[kegs]}"
                 Style="{StaticResource LabelTitleStyle}"
                 TextColor="Black"
@@ -34,12 +37,14 @@
                 VerticalOptions="Center"/>
 
             <BoxView
+                AutomationId="topBarSeperatorBoxView"
                 Grid.Row="1"
                 BackgroundColor="{StaticResource bannerBGColor}"
                 VerticalOptions="FillAndExpand"
                 HorizontalOptions="FillAndExpand"/>
 
             <Label 
+                AutomationId="kegstitleLabel"
                 Text="{Binding KegsTitle}"
                 Grid.Row="1"
                 Style="{StaticResource LabelTitleWhiteTextColorStyle}"
@@ -47,6 +52,7 @@
                 HorizontalOptions="Center"/>
 
             <ListView
+                AutomationId="kegsPossessionListView"
                 Margin="10,0,10,0"
                 x:Name="lstBarcode"
                 Grid.Row="2"

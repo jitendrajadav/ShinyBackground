@@ -9,13 +9,15 @@
 
     <ContentPage.Content>
       
-        <Grid>
+        <Grid
+            AutomationId="mainGrd">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
             <Button
+                AutomationId="partnerInfoButton"
                 x:Name="lblPartnerInfo"
                 HorizontalOptions="Start"
                 Style="{StaticResource TopButtonTitleStyle}"
@@ -23,6 +25,7 @@
                 Command="{Binding PartnerInfoCommand}"/>
 
             <Grid 
+                AutomationId="mapGrd"
                 Grid.Row="1"
                 x:Name="MapControl"/>
         </Grid>

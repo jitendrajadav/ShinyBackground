@@ -11,13 +11,15 @@
 
     <ContentPage.Content>
         
-        <Grid>
+        <Grid
+            AutomationId="mainGrd">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
             <Button
+                AutomationId="cancelButton"
                 x:Name="lblCancel"
                 HorizontalOptions="Start"
                 Style="{StaticResource TopButtonTitleStyle}"
@@ -26,12 +28,14 @@
                 />
 
             <Label
+                AutomationId="kegSearchLabel"
                 HorizontalOptions="Center"
                 Style="{StaticResource LabelTitleStyle}"
                 Text="{Binding Resources[title_keg_search]}"
                 />
             
             <controls:TintedImage 
+                AutomationId="cameraImage"
                 TintColor="{StaticResource selectTextColor}"
                 x:Name="imgCamera"
                 Margin="0,5,10,0"
@@ -51,6 +55,7 @@
             </controls:TintedImage>
 
             <Grid
+                AutomationId="innerGrd"
                 Grid.Row="1"
                 BackgroundColor="#E6E6E6">
                 <Grid.RowDefinitions>
@@ -61,6 +66,7 @@
                 </Grid.RowDefinitions>
 
                 <BoxView
+                    AutomationId="lineSeperatorBoxView"
                     Grid.Row="0"
                     BackgroundColor="{StaticResource lightGrayColor}"
                     HeightRequest="1"
@@ -68,6 +74,7 @@
                     HorizontalOptions="FillAndExpand"/>
 
                 <Entry
+                    AutomationId="barcodeEntry"
                     BackgroundColor="White"
                     Margin="10,10,10,0"
                     Text="{Binding Barcode,Mode=TwoWay}"
@@ -81,6 +88,7 @@
                 </Entry>
 
                 <Label
+                    AutomationId="kegSuccessMsgLabel"
                     Style="{StaticResource LabelTitleStyle}"
                     VerticalOptions="Center"
                     HorizontalOptions="Center"
@@ -88,6 +96,7 @@
                     Text="{Binding KegsSuccessMsg}"/>
 
                 <Button
+                    AutomationId="bulkUpdateButton"
                     Margin="10,0,10,0"
                     Grid.Row="3"
                     x:Name="lblBulkupdate"
@@ -98,6 +107,7 @@
                     />
 
                 <Button
+                    AutomationId="searchButton"
                     Margin="10"
                     Grid.Row="3"
                     x:Name="lblSearch"

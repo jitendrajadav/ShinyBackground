@@ -12,7 +12,8 @@
     
     <ContentPage.Content>
         
-        <Grid>
+        <Grid
+            AutomationId="mainGrd">
             
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -21,6 +22,7 @@
             </Grid.RowDefinitions>
            
             <Button
+                AutomationId="kegsButton"
                 x:Name="lblKegs"
                 HorizontalOptions="Start"
                 Style="{StaticResource TopButtonTitleStyle}"
@@ -28,12 +30,14 @@
                 Command="{Binding KegsCommand}"/>
 
             <Label 
+                AutomationId="kegsStatusLabel"
                 Text="{Binding Resources[label_keg_status]}"
                 TextColor="Black"
                 Style="{StaticResource LabelTitleStyle}"
                 HorizontalOptions="Center" />
 
             <Button
+                AutomationId="editButton"
                 x:Name="lblEdit"
                 HorizontalOptions="End"
                 Style="{StaticResource TopButtonTitleStyle}"
@@ -41,6 +45,7 @@
                 Command="{Binding EditCommand}"/>
 
             <BoxView
+                AutomationId="topBarSeperatorBoxView"
                 Margin="-10,0,-10,0"
                 Grid.Row="1"
                 BackgroundColor="{StaticResource bannerBGColor}"
@@ -48,12 +53,14 @@
                 HorizontalOptions="FillAndExpand"/>
 
             <Label 
+                AutomationId="barcodeLabel"
                 Grid.Row="1"
                 Text="{Binding Barcode, StringFormat=' Barcode   {0}'}"
                 Style="{StaticResource LabelTitleWhiteTextColorStyle}"
                 />
 
             <controls:TintedImage 
+                AutomationId="invalieImage"
                 IsVisible="{Binding KegHasAlert}"
                 TintColor="{StaticResource alertGoldColor}"
                 x:Name="imgInvalidTools"
@@ -74,8 +81,10 @@
             </controls:TintedImage>
 
             <ScrollView
+                AutomationId="scrollView"
                 Grid.Row="2">
                 <Grid
+                    AutomationId="innerGrd"
                     Grid.Row="2"
                     Margin="10">
                     <Grid.RowDefinitions>
@@ -108,12 +117,14 @@
                     </Grid.ColumnDefinitions>
                     
                     <Label
+                        AutomationId="altBarcodeLabel"
                         Grid.ColumnSpan="2"
                         Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Resources[label_alt_barcode]}"
                         Grid.Row="0"/>
                     
                     <Label
+                        AutomationId="doubleDashLabel"
                         Grid.ColumnSpan="2"
                         Margin="10,0,0,0"
                         Style="{StaticResource LabelNormalStyle}"
@@ -121,12 +132,14 @@
                         Grid.Row="1"/>
 
                     <Label
+                        AutomationId="ownerLabel"
                         Grid.ColumnSpan="2"
                         Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Resources[label_owner]}"
                         Grid.Row="2"/>
                    
                     <Label
+                        AutomationId="ownerValue"
                         Grid.ColumnSpan="2"
                         Margin="10,0,0,0"
                         Style="{StaticResource LabelNormalStyle}"
@@ -134,12 +147,14 @@
                         Grid.Row="3"/>
 
                     <Label
+                        AutomationId="sizeLabel"
                         Grid.ColumnSpan="2"
                         Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Resources[label_size]}"
                         Grid.Row="4"/>
 
                     <Label
+                        AutomationId="sizeValue"
                         Grid.ColumnSpan="2"
                         Margin="10,0,0,0"
                         Style="{StaticResource LabelNormalStyle}"
@@ -147,12 +162,14 @@
                         Grid.Row="5"/>
 
                     <Label
+                        AutomationId="typeLabel"
                         Grid.ColumnSpan="2"
                         Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Resources[label_type]}"
                         Grid.Row="6"/>
 
                     <Label
+                        AutomationId="typeValue"
                         Grid.ColumnSpan="2"
                         Margin="10,0,0,0"
                         Style="{StaticResource LabelNormalStyle}"
@@ -160,12 +177,14 @@
                         Grid.Row="7"/>
 
                     <Label
+                        AutomationId="moreInfoLabel"
                         Grid.ColumnSpan="2"
                         Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Resources[label_more_info]}"
                         Grid.Row="8"/>
 
                     <Label
+                        AutomationId="tagsStrLabel"
                         Grid.ColumnSpan="2"
                         Margin="10,0,0,0"
                         Style="{StaticResource LabelNormalStyle}"
@@ -173,12 +192,14 @@
                         Grid.Row="9"/>
 
                     <Label
+                        AutomationId="currentLocationLabel"
                         Grid.ColumnSpan="2"
                         Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Resources[label_currentlocation]}"
                         Grid.Row="10"/>
 
                     <Button
+                        AutomationId="possessorButton"
                         Grid.ColumnSpan="2"
                         BackgroundColor="Transparent"
                         TextColor="{StaticResource selectTextColor}"
@@ -189,12 +210,14 @@
                         Command="{Binding CurrentLocationCommand}"/>
 
                     <Label
+                        AutomationId="daysAtLocationLabel"
                         Grid.ColumnSpan="2"
                         Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Resources[label_days_at_location]}"
                         Grid.Row="12"/>
 
                     <Label
+                        AutomationId="heldDaysLabel"
                         Grid.ColumnSpan="2"
                         Margin="10,0,0,0"
                         Style="{StaticResource LabelNormalStyle}"
@@ -202,12 +225,14 @@
                         Grid.Row="13"/>
                     
                     <Label
+                        AutomationId="contentsLabel"
                         Grid.ColumnSpan="2"
                         Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Resources[label_contents_keg]}"
                         Grid.Row="14"/>
 
                     <Label
+                        AutomationId="contentsValue"
                         Grid.ColumnSpan="2"
                         Margin="10,0,0,0"
                         Style="{StaticResource LabelNormalStyle}"
@@ -215,12 +240,14 @@
                         Grid.Row="15"/>
                     
                     <Label
+                        AutomationId="batchLabel"
                         Grid.ColumnSpan="2"
                         Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Resources[label_batch]}"
                         Grid.Row="16"/>
 
                     <Label
+                        AutomationId="batchValue"
                         Grid.ColumnSpan="2"
                         Margin="10,0,0,0"
                         Style="{StaticResource LabelNormalStyle}"
@@ -228,6 +255,7 @@
                         Grid.Row="17"/>
                     
                     <Button
+                        AutomationId="moveKegsButton"
                         Grid.ColumnSpan="2"
                         BackgroundColor="Transparent"
                         TextColor="{StaticResource selectTextColor}"
@@ -238,6 +266,7 @@
                         Command="{Binding MoveKegCommand}"/>
 
                     <Picker
+                        AutomationId="addAlertPicker"
                         x:Name="picker"
                         Grid.Column="0"
                         BackgroundColor="Transparent"
@@ -257,6 +286,7 @@
                     </Picker>
 
                     <Picker
+                        AutomationId="removeAlertPicker"
                         Grid.Column="1"
                         HorizontalOptions="FillAndExpand"
                         BackgroundColor="Transparent"
@@ -274,6 +304,7 @@
                     </Picker>
 
                     <ListView
+                        AutomationId="maintenancePerformedListView"
                         VerticalOptions="FillAndExpand"
                         Grid.ColumnSpan="2"
                         Margin="0,0,0,10"

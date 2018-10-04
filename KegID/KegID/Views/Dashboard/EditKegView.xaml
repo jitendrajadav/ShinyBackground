@@ -10,6 +10,7 @@
     <ContentPage.Content>
 
         <Grid
+            AutomationId="mainGrd"
             Margin="10,0,10,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -27,6 +28,7 @@
             </Grid.ColumnDefinitions>
             
             <Button
+                AutomationId="cancelButton"
                 Grid.ColumnSpan="2"
                 x:Name="lblCancel"
                 HorizontalOptions="Start"
@@ -35,6 +37,7 @@
                 Command="{Binding CancelCommand}"/>
 
             <Label 
+                AutomationId="editKegLabel"
                 Grid.ColumnSpan="2"
                 Text="{Binding Resources[label_edit_keg]}"
                 TextColor="Black"
@@ -43,6 +46,7 @@
                 HorizontalOptions="Center" />
 
             <Button
+                AutomationId="saveButton"
                 Grid.ColumnSpan="2"
                 x:Name="lblSave"
                 HorizontalOptions="End"
@@ -51,6 +55,7 @@
                 Command="{Binding SaveCommand}"/>
 
             <BoxView
+                AutomationId="topBarSeperatorBoxView"
                 Grid.ColumnSpan="2"
                 Margin="-10,0,-10,0"
                 Grid.Row="1"
@@ -59,6 +64,7 @@
                 HorizontalOptions="FillAndExpand"/>
 
             <Label 
+                AutomationId="barcodeLabel"
                 Grid.ColumnSpan="2"
                 Grid.Row="1"
                 Text="{Binding Barcode, StringFormat=' Barcode   {0}'}"
@@ -66,22 +72,26 @@
                 VerticalOptions="CenterAndExpand"/>
            
             <Label
+                AutomationId="altBarcodeLabel"
                 Style="{StaticResource LabelNormalStyle}"
                 Text="{Binding Resources[label_alt_barcode]}"
                 Grid.Row="2"/>
 
             <Entry
+                AutomationId="altBarcodeEntry"
                 Text="{Binding AltBarcode}"
                 Grid.Row="2"
                 Grid.Column="1"
                 Placeholder="0000-0000000"/>
 
             <Label
+                AutomationId="ownerLabel"
                 Style="{StaticResource LabelNormalStyle}"
                 Text="{Binding Resources[label_owner]}"
                 Grid.Row="3"/>
 
             <Label
+                AutomationId="ownerValue"
                 x:Name="lblOwner"
                 Grid.Row="3"
                 HorizontalOptions="Start"
@@ -99,11 +109,13 @@
             </Label>
 
             <Label
+                AutomationId="sizeLabel"
                 Style="{StaticResource LabelNormalStyle}"
                 Text="{Binding Resources[label_size]}"
                 Grid.Row="4"/>
 
             <Label
+                AutomationId="sizeValue"
                 x:Name="lblSize"
                 HorizontalOptions="Start"
                 HorizontalTextAlignment="Start"
@@ -121,11 +133,13 @@
             </Label>
 
             <Label
+                AutomationId="typeLabel"
                 Style="{StaticResource LabelNormalStyle}"
                 Text="{Binding Resources[label_type]}"
                 Grid.Row="5"/>
 
             <Picker
+                AutomationId="typePicker"
                 BackgroundColor="Transparent"
                 TextColor="{StaticResource selectTextColor}"
                 Grid.Row="5"
@@ -141,11 +155,13 @@
             </Picker>
             
             <Label
+                AutomationId="moreInfoLabel"
                 Style="{StaticResource LabelNormalStyle}"
                 Text="{Binding Resources[label_more_info]}"
                 Grid.Row="6"/>
 
             <Label
+                AutomationId="tagsStrLabel"
                 LineBreakMode="TailTruncation"
                 x:Name="lblTagsStr"
                 HorizontalTextAlignment="Start"

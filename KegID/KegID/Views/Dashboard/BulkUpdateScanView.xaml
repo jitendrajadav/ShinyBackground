@@ -12,6 +12,7 @@
 
     <ContentPage.Content>
         <Grid
+            AutomationId="mainGrd"
             RowSpacing="0">
 
             <Grid.RowDefinitions>
@@ -20,6 +21,7 @@
             </Grid.RowDefinitions>
             
             <Button
+                AutomationId="cancelButton"
                 x:Name="lblCancel"
                 HorizontalOptions="Start"
                 Style="{StaticResource TopButtonTitleStyle}"
@@ -28,12 +30,14 @@
                 />
 
             <Label
+                AutomationId="scanLabel"
                 HorizontalOptions="Center"
                 Style="{StaticResource LabelTitleStyle}"
                 Text="{Binding Resources[menu_action_scan]}"
                 />
 
             <Button
+                AutomationId="saveButton"
                 x:Name="lblSave"
                 HorizontalOptions="End"
                 Style="{StaticResource TopButtonTitleStyle}"
@@ -42,6 +46,7 @@
                 />
             
             <Grid
+                AutomationId="innerGrd"
                 Margin="10"
                 Grid.Row="1"
                 RowSpacing="0">
@@ -63,6 +68,7 @@
                 </Grid.ColumnDefinitions>
 
                 <BoxView
+                    AutomationId="topBarSeparator"
                     Grid.Row="0"
                     Grid.ColumnSpan="3"
                     BackgroundColor="{StaticResource lightGrayColor}"
@@ -71,6 +77,7 @@
                     HorizontalOptions="FillAndExpand"/>
 
                 <Picker
+                    AutomationId="assetTypePicker"
                     Title="{Binding Resources[label_partnerinfo_type]}"
                     BackgroundColor="Transparent"
                     TextColor="{StaticResource selectTextColor}"
@@ -82,6 +89,7 @@
                 </Picker>
 
                 <Picker
+                    AutomationId="sizePicker"
                     Title="{Binding Resources[tag_size]}"
                     Grid.Row="2"
                     Grid.ColumnSpan="3"
@@ -92,6 +100,7 @@
                     SelectedItem="{Binding SelectedItemSize,Mode=TwoWay}"/>
 
                 <Entry
+                    AutomationId="barcodeEntry"
                     Grid.Row="3"
                     Text="{Binding ManaulBarcode,Mode=TwoWay}"
                     >
@@ -104,6 +113,7 @@
                 </Entry>
                
                 <controls:TintedImage 
+                    AutomationId="cameraImage"
                     TintColor="{StaticResource selectTextColor}"
                     x:Name="imgCamera"
                     Grid.Row="3"
@@ -124,6 +134,7 @@
                 </controls:TintedImage>
 
                 <controls:TintedImage
+                    AutomationId="tagsImage"
                     TintColor="{StaticResource selectTextColor}"
                     x:Name="imgTags"
                     Grid.Row="3"
@@ -143,6 +154,7 @@
                 </controls:TintedImage>
 
                 <Label
+                    AutomationId="tagsLabel"
                     Grid.Row="4"
                     Grid.ColumnSpan="3"
                     LineBreakMode="TailTruncation"
@@ -150,6 +162,7 @@
                     FontSize="10"/>
 
                 <BoxView
+                    AutomationId="lineSeperator"
                     Margin="-10,0,-10,0"
                     Grid.Row="5"
                     Grid.ColumnSpan="3"
@@ -158,12 +171,14 @@
                     HorizontalOptions="FillAndExpand"/>
 
                 <Label
+                    AutomationId="scannedLabel"
                     Style="{StaticResource LabelTitleWhiteTextColorStyle}"
                     Grid.Row="5"
                     Grid.ColumnSpan="3"
                     Text="{Binding Resources[label_scanned]}"/>
 
                 <Label
+                    AutomationId="scanCountLabel"
                     Grid.ColumnSpan="3"
                     Grid.Row="5"
                     Style="{StaticResource LabelLargeStyle}"
@@ -173,6 +188,7 @@
                     Text="{Binding BarcodeCollection.Count}"/>
 
                 <ListView
+                    AutomationId="barcodeListView"
                     Margin="10,0,10,0"
                     x:Name="lstBarcode"
                     Grid.Row="6"

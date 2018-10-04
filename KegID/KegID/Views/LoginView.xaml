@@ -10,6 +10,7 @@
     <ContentPage.Content>
         
         <Grid 
+            AutomationId="mainGrd"
             RowSpacing="{StaticResource GirdRowSpacing}"
             Margin="20">
            
@@ -21,6 +22,7 @@
             </Grid.RowDefinitions>
             
             <Image
+                AutomationId="imgLogo"
                 HorizontalOptions="Center"
                 VerticalOptions="Start"
                 Margin="40"
@@ -38,6 +40,7 @@
             </Image>
 
             <Entry
+                AutomationId="usernameEntry"
                 Grid.Row="1"
                 Placeholder="{Binding Resources[hint_username]}"
                 HeightRequest="{StaticResource EntryHeight}"
@@ -45,6 +48,7 @@
             </Entry>
 
             <Entry
+                AutomationId="passwordEntry"
                 IsPassword="True"
                 Grid.Row="2"
                 Placeholder="{Binding Resources[hint_password]}"
@@ -52,6 +56,7 @@
                 Text="{Binding Password}"/>
 
             <Button
+                AutomationId="loginButton"
                 Margin="0,20,0,0"
                 x:Name="lblLogin"
                 Style="{StaticResource BottomButtonTitleStyle}"

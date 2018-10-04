@@ -11,6 +11,7 @@
     <ContentPage.Content>
        
         <Grid
+            AutomationId="mainGrd"
             RowSpacing="{OnPlatform Android=0,iOS=5,UWP=0}">
             
             <Grid.RowDefinitions>

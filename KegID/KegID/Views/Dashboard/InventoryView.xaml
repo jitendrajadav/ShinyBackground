@@ -17,7 +17,8 @@
             Icon="actionaccept.png"
             Title="{Binding Resources[label_stock]}">
            
-            <Grid>
+            <Grid
+                AutomationId="mainGrd1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="9*"/>
                     <RowDefinition Height="9*"/>
@@ -25,6 +26,7 @@
                 </Grid.RowDefinitions>
 
             <Button
+                AutomationId="homeButton"
                 x:Name="lblHome"
                 HorizontalOptions="Start"
                 Style="{StaticResource TopButtonTitleStyle}"
@@ -46,6 +48,7 @@
             </Button>
 
             <Label
+                AutomationId="stockSummaryLabel"
                 HorizontalOptions="Center"
                 Style="{StaticResource LabelTitleStyle}"
                 TextColor="Black"
@@ -59,12 +62,14 @@
             </Label>
 
                 <BoxView
+                    AutomationId="lineSeperatorBoxView1"
                     Grid.Row="1"
                     BackgroundColor="{StaticResource bannerBGColor}"
                     VerticalOptions="Center"
                     HorizontalOptions="FillAndExpand"/>
 
                 <Label
+                    AutomationId="stockLabel"
                     Margin="10,0,0,0"
                     VerticalTextAlignment="Center"
                     Grid.Row="1"
@@ -73,6 +78,7 @@
                     Text="{Binding Resources[label_stock]}"/>
 
                 <ListView 
+                    AutomationId="stockInventoryListView"
                     Margin="5,0,5,0"
                     Grid.Row="2"
                     SelectionMode="None"
@@ -186,7 +192,8 @@
             Icon="actionaccept.png"
             Title="{Binding Resources[content_list_empty]}"
             x:Name="cnEmpty">
-            <Grid>
+            <Grid
+                AutomationId="mainGrd2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="9*"/>
                     <RowDefinition Height="9*"/>
@@ -194,6 +201,7 @@
                 </Grid.RowDefinitions>
 
                 <Button
+                    AutomationId="homeButton1"
                     TextColor="{StaticResource selectTextColor}"
                     Style="{StaticResource TopButtonTitleStyle}"
                     HorizontalOptions="Start"
@@ -215,6 +223,7 @@
             </Button>
 
             <Label
+                AutomationId="emptySummaryLabel"
                 HorizontalOptions="Center"
                 Style="{StaticResource LabelTitleStyle}"
                 TextColor="Black"
@@ -229,12 +238,14 @@
             </Label>
 
                 <BoxView
+                    AutomationId="lineSeperatorBoxview2"
                     Grid.Row="1"
                     BackgroundColor="{StaticResource bannerBGColor}"
                     VerticalOptions="Center"
                     HorizontalOptions="FillAndExpand"/>
 
                 <Label
+                    AutomationId="listEmptyLabel"
                     Margin="10,0,0,0"
                     Grid.Row="1"
                     HorizontalOptions="Start"
@@ -242,6 +253,7 @@
                     Text="{Binding Resources[content_list_empty]}"/>
 
                 <ListView 
+                    AutomationId="EmptyInventoryListView"
                     SelectionMode="None"
                     Margin="5,0,5,0"
                     Grid.Row="2"

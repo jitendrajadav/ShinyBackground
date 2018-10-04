@@ -5,6 +5,7 @@
   <ContentView.Content>
       
         <Grid
+            AutomationId="mainGrd"
             RowSpacing="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
@@ -12,6 +13,7 @@
             </Grid.RowDefinitions>
 
             <Grid 
+                AutomationId="innerGrd1"
                 Margin="10,50,10,10"
                 Grid.Row="0">
                 <Grid.ColumnDefinitions>
@@ -20,6 +22,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Grid
+                    AutomationId="subInnerGrd1"
                     RowSpacing="0"
                     ColumnSpacing="0"
                     Grid.Row="0">
@@ -45,6 +48,7 @@
                     </Grid.ColumnDefinitions>
 
                     <BoxView
+                        AutomationId="topLineBoxView"
                         Grid.Row="0"
                         Grid.ColumnSpan="6"
                         BackgroundColor="Gray"
@@ -53,6 +57,7 @@
                         HorizontalOptions="FillAndExpand"/>
 
                     <BoxView
+                        AutomationId="leftLineBoxView"
                         Grid.Row="0"
                         Grid.RowSpan="9"
                         BackgroundColor="Gray"
@@ -61,6 +66,7 @@
                         HorizontalOptions="Start"/>
 
                     <BoxView
+                        AutomationId="dummyLefLineBoxView"
                         Grid.Row="1"
                         Grid.RowSpan="8"
                         Grid.Column="1"
@@ -70,6 +76,7 @@
                         HorizontalOptions="Start"/>
 
                     <BoxView
+                        AutomationId="rightLineBoxView"
                         Grid.Row="8"
                         Grid.ColumnSpan="6"
                         BackgroundColor="Gray"
@@ -78,6 +85,7 @@
                         HorizontalOptions="FillAndExpand"/>
 
                     <BoxView
+                        AutomationId="bottomLineBoxView"
                         Grid.Row="0"
                         Grid.Column="5"
                         Grid.RowSpan="9"
@@ -87,6 +95,7 @@
                         HorizontalOptions="End"/>
 
                     <Label
+                        AutomationId="stockLabel"
                         Style="{StaticResource LabelRigthAlign}"
                         Grid.Column="2"
                         Grid.Row="1"
@@ -96,6 +105,7 @@
                         Text="{Binding Resources[label_stock]}"/>
 
                     <BoxView
+                        AutomationId="lineSeperatorBoxView1"
                         Grid.Column="3"
                         Grid.Row="0"
                         Grid.RowSpan="9"
@@ -105,6 +115,7 @@
                         HorizontalOptions="Start"/>
 
                     <Label
+                        AutomationId="inventoryLabel"
                         x:Name="lblInventory"
                         Grid.Row="1"
                         Grid.Column="4"
@@ -122,6 +133,7 @@
                     </Label>
 
                     <BoxView
+                        AutomationId="lineSeperatorBoxView2"
                         Grid.Row="2"
                         Grid.ColumnSpan="6"
                         BackgroundColor="Gray"
@@ -130,6 +142,7 @@
                         HorizontalOptions="FillAndExpand"/>
 
                     <Label
+                        AutomationId="emptiesLabel"
                         Style="{StaticResource LabelRigthAlign}"
                         Grid.Column="2"
                         Grid.Row="3"
@@ -139,6 +152,7 @@
                         Text="{Binding Resources[label_empties]}"/>
 
                     <Label
+                        AutomationId="emptyValue"
                         x:Name="lblEmpty"
                         BackgroundColor="Transparent"
                         Grid.Row="3"
@@ -156,6 +170,7 @@
                     </Label>
 
                     <BoxView
+                        AutomationId="lineSeperatorBoxView3"
                         Grid.Row="4"
                         Grid.ColumnSpan="6"
                         BackgroundColor="Gray"
@@ -164,6 +179,7 @@
                         HorizontalOptions="FillAndExpand"/>
 
                     <Label
+                        AutomationId="inUseLable"
                         Style="{StaticResource LabelRigthAlign}"
                         Grid.Column="2"
                         Grid.Row="5"
@@ -173,6 +189,7 @@
                         Text="{Binding Resources[label_inuse]}"/>
 
                     <Label
+                        AutomationId="inUseValue"
                         x:Name="lblInUse"
                         BackgroundColor="Transparent"
                         Grid.Row="5"
@@ -190,6 +207,7 @@
                     </Label>
 
                     <BoxView
+                        AutomationId="lineSeperatorBoxView4"
                         Grid.Row="6"
                         Grid.ColumnSpan="6"
                         BackgroundColor="Gray"
@@ -198,6 +216,7 @@
                         HorizontalOptions="FillAndExpand"/>
 
                     <Label
+                        AutomationId="totalLabel"
                         Style="{StaticResource LabelRigthAlign}"
                         Grid.Column="2"
                         Grid.Row="7"
@@ -207,6 +226,7 @@
                         Text="{Binding Resources[label_total]}"/>
 
                     <Label
+                        AutomationId="totalValue"
                         BackgroundColor="Transparent"
                         Grid.Row="7"
                         Grid.Column="4"
@@ -221,6 +241,7 @@
                 </Grid>
 
                 <Grid
+                    AutomationId="subInnerGrd2"
                     RowSpacing="0"
                     ColumnSpacing="0"
                     Grid.Column="1">
@@ -243,6 +264,7 @@
                     </Grid.ColumnDefinitions>
 
                     <BoxView
+                        AutomationId="rightTopLineBoxView"
                         Grid.Row="0"
                         Grid.ColumnSpan="3"
                         BackgroundColor="Gray"
@@ -251,6 +273,7 @@
                         HorizontalOptions="FillAndExpand"/>
 
                     <BoxView
+                        AutomationId="rightLeftLineBoxView"
                         Grid.Row="0"
                         Grid.RowSpan="9"
                         BackgroundColor="Gray"
@@ -259,6 +282,7 @@
                         HorizontalOptions="Start"/>
 
                     <BoxView
+                        AutomationId="rightRightLineBoxView"
                         Grid.Row="8"
                         Grid.ColumnSpan="3"
                         BackgroundColor="Gray"
@@ -267,6 +291,7 @@
                         HorizontalOptions="FillAndExpand"/>
 
                     <BoxView
+                        AutomationId="rightBottonLineBoxView"
                         Grid.Row="0"
                         Grid.Column="2"
                         Grid.RowSpan="9"
@@ -276,6 +301,7 @@
                         HorizontalOptions="End"/>
 
                     <Label
+                        AutomationId="avgCycleLabel"
                         Style="{StaticResource LabelLeftAlign}"
                         Grid.Column="1"
                         Grid.Row="1"
@@ -287,6 +313,7 @@
                         Text="{Binding Resources[label_average_cycle]}"/>
 
                     <BoxView
+                        AutomationId="lineSeperator5"
                         Grid.Row="2"
                         Grid.ColumnSpan="3"
                         BackgroundColor="Gray"
@@ -295,6 +322,7 @@
                         HorizontalOptions="FillAndExpand"/>
 
                     <Label
+                        AutomationId="avgCybleValue"
                         Style="{StaticResource LabelLeftAlign}"
                         Grid.Row="3"
                         Grid.Column="1"
@@ -305,6 +333,7 @@
                         Text="{Binding AverageCycle,Mode=TwoWay}"/>
 
                     <BoxView
+                        AutomationId="lineSeperatorBoxView6"
                         Grid.Row="4"
                         Grid.ColumnSpan="3"
                         BackgroundColor="Gray"
@@ -313,6 +342,7 @@
                         HorizontalOptions="FillAndExpand"/>
 
                     <Label
+                        AutomationId="overDueLabel"
                         Style="{StaticResource LabelLeftAlign}"
                         Grid.Column="1"
                         Grid.Row="5"
@@ -324,6 +354,7 @@
                         Text="{Binding Resources[label_overdue]}"/>
 
                     <BoxView
+                        AutomationId="lineSeperatorBoxView7"
                         Grid.Row="6"
                         Grid.ColumnSpan="3"
                         BackgroundColor="Gray"
@@ -332,6 +363,7 @@
                         HorizontalOptions="FillAndExpand"/>
 
                     <Label
+                        AutomationId="atRiskKegsValue"
                         Style="{StaticResource LabelLeftAlign}"
                         Grid.Row="7"
                         Margin="0,5,0,5"
@@ -345,6 +377,7 @@
             </Grid>
 
             <Grid
+                AutomationId="innerGrd2"
                 Margin="20,10,10,100"
                 VerticalOptions="End"
                 Grid.Row="1">
@@ -361,6 +394,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Image
+                    AutomationId="manifestImage"
                     VerticalOptions="Center"
                     HorizontalOptions="Center"
                     Aspect="AspectFit"
@@ -375,6 +409,7 @@
 
 
                 <Label
+                    AutomationId="manifestLabel"
                     x:Name="lblManifest"
                     Style="{StaticResource LabelNormalStyle}"
                     Text="{Binding Resources[button_manifests]}"
@@ -388,6 +423,7 @@
                 </Label>
 
                 <Image
+                    AutomationId="palletImage"
                     VerticalOptions="Center"
                     HorizontalOptions="Center"
                     Aspect="AspectFit"
@@ -402,6 +438,7 @@
 
 
                 <Label
+                    AutomationId="palletLabel"
                     x:Name="lblPallets"
                     Style="{StaticResource LabelNormalStyle}"
                     Text="{Binding Resources[button_pallets]}"
@@ -416,6 +453,7 @@
                 </Label>
 
                 <Image
+                    AutomationId="partnerImage"
                     VerticalOptions="Center"
                     HorizontalOptions="Center"
                     Aspect="AspectFit"
@@ -429,6 +467,7 @@
                 </Image>
 
                 <Label
+                    AutomationId="partnerLabel"
                     x:Name="lblPartners"
                     Text="{Binding Resources[button_partners]}"
                     Style="{StaticResource LabelNormalStyle}"
@@ -442,6 +481,7 @@
                 </Label>
 
                 <Image
+                    AutomationId="moveImage"
                     VerticalOptions="Center"
                     HorizontalOptions="Center"
                     Aspect="AspectFit"
@@ -455,6 +495,7 @@
                 </Image>
 
                 <Label
+                    AutomationId="kegsLabel"
                     x:Name="lblKegs"
                     Style="{StaticResource LabelNormalStyle}"
                     Text="{Binding Resources[button_kegs]}"

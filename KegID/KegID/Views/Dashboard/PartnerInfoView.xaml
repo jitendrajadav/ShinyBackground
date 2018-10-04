@@ -9,7 +9,8 @@
 
     <ContentPage.Content>
         
-        <Grid>
+        <Grid
+            AutomationId="mainGrd">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -19,6 +20,7 @@
             </Grid.RowDefinitions>
 
             <Button
+                AutomationId="partnerButton"
                 x:Name="lblPartners"
                 Style="{StaticResource TopButtonTitleStyle}"
                 HorizontalOptions="Start"
@@ -27,24 +29,28 @@
                 />
 
             <Label 
+                AutomationId="parnerLabel"
                 HorizontalOptions="Center"
                 Style="{StaticResource LabelTitleStyle}"
                 Text="{Binding Resources[title_partner_info]}"
                 VerticalOptions="Center"/>
 
             <Button
+                AutomationId="editButton"
                 HorizontalOptions="End"
                 Style="{StaticResource TopButtonTitleStyle}"
                 Text="{Binding Resources[button_edit]}"
                 Command="{Binding EditCommand}"/>
            
             <BoxView
+                AutomationId="topBarSeperatorBoxView"
                 Grid.Row="1"
                 BackgroundColor="{StaticResource bannerBGColor}"
                 VerticalOptions="FillAndExpand"
                 HorizontalOptions="FillAndExpand"/>
 
             <Label 
+                AutomationId="partnerNameLabel"
                 Grid.Row="1"
                 Style="{StaticResource LabelTitleWhiteTextColorStyle}"
                 Text="{Binding PartnerModel.FullName}"
@@ -52,12 +58,14 @@
                 />
             
             <Button
+                AutomationId="kegsHeldButton"
                 Grid.Row="2"
                 Style="{StaticResource ButtonNormalStyle}"
                 Text="{Binding KegsHeld,StringFormat='{0} Kegs'}"
                 Command="{Binding KegsCommand}"/>
             
             <Button
+                AutomationId="moveKegsButton"
                 HorizontalOptions="End"
                 Grid.Row="2"
                 Margin="0,0,10,0"
@@ -66,8 +74,10 @@
                 Command="{Binding SendKegsCommand}"/>
 
             <ScrollView
+                AutomationId="scrollView"
                 Grid.Row="3">
                 <Grid
+                    AutomationId="innerGrd"
                     RowSpacing="0"
                     Margin="10,0,10,0">
                   
@@ -104,6 +114,7 @@
                     </Grid.RowDefinitions>
 
                     <Label
+                        AutomationId="shipToLabel"
                         VerticalTextAlignment="Start"
                         x:Name="lblShipTo"
                         Style="{StaticResource LabelNormalStyle}"
@@ -118,6 +129,7 @@
                     </Label>
 
                     <Label
+                        AutomationId="partnerAddressLabel"
                         x:Name="lblAddress1"
                         Style="{StaticResource LabelNormalStyle}"
                         Grid.Row="1"
@@ -131,6 +143,7 @@
                     </Label>
 
                     <BoxView
+                        AutomationId="lineSeperatorBoxView1"
                         Grid.Row="2"
                         BackgroundColor="{StaticResource lightGrayColor}"
                         HeightRequest="1"
@@ -138,6 +151,7 @@
                         HorizontalOptions="FillAndExpand"/>
                     
                     <Label
+                        AutomationId="billToLabel"
                         x:Name="lblBillTo"
                         Style="{StaticResource LabelNormalStyle}"
                         Grid.Row="3"
@@ -150,6 +164,7 @@
                     </Label>
 
                     <Label
+                        AutomationId="address2Label"
                         x:Name="lblAddress2"
                         Style="{StaticResource LabelNormalStyle}"
                         Grid.Row="4"
@@ -162,6 +177,7 @@
                     </Label>
 
                     <BoxView
+                        AutomationId="lineSeperatorBoxView2"
                         Grid.Row="5"
                         BackgroundColor="{StaticResource lightGrayColor}"
                         HeightRequest="1"
@@ -169,18 +185,21 @@
                         HorizontalOptions="FillAndExpand"/>
                  
                     <Label
+                        AutomationId="contactLabel"
                         Margin="10,0,0,0"
                         Grid.Row="6"
                         Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Resources[label_contact]}"/>
 
                     <Label
+                        AutomationId="contactValue"
                         Margin="10,0,0,0"
                         Grid.Row="7"
                         Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Contact}"/>
                     
                     <BoxView
+                        AutomationId="lineSeperatorBoxView3"
                         Grid.Row="8"
                         BackgroundColor="{StaticResource lightGrayColor}"
                         HeightRequest="1"
@@ -188,6 +207,7 @@
                         HorizontalOptions="FillAndExpand"/>
                     
                     <Label
+                        AutomationId="phoneLabel"
                         x:Name="lblPhone"
                         Style="{StaticResource LabelNormalStyle}"
                         Grid.Row="9"
@@ -200,6 +220,7 @@
                     </Label>
 
                     <Label
+                        AutomationId="phoneValue"
                         x:Name="lblPhoneNumber"
                         Style="{StaticResource LabelNormalStyle}"
                         Grid.Row="10"
@@ -212,6 +233,7 @@
                     </Label>
 
                     <BoxView
+                        AutomationId="lineSeperatorBoxView4"
                         Grid.Row="11"
                         BackgroundColor="{StaticResource lightGrayColor}"
                         HeightRequest="1"
@@ -219,6 +241,7 @@
                         HorizontalOptions="FillAndExpand"/>
                    
                     <Label
+                        AutomationId="emailLabel"
                         x:Name="lblEmail"
                         Style="{StaticResource LabelNormalStyle}"
                         Grid.Row="12"
@@ -231,6 +254,7 @@
                     </Label>
 
                     <Label
+                        AutomationId="emailValue"
                         x:Name="lblContactEmail"
                         Style="{StaticResource LabelNormalStyle}"
                         Grid.Row="13"
@@ -243,6 +267,7 @@
                     </Label>
                     
                     <BoxView
+                        AutomationId="lineSeperatorBoxView5"
                         Grid.Row="14"
                         BackgroundColor="{StaticResource lightGrayColor}"
                         HeightRequest="1"
@@ -250,16 +275,19 @@
                         HorizontalOptions="FillAndExpand"/>
 
                     <Label
+                        AutomationId="hintReferenceLabel"
                         Style="{StaticResource LabelNormalStyle}"
                         Grid.Row="15"
                         Text="{Binding Resources[hint_reference]}"/>
 
                     <Label
+                        AutomationId="hintReferenceValue"
                         Style="{StaticResource LabelNormalStyle}"
                         Grid.Row="16"
                         Text="{Binding Ref}"/>
 
                     <BoxView
+                        AutomationId="lineSeperatorBoxView6"
                         Grid.Row="17"
                         BackgroundColor="{StaticResource lightGrayColor}"
                         HeightRequest="1"
@@ -267,16 +295,19 @@
                         HorizontalOptions="FillAndExpand"/>
 
                     <Label
+                        AutomationId="accountLabel"
                         Style="{StaticResource LabelNormalStyle}"
                         Grid.Row="18"
                         Text="{Binding Resources[label_accountnum]}"/>
 
                     <Label
+                        AutomationId="accountValue"
                         Style="{StaticResource LabelNormalStyle}"
                         Grid.Row="19"
                         Text="{Binding Acct}"/>
                    
                     <BoxView
+                        AutomationId="lineSeperatorBoxView7"
                         Grid.Row="20"
                         BackgroundColor="{StaticResource lightGrayColor}"
                         HeightRequest="1"
@@ -284,16 +315,19 @@
                         HorizontalOptions="FillAndExpand"/>
                    
                     <Label
+                        AutomationId="routeLabel"
                         Style="{StaticResource LabelNormalStyle}"
                         Grid.Row="21"
                         Text="{Binding Resources[label_route]}"/>
 
                     <Label
+                        AutomationId="routeValue"
                         Style="{StaticResource LabelNormalStyle}"
                         Grid.Row="22"
                         Text="{Binding Route}"/>
                     
                     <BoxView
+                        AutomationId="lineSeperatorBoxView8"
                         Grid.Row="23"
                         BackgroundColor="{StaticResource lightGrayColor}"
                         HeightRequest="1"
@@ -301,16 +335,19 @@
                         HorizontalOptions="FillAndExpand"/>
                   
                     <Label
+                        AutomationId="notesLabel"
                         Style="{StaticResource LabelNormalStyle}"
                         Grid.Row="24"
                         Text="{Binding Resources[hint_enter_notes_here]}"/>
 
                     <Label
+                        AutomationId="notesValue"
                         Style="{StaticResource LabelNormalStyle}"
                         Grid.Row="25"
                         Text="{Binding Notes}"/>
                     
                     <BoxView
+                        AutomationId="lineSeperatorBoxView9"
                         Grid.Row="26"
                         BackgroundColor="{StaticResource lightGrayColor}"
                         HeightRequest="1"
@@ -318,11 +355,13 @@
                         HorizontalOptions="FillAndExpand"/>
                    
                     <Label
+                        AutomationId="partnerInfoTypeLabel"
                         Style="{StaticResource LabelNormalStyle}"
                         Grid.Row="27"
                         Text="{Binding Resources[label_partnerinfo_type]}"/>
 
                     <Label
+                        AutomationId="partnerInfoTypeValue"
                         Style="{StaticResource LabelNormalStyle}"
                         Grid.Row="28"
                         Text="{Binding PartnerModel.PartnerTypeName}"/>
