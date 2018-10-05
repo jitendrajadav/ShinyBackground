@@ -12,6 +12,7 @@
     <ContentPage.Content>
         
         <Grid
+            AutomationId="mainGrd"
             ColumnSpacing="0"
             RowSpacing="0"
             Margin="0,0,0,0">
@@ -22,6 +23,7 @@
             </Grid.RowDefinitions>
 
             <controls:CarouselViewControl
+                AutomationId="whatsNewCarouselViewControl"
                 VerticalOptions="FillAndExpand"
                 x:Name="myCarouselViewCtrl"
                 ItemsSource="{Binding ImageCollection}"
@@ -55,6 +57,7 @@
             </controls:CarouselViewControl>
             
             <Button
+                AutomationId="nextButton"
                 VerticalOptions="EndAndExpand"
                 x:Name="btnNavigation"
                 Style="{StaticResource BottomButtonTitleStyle}"

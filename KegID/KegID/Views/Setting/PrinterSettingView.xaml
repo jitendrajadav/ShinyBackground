@@ -10,6 +10,7 @@
     <ContentPage.Content>
         
         <Grid
+            AutomationId="mainGrd"
             ColumnSpacing="0"
             RowSpacing="0"
             Margin="10,0,10,0">
@@ -37,6 +38,7 @@
             </Grid.ColumnDefinitions>
 
             <Button
+                AutomationId="cancelButton"
                 x:Name="lblCancel"
                 Style="{StaticResource TopButtonTitleStyle}"
                 HorizontalOptions="Start"
@@ -45,6 +47,7 @@
                 />
 
             <Button
+                AutomationId="saveButton"
                 x:Name="lblSave"
                 Grid.Column="1"
                 Style="{StaticResource TopButtonTitleStyle}"
@@ -54,6 +57,7 @@
                 />
 
             <BoxView
+                AutomationId="topBarSeperatorBoxView"
                 Margin="-10,0,-10,0"
                 Grid.ColumnSpan="2"
                 Grid.Row="1"
@@ -63,6 +67,7 @@
                 HorizontalOptions="FillAndExpand"/>
 
             <Label 
+                AutomationId="printEveryManifestLabel"
                 Grid.Row="2"
                 TextColor="Black"
                 FontSize="Medium"
@@ -71,6 +76,7 @@
                 HorizontalOptions="Start" />
 
             <Switch
+                AutomationId="printEveryManifestSwitch"
                 IsToggled="{Binding PrintEveryManifest}"
                 OnColor="#4CD864"
                 HorizontalOptions="End"
@@ -78,6 +84,7 @@
                 Grid.Row="2"/>
 
             <Label 
+                AutomationId="printEveryPalletLebel"
                 Grid.Row="3"
                 TextColor="Black"
                 FontSize="Medium"
@@ -86,6 +93,7 @@
                 HorizontalOptions="Start" />
 
             <Switch
+                AutomationId="printEveryPalletSwitch"
                 IsToggled="{Binding PrintEveryPallet}"
                 OnColor="#4CD864"
                 HorizontalOptions="End"
@@ -93,6 +101,7 @@
                 Grid.Row="3"/>
 
             <Label 
+                AutomationId="palletLabelCopiesLabel"
                 Grid.Row="4"
                 TextColor="Black"
                 FontSize="Medium"
@@ -101,6 +110,7 @@
                 HorizontalOptions="Start" />
 
             <Entry
+                AutomationId="palletLabelCopiesEntry"
                 Text="{Binding PalletLabelCopies}"
                 HorizontalOptions="FillAndExpand"
                 Grid.Column="1"
@@ -108,6 +118,7 @@
                 Grid.Row="4"/>
 
             <Label 
+                AutomationId="beepsOnvalidScanLabel"
                 Grid.Row="5"
                 TextColor="Black"
                 FontSize="Medium"
@@ -116,6 +127,7 @@
                 HorizontalOptions="Start" />
 
             <Switch
+                AutomationId="beepsOnValidScanSwitch"
                 IsToggled="{Binding BeepOnValidScans}"
                 OnColor="#4CD864"
                 HorizontalOptions="End"
@@ -123,6 +135,7 @@
                 Grid.Row="5"/>
 
             <BoxView
+                AutomationId="lineSeperator1"
                 Margin="-10,0,-10,0"
                 Grid.ColumnSpan="2"
                 Grid.Row="6"
@@ -132,6 +145,7 @@
                 HorizontalOptions="FillAndExpand"/>
             
             <Label 
+                AutomationId="zebraPrinterLabel"
                 Grid.Row="7"
                 Text="{Binding Resources[label_zebra_printer]}"
                 TextColor="Black"
@@ -140,6 +154,7 @@
                 HorizontalOptions="Start" />
 
             <Label 
+                AutomationId="printviaBluetoothLabel"
                 Grid.Row="8"
                 Text="{Binding Resources[pref_print_via_bluetooth]}"
                 TextColor="Black"
@@ -148,6 +163,7 @@
                 HorizontalOptions="Start" />
 
             <Switch
+                AutomationId="printBluetoothSwitch"
                 IsToggled="{Binding IsBluetoothOn}"
                 HorizontalOptions="End"
                 Grid.Column="1"
@@ -155,6 +171,7 @@
                 Grid.Row="8"/>
            
             <Label 
+                AutomationId="printLabel"
                 IsVisible="{Binding IsBluetoothOn,Mode=TwoWay}"
                 Grid.Row="9"
                 Text="{Binding Resources[label_printer]}"
@@ -164,6 +181,7 @@
                 HorizontalOptions="Start" />
 
             <Button
+                AutomationId="selectedBluetoothButton"
                 IsVisible="{Binding IsBluetoothOn,Mode=TwoWay}"
                 Grid.Column="1"
                 HorizontalOptions="StartAndExpand"
@@ -173,6 +191,7 @@
                 Grid.Row="9"/>
             
             <Label
+                AutomationId="iphostLabel"
                 IsVisible="{Binding IsBluetoothOn,Converter={StaticResource InvertedBooleanConverter}}"
                 Grid.Row="10"
                 Text="{Binding Resources[label_ip_host]}"
@@ -183,6 +202,7 @@
                 HorizontalOptions="Start" />
 
             <Entry
+                AutomationId="ipAddressEntry"
                 IsVisible="{Binding IsBluetoothOn,Converter={StaticResource InvertedBooleanConverter}}"
                 HorizontalOptions="FillAndExpand"
                 Text="{Binding IpAddress}"
@@ -191,6 +211,7 @@
                 Grid.Row="10"/>
 
             <Label 
+                AutomationId="prefportLabel"
                 IsVisible="{Binding IsBluetoothOn,Converter={StaticResource InvertedBooleanConverter}}"
                 Grid.Row="11"
                 Text="{Binding Resources[pref_port]}"
@@ -201,6 +222,7 @@
                 HorizontalOptions="Start" />
 
             <Entry
+                AutomationId="bluetoothEntry"
                 IsVisible="{Binding IsBluetoothOn,Converter={StaticResource InvertedBooleanConverter}}"
                 HorizontalOptions="FillAndExpand"
                 Text="{Binding Port}"
@@ -210,6 +232,7 @@
                 Grid.Row="11"/>
 
             <Button
+                AutomationId="testPrintButton"
                 BackgroundColor="Transparent"
                 TextColor="{StaticResource selectTextColor}"
                 VerticalOptions="Center"
@@ -221,6 +244,7 @@
                 Command="{Binding PrinterTestCommand}"/>
 
             <Label 
+                AutomationId="versionLabel"
                 Grid.Row="13"
                 Text="{Binding Version}"
                 TextColor="Black"

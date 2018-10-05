@@ -10,12 +10,14 @@
             >
     
     <StackLayout 
+        AutomationId="stackLayout"
         Spacing="0"
         VerticalOptions="Start"
         HorizontalOptions="FillAndExpand"
         Padding="20, 50, 20, 20">
       
         <Image
+            AutomationId="triangleImage"
             x:Name="imgTriangle"
             HeightRequest="40"
             Margin="0,0,10,0"
@@ -28,16 +30,19 @@
         </Image>
 
         <StackLayout
+            AutomationId="innerStackLayout"
             Margin="0,-15,0,0"
             Spacing="0"
             BackgroundColor="Black">
             
             <StackLayout 
+                AutomationId="stackLayout1"
                 Margin="3"
                 Spacing="0"
                 BackgroundColor="White">
 
                 <Label
+                    AutomationId="settingsLabel"
                     HeightRequest="50"
                     Style="{StaticResource LabelTitleStyle}"
                     x:Name="lblTitle"
@@ -47,12 +52,14 @@
                     Text="{Binding Resources[label_settings]}"/>
 
                 <BoxView
+                    AutomationId="lineSeperator1"
                     BackgroundColor="LightGray"
                     HeightRequest="1"
                     VerticalOptions="Start"
                     HorizontalOptions="FillAndExpand"/>
 
                 <Label
+                    AutomationId="refreshLabel"
                     Margin="20,0,10,0"
                     HeightRequest="50"
                     Style="{StaticResource LabelTitleStyle}"
@@ -70,12 +77,14 @@
                 </Label>
 
                 <BoxView
+                    AutomationId="lineSeperator2"
                     BackgroundColor="LightGray"
                     HeightRequest="1"
                     VerticalOptions="Start"
                     HorizontalOptions="FillAndExpand"/>
 
                 <Label
+                    AutomationId="printerSettingsLabel"
                     Margin="20,0,0,0"
                     HeightRequest="50"
                     x:Name="lblPrinterSettings"
@@ -94,12 +103,14 @@
                 </Label>
 
                 <BoxView
+                    AutomationId="lineSeperator2"
                     BackgroundColor="LightGray"
                     HeightRequest="1"
                     VerticalOptions="Start"
                     HorizontalOptions="FillAndExpand"/>
 
                 <Label
+                    AutomationId="whatsNewLabel"
                     Margin="20,0,0,0"
                     HeightRequest="50"
                     x:Name="lblWhatsNew"
@@ -119,12 +130,14 @@
                 </Label>
 
                 <BoxView
+                    AutomationId="lineSeperator3"
                     BackgroundColor="LightGray"
                     HeightRequest="1"
                     VerticalOptions="Start"
                     HorizontalOptions="FillAndExpand"/>
 
                 <Label
+                    AutomationId="supportLabel"
                     Margin="20,0,0,0"
                     HeightRequest="50"
                     x:Name="lblSupport"
@@ -144,12 +157,14 @@
                 </Label>
                 
                 <BoxView
+                    AutomationId="lineSeperator4"
                     BackgroundColor="LightGray"
                     HeightRequest="1"
                     VerticalOptions="Start"
                     HorizontalOptions="FillAndExpand"/>
 
                 <Label
+                    AutomationId="aboutAppLabel"
                     Margin="20,0,0,0"
                     HeightRequest="50"
                     x:Name="lblAboutApp"
@@ -168,12 +183,14 @@
                 </Label>
 
                 <BoxView
+                    AutomationId="lineSeperator5"
                     BackgroundColor="LightGray"
                     HeightRequest="1"
                     VerticalOptions="Start"
                     HorizontalOptions="FillAndExpand"/>
 
                 <Label
+                    AutomationId="logOutLabel"
                     Margin="20,0,0,0"
                     HeightRequest="50"
                     x:Name="lblLogOut"

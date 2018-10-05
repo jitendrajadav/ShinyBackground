@@ -9,7 +9,9 @@
              Title="Select a printer">
     
     <ContentPage.Content>
+        
         <Grid
+            AutomationId="mainGrd"
             ColumnSpacing="0"
             Margin="10,0,10,0">
 
@@ -20,6 +22,7 @@
             </Grid.RowDefinitions>
 
             <Button
+                AutomationId="backButton"
                 x:Name="lblBack"
                 Style="{StaticResource TopButtonTitleStyle}"
                 HorizontalOptions="Start"
@@ -28,6 +31,7 @@
                 />
             
             <Label
+                AutomationId="labelMsgLabel"
                 HorizontalOptions="Center"
                 FontSize="Medium"
                 Style="{StaticResource LabelTitleStyle}"
@@ -35,6 +39,7 @@
                 />
             
             <BoxView
+                AutomationId="lineSeperator1"
                 Margin="-10,0,-10,0"
                 Grid.Row="1"
                 BackgroundColor="Black"
@@ -43,6 +48,7 @@
                 HorizontalOptions="FillAndExpand"/>
 
             <ListView
+                AutomationId="printerListView"
                 Margin="10,0,10,0"
                 x:Name="lstPrinters"
                 Grid.Row="2"

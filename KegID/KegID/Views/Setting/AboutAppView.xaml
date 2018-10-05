@@ -9,6 +9,7 @@
     <ContentPage.Content>
         
         <Grid
+            AutomationId="mainGrd"
             ColumnSpacing="0"
             Margin="10,0,10,0">
 
@@ -19,6 +20,7 @@
             </Grid.RowDefinitions>
 
             <Button
+                AutomationId="cancelButton"
                 x:Name="lblCancel"
                 Style="{StaticResource TopButtonTitleStyle}"
                 HorizontalOptions="Start"
@@ -27,12 +29,14 @@
                 />
             
             <Label
+                AutomationId="aboutKegIDLabel"
                 HorizontalOptions="Center"
                 Style="{StaticResource LabelTitleStyle}"
                 Text="{Binding Resources[title_about_kegid]}"
                 />
 
             <BoxView
+                AutomationId="topBarSeperatorBoxView"
                 Margin="-10,0,-10,0"
                 Grid.Row="1"
                 BackgroundColor="Black"
@@ -41,7 +45,9 @@
                 HorizontalOptions="FillAndExpand"/>
             
             <Grid 
+                AutomationId="innerGrd"
                 Grid.Row="2">
+                
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -55,6 +61,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Label 
+                    AutomationId="versionLabel"
                     Grid.Row="0"
                     Grid.Column="0"
                     Text="Version"
@@ -62,6 +69,7 @@
                     HorizontalOptions="End" />
 
                 <Label 
+                    AutomationId="versionValue"
                     Grid.Row="0"
                     Grid.Column="1"
                     Text="{Binding Version}"
@@ -69,6 +77,7 @@
                     HorizontalOptions="CenterAndExpand" />
 
                 <Label 
+                    AutomationId="environmentLabel"
                     Grid.Row="1"
                     Grid.Column="0"
                     Text="Environment"
@@ -76,6 +85,7 @@
                     HorizontalOptions="End" />
 
                 <Label
+                    AutomationId="environmentValue"
                     Grid.Row="1"
                     Grid.Column="1"
                     Text="{Binding Environment}"
