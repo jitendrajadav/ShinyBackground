@@ -617,7 +617,6 @@ namespace KegID.ViewModel
                     Crashes.TrackError(ex);
                 }
 
-                List<BarcodeModel> barcodes = new List<BarcodeModel>();
                 foreach (var item in manifestModel.NewPallets)
                 {
                     PalletModel palletModel = new PalletModel
@@ -626,24 +625,7 @@ namespace KegID.ViewModel
                         ManifestId = ManifestId,
                         BatchId = item.PalletId
                     };
-                    foreach (var barcode in item.PalletItems)
-                    {
-                        BarcodeModel barcodeModel = new BarcodeModel
-                        {
-                            Barcode = barcode.Barcode,
-                            Icon = barcode.Icon,
-                            TagsStr = barcode.TagsStr
-                        };
-                        if (barcode.Tags != null)
-                        {
-                            foreach (var tag in barcode.Tags)
-                            {
-                                barcodeModel.Tags.Add(tag);
-                            }
-                        }
-                        barcodes.Add(barcodeModel);
-                    }
-                    palletModel.Barcode = barcodes;
+                    palletModel.Barcode = ConstantManager.Barcodes;
                     if (PalletCollection == null)
                     {
                         PalletCollection = new List<PalletModel>();

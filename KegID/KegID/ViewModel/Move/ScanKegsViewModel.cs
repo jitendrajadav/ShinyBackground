@@ -690,12 +690,13 @@ namespace KegID.ViewModel
                         ConstantManager.Tags.Find(x => x.Property == "Batch").Value = Batch;
                     }
                 }
+
+                foreach (Tag item in ConstantManager.Tags)
+                {
+                    tags = tags + item?.Property + " : " + item?.Value + " ; ";
+                }
+                TagsStr = tags;
             }
-            foreach (Tag item in ConstantManager.Tags)
-            {
-                tags = tags + item.Property + " : " + item.Value + " ; ";
-            }
-            TagsStr = tags;
         }
 
         internal async void BarcodeScanCommandReciever()
@@ -716,17 +717,29 @@ namespace KegID.ViewModel
 
         internal void AssignBarcodeScannerValue(IList<BarcodeModel> models)
         {
-            try
+            if (models.Count > 0)
             {
-                foreach (var item in models)
+                try
                 {
-                    BarcodeCollection.Add(item);
-                    TagsStr = item.TagsStr;
+                    if (ConstantManager.Tags != null)
+                        ConstantManager.Tags.Clear();
+                    else
+                        ConstantManager.Tags = new List<Tag>();
+
+                    foreach (var item in models)
+                    {
+                        BarcodeCollection.Add(item);
+                        TagsStr = item.TagsStr;
+                    }
+                    foreach (var tags in BarcodeCollection.LastOrDefault().Tags)
+                    {
+                        ConstantManager.Tags.Add(tags);
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
+                catch (Exception ex)
+                {
+                    Crashes.TrackError(ex);
+                }
             }
         }
 
@@ -752,27 +765,34 @@ namespace KegID.ViewModel
                 if (model.Kegs.FirstOrDefault().MaintenanceItems?.Count > 0)
                 {
                     var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                    await RealmDb.WriteAsync((realmdb) =>
-                     {
-                         BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = _getIconByPlatform.GetIcon(Maintenace);
-                     });
+
+                    try
+                    {
+                        BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = _getIconByPlatform.GetIcon(Maintenace);
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }                     
                 }
                 else
                 {
                     var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                    await RealmDb.WriteAsync((realmdb) =>
+
+                    try
                     {
                         BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = _getIconByPlatform.GetIcon(ValidationOK);
-                    });
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }                   
                 }
 
                 try
                 {
                     var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                    await RealmDb.WriteAsync((realmdb) =>
-                     {
-                         BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Kegs.Partners.Remove(unusedPartner);
-                     });
+                    BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Kegs.Partners.Remove(unusedPartner);
                 }
                 catch (Exception ex)
                 {
@@ -812,16 +832,16 @@ namespace KegID.ViewModel
                 {
                     try
                     {
-                        string barcode = parameters.GetValue<string>("Barcode");
-                        var oldBarcode = BarcodeCollection.Where(x => x.Barcode == barcode).FirstOrDefault();
-
-                        for (int i = oldBarcode.Tags.Count - 1; i >= 0; i--)
-                        {
-                            oldBarcode.Tags.RemoveAt(i);
-                        }
-                        
                         using (var db = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
                         {
+                            string barcode = parameters.GetValue<string>("Barcode");
+                            var oldBarcode = BarcodeCollection.Where(x => x.Barcode == barcode).FirstOrDefault();
+
+                            for (int i = oldBarcode.Tags.Count - 1; i >= 0; i--)
+                            {
+                                oldBarcode.Tags.RemoveAt(i);
+                            }
+
                             foreach (var item in ConstantManager.Tags)
                             {
                                 oldBarcode.Tags.Add(item);

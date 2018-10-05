@@ -10,6 +10,7 @@
     <ContentPage.Content>
         
         <Grid
+            AutomationId="mainGrd"
             Margin="10,0,10,0">
             
             <Grid.RowDefinitions>
@@ -29,6 +30,7 @@
             </Grid.ColumnDefinitions>
             
             <Label 
+                AutomationId="scanInfoManifestLabel"
                 Grid.ColumnSpan="2"
                 Text="{Binding Resources[title_scan_info_manifest]}"
                 VerticalOptions="CenterAndExpand" 
@@ -37,6 +39,7 @@
                 HorizontalOptions="CenterAndExpand" />
 
             <Button
+                AutomationId="doneButton"
                 x:Name="lblDone"
                 HorizontalOptions="End"
                 Grid.ColumnSpan="2"
@@ -46,6 +49,7 @@
                 />
 
             <BoxView
+                AutomationId="topBarSeperatorBoxView"
                 Margin="-10,0,-10,0"
                 Grid.Row="1"
                 Grid.ColumnSpan="2"
@@ -54,6 +58,7 @@
                 HorizontalOptions="FillAndExpand"/>
             
             <Label
+                AutomationId="barcodeLabel"
                 VerticalOptions="Center"
                 Grid.Row="1"
                 Style="{StaticResource LabelTitleStyle}"
@@ -63,66 +68,78 @@
                 Text="{Binding Barcode}"/>
 
             <Label
+                AutomationId="altBarcodeLabel"
                 VerticalOptions="Center"
                 Grid.Row="2"
                 Text="{Binding Resources[label_alt_barcode]}"/>
 
             <Label
+                AutomationId="altBarcodeValue"
                 VerticalOptions="Center"
                 Grid.Row="2"
                 Grid.Column="1"
                 Text="{Binding AltBarcode}"/>
 
             <Label
+                AutomationId="ownerLabel"
                 VerticalOptions="Center"
                 Grid.Row="3"
                 Text="{Binding Resources[label_owner]}"/>
 
             <Label
+                AutomationId="ownerValue"
                 VerticalOptions="Center"
                 Grid.Row="3"
                 Grid.Column="1"
                 Text="{Binding Ownername}"/>
 
             <Label
+                AutomationId="sizeLabel"
                 VerticalOptions="Center"
                 Grid.Row="4"
                 Text="{Binding Resources[label_size]}"/>
 
             <Label
+                AutomationId="sizeValue"
                 VerticalOptions="Center"
                 Grid.Row="4"
                 Grid.Column="1"
                 Text="{Binding Size}"/>
 
             <Label
+                AutomationId="contentsKegLabel"
                 VerticalOptions="Center"
                 Grid.Row="5"
                 Text="{Binding Resources[label_contents_keg]}"/>
 
             <Label
+                AutomationId="contentsKegValue"
                 VerticalOptions="Center"
                 Grid.Row="5"
                 Grid.Column="1"
                 Text="{Binding Contents}"/>
 
             <Label
+                AutomationId="batchLabel"
                 VerticalOptions="Center"
                 Grid.Row="6"
                 Text="{Binding Resources[label_batch]}"/>
 
             <Label
+                AutomationId="batchValue"
                 VerticalOptions="Center"
                 Grid.Row="6"
                 Grid.Column="1"
                 Text="{Binding Batch}"/>
 
             <Label
+                AutomationId="locationLabel"
                 VerticalOptions="Center"
                 Grid.Row="7"
                 Text="{Binding Resources[label_location]}"/>
 
             <Label
+                AutomationId="locationValue"
                 VerticalOptions="Center"
                 Grid.Row="7"
                 Grid.Column="1"

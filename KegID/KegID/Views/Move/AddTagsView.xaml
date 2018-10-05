@@ -9,7 +9,9 @@
 
     <ContentPage.Content>
         
-        <Grid>
+        <Grid
+            AutomationId="mainGrd">
+            
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -24,6 +26,7 @@
             </Grid.ColumnDefinitions>
             
             <Label 
+                AutomationId="addTagsLabel"
                 Grid.ColumnSpan="3"
                 Text="{Binding Resources[title_add_tags]}"
                 Style="{StaticResource LabelTitleStyle}"
@@ -31,6 +34,7 @@
                 HorizontalOptions="CenterAndExpand" />
 
             <Button
+                AutomationId="saveButton"
                 Grid.ColumnSpan="3"
                 Style="{StaticResource TopButtonTitleStyle}"
                 HorizontalOptions="End"
@@ -38,6 +42,7 @@
                 Clicked="SaveTagsClickedAsync"/>
 
             <BoxView
+                AutomationId="topBarSeperatorBoxView"
                 Grid.Row="1"
                 Grid.ColumnSpan="3"
                 BackgroundColor="{StaticResource bannerBGColor}"
@@ -45,6 +50,7 @@
                 HorizontalOptions="FillAndExpand"/>
 
             <Label
+                AutomationId="sortNameLabel"
                 Margin="10,0,0,0"
                 Text="{Binding Resources[menu_action_sort_name]}"
                 Style="{StaticResource LabelTitleStyle}"
@@ -53,6 +59,7 @@
                 Grid.Row="1"/>
             
             <Label
+                AutomationId="valueLabel"
                 Margin="0,0,0,0"
                 Text="Value"
                 Style="{StaticResource LabelTitleStyle}"
@@ -62,6 +69,7 @@
                 Grid.Column="1"/>
 
             <Button
+                AutomationId="plusButton"
                 Margin="0,0,0,0"
                 VerticalOptions="Center"
                 Text="+"
@@ -73,6 +81,7 @@
                 Clicked="OnAddTagsClicked"/>
 
             <Grid
+                AutomationId="innerGrd"
                 Margin="10,0,10,0"
                 Grid.ColumnSpan="3"
                 Grid.Row="2"

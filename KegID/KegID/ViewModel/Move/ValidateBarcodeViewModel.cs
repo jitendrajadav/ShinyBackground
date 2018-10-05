@@ -124,11 +124,13 @@ namespace KegID.ViewModel
                         { "Partner", model }
                     });
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    
+                    Crashes.TrackError(ex);
                 }
-                Models.RemoveAt(0);
+
+                if (Models.Count > 0)
+                    Models.RemoveAt(0);
 
                 if (Models.Count > 0)
                     ValidateScannedBarcode();

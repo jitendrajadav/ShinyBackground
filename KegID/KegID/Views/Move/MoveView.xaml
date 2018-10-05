@@ -10,13 +10,16 @@
 
     <ContentPage.Content>
        
-        <Grid>
+        <Grid
+            AutomationId="mainGrd">
+            
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
             <Button
+                AutomationId="cancelButton"
                 x:Name="lblCancel"
                 HorizontalOptions="Start"
                 Style="{StaticResource TopButtonTitleStyle}"
@@ -25,12 +28,14 @@
                 />
 
             <Label
+                AutomationId="createManifestLabel"
                 HorizontalOptions="Center"
                 Style="{StaticResource LabelTitleStyle}"
                 Text="{Binding Resources[title_create_manifest]}"
                 />
 
             <Button
+                AutomationId="submitButton"
                 x:Name="lblSubmit"
                 Style="{StaticResource TopButtonTitleStyle}"
                 HorizontalOptions="End"
@@ -40,6 +45,7 @@
                 />
 
             <Grid
+                AutomationId="innerGrd"
                 Margin="10,0,10,0"
                 Grid.Row="1"
                 RowSpacing="{OnPlatform iOS=2,Android=0,UWP=0}">
@@ -58,6 +64,7 @@
                 </Grid.RowDefinitions>
 
                 <BoxView
+                    AutomationId="topBarSeperatorBoxView"
                     Margin="-10,0,-10,0"
                     Grid.Row="0"
                     BackgroundColor="{StaticResource bannerBGColor}"
@@ -65,17 +72,20 @@
                     HorizontalOptions="FillAndExpand"/>
             
                 <Label 
+                    AutomationId="manifestLabel"
                     Text="{Binding ManifestId, StringFormat=' Manifest #: {0}', Converter={StaticResource StringToLast8CharacterConverter}}"
                     Style="{StaticResource LabelTitleWhiteTextColorStyle}"
                     />
 
                 <Label
+                    AutomationId="destinationLabel"
                     Style="{StaticResource LabelNormalStyle}"
                     Text="{Binding Resources[label_destination]}"
                     Grid.Row="1"
                     />
 
                 <Button
+                    AutomationId="destinationButton"
                     x:Name="lblDestination"
                     Style="{StaticResource ButtonNormalStyle}"
                     Text="{Binding Destination}"
@@ -83,6 +93,7 @@
                     Command="{Binding SelectLocationCommand}"/>
 
                 <Label
+                    AutomationId="requiredLabel"
                     IsVisible="{Binding IsRequiredVisible}"
                     Grid.Row="2"
                     HorizontalOptions="End"
@@ -92,6 +103,7 @@
                     />
 
                 <BoxView
+                    AutomationId="lineSeperator1"
                     Grid.Row="3"
                     BackgroundColor="{StaticResource lightGrayColor}"
                     HeightRequest="1"
@@ -99,12 +111,14 @@
                     HorizontalOptions="FillAndExpand"/>
 
                 <Label
+                    AutomationId="moreInfoLabel"
                     Style="{StaticResource LabelNormalStyle}"
                     Text="{Binding Resources[label_more_info]}"
                     Grid.Row="4"
                     />
 
                 <Button
+                    AutomationId="tagsStrButton"
                     x:Name="lblTagsStr"
                     Text="{Binding TagsStr}"
                     Grid.Row="5"
@@ -113,6 +127,7 @@
                     />
 
                 <BoxView
+                    AutomationId="lineSeperator2"
                     Grid.Row="6"
                     BackgroundColor="{StaticResource lightGrayColor}"
                     HeightRequest="1"
@@ -120,12 +135,14 @@
                     HorizontalOptions="FillAndExpand"/>
 
                 <Label
+                    AutomationId="kegsLabel"
                     Style="{StaticResource LabelNormalStyle}"
                     Text="{Binding Resources[label_kegs]}"
                     Grid.Row="7"
                     />
 
                 <Button
+                    AutomationId="addKegsButton"
                     x:Name="lblAddKegs"
                     Text="{Binding AddKegs}"
                     Grid.Row="8"
@@ -134,6 +151,7 @@
                     />
 
                 <BoxView
+                    AutomationId="lineSeperator3"
                     Grid.Row="9"
                     BackgroundColor="{StaticResource lightGrayColor}"
                     HeightRequest="3"
@@ -141,6 +159,7 @@
                     HorizontalOptions="FillAndExpand"/>
 
                 <Button
+                    AutomationId="saveDraftButton"
                     x:Name="lblSaveDraft"
                     Text="{Binding Resources[menu_action_save_draft]}"
                     Grid.Row="10"

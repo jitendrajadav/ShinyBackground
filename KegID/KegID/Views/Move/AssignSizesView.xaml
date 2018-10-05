@@ -11,7 +11,9 @@
     <ContentPage.Content>
         
         <Grid
+            AutomationId="mainGrd"
             RowSpacing="0">
+            
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -19,6 +21,7 @@
             </Grid.RowDefinitions>
 
             <Label 
+                AutomationId="assingSizesLabel"
                 HorizontalOptions="Center"
                 HorizontalTextAlignment="Center"
                 Text="{Binding Resources[title_assign_sizes]}"
@@ -26,6 +29,7 @@
                 TextColor="Black"/>
 
             <Button
+                AutomationId="doneButton"
                 x:Name="lblDone"
                 HorizontalOptions="End"
                 Text="{Binding Resources[button_done]}"
@@ -34,6 +38,7 @@
                 />
 
             <BoxView
+                AutomationId="topBarSeperatorBoxView"
                 Grid.Row="1"
                 BackgroundColor="{StaticResource lightGrayColor}"
                 HeightRequest="1"
@@ -41,6 +46,7 @@
                 HorizontalOptions="FillAndExpand"/>
 
             <Grid
+                AutomationId="innerGrd"
                 Margin="10,5,0,0"
                 RowSpacing="{OnPlatform iOS=5,Android=0,UWP=0}"
                 ColumnSpacing="{OnPlatform iOS=5,Android=0,UWP=0}"
@@ -61,6 +67,7 @@
                 </Grid.ColumnDefinitions>
               
                 <Button
+                    AutomationId="applyToAllButton"
                     x:Name="btnApplyToAll"
                     Style="{StaticResource TopButtonTitleStyle}"
                     Text="{Binding Resources[title_apply_to_all]}"
@@ -69,12 +76,14 @@
                     Command="{Binding ApplyToAllCommand}"/>
                 
                 <Label
+                    AutomationId="partnerTypeInfoLabel"
                     Style="{StaticResource LabelNormalStyle}"
                     Text="{Binding Resources[label_partnerinfo_type]}"
                     Grid.Row="1"
                     />
 
                 <Picker
+                    AutomationId="partnerInfoTypePicker"
                     ItemsSource="{Binding TypeCollection}"
                     TextColor="{StaticResource selectTextColor}"
                     Grid.Column="1"
@@ -85,12 +94,14 @@
                     />
                 
                 <Label
+                    AutomationId="tagLabel"
                     Style="{StaticResource LabelNormalStyle}"
                     Text="{Binding Resources[tag_size]}"
                     Grid.Row="2"
                     />
 
                 <Picker
+                    AutomationId="tagPicker"
                     ItemsSource="{Binding SizeCollection}"
                     TextColor="{StaticResource selectTextColor}"
                     Grid.Column="1"
@@ -101,12 +112,14 @@
                     />
                 
                 <Label
+                    AutomationId="ownerLabel"
                     Style="{StaticResource LabelNormalStyle}"
                     Text="{Binding Resources[title_owner]}"
                     Grid.Row="3"
                     />
 
                 <Picker
+                    AutomationId="ownerPicker"
                     ItemsSource="{Binding OwnerCollection}"
                     TextColor="{StaticResource selectTextColor}"
                     Grid.Column="1"
@@ -117,6 +130,7 @@
                     />
                 
                 <BoxView
+                    AutomationId="lineSeperator1"
                     Margin="-10,0,-10,0"
                     Grid.Row="4"
                     Grid.ColumnSpan="2"
@@ -125,6 +139,7 @@
                     HorizontalOptions="FillAndExpand"/>
 
                 <Label
+                    AutomationId="unknownScanLabel"
                     HorizontalOptions="Start"
                     TextColor="White"
                     Grid.Column="0"
@@ -136,6 +151,7 @@
                     Text="{Binding Resources[title_unknown_scans]}"/>
                 
                 <ListView
+                    AutomationId="maintenanceListView"
                     Margin="10,0,10,0"
                     x:Name="lstMaintenaceAlert"
                     Grid.Row="5"

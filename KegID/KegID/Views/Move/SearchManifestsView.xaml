@@ -11,6 +11,7 @@
     <ContentPage.Content>
         
         <Grid
+            AutomationId="mainGrd"
             Margin="10,0,10,0">
             
             <Grid.RowDefinitions>
@@ -31,6 +32,7 @@
             </Grid.ColumnDefinitions>
 
             <Button
+                AutomationId="mainfestButton"
                 x:Name="lblManifest"
                 Style="{StaticResource TopButtonTitleStyle}"
                 Grid.ColumnSpan="2"
@@ -39,12 +41,14 @@
                 />
 
             <Label 
+                AutomationId="searchManifestLabel"
                 Grid.ColumnSpan="2"
                 Text="{Binding Resources[title_search_manifests]}"
                 Style="{StaticResource LabelTitleStyle}"
                 HorizontalOptions="CenterAndExpand" />
 
             <BoxView
+                AutomationId="topBarSeperatorBoxView"
                 Margin="-10,0,-10,0"
                 Grid.Row="1"
                 Grid.ColumnSpan="2"
@@ -54,18 +58,21 @@
                 HorizontalOptions="FillAndExpand"/>
 
             <Entry
+                AutomationId="trackingNumberEntry"
                 Grid.Row="2"
                 Grid.ColumnSpan="2"
                 Text="{Binding TrackingNumber}"
                 Placeholder="Tracking number"/>
 
             <Entry
+                AutomationId="barcodeEntry"
                 Text="{Binding Barcode}"
                 Grid.Row="3"
                 Grid.ColumnSpan="2"
                 Placeholder="{Binding Resources[label_barcode]}"/>
 
             <Entry
+                AutomationId="manifestSenderEntry"
                 Text="{Binding ManifestSender}"
                 Grid.Row="4"
                 Grid.ColumnSpan="2"
@@ -79,6 +86,7 @@
             </Entry>
 
             <Entry
+                AutomationId="manifestDestinationEntry"
                 Text="{Binding ManifestDestination}"
                 Grid.Row="5"
                 Grid.ColumnSpan="2"
@@ -92,41 +100,49 @@
             </Entry>
 
             <Entry
+                AutomationId="referenceKeyEntry"
                 Text="{Binding Referencekey}"
                 Grid.Row="6"
                 Grid.ColumnSpan="2"
                 Placeholder="{Binding Resources[hint_reference_key]}"/>
 
             <StackLayout
+                AutomationId="stackLayout1"
                 Grid.Row="7"
                 Orientation="Horizontal">
                 
                 <Label
+                    AutomationId="fromDateLabel"
                     Style="{StaticResource LabelNormalStyle}"
                     Text="{Binding Resources[hint_fromdate]}"/>
                 
                 <DatePicker
+                    AutomationId="fromDatePicker"
                     HorizontalOptions="FillAndExpand"
                     Date="{Binding FromDate}"
                     Margin="5,0,0,0"/>
             </StackLayout>
 
             <StackLayout
+                AutomationId="stackLayout2"
                 Grid.Row="7"
                 Grid.Column="1"
                 Orientation="Horizontal">
 
                 <Label
+                    AutomationId="toDateLabel"
                     Style="{StaticResource LabelNormalStyle}"
                     Text="{Binding Resources[hint_todate]}"/>
 
                 <DatePicker
+                    AutomationId="toDatePicker"
                     HorizontalOptions="FillAndExpand"
                     Date="{Binding ToDate}"
                     Margin="5,0,0,0"/>
             </StackLayout>
 
             <Button
+                AutomationId="searchButton"
                 x:Name="lblSearch"
                 Grid.Column="1"
                 Grid.Row="8"

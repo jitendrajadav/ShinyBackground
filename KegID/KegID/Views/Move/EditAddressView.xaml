@@ -9,7 +9,9 @@
 
     <ContentPage.Content>
         
-        <Grid>
+        <Grid
+            AutomationId="mainGrd">
+            
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -24,6 +26,7 @@
             </Grid.RowDefinitions>
 
             <Button
+                AutomationId="backButton"
                 x:Name="lblBack"
                 HorizontalOptions="Start"
                 Style="{StaticResource TopButtonTitleStyle}"
@@ -32,18 +35,21 @@
                 />
 
             <Label
+                AutomationId="addressLabel"
                 Style="{StaticResource LabelTitleStyle}"
                 HorizontalOptions="Center"
                 VerticalOptions="Center"
                 Text="{Binding AddressTitle}"/>
 
             <Button
+                AutomationId="doneButton"
                 HorizontalOptions="End"
                 Style="{StaticResource TopButtonTitleStyle}"
                 Command="{Binding DoneCommand}"
                 Text="{Binding Resources[button_done]}"/>
 
             <BoxView
+                AutomationId="topBarSeperatorBoxView"
                 Grid.Row="1"
                 BackgroundColor="Black"
                 HeightRequest="1"
@@ -51,48 +57,56 @@
                 HorizontalOptions="FillAndExpand"/>
 
             <Entry
+                AutomationId="addressLine1Entry"
                 Margin="10,0,10,0"
                 Grid.Row="2"
                 Placeholder="{Binding Resources[label_address_line1]}"
                 Text="{Binding Line1}"/>
 
             <Entry
+                AutomationId="addressLine2Entry"
                 Margin="10,0,10,0"
                 Grid.Row="3"
                 Placeholder="{Binding Resources[label_address_line2]}"
                 Text="{Binding Line2}"/>
 
             <Entry
+                AutomationId="addressLine3Entry"
                 Margin="10,0,10,0"
                 Grid.Row="4"
                 Placeholder="{Binding Resources[label_address_line3]}"
                 Text="{Binding Line3}"/>
 
             <Entry
+                AutomationId="cityEntry"
                 Margin="10,0,10,0"
                 Grid.Row="5"
                 Placeholder="{Binding Resources[label_address_city]}"
                 Text="{Binding City}"/>
 
             <Entry
+                AutomationId="stateEntry"
                 Margin="10,0,10,0"
                 Grid.Row="6"
                 Placeholder="{Binding Resources[label_address_state]}"
                 Text="{Binding State}"/>
 
             <Entry
+                AutomationId="postalCodeEntry"
                 Margin="10,0,10,0"
                 Grid.Row="7"
                 Placeholder="{Binding Resources[label_address_postal]}"
                 Text="{Binding PostalCode}"/>
 
             <Entry
+                AutomationId="countryEntry"
                 Margin="10,0,10,0"
                 Grid.Row="8"
                 Placeholder="{Binding Resources[label_address_country]}"
                 Text="{Binding Country}"/>
             
             <Button
+                AutomationId="getLocationButton"
                 Command="{Binding GetCurrentLocationCommand}"
                 Style="{StaticResource BottomButtonTitleStyle}"
                 Grid.Row="9"

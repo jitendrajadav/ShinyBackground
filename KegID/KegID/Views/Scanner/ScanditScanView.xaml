@@ -9,6 +9,7 @@
     <ContentPage.Content>
 
         <Grid 
+            AutomationId="mainGrd"
             HorizontalOptions="FillAndExpand" 
             VerticalOptions="FillAndExpand">
 
@@ -18,16 +19,15 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <!--<scandit:BarcodePicker 
-                x:Name="thePicker" />-->
-
             <Label
+                AutomationId="buttonTextLabel"
                 Grid.Row="1"
                 VerticalOptions="End"
                 BackgroundColor="Transparent"
                 Text="{Binding BottonText,Mode=TwoWay}"/>
             
             <Button
+                AutomationId="doneButton"
                 Grid.Row="2"
                 HorizontalOptions="FillAndExpand"
                 BackgroundColor="White"

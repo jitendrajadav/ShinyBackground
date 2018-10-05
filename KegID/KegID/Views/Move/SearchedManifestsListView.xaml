@@ -12,6 +12,7 @@
     <ContentPage.Content>
        
         <Grid
+            AutomationId="mainGrd"
             Margin="10,0,10,0">
            
             <Grid.RowDefinitions>
@@ -21,6 +22,7 @@
             </Grid.RowDefinitions>
 
             <Button
+                AutomationId="searchManifestButton"
                 x:Name="lblSearchManifest"
                 Style="{StaticResource TopButtonTitleStyle}"
                 HorizontalOptions="Start"
@@ -29,12 +31,14 @@
                 />
 
             <Label 
+                AutomationId="manifestLabel"
                 Text="{Binding Resources[title_manifest_list]}"
                 VerticalOptions="Center" 
                 Style="{StaticResource LabelTitleStyle}"
                 HorizontalOptions="Center" />
 
             <BoxView
+                AutomationId="topBarSeperatorBoxView"
                 Grid.Row="1"
                 BackgroundColor="{StaticResource lightGrayColor}"
                 HeightRequest="1"
@@ -42,6 +46,7 @@
                 HorizontalOptions="FillAndExpand"/>
 
             <ListView
+                AutomationId="searchMenifestListView"
                 Margin="-10,0,-10,0"
                 x:Name="lstSearchManifest"
                 Grid.Row="2"

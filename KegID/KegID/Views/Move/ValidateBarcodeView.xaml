@@ -11,18 +11,22 @@
             >
 
     <StackLayout 
+        AutomationId="mainStackLayout"
         VerticalOptions="Center" 
         HorizontalOptions="FillAndExpand"
         Padding="20, 50, 20, 50">
         
         <Label
+            AutomationId="multiKegsLabel"
             BackgroundColor="White"
             Text="{Binding MultipleKegsTitle}"/>
         
         <StackLayout
+            AutomationId="innerStackLayout"
             BackgroundColor="White">
             
             <ListView
+                AutomationId="partnerListView"
                 x:Name="lstValidateBarcode"
                 Grid.Row="1"
                 SeparatorVisibility="Default"
@@ -51,6 +55,7 @@
         </StackLayout>
 
         <Button
+            AutomationId="cancelButton"
             x:Name="lblCancel"
             Text="Close" 
             Style="{StaticResource BottomButtonTitleStyle}"

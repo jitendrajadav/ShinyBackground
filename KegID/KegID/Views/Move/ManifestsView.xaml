@@ -9,9 +9,11 @@
              xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
              ios:Page.UseSafeArea="true"
              >
+    
     <ContentPage.Content>
         
         <Grid
+            AutomationId="mainGrd"
             ColumnSpacing="0"
             RowSpacing="0"
             Margin="10,0,10,0">
@@ -24,6 +26,7 @@
             </Grid.RowDefinitions>
 
             <Button
+                AutomationId="homeButton"
                 x:Name="lblHome"
                 Style="{StaticResource TopButtonTitleStyle}"
                 Text="{Binding Resources[button_home]}"
@@ -32,12 +35,14 @@
                 />
 
             <Label 
+                AutomationId="manifestLabel"
                 Text="{Binding Resources[button_manifests]}"
                 Style="{StaticResource LabelTitleStyle}"
                 TextColor="Black"
                 HorizontalOptions="Center" />
 
             <controls:TintedImage
+                AutomationId="searchImage"
                 x:Name="imgSearch"
                 TintColor="{StaticResource selectTextColor}"
                 HorizontalOptions="End"  
@@ -59,6 +64,7 @@
             </controls:TintedImage>
             
             <BoxView
+                AutomationId="topBarSeperatorBoxView"
                 Margin="-10,0,-10,0"
                 Grid.Row="1"
                 BackgroundColor="{StaticResource lightGrayColor}"
@@ -67,6 +73,7 @@
                 HorizontalOptions="FillAndExpand"/>
             
             <ListView
+                AutomationId="manifestListView"
                 x:Name="lstManifest"
                 Grid.Row="2"
                 android:ListView.IsFastScrollEnabled="true"
@@ -133,6 +140,7 @@
             </ListView>
 
             <Grid
+                AutomationId="innerGrd"
                 ColumnSpacing="0"
                 HorizontalOptions="Center"
                 VerticalOptions="Center"
@@ -147,6 +155,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Button
+                    AutomationId="queuedButton"
                     BorderWidth="1"
                     BorderColor="#4E6388"
                     TextColor="{Binding QueuedTextColor}"
@@ -155,6 +164,7 @@
                     Text="{Binding Resources[title_manifest_queued]}"/>
 
                 <Button
+                    AutomationId="draftButton"
                     Grid.Column="1"
                     BorderWidth="1"
                     BorderColor="#4E6388"
@@ -164,6 +174,7 @@
                     Text="{Binding Resources[title_manifest_draft]}"/>
 
                 <Button
+                    AutomationId="recentButton"
                     Grid.Column="2"
                     BorderWidth="1"
                     BorderColor="#4E6388"

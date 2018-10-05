@@ -12,6 +12,7 @@
     <ContentPage.Content>
        
         <Grid
+            AutomationId="mainGrd"
             Margin="10,0,10,0">
            
             <Grid.RowDefinitions>
@@ -21,6 +22,7 @@
             </Grid.RowDefinitions>
 
             <Button 
+                AutomationId="backButton"
                 x:Name="lblBackPartners"
                 Style="{StaticResource TopButtonTitleStyle}"
                 Text="{Binding Resources[title_partner_list]}"
@@ -29,6 +31,7 @@
                 />
 
             <BoxView
+                AutomationId="topBarSeperatorBoxView"
                 Margin="-10,0,-10,0"
                 Grid.Row="1"
                 BackgroundColor="{StaticResource bannerBGColor}"
@@ -36,6 +39,7 @@
                 HorizontalOptions="FillAndExpand"/>
 
             <SearchBar 
+                AutomationId="searchBar"
                 Margin="10,5,10,5"
                 x:Name="SearchBar" 
                 Grid.Row="1"
@@ -53,6 +57,7 @@
             </SearchBar>
 
             <ListView
+                AutomationId="partnerListView"
                 x:Name="lstSearchPartners"
                 Grid.Row="2"
                 SelectionMode="None"

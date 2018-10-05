@@ -736,8 +736,36 @@ namespace KegID.ViewModel
         private void AssignInitialValue(INavigationParameters parameters)
         {
             ManifestModel model = parameters.GetValue<ManifestModel>("AssignInitialValue");
-            string id = model.ManifestId;
-            AssignInitialValue(id, model.ManifestItems.Count > 0 ? model.ManifestItems : null, model.ManifestItemsCount > 0 ? model.ManifestItemsCount.ToString() : string.Empty, model.OwnerName, model.ReceiverId, true, model.Tags, model.TagsStr);
+            try
+            {
+                if (model != null)
+                {
+                    foreach (var item in model.BarcodeModels)
+                    {
+                        ConstantManager.Barcodes.Add(item);
+                    }
+                }
+                Barcodes = ConstantManager.Barcodes;
+                Tags = model.Tags?.ToList();
+                TagsStr = !string.IsNullOrEmpty(model.TagsStr) ? model.TagsStr : "Add info";
+                ManifestId = !string.IsNullOrEmpty(model.ManifestId) ? model.ManifestId : _uuidManager.GetUuId();
+                AddKegs = !string.IsNullOrEmpty(model.ManifestItemsCount.ToString()) ? Convert.ToUInt32(model.ManifestItemsCount.ToString()) > 1 ? string.Format("{0} Items", model.ManifestItemsCount.ToString()) : string.Format("{0} Item", model.ManifestItemsCount.ToString()) : "Add Kegs";
+                if (!string.IsNullOrEmpty(model.OwnerName))
+                {
+                    Destination = model.OwnerName;
+                    ConstantManager.Partner = new PartnerModel
+                    {
+                        PartnerId = model.ReceiverId,
+                        FullName = model.OwnerName
+                    };
+                    IsRequiredVisible = false;
+                }
+                IsSaveDraftVisible = true;
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         #endregion

@@ -1006,16 +1006,15 @@ namespace KegID.ViewModel
                 {
                     try
                     {
-                        string barcode = parameters.GetValue<string>("Barcode");
-                        var oldBarcode = BarcodeCollection.Where(x => x.Barcode == barcode).FirstOrDefault();
-
-                        for (int i = oldBarcode.Tags.Count - 1; i >= 0; i--)
-                        {
-                            oldBarcode.Tags.RemoveAt(i);
-                        }
-
                         using (var db = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
                         {
+                            string barcode = parameters.GetValue<string>("Barcode");
+                            var oldBarcode = BarcodeCollection.Where(x => x.Barcode == barcode).FirstOrDefault();
+
+                            for (int i = oldBarcode.Tags.Count - 1; i >= 0; i--)
+                            {
+                                oldBarcode.Tags.RemoveAt(i);
+                            }
                             foreach (var item in ConstantManager.Tags)
                             {
                                 oldBarcode.Tags.Add(item);

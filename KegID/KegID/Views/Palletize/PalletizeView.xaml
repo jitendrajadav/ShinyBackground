@@ -11,6 +11,7 @@
     <ContentPage.Content>
         
         <Grid
+            AutomationId="mainGrd"
             RowSpacing="0">
 
             <Grid.RowDefinitions>
@@ -19,6 +20,7 @@
             </Grid.RowDefinitions>
             
             <Button
+                AutomationId="cancelButton"
                 x:Name="lblCancel"
                 Style="{StaticResource TopButtonTitleStyle}"
                 HorizontalOptions="Start"
@@ -27,12 +29,14 @@
                 />
 
             <Label
+                AutomationId="buildPalletLabel"
                 HorizontalOptions="Center"
                 Style="{StaticResource LabelTitleStyle}"
                 Text="{Binding Resources[title_build_pallet]}"
                 />
 
             <Button
+                AutomationId="submitButton"
                 HorizontalOptions="End"
                 Text="{Binding Resources[menu_action_submit]}"
                 Style="{StaticResource TopButtonTitleStyle}"
@@ -41,6 +45,7 @@
                 />
 
             <Grid
+                AutomationId="innerGrd"
                 Margin="10,0,10,0"
                 ColumnSpacing="0"
                 Grid.Row="1"
@@ -62,6 +67,7 @@
                 </Grid.RowDefinitions>
 
                 <BoxView
+                    AutomationId="topBarSeperatorBoxView"
                     Margin="-10,0,-10,0"
                     Grid.Row="0"
                     HeightRequest="50"
@@ -69,7 +75,8 @@
                     VerticalOptions="FillAndExpand"
                     HorizontalOptions="FillAndExpand"/>
 
-                <Label 
+                <Label
+                    AutomationId="manifestIdLabel"
                     Font="16"
                     Style="{StaticResource LabelTitleWhiteTextColorStyle}"
                     IsVisible="{Binding IsCameraVisible,Converter={StaticResource InvertedBooleanConverter}}"
@@ -77,12 +84,14 @@
                     />
 
                 <Entry 
+                    AutomationId="manifestIdEntry"
                     Margin="10,0,10,0"
                     IsVisible="{Binding IsCameraVisible}"
                     Text="{Binding ManifestId,Mode=TwoWay}"
                     VerticalOptions="Center"/>
 
                 <Image
+                    AutomationId="pencilImage"
                     x:Name="imgPencil"
                     IsVisible="{Binding IsCameraVisible,Converter={StaticResource InvertedBooleanConverter}}"
                     HorizontalOptions="End"                  
@@ -102,6 +111,7 @@
                 </Image>
 
                 <Image
+                    AutomationId="cameraImage"
                     x:Name="imgCamera"
                     IsVisible="{Binding IsCameraVisible}"
                     HorizontalOptions="End"                  
@@ -120,11 +130,13 @@
                 </Image>
 
                 <Label
+                    AutomationId="stockLocationLabel"
                     Style="{StaticResource LabelNormalStyle}"
                     Text="{Binding Resources[label_stock_location]}"
                     Grid.Row="1"/>
 
                 <Button
+                    AutomationId="partnerButton"
                     x:Name="lblPartner"
                     Style="{StaticResource ButtonNormalStyle}"
                     Text="{Binding Path=StockLocation.FullName}"
@@ -133,6 +145,7 @@
                     />
 
                 <BoxView
+                    AutomationId="lineSeperator1"
                     Grid.Row="3"
                     BackgroundColor="{StaticResource lightGrayColor}"
                     HeightRequest="1"
@@ -140,11 +153,13 @@
                     HorizontalOptions="FillAndExpand"/>
 
                 <Label
+                    AutomationId="targetLocationLabel"
                     Style="{StaticResource LabelNormalStyle}"
                     Text="{Binding Resources[label_target_location]}"
                     Grid.Row="4"/>
 
                 <Button
+                    AutomationId="targetLocationButton"
                     Style="{StaticResource ButtonNormalStyle}"
                     x:Name="lblTargeLocation"
                     Text="{Binding Path=TargetLocation.FullName}"
@@ -153,6 +168,7 @@
                     />
 
                 <BoxView
+                    AutomationId="lineSeperator2"
                     Grid.Row="6"
                     BackgroundColor="{StaticResource lightGrayColor}"
                     HeightRequest="1"
@@ -160,11 +176,13 @@
                     HorizontalOptions="FillAndExpand"/>
 
                 <Label
+                    AutomationId="moreInfoLabel"
                     Style="{StaticResource LabelNormalStyle}"
                     Text="{Binding Resources[label_more_info]}"
                     Grid.Row="7"/>
 
                 <Button
+                    AutomationId="addInfoButton"
                     Style="{StaticResource ButtonNormalStyle}"
                     x:Name="lblTags"
                     Text="{Binding AddInfoTitle}"
@@ -173,6 +191,7 @@
                     />
 
                 <BoxView
+                    AutomationId="lineSeperator3"
                     Grid.Row="9"
                     BackgroundColor="{StaticResource lightGrayColor}"
                     HeightRequest="1"
@@ -180,11 +199,13 @@
                     HorizontalOptions="FillAndExpand"/>
 
                 <Label
+                    AutomationId="kegsLabel"
                     Style="{StaticResource LabelNormalStyle}"
                     Text="{Binding Resources[label_kegs]}"
                     Grid.Row="10"/>
 
                 <Button
+                    AutomationId="addKegsButton"
                     Style="{StaticResource ButtonLargeStyle}"
                     x:Name="lblAddKegs"
                     Grid.Row="11"

@@ -11,18 +11,21 @@
 
     <ContentPage.Content>
         
-        <Grid>
+        <Grid
+            AutomationId="mainGrd">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
             <Grid
+                AutomationId="innerGrd"
                 Grid.Row="0"
                 Padding="0,5"
                 BackgroundColor="{StaticResource selectTextColor}">
 
                 <Label
+                    AutomationId="volumeLabel"
                     Style="{StaticResource LabelTitleStyle}"
                     TextColor="White"
                     HorizontalOptions="CenterAndExpand"
@@ -30,6 +33,7 @@
             </Grid>
             
             <ListView 
+                AutomationId="volumeListView"
                 Margin="10,0,10,0"
                 Grid.Row="1"
                 x:Name="volumeListView"

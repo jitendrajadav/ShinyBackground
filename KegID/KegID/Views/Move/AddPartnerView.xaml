@@ -9,9 +9,11 @@
 
     <ContentPage.Content>
         
-        <ScrollView>
+        <ScrollView
+            AutomationId="scrollView">
           
             <Grid
+                AutomationId="mainGrd"
                 RowSpacing="3"
                 Margin="10,0,10,0">
 
@@ -34,6 +36,7 @@
                 </Grid.RowDefinitions>
 
                 <Button
+                    AutomationId="cancelButton"
                     x:Name="lblCancel"
                     HorizontalOptions="Start"
                     Style="{StaticResource TopButtonTitleStyle}"
@@ -42,12 +45,14 @@
                     />
 
                 <Label
+                    AutomationId="addPartnerLabel"
                     Style="{StaticResource LabelTitleStyle}"
                     TextColor="Black"
                     HorizontalOptions="Center"
                     Text="{Binding Resources[title_add_partner]}"/>
 
                 <Button
+                    AutomationId="submitButton"
                     x:Name="lblSubmit"
                     Text="{Binding Resources[menu_action_submit]}"
                     HorizontalOptions="End"
@@ -56,6 +61,7 @@
                     />
 
                 <BoxView
+                    AutomationId="topBarSeperatorBoxView"
                     Margin="-10,0,-10,0"
                     Grid.Row="1"
                     BackgroundColor="{StaticResource lightGrayPlaceholderColor}"
@@ -64,42 +70,50 @@
                     HorizontalOptions="FillAndExpand"/>
 
                 <Entry
+                    AutomationId="companyNameEntry"
                     Grid.Row="2"
                     Placeholder="{Binding Resources[hint_company_name]}"
                     PlaceholderColor="{StaticResource lightGrayPlaceholderColor}"
                     Text="{Binding PartnerName}"/>
 
                 <StackLayout
+                    AutomationId="stackLayout"
                     Orientation="Horizontal"
                     Grid.Row="3">
 
                     <Label
+                        AutomationId="sharedLabel"
                         Style="{StaticResource LabelNormalStyle}"
                         TextColor="{StaticResource textLabelColor}"
                         Text="{Binding Resources[lable_shared]}"/>
 
                     <Switch
+                        AutomationId="sharedSwitch"
                         OnColor="#4CD864"
                         IsToggled="{Binding IsSharedOn}"/>
 
                     <Label
+                        AutomationId="sortInternalLabel"
                         TextColor="{StaticResource textLabelColor}"
                         Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Resources[menu_action_sort_internal]}"/>
 
                     <Switch
+                        AutomationId="sortInternalSwitch"
                         OnColor="#4CD864"
                         IsToggled="{Binding IsInternalOn}"/>
 
                 </StackLayout>
 
                 <Label
+                    AutomationId="typeLabel"
                     TextColor="{StaticResource textLabelColor}"
                     Style="{StaticResource LabelNormalStyle}"
                     Grid.Row="4"
                     Text="{Binding Resources[label_type]}"/>
 
                 <Picker
+                    AutomationId="partnerTypePicker"
                     Margin="60,0,0,0"
                     HorizontalOptions="FillAndExpand"
                     Grid.Row="4"
@@ -110,12 +124,14 @@
                     SelectedItem="{Binding SelectedPartnerType}"/>
 
                 <Label
+                    AutomationId="shippingAddressLabel"
                     TextColor="{StaticResource textLabelColor}"
                     Style="{StaticResource LabelNormalStyle}"
                     Grid.Row="5"
                     Text="{Binding Resources[label_shipping_address]}"/>
 
                 <Label
+                    AutomationId="shippingAddressValue"
                     LineBreakMode="TailTruncation"
                     Margin="10"
                     x:Name="lblShipigAddress"
@@ -132,12 +148,14 @@
                 </Label>
 
                 <Label
+                    AutomationId="billingAddressLabel"
                     TextColor="{StaticResource textLabelColor}"
                     Style="{StaticResource LabelNormalStyle}"
                     Grid.Row="7"
                     Text="{Binding Resources[label_billing_address]}"/>
 
                 <Label
+                    AutomationId="billingAddressValue"
                     LineBreakMode="TailTruncation"
                     Margin="10"
                     x:Name="lblBillingAddress"
@@ -154,36 +172,42 @@
                 </Label>
 
                 <Entry
+                    AutomationId="contactnameEntry"
                     Grid.Row="9"
                     Text="{Binding ContactName}"
                     PlaceholderColor="{StaticResource lightGrayPlaceholderColor}"
                     Placeholder="{Binding Resources[label_contact_name]}"/>
 
                 <Entry
+                    AutomationId="phoneEntry"
                     Grid.Row="10"
                     Text="{Binding Phone}"
                     PlaceholderColor="{StaticResource lightGrayPlaceholderColor}"
                     Placeholder="{Binding Resources[hint_contact_phone]}"/>
 
                 <Entry
+                    AutomationId="contatctEmailEntry"
                     Grid.Row="11"
                     Text="{Binding ContactEmail}"
                     PlaceholderColor="{StaticResource lightGrayPlaceholderColor}"
                     Placeholder="{Binding Resources[hint_contact_email]}"/>
 
                 <Entry
+                    AutomationId="accountNumberEntry"
                     Grid.Row="12"
                     Text="{Binding AccountNumber}"
                     PlaceholderColor="{StaticResource lightGrayPlaceholderColor}"
                     Placeholder="{Binding Resources[label_accountnum]}"/>
 
                 <Entry
+                    AutomationId="referenceEntry"
                     Grid.Row="13"
                     Text="{Binding ReferenceKey}"
                     PlaceholderColor="{StaticResource lightGrayPlaceholderColor}"
                     Placeholder="{Binding Resources[hint_reference]}"/>
 
                 <Entry
+                    AutomationId="notesEntry"
                     Grid.Row="14"
                     Text="{Binding Notes}"
                     PlaceholderColor="{StaticResource lightGrayPlaceholderColor}"

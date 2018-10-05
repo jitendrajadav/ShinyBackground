@@ -29,21 +29,6 @@ namespace KegID.Services
                         KegId = item.Kegs?.Partners?.FirstOrDefault()?.Kegs?.FirstOrDefault().KegId??default,
                         Icon = item.Icon,
                         TagsStr = item.TagsStr??default,
-                        //KegStatus = new List<KegStatus>()
-                        //{
-                        //    new KegStatus()
-                        //    {
-                        //        KegId = validateBarcodeModel.Kegs.Partners.FirstOrDefault().Kegs.FirstOrDefault().KegId,
-                        //        Barcode = barcodeResult.Barcode,
-                        //        AltBarcode = validateBarcodeModel.Kegs.Partners.FirstOrDefault().Kegs.FirstOrDefault().AltBarcode??string.Empty,
-                        //        Contents = contents,
-                        //        Batch = validateBarcodeModel.Kegs.Partners.FirstOrDefault().Kegs.FirstOrDefault().Batch.ToString(),
-                        //        Size = tags.Any(x=>x.Property == "Size") ? tags.Where(x=>x.Property == "Size").Select(x=>x.Value).FirstOrDefault():string.Empty,
-                        //        Alert = validateBarcodeModel.Kegs.Partners.FirstOrDefault().Kegs.FirstOrDefault().Alert,
-                        //        Location = validateBarcodeModel.Kegs.Locations.FirstOrDefault(),
-                        //        OwnerName = partnerModel.FullName,
-                        //    }
-                        //},
                     };
 
                     if (item.Tags != null)
@@ -107,13 +92,6 @@ namespace KegID.Services
             {
                 Crashes.TrackError(ex);
                 return null;
-            }
-            finally
-            {
-                //manifestItem = null;
-                //manifestItemlst = null;
-                //validateBarcodeModel = null;
-                //manifestModel = null;
             }
         }
     }

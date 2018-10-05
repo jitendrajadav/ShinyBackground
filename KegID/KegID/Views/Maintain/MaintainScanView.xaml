@@ -12,8 +12,11 @@
              >
 
     <ContentPage.Content>
+        
         <Grid
+            AutomationId="mainGrd"
             RowSpacing="0">
+            
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -21,6 +24,7 @@
             </Grid.RowDefinitions>
             
             <Button
+                AutomationId="backButton"
                 x:Name="lblBack"
                 Style="{StaticResource TopButtonTitleStyle}"
                 Text="{Binding Resources[button_back]}"
@@ -28,11 +32,13 @@
                 />
 
             <Label 
+                AutomationId="scanLabel"
                 HorizontalOptions="Center"
                 Text="{Binding Resources[menu_action_scan]}"
                 Style="{StaticResource LabelTitleStyle}"/>
 
             <BoxView
+                AutomationId="topBarSeperatorBoxView"
                 Grid.Row="1"
                 BackgroundColor="{StaticResource lightGrayColor}"
                 HeightRequest="1"
@@ -40,6 +46,7 @@
                 HorizontalOptions="FillAndExpand"/>
 
             <Grid
+                AutomationId="innerGrd"
                 Margin="0,5,0,0"
                 Grid.Row="2"
                 RowSpacing="5"
@@ -60,6 +67,7 @@
 
 
                 <Entry
+                    AutomationId="barcodeEntry"
                     Margin="10,0,0,0"
                     Grid.ColumnSpan="2"
                     Grid.Row="0"
@@ -75,6 +83,7 @@
                 </Entry>
 
                 <controls:TintedImage
+                    AutomationId="cameraImage"
                     TintColor="{StaticResource selectTextColor}"
                     x:Name="imgCamera"
                     Grid.Row="0"
@@ -96,6 +105,7 @@
                 </controls:TintedImage>
 
                 <BoxView
+                    AutomationId="lineSeperator1"
                     Margin="-10,0,-10,0"
                     Grid.Row="1"
                     HeightRequest="50"
@@ -105,6 +115,7 @@
                     HorizontalOptions="FillAndExpand"/>
 
                 <Label
+                    AutomationId="scannedLabel"
                     HorizontalOptions="Start"
                     Style="{StaticResource LabelTitleWhiteTextColorStyle}"
                     Grid.Column="0"
@@ -114,6 +125,7 @@
                     Text="{Binding Resources[label_scanned]}"/>
 
                 <Label
+                    AutomationId="barcodeCountLabel"
                     Grid.Column="2"
                     Grid.Row="1"
                     TextColor="#B7EB35"
@@ -123,6 +135,7 @@
                     Text="{Binding BarcodeCollection.Count}"/>
 
                 <Button
+                    AutomationId="submitButton"
                     Margin="-10,0,-10,0"
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
@@ -132,89 +145,10 @@
                     Command="{Binding SubmitCommand}"/>
                
                 <local:ScanItemView
+                    AutomationId="scanItemView"
                     Grid.Row="3"
                     Grid.ColumnSpan="3"/>
                 
-                <!--<ListView
-                    Margin="10,0,10,0"
-                    x:Name="lstBarcode"
-                    Grid.Row="3"
-                    Grid.ColumnSpan="3"
-                    SeparatorVisibility="Default"
-                    android:ListView.IsFastScrollEnabled="true"
-                    SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
-                    HasUnevenRows="True"
-                    SelectionMode="None"
-                    CachingStrategy="RecycleElement"
-                    ItemsSource="{Binding BarcodeCollection}">
-
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <ViewCell.ContextActions>
-                                    <MenuItem Text="Delete" Command="{Binding BindingContext.DeleteItemCommand, Source={x:Reference lstBarcode}}" CommandParameter="{Binding .}"/>
-                                </ViewCell.ContextActions>
-
-                                <Grid 
-                                    RowSpacing="0"
-                                    ColumnSpacing="0">
-
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="*"/>
-                                        <RowDefinition Height="Auto"/>
-                                    </Grid.RowDefinitions>
-
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="90*"/>
-                                        <ColumnDefinition Width="10*"/>
-                                    </Grid.ColumnDefinitions>
-
-                                    <Label 
-                                        VerticalOptions="FillAndExpand" 
-                                        VerticalTextAlignment="Center" 
-                                        Text="{Binding Barcode}" 
-                                        TextColor="Black"
-                                        FontSize="{StaticResource ListViewTitleFont}">
-                                        <Label.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding Path=BindingContext.LabelItemTappedCommand, 
-                                                        Source={x:Reference Name=lstBarcode}}"
-                                                         CommandParameter="{Binding}"/>
-                                        </Label.GestureRecognizers>
-                                    </Label>
-
-                                    <Image 
-                                        Grid.Column="1"
-                                        Grid.RowSpan="2"
-                                        Margin="1"
-                                        VerticalOptions="Center"
-                                        HorizontalOptions="Center"
-                                        Source="{Binding Icon,Mode=TwoWay}">
-                                        <Image.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding Path=BindingContext.IconItemTappedCommand, 
-                                                        Source={x:Reference Name=lstBarcode}}"
-                                                         CommandParameter="{Binding}"/>
-                                        </Image.GestureRecognizers>
-                                    </Image>
-                                    
-                                    <Label
-                                        Margin="0,0,0,2"
-                                        LineBreakMode="TailTruncation"
-                                        TextColor="{StaticResource lightGrayColor}"
-                                        Grid.Row="1"
-                                        FontSize="{StaticResource ListViewDetailFont}"
-                                        Text="{Binding TagsStr}">
-                                        <Label.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding Path=BindingContext.LabelItemTappedCommand, 
-                                                        Source={x:Reference Name=lstBarcode}}"
-                                                         CommandParameter="{Binding}"/>
-                                        </Label.GestureRecognizers>
-                                    </Label>
-                                </Grid>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>-->
-
             </Grid>
 
         </Grid>

@@ -11,7 +11,10 @@
              >
 
     <ContentPage.Content>
-        <Grid>
+        
+        <Grid
+            AutomationId="mainGrd">
+            
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -20,6 +23,7 @@
             </Grid.RowDefinitions>
 
             <Grid 
+                AutomationId="innerGrd"
                 VerticalOptions="Center"
                 Margin="0,0,10,0"
                 RowSpacing="0">
@@ -32,6 +36,7 @@
                 </Grid.ColumnDefinitions>
             
                 <Button
+                    AutomationId="backButton"
                     Grid.Column="0"
                     x:Name="lblBack"
                     Style="{StaticResource TopButtonTitleStyle}"
@@ -41,6 +46,7 @@
                     />
 
                 <Label 
+                    AutomationId="parnterListLabel"
                     Grid.Column="1"
                     Text="{Binding Resources[title_partner_list]}"
                     FontAttributes="Bold"
@@ -50,6 +56,7 @@
                     />
 
                 <controls:TintedImage
+                    AutomationId="searchImage"
                     Grid.Column="2"
                     x:Name="imgSearch"
                     TintColor="{StaticResource selectTextColor}"
@@ -70,6 +77,7 @@
                 </controls:TintedImage>
 
                 <controls:TintedImage
+                    AutomationId="addImage"
                     Grid.Column="3"
                     x:Name="imgAdd"
                     TintColor="{StaticResource selectTextColor}"
@@ -92,12 +100,14 @@
             </Grid>
 
             <BoxView
+                AutomationId="topBarSeperatorBoxView"
                 Grid.Row="1"
                 BackgroundColor="{StaticResource bannerBGColor}"
                 VerticalOptions="FillAndExpand"
                 HorizontalOptions="FillAndExpand"/>
 
             <SearchBar 
+                AutomationId="searchBar"
                 Margin="10,5,10,5"
                 x:Name="SearchBar" 
                 Grid.Row="1"
@@ -116,6 +126,7 @@
             </SearchBar>
 
             <ListView
+                AutomationId="partnerListView"
                 Margin="10,0,10,0"
                 x:Name="lstPartners"
                 Grid.Row="2"
@@ -164,6 +175,7 @@
             </ListView>
 
             <Grid
+                AutomationId="innerGrd1"
                 ColumnSpacing="0"
                 VerticalOptions="Center"
                 HorizontalOptions="Center"
@@ -177,6 +189,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Button
+                    AutomationId="internalButton"
                     BorderRadius="0"
                     BorderWidth="1"
                     BorderColor="#4E6388"
@@ -186,6 +199,7 @@
                     Command="{Binding InternalCommand}"/>
 
                 <Button
+                    AutomationId="alphabeticalButton"
                     BorderRadius="0"
                     BorderWidth="1"
                     BorderColor="#4E6388"

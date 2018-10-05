@@ -10,7 +10,10 @@
              >
 
     <ContentPage.Content>
-        <Grid>
+        
+        <Grid
+            AutomationId="mainGrd">
+            
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -18,6 +21,7 @@
             </Grid.RowDefinitions>
 
             <Button
+                AutomationId="backButton"
                 x:Name="lblBack"
                 Style="{StaticResource TopButtonTitleStyle}"
                 HorizontalOptions="Start"
@@ -26,6 +30,7 @@
                 />
 
             <BoxView
+                AutomationId="topBarSeperatorBoxView"
                 Grid.Row="1"
                 BackgroundColor="{StaticResource lightGrayColor}"
                 HeightRequest="1"
@@ -33,6 +38,7 @@
                 HorizontalOptions="FillAndExpand"/>
 
             <ListView
+                AutomationId="palletSearchListView"
                 x:Name="lstKegSearch"
                 Grid.Row="2"
                 SeparatorVisibility="Default"

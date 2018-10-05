@@ -10,6 +10,7 @@
     <ContentPage.Content>
         
         <Grid
+            AutomationId="mainGrd"
             Margin="10,0,10,0">
 
             <Grid.RowDefinitions>
@@ -22,6 +23,7 @@
             </Grid.RowDefinitions>
 
             <Button
+                AutomationId="homeButton"
                 x:Name="lblHome"
                 Style="{StaticResource TopButtonTitleStyle}"
                 Text="{Binding Resources[button_home]}"
@@ -29,11 +31,13 @@
                 />
 
             <Label 
+                AutomationId="maintenanceLabel"
                 Text="{Binding Resources[title_maintenance]}"
                 Style="{StaticResource LabelTitleStyle}"
                 HorizontalOptions="Center" />
 
             <BoxView
+                AutomationId="toBarSeperatorBoxView"
                 Margin="-10,0,-10,0"
                 Grid.Row="1"
                 BackgroundColor="{StaticResource bannerBGColor}"
@@ -41,18 +45,21 @@
                 HorizontalOptions="FillAndExpand"/>
 
             <Label 
+                AutomationId="trackingNumberLabel"
                 Grid.Row="1"
                 Style="{StaticResource LabelTitleWhiteTextColorStyle}"
                 Text="{Binding TrackingNo,StringFormat='Tracking #: {0}',Converter={StaticResource StringToLast8CharacterConverter}}"
                 />
 
-            <Label 
+            <Label
+                AutomationId="toLabel"
                 Grid.Row="2"
                 Text="{Binding Resources[label_to]}"
                 Style="{StaticResource LabelNormalStyle}"
                 />
             
             <Label 
+                AutomationId="stockLocationLabel"
                 Margin="10,0,0,0"
                 Grid.Row="3"
                 Text="{Binding StockLocation}"
@@ -60,6 +67,7 @@
                 />
             
             <Grid
+                AutomationId="innerGrd"
                 x:Name="maintenancePerformed"
                 RowSpacing="0"
                 ColumnSpacing="0"
@@ -80,6 +88,7 @@
                 </Grid.ColumnDefinitions>
 
                 <BoxView
+                    AutomationId="lineSeperator1"
                     Grid.Row="0"
                     Grid.ColumnSpan="3"
                     BackgroundColor="Black"
@@ -88,6 +97,7 @@
                     HorizontalOptions="FillAndExpand"/>
 
                 <BoxView
+                    AutomationId="lineSeperator2"
                     Grid.Row="0"
                     Grid.RowSpan="5"
                     BackgroundColor="Black"
@@ -96,6 +106,7 @@
                     HorizontalOptions="Start"/>
 
                 <BoxView
+                    AutomationId="lineSeperator3"
                     Grid.Row="4"
                     Grid.ColumnSpan="3"
                     BackgroundColor="Black"
@@ -104,6 +115,7 @@
                     HorizontalOptions="FillAndExpand"/>
 
                 <BoxView
+                    AutomationId="lineSeperator4"
                     Grid.Row="0"
                     Grid.Column="2"
                     Grid.RowSpan="5"
@@ -113,6 +125,7 @@
                     HorizontalOptions="Start"/>
 
                 <Label
+                    AutomationId="maintenancePerformedLabel"
                     Grid.Column="1"
                     Grid.Row="1"
                     BackgroundColor="LightGray"
@@ -123,6 +136,7 @@
                     Text="{Binding Resources[label_maintenance_performed]}"/>
               
                 <BoxView
+                    AutomationId="lineSeperator5"
                     x:Name="myBox"
                     Grid.Row="2"
                     Grid.ColumnSpan="3"
@@ -132,6 +146,7 @@
                     HorizontalOptions="FillAndExpand"/>
 
                 <StackLayout
+                    AutomationId="stackLayout"
                     Spacing="0"
                     Grid.Row="3"
                     HorizontalOptions="FillAndExpand"
@@ -141,6 +156,7 @@
             </Grid>
 
             <Grid
+                AutomationId="subInnerGrd"
                 x:Name="grdContent"
                 Margin="0,10,0,0"
                 RowSpacing="0"
@@ -172,6 +188,7 @@
                 </Grid.ColumnDefinitions>
 
                 <BoxView
+                    AutomationId="lineSeperator6"
                     Grid.Row="0"
                     Grid.ColumnSpan="5"
                     BackgroundColor="Black"
@@ -180,6 +197,7 @@
                     HorizontalOptions="FillAndExpand"/>
 
                 <BoxView
+                    AutomationId="lineSeperator7"
                     Grid.Row="0"
                     Grid.RowSpan="7"
                     BackgroundColor="Black"
@@ -188,6 +206,7 @@
                     HorizontalOptions="Start"/>
 
                 <BoxView
+                    AutomationId="lineSeperator8"
                     Grid.Row="6"
                     Grid.ColumnSpan="5"
                     BackgroundColor="Black"
@@ -196,6 +215,7 @@
                     HorizontalOptions="FillAndExpand"/>
 
                 <BoxView
+                    AutomationId="lineSeperator9"
                     Grid.Row="0"
                     Grid.Column="4"
                     Grid.RowSpan="7"
@@ -205,6 +225,7 @@
                     HorizontalOptions="End"/>
 
                 <Label
+                    AutomationId="tagSizeLabel"
                     Grid.Column="1"
                     Grid.Row="1"
                     BackgroundColor="LightGray"
@@ -216,6 +237,7 @@
                     Text="{Binding Resources[tag_size]}"/>
 
                 <Label
+                    AutomationId="qtyLabel"
                     Grid.Column="3"
                     Grid.Row="1"
                     BackgroundColor="LightGray"
@@ -227,6 +249,7 @@
                     Text="{Binding Resources[label_quantity]}"/>
 
                 <BoxView
+                    AutomationId="lineSeperator10"
                     Grid.Row="2"
                     Grid.ColumnSpan="5"
                     BackgroundColor="Black"
@@ -235,6 +258,7 @@
                     HorizontalOptions="FillAndExpand"/>
 
                 <Label
+                    AutomationId="doubelDashLabel"
                     Grid.Column="1"
                     Grid.Row="3"
                     Style="{StaticResource LabelNormalStyle}"
@@ -242,6 +266,7 @@
                     Text="--"/>
 
                 <BoxView
+                    AutomationId="lineSeperator11"
                     Grid.Row="1"
                     Grid.Column="2"
                     Grid.RowSpan="5"
@@ -251,6 +276,7 @@
                     HorizontalOptions="Start"/>
 
                 <Label
+                    AutomationId="itemCountLabel"
                     Grid.Column="3"
                     Grid.Row="3"
                     Margin="0,0,5,0"
@@ -260,6 +286,7 @@
                     Text="{Binding ItemCount}"/>
 
                 <BoxView
+                    AutomationId="lineSeperator12"
                     Grid.Row="4"
                     Grid.ColumnSpan="5"
                     BackgroundColor="Black"
@@ -268,6 +295,7 @@
                     HorizontalOptions="FillAndExpand"/>
 
                 <Label
+                    AutomationId="totalLabel"
                     Margin="5,0,0,0"
                     Grid.Column="1"
                     Grid.Row="5"
@@ -276,6 +304,7 @@
                     Text="{Binding Resources[label_total]}"/>
 
                 <Label
+                    AutomationId="itemCount1Label"
                     Margin="0,0,5,0"
                     HorizontalOptions="End"
                     TextColor="{StaticResource selectTextColor}"
