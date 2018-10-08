@@ -27,12 +27,6 @@
                 VerticalOptions="Start"
                 Margin="40"
                 BackgroundColor="Transparent">
-                <!--<Image.Margin>
-                    <OnPlatform x:TypeArguments="Thickness">
-                        <On Platform="iOS" Value="40" />
-                        <On Platform="Android, WinPhone, Windows, UWP" Value="40,0,40,40" />
-                    </OnPlatform>
-                </Image.Margin>-->
 
                 <Image.Source>
                     <FileImageSource File="{OnPlatform Android=kegidlogo.png,iOS=kegidlogo.png, UWP=Assets/kegidlogo.png }"/>
