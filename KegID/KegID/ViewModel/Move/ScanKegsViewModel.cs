@@ -772,7 +772,7 @@ namespace KegID.ViewModel
                     }
                     catch (Exception ex)
                     {
-
+                        Crashes.TrackError(ex);
                     }                     
                 }
                 else
@@ -785,8 +785,8 @@ namespace KegID.ViewModel
                     }
                     catch (Exception ex)
                     {
-
-                    }                   
+                        Crashes.TrackError(ex);
+                    }
                 }
 
                 try
