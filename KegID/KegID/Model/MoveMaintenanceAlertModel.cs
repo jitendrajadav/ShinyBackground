@@ -199,7 +199,6 @@ namespace KegID.Model
                         ConstantManager.VerifiedBarcodes.FirstOrDefault().HasMaintenaceVerified = true;
                         db.Commit();
                     }
-                    //SimpleIoc.Default.GetInstance<AssignSizesViewModel>().MaintenanceVerified();
                 }
 
                 RaisePropertyChanged(SelectedUSizePropertyName);
@@ -277,7 +276,6 @@ namespace KegID.Model
                         ConstantManager.VerifiedBarcodes.FirstOrDefault().HasMaintenaceVerified = true;
                         db.Commit();
                     }
-                    //SimpleIoc.Default.GetInstance<AssignSizesViewModel>().MaintenanceVerified();
                     var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                     RealmDb.Write(() =>
                     {

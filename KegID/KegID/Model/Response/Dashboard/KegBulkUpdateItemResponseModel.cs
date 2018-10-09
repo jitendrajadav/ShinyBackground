@@ -58,52 +58,6 @@ namespace KegID.Model
         public Profile Profile { get; set; }
     }
 
-    //public partial class Owner
-    //{
-    //    public string PartnerId { get; set; }
-    //    public string FullName { get; set; }
-    //    public string Address { get; set; }
-    //    public string Address1 { get; set; }
-    //    public string City { get; set; }
-    //    public string State { get; set; }
-    //    public string PostalCode { get; set; }
-    //    public string Country { get; set; }
-    //    public string PhoneNumber { get; set; }
-    //    public string PartnerTypeName { get; set; }
-    //    public string PartnerTypeCode { get; set; }
-    //    public string LocationCode { get; set; }
-    //    public double Lat { get; set; }
-    //    public double Lon { get; set; }
-    //    public bool IsInternal { get; set; }
-    //    public bool IsShared { get; set; }
-    //    public bool IsActive { get; set; }
-    //    public bool PartnershipIsActive { get; set; }
-    //    public object MasterCompanyId { get; set; }
-    //    public object ParentPartnerId { get; set; }
-    //    public object ParentPartnerName { get; set; }
-    //    public string SourceKey { get; set; }
-    //    public string LocationStatus { get; set; }
-    //    public long CompanyNo { get; set; }
-    //}
-
-    //public partial class Profile
-    //{
-    //    public string ProfileId { get; set; }
-    //    public string OwnerId { get; set; }
-    //    public string FleetName { get; set; }
-    //    public string ProfileName { get; set; }
-    //    public object ProfileCode { get; set; }
-    //    public string ProfileType { get; set; }
-    //    public string ProfileSize { get; set; }
-    //    public string Variation { get; set; }
-    //    public double VolumeUnits { get; set; }
-    //    public string VolumeUom { get; set; }
-    //    public string ProfileVolume { get; set; }
-    //    public object SourceKey { get; set; }
-    //    public object SourceModified { get; set; }
-    //    public string SourceSystem { get; set; }
-    //}
-
     public class KegBulkUpdateItemResponseModel 
     {
         public KegIDResponse Response { get; set; }

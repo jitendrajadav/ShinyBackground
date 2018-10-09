@@ -1,5 +1,4 @@
 ﻿using KegID.Model;
-using LinkOS.Plugin.Abstractions;
 
 namespace KegID.Messages
 {
@@ -8,12 +7,6 @@ namespace KegID.Messages
         public bool AssingValue { get; set; }
         public string Barcode { get; set; }
     }
-
-    //public class SelectPrinterMsg
-    //{
-    //    public IDiscoveredPrinter IDiscoveredPrinter { get; set; }
-    //    public string FriendlyLbl { get; set; }
-    //}
 
     public class PalletToScanKegPagesMsg
     {

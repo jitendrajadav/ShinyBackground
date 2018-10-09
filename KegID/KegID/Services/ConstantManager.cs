@@ -4,13 +4,11 @@ using System.Collections.Generic;
 
 namespace KegID.Services
 {
-    public static class ConstantManager /*: IConstantManager*/
+    public static class ConstantManager 
     {
         public static Xamarin.Essentials.Location Location { get; set; }
         public static IDiscoveredPrinter PrinterSetting { get; set; }
         public static string IPAddr { get; set; }
-        //public static bool IsIPAddr { get; set; }
-        //public static string SelectedPrinter { get; set; } = "No printers found";
         public static LocationInfo Position { get; set; }
         public static bool IsFromScanned { get; set; }
         public static List<BarcodeModel> VerifiedBarcodes { get; set; }

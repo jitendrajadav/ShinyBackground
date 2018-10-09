@@ -1,6 +1,5 @@
 ﻿using Realms;
 using System;
-//using SQLite.Net.Attributes;
 
 namespace KegID.Model
 {

@@ -39,109 +39,6 @@ namespace KegID.Model.PrintPDF
         public string Nil { get; set; }
     }
 
-    //[XmlRoot(ElementName = "MasterCompanyId", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //public class MasterCompanyId
-    //{
-    //    [XmlAttribute(AttributeName = "nil", Namespace = "http://www.w3.org/2001/XMLSchema-instance")]
-    //    public string Nil { get; set; }
-    //}
-
-    //[XmlRoot(ElementName = "Location", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //public class Location
-    //{
-    //    [XmlElement(ElementName = "Address", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //    public string Address { get; set; }
-    //    [XmlElement(ElementName = "FullName", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //    public string FullName { get; set; }
-    //    [XmlElement(ElementName = "LocationCode", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //    public string LocationCode { get; set; }
-    //    [XmlElement(ElementName = "MasterCompanyId", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //    public MasterCompanyId MasterCompanyId { get; set; }
-    //    [XmlElement(ElementName = "ParentPartnerId", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //    public string ParentPartnerId { get; set; }
-    //    [XmlElement(ElementName = "ParentPartnerName", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //    public string ParentPartnerName { get; set; }
-    //    [XmlElement(ElementName = "PartnerId", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //    public string PartnerId { get; set; }
-    //    [XmlElement(ElementName = "PartnerTypeCode", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //    public string PartnerTypeCode { get; set; }
-    //    [XmlElement(ElementName = "PartnerTypeName", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //    public string PartnerTypeName { get; set; }
-    //    [XmlElement(ElementName = "Lat", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //    public string Lat { get; set; }
-    //    [XmlElement(ElementName = "Lon", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //    public string Lon { get; set; }
-    //    [XmlElement(ElementName = "isActive", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //    public string IsActive { get; set; }
-    //    [XmlElement(ElementName = "isInternal", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //    public string IsInternal { get; set; }
-    //    [XmlElement(ElementName = "isShared", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //    public string IsShared { get; set; }
-    //    [XmlElement(ElementName = "Address1", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //    public string Address1 { get; set; }
-    //    [XmlElement(ElementName = "State", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //    public string State { get; set; }
-    //    [XmlElement(ElementName = "City", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //    public string City { get; set; }
-    //    [XmlElement(ElementName = "PostalCode", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //    public string PostalCode { get; set; }
-    //}
-
-    //[XmlRoot(ElementName = "ParentPartnerId", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //public class ParentPartnerId
-    //{
-    //    [XmlAttribute(AttributeName = "nil", Namespace = "http://www.w3.org/2001/XMLSchema-instance")]
-    //    public string Nil { get; set; }
-    //}
-
-    //[XmlRoot(ElementName = "ParentPartnerName", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //public class ParentPartnerName
-    //{
-    //    [XmlAttribute(AttributeName = "nil", Namespace = "http://www.w3.org/2001/XMLSchema-instance")]
-    //    public string Nil { get; set; }
-    //}
-
-    //[XmlRoot(ElementName = "Owner", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //public class Owner
-    //{
-    //    [XmlElement(ElementName = "Address", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //    public string Address { get; set; }
-    //    [XmlElement(ElementName = "FullName", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //    public string FullName { get; set; }
-    //    [XmlElement(ElementName = "LocationCode", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //    public string LocationCode { get; set; }
-    //    [XmlElement(ElementName = "MasterCompanyId", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //    public MasterCompanyId MasterCompanyId { get; set; }
-    //    [XmlElement(ElementName = "ParentPartnerId", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //    public ParentPartnerId ParentPartnerId { get; set; }
-    //    [XmlElement(ElementName = "ParentPartnerName", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //    public ParentPartnerName ParentPartnerName { get; set; }
-    //    [XmlElement(ElementName = "PartnerId", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //    public string PartnerId { get; set; }
-    //    [XmlElement(ElementName = "PartnerTypeCode", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //    public string PartnerTypeCode { get; set; }
-    //    [XmlElement(ElementName = "PartnerTypeName", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //    public string PartnerTypeName { get; set; }
-    //    [XmlElement(ElementName = "Lat", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //    public string Lat { get; set; }
-    //    [XmlElement(ElementName = "Lon", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //    public string Lon { get; set; }
-    //    [XmlElement(ElementName = "isActive", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //    public string IsActive { get; set; }
-    //    [XmlElement(ElementName = "isInternal", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //    public string IsInternal { get; set; }
-    //    [XmlElement(ElementName = "isShared", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //    public string IsShared { get; set; }
-    //    [XmlElement(ElementName = "Address1", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //    public string Address1 { get; set; }
-    //    [XmlElement(ElementName = "State", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //    public string State { get; set; }
-    //    [XmlElement(ElementName = "City", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //    public string City { get; set; }
-    //    [XmlElement(ElementName = "PostalCode", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //    public string PostalCode { get; set; }
-    //}
-
     [XmlRoot(ElementName = "Contents", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
     public class Contents
     {
@@ -156,53 +53,6 @@ namespace KegID.Model.PrintPDF
         public string Nil { get; set; }
     }
 
-    //[XmlRoot(ElementName = "ReceivedDate", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //public class ReceivedDate
-    //{
-    //    [XmlElement(ElementName = "DateTime", Namespace = "http://schemas.datacontract.org/2004/07/System")]
-    //    public string DateTime { get; set; }
-    //    [XmlElement(ElementName = "OffsetMinutes", Namespace = "http://schemas.datacontract.org/2004/07/System")]
-    //    public string OffsetMinutes { get; set; }
-    //    [XmlAttribute(AttributeName = "d2p1", Namespace = "http://www.w3.org/2000/xmlns/")]
-    //    public string D2p1 { get; set; }
-    //}
-
-    //[XmlRoot(ElementName = "PalletName", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //public class PalletName
-    //{
-    //    [XmlAttribute(AttributeName = "nil", Namespace = "http://www.w3.org/2001/XMLSchema-instance")]
-    //    public string Nil { get; set; }
-    //}
-
-    //[XmlRoot(ElementName = "Keg", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //public class Keg
-    //{
-    //    [XmlElement(ElementName = "KegId", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //    public string KegId { get; set; }
-    //    [XmlElement(ElementName = "Barcode", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //    public string Barcode { get; set; }
-    //    [XmlElement(ElementName = "OwnerId", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //    public string OwnerId { get; set; }
-    //    [XmlElement(ElementName = "OwnerName", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //    public string OwnerName { get; set; }
-    //    [XmlElement(ElementName = "SizeName", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //    public string SizeName { get; set; }
-    //    [XmlElement(ElementName = "TypeName", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //    public string TypeName { get; set; }
-    //    [XmlElement(ElementName = "Contents", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //    public Contents Contents { get; set; }
-    //    [XmlElement(ElementName = "LocationId", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //    public string LocationId { get; set; }
-    //    [XmlElement(ElementName = "LocationName", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //    public string LocationName { get; set; }
-    //    [XmlElement(ElementName = "ReceivedDate", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //    public ReceivedDate ReceivedDate { get; set; }
-    //    [XmlElement(ElementName = "PalletId", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //    public string PalletId { get; set; }
-    //    [XmlElement(ElementName = "PalletName", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //    public PalletName PalletName { get; set; }
-    //}
-
     [XmlRoot(ElementName = "RemovedManifest", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
     public class RemovedManifest
     {
@@ -216,13 +66,6 @@ namespace KegID.Model.PrintPDF
         [XmlAttribute(AttributeName = "nil", Namespace = "http://www.w3.org/2001/XMLSchema-instance")]
         public string Nil { get; set; }
     }
-
-    //[XmlRoot(ElementName = "Tags", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //public class Tags
-    //{
-    //    [XmlAttribute(AttributeName = "nil", Namespace = "http://www.w3.org/2001/XMLSchema-instance")]
-    //    public string Nil { get; set; }
-    //}
 
     [XmlRoot(ElementName = "PalletItem", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
     public class PalletItem
@@ -365,5 +208,4 @@ namespace KegID.Model.PrintPDF
         [XmlAttribute(AttributeName = "xmlns")]
         public string Xmlns { get; set; }
     }
-
 }

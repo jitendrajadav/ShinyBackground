@@ -1,5 +1,4 @@
 ﻿using KegID.Common;
-using KegID.DependencyServices;
 using KegID.Model;
 using Prism.Navigation;
 using System;
@@ -22,8 +21,6 @@ namespace KegID.Services
 
         public async Task DeviceCheckInAync()
         {
-           //var deviceInfo = Xamarin.Forms.DependencyService.Get<IUniqueIdentifier>().GetUniqueIdentifier();
-
             DeviceCheckinRequestModel deviceModel = new DeviceCheckinRequestModel
             {
                 AppVersion = AppInfo.VersionString,

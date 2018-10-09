@@ -1,6 +1,4 @@
-﻿using KegID.Model;
-using KegID.Services;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace KegID.Messages
 {

@@ -471,7 +471,6 @@ namespace KegID.ViewModel
                         },
                         PalletId = item.PalletId,
                         IsActive = item.IsActive.ToString(),
-                        //Tags = item.Tags,
                     });
                 }
                 ManifestId = value.Barcode;

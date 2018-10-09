@@ -216,15 +216,8 @@ namespace KegID.ViewModel
                     palletItem = new TItem
                     {
                         Barcode = pallet.Barcode,
-                        //palletItem.Contents = "";
-                        //palletItem.HeldOnPalletId = "";
-                        //palletItem.KegId = "";
-                        //palletItem.PalletId = "";
                         ScanDate = DateTimeOffset.UtcNow.Date,
                         TagsStr = pallet.TagsStr
-                        //palletItem.SkuId = "";
-                        //ValidationStatus = 4,
-                        //Tags = tags
                     };
 
                     if (pallet.Tags != null)
@@ -239,17 +232,13 @@ namespace KegID.ViewModel
                 newPallet = new NewPallet
                 {
                     Barcode = BatchId,
-                    //newPallet.BarcodeFormat = "";
                     BuildDate = DateTimeOffset.UtcNow.Date,
-                    //newPallet.ManifestTypeId = 4;
                     StockLocation = partnerModel?.PartnerId,
                     StockLocationId = partnerModel?.PartnerId,
                     StockLocationName = partnerModel?.FullName,
                     OwnerId = AppSettings.CompanyId,
                     PalletId = _uuidManager.GetUuId(),
-                    //PalletItems = palletItems,
                     ReferenceKey = "",
-                    //Tags = tags
                 };
                 if (tags != null)
                 {
@@ -314,10 +303,6 @@ namespace KegID.ViewModel
                                 { "manifest", manifest },{ "Contents", contents }
                             }, useModalNavigation: true, animated: false);
                         }
-                        else
-                        {
-                            //SimpleIoc.Default.GetInstance<LoginViewModel>().InvalideServiceCallAsync();
-                        }
                     }
                 }
                 catch (Exception ex)
@@ -335,7 +320,6 @@ namespace KegID.ViewModel
                     newPallets = null;
                     newPallet = null;
                     palletItems = null;
-                    //palletItem = null;
                     Cleanup();
                 }
             }
@@ -371,8 +355,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //PalletCollection.Clear();
-                //Kegs = default;
                 AddPalletToFillScanMsg msg = new AddPalletToFillScanMsg
                 {
                     CleanUp = true
@@ -398,7 +380,7 @@ namespace KegID.ViewModel
                 BatchId = parameters.GetValue<string>("BatchId");
 
                 var partner = ConstantManager.Partner;
-                var content = "";//BatchButtonTitle;
+                var content = "";
 
                 TrackingNumber = _uuidManager.GetUuId();
                 ManifestTo = partner.FullName + "\n" + partner.PartnerTypeCode;

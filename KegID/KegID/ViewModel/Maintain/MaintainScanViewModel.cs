@@ -216,8 +216,6 @@ namespace KegID.ViewModel
                 {
                     item.Kegs.Partners.Remove(unusedPerner);
                 }
-
-                //SubmitCommandRecieverAsync();
             }
             catch (Exception ex)
             {
@@ -385,14 +383,7 @@ namespace KegID.ViewModel
                         keg = new MaintainKeg
                         {
                             Barcode = item.Barcode,
-                            //keg.BatchId = Uuid.GetUuId();
-                            //keg.Contents = "";
-                            //keg.HeldOnPalletId = Uuid.GetUuId();
-                            //keg.KegId = Uuid.GetUuId();
-                            //keg.Message = SimpleIoc.Default.GetInstance<MaintainViewModel>().Notes;
-                            //keg.PalletId = Uuid.GetUuId();
                             ScanDate = DateTimeOffset.Now,
-                            //keg.SkuId = Uuid.GetUuId();
                             Tags = new List<KegTag>(),
                             ValidationStatus = 4
                         };
@@ -407,9 +398,6 @@ namespace KegID.ViewModel
                     model.MaintenanceDoneRequestModel.Kegs = kegs;
                     model.MaintenanceDoneRequestModel.LocationId = ConstantManager.Partner.PartnerId;
                     model.MaintenanceDoneRequestModel.MaintenancePostingId = _uuidManager.GetUuId();
-                    //model.MaintenanceDoneRequestModel.Operator = "Bent Neck";
-                    //model.MaintenanceDoneRequestModel.SourceKey = "";
-                    //model.MaintenanceDoneRequestModel.SubmittedDate = DateTimeOffset.Now;
                     model.MaintenanceDoneRequestModel.Latitude = (long)location.Latitude;
                     model.MaintenanceDoneRequestModel.Longitude = (long)location.Longitude;
                     model.MaintenanceDoneRequestModel.Tags = new List<MaintenanceDoneRequestModelTag>();
@@ -430,7 +418,6 @@ namespace KegID.ViewModel
                     else
                     {
                         Loader.StopLoading();
-                        //SimpleIoc.Default.GetInstance<LoginViewModel>().InvalideServiceCallAsync();
                     }
                 }
                 catch (Exception ex)
@@ -476,9 +463,6 @@ namespace KegID.ViewModel
                         Crashes.TrackError(ex);
                     }
                 }
-
-                //Tags = ConstantManager.Tags;
-                //TagsStr = ConstantManager.TagsStr;
             }
             catch (Exception ex)
             {

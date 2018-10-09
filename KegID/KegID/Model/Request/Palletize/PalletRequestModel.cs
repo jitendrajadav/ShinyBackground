@@ -16,12 +16,4 @@ namespace KegID.Model
         public List<PalletItem> PalletItems { get; set; }
         public List<Tag> Tags { get; set; }
     }
-
-    //public class PalletItem
-    //{
-    //    public string Barcode { get; set; }
-    //    public DateTimeOffset ScanDate { get; set; }
-    //    public long ValidationStatus { get; set; }
-    //    public List<Tag> Tags { get; set; }
-    //}
 }

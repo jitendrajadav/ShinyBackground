@@ -1,6 +1,4 @@
-﻿//using SQLite.Net.Attributes;
-
-using Realms;
+﻿using Realms;
 using System;
 
 namespace KegID.Model

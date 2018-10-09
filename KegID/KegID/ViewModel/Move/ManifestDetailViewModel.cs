@@ -278,7 +278,6 @@ namespace KegID.ViewModel
         {
             ConstantManager.Barcodes.Clear();
             await _navigationService.NavigateAsync(new Uri("/NavigationPage/MainPage", UriKind.Absolute), useModalNavigation: true, animated: false);
-            //await _navigationService.GoBackAsync(new NavigationParameters { { "MoveHome", "MoveHome" } },useModalNavigation: true, animated: false);
         }
 
         internal void AssignInitialValue(ManifestResponseModel manifest, string content)

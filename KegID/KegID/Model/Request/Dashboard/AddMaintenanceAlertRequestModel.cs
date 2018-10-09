@@ -13,16 +13,6 @@ namespace KegID.Model
         public string AlertCc { get; set; }
     }
 
-    //public class DeleteMaintenanceAlertRequestModel
-    //{
-    //    public string KegId { get; set; }
-    //    public long NeededTypes { get; set; }
-    //    public long ReminderDays { get; set; }
-    //    public DateTimeOffset DueDate { get; set; }
-    //    public string Message { get; set; }
-    //    public string AlertCc { get; set; }
-    //}
-
     public class DeleteMaintenanceAlertRequestModel
     {
         public string KegId { get; set; }

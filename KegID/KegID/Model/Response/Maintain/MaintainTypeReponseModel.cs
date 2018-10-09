@@ -1,7 +1,4 @@
-﻿
-using KegID.ViewModel;
-using Realms;
-//using SQLite.Net.Attributes;
+﻿using Realms;
 using System;
 using System.Collections.Generic;
 
@@ -9,7 +6,6 @@ namespace KegID.Model
 {
     public class MaintainTypeReponseModel : RealmObject
     {
-        //[PrimaryKey]
         public long Id { get; set; } 
         public string Name { get; set; }
         public string Description { get; set; }
@@ -54,7 +50,6 @@ namespace KegID.Model
 
         #endregion
 
-        //[Ignore]
         public List<string> ActivationPartnerTypes { get; }
     }
 

@@ -13,7 +13,7 @@ namespace KegID.Services
         private readonly IPageDialogService _dialogService;
         public static IDiscoveredPrinter myPrinter;
 
-        public String TestPrint { get; set; } = "^XA^FO17,16^GB379,371,8^FS^FT65,255^A0N,135,134^FDTEST^FS^XZ";
+        public string TestPrint { get; set; } = "^XA^FO17,16^GB379,371,8^FS^FT65,255^A0N,135,134^FDTEST^FS^XZ";
 
         #region ZPL Printer fill pallet format
 
@@ -31,7 +31,7 @@ namespace KegID.Services
 
                 */
 
-        public String PalletHeader { get; set; } =
+        public string PalletHeader { get; set; } =
                             /*
                              Some basics of ZPL. Find more information here : http://www.zebra.com
 
@@ -346,8 +346,6 @@ namespace KegID.Services
             if (language.Contains("line_print"))
             {
                 Application.Current.MainPage.DisplayAlert("Switching printer to ZPL Control Language.", "Notification", "Ok");
-                //bool accept = await _dialogService.DisplayAlertAsync("Alert", "Something goes wrong please check again", "Ok");
-
             }
             // printer is already in zpl mode
             else if (language.Contains("zpl"))
@@ -362,8 +360,6 @@ namespace KegID.Services
             if (!language.Contains("zpl"))
             {
                 Application.Current.MainPage.DisplayAlert("Printer language not set. Not a ZPL printer.", "Ok", "Ok");
-                //bool accept = await _dialogService.DisplayAlertAsync("Alert", "Something goes wrong please check again", "Ok");
-
                 return false;
             }
             return true;
@@ -376,7 +372,6 @@ namespace KegID.Services
             if (!status.IsReadyToPrint)
             {
                 Application.Current.MainPage.DisplayAlert("Unable to print. Printer is " + status.Status, "test", "test");
-                //bool accept = await _dialogService.DisplayAlertAsync("Alert", "Something goes wrong please check again", "Ok");
                 return false;
             }
             return true;

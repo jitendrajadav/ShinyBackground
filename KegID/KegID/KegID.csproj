@@ -397,4 +397,8 @@
       <Generator>MSBuild:Compile</Generator>
     </None>
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Model\Request\Fill\" />
+  </ItemGroup>
 </Project>

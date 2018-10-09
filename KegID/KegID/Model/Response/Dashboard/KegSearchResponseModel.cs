@@ -81,29 +81,6 @@ namespace KegID.Model
         public long CompanyNo { get; set; }
     }
 
-    //public partial class MaintenanceAlert
-    //{
-    //    public string KegId { get; set; }
-    //    public string Barcode { get; set; }
-    //    public long Id { get; set; }
-    //    public long TypeId { get; set; }
-    //    public string Name { get; set; }
-    //    public string TypeName { get; set; }
-    //    public string DefectType { get; set; }
-    //    public DateTimeOffset DueDate { get; set; }
-    //    public bool IsActivated { get; set; }
-    //    public long ActivationMethod { get; set; }
-    //    public string Message { get; set; }
-    //    public string OwnerId { get; set; }
-    //    public string OwnerName { get; set; }
-    //    public string LocationId { get; set; }
-    //    public string LocationName { get; set; }
-    //    public string AssetSize { get; set; }
-    //    public string AssetType { get; set; }
-    //    public string PalletId { get; set; }
-    //    public string PalletBarcode { get; set; }
-    //}
-
     public class Pallet
     {
         public string PalletId { get; set; }

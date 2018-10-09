@@ -239,19 +239,6 @@ namespace KegID.Services
             return outModel;
         }
 
-        //public async Task<ManifestModelGet> PostManifestAsync(ManifestRequestModel model, string sessionId, string RequestType)
-        //{
-        //    ManifestModelGet manifestModelGet = new ManifestModelGet();
-
-        //    string url = string.Format(Configuration.PostManifestUrl, sessionId);
-        //    string content = JsonConvert.SerializeObject(model);
-        //    var value = await Helper.ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Send, content, RequestType: RequestType);
-
-        //    manifestModelGet = Helper.DeserializeObject<ManifestModelGet>(value.Response);
-        //    manifestModelGet.StatusCode = value.StatusCode;
-        //    return manifestModelGet;
-        //}
-
         public async Task<NewPartnerResponseModel> PostNewPartnerAsync(NewPartnerRequestModel inModel, string sessionId, string RequestType)
         {
             NewPartnerResponseModel outModel = null;

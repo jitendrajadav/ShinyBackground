@@ -282,15 +282,8 @@ namespace KegID.ViewModel
                     palletItem = new TItem
                     {
                         Barcode = item.Barcode,
-                        //palletItem.Contents = "";
-                        //palletItem.HeldOnPalletId = "";
-                        //palletItem.KegId = "";
-                        //palletItem.PalletId = "";
                         ScanDate = DateTimeOffset.UtcNow.Date,
                         TagsStr = item.TagsStr
-                        //palletItem.SkuId = "";
-                        //ValidationStatus = 4,
-                        //Tags = tags
                     };
 
                     if (item.Tags != null)
@@ -306,17 +299,13 @@ namespace KegID.ViewModel
                 newPallet = new NewPallet
                 {
                     Barcode = pallet.BatchId,
-                    //newPallet.BarcodeFormat = "";
                     BuildDate = DateTimeOffset.UtcNow.Date,
-                    //newPallet.ManifestTypeId = 4;
                     StockLocation = partnerModel?.PartnerId,
                     StockLocationId = partnerModel?.PartnerId,
                     StockLocationName = partnerModel?.FullName,
                     OwnerId = AppSettings.CompanyId,
                     PalletId = _uuidManager.GetUuId(),
-                    //PalletItems = palletItems,
                     ReferenceKey = "",
-                    //Tags = tags
                 };
                 if (tags != null)
                 {
@@ -396,10 +385,6 @@ namespace KegID.ViewModel
                                 { "manifest", manifest },{ "Contents", contents }
                             }, useModalNavigation: true, animated: false);
                         }
-                        else
-                        {
-                            //SimpleIoc.Default.GetInstance<LoginViewModel>().InvalideServiceCallAsync();
-                        }
                     }
                 }
                 catch (Exception ex)
@@ -458,7 +443,6 @@ namespace KegID.ViewModel
                     PalletCollection.Where(x => x.BatchId == _batchId).FirstOrDefault().Count = barcodes.Count;
                     CountKegs();
                 }
-                //await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {
@@ -528,10 +512,6 @@ namespace KegID.ViewModel
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
-            //if (parameters.ContainsKey("MoveHome"))
-            //{
-            //    await _navigationService.GoBackAsync(parameters, useModalNavigation: true, animated: false);
-            //}
             if (parameters.ContainsKey("FillKegsCommandRecieverAsync"))
             {
                 FillKegsCommandRecieverAsync();
