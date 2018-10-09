@@ -408,6 +408,8 @@ namespace KegID.ViewModel
         {
             try
             {
+                Loader.StartLoading();
+
                 PartnerInfoModel = await _dashboardService.GetPartnerInfoAsync(AppSettings.SessionId, ConstantManager.DBPartnerId);
                 KegsHeld = PartnerInfoModel.KegsHeld.ToString();
                 Notes = PartnerInfoModel.Notes;
@@ -417,6 +419,10 @@ namespace KegID.ViewModel
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
+            }
+            finally
+            {
+                Loader.StopLoading();
             }
         }
 

@@ -139,6 +139,7 @@ namespace KegID.ViewModel
         {
             try
             {
+                Loader.StartLoading();
                 var value = await _dashboardService.GetKegPossessionAsync(AppSettings.SessionId, ConstantManager.DBPartnerId);
                 KegPossessionCollection = value.KegPossessionResponseModel;
                 KegsTitle = KegPossessionCollection.FirstOrDefault().PossessorName;
@@ -146,6 +147,10 @@ namespace KegID.ViewModel
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
+            }
+            finally
+            {
+                Loader.StopLoading();
             }
         }
 
