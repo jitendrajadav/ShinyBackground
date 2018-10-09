@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using NUnit.Framework;
 using Xamarin.UITest;
@@ -52,6 +53,6 @@ namespace KegID.UITest
             result = app.Query(DoneMessage);
             Assert.IsTrue(result.Any(), "The 'clicked' message is not being displayed.");
         }
-    }
 
+    }
 }

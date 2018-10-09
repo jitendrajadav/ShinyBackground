@@ -27,11 +27,11 @@
 	<key>CFBundleIdentifier</key>
 	<string>KegIXDBeta</string>
 	<key>CFBundleVersion</key>
-	<string>1.0.0.1</string>
-  <key>UILaunchStoryboardName</key>
-  <string>LaunchScreen</string>
-  <key>CFBundleIconFiles</key>
-  <array>
+	<string>4</string>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
+	<key>CFBundleIconFiles</key>
+	<array>
 		<string>Icon-60@2x</string>
 		<string>Icon-60@3x</string>
 		<string>Default</string>
@@ -85,7 +85,7 @@
 		<string>com.demo.data</string>
 		<string>com.zebra.rawport</string>
 	</array>
-	<!--<key>XSAppIconAssets</key>
-	<string>Resources/Media.xcassets/AppIcons.appiconset</string>-->
+	<key>CFBundleShortVersionString</key>
+	<string>1.0.0.1</string>
 </dict>
 </plist>

@@ -1,18 +1,41 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{07E077BE-BA6A-41A0-979D-586FECFC3108}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>KegID.UITest</RootNamespace>
+    <AssemblyName>KegID.UITest</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
-
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="NUnit" Version="3.11.0" />
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="NUnit" Version="2.6.4" />
+    <PackageReference Include="Xamarin.UITest" Version="2.2.4" />
     <PackageReference Include="NUnitTestAdapter" Version="2.1.1" />
-    <PackageReference Include="Xamarin.UITest" Version="2.2.6" />
   </ItemGroup>
-
   <ItemGroup>
-    <ProjectReference Include="..\KegID.Android\KegID.Android.csproj" />
-    <ProjectReference Include="..\KegID.iOS\KegID.iOS.csproj" />
+    <Compile Include="Tests.cs" />
+    <Compile Include="AppInitializer.cs" />
   </ItemGroup>
-
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
