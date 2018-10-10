@@ -14,13 +14,12 @@
         Spacing="0"
         VerticalOptions="Start"
         HorizontalOptions="FillAndExpand"
-        Padding="20, 50, 20, 20">
+        Padding="20, 35, 20, 20">
       
         <Image
             AutomationId="triangleImage"
             x:Name="imgTriangle"
             HeightRequest="40"
-            Margin="0,0,10,0"
             HorizontalOptions="End"                  
             VerticalOptions="EndAndExpand">
 
