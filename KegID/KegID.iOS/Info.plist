@@ -25,7 +25,7 @@
 	<key>CFBundleDisplayName</key>
 	<string>KegID</string>
 	<key>CFBundleIdentifier</key>
-	<string>KegIXDBeta</string>
+	<string>KegIDXBeta</string>
 	<key>CFBundleVersion</key>
 	<string>6</string>
 	<key>UILaunchStoryboardName</key>

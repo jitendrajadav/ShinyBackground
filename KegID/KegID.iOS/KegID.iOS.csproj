@@ -95,8 +95,8 @@
     <ConsolePause>False</ConsolePause>
     <MtouchArch>ARM64</MtouchArch>
     <BuildIpa>True</BuildIpa>
-    <CodesignProvision>iOS Team Provisioning Profile: *</CodesignProvision>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignProvision>KegIDXDistribution</CodesignProvision>
+    <CodesignKey>iPhone Distribution: AnotherRound Apps (SX2JC77E2C)</CodesignKey>
     <CodesignEntitlements>
     </CodesignEntitlements>
     <SolutionDir>..\</SolutionDir>
