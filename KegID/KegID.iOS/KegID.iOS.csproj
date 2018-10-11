@@ -95,9 +95,8 @@
     <ConsolePause>False</ConsolePause>
     <MtouchArch>ARM64</MtouchArch>
     <BuildIpa>True</BuildIpa>
-    <CodesignProvision>
-    </CodesignProvision>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignProvision>iOS Team Provisioning Profile: *</CodesignProvision>
+    <CodesignKey>iPhone Developer: Jitendra Jadav (M69K4M7A85)</CodesignKey>
     <CodesignEntitlements>
     </CodesignEntitlements>
     <SolutionDir>..\</SolutionDir>
