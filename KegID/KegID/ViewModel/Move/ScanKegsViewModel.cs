@@ -641,10 +641,9 @@ namespace KegID.ViewModel
                                                                 batches: new List<NewBatch>(), closedBatches: new List<string>(), validationStatus: 2, contents: SelectedBrand?.BrandName);
 
                                 manifestModel.IsQueue = true;
-
-                                await RealmDb.WriteAsync((realmDb) =>
+                                RealmDb.Write(() =>
                                 {
-                                    realmDb.Add(manifestModel, true);
+                                    RealmDb.Add(manifestModel, true);
                                 });
                             }
                         }

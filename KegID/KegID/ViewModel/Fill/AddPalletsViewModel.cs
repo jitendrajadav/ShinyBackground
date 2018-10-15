@@ -498,6 +498,10 @@ namespace KegID.ViewModel
             {
                 PalletCollection.Clear();
                 Kegs = default;
+                ConstantManager.Barcodes.Clear();
+                ConstantManager.Tags.Clear();
+                ConstantManager.Partner = null;
+
                 AddPalletToFillScanMsg msg = new AddPalletToFillScanMsg
                 {
                     CleanUp = true

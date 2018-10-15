@@ -85,7 +85,7 @@
 
                 <Entry 
                     AutomationId="manifestIdEntry"
-                    Margin="10,0,10,0"
+                    Margin="10,0,40,0"
                     IsVisible="{Binding IsCameraVisible}"
                     Text="{Binding ManifestId,Mode=TwoWay}"
                     VerticalOptions="Center"/>

@@ -14,6 +14,7 @@ using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
 using Realms;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -650,16 +651,18 @@ namespace KegID.ViewModel
             }
         }
 
-        private void BarcodeManualCommandRecieverAsync()
+        private async void BarcodeManualCommandRecieverAsync()
         {
             try
             {
                 bool isNew = BarcodeCollection.ToList().Any(x => x.Barcode == ManaulBarcode);
-                if (!isNew)
+
+                BarcodeModel model = null;
+                    if(!isNew)
                 {
                     try
                     {
-                        BarcodeModel model = new BarcodeModel
+                        model = new BarcodeModel
                         {
                             Barcode = ManaulBarcode,
                             TagsStr = TagsStr,
@@ -679,12 +682,50 @@ namespace KegID.ViewModel
                     {
                         Crashes.TrackError(ex);
                     }
-                    var message = new StartLongRunningTaskMessage
+
+                    var current = Connectivity.NetworkAccess;
+                    if (current == NetworkAccess.Internet)
                     {
-                        Barcode = new List<string>() { ManaulBarcode },
-                        PageName = ViewTypeEnum.FillScanView.ToString()
-                    };
-                    MessagingCenter.Send(message, "StartLongRunningTaskMessage");
+                        var message = new StartLongRunningTaskMessage
+                        {
+                            Barcode = new List<string>() { ManaulBarcode },
+                            PageName = ViewTypeEnum.FillScanView.ToString()
+                        };
+                        MessagingCenter.Send(message, "StartLongRunningTaskMessage");
+                    }
+                    else
+                    {
+                        var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                        var manifestModel = RealmDb.Find<ManifestModel>(ConstantManager.ManifestId);
+                        try
+                        {
+                            if (manifestModel != null)
+                            {
+                                await RealmDb.WriteAsync((realmDb) =>
+                                {
+                                    manifestModel.BarcodeModels.Add(model);
+                                    realmDb.Add(manifestModel, true);
+                                });
+                            }
+                            else
+                            {
+                                //ManifestModel manifestModel = _manifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.MOVE_MANIFEST,
+                                //                                manifestId: ConstantManager.ManifestId, barcodeCollection: BarcodeCollection.Where(t => t.IsScanned == false).ToList(), tags: ConstantManager.Tags,
+                                //                                TagsStr, partnerModel: ConstantManager.Partner, newPallets: new List<NewPallet>(),
+                                //                                batches: new List<NewBatch>(), closedBatches: new List<string>(), validationStatus: 2, contents: SelectedBrand?.BrandName);
+
+                                manifestModel.IsQueue = true;
+                                RealmDb.Write(() =>
+                                {
+                                    RealmDb.Add(manifestModel, true);
+                                });
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Crashes.TrackError(ex);
+                        }
+                    }
                     ManaulBarcode = string.Empty;
                 }
             }
@@ -1037,7 +1078,6 @@ namespace KegID.ViewModel
                 Crashes.TrackError(ex);
             }
         }
-
 
         public async override void OnNavigatingTo(INavigationParameters parameters)
         {

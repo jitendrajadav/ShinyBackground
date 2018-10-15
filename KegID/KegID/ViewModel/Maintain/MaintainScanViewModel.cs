@@ -30,6 +30,7 @@ namespace KegID.ViewModel
         private readonly IMaintainService _maintainService;
         private readonly IGetIconByPlatform _getIconByPlatform;
         private readonly IUuidManager _uuidManager;
+        private readonly IManifestManager _manifestManager;
 
         private IList<MaintainTypeReponseModel> MaintainTypeReponseModel { get; set; }
 
@@ -118,7 +119,7 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public MaintainScanViewModel(IMoveService moveService, IMaintainService maintainService, INavigationService navigationService, IGetIconByPlatform getIconByPlatform, IUuidManager uuidManager)
+        public MaintainScanViewModel(IMoveService moveService, IMaintainService maintainService, INavigationService navigationService, IGetIconByPlatform getIconByPlatform, IUuidManager uuidManager, IManifestManager manifestManager)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
 
@@ -126,7 +127,7 @@ namespace KegID.ViewModel
             _maintainService = maintainService;
             _getIconByPlatform = getIconByPlatform;
             _uuidManager = uuidManager;
-
+            _manifestManager = manifestManager;
             SubmitCommand = new DelegateCommand(SubmitCommandRecieverAsync);
             BackCommand = new DelegateCommand(BackCommandRecieverAsync);
             BarcodeScanCommand = new DelegateCommand(BarcodeScanCommandRecieverAsync);
@@ -291,7 +292,7 @@ namespace KegID.ViewModel
             }
         }
 
-        private void BarcodeManualCommandRecieverAsync()
+        private async void BarcodeManualCommandRecieverAsync()
         {
             try
             {
@@ -306,12 +307,50 @@ namespace KegID.ViewModel
                     };
                     
                     BarcodeCollection.Add(model);
-                    var message = new StartLongRunningTaskMessage
+                    var current = Connectivity.NetworkAccess;
+                    if (current == NetworkAccess.Internet)
+                    {
+                        var message = new StartLongRunningTaskMessage
                     {
                         Barcode = new List<string>() { ManaulBarcode },
                         PageName = ViewTypeEnum.MaintainScanView.ToString()
                     };
                     MessagingCenter.Send(message, "StartLongRunningTaskMessage");
+                    }
+                    else
+                    {
+                        var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                        var IsManifestExist = RealmDb.Find<ManifestModel>(ConstantManager.ManifestId);
+                        try
+                        {
+                            if (IsManifestExist != null)
+                            {
+                                await RealmDb.WriteAsync((realmDb) =>
+                                {
+                                    IsManifestExist.BarcodeModels.Add(model);
+                                    realmDb.Add(IsManifestExist, true);
+                                });
+                            }
+                            else
+                            {
+                                ManifestModel manifestModel = _manifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.REPAIR_MANIFEST,
+                                                                manifestId: ConstantManager.ManifestId, barcodeCollection: BarcodeCollection.Where(t => t.IsScanned == false).ToList(), tags: ConstantManager.Tags,
+                                                                ConstantManager.TagsStr, partnerModel: ConstantManager.Partner, newPallets: new List<NewPallet>(),
+                                                                batches: new List<NewBatch>(), closedBatches: new List<string>(), validationStatus: 2, contents: "");
+
+                                manifestModel.IsQueue = true;
+                                RealmDb.Write(() =>
+                                {
+                                    RealmDb.Add(manifestModel, true);
+                                });
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Crashes.TrackError(ex);
+                        }
+                    }
+
                     ManaulBarcode = string.Empty;
                 }
             }

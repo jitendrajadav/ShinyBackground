@@ -10,6 +10,7 @@ using Realms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Xamarin.Essentials;
 
 namespace KegID.ViewModel
 {
@@ -348,60 +349,67 @@ namespace KegID.ViewModel
                 {
                     try
                     {
-                        var result = await _moveService.PostManifestAsync(manifestPostModel, AppSettings.SessionId, Configuration.NewManifest);
-                        try
+                        var current = Connectivity.NetworkAccess;
+                        if (current == NetworkAccess.Internet)
                         {
-                            string manifestId = manifestPostModel.ManifestId;
-                            var isNew = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).Find<ManifestModel>(manifestId);
-                            if (isNew != null)
+                            var result = await _moveService.PostManifestAsync(manifestPostModel, AppSettings.SessionId, Configuration.NewManifest);
+                            try
                             {
-                                try
+                                await AddorUpdateManifestOffline(manifestPostModel);
+                            }
+                            catch (Exception ex)
+                            {
+                                Crashes.TrackError(ex);
+                            }
+
+                            var manifest = await _moveService.GetManifestAsync(AppSettings.SessionId, result.ManifestId);
+                            if (manifest.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
+                            {
+                                Loader.StopLoading();
+                                await _navigationService.NavigateAsync(new Uri("ManifestDetailView", UriKind.Relative), new NavigationParameters
                                 {
-                                    manifestPostModel.IsDraft = false;
-                                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                                    RealmDb.Write(() =>
-                                    {
-                                        RealmDb.Add(manifestPostModel, update: true);
-                                    });
-                                }
-                                catch (Exception ex)
-                                {
-                                    Crashes.TrackError(ex);
-                                }
+                                    { "manifest", manifest },{ "Contents", Contents }
+                                }, useModalNavigation: true, animated: false);
                             }
                             else
                             {
+                                Loader.StopLoading();
+                            }
+                        }
+                        else
+                        {
+                            ManifestResponseModel manifest = new ManifestResponseModel();
+
+                            try
+                            {
                                 try
                                 {
-                                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                                    await RealmDb.WriteAsync((realmDb) =>
-                                    {
-                                        realmDb.Add(manifestPostModel);
-                                    });
+                                    manifest.ManifestItems.FirstOrDefault().Contents = Contents;
                                 }
                                 catch (Exception ex)
                                 {
                                     Crashes.TrackError(ex);
                                 }
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            Crashes.TrackError(ex);
-                        }
 
-                        var manifest = await _moveService.GetManifestAsync(AppSettings.SessionId, result.ManifestId);
-                        if (manifest.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
-                        {
-                            Loader.StopLoading();
-                            await _navigationService.NavigateAsync(new Uri("ManifestDetailView", UriKind.Relative), new NavigationParameters
+                                manifest.ManifestItems = new List<CreatedManifestItem>();
+
+                                manifest.TrackingNumber = manifest.TrackingNumber;
+                                manifest.ShipDate = DateTimeOffset.UtcNow.Date.ToShortDateString();
+                                manifest.SenderPartner = manifest.SenderPartner;
+                                manifest.ReceiverPartner = manifest.ReceiverPartner;
+                                manifest.ReceiverShipAddress = manifest.ReceiverShipAddress;
+                                manifest.SenderShipAddress = manifest.SenderShipAddress;
+                            }
+                            catch (Exception ex)
                             {
-                                { "manifest", manifest },{ "Contents", Contents }
-                            }, useModalNavigation: true, animated: false);
-                        }
-                        else
-                        {
-                            Loader.StopLoading();
+                                Crashes.TrackError(ex);
+                            }
+
+                            await _navigationService.NavigateAsync(new Uri("ManifestDetailView", UriKind.Relative), new NavigationParameters
+                                {
+                                    { "manifest", manifest },{ "Contents", Contents }
+                                }, useModalNavigation: true, animated: false);
+
                         }
                     }
                     catch (Exception ex)
@@ -424,6 +432,43 @@ namespace KegID.ViewModel
             finally
             {
                 Loader.StopLoading();
+            }
+        }
+
+        private static async System.Threading.Tasks.Task AddorUpdateManifestOffline(ManifestModel manifestPostModel)
+        {
+            string manifestId = manifestPostModel.ManifestId;
+            var isNew = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).Find<ManifestModel>(manifestId);
+            if (isNew != null)
+            {
+                try
+                {
+                    manifestPostModel.IsDraft = false;
+                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                    RealmDb.Write(() =>
+                    {
+                        RealmDb.Add(manifestPostModel, update: true);
+                    });
+                }
+                catch (Exception ex)
+                {
+                    Crashes.TrackError(ex);
+                }
+            }
+            else
+            {
+                try
+                {
+                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                    await RealmDb.WriteAsync((realmDb) =>
+                    {
+                        realmDb.Add(manifestPostModel);
+                    });
+                }
+                catch (Exception ex)
+                {
+                    Crashes.TrackError(ex);
+                }
             }
         }
 
