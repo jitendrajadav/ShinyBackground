@@ -354,8 +354,9 @@ namespace KegID.ViewModel
                         {
                             var result = await _moveService.PostManifestAsync(manifestPostModel, AppSettings.SessionId, Configuration.NewManifest);
 
+                            #region Old Code
                             /// Making call for getting detail of Posted Manifest now Offline we dont need it.
-                            var manifest = await _moveService.GetManifestAsync(AppSettings.SessionId, result.ManifestId);
+                            //var manifest = await _moveService.GetManifestAsync(AppSettings.SessionId, result.ManifestId);
                             //if (manifest.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                             //{
                             //    Loader.StopLoading();
@@ -368,15 +369,24 @@ namespace KegID.ViewModel
                             //else
                             //{
                             //    Loader.StopLoading();
-                            //}
+                            //} 
+                            #endregion
 
+                            try
+                            {
+                                await AddorUpdateManifestOffline(manifestPostModel,false);
+                            }
+                            catch (Exception ex)
+                            {
+                                Crashes.TrackError(ex);
+                            }
                             await GetPostedManifestDetail();
                         }
                         else
                         {
                             try
                             {
-                                await AddorUpdateManifestOffline(manifestPostModel);
+                                await AddorUpdateManifestOffline(manifestPostModel,true);
                             }
                             catch (Exception ex)
                             {
@@ -446,7 +456,7 @@ namespace KegID.ViewModel
                                 }, useModalNavigation: true, animated: false);
         }
 
-        private static async System.Threading.Tasks.Task AddorUpdateManifestOffline(ManifestModel manifestPostModel)
+        private static async System.Threading.Tasks.Task AddorUpdateManifestOffline(ManifestModel manifestPostModel,bool queue)
         {
             string manifestId = manifestPostModel.ManifestId;
             var isNew = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).Find<ManifestModel>(manifestId);
@@ -470,6 +480,10 @@ namespace KegID.ViewModel
             {
                 try
                 {
+                    if (queue)
+                    {
+                        manifestPostModel.IsQueue = true;
+                    }
                     var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                     await RealmDb.WriteAsync((realmDb) =>
                     {
