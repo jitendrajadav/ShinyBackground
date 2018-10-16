@@ -164,12 +164,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                var current = Connectivity.NetworkAccess;
-                if (current == NetworkAccess.Internet)
-                {
-                    var request = new GeolocationRequest(GeolocationAccuracy.Medium,new TimeSpan(0,0,30));
-                    ConstantManager.Location = await Geolocation.GetLocationAsync(request);
-                }
+                var request = new GeolocationRequest(GeolocationAccuracy.Medium, new TimeSpan(0, 0, 30));
+                ConstantManager.Location = await Geolocation.GetLocationAsync(request);
             }
             catch (Exception ex)
             {
@@ -188,7 +184,15 @@ namespace KegID.ViewModel
 
         private async void LoginCommandRecieverAsync()
         {
-            await GetLocation();
+            var current = Connectivity.NetworkAccess;
+            if (current == NetworkAccess.Internet)
+            {
+                await GetLocation();
+            }
+            else
+            {
+                ConstantManager.Location = await Geolocation.GetLastKnownLocationAsync();
+            }
 
             try
             {

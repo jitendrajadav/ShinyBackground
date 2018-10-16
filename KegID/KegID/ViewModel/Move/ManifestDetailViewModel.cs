@@ -1,4 +1,5 @@
 ﻿using KegID.Common;
+using KegID.Converter;
 using KegID.DependencyServices;
 using KegID.Model;
 using KegID.Model.PrintPDF;
@@ -10,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Xsl;
 using Xamarin.Forms;
@@ -293,14 +295,15 @@ namespace KegID.ViewModel
                     Crashes.TrackError(ex);
                 }
 
+                // Generating PDF...
                 manifestPrintModels = new Manifest
                 {
                     ManifestItems = new ManifestItems
                     {
                         ManifestItem = manifest.ManifestItems,
                     },
-                    
-                    TrackingNumber = manifest.TrackingNumber,
+
+                    TrackingNumber = Regex.Match(manifest.TrackingNumber, @"(.{8})\s*$").Value.ToUpper(),
                     ShipDate = DateTimeOffset.UtcNow.Date.ToShortDateString(),
                     SenderPartner = manifest.SenderPartner,
                     ReceiverPartner = manifest.ReceiverPartner,
@@ -310,7 +313,6 @@ namespace KegID.ViewModel
                 };
 
                 TrackingNumber = manifest.TrackingNumber;
-
                 ManifestTo = manifest.CreatorCompany.FullName + "\n" + manifest.CreatorCompany.PartnerTypeName;
 
                 ShippingDate = Convert.ToDateTime(manifest.ShipDate);

@@ -74,7 +74,7 @@
                 AutomationId="trackingNumberLabel"
                 Grid.Row="1"
                 TextColor="White"
-                Text="{Binding TrackingNumber,StringFormat='Tracking #: {0}'}"
+                Text="{Binding TrackingNumber, StringFormat=' Tracking #: {0}', Converter={StaticResource StringToLast8CharacterConverter}}"
                 VerticalOptions="Center" 
                 FontSize="{StaticResource AppBarButtonFontSize}"
                 HorizontalOptions="Start" />

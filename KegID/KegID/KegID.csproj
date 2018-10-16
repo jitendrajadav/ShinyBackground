@@ -41,11 +41,11 @@
     <PackageReference Include="Microsoft.Net.Http" Version="2.2.29" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="Plugin.CrossPlatformTintedImage" Version="1.0.0" />
-    <PackageReference Include="Prism.Forms" Version="7.1.0.279-pre" />
-    <PackageReference Include="Prism.Plugin.Popups" Version="2.1.0.182-pre" />
-    <PackageReference Include="Prism.Unity.Forms" Version="7.1.0.279-pre" />
+    <PackageReference Include="Prism.Forms" Version="7.1.0.431" />
+    <PackageReference Include="Prism.Plugin.Popups" Version="2.1.0.228" />
+    <PackageReference Include="Prism.Unity.Forms" Version="7.1.0.431" />
     <PackageReference Include="Realm" Version="3.2.1" />
-    <PackageReference Include="Scandit.BarcodePicker.Unified" Version="5.9.0.10" />
+    <PackageReference Include="Scandit.BarcodePicker.Unified" Version="5.9.1.10" />
     <PackageReference Include="Xam.Plugins.Settings" Version="4.0.0.10-beta" />
     <PackageReference Include="Xamarin.Essentials" Version="0.11.0-preview" />
     <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.3.840" />
