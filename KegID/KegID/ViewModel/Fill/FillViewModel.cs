@@ -465,7 +465,7 @@ namespace KegID.ViewModel
                     {
                         foreach (var tag in item.Tags)
                         {
-                            palletItem.Tags.Add(tag);   
+                            palletItem.Tags.Add(tag);
                         }
                     }
                     palletItems.Add(palletItem);
@@ -496,7 +496,7 @@ namespace KegID.ViewModel
             return _manifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.FILL_MANIFEST, manifestId: ManifestId,
                         barcodeCollection: ConstantManager.Barcodes ?? new List<BarcodeModel>(), tags: new List<Tag>(), tagsStr: "",
                         partnerModel: ConstantManager.Partner, newPallets: newPallets ?? new List<NewPallet>(), batches: newBatches,
-                        closedBatches: new List<string>(), validationStatus: 4, contents: SizeButtonTitle,size:SizeButtonTitle);
+                        closedBatches: new List<string>(), null, validationStatus: 4, contents: SizeButtonTitle, size: SizeButtonTitle);
         }
 
         private void DeleteManifest(string manifestId)

@@ -354,6 +354,10 @@ namespace KegID.ViewModel
                     case EventTypeEnum.RETURN_MANIFEST:
                         break;
                     case EventTypeEnum.REPAIR_MANIFEST:
+                        await _navigationService.NavigateAsync(new Uri("MaintainView", UriKind.Relative), new NavigationParameters
+                                {
+                                    { "AssignInitialValue", model }
+                                }, useModalNavigation: true, animated: false);
                         break;
                     case EventTypeEnum.COLLECT_MANIFEST:
                         break;

@@ -292,7 +292,7 @@ namespace KegID.ViewModel
             }
         }
 
-        private async void BarcodeManualCommandRecieverAsync()
+        private void BarcodeManualCommandRecieverAsync()
         {
             try
             {
@@ -311,52 +311,71 @@ namespace KegID.ViewModel
                     if (current == NetworkAccess.Internet)
                     {
                         var message = new StartLongRunningTaskMessage
-                    {
-                        Barcode = new List<string>() { ManaulBarcode },
-                        PageName = ViewTypeEnum.MaintainScanView.ToString()
-                    };
-                    MessagingCenter.Send(message, "StartLongRunningTaskMessage");
-                    }
-                    else
-                    {
-                        var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                        var IsManifestExist = RealmDb.Find<ManifestModel>(ConstantManager.ManifestId);
-                        try
                         {
-                            if (IsManifestExist != null)
-                            {
-                                await RealmDb.WriteAsync((realmDb) =>
-                                {
-                                    IsManifestExist.BarcodeModels.Add(model);
-                                    realmDb.Add(IsManifestExist, true);
-                                });
-                            }
-                            else
-                            {
-                                ManifestModel manifestModel = _manifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.REPAIR_MANIFEST,
-                                                                manifestId: ConstantManager.ManifestId, barcodeCollection: BarcodeCollection.Where(t => t.IsScanned == false).ToList(), tags: ConstantManager.Tags,
-                                                                ConstantManager.TagsStr, partnerModel: ConstantManager.Partner, newPallets: new List<NewPallet>(),
-                                                                batches: new List<NewBatch>(), closedBatches: new List<string>(), validationStatus: 2, contents: "");
-
-                                manifestModel.IsQueue = true;
-                                RealmDb.Write(() =>
-                                {
-                                    RealmDb.Add(manifestModel, true);
-                                });
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            Crashes.TrackError(ex);
-                        }
+                            Barcode = new List<string>() { ManaulBarcode },
+                            PageName = ViewTypeEnum.MaintainScanView.ToString()
+                        };
+                        MessagingCenter.Send(message, "StartLongRunningTaskMessage");
                     }
-
+                   
                     ManaulBarcode = string.Empty;
                 }
             }
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
+            }
+        }
+
+        private async Task GetPostedManifestDetail()
+        {
+            await _navigationService.NavigateAsync(new Uri("MaintainDetailView", UriKind.Relative),
+                              new NavigationParameters
+                              {
+                                {
+                                    "BarcodeModel", BarcodeCollection
+                                }
+                              }, useModalNavigation: true, animated: false);
+        }
+
+        private void AddorUpdateManifestOffline(ManifestModel manifestPostModel, bool queue)
+        {
+            string manifestId = manifestPostModel.ManifestId;
+            var isNew = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).Find<ManifestModel>(manifestId);
+            if (isNew != null)
+            {
+                try
+                {
+                    manifestPostModel.IsDraft = false;
+                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                    RealmDb.Write(() =>
+                    {
+                        RealmDb.Add(manifestPostModel, update: true);
+                    });
+                }
+                catch (Exception ex)
+                {
+                    Crashes.TrackError(ex);
+                }
+            }
+            else
+            {
+                try
+                {
+                    if (queue)
+                    {
+                        manifestPostModel.IsQueue = true;
+                    }
+                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                    RealmDb.Write(() =>
+                    {
+                        RealmDb.Add(manifestPostModel);
+                    });
+                }
+                catch (Exception ex)
+                {
+                    Crashes.TrackError(ex);
+                }
             }
         }
 
@@ -402,61 +421,65 @@ namespace KegID.ViewModel
 
         public async void SubmitCommandRecieverAsync()
         {
+            ManifestModel manifestPostModel = null;
+
             var result = BarcodeCollection.Where(x => x?.Kegs?.Partners?.Count > 1).ToList();
             if (result?.Count > 0)
                 await NavigateToValidatePartner(result.ToList());
+
             else
             {
                 try
                 {
                     Loader.StartLoading();
-                    var request = new GeolocationRequest(GeolocationAccuracy.Medium);
-                    var location = await Geolocation.GetLastKnownLocationAsync();
-                    if (location == null)
-                        location = await Geolocation.GetLocationAsync(request);
-                    List<MaintainKeg> kegs = new List<MaintainKeg>();
-                    MaintainKeg keg = null;
 
-                    foreach (var item in BarcodeCollection)
+                    manifestPostModel = await GenerateManifestAsync();
+
+                    var current = Connectivity.NetworkAccess;
+                    if (current == NetworkAccess.Internet)
                     {
-                        keg = new MaintainKeg
+                        KegIDResponse kegIDResponse = await _maintainService.PostMaintenanceDoneAsync(manifestPostModel.MaintenanceModels.MaintenanceDoneRequestModel, AppSettings.SessionId, Configuration.PostedMaintenanceDone);
+                        try
                         {
-                            Barcode = item.Barcode,
-                            ScanDate = DateTimeOffset.Now,
-                            Tags = new List<KegTag>(),
-                            ValidationStatus = 4
-                        };
-                        kegs.Add(keg);
-                    }
-                    MaintenanceDoneModel model = new MaintenanceDoneModel
-                    {
-                        MaintenanceDoneRequestModel = new MaintenanceDoneRequestModel()
-                    };
-                    model.MaintenanceDoneRequestModel.ActionsPerformed = ConstantManager.MaintainTypeCollection.Where(x => x.IsToggled == true).Select(y => y.Id).ToList();
-                    model.MaintenanceDoneRequestModel.DatePerformed = DateTimeOffset.Now.AddDays(-2);
-                    model.MaintenanceDoneRequestModel.Kegs = kegs;
-                    model.MaintenanceDoneRequestModel.LocationId = ConstantManager.Partner.PartnerId;
-                    model.MaintenanceDoneRequestModel.MaintenancePostingId = _uuidManager.GetUuId();
-                    model.MaintenanceDoneRequestModel.Latitude = (long)location.Latitude;
-                    model.MaintenanceDoneRequestModel.Longitude = (long)location.Longitude;
-                    model.MaintenanceDoneRequestModel.Tags = new List<MaintenanceDoneRequestModelTag>();
+                            AddorUpdateManifestOffline(manifestPostModel, false);
+                        }
+                        catch (Exception ex)
+                        {
+                            Crashes.TrackError(ex);
+                        }
+                        await GetPostedManifestDetail();
 
-                    KegIDResponse kegIDResponse = await _maintainService.PostMaintenanceDoneAsync(model.MaintenanceDoneRequestModel, AppSettings.SessionId, Configuration.PostedMaintenanceDone);
+                        #region Old Code
 
-                    if (kegIDResponse.StatusCode == System.Net.HttpStatusCode.NoContent.ToString())
-                    {
-                        Loader.StopLoading();
-                        await _navigationService.NavigateAsync(new Uri("MaintainDetailView", UriKind.Relative), 
-                            new NavigationParameters
-                            {
-                                {
-                                    "BarcodeModel", BarcodeCollection
-                                }
-                            }, useModalNavigation: true, animated: false);
+                        //if (kegIDResponse.StatusCode == System.Net.HttpStatusCode.NoContent.ToString())
+                        //{
+                        //    Loader.StopLoading();
+                        //    await _navigationService.NavigateAsync(new Uri("MaintainDetailView", UriKind.Relative), 
+                        //        new NavigationParameters
+                        //        {
+                        //            {
+                        //                "BarcodeModel", BarcodeCollection
+                        //            }
+                        //        }, useModalNavigation: true, animated: false);
+                        //}
+                        //else
+                        //{
+                        //    Loader.StopLoading();
+                        //} 
+
+                        #endregion
                     }
                     else
                     {
-                        Loader.StopLoading();
+                        try
+                        {
+                            AddorUpdateManifestOffline(manifestPostModel, true);
+                        }
+                        catch (Exception ex)
+                        {
+                            Crashes.TrackError(ex);
+                        }
+                        await GetPostedManifestDetail();
                     }
                 }
                 catch (Exception ex)
@@ -469,6 +492,51 @@ namespace KegID.ViewModel
                     Cleanup();
                 }
             }
+        }
+
+        public async Task<ManifestModel> GenerateManifestAsync()
+        {
+            var request = new GeolocationRequest(GeolocationAccuracy.Medium);
+            var location = await Geolocation.GetLastKnownLocationAsync();
+            if (location == null)
+                location = await Geolocation.GetLocationAsync(request);
+
+            List<MaintainKeg> kegs = new List<MaintainKeg>();
+            MaintainKeg keg = null;
+
+            MaintenanceModel model = new MaintenanceModel
+            {
+                MaintenanceDoneRequestModel = new MaintenanceDoneRequestModel()
+            };
+
+            foreach (var item in BarcodeCollection)
+            {
+                keg = new MaintainKeg
+                {
+                    Barcode = item.Barcode,
+                    ScanDate = DateTimeOffset.Now,
+                    ValidationStatus = 4
+                };
+                kegs.Add(keg);
+                model.MaintenanceDoneRequestModel.Kegs.Add(keg);
+            }
+
+            foreach (var item in ConstantManager.MaintainTypeCollection.Where(x => x.IsToggled == true).Select(y => y.Id).ToList())
+            {
+                model.MaintenanceDoneRequestModel.ActionsPerformed.Add(item);
+            }
+
+            model.MaintenanceDoneRequestModel.DatePerformed = DateTimeOffset.Now.AddDays(-2);
+            model.MaintenanceDoneRequestModel.LocationId = ConstantManager.Partner.PartnerId;
+            model.MaintenanceDoneRequestModel.MaintenancePostingId = _uuidManager.GetUuId();
+            model.MaintenanceDoneRequestModel.Latitude = (long)location.Latitude;
+            model.MaintenanceDoneRequestModel.Longitude = (long)location.Longitude;
+
+            return _manifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.REPAIR_MANIFEST, manifestId: _uuidManager.GetUuId(), 
+                barcodeCollection: BarcodeCollection.Where(t => t.IsScanned == false).ToList(), tags: ConstantManager.Tags,
+                                                                ConstantManager.TagsStr, partnerModel: ConstantManager.Partner, 
+                                                                newPallets: new List<NewPallet>(), batches: new List<NewBatch>(), 
+                                                                closedBatches: new List<string>(), model, validationStatus: 4, contents: "");
         }
 
         internal void AssignAddTagsValue(INavigationParameters parameters)

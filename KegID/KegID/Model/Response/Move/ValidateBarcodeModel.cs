@@ -20,6 +20,7 @@ namespace KegID.Model
         public IList<BarcodeModel> BarcodeModels { get;}
         public IList<ManifestItem> ManifestItems { get; }
         public IList<NewPallet> NewPallets { get; }
+        public MaintenanceModel MaintenanceModels { get; set; }
         public IList<Tag> Tags { get; }
         public string TagsStr { get; set; }
         public IList<string> ClosedBatches { get; }

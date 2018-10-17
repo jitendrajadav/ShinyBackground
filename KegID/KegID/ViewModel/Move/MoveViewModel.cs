@@ -10,6 +10,7 @@ using Realms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Xamarin.Essentials;
 
 namespace KegID.ViewModel
@@ -374,7 +375,7 @@ namespace KegID.ViewModel
 
                             try
                             {
-                                await AddorUpdateManifestOffline(manifestPostModel,false);
+                                AddorUpdateManifestOffline(manifestPostModel,false);
                             }
                             catch (Exception ex)
                             {
@@ -386,7 +387,7 @@ namespace KegID.ViewModel
                         {
                             try
                             {
-                                await AddorUpdateManifestOffline(manifestPostModel,true);
+                                AddorUpdateManifestOffline(manifestPostModel,true);
                             }
                             catch (Exception ex)
                             {
@@ -418,25 +419,39 @@ namespace KegID.ViewModel
             }
         }
 
-        private async System.Threading.Tasks.Task GetPostedManifestDetail()
+        private async Task GetPostedManifestDetail()
         {
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            string sizeName = string.Empty;
             ManifestResponseModel manifest = new ManifestResponseModel();
-
             try
             {
-
+                sizeName = ConstantManager.Tags.LastOrDefault().Value;
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
+            try
+            {
                 manifest.ManifestItems = new List<CreatedManifestItem>();
                 foreach (var item in Barcodes)
                 {
-                    manifest.ManifestItems.Add(new CreatedManifestItem { Barcode = item.Barcode,Contents = Contents,Keg= new CreatedManifestKeg
+                    manifest.ManifestItems.Add(new CreatedManifestItem
                     {
-                         Barcode = item.Barcode,
-                          Contents = Contents,
-                           VolumeName = "Jitendra",
-                           OwnerName = ConstantManager.Partner.FullName,
-                           SizeName = ConstantManager.Tags.LastOrDefault().Value,
-                    } });
+                        Barcode = item.Barcode,
+                        Contents = Contents,
+                        Keg = new CreatedManifestKeg
+                        {
+                            Barcode = item.Barcode,
+                            Contents = Contents,
+                            VolumeName = "Jitendra",
+                            OwnerName = ConstantManager.Partner.FullName,
+                            SizeName = sizeName,
+                        }
+                    });
                 }
+
                 manifest.TrackingNumber = ManifestId;
                 manifest.ShipDate = DateTimeOffset.UtcNow.Date.ToShortDateString();
                 manifest.CreatorCompany = new CreatorCompany { Address = ConstantManager.Partner.Address, State = ConstantManager.Partner.State, PostalCode = ConstantManager.Partner.PostalCode, Lon = ConstantManager.Partner.Lon, Address1 = ConstantManager.Partner.Address1, City = ConstantManager.Partner.City, CompanyNo = ConstantManager.Partner.CompanyNo.HasValue ? ConstantManager.Partner.CompanyNo.Value.ToString() : string.Empty, Country = ConstantManager.Partner.Country, FullName = ConstantManager.Partner.FullName, IsActive = ConstantManager.Partner.IsActive, IsInternal = ConstantManager.Partner.IsInternal, IsShared = ConstantManager.Partner.IsShared, Lat = ConstantManager.Partner.Lat, LocationCode = ConstantManager.Partner.LocationCode, LocationStatus = ConstantManager.Partner.LocationStatus, MasterCompanyId = ConstantManager.Partner.MasterCompanyId, ParentPartnerId = ConstantManager.Partner.ParentPartnerId, ParentPartnerName = ConstantManager.Partner.ParentPartnerName, PartnerId = ConstantManager.Partner.PartnerId, PartnershipIsActive = ConstantManager.Partner.PartnershipIsActive, PartnerTypeCode = ConstantManager.Partner.PartnerTypeCode, PartnerTypeName = ConstantManager.Partner.PartnerTypeName, PhoneNumber = ConstantManager.Partner.PhoneNumber, SourceKey = ConstantManager.Partner.SourceKey };
@@ -456,7 +471,7 @@ namespace KegID.ViewModel
                                 }, useModalNavigation: true, animated: false);
         }
 
-        private static async System.Threading.Tasks.Task AddorUpdateManifestOffline(ManifestModel manifestPostModel,bool queue)
+        private void AddorUpdateManifestOffline(ManifestModel manifestPostModel, bool queue)
         {
             string manifestId = manifestPostModel.ManifestId;
             var isNew = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).Find<ManifestModel>(manifestId);
@@ -485,9 +500,9 @@ namespace KegID.ViewModel
                         manifestPostModel.IsQueue = true;
                     }
                     var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                    await RealmDb.WriteAsync((realmDb) =>
+                    RealmDb.Write(() =>
                     {
-                        realmDb.Add(manifestPostModel);
+                        RealmDb.Add(manifestPostModel);
                     });
                 }
                 catch (Exception ex)
@@ -500,7 +515,7 @@ namespace KegID.ViewModel
         private async void SaveDraftCommandRecieverAsync()
         {
             ManifestModel manifestModel = null;
-            
+
             try
             {
                 manifestModel = GenerateManifest();
@@ -529,10 +544,10 @@ namespace KegID.ViewModel
                         try
                         {
                             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                            await RealmDb.WriteAsync((realmDb) =>
-                            {
-                                realmDb.Add(manifestModel);
-                            });
+                            RealmDb.Write(() =>
+                           {
+                               RealmDb.Add(manifestModel);
+                           });
                         }
                         catch (Exception ex)
                         {
@@ -566,9 +581,9 @@ namespace KegID.ViewModel
         public ManifestModel GenerateManifest()
         {
             return _manifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.MOVE_MANIFEST, manifestId: ManifestId,
-                        barcodeCollection: ConstantManager.Barcodes ?? new List<BarcodeModel>(), tags: Tags ?? new List<Tag>(), tagsStr: TagsStr, 
-                        partnerModel: ConstantManager.Partner, newPallets: new List<NewPallet>(), batches: new List<NewBatch>(), 
-                        closedBatches: new List<string>(), validationStatus: 2, contents: Contents);
+                        barcodeCollection: ConstantManager.Barcodes ?? new List<BarcodeModel>(), tags: Tags ?? new List<Tag>(), tagsStr: TagsStr,
+                        partnerModel: ConstantManager.Partner, newPallets: new List<NewPallet>(), batches: new List<NewBatch>(),
+                        closedBatches: new List<string>(), null, validationStatus: 2, contents: Contents);
         }
 
         internal void AssingScanKegsValue(List<BarcodeModel> _barcodes, List<Tag> _tags,string _contents)

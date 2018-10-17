@@ -332,7 +332,7 @@ namespace KegID.ViewModel
             return _manifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.FILL_MANIFEST, manifestId: TrackingNumber,
                         barcodeCollection: ConstantManager.Barcodes ?? new List<BarcodeModel>(), tags:  new List<Tag>(), tagsStr: default,
                         partnerModel: ConstantManager.Partner, newPallets: new List<NewPallet>(), batches: new List<NewBatch>(),
-                        closedBatches: new List<string>(), validationStatus: 4, contents: Contents);
+                        closedBatches: new List<string>(),null, validationStatus: 4, contents: Contents);
         }
 
 

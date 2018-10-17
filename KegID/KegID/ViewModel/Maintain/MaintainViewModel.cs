@@ -247,12 +247,22 @@ namespace KegID.ViewModel
                 case "model":
                     PartnerModel = parameters.GetValue<PartnerModel>("model");
                     break;
+                case "AssignInitialValue":
+                    AssignInitialValue(parameters.GetValue<ManifestModel>("AssignInitialValue"));
+                    break;
                 case "Cleanup":
                     Cleanup();
                     break;
                 default:
                     break;
             }
+        }
+
+        private void AssignInitialValue(ManifestModel manifestModel)
+        {
+            
+
+
         }
 
         private void Cleanup()

@@ -10,7 +10,7 @@ namespace KegID.Services
     public class ManifestManager : IManifestManager
     {
         public ManifestModel GetManifestDraft(EventTypeEnum eventTypeEnum, string manifestId, IList<BarcodeModel> barcodeCollection,
-            List<Tag> tags, string tagsStr, PartnerModel partnerModel, List<NewPallet> newPallets, List<NewBatch> batches, List<string> closedBatches, long validationStatus, string contents = "",string size = "")
+            List<Tag> tags, string tagsStr, PartnerModel partnerModel, List<NewPallet> newPallets, List<NewBatch> batches, List<string> closedBatches, MaintenanceModel maintenanceModel, long validationStatus, string contents = "", string size = "")
         {
             ManifestModel manifestModel = null;
             List<ManifestItem> manifestItemlst = new List<ManifestItem>();
@@ -26,9 +26,9 @@ namespace KegID.Services
                         Barcode = item.Barcode,
                         ScanDate = DateTimeOffset.UtcNow.Date,
                         ValidationStatus = validationStatus,
-                        KegId = item.Kegs?.Partners?.FirstOrDefault()?.Kegs?.FirstOrDefault().KegId??default,
+                        KegId = item.Kegs?.Partners?.FirstOrDefault()?.Kegs?.FirstOrDefault().KegId ?? default,
                         Icon = item.Icon,
-                        TagsStr = item.TagsStr??default,
+                        TagsStr = item.TagsStr ?? default,
                     };
 
                     if (item.Tags != null)
@@ -77,6 +77,12 @@ namespace KegID.Services
 
                 foreach (var item in batches)
                     manifestModel.NewBatches.Add(item);
+
+                if (maintenanceModel != null)
+                {
+                    manifestModel.MaintenanceModels = maintenanceModel;
+                }
+
                 if (tags != null)
                 {
                     foreach (var item in tags)

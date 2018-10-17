@@ -327,8 +327,7 @@ namespace KegID.ViewModel
             try
             {
                 model = _manifestManager.GetManifestDraft(EventTypeEnum.FILL_MANIFEST, ManifestId ?? PalletCollection.FirstOrDefault().ManifestId,
-                barcodes, tags, string.Empty, partnerModel, newPallets, new List<NewBatch>(), closedBatches, 4);
-
+                barcodes, tags, string.Empty, partnerModel, newPallets, new List<NewBatch>(), closedBatches, null, 4);
             }
             catch (Exception ex)
             {
@@ -368,7 +367,7 @@ namespace KegID.ViewModel
 
                         try
                         {
-                            await AddorUpdateManifestOffline(model, false);
+                            AddorUpdateManifestOffline(model, false);
                         }
                         catch (Exception ex)
                         {
@@ -380,7 +379,7 @@ namespace KegID.ViewModel
                     {
                         try
                         {
-                            await AddorUpdateManifestOffline(model, true);
+                            AddorUpdateManifestOffline(model, true);
                         }
                         catch (Exception ex)
                         {
@@ -473,48 +472,48 @@ namespace KegID.ViewModel
                                 }, useModalNavigation: true, animated: false);
         }
 
-        private static async Task AddorUpdateManifestOffline(ManifestModel manifestPostModel, bool queue)
-    {
-        string manifestId = manifestPostModel.ManifestId;
-        var isNew = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).Find<ManifestModel>(manifestId);
-        if (isNew != null)
+        private void AddorUpdateManifestOffline(ManifestModel manifestPostModel, bool queue)
         {
-            try
+            string manifestId = manifestPostModel.ManifestId;
+            var isNew = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).Find<ManifestModel>(manifestId);
+            if (isNew != null)
             {
-                manifestPostModel.IsDraft = false;
-                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                RealmDb.Write(() =>
+                try
                 {
-                    RealmDb.Add(manifestPostModel, update: true);
-                });
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
-        }
-        else
-        {
-            try
-            {
-                if (queue)
-                {
-                    manifestPostModel.IsQueue = true;
+                    manifestPostModel.IsDraft = false;
+                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                    RealmDb.Write(() =>
+                    {
+                        RealmDb.Add(manifestPostModel, update: true);
+                    });
                 }
-                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                await RealmDb.WriteAsync((realmDb) =>
+                catch (Exception ex)
                 {
-                    realmDb.Add(manifestPostModel);
-                });
+                    Crashes.TrackError(ex);
+                }
             }
-            catch (Exception ex)
+            else
             {
-                Crashes.TrackError(ex);
+                try
+                {
+                    if (queue)
+                    {
+                        manifestPostModel.IsQueue = true;
+                    }
+                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                    RealmDb.Write(() =>
+                    {
+                        RealmDb.Add(manifestPostModel);
+                    });
+                }
+                catch (Exception ex)
+                {
+                    Crashes.TrackError(ex);
+                }
             }
         }
-    }
 
-    private async void FillScanCommandRecieverAsync()
+        private async void FillScanCommandRecieverAsync()
         {
             try
             {

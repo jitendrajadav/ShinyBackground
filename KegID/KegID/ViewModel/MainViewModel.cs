@@ -15,6 +15,7 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -479,7 +480,11 @@ namespace KegID.ViewModel
                 return true; // True = Repeat again, False = Stop the timer
             });
 
-            await _deviceCheckInMngr.DeviceCheckInAync();
+            var current = Connectivity.NetworkAccess;
+            if (current == NetworkAccess.Internet)
+            {
+                await _deviceCheckInMngr.DeviceCheckInAync(); 
+            }
         }
 
         private async void MoveCommandRecieverAsync()

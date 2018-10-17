@@ -8,7 +8,7 @@ namespace KegID.Services
         ManifestModel GetManifestDraft(EventTypeEnum eventTypeEnum, string manifestId, 
             IList<BarcodeModel> barcodeCollection, List<Tag> tags,string tagsStr, 
             PartnerModel partnerModel, List<NewPallet> newPallets, List<NewBatch> batches, 
-            List<string> closedBatches, long validationStatus, string contents = "",
+            List<string> closedBatches,MaintenanceModel maintenanceModel, long validationStatus, string contents = "",
             string size = "");
 
     }

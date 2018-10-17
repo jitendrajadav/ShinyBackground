@@ -8,7 +8,7 @@ namespace KegID.LocalDb
         {
             var config = new RealmConfiguration
             {
-                SchemaVersion = 1,
+                SchemaVersion = 2,
                 MigrationCallback = (migration, oldSchemaVersion) =>
                 {
                     // potentially lengthy data migration

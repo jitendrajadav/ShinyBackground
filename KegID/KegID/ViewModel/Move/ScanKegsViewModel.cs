@@ -584,7 +584,7 @@ namespace KegID.ViewModel
             BarcodeCollection.Remove(model);
         }
 
-        private async void BarcodeManualCommandRecieverAsync()
+        private void BarcodeManualCommandRecieverAsync()
         {
             try
             {
@@ -619,6 +619,9 @@ namespace KegID.ViewModel
                         };
                         MessagingCenter.Send(message, "StartLongRunningTaskMessage");
                     }
+
+                    #region Old Code
+
                     //else
                     //{
                     //    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
@@ -651,7 +654,8 @@ namespace KegID.ViewModel
                     //    {
                     //        Crashes.TrackError(ex);
                     //    }
-                    //}
+                    //} 
+                    #endregion
 
                     ManaulBarcode = string.Empty;
                 }
