@@ -35,7 +35,6 @@ namespace KegID.Services
             await LoadDashboardPartnersAsync();
             await LoadPartnersAsync();
             await LoadBrandAsync();
-            await LoadMaintenanceTypeAsync();
             await LoadBatchAsync();
             await LoadPartnerTypeAsync();
         }
@@ -96,34 +95,34 @@ namespace KegID.Services
             }
         }
 
-        public async Task<IList<MaintainTypeReponseModel>> LoadMaintenanceTypeAsync()
-        {
-            var model = await _maintainService.GetMaintainTypeAsync(AppSettings.SessionId);
-            try
-            {
-                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-               await RealmDb.WriteAsync((realmDb) =>
-                {
-                    foreach (var item in model.MaintainTypeReponseModel)
-                    {
-                        try
-                        {
-                            realmDb.Add(item);
-                        }
-                        catch (Exception ex)
-                        {
-                            Crashes.TrackError(ex);
-                        }
-                    }
-                });
-              return  model.MaintainTypeReponseModel;
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-                return null;
-            }
-        }
+        //public async Task<IList<MaintainTypeReponseModel>> LoadMaintenanceTypeAsync()
+        //{
+        //    var model = await _maintainService.GetMaintainTypeAsync(AppSettings.SessionId);
+        //    try
+        //    {
+        //        var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+        //       await RealmDb.WriteAsync((realmDb) =>
+        //        {
+        //            foreach (var item in model.MaintainTypeReponseModel)
+        //            {
+        //                try
+        //                {
+        //                    realmDb.Add(item);
+        //                }
+        //                catch (Exception ex)
+        //                {
+        //                    Crashes.TrackError(ex);
+        //                }
+        //            }
+        //        });
+        //      return  model.MaintainTypeReponseModel;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Crashes.TrackError(ex);
+        //        return null;
+        //    }
+        //}
 
         private async Task LoadPartnersAsync()
         {

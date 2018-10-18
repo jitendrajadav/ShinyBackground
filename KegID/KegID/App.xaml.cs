@@ -156,6 +156,9 @@ namespace KegID
                    "android=31ceef42-fd24-49d3-8e7e-21f144355dde;" +
                    "ios=b80b8476-04cf-4fc3-b7f7-be06ba7f2213",
                    typeof(Analytics), typeof(Crashes), typeof(Distribute));
+
+            ISyncManager _syncManager = new SyncManager();
+            _syncManager.NotifyConnectivityChanged();
         }
 
         protected override void OnSleep ()

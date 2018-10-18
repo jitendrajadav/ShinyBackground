@@ -24,7 +24,7 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        private readonly ISyncManager _syncManager;
+        //private readonly ISyncManager _syncManager;
         private readonly IDeviceCheckInMngr _deviceCheckInMngr;
         private readonly IInitializeMetaData _initializeMetaData;
         private readonly INavigationService _navigationService;
@@ -310,11 +310,11 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public MainViewModel(INavigationService navigationService, ISyncManager syncManager, IDeviceCheckInMngr deviceCheckInMngr, IInitializeMetaData initializeMetaData, IDashboardService dashboardService, IGetIconByPlatform getIconByPlatform, IUuidManager uuidManager)
+        public MainViewModel(INavigationService navigationService/*, ISyncManager syncManager*/, IDeviceCheckInMngr deviceCheckInMngr, IInitializeMetaData initializeMetaData, IDashboardService dashboardService, IGetIconByPlatform getIconByPlatform, IUuidManager uuidManager)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
 
-            _syncManager = syncManager;
+            //_syncManager = syncManager;
             _deviceCheckInMngr = deviceCheckInMngr;
             _initializeMetaData = initializeMetaData;
             _dashboardService = dashboardService;
@@ -334,7 +334,7 @@ namespace KegID.ViewModel
             KegsCommand = new DelegateCommand(KegsCommandRecieverAsync);
             InUsePartnerCommand = new DelegateCommand(InUsePartnerCommandRecieverAsync);
 
-            _syncManager.NotifyConnectivityChanged();
+            //_syncManager.NotifyConnectivityChanged();
             DeviceCheckIn();
             LoadMetadData();
             HandleUnsubscribeMessages();

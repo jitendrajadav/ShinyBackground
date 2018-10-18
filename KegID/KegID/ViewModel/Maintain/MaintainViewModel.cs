@@ -20,6 +20,7 @@ namespace KegID.ViewModel
 
         private readonly INavigationService _navigationService;
         private readonly IPageDialogService _dialogService;
+        private ManifestModel ManifestModel;
 
         #region PartnerModel
 
@@ -217,10 +218,16 @@ namespace KegID.ViewModel
                 var flag = ConstantManager.MaintainTypeCollection.Where(x => x.IsToggled == true);
                 if (flag != null)
                 {
-                    await _navigationService.NavigateAsync(new Uri("MaintainScanView", UriKind.Relative), useModalNavigation: true, animated: false);
+                    await _navigationService.NavigateAsync(new Uri("MaintainScanView", UriKind.Relative),
+                        new NavigationParameters
+                        {
+                            { "Notes", Notes },
+                            { "PartnerModel", PartnerModel},
+                            { "ManifestModel", ManifestModel }
+                        }, useModalNavigation: true, animated: false);
                 }
                 else
-                     await _dialogService.DisplayAlertAsync("Error", "Please select at least one maintenance item to perform.", "Ok");
+                    await _dialogService.DisplayAlertAsync("Error", "Please select at least one maintenance item to perform.", "Ok");
             }
             catch (Exception ex)
             {
@@ -260,9 +267,28 @@ namespace KegID.ViewModel
 
         private void AssignInitialValue(ManifestModel manifestModel)
         {
-            
+            try
+            {
+                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                var maintenance = RealmDb.All<MaintainTypeReponseModel>().ToList();
 
-
+                ManifestModel = manifestModel;
+                MaintainTypeCollection = maintenance.Where(x => x.ActivationMethod == "ReverseOnly").OrderBy(x => x.Name).ToList();
+                foreach (var item in manifestModel.MaintenanceModels.MaintenanceDoneRequestModel.ActionsPerformed)
+                {
+                    var result = maintenance.Find(x => x.Id == item);
+                    if (result != null)
+                    {
+                        MaintainTypeCollection.Where(x=>x.Id == result.Id).FirstOrDefault().IsToggled = true;
+                    }
+                }
+                Notes = manifestModel?.MaintenanceModels?.MaintenanceDoneRequestModel?.Notes;
+                PartnerModel = manifestModel?.MaintenanceModels?.MaintenanceDoneRequestModel?.PartnerModel;
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private void Cleanup()

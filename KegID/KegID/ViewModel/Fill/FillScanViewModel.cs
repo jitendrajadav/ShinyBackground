@@ -693,39 +693,43 @@ namespace KegID.ViewModel
                         };
                         MessagingCenter.Send(message, "StartLongRunningTaskMessage");
                     }
-                    else
-                    {
-                        var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                        var manifestModel = RealmDb.Find<ManifestModel>(ConstantManager.ManifestId);
-                        try
-                        {
-                            if (manifestModel != null)
-                            {
-                                await RealmDb.WriteAsync((realmDb) =>
-                                {
-                                    manifestModel.BarcodeModels.Add(model);
-                                    realmDb.Add(manifestModel, true);
-                                });
-                            }
-                            else
-                            {
-                                //ManifestModel manifestModel = _manifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.MOVE_MANIFEST,
-                                //                                manifestId: ConstantManager.ManifestId, barcodeCollection: BarcodeCollection.Where(t => t.IsScanned == false).ToList(), tags: ConstantManager.Tags,
-                                //                                TagsStr, partnerModel: ConstantManager.Partner, newPallets: new List<NewPallet>(),
-                                //                                batches: new List<NewBatch>(), closedBatches: new List<string>(), validationStatus: 2, contents: SelectedBrand?.BrandName);
 
-                                manifestModel.IsQueue = true;
-                                RealmDb.Write(() =>
-                                {
-                                    RealmDb.Add(manifestModel, true);
-                                });
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            Crashes.TrackError(ex);
-                        }
-                    }
+                    #region Old Code
+                    //else
+                    //{
+                    //    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                    //    var manifestModel = RealmDb.Find<ManifestModel>(ConstantManager.ManifestId);
+                    //    try
+                    //    {
+                    //        if (manifestModel != null)
+                    //        {
+                    //            await RealmDb.WriteAsync((realmDb) =>
+                    //            {
+                    //                manifestModel.BarcodeModels.Add(model);
+                    //                realmDb.Add(manifestModel, true);
+                    //            });
+                    //        }
+                    //        else
+                    //        {
+                    //            //ManifestModel manifestModel = _manifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.MOVE_MANIFEST,
+                    //            //                                manifestId: ConstantManager.ManifestId, barcodeCollection: BarcodeCollection.Where(t => t.IsScanned == false).ToList(), tags: ConstantManager.Tags,
+                    //            //                                TagsStr, partnerModel: ConstantManager.Partner, newPallets: new List<NewPallet>(),
+                    //            //                                batches: new List<NewBatch>(), closedBatches: new List<string>(), validationStatus: 2, contents: SelectedBrand?.BrandName);
+
+                    //            manifestModel.IsQueue = true;
+                    //            RealmDb.Write(() =>
+                    //            {
+                    //                RealmDb.Add(manifestModel, true);
+                    //            });
+                    //        }
+                    //    }
+                    //    catch (Exception ex)
+                    //    {
+                    //        Crashes.TrackError(ex);
+                    //    }
+                    //} 
+                    #endregion
+
                     ManaulBarcode = string.Empty;
                 }
             }

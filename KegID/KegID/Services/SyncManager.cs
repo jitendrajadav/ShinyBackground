@@ -52,16 +52,18 @@ namespace KegID.Services
                             switch ((EventTypeEnum)item.EventTypeId)
                             {
                                 case EventTypeEnum.MOVE_MANIFEST:
-                                    var result = await _moveService.PostManifestAsync(item, AppSettings.SessionId, Configuration.NewManifest);
-                                    AddorUpdateManifestOffline(item,false);
+                                    var resultMoveManifest = await _moveService.PostManifestAsync(item, AppSettings.SessionId, Configuration.NewManifest);
+                                    if (resultMoveManifest.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
+                                        AddorUpdateManifestOffline(item, false);
                                     break;
                                 case EventTypeEnum.SHIP_MANIFEST:
                                     break;
                                 case EventTypeEnum.RECEIVE_MANIFEST:
                                     break;
                                 case EventTypeEnum.FILL_MANIFEST:
-                                    var manifestPostModel = await _moveService.PostManifestAsync(item, AppSettings.SessionId, Configuration.NewManifest);
-                                    AddorUpdateManifestOffline(item, false);
+                                    var resultFillManifest = await _moveService.PostManifestAsync(item, AppSettings.SessionId, Configuration.NewManifest);
+                                    if (resultFillManifest.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
+                                        AddorUpdateManifestOffline(item, false);
                                     break;
                                 case EventTypeEnum.PALLETIZE_MANIFEST:
                                     break;
@@ -69,8 +71,9 @@ namespace KegID.Services
                                     break;
                                 case EventTypeEnum.REPAIR_MANIFEST:
                                     IMaintainService _maintainService = new MaintainService();
-                                    KegIDResponse kegIDResponse = await _maintainService.PostMaintenanceDoneAsync(item.MaintenanceModels.MaintenanceDoneRequestModel, AppSettings.SessionId, Configuration.PostedMaintenanceDone);
-                                    AddorUpdateManifestOffline(item, false);
+                                    KegIDResponse resultRepairManifest = await _maintainService.PostMaintenanceDoneAsync(item.MaintenanceModels.MaintenanceDoneRequestModel, AppSettings.SessionId, Configuration.PostedMaintenanceDone);
+                                    if (resultRepairManifest.StatusCode == System.Net.HttpStatusCode.NoContent.ToString())
+                                        AddorUpdateManifestOffline(item, false);
                                     break;
                                 case EventTypeEnum.COLLECT_MANIFEST:
                                     break;
@@ -97,11 +100,11 @@ namespace KegID.Services
             {
                 try
                 {
-                    manifestPostModel.IsQueue = false;
-                    manifestPostModel.IsDraft = false;
                     var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                     RealmDb.Write(() =>
                     {
+                        manifestPostModel.IsQueue = false;
+                        manifestPostModel.IsDraft = false;
                         RealmDb.Add(manifestPostModel, update: true);
                     });
                 }
@@ -114,13 +117,14 @@ namespace KegID.Services
             {
                 try
                 {
-                    if (queue)
-                    {
-                        manifestPostModel.IsQueue = true;
-                    }
+                    
                     var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                     RealmDb.Write(() =>
                     {
+                        if (queue)
+                        {
+                            manifestPostModel.IsQueue = true;
+                        }
                         RealmDb.Add(manifestPostModel);
                     });
                 }

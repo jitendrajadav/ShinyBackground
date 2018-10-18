@@ -25,6 +25,9 @@ namespace KegID.ViewModel
         private const string ValidationOK = "validationok.png";
         private const string Cloud = "collectionscloud.png";
 
+        public string Notes { get; private set; }
+        private string ManifestId;
+
         private readonly INavigationService _navigationService;
         private readonly IMoveService _moveService;
         private readonly IMaintainService _maintainService;
@@ -113,7 +116,7 @@ namespace KegID.ViewModel
         public DelegateCommand<BarcodeModel> IconItemTappedCommand { get;}
         public DelegateCommand<BarcodeModel> LabelItemTappedCommand { get;}
         public DelegateCommand<BarcodeModel> DeleteItemCommand { get;}
-        
+
 
         #endregion
 
@@ -433,7 +436,7 @@ namespace KegID.ViewModel
                 {
                     Loader.StartLoading();
 
-                    manifestPostModel = await GenerateManifestAsync();
+                    manifestPostModel = await GenerateManifestAsync(ManifestId);
 
                     var current = Connectivity.NetworkAccess;
                     if (current == NetworkAccess.Internet)
@@ -494,7 +497,7 @@ namespace KegID.ViewModel
             }
         }
 
-        public async Task<ManifestModel> GenerateManifestAsync()
+        public async Task<ManifestModel> GenerateManifestAsync(string manifestId="")
         {
             var request = new GeolocationRequest(GeolocationAccuracy.Medium);
             var location = await Geolocation.GetLastKnownLocationAsync();
@@ -531,8 +534,10 @@ namespace KegID.ViewModel
             model.MaintenanceDoneRequestModel.MaintenancePostingId = _uuidManager.GetUuId();
             model.MaintenanceDoneRequestModel.Latitude = (long)location.Latitude;
             model.MaintenanceDoneRequestModel.Longitude = (long)location.Longitude;
+            model.MaintenanceDoneRequestModel.Notes = Notes;
+            model.MaintenanceDoneRequestModel.PartnerModel = ConstantManager.Partner;
 
-            return _manifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.REPAIR_MANIFEST, manifestId: _uuidManager.GetUuId(), 
+            return _manifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.REPAIR_MANIFEST, manifestId: !string.IsNullOrEmpty(manifestId)? manifestId: _uuidManager.GetUuId(), 
                 barcodeCollection: BarcodeCollection.Where(t => t.IsScanned == false).ToList(), tags: ConstantManager.Tags,
                                                                 ConstantManager.TagsStr, partnerModel: ConstantManager.Partner, 
                                                                 newPallets: new List<NewPallet>(), batches: new List<NewBatch>(), 
@@ -618,8 +623,35 @@ namespace KegID.ViewModel
                 case "AddTags":
                     AssignAddTagsValue(parameters);
                     break;
+                case "Notes":
+                    AssignMaintenanceViewValue(parameters);
+                    break;
                 default:
                     break;
+            }
+        }
+
+        private void AssignMaintenanceViewValue(INavigationParameters parameters)
+        {
+            try
+            {
+                BarcodeCollection.Clear();
+                Notes = parameters.GetValue<string>("Notes");
+                ConstantManager.Partner = parameters.GetValue<PartnerModel>("PartnerModel");
+                var value = parameters.GetValue<ManifestModel>("ManifestModel");
+
+                if (value != null)
+                {
+                    ManifestId = value.ManifestId;
+                    foreach (var item in value.MaintenanceModels.MaintenanceDoneRequestModel.Kegs)
+                    {
+                        BarcodeCollection.Add(new BarcodeModel { Barcode = item.Barcode });
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
             }
         }
 

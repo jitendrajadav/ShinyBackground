@@ -21,6 +21,8 @@ namespace KegID.Model
         public IList<MaintenanceDoneRequestModelTag> Tags { get; }
         public long Latitude { get; set; }
         public long Longitude { get; set; }
+        public string Notes { get; set; }
+        public PartnerModel PartnerModel { get; set; }
     }
 
     public class MaintainKeg: RealmObject
