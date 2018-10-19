@@ -293,13 +293,20 @@ namespace KegID.ViewModel
 
         private void Cleanup()
         {
-            using (var trans = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
+            try
             {
+                //using (var trans = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
+                //{
                 PartnerModel.FullName = "Select a location";
-                trans.Commit();
+                //trans.Commit();
+                //}
+                LoadMaintenanceTypeAsync();
+                Notes = string.Empty;
             }
-            LoadMaintenanceTypeAsync();
-            Notes = string.Empty;
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         #endregion

@@ -337,7 +337,7 @@ namespace KegID.ViewModel
             }
         }
 
-        public async Task LoadPartnersAsync()
+        public void LoadPartnersAsync()
         {
             Loader.StartLoading();
 
@@ -353,11 +353,11 @@ namespace KegID.ViewModel
                     else
                         PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners);
                 }
-                else
-                {
-                    await _initializeMetaData.LoadInitializeMetaData();
-                    await LoadPartnersAsync();
-                }
+                //else
+                //{
+                //    //await _initializeMetaData.LoadInitializeMetaData();
+                //    await LoadPartnersAsync();
+                //}
             }
             catch (Exception ex)
             {
@@ -476,13 +476,13 @@ namespace KegID.ViewModel
             }
         }
 
-        public async override void OnNavigatingTo(INavigationParameters parameters)
+        public override void OnNavigatingTo(INavigationParameters parameters)
         {
             if (parameters.ContainsKey("BrewerStockOn"))
                 BrewerStockOn = true;
             else
                 BrewerStockOn = false;
-           await LoadPartnersAsync();
+           LoadPartnersAsync();
         }
 
         #endregion

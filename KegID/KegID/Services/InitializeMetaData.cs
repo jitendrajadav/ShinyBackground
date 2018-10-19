@@ -134,13 +134,13 @@ namespace KegID.Services
                 {
                     var Partners = value.PartnerModel.Where(x => x.FullName != string.Empty).ToList();
 
-                    await RealmDb.WriteAsync((realmDb) =>
+                    RealmDb.Write(() =>
                      {
                          foreach (var item in Partners)
                          {
                              try
                              {
-                                 realmDb.Add(item);
+                                 RealmDb.Add(item);
                              }
                              catch (Exception ex)
                              {
