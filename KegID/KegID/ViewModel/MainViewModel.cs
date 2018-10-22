@@ -594,54 +594,67 @@ namespace KegID.ViewModel
         {
             try
             {
+                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                var collection = RealmDb.All<ManifestModel>().Where(x => x.IsDraft == true || x.IsQueue == true).ToList();
+                var draft = collection.Where(x => x.IsDraft == true).ToList();
+                var queue = collection.Where(x => x.IsQueue == true).ToList();
+                string queueMsg = queue.Count > 1 ? "queued manifests" : "queued manifest";
+                string draftMsg = draft.Count > 1 ? "draft manifests" : "draft manifest";
+
                 var current = Connectivity.NetworkAccess;
                 if (current == NetworkAccess.Internet)
                 {
-                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                    var collection = RealmDb.All<ManifestModel>().ToList();
                     if (collection.Count > 0)
                     {
-                        var draft = collection.Where(x => x.IsDraft == true).ToList();
-                        var queue = collection.Where(x => x.IsQueue == true).ToList();
                         if (draft.Count > 0)
                         {
                             if (queue.Count > 0)
                             {
-                                DraftmaniFests = string.Format("{0} draft manifests, {1} queued manifests", draft.Count, queue.Count);
+                                DraftmaniFests = string.Format("{0} " + draftMsg + ", {1} " + queueMsg, draft.Count, queue.Count);
                             }
                             else
-                                DraftmaniFests = string.Format("{0} draft manifests", draft.Count);
+                            {
+                                DraftmaniFests = string.Format("{0} " + draftMsg, draft.Count);
+                            }
                         }
                         else if (queue.Count > 0)
                         {
-                            DraftmaniFests = string.Format("{0} queued manifests", queue.Count);
+                            DraftmaniFests = string.Format("{0} " + queueMsg, queue.Count);
                         }
 
                         IsVisibleDraftmaniFestsLabel = true;
                     }
+                    else
+                    {
+                        DraftmaniFests = string.Empty;
+                        IsVisibleDraftmaniFestsLabel = false;
+                    }
                 }
                 else
                 {
-                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                    var collection = RealmDb.All<ManifestModel>().ToList();
                     if (collection.Count > 0)
                     {
-                        var draft = collection.Where(x => x.IsDraft == true).ToList();
-                        var queue = collection.Where(x => x.IsQueue == true).ToList();
                         if (draft.Count > 0)
                         {
                             if (queue.Count > 0)
                             {
-                                DraftmaniFests = string.Format("Lost communication with KegID.com, {0} draft manifests, {1} queued manifests", draft.Count, queue.Count);
+                                DraftmaniFests = string.Format("Lost communication with KegID.com, {0} " + draftMsg + ", {1} " + queueMsg, draft.Count, queue.Count);
                             }
                             else
-                                DraftmaniFests = string.Format("Lost communication with KegID.com, {0} draft manifests", draft.Count);
+                            {
+                                DraftmaniFests = string.Format("Lost communication with KegID.com, {0} "+ draftMsg , draft.Count);
+                            }
                         }
                         else if (queue.Count > 0)
                         {
-                            DraftmaniFests = string.Format("Lost communication with KegID.com, {0} queued manifests", queue.Count);
+                            DraftmaniFests = string.Format("Lost communication with KegID.com, {0} " + queueMsg, queue.Count);
                         }
 
+                        IsVisibleDraftmaniFestsLabel = true;
+                    }
+                    else
+                    {
+                        DraftmaniFests = string.Format("Lost communication with KegID.com");
                         IsVisibleDraftmaniFestsLabel = true;
                     }
                 }
