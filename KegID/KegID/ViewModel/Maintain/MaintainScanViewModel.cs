@@ -538,8 +538,7 @@ namespace KegID.ViewModel
             model.MaintenanceDoneRequestModel.PartnerModel = ConstantManager.Partner;
 
             return _manifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.REPAIR_MANIFEST, manifestId: !string.IsNullOrEmpty(manifestId)? manifestId: _uuidManager.GetUuId(), 
-                barcodeCollection: BarcodeCollection.Where(t => t.IsScanned == false).ToList(), tags: ConstantManager.Tags,
-                                                                ConstantManager.TagsStr, partnerModel: ConstantManager.Partner, 
+                barcodeCollection: BarcodeCollection, tags: ConstantManager.Tags, ConstantManager.TagsStr, partnerModel: ConstantManager.Partner, 
                                                                 newPallets: new List<NewPallet>(), batches: new List<NewBatch>(), 
                                                                 closedBatches: new List<string>(), model, validationStatus: 4, contents: "");
         }

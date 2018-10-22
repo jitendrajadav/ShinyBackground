@@ -229,13 +229,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string DraftmaniFestsPropertyName = "DraftmaniFests";
 
-        private int _DraftmaniFests = default;
+        private string _DraftmaniFests = default;
 
         /// <summary>
         /// Sets and gets the DraftmaniFests property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public int DraftmaniFests
+        public string DraftmaniFests
         {
             get
             {
@@ -341,8 +341,15 @@ namespace KegID.ViewModel
             HandleReceivedMessages();
 
             RefreshDashboardRecieverAsync();
-            CheckDraftmaniFestsAsync();
             StartPrinterSearch();
+
+            Connectivity.ConnectivityChanged -= Connectivity_ConnectivityChanged;
+            Connectivity.ConnectivityChanged += Connectivity_ConnectivityChanged;
+        }
+
+        private void Connectivity_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
+        {
+            CheckDraftmaniFestsAsync();
         }
 
         #endregion
@@ -587,12 +594,56 @@ namespace KegID.ViewModel
         {
             try
             {
-                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                var collection = RealmDb.All<ManifestModel>().Where(x => x.IsDraft == true).ToList();
-                if (collection.Count > 0)
+                var current = Connectivity.NetworkAccess;
+                if (current == NetworkAccess.Internet)
                 {
-                    DraftmaniFests = collection.Count;
-                    IsVisibleDraftmaniFestsLabel = true;
+                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                    var collection = RealmDb.All<ManifestModel>().ToList();
+                    if (collection.Count > 0)
+                    {
+                        var draft = collection.Where(x => x.IsDraft == true).ToList();
+                        var queue = collection.Where(x => x.IsQueue == true).ToList();
+                        if (draft.Count > 0)
+                        {
+                            if (queue.Count > 0)
+                            {
+                                DraftmaniFests = string.Format("{0} draft manifests, {1} queued manifests", draft.Count, queue.Count);
+                            }
+                            else
+                                DraftmaniFests = string.Format("{0} draft manifests", draft.Count);
+                        }
+                        else if (queue.Count > 0)
+                        {
+                            DraftmaniFests = string.Format("{0} queued manifests", queue.Count);
+                        }
+
+                        IsVisibleDraftmaniFestsLabel = true;
+                    }
+                }
+                else
+                {
+                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                    var collection = RealmDb.All<ManifestModel>().ToList();
+                    if (collection.Count > 0)
+                    {
+                        var draft = collection.Where(x => x.IsDraft == true).ToList();
+                        var queue = collection.Where(x => x.IsQueue == true).ToList();
+                        if (draft.Count > 0)
+                        {
+                            if (queue.Count > 0)
+                            {
+                                DraftmaniFests = string.Format("Lost communication with KegID.com, {0} draft manifests, {1} queued manifests", draft.Count, queue.Count);
+                            }
+                            else
+                                DraftmaniFests = string.Format("Lost communication with KegID.com, {0} draft manifests", draft.Count);
+                        }
+                        else if (queue.Count > 0)
+                        {
+                            DraftmaniFests = string.Format("Lost communication with KegID.com, {0} queued manifests", queue.Count);
+                        }
+
+                        IsVisibleDraftmaniFestsLabel = true;
+                    }
                 }
             }
             catch (Exception ex)
@@ -692,6 +743,7 @@ namespace KegID.ViewModel
             {
                 var Manifestd = parameters.GetValue<string>("ManifestId");
             }
+            CheckDraftmaniFestsAsync();
         }
 
         #endregion

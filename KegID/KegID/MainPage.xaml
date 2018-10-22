@@ -11,7 +11,7 @@
              >
     <Grid
         AutomationId="mainGrd"
-       RowSpacing="0">
+        RowSpacing="0">
         
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -90,10 +90,10 @@
             HorizontalOptions="FillAndExpand"
             HorizontalTextAlignment="Center"
             BackgroundColor="Red"
-            Margin="-10,0,-10,0"
-            Style="{StaticResource LabelTitleStyle}"
+            LineBreakMode="WordWrap"
+            FontSize="{StaticResource AppBarButtonFontSize}"
             IsVisible="{Binding IsVisibleDraftmaniFestsLabel}"
-            Text="{Binding DraftmaniFests,StringFormat='{0} draft manifests'}"/>
+            Text="{Binding DraftmaniFests}"/>
 
     </Grid>
     

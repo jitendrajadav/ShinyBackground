@@ -651,7 +651,7 @@ namespace KegID.ViewModel
             }
         }
 
-        private async void BarcodeManualCommandRecieverAsync()
+        private void BarcodeManualCommandRecieverAsync()
         {
             try
             {
