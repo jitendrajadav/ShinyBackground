@@ -9,29 +9,14 @@
              >
 
     <ContentPage.Content>
-      
+        
         <Grid
-            AutomationId="mainGrd"
-            RowSpacing="0"
-            Margin="10,0,10,0">
-
+            AutomationId="mainGrd">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-
+            
             <Button
                 AutomationId="homeButton"
                 x:Name="lblHome"
@@ -67,114 +52,12 @@
                 </controls:TintedImage.GestureRecognizers>
             </controls:TintedImage>
 
-            <BoxView
-                AutomationId="topBarSeperatorBoxView"
-                Margin="-10,0,-10,0"
-                Grid.Row="1"
-                BackgroundColor="{StaticResource bannerBGColor}"
-                VerticalOptions="FillAndExpand"
-                HorizontalOptions="FillAndExpand"/>
-
-            <Label 
-                AutomationId="manifestId8DigitLabel"
-                Grid.Row="1"
-                TextColor="White"
-                Text="{Binding ManifestId,StringFormat='Pallet #: {0}',Converter={StaticResource StringToLast8CharacterConverter}}"
-                Style="{StaticResource LabelBannerStyle}"
-                VerticalOptions="Center"
-                VerticalTextAlignment="Center"
-                HorizontalOptions="Start" />
-
-            <Label 
-                AutomationId="createdAtLabel"
-                Grid.Row="2"
-                Text="{Binding Resources[label_created_at]}"
-                Style="{StaticResource LabelNormalStyle}"
-                HorizontalOptions="Start" />
-            
-            <Label 
-                AutomationId="stockLocationLabel"
-                Margin="10,0,0,0"
-                Grid.Row="3"
-                Text="{Binding StockLocation}"
-                Style="{StaticResource LabelNormalStyle}"
-                HorizontalOptions="Start" />
-
-            <Label
-                AutomationId="locationLabel"
-                Grid.Row="4"
-                Text="{Binding Resources[label_location]}"
-                Style="{StaticResource LabelNormalStyle}"
-                HorizontalOptions="Start" />
-
-            <Label 
-                AutomationId="stockLocationValue"
-                Margin="10,0,0,0"
-                Grid.Row="5"
-                Text="{Binding StockLocation}"
-                Style="{StaticResource LabelNormalStyle}" 
-                HorizontalOptions="Start" />
-
-            <Label 
-                AutomationId="partnerTypeNameLabel"
-                Margin="10,0,0,0"
-                Grid.Row="6"
-                Text="{Binding PartnerTypeName}"
-                Style="{StaticResource LabelNormalStyle}" 
-                HorizontalOptions="Start" />
-
-            <Label 
-                AutomationId="shippingDataLabel"
-                Margin="10,0,0,0"
-                Grid.Row="7"
-                Text="{Binding ShippingDate,StringFormat='{0:dd/MM/yy}'}"
-                Style="{StaticResource LabelNormalStyle}"
-                HorizontalOptions="Start" />
-
-            <Label 
-                AutomationId="ssccLabel"
-                Grid.Row="8"
-                Text="{Binding Resources[label_sscc]}"
-                Style="{StaticResource LabelNormalStyle}" 
-                HorizontalOptions="Start" />
-
-            <Label 
-                AutomationId="manifestIdLebel"
-                Margin="10,0,0,0"
-                Grid.Row="9"
-                Text="{Binding ManifestId}"
-                Style="{StaticResource LabelNormalStyle}" 
-                HorizontalOptions="Start" />
-            
-            <Label 
-                AutomationId="targetLocationLabel"
-                Grid.Row="10"
-                Text="{Binding Resources[label_target_location]}"
-                Style="{StaticResource LabelNormalStyle}"
-                HorizontalOptions="Start" />
-
-            <Label 
-                AutomationId="targetLocationValue"
-                Margin="10,0,0,0"
-                Grid.Row="11"
-                Text="{Binding TargetLocation}"
-                Style="{StaticResource LabelNormalStyle}" 
-                HorizontalOptions="Start" />
-
             <Grid
+                Grid.Row="1"
                 AutomationId="innerGrd"
-                x:Name="grdContent"
-                Margin="0,5,0,0"
                 RowSpacing="0"
-                ColumnSpacing="0"
-                Grid.Row="12">
-              
-                <Grid.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding Path=BindingContext.GridTappedCommand, 
-                                                        Source={x:Reference Name=grdContent}}"
-                                                         CommandParameter="{Binding}"/>
-                </Grid.GestureRecognizers>
-              
+                Margin="10,0,10,0">
+
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -183,199 +66,323 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-
                 <BoxView
-                    AutomationId="lineSeperator1"
+                    AutomationId="topBarSeperatorBoxView"
+                    Margin="-10,0,-10,0"
                     Grid.Row="0"
-                    Grid.ColumnSpan="7"
-                    BackgroundColor="Black"
-                    HeightRequest="1"
-                    VerticalOptions="Start"
+                    BackgroundColor="{StaticResource bannerBGColor}"
+                    VerticalOptions="FillAndExpand"
                     HorizontalOptions="FillAndExpand"/>
 
-                <BoxView
-                    AutomationId="lineSeperator2"
+                <Label 
+                    AutomationId="manifestId8DigitLabel"
                     Grid.Row="0"
-                    Grid.RowSpan="7"
-                    BackgroundColor="Black"
-                    WidthRequest="1"
-                    VerticalOptions="FillAndExpand"
-                    HorizontalOptions="Start"/>
-
-                <BoxView
-                    AutomationId="lineSeperator3"
-                    Grid.Row="6"
-                    Grid.ColumnSpan="7"
-                    BackgroundColor="Black"
-                    HeightRequest="1"
-                    VerticalOptions="End"
-                    HorizontalOptions="FillAndExpand"/>
-
-                <BoxView
-                    AutomationId="lineSeperator4"
-                    Grid.Row="0"
-                    Grid.Column="6"
-                    Grid.RowSpan="7"
-                    BackgroundColor="Black"
-                    WidthRequest="1"
-                    VerticalOptions="FillAndExpand"
-                    HorizontalOptions="End"/>
-
-                <Label
-                    AutomationId="brandLabel"
-                    Grid.Column="1"
-                    Grid.Row="1"
-                    BackgroundColor="LightGray"
-                    HorizontalOptions="FillAndExpand"
-                    HorizontalTextAlignment="Center"
-                    Style="{StaticResource LabelNormalStyle}"
-                    VerticalOptions="FillAndExpand"
-                    TextColor="Black"
-                    Text="{Binding Resources[label_brand]}"/>
-
-                <Label
-                    AutomationId="sizeLabel"
-                    Grid.Column="3"
-                    Grid.Row="1"
-                    BackgroundColor="LightGray"
-                    HorizontalOptions="FillAndExpand"
-                    HorizontalTextAlignment="Center"
+                    TextColor="White"
+                    Text="{Binding ManifestId,StringFormat='Pallet #: {0}',Converter={StaticResource StringToLast8CharacterConverter}}"
+                    Style="{StaticResource LabelBannerStyle}"
+                    VerticalOptions="Center"
                     VerticalTextAlignment="Center"
-                    Style="{StaticResource LabelNormalStyle}"
-                    TextColor="Black"
-                    Text="{Binding Resources[label_size]}"/>
+                    HorizontalOptions="Start" />
 
-                <Label
-                    AutomationId="qtyLabel"
-                    Grid.Column="5"
+                <Label 
+                    AutomationId="createdAtLabel"
                     Grid.Row="1"
-                    BackgroundColor="LightGray"
-                    HorizontalOptions="FillAndExpand"
-                    HorizontalTextAlignment="Center"
-                    VerticalTextAlignment="Center"
+                    Text="{Binding Resources[label_created_at]}"
                     Style="{StaticResource LabelNormalStyle}"
-                    TextColor="Black"
-                    Text="{Binding Resources[label_quantity]}"/>
+                    HorizontalOptions="Start" />
 
-                <BoxView
-                    AutomationId="lineSeperator5"
+                <Label 
+                    AutomationId="stockLocationLabel"
+                    Margin="10,0,0,0"
                     Grid.Row="2"
-                    Grid.ColumnSpan="7"
-                    BackgroundColor="Black"
-                    HeightRequest="1"
-                    VerticalOptions="Start"
-                    HorizontalOptions="FillAndExpand"/>
+                    Text="{Binding StockLocation}"
+                    Style="{StaticResource LabelNormalStyle}"
+                    HorizontalOptions="Start" />
 
                 <Label
-                    AutomationId="dummyLabel"
-                    Grid.Column="1"
+                    AutomationId="locationLabel"
                     Grid.Row="3"
-                    Margin="5,0,0,0"
-                    TextColor="Black"
+                    Text="{Binding Resources[label_location]}"
                     Style="{StaticResource LabelNormalStyle}"
-                    Text="Barcode Blonde"/>
+                    HorizontalOptions="Start" />
 
-                <BoxView
-                    AutomationId="lineSeperator6"
-                    Grid.Row="1"
-                    Grid.Column="2"
-                    Grid.RowSpan="5"
-                    BackgroundColor="Black"
-                    WidthRequest="1"
-                    VerticalOptions="FillAndExpand"
-                    HorizontalOptions="Start"/>
-
-                <Label
-                    AutomationId="bblLabel"
-                    Grid.Column="3"
-                    Grid.Row="3"
-                    Margin="5,0,0,0"
-                    Style="{StaticResource LabelNormalStyle}"
-                    TextColor="Black"
-                    Text="1/2 bbl"/>
-
-                <BoxView
-                    AutomationId="lineSeperator7"
-                    Grid.Row="1"
-                    Grid.Column="4"
-                    Grid.RowSpan="5"
-                    BackgroundColor="Black"
-                    WidthRequest="1"
-                    VerticalOptions="FillAndExpand"
-                    HorizontalOptions="Start"/>
-
-                <Label
-                    AutomationId="itemCountLabel"
-                    Margin="0,0,5,0"
-                    HorizontalOptions="End"
-                    TextColor="{StaticResource selectTextColor}"
-                    Grid.Row="3"
-                    Grid.Column="5"
-                    Style="{StaticResource LabelNormalStyle}"
-                    Text="{Binding ItemCount}"/>
-
-                <BoxView
-                    AutomationId="lineSeperator8"
+                <Label 
+                    AutomationId="stockLocationValue"
+                    Margin="10,0,0,0"
                     Grid.Row="4"
-                    Grid.ColumnSpan="7"
-                    BackgroundColor="Black"
-                    HeightRequest="1"
-                    VerticalOptions="Start"
-                    HorizontalOptions="FillAndExpand"/>
+                    Text="{Binding StockLocation}"
+                    Style="{StaticResource LabelNormalStyle}" 
+                    HorizontalOptions="Start" />
 
-                <Label
-                    AutomationId="totalLabel"
-                    Margin="5,0,0,0"
-                    Grid.Column="1"
+                <Label 
+                    AutomationId="partnerTypeNameLabel"
+                    Margin="10,0,0,0"
                     Grid.Row="5"
-                    Style="{StaticResource LabelNormalStyle}"
-                    TextColor="Black"
-                    FontAttributes="Bold"
-                    Text="{Binding Resources[label_total]}"/>
+                    Text="{Binding PartnerTypeName}"
+                    Style="{StaticResource LabelNormalStyle}" 
+                    HorizontalOptions="Start" />
 
-                <Label
-                    AutomationId="itemCountValue"
+                <Label 
+                    AutomationId="shippingDataLabel"
+                    Margin="10,0,0,0"
+                    Grid.Row="6"
+                    Text="{Binding ShippingDate,StringFormat='{0:dd/MM/yy}'}"
+                    Style="{StaticResource LabelNormalStyle}"
+                    HorizontalOptions="Start" />
+
+                <Label 
+                    AutomationId="ssccLabel"
+                    Grid.Row="7"
+                    Text="{Binding Resources[label_sscc]}"
+                    Style="{StaticResource LabelNormalStyle}" 
+                    HorizontalOptions="Start" />
+
+                <Label 
+                    AutomationId="manifestIdLebel"
+                    Margin="10,0,0,0"
+                    Grid.Row="8"
+                    Text="{Binding ManifestId}"
+                    Style="{StaticResource LabelNormalStyle}" 
+                    HorizontalOptions="Start" />
+
+                <Label 
+                    AutomationId="targetLocationLabel"
+                    Grid.Row="9"
+                    Text="{Binding Resources[label_target_location]}"
+                    Style="{StaticResource LabelNormalStyle}"
+                    HorizontalOptions="Start" />
+
+                <Label 
+                    AutomationId="targetLocationValue"
+                    Margin="10,0,0,0"
+                    Grid.Row="10"
+                    Text="{Binding TargetLocation}"
+                    Style="{StaticResource LabelNormalStyle}" 
+                    HorizontalOptions="Start" />
+
+                <Grid
+                    AutomationId="innerGrd"
+                    x:Name="grdContent"
+                    Margin="0,5,0,0"
+                    RowSpacing="0"
+                    ColumnSpacing="0"
+                    Grid.Row="11">
+
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Path=BindingContext.GridTappedCommand, 
+                                                        Source={x:Reference Name=grdContent}}"
+                                                         CommandParameter="{Binding}"/>
+                    </Grid.GestureRecognizers>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <BoxView
+                        AutomationId="lineSeperator1"
+                        Grid.Row="0"
+                        Grid.ColumnSpan="7"
+                        BackgroundColor="Black"
+                        HeightRequest="1"
+                        VerticalOptions="Start"
+                        HorizontalOptions="FillAndExpand"/>
+
+                    <BoxView
+                        AutomationId="lineSeperator2"
+                        Grid.Row="0"
+                        Grid.RowSpan="7"
+                        BackgroundColor="Black"
+                        WidthRequest="1"
+                        VerticalOptions="FillAndExpand"
+                        HorizontalOptions="Start"/>
+
+                    <BoxView
+                        AutomationId="lineSeperator3"
+                        Grid.Row="6"
+                        Grid.ColumnSpan="7"
+                        BackgroundColor="Black"
+                        HeightRequest="1"
+                        VerticalOptions="End"
+                        HorizontalOptions="FillAndExpand"/>
+
+                    <BoxView
+                        AutomationId="lineSeperator4"
+                        Grid.Row="0"
+                        Grid.Column="6"
+                        Grid.RowSpan="7"
+                        BackgroundColor="Black"
+                        WidthRequest="1"
+                        VerticalOptions="FillAndExpand"
+                        HorizontalOptions="End"/>
+
+                    <Label
+                        AutomationId="brandLabel"
+                        Grid.Column="1"
+                        Grid.Row="1"
+                        BackgroundColor="LightGray"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="Center"
+                        Style="{StaticResource LabelNormalStyle}"
+                        VerticalOptions="FillAndExpand"
+                        TextColor="Black"
+                        Text="{Binding Resources[label_brand]}"/>
+
+                    <Label
+                        AutomationId="sizeLabel"
+                        Grid.Column="3"
+                        Grid.Row="1"
+                        BackgroundColor="LightGray"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="Center"
+                        VerticalTextAlignment="Center"
+                        Style="{StaticResource LabelNormalStyle}"
+                        TextColor="Black"
+                        Text="{Binding Resources[label_size]}"/>
+
+                    <Label
+                        AutomationId="qtyLabel"
+                        Grid.Column="5"
+                        Grid.Row="1"
+                        BackgroundColor="LightGray"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="Center"
+                        VerticalTextAlignment="Center"
+                        Style="{StaticResource LabelNormalStyle}"
+                        TextColor="Black"
+                        Text="{Binding Resources[label_quantity]}"/>
+
+                    <BoxView
+                        AutomationId="lineSeperator5"
+                        Grid.Row="2"
+                        Grid.ColumnSpan="7"
+                        BackgroundColor="Black"
+                        HeightRequest="1"
+                        VerticalOptions="Start"
+                        HorizontalOptions="FillAndExpand"/>
+
+                    <Label
+                        AutomationId="dummyLabel"
+                        Grid.Column="1"
+                        Grid.Row="3"
+                        Margin="5,0,0,0"
+                        TextColor="Black"
+                        Style="{StaticResource LabelNormalStyle}"
+                        Text="Barcode Blonde"/>
+
+                    <BoxView
+                        AutomationId="lineSeperator6"
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Grid.RowSpan="5"
+                        BackgroundColor="Black"
+                        WidthRequest="1"
+                        VerticalOptions="FillAndExpand"
+                        HorizontalOptions="Start"/>
+
+                    <Label
+                        AutomationId="bblLabel"
+                        Grid.Column="3"
+                        Grid.Row="3"
+                        Margin="5,0,0,0"
+                        Style="{StaticResource LabelNormalStyle}"
+                        TextColor="Black"
+                        Text="1/2 bbl"/>
+
+                    <BoxView
+                        AutomationId="lineSeperator7"
+                        Grid.Row="1"
+                        Grid.Column="4"
+                        Grid.RowSpan="5"
+                        BackgroundColor="Black"
+                        WidthRequest="1"
+                        VerticalOptions="FillAndExpand"
+                        HorizontalOptions="Start"/>
+
+                    <Label
+                        AutomationId="itemCountLabel"
+                        Margin="0,0,5,0"
+                        HorizontalOptions="End"
+                        TextColor="{StaticResource selectTextColor}"
+                        Grid.Row="3"
+                        Grid.Column="5"
+                        Style="{StaticResource LabelNormalStyle}"
+                        Text="{Binding ItemCount}"/>
+
+                    <BoxView
+                        AutomationId="lineSeperator8"
+                        Grid.Row="4"
+                        Grid.ColumnSpan="7"
+                        BackgroundColor="Black"
+                        HeightRequest="1"
+                        VerticalOptions="Start"
+                        HorizontalOptions="FillAndExpand"/>
+
+                    <Label
+                        AutomationId="totalLabel"
+                        Margin="5,0,0,0"
+                        Grid.Column="1"
+                        Grid.Row="5"
+                        Style="{StaticResource LabelNormalStyle}"
+                        TextColor="Black"
+                        FontAttributes="Bold"
+                        Text="{Binding Resources[label_total]}"/>
+
+                    <Label
+                        AutomationId="itemCountValue"
+                        Margin="0,0,5,0"
+                        HorizontalOptions="End"
+                        TextColor="{StaticResource selectTextColor}"
+                        Grid.Row="5"
+                        Grid.Column="5"
+                        Style="{StaticResource LabelNormalStyle}"
+                        Text="{Binding ItemCount}"/>
+                </Grid>
+
+                <Button
+                    AutomationId="editButton"
+                    IsVisible="{Binding IsFromDashboard}"
+                    VerticalOptions="End"
+                    Margin="0,0,0,0"
+                    Grid.Row="12"
+                    Style="{StaticResource TopButtonTitleStyle}"
+                    Command="{Binding EditPalletCommand}"
+                    Text="{Binding Resources[button_edit]}"/>
+
+                <Button
+                    AutomationId="moveButton"
+                    IsVisible="{Binding IsFromDashboard}"
+                    VerticalOptions="End"
                     Margin="0,0,5,0"
-                    HorizontalOptions="End"
-                    TextColor="{StaticResource selectTextColor}"
-                    Grid.Row="5"
-                    Grid.Column="5"
-                    Style="{StaticResource LabelNormalStyle}"
-                    Text="{Binding ItemCount}"/>
+                    Grid.Row="12"
+                    Style="{StaticResource TopButtonTitleStyle}"
+                    Command="{Binding MovePalletCommand}"
+                    Text="{Binding Resources[menu_action_move_pallet]}"
+                    HorizontalOptions="End"/>
             </Grid>
-
-            <Button
-                AutomationId="editButton"
-                IsVisible="{Binding IsFromDashboard}"
-                VerticalOptions="End"
-                Margin="0,0,0,0"
-                Grid.Row="13"
-                Style="{StaticResource TopButtonTitleStyle}"
-                Command="{Binding EditPalletCommand}"
-                Text="{Binding Resources[button_edit]}"/>
-
-            <Button
-                AutomationId="moveButton"
-                IsVisible="{Binding IsFromDashboard}"
-                VerticalOptions="End"
-                Margin="0,0,5,0"
-                Grid.Row="13"
-                Style="{StaticResource TopButtonTitleStyle}"
-                Command="{Binding MovePalletCommand}"
-                Text="{Binding Resources[menu_action_move_pallet]}"
-                HorizontalOptions="End"/>
-
         </Grid>
     </ContentPage.Content>
 </ContentPage>

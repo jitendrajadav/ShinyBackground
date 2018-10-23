@@ -26,13 +26,13 @@ namespace KegID.Droid
     {
         private static Activity myActivity;
 
-        // Storage Permissions
-        private static readonly int REQUEST_EXTERNAL_STORAGE = 1;
-        private static readonly string[] PERMISSIONS_STORAGE =
-            {
-                Manifest.Permission.ReadExternalStorage,
-                Manifest.Permission.WriteExternalStorage
-            };
+        //// Storage Permissions
+        //private static readonly int REQUEST_EXTERNAL_STORAGE = 1;
+        //private static readonly string[] PERMISSIONS_STORAGE =
+        //    {
+        //        Manifest.Permission.ReadExternalStorage,
+        //        Manifest.Permission.WriteExternalStorage
+        //    };
         protected override void OnCreate(Bundle bundle)
         {
             base.Window.RequestFeature(WindowFeatures.ActionBar);
@@ -89,31 +89,31 @@ namespace KegID.Droid
             });
         }
 
-        protected async override void OnStart()
+        protected override void OnStart()
         {
             base.OnStart();
-            bool resutl = await VerifyStoragePermissions();
+            //bool resutl = await VerifyStoragePermissions();
         }
 
-        public Task<bool> VerifyStoragePermissions()
-        {
-            // Check if we have write permission
-            Permission permission = Android.Support.V4.Content.ContextCompat.CheckSelfPermission(CrossCurrentActivity.Current.AppContext, Manifest.Permission.WriteExternalStorage);
+        //public Task<bool> VerifyStoragePermissions()
+        //{
+        //    // Check if we have write permission
+        //    Permission permission = Android.Support.V4.Content.ContextCompat.CheckSelfPermission(CrossCurrentActivity.Current.AppContext, Manifest.Permission.WriteExternalStorage);
 
-            if (permission != Permission.Granted)
-            {
-                // We don't have permission so prompt the user
-                ActivityCompat.RequestPermissions(CrossCurrentActivity.Current.Activity,
-                        PERMISSIONS_STORAGE,
-                        REQUEST_EXTERNAL_STORAGE
-                );
-                return Task.FromResult(true);
-            }
-            else
-            {
-                return Task.FromResult(false);
-            }
-        }
+        //    if (permission != Permission.Granted)
+        //    {
+        //        // We don't have permission so prompt the user
+        //        ActivityCompat.RequestPermissions(CrossCurrentActivity.Current.Activity,
+        //                PERMISSIONS_STORAGE,
+        //                REQUEST_EXTERNAL_STORAGE
+        //        );
+        //        return Task.FromResult(true);
+        //    }
+        //    else
+        //    {
+        //        return Task.FromResult(false);
+        //    }
+        //}
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
         {

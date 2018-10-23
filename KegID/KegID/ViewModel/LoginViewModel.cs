@@ -160,18 +160,6 @@ namespace KegID.ViewModel
 
         #region Methods
 
-        private async Task GetLocation()
-        {
-            try
-            {
-                var request = new GeolocationRequest(GeolocationAccuracy.Medium, new TimeSpan(0, 0, 30));
-                ConstantManager.Location = await Geolocation.GetLocationAsync(request);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
-        }
 
         private void KegIDCommandReciever()
         {
@@ -184,16 +172,6 @@ namespace KegID.ViewModel
 
         private async void LoginCommandRecieverAsync()
         {
-            var current = Connectivity.NetworkAccess;
-            if (current == NetworkAccess.Internet)
-            {
-                await GetLocation();
-            }
-            else
-            {
-                ConstantManager.Location = await Geolocation.GetLastKnownLocationAsync();
-            }
-
             try
             {
                 Loader.StartLoading();

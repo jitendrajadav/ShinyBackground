@@ -100,7 +100,7 @@ namespace KegID.ViewModel
                 }
                 else
                 {
-                    await _dialogService.DisplayAlertAsync("Error", "Error: Please select batch.", "Ok");
+                    await _dialogService.DisplayAlertAsync("Warning!", "Warning! Please select brand.", "Ok");
                 }
             }
             catch (Exception ex)

@@ -535,7 +535,12 @@ namespace KegID.ViewModel
         {
             try
             {
-                if (!PalletCollection.Any(x => x.BatchId == _batchId))
+                if (barcodes.Count == 0)
+                {
+                    PalletCollection.Clear();
+                    Kegs = default;
+                }
+                else if (!PalletCollection.Any(x => x.BatchId == _batchId))
                 {
                     PalletCollection.Add(new PalletModel() { Barcode = barcodes, Count = barcodes.Count(), BatchId = _batchId });
                     CountKegs();

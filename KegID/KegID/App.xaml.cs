@@ -16,6 +16,8 @@ using Scandit.BarcodePicker.Unified;
 using Microsoft.AppCenter.Distribute;
 using System;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
+using KegID.DependencyServices;
 
 namespace KegID
 {
@@ -144,10 +146,22 @@ namespace KegID
             containerRegistry.Register<ICalcCheckDigitMngr, CalcCheckDigitMngr>();
             containerRegistry.Register<IDeviceCheckInMngr, DeviceCheckInMngr>();
         }
-
-        protected override void OnStart()
+        private async Task GetLocation()
         {
-            Distribute.SetEnabledAsync(true);
+            try
+            {
+                var request = new GeolocationRequest(GeolocationAccuracy.Medium, new TimeSpan(0, 0, 30));
+                ConstantManager.Location = await Geolocation.GetLocationAsync(request);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
+        }
+
+        protected async override void OnStart()
+        {
+          await  Distribute.SetEnabledAsync(true);
             // In this example OnReleaseAvailable is a method name in same class
             Distribute.ReleaseAvailable = OnReleaseAvailable;
 
@@ -159,6 +173,23 @@ namespace KegID
 
             ISyncManager _syncManager = new SyncManager();
             _syncManager.NotifyConnectivityChanged();
+
+            var current = Connectivity.NetworkAccess;
+            if (current == NetworkAccess.Internet)
+            {
+                await GetLocation();
+            }
+            else
+            {
+                ConstantManager.Location = await Geolocation.GetLastKnownLocationAsync();
+            }
+
+            switch (Xamarin.Forms.Device.RuntimePlatform)
+            {
+                case Xamarin.Forms.Device.Android:
+                    var permission = await DependencyService.Get<IPermission>().VerifyStoragePermissions();
+                    break;
+            }
         }
 
         protected override void OnSleep ()

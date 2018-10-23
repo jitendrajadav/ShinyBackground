@@ -508,6 +508,8 @@ namespace KegID.ViewModel
                 AddKegs = string.Format("{0} Items", _barcodes.Count);
             else if (_barcodes.Count == 1)
                 AddKegs = string.Format("{0} Item", _barcodes.Count);
+            else 
+                AddKegs = "Add Kegs";
             if (!IsSubmitVisible)
                 IsSubmitVisible = true;
         }
@@ -647,7 +649,7 @@ namespace KegID.ViewModel
 
         public override void OnNavigatingTo(INavigationParameters parameters)
         {
-            if (ConstantManager.Barcodes != null && ConstantManager.Barcodes.Count > 0)
+            if (ConstantManager.Barcodes != null)
                 AssingScanKegsValue(ConstantManager.Barcodes);
 
             switch (parameters.Keys.FirstOrDefault())
