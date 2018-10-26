@@ -260,11 +260,6 @@
     </BundleResource>
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="..\KegID\Assets\exit.png">
-      <Link>Resources\exit.png</Link>
-    </BundleResource>
-  </ItemGroup>
-  <ItemGroup>
     <BundleResource Include="..\KegID\Assets\fillkegs.png">
       <Link>Resources\fillkegs.png</Link>
     </BundleResource>
@@ -310,11 +305,6 @@
     </BundleResource>
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="..\KegID\Assets\logout.png">
-      <Link>Resources\logout.png</Link>
-    </BundleResource>
-  </ItemGroup>
-  <ItemGroup>
     <BundleResource Include="..\KegID\Assets\manifests.png">
       <Link>Resources\manifests.png</Link>
     </BundleResource>
@@ -332,11 +322,6 @@
   <ItemGroup>
     <BundleResource Include="..\KegID\Assets\movekegs.png">
       <Link>Resources\movekegs.png</Link>
-    </BundleResource>
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="..\KegID\Assets\navigationback.png">
-      <Link>Resources\navigationback.png</Link>
     </BundleResource>
   </ItemGroup>
   <ItemGroup>
@@ -377,11 +362,6 @@
   <ItemGroup>
     <BundleResource Include="..\KegID\Assets\pencil.png">
       <Link>Resources\pencil.png</Link>
-    </BundleResource>
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="..\KegID\Assets\pushpin.png">
-      <Link>Resources\pushpin.png</Link>
     </BundleResource>
   </ItemGroup>
   <ItemGroup>

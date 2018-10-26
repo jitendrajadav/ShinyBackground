@@ -242,11 +242,6 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="..\KegID\Assets\exit.png">
-      <Link>Resources\drawable\exit.png</Link>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="..\KegID\Assets\fillkegs.png">
       <Link>Resources\drawable\fillkegs.png</Link>
     </AndroidResource>
@@ -292,11 +287,6 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="..\KegID\Assets\logout.png">
-      <Link>Resources\drawable\logout.png</Link>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="..\KegID\Assets\manifests.png">
       <Link>Resources\drawable\manifests.png</Link>
     </AndroidResource>
@@ -314,11 +304,6 @@
   <ItemGroup>
     <AndroidResource Include="..\KegID\Assets\movekegs.png">
       <Link>Resources\drawable\movekegs.png</Link>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="..\KegID\Assets\navigationback.png">
-      <Link>Resources\drawable\navigationback.png</Link>
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
@@ -359,11 +344,6 @@
   <ItemGroup>
     <AndroidResource Include="..\KegID\Assets\pencil.png">
       <Link>Resources\drawable\pencil.png</Link>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="..\KegID\Assets\pushpin.png">
-      <Link>Resources\drawable\pushpin.png</Link>
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
