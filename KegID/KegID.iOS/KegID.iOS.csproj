@@ -102,6 +102,7 @@
     <SolutionDir>..\</SolutionDir>
     <CodesignExtraArgs />
     <CodesignResourceRules />
+    <MtouchEnableSGenConc>true</MtouchEnableSGenConc>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|iPhone' ">
     <DebugType>none</DebugType>
