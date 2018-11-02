@@ -53,7 +53,7 @@
                 TextColor="White"
                 Text="{Binding TrackingNumber,StringFormat='Tracking #: {0}', Converter={StaticResource StringToLast8CharacterConverter}}"
                 VerticalOptions="Center" 
-                FontSize="{StaticResource AppBarButtonFontSize}"
+                FontSize="20"
                 HorizontalOptions="Start" />
 
             <Label 
@@ -221,7 +221,6 @@
             <Button
                 AutomationId="submitButton"
                 x:Name="lblSubmit"
-                Margin="{StaticResource BottomAppBarButtonMargin}"
                 Grid.Row="5"
                 Text="{Binding Resources[menu_action_submit]}"
                 Style="{StaticResource BottomButtonTitleStyle}"

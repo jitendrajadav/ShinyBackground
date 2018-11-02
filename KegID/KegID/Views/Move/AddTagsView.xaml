@@ -77,7 +77,7 @@
                 TextColor="White"
                 Grid.Row="1"
                 Grid.Column="2"
-                FontSize="{StaticResource AppBarButtonFontSize}"
+                FontSize="20"
                 Clicked="OnAddTagsClicked"/>
 
             <Grid

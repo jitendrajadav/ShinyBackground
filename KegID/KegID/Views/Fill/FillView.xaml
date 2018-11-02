@@ -32,7 +32,7 @@
             <Label
                 AutomationId="fillManifestLabel"
                 Style="{StaticResource LabelTitleStyle}"
-                FontSize="{StaticResource AppBarButtonFontSize}"
+                FontSize="20"
                 HorizontalOptions="Center"
                 Text="{Binding Resources[title_activity_fill_manifest]}"
                 />
@@ -181,7 +181,6 @@
             <Button
                 AutomationId="nextButton"
                 x:Name="lblNext"
-                Margin="{StaticResource BottomAppBarButtonMargin}"
                 Grid.Row="2"
                 Style="{StaticResource BottomButtonTitleStyle}"
                 Text="{Binding Resources[button_next]}"

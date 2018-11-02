@@ -11,7 +11,7 @@
         
         <Grid 
             AutomationId="mainGrd"
-            RowSpacing="{StaticResource GirdRowSpacing}"
+            Style="{StaticResource GirdRowSpacing}"
             Margin="20">
            
             <Grid.RowDefinitions>
@@ -37,7 +37,7 @@
                 AutomationId="usernameEntry"
                 Grid.Row="1"
                 Placeholder="{Binding Resources[hint_username]}"
-                HeightRequest="{StaticResource EntryHeight}"
+                Style="{StaticResource BasicEntryStyle}"
                 Text="{Binding Username}">
             </Entry>
 
@@ -46,7 +46,7 @@
                 IsPassword="True"
                 Grid.Row="2"
                 Placeholder="{Binding Resources[hint_password]}"
-                HeightRequest="{StaticResource EntryHeight}"
+                Style="{StaticResource BasicEntryStyle}"
                 Text="{Binding Password}"/>
 
             <Button

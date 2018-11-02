@@ -91,7 +91,7 @@
             HorizontalTextAlignment="Center"
             BackgroundColor="Red"
             LineBreakMode="WordWrap"
-            FontSize="{StaticResource AppBarButtonFontSize}"
+            FontSize="20"
             IsVisible="{Binding IsVisibleDraftmaniFestsLabel}"
             Text="{Binding DraftmaniFests}"/>
 

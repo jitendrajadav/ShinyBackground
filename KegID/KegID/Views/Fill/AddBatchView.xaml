@@ -200,7 +200,6 @@
                 Command="{Binding DoneCommand}"
                 VerticalOptions="EndAndExpand"
                 HorizontalOptions="FillAndExpand"
-                Margin="{StaticResource BottomAppBarButtonMargin}"
                 Style="{StaticResource BottomButtonTitleStyle}"
                 />
 

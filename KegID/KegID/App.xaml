@@ -23,35 +23,32 @@
             <Color x:Key="textLabelColor">#555555</Color>
             <Color x:Key="alertGoldColor">#F7D68A</Color>
 
-            <OnPlatform x:Key="ButtonLargeFontSize" x:TypeArguments="x:Double" iOS="40" Android="40" />
-            <OnPlatform x:Key="LargeFontSize" x:TypeArguments="x:Double" iOS="30" Android="30" />
-
-            <OnPlatform x:Key="LableFontSize" x:TypeArguments="x:Double" iOS="18" Android="18" />
-            <OnPlatform x:Key="AppBarButtonFontSize" x:TypeArguments="x:Double" iOS="20" Android="20" />
-
-            <OnPlatform x:Key="BottomAppBarButtonHeight" x:TypeArguments="x:Double" iOS="60" Android="70" />
-            <OnPlatform x:Key="TopAppBarButtonHeight" x:TypeArguments="x:Double" iOS="50" Android="60" />
-            <OnPlatform x:Key="EntryHeight" x:TypeArguments="x:Double" iOS="50" Android="60" />
-            <OnPlatform x:Key="BannerHeight" x:TypeArguments="x:Double" iOS="50" Android="50"/>
-
             <OnPlatform x:Key="AppBarButtonMargin" x:TypeArguments="Thickness" iOS="10,0,10,0" Android="10,0,0,0" />
-            <OnPlatform x:Key="BottomAppBarButtonMargin" x:TypeArguments="Thickness" iOS="0" Android="0" />
             
-            <OnPlatform x:Key="GirdRowSpacing" x:TypeArguments="x:Double" iOS="10" Android="0" />
-
             <converter1:SelectedItemEventArgsToSelectedItemConverter x:Key="SelectedItemConverter" />
             <converter1:ItemTappedEventArgsToSelectedItemConverter x:Key="ItemTappedConverter" />
             <converter1:StringToLast8CharacterConverter x:Key="StringToLast8CharacterConverter"/>
             <converter1:InvertedBooleanConverter x:Key="InvertedBooleanConverter"/>
+
+            <Style x:Key="GirdRowSpacing" TargetType="Grid">
+                <Setter Property="RowSpacing" Value="{OnPlatform Android=0, iOS=10,UWP=10}"/>
+            </Style>
+
+            <Style x:Key="BasicEntryStyle" TargetType="Entry">
+                <Setter Property="HeightRequest" Value="{OnPlatform Android=60, iOS=50,UWP=40}"/>
+            </Style>
+            
+            <Style x:Key="NotesEntryStyle" TargetType="Entry">
+                <Setter Property="HeightRequest" Value="{OnPlatform Android=70, iOS=60,UWP=60}"/>
+            </Style>
 
             <Style x:Key="BottomButtonTitleStyle" TargetType="Button">
                 <Setter Property="VerticalOptions" Value="End"/>
                 <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
                 <Setter Property="TextColor" Value="White"/>
                 <Setter Property="BackgroundColor" Value="{StaticResource selectTextColor}"/>
-                <Setter Property="FontSize" Value="{StaticResource AppBarButtonFontSize}"/>
-                <Setter Property="Margin" Value="{StaticResource BottomAppBarButtonMargin}"/>
-                <Setter Property="HeightRequest" Value="{StaticResource BottomAppBarButtonHeight}"/>
+                <Setter Property="FontSize" Value="{OnPlatform Android=20,iOS=20,UWP=20}"/>
+                <Setter Property="HeightRequest" Value="{OnPlatform Android=70, iOS=60,UWP=60}"/>
                 <Setter Property="BorderRadius" Value="0"/>
             </Style>
 
@@ -59,31 +56,31 @@
                 <Setter Property="VerticalOptions" Value="Center"/>
                 <Setter Property="TextColor" Value="{StaticResource selectTextColor}"/>
                 <Setter Property="BackgroundColor" Value="Transparent"/>
-                <Setter Property="FontSize" Value="{StaticResource AppBarButtonFontSize}"/>
+                <Setter Property="FontSize" Value="{OnPlatform Android=20,iOS=20,UWP=20}"/>
                 <Setter Property="Margin" Value="{StaticResource AppBarButtonMargin}"/>
                 <Setter Property="HorizontalOptions" Value="Start"/>
             </Style>
 
             <Style x:Key="LabelTitleStyle" TargetType="Label">
                 <Setter Property="VerticalOptions" Value="Center"/>
-                <Setter Property="FontSize" Value="{StaticResource AppBarButtonFontSize}"/>
+                <Setter Property="FontSize" Value="{OnPlatform Android=20,iOS=20,UWP=20}"/>
                 <Setter Property="Margin" Value="{StaticResource AppBarButtonMargin}"/>
                 <Setter Property="TextColor" Value="Black"/>
             </Style>
             
             <Style x:Key="LabelBannerStyle" TargetType="Label">
                 <Setter Property="VerticalOptions" Value="Center"/>
-                <Setter Property="FontSize" Value="{StaticResource AppBarButtonFontSize}"/>
+                <Setter Property="FontSize" Value="{OnPlatform Android=20,iOS=20,UWP=20}"/>
                 <Setter Property="TextColor" Value="Black"/>
-                <Setter Property="HeightRequest" Value="{StaticResource BannerHeight}"/>
+                <Setter Property="HeightRequest" Value="{OnPlatform Android=50,iOS=50,UWP=50}"/>
             </Style>
             
             <Style x:Key="LabelTitleWhiteTextColorStyle" TargetType="Label">
                 <Setter Property="VerticalOptions" Value="Center"/>
                 <Setter Property="VerticalTextAlignment" Value="Center"/>
-                <Setter Property="FontSize" Value="{StaticResource AppBarButtonFontSize}"/>
+                <Setter Property="FontSize" Value="{OnPlatform Android=20,iOS=20,UWP=20}"/>
                 <Setter Property="TextColor" Value="White"/>
-                <Setter Property="HeightRequest" Value="{StaticResource BannerHeight}"/>
+                <Setter Property="HeightRequest" Value="{OnPlatform Android=50,iOS=50,UWP=50}"/>
                 <Setter Property="HorizontalOptions" Value="Start"/>
             </Style>
 
@@ -91,7 +88,7 @@
                 <Setter Property="HorizontalTextAlignment" Value="Start" />
                 <Setter Property="VerticalOptions" Value="Center"/>
                 <Setter Property="TextColor" Value="#555555"/>
-                <Setter Property="FontSize" Value="{StaticResource LableFontSize}"/>
+                <Setter Property="FontSize" Value="{OnPlatform Android=18,iOS=18,UWP=18}"/>
             </Style>
 
             <Style x:Key="LabelRigthAlign" TargetType="Label">
@@ -106,21 +103,21 @@
                 <Setter Property="TextColor" Value="Black"/>
                 <Setter Property="VerticalOptions" Value="Center"/>
                 <!--<Setter Property="LineBreakMode" Value="NoWrap"/>-->
-                <Setter Property="FontSize" Value="{StaticResource LableFontSize}"/>
+                <Setter Property="FontSize" Value="{OnPlatform Android=18,iOS=18,UWP=18}"/>
             </Style>
             
             <Style x:Key="LabelLargeStyle" TargetType="Label">
                 <Setter Property="HorizontalTextAlignment" Value="Start" />
                 <Setter Property="VerticalTextAlignment" Value="Center"/>
                 <Setter Property="TextColor" Value="Black"/>
-                <Setter Property="FontSize" Value="{StaticResource LargeFontSize}"/>
+                <Setter Property="FontSize" Value="{OnPlatform Android=30, iOS=30,UWP=30}"/>
             </Style>
 
             <Style x:Key="ButtonNormalStyle" TargetType="Button">
                 <Setter Property="VerticalOptions" Value="Center"/>
                 <Setter Property="HorizontalOptions" Value="Start"/>
                 <Setter Property="TextColor" Value="{StaticResource selectTextColor}"/>
-                <Setter Property="FontSize" Value="{StaticResource LableFontSize}"/>
+                <Setter Property="FontSize" Value="{OnPlatform Android=18,iOS=18,UWP=18}"/>
                 <Setter Property="Margin" Value="10,0,0,0"/>
                 <Setter Property="BackgroundColor" Value="Transparent"/>
             </Style>
@@ -129,7 +126,7 @@
                 <Setter Property="VerticalOptions" Value="Center"/>
                 <Setter Property="HorizontalOptions" Value="Start"/>
                 <Setter Property="TextColor" Value="{StaticResource selectTextColor}"/>
-                <Setter Property="FontSize" Value="{StaticResource ButtonLargeFontSize}"/>
+                <Setter Property="FontSize" Value="{OnPlatform Android=40, iOS=40, UWP=40}"/>
                 <Setter Property="Margin" Value="10,0,0,0"/>
                 <Setter Property="BackgroundColor" Value="Transparent"/>
             </Style>

@@ -129,7 +129,7 @@
                         Grid.ColumnSpan="2"
                         Grid.Column="0"
                         Text="{Binding Notes}"
-                        HeightRequest="{StaticResource BottomAppBarButtonHeight}"
+                        Style="{StaticResource NotesEntryStyle}"
                         Grid.Row="2"
                         Placeholder="{Binding Resources[hint_enter_notes_here]}"/>
 
@@ -154,7 +154,6 @@
             
             <Button
                 AutomationId="nextButton"
-                Margin="{StaticResource BottomAppBarButtonMargin}"
                 Style="{StaticResource BottomButtonTitleStyle}"
                 Grid.Row="4"
                 HorizontalOptions="FillAndExpand"
