@@ -28,7 +28,7 @@
   <ItemGroup>
     <PackageReference Include="Acr.UserDialogs" Version="7.0.1" />
     <PackageReference Include="CarouselView.FormsPlugin" Version="5.2.0" />
-    <PackageReference Include="Fody" Version="3.2.16">
+    <PackageReference Include="Fody" Version="3.2.17">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
@@ -44,7 +44,7 @@
     <PackageReference Include="Prism.Forms" Version="7.1.0.431" />
     <PackageReference Include="Prism.Plugin.Popups" Version="2.1.0.228" />
     <PackageReference Include="Prism.Unity.Forms" Version="7.1.0.431" />
-    <PackageReference Include="Realm" Version="3.2.1" />
+    <PackageReference Include="Realm" Version="3.3.0" />
     <PackageReference Include="Scandit.BarcodePicker.Unified" Version="5.9.1.10" />
     <PackageReference Include="Xam.Plugins.Settings" Version="4.0.0.10-beta" />
     <PackageReference Include="Xamarin.Essentials" Version="0.11.0-preview" />
