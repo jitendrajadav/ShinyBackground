@@ -10,8 +10,7 @@
     <ContentPage.Content>
         
         <Grid
-            AutomationId="mainGrd"
-            Margin="10,0,10,0">
+            AutomationId="mainGrd">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -47,11 +46,13 @@
             <Label 
                 AutomationId="trackingNumberLabel"
                 Grid.Row="1"
+                Margin="10,0,0,0"
                 Style="{StaticResource LabelTitleWhiteTextColorStyle}"
                 Text="{Binding TrackingNo,StringFormat='Tracking #: {0}',Converter={StaticResource StringToLast8CharacterConverter}}"
                 />
 
             <Label
+                Margin="10,0,0,0"
                 AutomationId="toLabel"
                 Grid.Row="2"
                 Text="{Binding Resources[label_to]}"
@@ -60,7 +61,7 @@
             
             <Label 
                 AutomationId="stockLocationLabel"
-                Margin="10,0,0,0"
+                Margin="20,0,0,0"
                 Grid.Row="3"
                 Text="{Binding StockLocation}"
                 Style="{StaticResource LabelNormalStyle}"
@@ -69,6 +70,7 @@
             <Grid
                 AutomationId="innerGrd"
                 x:Name="maintenancePerformed"
+                Margin="10,0,10,0"
                 RowSpacing="0"
                 ColumnSpacing="0"
                 Grid.Row="4">
@@ -158,7 +160,7 @@
             <Grid
                 AutomationId="subInnerGrd"
                 x:Name="grdContent"
-                Margin="0,10,0,0"
+                Margin="10,10,10,0"
                 RowSpacing="0"
                 ColumnSpacing="0"
                 Grid.Row="5">

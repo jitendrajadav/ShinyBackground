@@ -34,6 +34,7 @@ namespace KegID.ViewModel
         private readonly IGetIconByPlatform _getIconByPlatform;
         private readonly IUuidManager _uuidManager;
         private readonly IManifestManager _manifestManager;
+        private readonly IGeolocationService _geolocationService;
 
         private IList<MaintainTypeReponseModel> MaintainTypeReponseModel { get; set; }
 
@@ -122,7 +123,7 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public MaintainScanViewModel(IMoveService moveService, IMaintainService maintainService, INavigationService navigationService, IGetIconByPlatform getIconByPlatform, IUuidManager uuidManager, IManifestManager manifestManager)
+        public MaintainScanViewModel(IMoveService moveService, IMaintainService maintainService, INavigationService navigationService, IGetIconByPlatform getIconByPlatform, IUuidManager uuidManager, IManifestManager manifestManager, IGeolocationService geolocationService)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
 
@@ -131,6 +132,8 @@ namespace KegID.ViewModel
             _getIconByPlatform = getIconByPlatform;
             _uuidManager = uuidManager;
             _manifestManager = manifestManager;
+            _geolocationService = geolocationService;
+
             SubmitCommand = new DelegateCommand(SubmitCommandRecieverAsync);
             BackCommand = new DelegateCommand(BackCommandRecieverAsync);
             BarcodeScanCommand = new DelegateCommand(BarcodeScanCommandRecieverAsync);
@@ -424,123 +427,102 @@ namespace KegID.ViewModel
 
         public async void SubmitCommandRecieverAsync()
         {
-            ManifestModel manifestPostModel = null;
-
-            var result = BarcodeCollection.Where(x => x?.Kegs?.Partners?.Count > 1).ToList();
-            if (result?.Count > 0)
-                await NavigateToValidatePartner(result.ToList());
-
-            else
+            var location = await _geolocationService.OnGetCurrentLocationAsync();
+            if (location != null)
             {
-                try
+                ManifestModel manifestPostModel = null;
+
+                var result = BarcodeCollection.Where(x => x?.Kegs?.Partners?.Count > 1).ToList();
+                if (result?.Count > 0)
+                    await NavigateToValidatePartner(result.ToList());
+
+                else
                 {
-                    Loader.StartLoading();
-
-                    manifestPostModel = await GenerateManifestAsync(ManifestId);
-
-                    var current = Connectivity.NetworkAccess;
-                    if (current == NetworkAccess.Internet)
+                    try
                     {
-                        KegIDResponse kegIDResponse = await _maintainService.PostMaintenanceDoneAsync(manifestPostModel.MaintenanceModels.MaintenanceDoneRequestModel, AppSettings.SessionId, Configuration.PostedMaintenanceDone);
-                        try
+                        Loader.StartLoading();
+
+                        manifestPostModel = GenerateManifest(location, ManifestId);
+
+                        var current = Connectivity.NetworkAccess;
+                        if (current == NetworkAccess.Internet)
                         {
-                            AddorUpdateManifestOffline(manifestPostModel, false);
+                            KegIDResponse kegIDResponse = await _maintainService.PostMaintenanceDoneAsync(manifestPostModel.MaintenanceModels.MaintenanceDoneRequestModel, AppSettings.SessionId, Configuration.PostedMaintenanceDone);
+                            try
+                            {
+                                AddorUpdateManifestOffline(manifestPostModel, false);
+                            }
+                            catch (Exception ex)
+                            {
+                                Crashes.TrackError(ex);
+                            }
+                            await GetPostedManifestDetail();
                         }
-                        catch (Exception ex)
+                        else
                         {
-                            Crashes.TrackError(ex);
+                            try
+                            {
+                                AddorUpdateManifestOffline(manifestPostModel, true);
+                            }
+                            catch (Exception ex)
+                            {
+                                Crashes.TrackError(ex);
+                            }
+                            await GetPostedManifestDetail();
                         }
-                        await GetPostedManifestDetail();
-
-                        #region Old Code
-
-                        //if (kegIDResponse.StatusCode == System.Net.HttpStatusCode.NoContent.ToString())
-                        //{
-                        //    Loader.StopLoading();
-                        //    await _navigationService.NavigateAsync(new Uri("MaintainDetailView", UriKind.Relative), 
-                        //        new NavigationParameters
-                        //        {
-                        //            {
-                        //                "BarcodeModel", BarcodeCollection
-                        //            }
-                        //        }, useModalNavigation: true, animated: false);
-                        //}
-                        //else
-                        //{
-                        //    Loader.StopLoading();
-                        //} 
-
-                        #endregion
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        try
-                        {
-                            AddorUpdateManifestOffline(manifestPostModel, true);
-                        }
-                        catch (Exception ex)
-                        {
-                            Crashes.TrackError(ex);
-                        }
-                        await GetPostedManifestDetail();
+                        Crashes.TrackError(ex);
                     }
-                }
-                catch (Exception ex)
-                {
-                    Crashes.TrackError(ex);
-                }
-                finally
-                {
-                    Loader.StopLoading();
-                    Cleanup();
+                    finally
+                    {
+                        Loader.StopLoading();
+                        Cleanup();
+                    }
                 }
             }
         }
 
-        public async Task<ManifestModel> GenerateManifestAsync(string manifestId="")
+        public ManifestModel GenerateManifest(Xamarin.Essentials.Location location, string manifestId = "")
         {
-            var request = new GeolocationRequest(GeolocationAccuracy.Medium);
-            var location = await Geolocation.GetLastKnownLocationAsync();
-            if (location == null)
-                location = await Geolocation.GetLocationAsync(request);
+                List<MaintainKeg> kegs = new List<MaintainKeg>();
+                MaintainKeg keg = null;
 
-            List<MaintainKeg> kegs = new List<MaintainKeg>();
-            MaintainKeg keg = null;
-
-            MaintenanceModel model = new MaintenanceModel
-            {
-                MaintenanceDoneRequestModel = new MaintenanceDoneRequestModel()
-            };
-
-            foreach (var item in BarcodeCollection)
-            {
-                keg = new MaintainKeg
+                MaintenanceModel model = new MaintenanceModel
                 {
-                    Barcode = item.Barcode,
-                    ScanDate = DateTimeOffset.Now,
-                    ValidationStatus = 4
+                    MaintenanceDoneRequestModel = new MaintenanceDoneRequestModel()
                 };
-                kegs.Add(keg);
-                model.MaintenanceDoneRequestModel.Kegs.Add(keg);
-            }
 
-            foreach (var item in ConstantManager.MaintainTypeCollection.Where(x => x.IsToggled == true).Select(y => y.Id).ToList())
-            {
-                model.MaintenanceDoneRequestModel.ActionsPerformed.Add(item);
-            }
+                foreach (var item in BarcodeCollection)
+                {
+                    keg = new MaintainKeg
+                    {
+                        Barcode = item.Barcode,
+                        ScanDate = DateTimeOffset.Now,
+                        ValidationStatus = 4
+                    };
+                    kegs.Add(keg);
+                    model.MaintenanceDoneRequestModel.Kegs.Add(keg);
+                }
 
-            model.MaintenanceDoneRequestModel.DatePerformed = DateTimeOffset.Now.AddDays(-2);
-            model.MaintenanceDoneRequestModel.LocationId = ConstantManager.Partner.PartnerId;
-            model.MaintenanceDoneRequestModel.MaintenancePostingId = _uuidManager.GetUuId();
-            model.MaintenanceDoneRequestModel.Latitude = (long)location.Latitude;
-            model.MaintenanceDoneRequestModel.Longitude = (long)location.Longitude;
-            model.MaintenanceDoneRequestModel.Notes = Notes;
-            model.MaintenanceDoneRequestModel.PartnerModel = ConstantManager.Partner;
+                foreach (var item in ConstantManager.MaintainTypeCollection.Where(x => x.IsToggled == true).Select(y => y.Id).ToList())
+                {
+                    model.MaintenanceDoneRequestModel.ActionsPerformed.Add(item);
+                }
 
-            return _manifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.REPAIR_MANIFEST, manifestId: !string.IsNullOrEmpty(manifestId)? manifestId: _uuidManager.GetUuId(), 
-                barcodeCollection: BarcodeCollection, tags: ConstantManager.Tags, ConstantManager.TagsStr, partnerModel: ConstantManager.Partner, 
-                                                                newPallets: new List<NewPallet>(), batches: new List<NewBatch>(), 
-                                                                closedBatches: new List<string>(), model, validationStatus: 4, contents: "");
+                model.MaintenanceDoneRequestModel.DatePerformed = DateTimeOffset.Now.AddDays(-2);
+                model.MaintenanceDoneRequestModel.LocationId = ConstantManager.Partner.PartnerId;
+                model.MaintenanceDoneRequestModel.MaintenancePostingId = _uuidManager.GetUuId();
+                model.MaintenanceDoneRequestModel.Latitude = (long)location.Latitude;
+                model.MaintenanceDoneRequestModel.Longitude = (long)location.Longitude;
+                model.MaintenanceDoneRequestModel.Notes = Notes;
+                model.MaintenanceDoneRequestModel.PartnerModel = ConstantManager.Partner;
+
+                return _manifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.REPAIR_MANIFEST, manifestId: !string.IsNullOrEmpty(manifestId) ? manifestId : _uuidManager.GetUuId(),
+                    barcodeCollection: BarcodeCollection, (long)location.Latitude, (long)location.Longitude, tags: ConstantManager.Tags, ConstantManager.TagsStr, partnerModel: ConstantManager.Partner,
+                                                                    newPallets: new List<NewPallet>(), batches: new List<NewBatch>(),
+                                                                    closedBatches: new List<string>(), model, validationStatus: 4, contents: "");
         }
 
         internal void AssignAddTagsValue(INavigationParameters parameters)

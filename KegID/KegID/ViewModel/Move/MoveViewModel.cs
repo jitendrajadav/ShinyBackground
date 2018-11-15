@@ -24,6 +24,7 @@ namespace KegID.ViewModel
         private readonly IMoveService _moveService;
         private readonly IManifestManager _manifestManager;
         private readonly IUuidManager _uuidManager;
+        private readonly IGeolocationService _geolocationService;
 
         public string Contents { get; set; }
         public IList<BarcodeModel> Barcodes { get; set; }
@@ -318,13 +319,14 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public MoveViewModel(IMoveService moveService, INavigationService navigationService, IPageDialogService dialogService, IManifestManager manifestManager, IUuidManager uuidManager)
+        public MoveViewModel(IMoveService moveService, INavigationService navigationService, IPageDialogService dialogService, IManifestManager manifestManager, IUuidManager uuidManager, IGeolocationService geolocationService)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _dialogService = dialogService;
             _moveService = moveService;
             _manifestManager = manifestManager;
             _uuidManager = uuidManager;
+            _geolocationService = geolocationService;
 
             SelectLocationCommand = new DelegateCommand(SelectLocationCommandRecieverAsync);
             MoreInfoCommand = new DelegateCommand(MoreInfoCommandRecieverAsync);
@@ -340,82 +342,68 @@ namespace KegID.ViewModel
 
         private async void SubmitCommandRecieverAsync()
         {
-            ManifestModel manifestPostModel = null;
-            try
+            var location = await _geolocationService.OnGetCurrentLocationAsync();
+            if (location != null)
             {
-                Loader.StartLoading();
-
-                manifestPostModel = GenerateManifest();
-                if (manifestPostModel != null)
+                ManifestModel manifestPostModel = null;
+                try
                 {
-                    try
+                    Loader.StartLoading();
+
+                    manifestPostModel = GenerateManifest(location);
+                    if (manifestPostModel != null)
                     {
-                        var current = Connectivity.NetworkAccess;
-                        if (current == NetworkAccess.Internet)
+                        try
                         {
-                            var result = await _moveService.PostManifestAsync(manifestPostModel, AppSettings.SessionId, Configuration.NewManifest);
-
-                            #region Old Code
-                            /// Making call for getting detail of Posted Manifest now Offline we dont need it.
-                            //var manifest = await _moveService.GetManifestAsync(AppSettings.SessionId, result.ManifestId);
-                            //if (manifest.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
-                            //{
-                            //    Loader.StopLoading();
-                            //    manifest.BarcodeItems = Barcodes.ToList();
-                            //    await _navigationService.NavigateAsync(new Uri("ManifestDetailView", UriKind.Relative), new NavigationParameters
-                            //    {
-                            //        { "manifest", manifest },{ "Contents", Contents }
-                            //    }, useModalNavigation: true, animated: false);
-                            //}
-                            //else
-                            //{
-                            //    Loader.StopLoading();
-                            //} 
-                            #endregion
-
-                            try
+                            var current = Connectivity.NetworkAccess;
+                            if (current == NetworkAccess.Internet)
                             {
-                                AddorUpdateManifestOffline(manifestPostModel,false);
+                                var result = await _moveService.PostManifestAsync(manifestPostModel, AppSettings.SessionId, Configuration.NewManifest);
+
+                                try
+                                {
+                                    AddorUpdateManifestOffline(manifestPostModel, false);
+                                }
+                                catch (Exception ex)
+                                {
+                                    Crashes.TrackError(ex);
+                                }
+                                await GetPostedManifestDetail();
                             }
-                            catch (Exception ex)
+                            else
                             {
-                                Crashes.TrackError(ex);
+                                try
+                                {
+                                    AddorUpdateManifestOffline(manifestPostModel, true);
+                                }
+                                catch (Exception ex)
+                                {
+                                    Crashes.TrackError(ex);
+                                }
+                                await GetPostedManifestDetail();
                             }
-                            await GetPostedManifestDetail();
                         }
-                        else
+                        catch (Exception ex)
                         {
-                            try
-                            {
-                                AddorUpdateManifestOffline(manifestPostModel,true);
-                            }
-                            catch (Exception ex)
-                            {
-                                Crashes.TrackError(ex);
-                            }
-                            await GetPostedManifestDetail();
+                            Crashes.TrackError(ex);
+                        }
+                        finally
+                        {
+                            manifestPostModel = null;
+                            Cleanup();
                         }
                     }
-                    catch (Exception ex)
-                    {
-                        Crashes.TrackError(ex);
-                    }
-                    finally
-                    {
-                        manifestPostModel = null;
-                        Cleanup();
-                    }
+                    else
+                        await _dialogService.DisplayAlertAsync("Alert", "Something goes wrong please check again", "Ok");
                 }
-                else
-                    await _dialogService.DisplayAlertAsync("Alert", "Something goes wrong please check again", "Ok");
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
-            finally
-            {
-                Loader.StopLoading();
+                catch (Exception ex)
+                {
+                    Crashes.TrackError(ex);
+                }
+                finally
+                {
+                    Loader.StopLoading();
+                }
             }
         }
 
@@ -514,56 +502,72 @@ namespace KegID.ViewModel
 
         private async void SaveDraftCommandRecieverAsync()
         {
-            ManifestModel manifestModel = null;
-
             try
             {
-                manifestModel = GenerateManifest();
-                if (manifestModel != null)
+                Loader.StartLoading();
+                var location = await _geolocationService.OnGetCurrentLocationAsync();
+                if (location != null)
                 {
-                    Loader.StartLoading();
-                    manifestModel.IsDraft = true;
-                    var isNew = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).Find<ManifestModel>(manifestModel.ManifestId);
-                    if (isNew != null)
+                    ManifestModel manifestModel = null;
+                    try
                     {
-                        try
+                        manifestModel = GenerateManifest(location);
+                        if (manifestModel != null)
                         {
-                            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                            RealmDb.Write(() =>
-                            {
-                                RealmDb.Add(manifestModel, update: true);
-                            });
-                        }
-                        catch (Exception ex)
-                        {
-                            Crashes.TrackError(ex);
-                        }
-                    }
-                    else
-                    {
-                        try
-                        {
-                            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                            RealmDb.Write(() =>
-                           {
-                               RealmDb.Add(manifestModel);
-                           });
-                        }
-                        catch (Exception ex)
-                        {
-                            Crashes.TrackError(ex);
-                        }
-                    }
 
-                    Loader.StopLoading();
-                    await _navigationService.NavigateAsync(new Uri("ManifestsView", UriKind.Relative), new NavigationParameters
+                            manifestModel.IsDraft = true;
+                            var isNew = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).Find<ManifestModel>(manifestModel.ManifestId);
+                            if (isNew != null)
+                            {
+                                try
+                                {
+                                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                                    RealmDb.Write(() =>
+                                    {
+                                        RealmDb.Add(manifestModel, update: true);
+                                    });
+                                }
+                                catch (Exception ex)
+                                {
+                                    Crashes.TrackError(ex);
+                                }
+                            }
+                            else
+                            {
+                                try
+                                {
+                                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                                    RealmDb.Write(() =>
+                                   {
+                                       RealmDb.Add(manifestModel);
+                                   });
+                                }
+                                catch (Exception ex)
+                                {
+                                    Crashes.TrackError(ex);
+                                }
+                            }
+
+                            Loader.StopLoading();
+                            await _navigationService.NavigateAsync(new Uri("ManifestsView", UriKind.Relative), new NavigationParameters
                     {
                         { "LoadDraftManifestAsync", "LoadDraftManifestAsync" }
                     }, useModalNavigation: true, animated: false);
-                }
-                else
-                {
-                    await _dialogService.DisplayAlertAsync("Error", "Could not save manifest.", "Ok");
+                        }
+                        else
+                        {
+                            await _dialogService.DisplayAlertAsync("Error", "Could not save manifest.", "Ok");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Crashes.TrackError(ex);
+                    }
+                    finally
+                    {
+                        manifestModel = null;
+                        Cleanup();
+                    }
                 }
             }
             catch (Exception ex)
@@ -573,15 +577,13 @@ namespace KegID.ViewModel
             finally
             {
                 Loader.StopLoading();
-                manifestModel = null;
-                Cleanup();
             }
         }
 
-        public ManifestModel GenerateManifest()
+        public ManifestModel GenerateManifest(Xamarin.Essentials.Location location)
         {
             return _manifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.MOVE_MANIFEST, manifestId: ManifestId,
-                        barcodeCollection: ConstantManager.Barcodes ?? new List<BarcodeModel>(), tags: Tags ?? new List<Tag>(), tagsStr: TagsStr,
+                        barcodeCollection: ConstantManager.Barcodes ?? new List<BarcodeModel>(), (long)location.Latitude, (long)location.Longitude, tags: Tags ?? new List<Tag>(), tagsStr: TagsStr,
                         partnerModel: ConstantManager.Partner, newPallets: new List<NewPallet>(), batches: new List<NewBatch>(),
                         closedBatches: new List<string>(), null, validationStatus: 2, contents: Contents);
         }

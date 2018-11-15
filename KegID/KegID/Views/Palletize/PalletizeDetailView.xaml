@@ -22,6 +22,7 @@
                 x:Name="lblHome"
                 Style="{StaticResource TopButtonTitleStyle}"
                 HorizontalOptions="Start"
+                Padding="0,0,0,0"
                 Text="{Binding Resources[button_home]}"
                 Command="{Binding HomeCommand}"
                 />
@@ -38,6 +39,7 @@
                 TintColor="{StaticResource selectTextColor}"
                 HeightRequest="35"
                 x:Name="imgShare"
+                Margin="0,0,15,0"
                 HorizontalOptions="End">
 
                 <controls:TintedImage.Source>

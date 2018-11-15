@@ -16,7 +16,6 @@ using Scandit.BarcodePicker.Unified;
 using Microsoft.AppCenter.Distribute;
 using System;
 using System.Threading.Tasks;
-using Xamarin.Essentials;
 using KegID.DependencyServices;
 
 namespace KegID
@@ -145,23 +144,25 @@ namespace KegID
             containerRegistry.Register<IUuidManager, UuidManager>();
             containerRegistry.Register<ICalcCheckDigitMngr, CalcCheckDigitMngr>();
             containerRegistry.Register<IDeviceCheckInMngr, DeviceCheckInMngr>();
+            containerRegistry.Register<IGeolocationService, GeolocationService>();
         }
-        private async Task GetLocation()
-        {
-            try
-            {
-                var request = new GeolocationRequest(GeolocationAccuracy.Medium, new TimeSpan(0, 0, 30));
-                ConstantManager.Location = await Geolocation.GetLocationAsync(request);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
-        }
+
+        //private async Task GetLocation()
+        //{
+        //    try
+        //    {
+        //        var request = new GeolocationRequest(GeolocationAccuracy.Medium, new TimeSpan(0, 0, 30));
+        //        //ConstantManager.Location = await Geolocation.GetLocationAsync(request);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Crashes.TrackError(ex);
+        //    }
+        //}
 
         protected async override void OnStart()
         {
-          await  Distribute.SetEnabledAsync(true);
+            await Distribute.SetEnabledAsync(true);
             // In this example OnReleaseAvailable is a method name in same class
             Distribute.ReleaseAvailable = OnReleaseAvailable;
 
@@ -171,17 +172,17 @@ namespace KegID
                    "ios=b80b8476-04cf-4fc3-b7f7-be06ba7f2213",
                    typeof(Analytics), typeof(Crashes), typeof(Distribute));
 
-            ISyncManager _syncManager = new SyncManager();
+            SyncManager _syncManager = Container.Resolve<SyncManager>();
             _syncManager.NotifyConnectivityChanged();
 
-            var current = Connectivity.NetworkAccess;
-            if (current == NetworkAccess.Internet)
+            try
             {
-                await GetLocation();
+                GeolocationService _geolocationService = Container.Resolve<GeolocationService>();
+                await _geolocationService.OnGetCurrentLocationAsync();
             }
-            else
+            catch (Exception)
             {
-                ConstantManager.Location = await Geolocation.GetLastKnownLocationAsync();
+
             }
 
             switch (Xamarin.Forms.Device.RuntimePlatform)

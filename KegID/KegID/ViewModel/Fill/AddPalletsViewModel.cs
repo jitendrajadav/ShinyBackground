@@ -28,6 +28,8 @@ namespace KegID.ViewModel
         private readonly IMoveService _moveService;
         private readonly IManifestManager _manifestManager;
         private readonly IUuidManager _uuidManager;
+        private readonly IGeolocationService _geolocationService;
+
         public string ManifestId { get; set; }
         public NewBatch BatchModel { get; private set; }
         public string SizeButtonTitle { get; private set; }
@@ -183,7 +185,7 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public AddPalletsViewModel(IPalletizeService palletizeService, IMoveService moveService, INavigationService navigationService, IPageDialogService dialogService, IManifestManager manifestManager, IUuidManager uuidManager)
+        public AddPalletsViewModel(IPalletizeService palletizeService, IMoveService moveService, INavigationService navigationService, IPageDialogService dialogService, IManifestManager manifestManager, IUuidManager uuidManager, IGeolocationService geolocationService)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _dialogService = dialogService;
@@ -191,6 +193,7 @@ namespace KegID.ViewModel
             _moveService = moveService;
             _manifestManager = manifestManager;
             _uuidManager = uuidManager;
+            _geolocationService = geolocationService;
 
             SubmitCommand = new DelegateCommand(SubmitCommandRecieverAsync);
             FillScanCommand = new DelegateCommand(FillScanCommandRecieverAsync);
@@ -238,177 +241,168 @@ namespace KegID.ViewModel
 
         public async void SubmitCommandRecieverAsync()
         {
-            var barcodes = ConstantManager.Barcodes;
-            var tags = ConstantManager.Tags;
-            var partnerModel = ConstantManager.Partner;
-
-            if (PalletCollection.Count == 0)
-            {
-                await _dialogService.DisplayAlertAsync("Error", "Error: Please add some scans.", "Ok");
-                return;
-            }
-
-            IEnumerable<PalletModel> empty = PalletCollection.Where(x => x.Barcode.Count == 0);
-            if (empty.ToList().Count > 0)
-            {
-                string result = await _dialogService.DisplayActionSheetAsync("Error? \n Some pallets have 0 scans. Do you want to edit them or remove the empty pallets.", null, null, "Remove empties", "Edit");
-                if (result == "Remove empties")
-                {
-                    foreach (var item in empty.Reverse())
-                    {
-                        PalletCollection.Remove(item);
-                    }
-                    if (PalletCollection.Count == 0)
-                    {
-                        return;
-                    }
-                }
-                if (result == "Edit")
-                {
-                    await ItemTappedCommandRecieverAsync(empty.FirstOrDefault());
-                    return;
-                }
-            }
-
-            List<string> closedBatches = new List<string>();
-            List<NewPallet> newPallets = new List<NewPallet>();
-            NewPallet newPallet = null;
-            List<TItem> palletItems = new List<TItem>();
-            TItem palletItem = null;
-
-            foreach (var pallet in PalletCollection)
-            {
-                foreach (var item in pallet.Barcode)
-                {
-                    palletItem = new TItem
-                    {
-                        Barcode = item.Barcode,
-                        ScanDate = DateTimeOffset.UtcNow.Date,
-                        TagsStr = item.TagsStr
-                    };
-
-                    if (item.Tags != null)
-                    {
-                        foreach (var tag in item.Tags)
-                        {
-                            palletItem.Tags.Add(tag);
-                        }
-                    }
-                    palletItems.Add(palletItem);
-                }
-
-                newPallet = new NewPallet
-                {
-                    Barcode = pallet.BatchId,
-                    BuildDate = DateTimeOffset.UtcNow.Date,
-                    StockLocation = partnerModel?.PartnerId,
-                    StockLocationId = partnerModel?.PartnerId,
-                    StockLocationName = partnerModel?.FullName,
-                    OwnerId = AppSettings.CompanyId,
-                    PalletId = _uuidManager.GetUuId(),
-                    ReferenceKey = "",
-                };
-                if (tags != null)
-                {
-                    foreach (var item in tags)
-                        newPallet.Tags.Add(item);
-                }
-                foreach (var item in palletItems)
-                    newPallet.PalletItems.Add(item);
-                newPallets.Add(newPallet);
-            }
-            bool accept = await _dialogService.DisplayAlertAsync("Close batch", "Mark this batch as completed?", "Yes", "No");
-            if (accept)
-                closedBatches = PalletCollection.Select(x => x.ManifestId).ToList();
-
-            Loader.StartLoading();
-
-            ManifestModel model = null;
             try
             {
-                model = _manifestManager.GetManifestDraft(EventTypeEnum.FILL_MANIFEST, ManifestId ?? PalletCollection.FirstOrDefault().ManifestId,
-                barcodes, tags, string.Empty, partnerModel, newPallets, new List<NewBatch>(), closedBatches, null, 4);
+                var location = await _geolocationService.OnGetCurrentLocationAsync();
+                if (location != null)
+                {
+                    var barcodes = ConstantManager.Barcodes;
+                    var tags = ConstantManager.Tags;
+                    var partnerModel = ConstantManager.Partner;
+
+                    if (PalletCollection.Count == 0)
+                    {
+                        await _dialogService.DisplayAlertAsync("Error", "Error: Please add some scans.", "Ok");
+                        return;
+                    }
+
+                    IEnumerable<PalletModel> empty = PalletCollection.Where(x => x.Barcode.Count == 0);
+                    if (empty.ToList().Count > 0)
+                    {
+                        string result = await _dialogService.DisplayActionSheetAsync("Error? \n Some pallets have 0 scans. Do you want to edit them or remove the empty pallets.", null, null, "Remove empties", "Edit");
+                        if (result == "Remove empties")
+                        {
+                            foreach (var item in empty.Reverse())
+                            {
+                                PalletCollection.Remove(item);
+                            }
+                            if (PalletCollection.Count == 0)
+                            {
+                                return;
+                            }
+                        }
+                        if (result == "Edit")
+                        {
+                            await ItemTappedCommandRecieverAsync(empty.FirstOrDefault());
+                            return;
+                        }
+                    }
+
+                    List<string> closedBatches = new List<string>();
+                    List<NewPallet> newPallets = new List<NewPallet>();
+                    NewPallet newPallet = null;
+                    List<TItem> palletItems = new List<TItem>();
+                    TItem palletItem = null;
+
+                    foreach (var pallet in PalletCollection)
+                    {
+                        foreach (var item in pallet.Barcode)
+                        {
+                            palletItem = new TItem
+                            {
+                                Barcode = item.Barcode,
+                                ScanDate = DateTimeOffset.UtcNow.Date,
+                                TagsStr = item.TagsStr
+                            };
+
+                            if (item.Tags != null)
+                            {
+                                foreach (var tag in item.Tags)
+                                {
+                                    palletItem.Tags.Add(tag);
+                                }
+                            }
+                            palletItems.Add(palletItem);
+                        }
+
+                        newPallet = new NewPallet
+                        {
+                            Barcode = pallet.BatchId,
+                            BuildDate = DateTimeOffset.UtcNow.Date,
+                            StockLocation = partnerModel?.PartnerId,
+                            StockLocationId = partnerModel?.PartnerId,
+                            StockLocationName = partnerModel?.FullName,
+                            OwnerId = AppSettings.CompanyId,
+                            PalletId = _uuidManager.GetUuId(),
+                            ReferenceKey = "",
+                        };
+                        if (tags != null)
+                        {
+                            foreach (var item in tags)
+                                newPallet.Tags.Add(item);
+                        }
+                        foreach (var item in palletItems)
+                            newPallet.PalletItems.Add(item);
+                        newPallets.Add(newPallet);
+                    }
+                    bool accept = await _dialogService.DisplayAlertAsync("Close batch", "Mark this batch as completed?", "Yes", "No");
+                    if (accept)
+                        closedBatches = PalletCollection.Select(x => x.ManifestId).ToList();
+
+                    Loader.StartLoading();
+
+                    ManifestModel model = null;
+                    try
+                    {
+                        model = _manifestManager.GetManifestDraft(EventTypeEnum.FILL_MANIFEST, ManifestId ?? PalletCollection.FirstOrDefault().ManifestId,
+                        barcodes, (long)location.Latitude, (long)location.Longitude, tags, string.Empty, partnerModel, newPallets, new List<NewBatch>(), closedBatches, null, 4);
+                    }
+                    catch (Exception ex)
+                    {
+                        Crashes.TrackError(ex);
+                    }
+                    if (model != null)
+                    {
+                        try
+                        {
+                            var current = Connectivity.NetworkAccess;
+                            if (current == NetworkAccess.Internet)
+                            {
+                                var manifestPostModel = await _moveService.PostManifestAsync(model, AppSettings.SessionId, Configuration.NewManifest);
+
+                                try
+                                {
+                                    AddorUpdateManifestOffline(model, false);
+                                }
+                                catch (Exception ex)
+                                {
+                                    Crashes.TrackError(ex);
+                                }
+                                await GetPostedManifestDetail();
+                            }
+                            else
+                            {
+                                try
+                                {
+                                    AddorUpdateManifestOffline(model, true);
+                                }
+                                catch (Exception ex)
+                                {
+                                    Crashes.TrackError(ex);
+                                }
+                                await GetPostedManifestDetail();
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Crashes.TrackError(ex);
+                        }
+                        finally
+                        {
+                            model = null;
+                            barcodes = null;
+                            tags = null;
+                            partnerModel = null;
+                            closedBatches = null;
+                            newPallets = null;
+                            newPallet = null;
+                            palletItems = null;
+                            palletItem = null;
+                            Cleanup();
+                        }
+                    }
+                    else
+                        await _dialogService.DisplayAlertAsync("Alert", "Something goes wrong please check again", "Ok");
+                }
             }
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
             }
-            if (model != null)
+            finally
             {
-                try
-                {
-                    var current = Connectivity.NetworkAccess;
-                    if (current == NetworkAccess.Internet)
-                    {
-                        var manifestPostModel = await _moveService.PostManifestAsync(model, AppSettings.SessionId, Configuration.NewManifest);
-
-                        #region Old Code
-
-                        //Making call for getting detail of Posted Manifest now Offline we dont need it.
-                        //if (manifestResult.ManifestId != null)
-                        //{
-                        //    try
-                        //    {
-                        //        model.IsDraft = false;
-                        //        var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                        //        RealmDb.Write(() =>
-                        //        {
-                        //            RealmDb.Add(model, update: true);
-                        //        });
-                        //    }
-                        //    catch (Exception ex)
-                        //    {
-                        //        Crashes.TrackError(ex);
-                        //    }
-
-                        //    var manifest = await _moveService.GetManifestAsync(AppSettings.SessionId, manifestResult.ManifestId);
-
-                        #endregion
-
-                        try
-                        {
-                            AddorUpdateManifestOffline(model, false);
-                        }
-                        catch (Exception ex)
-                        {
-                            Crashes.TrackError(ex);
-                        }
-                        await GetPostedManifestDetail();
-                    }
-                    else
-                    {
-                        try
-                        {
-                            AddorUpdateManifestOffline(model, true);
-                        }
-                        catch (Exception ex)
-                        {
-                            Crashes.TrackError(ex);
-                        }
-                        await GetPostedManifestDetail();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Crashes.TrackError(ex);
-                }
-                finally
-                {
-                    Loader.StopLoading();
-                    model = null;
-                    barcodes = null;
-                    tags = null;
-                    partnerModel = null;
-                    closedBatches = null;
-                    newPallets = null;
-                    newPallet = null;
-                    palletItems = null;
-                    palletItem = null;
-                    Cleanup();
-                }
+                Loader.StopLoading();
             }
-            else
-                await _dialogService.DisplayAlertAsync("Alert", "Something goes wrong please check again", "Ok");
         }
 
         private async Task GetPostedManifestDetail()

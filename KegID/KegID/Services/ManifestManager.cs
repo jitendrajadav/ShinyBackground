@@ -9,7 +9,7 @@ namespace KegID.Services
 {
     public class ManifestManager : IManifestManager
     {
-        public ManifestModel GetManifestDraft(EventTypeEnum eventTypeEnum, string manifestId, IList<BarcodeModel> barcodeCollection,
+        public ManifestModel GetManifestDraft(EventTypeEnum eventTypeEnum, string manifestId, IList<BarcodeModel> barcodeCollection, long Latitude,long Longitude,
             List<Tag> tags, string tagsStr, PartnerModel partnerModel, List<NewPallet> newPallets, List<NewBatch> batches, List<string> closedBatches, MaintenanceModel maintenanceModel, long validationStatus, string contents = "", string size = "")
         {
             ManifestModel manifestModel = null;
@@ -46,8 +46,8 @@ namespace KegID.Services
                 {
                     ManifestId = manifestId,
                     EventTypeId = (long)eventTypeEnum,
-                    Latitude = ConstantManager.Location != null ? (long)ConstantManager.Location.Latitude : 0,
-                    Longitude = ConstantManager.Location != null ? (long)ConstantManager.Location.Longitude : 0,
+                    Latitude = Latitude,
+                    Longitude = Longitude,
                     SubmittedDate = DateTimeOffset.UtcNow.Date,
                     ShipDate = DateTimeOffset.UtcNow.Date,
 

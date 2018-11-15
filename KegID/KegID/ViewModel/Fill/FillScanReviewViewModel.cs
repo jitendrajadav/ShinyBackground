@@ -25,6 +25,7 @@ namespace KegID.ViewModel
         private readonly IUuidManager _uuidManager;
         private readonly IMoveService _moveService;
         private readonly IManifestManager _manifestManager;
+        private readonly IGeolocationService _geolocationService;
 
         public IList<BarcodeModel> Barcodes { get; set; }
         public string BatchId { get; set; }
@@ -177,13 +178,14 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public FillScanReviewViewModel(INavigationService navigationService, IUuidManager uuidManager, IPageDialogService dialogService, IMoveService moveService, IManifestManager manifestManager)
+        public FillScanReviewViewModel(INavigationService navigationService, IUuidManager uuidManager, IPageDialogService dialogService, IMoveService moveService, IManifestManager manifestManager, IGeolocationService geolocationService)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _uuidManager = uuidManager;
             _dialogService = dialogService;
             _moveService = moveService;
             _manifestManager = manifestManager;
+            _geolocationService = geolocationService;
 
             ScanCommand = new DelegateCommand(ScanCommandRecieverAsync);
             SubmitCommand = new DelegateCommand(SubmitCommandRecieverAsync);
@@ -195,24 +197,27 @@ namespace KegID.ViewModel
 
         private async void SubmitCommandRecieverAsync()
         {
-            var barcodes = ConstantManager.Barcodes;
-            var tags = ConstantManager.Tags;
-            var partnerModel = ConstantManager.Partner;
-
-            if (Barcodes.Count() == 0)
+            var location = await _geolocationService.OnGetCurrentLocationAsync();
+            if (location != null)
             {
-                await _dialogService.DisplayAlertAsync("Error", "Error: Please add some scans.", "Ok");
-                return;
-            }
+                var barcodes = ConstantManager.Barcodes;
+                var tags = ConstantManager.Tags;
+                var partnerModel = ConstantManager.Partner;
 
-            List<string> closedBatches = new List<string>();
-            List<NewPallet> newPallets = new List<NewPallet>();
-            NewPallet newPallet = null;
-            List<TItem> palletItems = new List<TItem>();
-            TItem palletItem = null;
+                if (Barcodes.Count() == 0)
+                {
+                    await _dialogService.DisplayAlertAsync("Error", "Error: Please add some scans.", "Ok");
+                    return;
+                }
 
-            foreach (var pallet in Barcodes)
-            {
+                List<string> closedBatches = new List<string>();
+                List<NewPallet> newPallets = new List<NewPallet>();
+                NewPallet newPallet = null;
+                List<TItem> palletItems = new List<TItem>();
+                TItem palletItem = null;
+
+                foreach (var pallet in Barcodes)
+                {
                     palletItem = new TItem
                     {
                         Barcode = pallet.Barcode,
@@ -229,108 +234,113 @@ namespace KegID.ViewModel
                     }
                     palletItems.Add(palletItem);
 
-                newPallet = new NewPallet
-                {
-                    Barcode = BatchId,
-                    BuildDate = DateTimeOffset.UtcNow.Date,
-                    StockLocation = partnerModel?.PartnerId,
-                    StockLocationId = partnerModel?.PartnerId,
-                    StockLocationName = partnerModel?.FullName,
-                    OwnerId = AppSettings.CompanyId,
-                    PalletId = _uuidManager.GetUuId(),
-                    ReferenceKey = "",
-                };
-                if (tags != null)
-                {
-                    foreach (var item in tags)
-                        newPallet.Tags.Add(item);
-                }
-                foreach (var item in palletItems)
-                    newPallet.PalletItems.Add(item);
-                newPallets.Add(newPallet);
-            }
-
-            Loader.StartLoading();
-
-            ManifestModel model = model = GenerateManifest();
-            if (model != null)
-            {
-                try
-                {
-                    ManifestModelGet manifestResult = await _moveService.PostManifestAsync(model, AppSettings.SessionId, Configuration.NewManifest);
-                    if (manifestResult.ManifestId != null)
+                    newPallet = new NewPallet
                     {
-                        try
-                        {
-                            model.IsDraft = false;
-                            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                            RealmDb.Write(() =>
-                            {
-                                RealmDb.Add(model, update: true);
-                            });
-                        }
-                        catch (Exception ex)
-                        {
-                            Crashes.TrackError(ex);
-                        }
+                        Barcode = BatchId,
+                        BuildDate = DateTimeOffset.UtcNow.Date,
+                        StockLocation = partnerModel?.PartnerId,
+                        StockLocationId = partnerModel?.PartnerId,
+                        StockLocationName = partnerModel?.FullName,
+                        OwnerId = AppSettings.CompanyId,
+                        PalletId = _uuidManager.GetUuId(),
+                        ReferenceKey = "",
+                    };
+                    if (tags != null)
+                    {
+                        foreach (var item in tags)
+                            newPallet.Tags.Add(item);
+                    }
+                    foreach (var item in palletItems)
+                        newPallet.PalletItems.Add(item);
+                    newPallets.Add(newPallet);
+                }
 
-                        var manifest = await _moveService.GetManifestAsync(AppSettings.SessionId, manifestResult.ManifestId);
-                        string contents = string.Empty;
-                        try
-                        {
-                            contents = ConstantManager.Tags.Count > 2 ? ConstantManager.Tags?[2]?.Value ?? string.Empty : string.Empty;
-                        }
-                        catch (Exception ex)
-                        {
-                            Crashes.TrackError(ex);
-                        }
-                        if (string.IsNullOrEmpty(contents))
+                Loader.StartLoading();
+
+                ManifestModel model = model = GenerateManifest(location);
+                if (model != null)
+                {
+                    try
+                    {
+                        ManifestModelGet manifestResult = await _moveService.PostManifestAsync(model, AppSettings.SessionId, Configuration.NewManifest);
+                        if (manifestResult.ManifestId != null)
                         {
                             try
                             {
-                                contents = ConstantManager.Tags.Count > 3 ? ConstantManager.Tags?[3]?.Value ?? string.Empty : string.Empty;
+                                model.IsDraft = false;
+                                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                                RealmDb.Write(() =>
+                                {
+                                    RealmDb.Add(model, update: true);
+                                });
                             }
                             catch (Exception ex)
                             {
                                 Crashes.TrackError(ex);
                             }
-                        }
-                        if (manifest.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
-                        {
-                            Loader.StopLoading();
-                            await _navigationService.NavigateAsync(new Uri("ManifestDetailView", UriKind.Relative), new NavigationParameters
+
+                            var manifest = await _moveService.GetManifestAsync(AppSettings.SessionId, manifestResult.ManifestId);
+                            string contents = string.Empty;
+                            try
+                            {
+                                contents = ConstantManager.Tags.Count > 2 ? ConstantManager.Tags?[2]?.Value ?? string.Empty : string.Empty;
+                            }
+                            catch (Exception ex)
+                            {
+                                Crashes.TrackError(ex);
+                            }
+                            if (string.IsNullOrEmpty(contents))
+                            {
+                                try
+                                {
+                                    contents = ConstantManager.Tags.Count > 3 ? ConstantManager.Tags?[3]?.Value ?? string.Empty : string.Empty;
+                                }
+                                catch (Exception ex)
+                                {
+                                    Crashes.TrackError(ex);
+                                }
+                            }
+                            if (manifest.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
+                            {
+                                Loader.StopLoading();
+                                await _navigationService.NavigateAsync(new Uri("ManifestDetailView", UriKind.Relative), new NavigationParameters
                             {
                                 { "manifest", manifest },{ "Contents", contents }
                             }, useModalNavigation: true, animated: false);
+                            }
                         }
                     }
+                    catch (Exception ex)
+                    {
+                        Crashes.TrackError(ex);
+                    }
+                    finally
+                    {
+                        Loader.StopLoading();
+                        model = null;
+                        barcodes = null;
+                        tags = null;
+                        partnerModel = null;
+                        closedBatches = null;
+                        newPallets = null;
+                        newPallet = null;
+                        palletItems = null;
+                        Cleanup();
+                    }
                 }
-                catch (Exception ex)
-                {
-                    Crashes.TrackError(ex);
-                }
-                finally
-                {
-                    Loader.StopLoading();
-                    model = null;
-                    barcodes = null;
-                    tags = null;
-                    partnerModel = null;
-                    closedBatches = null;
-                    newPallets = null;
-                    newPallet = null;
-                    palletItems = null;
-                    Cleanup();
-                }
+                else
+                    await _dialogService.DisplayAlertAsync("Alert", "Something goes wrong please check again", "Ok");
             }
-            else
-                await _dialogService.DisplayAlertAsync("Alert", "Something goes wrong please check again", "Ok");
+            //else
+            //{
+            //    await _dialogService.DisplayAlertAsync("Alert", "Something goes wrong please check again", "Ok");
+            //}
         }
 
-        public ManifestModel GenerateManifest()
+        public ManifestModel GenerateManifest(Xamarin.Essentials.Location location)
         {
             return _manifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.FILL_MANIFEST, manifestId: TrackingNumber,
-                        barcodeCollection: ConstantManager.Barcodes ?? new List<BarcodeModel>(), tags:  new List<Tag>(), tagsStr: default,
+                        barcodeCollection: ConstantManager.Barcodes ?? new List<BarcodeModel>(), (long)location.Latitude, (long)location.Longitude, tags:  new List<Tag>(), tagsStr: default,
                         partnerModel: ConstantManager.Partner, newPallets: new List<NewPallet>(), batches: new List<NewBatch>(),
                         closedBatches: new List<string>(),null, validationStatus: 4, contents: Contents);
         }
