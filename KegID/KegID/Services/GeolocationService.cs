@@ -6,7 +6,6 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
-using Xamarin.Forms;
 
 namespace KegID.Services
 {
@@ -18,6 +17,7 @@ namespace KegID.Services
         int accuracy = (int)GeolocationAccuracy.Medium;
         CancellationTokenSource cts;
         private readonly IPageDialogService _dialogService;
+        public Location location = null;
 
         public GeolocationService(IPageDialogService dialogService)
         {
@@ -71,23 +71,21 @@ namespace KegID.Services
             try
             {
                 var request = new GeolocationRequest((GeolocationAccuracy)Accuracy);
-                cts = new CancellationTokenSource();
+                cts = new CancellationTokenSource(10000);
                 location = await Geolocation.GetLocationAsync(request, cts.Token);
                 CurrentLocation = FormatLocation(location);
             }
             catch (FeatureNotSupportedException)
             {
-                // Handle not supported on device exception
             }
-            catch (PermissionException pEx)
+            catch (PermissionException)
             {
-                // Handle permission exception
-                await _dialogService.DisplayAlertAsync("Warning", pEx.Message + " Please quit app and restart app it will ask you permission allow it.", "Ok");
+                location = new Location(0, 0);
             }
             catch (FeatureNotEnabledException fNEx)
             {
-                // Connection Exceptions and issues are caught here
-                await _dialogService.DisplayAlertAsync("Warning", fNEx.Message + " Please enable location Service and try again", "Ok");
+                location = null;
+                throw fNEx;
             }
             catch (Exception ex)
             {
@@ -116,6 +114,24 @@ namespace KegID.Services
             return location;
         }
 
+        public async Task<Location> GetLastLocationAsync()
+        {
+            if (location != null)
+                return location;
+            else
+            {
+                try
+                {
+                    location = await OnGetCurrentLocationAsync();
+                }
+                catch (Exception ex)
+                {
+                    await _dialogService.DisplayAlertAsync("Warning", ex.Message + " Please enable location Service and try again", "Ok");
+                }
+                return location;
+            }
+        }
+
         string FormatLocation(Location location, Exception ex = null)
         {
             if (location == null)
@@ -132,6 +148,15 @@ namespace KegID.Services
                 $"Speed: {(location.Speed.HasValue ? location.Speed.Value.ToString() : notAvailable)}\n" +
                 $"Date (UTC): {location.Timestamp:d}\n" +
                 $"Time (UTC): {location.Timestamp:T}";
+        }
+
+        public async Task InitCurrentLocationAsync()
+        {
+            try
+            {
+                location = await OnGetCurrentLocationAsync();
+            }
+            catch { }
         }
     }
 }

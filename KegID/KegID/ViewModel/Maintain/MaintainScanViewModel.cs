@@ -427,60 +427,70 @@ namespace KegID.ViewModel
 
         public async void SubmitCommandRecieverAsync()
         {
-            var location = await _geolocationService.OnGetCurrentLocationAsync();
-            if (location != null)
+            try
             {
-                ManifestModel manifestPostModel = null;
+                Loader.StartLoading();
 
-                var result = BarcodeCollection.Where(x => x?.Kegs?.Partners?.Count > 1).ToList();
-                if (result?.Count > 0)
-                    await NavigateToValidatePartner(result.ToList());
-
-                else
+                var location = await _geolocationService.GetLastLocationAsync();
+                if (location != null)
                 {
-                    try
-                    {
-                        Loader.StartLoading();
+                    ManifestModel manifestPostModel = null;
 
-                        manifestPostModel = GenerateManifest(location, ManifestId);
+                    var result = BarcodeCollection.Where(x => x?.Kegs?.Partners?.Count > 1).ToList();
+                    if (result?.Count > 0)
+                        await NavigateToValidatePartner(result.ToList());
 
-                        var current = Connectivity.NetworkAccess;
-                        if (current == NetworkAccess.Internet)
-                        {
-                            KegIDResponse kegIDResponse = await _maintainService.PostMaintenanceDoneAsync(manifestPostModel.MaintenanceModels.MaintenanceDoneRequestModel, AppSettings.SessionId, Configuration.PostedMaintenanceDone);
-                            try
-                            {
-                                AddorUpdateManifestOffline(manifestPostModel, false);
-                            }
-                            catch (Exception ex)
-                            {
-                                Crashes.TrackError(ex);
-                            }
-                            await GetPostedManifestDetail();
-                        }
-                        else
-                        {
-                            try
-                            {
-                                AddorUpdateManifestOffline(manifestPostModel, true);
-                            }
-                            catch (Exception ex)
-                            {
-                                Crashes.TrackError(ex);
-                            }
-                            await GetPostedManifestDetail();
-                        }
-                    }
-                    catch (Exception ex)
+                    else
                     {
-                        Crashes.TrackError(ex);
-                    }
-                    finally
-                    {
-                        Loader.StopLoading();
-                        Cleanup();
+                        try
+                        {
+                            manifestPostModel = GenerateManifest(location, ManifestId);
+
+                            var current = Connectivity.NetworkAccess;
+                            if (current == NetworkAccess.Internet)
+                            {
+                                KegIDResponse kegIDResponse = await _maintainService.PostMaintenanceDoneAsync(manifestPostModel.MaintenanceModels.MaintenanceDoneRequestModel, AppSettings.SessionId, Configuration.PostedMaintenanceDone);
+                                try
+                                {
+                                    AddorUpdateManifestOffline(manifestPostModel, false);
+                                }
+                                catch (Exception ex)
+                                {
+                                    Crashes.TrackError(ex);
+                                }
+                                await GetPostedManifestDetail();
+                            }
+                            else
+                            {
+                                try
+                                {
+                                    AddorUpdateManifestOffline(manifestPostModel, true);
+                                }
+                                catch (Exception ex)
+                                {
+                                    Crashes.TrackError(ex);
+                                }
+                                await GetPostedManifestDetail();
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Crashes.TrackError(ex);
+                        }
+                        finally
+                        {
+                            Cleanup();
+                        }
                     }
                 }
+            }
+            catch (Exception)
+            {
+
+            }
+            finally
+            {
+                Loader.StopLoading();
             }
         }
 

@@ -694,42 +694,6 @@ namespace KegID.ViewModel
                         MessagingCenter.Send(message, "StartLongRunningTaskMessage");
                     }
 
-                    #region Old Code
-                    //else
-                    //{
-                    //    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                    //    var manifestModel = RealmDb.Find<ManifestModel>(ConstantManager.ManifestId);
-                    //    try
-                    //    {
-                    //        if (manifestModel != null)
-                    //        {
-                    //            await RealmDb.WriteAsync((realmDb) =>
-                    //            {
-                    //                manifestModel.BarcodeModels.Add(model);
-                    //                realmDb.Add(manifestModel, true);
-                    //            });
-                    //        }
-                    //        else
-                    //        {
-                    //            //ManifestModel manifestModel = _manifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.MOVE_MANIFEST,
-                    //            //                                manifestId: ConstantManager.ManifestId, barcodeCollection: BarcodeCollection.Where(t => t.IsScanned == false).ToList(), tags: ConstantManager.Tags,
-                    //            //                                TagsStr, partnerModel: ConstantManager.Partner, newPallets: new List<NewPallet>(),
-                    //            //                                batches: new List<NewBatch>(), closedBatches: new List<string>(), validationStatus: 2, contents: SelectedBrand?.BrandName);
-
-                    //            manifestModel.IsQueue = true;
-                    //            RealmDb.Write(() =>
-                    //            {
-                    //                RealmDb.Add(manifestModel, true);
-                    //            });
-                    //        }
-                    //    }
-                    //    catch (Exception ex)
-                    //    {
-                    //        Crashes.TrackError(ex);
-                    //    }
-                    //} 
-                    #endregion
-
                     ManaulBarcode = string.Empty;
                 }
             }
@@ -743,21 +707,35 @@ namespace KegID.ViewModel
         {
             try
             {
-                var result = BarcodeCollection.Where(x => x.Kegs.Partners.Count > 1).ToList();
-                if (result.Count > 0)
-                    await NavigateToValidatePartner(result.ToList());
+                var current = Connectivity.NetworkAccess;
+                if (current == NetworkAccess.Internet)
+                {
+                    var result = BarcodeCollection.Where(x => x.Kegs.Partners.Count > 1).ToList();
+                    if (result.Count > 0)
+                        await NavigateToValidatePartner(result.ToList());
+                    else
+                    {
+                        await NavigateToFillScanReview();
+                    }
+                }
                 else
                 {
-                    await _navigationService.NavigateAsync(new Uri("FillScanReviewView", UriKind.Relative), new NavigationParameters
-                    {
-                        { "BatchId", BatchId },{ "BarcodeCollection", BarcodeCollection }
-                    }, useModalNavigation: true, animated: false);
+                    await NavigateToFillScanReview();
                 }
             }
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
             }
+        }
+
+        private async Task NavigateToFillScanReview()
+        {
+            await _navigationService.NavigateAsync(new Uri("FillScanReviewView", UriKind.Relative),
+                                        new NavigationParameters
+                                        {
+                                { "BatchId", BatchId },{ "BarcodeCollection", BarcodeCollection }
+                                        }, useModalNavigation: true, animated: false);
         }
 
         private void IsPalletVisibleCommandReciever()

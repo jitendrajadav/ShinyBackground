@@ -173,7 +173,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string DestinationTitlePropertyName = "DestinationTitle";
 
-        private string _DestinationTitle = "Barcode Brewing";
+        private string _DestinationTitle = "Select destination";
 
         /// <summary>
         /// Sets and gets the DestinationTitle property.
@@ -194,6 +194,7 @@ namespace KegID.ViewModel
                 }
 
                 _DestinationTitle = value;
+                IsDestinationRequiredVisible = false;
                 RaisePropertyChanged(DestinationTitlePropertyName);
             }
         }
@@ -304,6 +305,40 @@ namespace KegID.ViewModel
 
         #endregion
 
+        #region IsDestinationRequiredVisible
+
+        /// <summary>
+        /// The <see cref="IsDestinationRequiredVisible" /> property's name.
+        /// </summary>
+        public const string IsDestinationRequiredVisiblePropertyName = "IsDestinationRequiredVisible";
+
+        private bool _IsDestinationRequiredVisible = true;
+
+        /// <summary>
+        /// Sets and gets the IsDestinationRequiredVisible property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public bool IsDestinationRequiredVisible
+        {
+            get
+            {
+                return _IsDestinationRequiredVisible;
+            }
+
+            set
+            {
+                if (_IsDestinationRequiredVisible == value)
+                {
+                    return;
+                }
+
+                _IsDestinationRequiredVisible = value;
+                RaisePropertyChanged(IsDestinationRequiredVisiblePropertyName);
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Commands
@@ -362,72 +397,83 @@ namespace KegID.ViewModel
 
         private async void SaveDraftCommandRecieverAsync()
         {
-            var location = await _geolocationService.OnGetCurrentLocationAsync();
-            if (location != null)
+            try
             {
-                ManifestModel manifestModel = null;
-
-                try
+                Loader.StartLoading();
+                var location = await _geolocationService.GetLastLocationAsync();
+                if (location != null)
                 {
-                    manifestModel = GenerateManifest(PalletCollection ?? new List<PalletModel>(), location);
-                    if (manifestModel != null)
-                    {
-                        Loader.StartLoading();
-                        manifestModel.IsDraft = true;
-                        var isNew = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).Find<ManifestModel>(manifestModel.ManifestId);
-                        if (isNew != null)
-                        {
-                            try
-                            {
+                    ManifestModel manifestModel = null;
 
-                                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                                RealmDb.Write(() =>
-                                {
-                                    RealmDb.Add(manifestModel, update: true);
-                                });
-                            }
-                            catch (Exception ex)
+                    try
+                    {
+                        manifestModel = GenerateManifest(PalletCollection ?? new List<PalletModel>(), location);
+                        if (manifestModel != null)
+                        {
+
+                            manifestModel.IsDraft = true;
+                            var isNew = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).Find<ManifestModel>(manifestModel.ManifestId);
+                            if (isNew != null)
                             {
-                                Crashes.TrackError(ex);
+                                try
+                                {
+                                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                                    RealmDb.Write(() =>
+                                    {
+                                        RealmDb.Add(manifestModel, update: true);
+                                    });
+                                }
+                                catch (Exception ex)
+                                {
+                                    Crashes.TrackError(ex);
+                                }
                             }
+                            else
+                            {
+                                try
+                                {
+                                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                                    RealmDb.Write(() =>
+                                    {
+                                        RealmDb.Add(manifestModel);
+                                    });
+                                }
+                                catch (Exception ex)
+                                {
+                                    Crashes.TrackError(ex);
+                                }
+                            }
+
+                            Loader.StopLoading();
+                            await _navigationService.NavigateAsync(new Uri("ManifestsView", UriKind.Relative), 
+                                new NavigationParameters
+                                {
+                                    { "LoadDraftManifestAsync", "LoadDraftManifestAsync" }
+                                }, useModalNavigation: true, animated: false);
                         }
                         else
                         {
-                            try
-                            {
-                                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                                RealmDb.Write(() =>
-                                {
-                                    RealmDb.Add(manifestModel);
-                                });
-                            }
-                            catch (Exception ex)
-                            {
-                                Crashes.TrackError(ex);
-                            }
+                            await _dialogService.DisplayAlertAsync("Error", "Could not save manifest.", "Ok");
                         }
+                    }
+                    catch (Exception ex)
+                    {
+                        Crashes.TrackError(ex);
+                    }
+                    finally
+                    {
+                        manifestModel = null;
+                        Cleanup();
+                    }
+                }
+            }
+            catch (Exception)
+            {
 
-                        Loader.StopLoading();
-                        await _navigationService.NavigateAsync(new Uri("ManifestsView", UriKind.Relative), new NavigationParameters
-                    {
-                        { "LoadDraftManifestAsync", "LoadDraftManifestAsync" }
-                    }, useModalNavigation: true, animated: false);
-                    }
-                    else
-                    {
-                        await _dialogService.DisplayAlertAsync("Error", "Could not save manifest.", "Ok");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Crashes.TrackError(ex);
-                }
-                finally
-                {
-                    Loader.StopLoading();
-                    manifestModel = null;
-                    Cleanup();
-                }
+            }
+            finally
+            {
+                Loader.StopLoading();
             }
         }
 
@@ -522,13 +568,15 @@ namespace KegID.ViewModel
             {
                 Crashes.TrackError(ex);
             }
+            ConstantManager.Barcodes.Clear();
+            PalletCollection.Clear();
         }
 
         private async void NextCommandRecieverAsync()
         {
             try
             {
-                if (!BatchButtonTitle.Contains("Select batch"))
+                if (!BatchButtonTitle.Contains("Select batch") && !DestinationTitle.Contains("Select destination"))
                 {
                     if (IsPalletze)
                     {
@@ -558,7 +606,7 @@ namespace KegID.ViewModel
                 }
                 else
                 {
-                    await _dialogService.DisplayAlertAsync("Error", "Batch is required.", "Ok");
+                    await _dialogService.DisplayAlertAsync("Error", "Batch and destination is required please select it.", "Ok");
                 }
             }
             catch (Exception ex)

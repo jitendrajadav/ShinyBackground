@@ -46,7 +46,6 @@
                                 ErrorPlaceholder="error.png">
                                 <ffimageloading:CachedImage.LoadingPlaceholder>
                                     <OnPlatform x:TypeArguments="ImageSource">
-                                        <On Platform="UWP">Assets/loadingplaceholder.png</On>
                                         <On Platform="Android, iOS">loadingplaceholder.png</On>
                                     </OnPlatform>
                                 </ffimageloading:CachedImage.LoadingPlaceholder>

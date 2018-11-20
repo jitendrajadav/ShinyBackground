@@ -43,4 +43,8 @@ namespace KegID.Messages
         public bool IsInvalidCall { get; set; }
     }
 
+    public class CheckDraftmaniFests
+    {
+        public bool IsCheckDraft { get; set; }
+    }
 }

@@ -24,7 +24,6 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        //private readonly ISyncManager _syncManager;
         private readonly IDeviceCheckInMngr _deviceCheckInMngr;
         private readonly IInitializeMetaData _initializeMetaData;
         private readonly INavigationService _navigationService;
@@ -314,7 +313,6 @@ namespace KegID.ViewModel
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
 
-            //_syncManager = syncManager;
             _deviceCheckInMngr = deviceCheckInMngr;
             _initializeMetaData = initializeMetaData;
             _dashboardService = dashboardService;
@@ -334,7 +332,6 @@ namespace KegID.ViewModel
             KegsCommand = new DelegateCommand(KegsCommandRecieverAsync);
             InUsePartnerCommand = new DelegateCommand(InUsePartnerCommandRecieverAsync);
 
-            //_syncManager.NotifyConnectivityChanged();
             DeviceCheckIn();
             LoadMetadData();
             HandleUnsubscribeMessages();
@@ -347,14 +344,13 @@ namespace KegID.ViewModel
             Connectivity.ConnectivityChanged += Connectivity_ConnectivityChanged;
         }
 
+        #endregion
+
+        #region Methods
         private void Connectivity_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
         {
             CheckDraftmaniFestsAsync();
         }
-
-        #endregion
-
-        #region Methods
 
         private async void LoadMetadData()
         {
@@ -454,6 +450,7 @@ namespace KegID.ViewModel
         {
             MessagingCenter.Unsubscribe<SettingToDashboardMsg>(this, "SettingToDashboardMsg");
             MessagingCenter.Unsubscribe<InvalidServiceCall>(this, "InvalidServiceCall");
+            MessagingCenter.Unsubscribe<CheckDraftmaniFests>(this, "CheckDraftmaniFests");
         }
 
         private void HandleReceivedMessages()
@@ -474,6 +471,13 @@ namespace KegID.ViewModel
                 Device.BeginInvokeOnMainThread(() =>
                 {
                     RefreshDashboardRecieverAsync(true);
+                });
+            });
+
+            MessagingCenter.Subscribe<CheckDraftmaniFests>(this, "CheckDraftmaniFests", message => {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    CheckDraftmaniFestsAsync();
                 });
             });
         }

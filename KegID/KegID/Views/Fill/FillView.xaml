@@ -143,6 +143,15 @@
                     Command="{Binding DestinationCommand}"
                     />
 
+                <Label
+                    AutomationId="requiredDestinationLabel"
+                    IsVisible="{Binding IsDestinationRequiredVisible}"
+                    Style="{StaticResource LabelNormalStyle}"
+                    Grid.Row="8"
+                    HorizontalOptions="End"
+                    Text="(required)"
+                    TextColor="{StaticResource lightGrayColor}"/>
+
                 <BoxView
                     AutomationId="lineSeperator3"
                     Grid.Row="9"

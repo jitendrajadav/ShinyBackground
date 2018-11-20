@@ -147,19 +147,6 @@ namespace KegID
             containerRegistry.Register<IGeolocationService, GeolocationService>();
         }
 
-        //private async Task GetLocation()
-        //{
-        //    try
-        //    {
-        //        var request = new GeolocationRequest(GeolocationAccuracy.Medium, new TimeSpan(0, 0, 30));
-        //        //ConstantManager.Location = await Geolocation.GetLocationAsync(request);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Crashes.TrackError(ex);
-        //    }
-        //}
-
         protected async override void OnStart()
         {
             await Distribute.SetEnabledAsync(true);
@@ -172,18 +159,15 @@ namespace KegID
                    "ios=b80b8476-04cf-4fc3-b7f7-be06ba7f2213",
                    typeof(Analytics), typeof(Crashes), typeof(Distribute));
 
-            SyncManager _syncManager = Container.Resolve<SyncManager>();
+            var _syncManager = Container.Resolve<SyncManager>();
             _syncManager.NotifyConnectivityChanged();
 
             try
             {
-                GeolocationService _geolocationService = Container.Resolve<GeolocationService>();
-                await _geolocationService.OnGetCurrentLocationAsync();
+                var _geolocationService = Container.Resolve<GeolocationService>();
+                await _geolocationService.InitCurrentLocationAsync();
             }
-            catch (Exception)
-            {
-
-            }
+            catch { }
 
             switch (Xamarin.Forms.Device.RuntimePlatform)
             {

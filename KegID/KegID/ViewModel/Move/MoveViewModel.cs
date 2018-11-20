@@ -342,68 +342,73 @@ namespace KegID.ViewModel
 
         private async void SubmitCommandRecieverAsync()
         {
-            var location = await _geolocationService.OnGetCurrentLocationAsync();
-            if (location != null)
+            try
             {
-                ManifestModel manifestPostModel = null;
-                try
+                Loader.StartLoading();
+                var location = await _geolocationService.GetLastLocationAsync();
+                if (location != null)
                 {
-                    Loader.StartLoading();
-
-                    manifestPostModel = GenerateManifest(location);
-                    if (manifestPostModel != null)
+                    ManifestModel manifestPostModel = null;
+                    try
                     {
-                        try
+                        manifestPostModel = GenerateManifest(location);
+                        if (manifestPostModel != null)
                         {
-                            var current = Connectivity.NetworkAccess;
-                            if (current == NetworkAccess.Internet)
+                            try
                             {
-                                var result = await _moveService.PostManifestAsync(manifestPostModel, AppSettings.SessionId, Configuration.NewManifest);
+                                var current = Connectivity.NetworkAccess;
+                                if (current == NetworkAccess.Internet)
+                                {
+                                    var result = await _moveService.PostManifestAsync(manifestPostModel, AppSettings.SessionId, Configuration.NewManifest);
 
-                                try
-                                {
-                                    AddorUpdateManifestOffline(manifestPostModel, false);
+                                    try
+                                    {
+                                        AddorUpdateManifestOffline(manifestPostModel, false);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Crashes.TrackError(ex);
+                                    }
+                                    await GetPostedManifestDetail();
                                 }
-                                catch (Exception ex)
+                                else
                                 {
-                                    Crashes.TrackError(ex);
+                                    try
+                                    {
+                                        AddorUpdateManifestOffline(manifestPostModel, true);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Crashes.TrackError(ex);
+                                    }
+                                    await GetPostedManifestDetail();
                                 }
-                                await GetPostedManifestDetail();
                             }
-                            else
+                            catch (Exception ex)
                             {
-                                try
-                                {
-                                    AddorUpdateManifestOffline(manifestPostModel, true);
-                                }
-                                catch (Exception ex)
-                                {
-                                    Crashes.TrackError(ex);
-                                }
-                                await GetPostedManifestDetail();
+                                Crashes.TrackError(ex);
+                            }
+                            finally
+                            {
+                                manifestPostModel = null;
+                                Cleanup();
                             }
                         }
-                        catch (Exception ex)
-                        {
-                            Crashes.TrackError(ex);
-                        }
-                        finally
-                        {
-                            manifestPostModel = null;
-                            Cleanup();
-                        }
+                        else
+                            await _dialogService.DisplayAlertAsync("Alert", "Something goes wrong please check again", "Ok");
                     }
-                    else
-                        await _dialogService.DisplayAlertAsync("Alert", "Something goes wrong please check again", "Ok");
+                    catch (Exception ex)
+                    {
+                        Crashes.TrackError(ex);
+                    }
                 }
-                catch (Exception ex)
-                {
-                    Crashes.TrackError(ex);
-                }
-                finally
-                {
-                    Loader.StopLoading();
-                }
+            }
+            catch (Exception)
+            {
+            }
+            finally
+            {
+                Loader.StopLoading();
             }
         }
 
@@ -505,7 +510,7 @@ namespace KegID.ViewModel
             try
             {
                 Loader.StartLoading();
-                var location = await _geolocationService.OnGetCurrentLocationAsync();
+                var location = await _geolocationService.GetLastLocationAsync();
                 if (location != null)
                 {
                     ManifestModel manifestModel = null;
@@ -549,10 +554,11 @@ namespace KegID.ViewModel
                             }
 
                             Loader.StopLoading();
-                            await _navigationService.NavigateAsync(new Uri("ManifestsView", UriKind.Relative), new NavigationParameters
-                    {
-                        { "LoadDraftManifestAsync", "LoadDraftManifestAsync" }
-                    }, useModalNavigation: true, animated: false);
+                            await _navigationService.NavigateAsync(new Uri("ManifestsView", UriKind.Relative), 
+                                new NavigationParameters
+                                {
+                                    { "LoadDraftManifestAsync", "LoadDraftManifestAsync" }
+                                }, useModalNavigation: true, animated: false);
                         }
                         else
                         {

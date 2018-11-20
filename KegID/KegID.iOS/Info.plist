@@ -23,7 +23,7 @@
 	<key>MinimumOSVersion</key>
 	<string>8.0</string>
 	<key>CFBundleDisplayName</key>
-	<string>KegID</string>
+	<string>KegIDXBeta</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.Slg.KegIDXBeta</string>
 	<key>CFBundleVersion</key>

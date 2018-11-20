@@ -243,7 +243,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                var location = await _geolocationService.OnGetCurrentLocationAsync();
+                var location = await _geolocationService.GetLastLocationAsync();
                 if (location != null)
                 {
                     var barcodes = ConstantManager.Barcodes;
@@ -325,12 +325,12 @@ namespace KegID.ViewModel
                             newPallet.PalletItems.Add(item);
                         newPallets.Add(newPallet);
                     }
+
                     bool accept = await _dialogService.DisplayAlertAsync("Close batch", "Mark this batch as completed?", "Yes", "No");
                     if (accept)
                         closedBatches = PalletCollection.Select(x => x.ManifestId).ToList();
 
                     Loader.StartLoading();
-
                     ManifestModel model = null;
                     try
                     {

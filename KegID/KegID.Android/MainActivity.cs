@@ -1,11 +1,9 @@
 ﻿using Acr.UserDialogs;
-using Android;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
-using Android.Support.V4.App;
 using Android.Views;
 using CarouselView.FormsPlugin.Android;
 using KegID.Droid.Services;
@@ -16,7 +14,6 @@ using Plugin.CurrentActivity;
 using Prism;
 using Prism.Ioc;
 using System;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace KegID.Droid
@@ -26,19 +23,9 @@ namespace KegID.Droid
     {
         private static Activity myActivity;
 
-        //// Storage Permissions
-        //private static readonly int REQUEST_EXTERNAL_STORAGE = 1;
-        //private static readonly string[] PERMISSIONS_STORAGE =
-        //    {
-        //        Manifest.Permission.ReadExternalStorage,
-        //        Manifest.Permission.WriteExternalStorage
-        //    };
         protected override void OnCreate(Bundle bundle)
         {
             base.Window.RequestFeature(WindowFeatures.ActionBar);
-            // Name of the MainActivity theme you had there before.
-            // Or you can use global::Android.Resource.Style.ThemeHoloLight
-            //base.SetTheme(Resource.Style.MainTheme);
 
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
@@ -52,7 +39,14 @@ namespace KegID.Droid
             UserDialogs.Init(this);
             CarouselViewRenderer.Init();
             Rg.Plugins.Popup.Popup.Init(this, bundle);
-            FFImageLoading.Forms.Platform.CachedImageRenderer.Init(true);
+            try
+            {
+                FFImageLoading.Forms.Platform.CachedImageRenderer.Init(true);
+            }
+            catch (Exception)
+            {
+
+            }
             Xamarin.FormsMaps.Init(this, bundle);
             TintedImageRenderer.Init();
             Xamarin.Essentials.Platform.Init(this, bundle);
@@ -88,32 +82,6 @@ namespace KegID.Droid
                 StopService(intent);
             });
         }
-
-        protected override void OnStart()
-        {
-            base.OnStart();
-            //bool resutl = await VerifyStoragePermissions();
-        }
-
-        //public Task<bool> VerifyStoragePermissions()
-        //{
-        //    // Check if we have write permission
-        //    Permission permission = Android.Support.V4.Content.ContextCompat.CheckSelfPermission(CrossCurrentActivity.Current.AppContext, Manifest.Permission.WriteExternalStorage);
-
-        //    if (permission != Permission.Granted)
-        //    {
-        //        // We don't have permission so prompt the user
-        //        ActivityCompat.RequestPermissions(CrossCurrentActivity.Current.Activity,
-        //                PERMISSIONS_STORAGE,
-        //                REQUEST_EXTERNAL_STORAGE
-        //        );
-        //        return Task.FromResult(true);
-        //    }
-        //    else
-        //    {
-        //        return Task.FromResult(false);
-        //    }
-        //}
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
         {

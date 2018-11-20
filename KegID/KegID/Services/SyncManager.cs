@@ -1,11 +1,13 @@
 ﻿using KegID.Common;
 using KegID.LocalDb;
+using KegID.Messages;
 using KegID.Model;
 using Microsoft.AppCenter.Crashes;
 using Realms;
 using System;
 using System.Linq;
 using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace KegID.Services
 {
@@ -30,19 +32,6 @@ namespace KegID.Services
 
                 if (value.Count > 0)
                 {
-                    #region Old Code
-                    //foreach (var item in value)
-                    //{
-                    //    var message = new StartLongRunningTaskMessage
-                    //    {
-
-                    //        Barcode = item.BarcodeModels.Select(x=>x.Barcode).ToList(),
-                    //        PageName = ViewTypeEnum.ScanKegsView.ToString()
-                    //    };
-                    //    MessagingCenter.Send(message, "StartLongRunningTaskMessage");
-                    //} 
-                    #endregion
-
                     IMoveService _moveService = new MoveService();
 
                     try
@@ -83,6 +72,12 @@ namespace KegID.Services
                                     break;
                             }
                         }
+
+                        CheckDraftmaniFests checkDraftmaniFests = new CheckDraftmaniFests
+                        {
+                            IsCheckDraft = true
+                        };
+                        MessagingCenter.Send(checkDraftmaniFests, "CheckDraftmaniFests");
                     }
                     catch (Exception ex)
                     {
@@ -134,6 +129,5 @@ namespace KegID.Services
                 }
             }
         }
-
     }
 }

@@ -85,7 +85,7 @@
                     IsVisible="{Binding IsPalletVisible,Converter={StaticResource InvertedBooleanConverter}}"
                     VerticalOptions="Center"
                     Margin="0,0,40,0"
-                    Text="{Binding ManifestId,Mode=TwoWay}"
+                    Text="{Binding Title,Mode=TwoWay}"
                     HorizontalOptions="FillAndExpand"
                     Grid.Row="0"/>
 
