@@ -13,7 +13,7 @@ namespace KegID.ViewModel
         #region Properties
 
         private readonly INavigationService _navigationService;
-        private readonly IInitializeMetaData _initializeMetaData;
+        //private readonly IInitializeMetaData _initializeMetaData;
 
         #region ImageCollection
 
@@ -60,7 +60,7 @@ namespace KegID.ViewModel
         public WhatIsNewViewModel(INavigationService navigationService, IInitializeMetaData initializeMetaData)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
-            _initializeMetaData = initializeMetaData;
+            //_initializeMetaData = initializeMetaData;
 
             ImageCollection = new List<ImageClass>
             {

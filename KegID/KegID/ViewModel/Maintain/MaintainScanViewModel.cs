@@ -11,6 +11,7 @@ using KegID.Services;
 using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
+using Prism.Services;
 using Realms;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -432,57 +433,56 @@ namespace KegID.ViewModel
                 Loader.StartLoading();
 
                 var location = await _geolocationService.GetLastLocationAsync();
-                if (location != null)
+
+                ManifestModel manifestPostModel = null;
+
+                var result = BarcodeCollection.Where(x => x?.Kegs?.Partners?.Count > 1).ToList();
+                if (result?.Count > 0)
+                    await NavigateToValidatePartner(result.ToList());
+
+                else
                 {
-                    ManifestModel manifestPostModel = null;
-
-                    var result = BarcodeCollection.Where(x => x?.Kegs?.Partners?.Count > 1).ToList();
-                    if (result?.Count > 0)
-                        await NavigateToValidatePartner(result.ToList());
-
-                    else
+                    try
                     {
-                        try
-                        {
-                            manifestPostModel = GenerateManifest(location, ManifestId);
+                        manifestPostModel = GenerateManifest(location??new Xamarin.Essentials.Location(0,0), ManifestId);
 
-                            var current = Connectivity.NetworkAccess;
-                            if (current == NetworkAccess.Internet)
-                            {
-                                KegIDResponse kegIDResponse = await _maintainService.PostMaintenanceDoneAsync(manifestPostModel.MaintenanceModels.MaintenanceDoneRequestModel, AppSettings.SessionId, Configuration.PostedMaintenanceDone);
-                                try
-                                {
-                                    AddorUpdateManifestOffline(manifestPostModel, false);
-                                }
-                                catch (Exception ex)
-                                {
-                                    Crashes.TrackError(ex);
-                                }
-                                await GetPostedManifestDetail();
-                            }
-                            else
-                            {
-                                try
-                                {
-                                    AddorUpdateManifestOffline(manifestPostModel, true);
-                                }
-                                catch (Exception ex)
-                                {
-                                    Crashes.TrackError(ex);
-                                }
-                                await GetPostedManifestDetail();
-                            }
-                        }
-                        catch (Exception ex)
+                        var current = Connectivity.NetworkAccess;
+                        if (current == NetworkAccess.Internet)
                         {
-                            Crashes.TrackError(ex);
+                            KegIDResponse kegIDResponse = await _maintainService.PostMaintenanceDoneAsync(manifestPostModel.MaintenanceModels.MaintenanceDoneRequestModel, AppSettings.SessionId, Configuration.PostedMaintenanceDone);
+                            try
+                            {
+                                AddorUpdateManifestOffline(manifestPostModel, false);
+                            }
+                            catch (Exception ex)
+                            {
+                                Crashes.TrackError(ex);
+                            }
+                            await GetPostedManifestDetail();
                         }
-                        finally
+                        else
                         {
-                            Cleanup();
+                            try
+                            {
+                                AddorUpdateManifestOffline(manifestPostModel, true);
+                            }
+                            catch (Exception ex)
+                            {
+                                Crashes.TrackError(ex);
+                            }
+                            await GetPostedManifestDetail();
                         }
                     }
+                    catch (Exception ex)
+                    {
+                        Crashes.TrackError(ex);
+                    }
+                    finally
+                    {
+                        Cleanup();
+                    }
                 }
+
             }
             catch (Exception)
             {

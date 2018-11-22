@@ -24,10 +24,17 @@
                 x:Name="lblSearchManifest"
                 Style="{StaticResource TopButtonTitleStyle}"
                 HorizontalOptions="Start"
-                Text="{Binding Resources[title_keg_search]}"
+                Text="{Binding Resources[button_back]}"
                 Command="{Binding KegSearchCommand}"
                 />
 
+            <Label
+                AutomationId="kegSearchLabel"
+                HorizontalOptions="Center"
+                Style="{StaticResource LabelTitleStyle}"
+                Text="{Binding Resources[title_keg_search]}"
+                />
+            
             <BoxView
                 AutomationId="topBarSeperatorBoxView"
                 Grid.Row="1"

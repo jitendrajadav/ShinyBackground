@@ -346,61 +346,59 @@ namespace KegID.ViewModel
             {
                 Loader.StartLoading();
                 var location = await _geolocationService.GetLastLocationAsync();
-                if (location != null)
-                {
-                    ManifestModel manifestPostModel = null;
-                    try
-                    {
-                        manifestPostModel = GenerateManifest(location);
-                        if (manifestPostModel != null)
-                        {
-                            try
-                            {
-                                var current = Connectivity.NetworkAccess;
-                                if (current == NetworkAccess.Internet)
-                                {
-                                    var result = await _moveService.PostManifestAsync(manifestPostModel, AppSettings.SessionId, Configuration.NewManifest);
 
-                                    try
-                                    {
-                                        AddorUpdateManifestOffline(manifestPostModel, false);
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        Crashes.TrackError(ex);
-                                    }
-                                    await GetPostedManifestDetail();
-                                }
-                                else
+                ManifestModel manifestPostModel = null;
+                try
+                {
+                    manifestPostModel = GenerateManifest(location??new Xamarin.Essentials.Location(0,0));
+                    if (manifestPostModel != null)
+                    {
+                        try
+                        {
+                            var current = Connectivity.NetworkAccess;
+                            if (current == NetworkAccess.Internet)
+                            {
+                                var result = await _moveService.PostManifestAsync(manifestPostModel, AppSettings.SessionId, Configuration.NewManifest);
+
+                                try
                                 {
-                                    try
-                                    {
-                                        AddorUpdateManifestOffline(manifestPostModel, true);
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        Crashes.TrackError(ex);
-                                    }
-                                    await GetPostedManifestDetail();
+                                    AddorUpdateManifestOffline(manifestPostModel, false);
                                 }
+                                catch (Exception ex)
+                                {
+                                    Crashes.TrackError(ex);
+                                }
+                                await GetPostedManifestDetail();
                             }
-                            catch (Exception ex)
+                            else
                             {
-                                Crashes.TrackError(ex);
-                            }
-                            finally
-                            {
-                                manifestPostModel = null;
-                                Cleanup();
+                                try
+                                {
+                                    AddorUpdateManifestOffline(manifestPostModel, true);
+                                }
+                                catch (Exception ex)
+                                {
+                                    Crashes.TrackError(ex);
+                                }
+                                await GetPostedManifestDetail();
                             }
                         }
-                        else
-                            await _dialogService.DisplayAlertAsync("Alert", "Something goes wrong please check again", "Ok");
+                        catch (Exception ex)
+                        {
+                            Crashes.TrackError(ex);
+                        }
+                        finally
+                        {
+                            manifestPostModel = null;
+                            Cleanup();
+                        }
                     }
-                    catch (Exception ex)
-                    {
-                        Crashes.TrackError(ex);
-                    }
+                    else
+                        await _dialogService.DisplayAlertAsync("Alert", "Something goes wrong please check again", "Ok");
+                }
+                catch (Exception ex)
+                {
+                    Crashes.TrackError(ex);
                 }
             }
             catch (Exception)
@@ -511,70 +509,69 @@ namespace KegID.ViewModel
             {
                 Loader.StartLoading();
                 var location = await _geolocationService.GetLastLocationAsync();
-                if (location != null)
+
+                ManifestModel manifestModel = null;
+                try
                 {
-                    ManifestModel manifestModel = null;
-                    try
+                    manifestModel = GenerateManifest(location??new Xamarin.Essentials.Location(0,0));
+                    if (manifestModel != null)
                     {
-                        manifestModel = GenerateManifest(location);
-                        if (manifestModel != null)
+
+                        manifestModel.IsDraft = true;
+                        var isNew = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).Find<ManifestModel>(manifestModel.ManifestId);
+                        if (isNew != null)
                         {
-
-                            manifestModel.IsDraft = true;
-                            var isNew = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).Find<ManifestModel>(manifestModel.ManifestId);
-                            if (isNew != null)
+                            try
                             {
-                                try
+                                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                                RealmDb.Write(() =>
                                 {
-                                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                                    RealmDb.Write(() =>
-                                    {
-                                        RealmDb.Add(manifestModel, update: true);
-                                    });
-                                }
-                                catch (Exception ex)
-                                {
-                                    Crashes.TrackError(ex);
-                                }
+                                    RealmDb.Add(manifestModel, update: true);
+                                });
                             }
-                            else
+                            catch (Exception ex)
                             {
-                                try
-                                {
-                                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                                    RealmDb.Write(() =>
-                                   {
-                                       RealmDb.Add(manifestModel);
-                                   });
-                                }
-                                catch (Exception ex)
-                                {
-                                    Crashes.TrackError(ex);
-                                }
+                                Crashes.TrackError(ex);
                             }
-
-                            Loader.StopLoading();
-                            await _navigationService.NavigateAsync(new Uri("ManifestsView", UriKind.Relative), 
-                                new NavigationParameters
-                                {
-                                    { "LoadDraftManifestAsync", "LoadDraftManifestAsync" }
-                                }, useModalNavigation: true, animated: false);
                         }
                         else
                         {
-                            await _dialogService.DisplayAlertAsync("Error", "Could not save manifest.", "Ok");
+                            try
+                            {
+                                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                                RealmDb.Write(() =>
+                               {
+                                   RealmDb.Add(manifestModel);
+                               });
+                            }
+                            catch (Exception ex)
+                            {
+                                Crashes.TrackError(ex);
+                            }
                         }
+
+                        Loader.StopLoading();
+                        await _navigationService.NavigateAsync(new Uri("ManifestsView", UriKind.Relative),
+                            new NavigationParameters
+                            {
+                                    { "LoadDraftManifestAsync", "LoadDraftManifestAsync" }
+                            }, useModalNavigation: true, animated: false);
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        Crashes.TrackError(ex);
-                    }
-                    finally
-                    {
-                        manifestModel = null;
-                        Cleanup();
+                        await _dialogService.DisplayAlertAsync("Error", "Could not save manifest.", "Ok");
                     }
                 }
+                catch (Exception ex)
+                {
+                    Crashes.TrackError(ex);
+                }
+                finally
+                {
+                    manifestModel = null;
+                    Cleanup();
+                }
+
             }
             catch (Exception ex)
             {

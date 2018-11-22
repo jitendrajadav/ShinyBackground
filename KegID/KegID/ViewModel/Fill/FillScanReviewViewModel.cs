@@ -206,8 +206,6 @@ namespace KegID.ViewModel
 
                 Loader.StopLoading();
 
-                if (location != null)
-                {
                     var tags = ConstantManager.Tags;
                     var partnerModel = ConstantManager.Partner;
 
@@ -289,7 +287,7 @@ namespace KegID.ViewModel
                         closedBatches = Barcodes.Select(x => x.Barcode).ToList();
 
                     Loader.StartLoading();
-                    ManifestModel model = model = GenerateManifest(location, newPallets, closedBatches);
+                    ManifestModel model = model = GenerateManifest(location??new Xamarin.Essentials.Location(0,0), newPallets, closedBatches);
                     if (model != null)
                     {
                         try
@@ -340,7 +338,7 @@ namespace KegID.ViewModel
                     }
                     else
                         await _dialogService.DisplayAlertAsync("Alert", "Something goes wrong please check again", "Ok");
-                }
+                
             }
             catch (Exception)
             {

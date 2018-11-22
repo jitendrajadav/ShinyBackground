@@ -8,6 +8,7 @@
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
              ios:Page.UseSafeArea="true"
+             xmlns:local="clr-namespace:KegID.Views"
              >
 
     <ContentPage.Content>
@@ -187,7 +188,7 @@
                     Margin="0,0,10,0"
                     Text="{Binding BarcodeCollection.Count}"/>
 
-                <ListView
+                <!--<ListView
                     AutomationId="barcodeListView"
                     Margin="10,0,10,0"
                     x:Name="lstBarcode"
@@ -197,7 +198,6 @@
                     android:ListView.IsFastScrollEnabled="true"
                     SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
                     HasUnevenRows="True"
-                    SelectionMode="None"
                     CachingStrategy="RecycleElement"
                     ItemsSource="{Binding BarcodeCollection}">
 
@@ -223,7 +223,7 @@
                                         Margin="0,5,0,0"
                                         VerticalOptions="FillAndExpand" 
                                         VerticalTextAlignment="Center" 
-                                        Text="{Binding Id}"
+                                        Text="{Binding Barcode}"
                                         TextColor="Black"
                                         FontSize="{StaticResource ListViewTitleFont}">
 
@@ -234,7 +234,7 @@
                                         </Label.GestureRecognizers>
                                     </Label>
 
-                                    <Image 
+                                    --><!--<Image 
                                         Grid.Column="1"
                                         Grid.RowSpan="2"
                                         HeightRequest="30"
@@ -249,20 +249,31 @@
                                                         Source={x:Reference Name=lstBarcode}}"
                                                          CommandParameter="{Binding}"/>
                                         </Image.GestureRecognizers>
-                                    </Image>
+                                    </Image>-->
 
-                                    <Label
+                                    <!--<Label
                                         Margin="0,0,0,2"
                                         LineBreakMode="TailTruncation"
                                         TextColor="{StaticResource lightGrayColor}"
                                         Grid.Row="1"
                                         FontSize="{StaticResource ListViewDetailFont}"
-                                        Text="{Binding Path=BindingContext.TagsStr,Source={x:Reference Name=lstBarcode}}"/>
+                                        Text="{Binding TagsStr}">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Path=BindingContext.LabelItemTappedCommand, 
+                                                        Source={x:Reference Name=lstBarcode}}"
+                                                         CommandParameter="{Binding}"/>
+                                        </Label.GestureRecognizers>
+                                    </Label>--><!--
                                 </Grid>
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
-                </ListView>
+                </ListView>-->
+
+                <local:ScanItemView
+                    AutomationId="scanItemView"
+                    Grid.Row="6"
+                    Grid.ColumnSpan="3"/>
 
             </Grid>
         </Grid>

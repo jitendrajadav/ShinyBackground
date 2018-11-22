@@ -70,12 +70,20 @@ namespace KegID.Droid
 
         void WireUpLongRunningTask()
         {
-            MessagingCenter.Subscribe<StartLongRunningTaskMessage>(this, "StartLongRunningTaskMessage", message => {
-                var intent = new Intent(this, typeof(LongRunningTaskService));
-                intent.PutStringArrayListExtra("Barcode", message.Barcode);
-                intent.PutExtra("PageName", message.PageName);
-                StartService(intent);
-            });
+            try
+            {
+                MessagingCenter.Subscribe<StartLongRunningTaskMessage>(this, "StartLongRunningTaskMessage", message =>
+                {
+                    var intent = new Intent(this, typeof(LongRunningTaskService));
+                    intent.PutStringArrayListExtra("Barcode", message.Barcode);
+                    intent.PutExtra("PageName", message.PageName);
+                    StartService(intent);
+                });
+            }
+            catch (Exception ex)
+            {
+
+            }
 
             MessagingCenter.Subscribe<StopLongRunningTaskMessage>(this, "StopLongRunningTaskMessage", message => {
                 var intent = new Intent(this, typeof(LongRunningTaskService));

@@ -1,7 +1,9 @@
 ﻿using KegID.Model;
+using KegID.Services;
 using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
+using Prism.Services;
 using System;
 using System.Linq;
 using Xamarin.Essentials;
@@ -294,14 +296,19 @@ namespace KegID.ViewModel
         public DelegateCommand BackCommand { get; }
         public DelegateCommand DoneCommand { get; }
         public DelegateCommand GetCurrentLocationCommand { get; }
+        private readonly IGeolocationService _geolocationService;
+        private readonly IPageDialogService _dialogService;
+
 
         #endregion
 
         #region Constructor
 
-        public EditAddressViewModel(INavigationService navigationService)
+        public EditAddressViewModel(INavigationService navigationService,IGeolocationService geolocationService, IPageDialogService dialogService)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+            _geolocationService = geolocationService;
+            _dialogService = dialogService;
 
             BackCommand = new DelegateCommand(BackCommandRecieverAsync);
             DoneCommand = new DelegateCommand(DoneCommandRecieverAsync);
@@ -314,49 +321,55 @@ namespace KegID.ViewModel
 
         private async void GetCurrentLocationCommandRecieverAsync()
         {
-            var request = new GeolocationRequest(GeolocationAccuracy.Medium);
-            var location = await Geolocation.GetLastKnownLocationAsync();
-            if (location == null)
-                 location = await Geolocation.GetLocationAsync(request);
             try
             {
-                var placemarks = await Geocoding.GetPlacemarksAsync(location.Latitude, location.Longitude);
+                var location = await _geolocationService.GetLastLocationAsync();
 
-                var placemark = placemarks?.FirstOrDefault();
-                if (placemark != null)
+                if (location != null)
                 {
-                    var geocodeAddress =
-                        $"AdminArea:       {placemark.AdminArea}\n" +
-                        $"CountryCode:     {placemark.CountryCode}\n" +
-                        $"CountryName:     {placemark.CountryName}\n" +
-                        $"FeatureName:     {placemark.FeatureName}\n" +
-                        $"Locality:        {placemark.Locality}\n" +
-                        $"PostalCode:      {placemark.PostalCode}\n" +
-                        $"SubAdminArea:    {placemark.SubAdminArea}\n" +
-                        $"SubLocality:     {placemark.SubLocality}\n" +
-                        $"SubThoroughfare: {placemark.SubThoroughfare}\n" +
-                        $"Thoroughfare:    {placemark.Thoroughfare}\n";
+                    var placemarks = await Geocoding.GetPlacemarksAsync(location.Latitude, location.Longitude);
+
+                    var placemark = placemarks?.FirstOrDefault();
+                    if (placemark != null)
+                    {
+                        var geocodeAddress =
+                            $"AdminArea:       {placemark.AdminArea}\n" +
+                            $"CountryCode:     {placemark.CountryCode}\n" +
+                            $"CountryName:     {placemark.CountryName}\n" +
+                            $"FeatureName:     {placemark.FeatureName}\n" +
+                            $"Locality:        {placemark.Locality}\n" +
+                            $"PostalCode:      {placemark.PostalCode}\n" +
+                            $"SubAdminArea:    {placemark.SubAdminArea}\n" +
+                            $"SubLocality:     {placemark.SubLocality}\n" +
+                            $"SubThoroughfare: {placemark.SubThoroughfare}\n" +
+                            $"Thoroughfare:    {placemark.Thoroughfare}\n";
 
 
-                    Line1 = placemark.SubLocality;
-                    Line2 = placemark.Locality;
-                    Line3 = placemark.SubAdminArea;
-                    City = placemark.Locality;
-                    State = placemark.AdminArea;
-                    PostalCode = placemark.PostalCode;
-                    Country = placemark.CountryCode;
+                        Line1 = placemark.SubLocality;
+                        Line2 = placemark.Locality;
+                        Line3 = placemark.SubAdminArea;
+                        City = placemark.Locality;
+                        State = placemark.AdminArea;
+                        PostalCode = placemark.PostalCode;
+                        Country = placemark.CountryCode;
 
-                    Console.WriteLine(geocodeAddress);
+                        Console.WriteLine(geocodeAddress);
+                    }
+                }
+                else
+                {
+                    await _dialogService.DisplayAlertAsync("Warning"," location updates unavailable", "Ok");
                 }
             }
-            catch (FeatureNotSupportedException fnsEx)
+            catch (FeatureNotSupportedException)
             {
-                Crashes.TrackError(fnsEx);
+                //Crashes.TrackError(fnsEx);
                 // Feature not supported on device
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Crashes.TrackError(ex);
+                await _dialogService.DisplayAlertAsync("Warning", " location updates unavailable", "Ok");
+                //Crashes.TrackError(ex);
                 // Handle exception that may have occurred in geocoding
             }
         }

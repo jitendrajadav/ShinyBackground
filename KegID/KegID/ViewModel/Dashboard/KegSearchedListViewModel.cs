@@ -105,12 +105,17 @@ namespace KegID.ViewModel
         {
             try
             {
+                Loader.StartLoading();
                 var value = await _dashboardService.GetKegSearchAsync(AppSettings.SessionId, barcode, true);
                 KegSearchCollection = value.KegSearchResponseModel;
             }
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
+            }
+            finally
+            {
+                Loader.StopLoading();
             }
         }
 

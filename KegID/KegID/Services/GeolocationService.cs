@@ -1,5 +1,4 @@
-﻿using Prism.Services;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -16,12 +15,10 @@ namespace KegID.Services
         string currentLocation;
         int accuracy = (int)GeolocationAccuracy.Medium;
         CancellationTokenSource cts;
-        private readonly IPageDialogService _dialogService;
         public Location location = null;
 
-        public GeolocationService(IPageDialogService dialogService)
+        public GeolocationService()
         {
-            _dialogService = dialogService;
         }
 
         public string LastLocation
@@ -73,23 +70,9 @@ namespace KegID.Services
                 var request = new GeolocationRequest((GeolocationAccuracy)Accuracy);
                 cts = new CancellationTokenSource(10000);
                 location = await Geolocation.GetLocationAsync(request, cts.Token);
-                CurrentLocation = FormatLocation(location);
-            }
-            catch (FeatureNotSupportedException)
-            {
-            }
-            catch (PermissionException)
-            {
-                location = new Location(0, 0);
-            }
-            catch (FeatureNotEnabledException)
-            {
-                location = new Location(0, 0);
-                //throw fNEx;
             }
             catch (Exception ex)
             {
-                CurrentLocation = FormatLocation(null, ex);
             }
             finally
             {
@@ -105,11 +88,9 @@ namespace KegID.Services
             try
             {
                 location = await Geolocation.GetLastKnownLocationAsync();
-                LastLocation = FormatLocation(location);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                LastLocation = FormatLocation(null, ex);
             }
             return location;
         }
@@ -126,8 +107,6 @@ namespace KegID.Services
                 }
                 catch (Exception)
                 {
-                    location = new Location(0, 0);
-                    //await _dialogService.DisplayAlertAsync("Warning", ex.Message + " Please enable location Service and try again", "Ok");
                 }
                 return location;
             }

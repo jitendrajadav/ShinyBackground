@@ -19,7 +19,7 @@ namespace KegID.ViewModel
 
         private readonly IMoveService _moveService;
         private readonly INavigationService _navigationService;
-        private readonly IInitializeMetaData _initializeMetaData;
+        //private readonly IInitializeMetaData _initializeMetaData;
 
         public bool BrewerStockOn { get; set; }
 
@@ -280,12 +280,12 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public PartnersViewModel(IMoveService moveService, INavigationService navigationService, IInitializeMetaData initializeMetaData)
+        public PartnersViewModel(IMoveService moveService, INavigationService navigationService/*, IInitializeMetaData initializeMetaData*/)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
 
             _moveService = moveService;
-            _initializeMetaData = initializeMetaData;
+            //_initializeMetaData = initializeMetaData;
 
             InternalCommand = new DelegateCommand(InternalCommandReciever);
             AlphabeticalCommand = new DelegateCommand(AlphabeticalCommandReciever);

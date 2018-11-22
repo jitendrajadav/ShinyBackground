@@ -244,8 +244,6 @@ namespace KegID.ViewModel
             try
             {
                 var location = await _geolocationService.GetLastLocationAsync();
-                if (location != null)
-                {
                     var barcodes = ConstantManager.Barcodes;
                     var tags = ConstantManager.Tags;
                     var partnerModel = ConstantManager.Partner;
@@ -335,7 +333,7 @@ namespace KegID.ViewModel
                     try
                     {
                         model = _manifestManager.GetManifestDraft(EventTypeEnum.FILL_MANIFEST, ManifestId ?? PalletCollection.FirstOrDefault().ManifestId,
-                        barcodes, (long)location.Latitude, (long)location.Longitude, tags, string.Empty, partnerModel, newPallets, new List<NewBatch>(), closedBatches, null, 4);
+                        barcodes, location != null?(long)location.Latitude:0, location != null ? (long)location.Longitude:0, tags, string.Empty, partnerModel, newPallets, new List<NewBatch>(), closedBatches, null, 4);
                     }
                     catch (Exception ex)
                     {
@@ -393,7 +391,7 @@ namespace KegID.ViewModel
                     }
                     else
                         await _dialogService.DisplayAlertAsync("Alert", "Something goes wrong please check again", "Ok");
-                }
+                
             }
             catch (Exception ex)
             {

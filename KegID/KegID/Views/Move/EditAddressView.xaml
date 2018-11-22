@@ -106,6 +106,7 @@
                 Text="{Binding Country}"/>
             
             <Button
+                VerticalOptions="End"
                 AutomationId="getLocationButton"
                 Command="{Binding GetCurrentLocationCommand}"
                 Style="{StaticResource BottomButtonTitleStyle}"

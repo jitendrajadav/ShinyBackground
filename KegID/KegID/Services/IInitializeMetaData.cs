@@ -5,5 +5,7 @@ namespace KegID.Services
     public interface IInitializeMetaData
     {
         Task LoadInitializeMetaData();
+        void DeleteInitializeMetaData();
+
     }
 }

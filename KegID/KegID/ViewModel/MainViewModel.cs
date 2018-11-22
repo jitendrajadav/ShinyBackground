@@ -359,8 +359,10 @@ namespace KegID.ViewModel
                 try
                 {
                     Loader.StartLoading();
+
+                    _initializeMetaData.DeleteInitializeMetaData();
+
                     await _initializeMetaData.LoadInitializeMetaData();
-                    
                 }
                 catch (Exception ex)
                 {
@@ -678,6 +680,18 @@ namespace KegID.ViewModel
                                 }
                                 else
                                     DraftmaniFests = string.Format("Lost communication with KegID.com, {0} " + draftMsg, draft.Count);
+                            }
+                        }
+                        else
+                        {
+                            if (queue.Count > 0)
+                            {
+                                if (pallets.Count > 0)
+                                {
+                                    DraftmaniFests = string.Format("Lost communication with KegID.com, {0} " + queueMsg + ", {1} " + palletMsg, queue.Count, pallets.Count);
+                                }
+                                else
+                                    DraftmaniFests = string.Format("Lost communication with KegID.com, {0} " + queueMsg , queue.Count);
                             }
                         }
 

@@ -34,12 +34,12 @@ namespace KegID
         public static KegIDClient kegIDClient;
 
         public App(IPlatformInitializer initializer = null) : base(initializer) { }
-        protected override void OnInitialized()
+        protected override async void OnInitialized()
         {
             // Initialize Live Reload.
-//#if DEBUG
-//            LiveReload.Init();
-//#endif
+            //#if DEBUG
+            //            LiveReload.Init();
+            //#endif
             InitializeComponent();
 
             serviceProvider = new ServiceCollection()
@@ -53,10 +53,26 @@ namespace KegID
 
             if (!string.IsNullOrEmpty(AppSettings.SessionId))
             {
-                NavigationService.NavigateAsync(nameof(KegID.MainPage));
+                await NavigationService.NavigateAsync(nameof(KegID.MainPage));
             }
             else
-                NavigationService.NavigateAsync(nameof(LoginView));
+            {
+                await NavigationService.NavigateAsync(nameof(LoginView));
+
+                try
+                {
+                    var _geolocationService = Container.Resolve<GeolocationService>();
+                    await _geolocationService.InitCurrentLocationAsync();
+                }
+                catch { }
+
+                switch (Xamarin.Forms.Device.RuntimePlatform)
+                {
+                    case Xamarin.Forms.Device.Android:
+                        var permission = await DependencyService.Get<IPermission>().VerifyStoragePermissions();
+                        break;
+                }
+            }
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -162,19 +178,19 @@ namespace KegID
             var _syncManager = Container.Resolve<SyncManager>();
             _syncManager.NotifyConnectivityChanged();
 
-            try
-            {
-                var _geolocationService = Container.Resolve<GeolocationService>();
-                await _geolocationService.InitCurrentLocationAsync();
-            }
-            catch { }
+            //try
+            //{
+            //    var _geolocationService = Container.Resolve<GeolocationService>();
+            //    await _geolocationService.InitCurrentLocationAsync();
+            //}
+            //catch { }
 
-            switch (Xamarin.Forms.Device.RuntimePlatform)
-            {
-                case Xamarin.Forms.Device.Android:
-                    var permission = await DependencyService.Get<IPermission>().VerifyStoragePermissions();
-                    break;
-            }
+            //switch (Xamarin.Forms.Device.RuntimePlatform)
+            //{
+            //    case Xamarin.Forms.Device.Android:
+            //        var permission = await DependencyService.Get<IPermission>().VerifyStoragePermissions();
+            //        break;
+            //}
         }
 
         protected override void OnSleep ()

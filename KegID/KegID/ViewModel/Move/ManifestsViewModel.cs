@@ -380,7 +380,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("/NavigationPage/MainPage", UriKind.Absolute), useModalNavigation: true, animated: false);
+                await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {

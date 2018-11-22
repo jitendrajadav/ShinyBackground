@@ -6,12 +6,14 @@ using KegID.Services;
 using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
+using Prism.Services;
 using Realms;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -26,6 +28,8 @@ namespace KegID.ViewModel
         private readonly IDashboardService _dashboardService;
         private readonly IGetIconByPlatform _getIconByPlatform;
         private readonly IUuidManager _uuidManager;
+        private readonly IPageDialogService _dialogService;
+
 
         #region ManaulBarcode
 
@@ -237,7 +241,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string TagsStrPropertyName = "TagsStr";
 
-        private string _tagsStr = default(string);
+        private string _tagsStr = default;
 
         /// <summary>
         /// Sets and gets the TagsStr property.
@@ -313,13 +317,14 @@ namespace KegID.ViewModel
 
         #region Contructor
 
-        public BulkUpdateScanViewModel(IMoveService moveService, IDashboardService dashboardService, INavigationService navigationService, IGetIconByPlatform getIconByPlatform, IUuidManager uuidManager)
+        public BulkUpdateScanViewModel(IMoveService moveService, IDashboardService dashboardService, INavigationService navigationService, IGetIconByPlatform getIconByPlatform, IUuidManager uuidManager, IPageDialogService dialogService)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _moveService = moveService;
             _dashboardService = dashboardService;
             _getIconByPlatform = getIconByPlatform;
             _uuidManager = uuidManager;
+            _dialogService = dialogService;
 
             AddTagsCommand = new DelegateCommand(AddTagsCommandRecieverAsync);
             BarcodeManualCommand = new DelegateCommand(BarcodeManualCommandRecieverAsync);
@@ -354,15 +359,22 @@ namespace KegID.ViewModel
                     var value = message;
                     if (value != null)
                     {
-                        var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                        RealmDb.Write(() =>
+                        try
                         {
-                            var oldBarcode = BarcodeCollection.Where(x => x.Barcode == value.Barcodes.Barcode).FirstOrDefault();
-                            oldBarcode.Pallets = value.Barcodes.Pallets;
-                            oldBarcode.Kegs = value.Barcodes.Kegs;
-                            oldBarcode.Icon = value?.Barcodes?.Kegs?.Partners.Count > 1 ? _getIconByPlatform.GetIcon("validationquestion.png") : value?.Barcodes?.Kegs?.Partners?.Count == 0 ? _getIconByPlatform.GetIcon("validationerror.png") : _getIconByPlatform.GetIcon("validationok.png");
-                            oldBarcode.IsScanned = true;
-                        });
+                            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                            RealmDb.Write(() =>
+                            {
+                                var oldBarcode = BarcodeCollection.Where(x => x.Barcode == value.Barcodes.Barcode).FirstOrDefault();
+                                oldBarcode.Pallets = value.Barcodes.Pallets;
+                                oldBarcode.Kegs = value.Barcodes.Kegs;
+                                oldBarcode.Icon = value?.Barcodes?.Kegs?.Partners.Count > 1 ? _getIconByPlatform.GetIcon("validationquestion.png") : value?.Barcodes?.Kegs?.Partners?.Count == 0 ? _getIconByPlatform.GetIcon("validationerror.png") : _getIconByPlatform.GetIcon("validationok.png");
+                                oldBarcode.IsScanned = true;
+                            });
+                        }
+                        catch (Exception ex)
+                        {
+
+                        }
                     }
                 });
             });
@@ -495,23 +507,37 @@ namespace KegID.ViewModel
         {
             try
             {
-                var isNew = BarcodeCollection.ToList().Any(x => x.Barcode == ManaulBarcode);
+                var isNew = BarcodeCollection.ToList().Any(x => x?.Kegs?.Partners?.FirstOrDefault()?.Kegs?.FirstOrDefault()?.Barcode == ManaulBarcode);
                 if (!isNew)
                 {
-                    BarcodeModel model = new BarcodeModel
+                    BarcodeModel model = new BarcodeModel()
                     {
                         Barcode = ManaulBarcode,
-                        //Tags = null,
-                        TagsStr = string.Empty,
-                        Icon = Cloud
+                        TagsStr = TagsStr,
+                        Icon = _getIconByPlatform.GetIcon(Cloud),
+                        Page = ViewTypeEnum.BulkUpdateScanView.ToString(),
+                        Contents = SelectedItemType
                     };
-                    BarcodeCollection.Add(model);
-                    var message = new StartLongRunningTaskMessage
+
+                    if (ConstantManager.Tags != null)
                     {
-                        Barcode = new List<string>() { ManaulBarcode },
-                        PageName = ViewTypeEnum.BulkUpdateScanView.ToString()
-                    };
-                    MessagingCenter.Send(message, "StartLongRunningTaskMessage");
+                        foreach (var item in ConstantManager.Tags)
+                            model.Tags.Add(item);
+                    }
+
+                    BarcodeCollection.Add(model);
+
+                    var current = Connectivity.NetworkAccess;
+                    if (current == NetworkAccess.Internet)
+                    {
+                        var message = new StartLongRunningTaskMessage
+                        {
+                            Barcode = new List<string>() { ManaulBarcode },
+                            PageName = ViewTypeEnum.BulkUpdateScanView.ToString()
+                        };
+                        MessagingCenter.Send(message, "StartLongRunningTaskMessage");
+                    }
+
                     ManaulBarcode = string.Empty;
                 }
             }
@@ -542,6 +568,7 @@ namespace KegID.ViewModel
             {
                 if (BarcodeCollection.Count > 0)
                 {
+                    Loader.StartLoading();
                     var model = new KegBulkUpdateItemRequestModel();
                     var MassUpdateKegKegs = new List<MassUpdateKeg>();
                     MassUpdateKeg MassUpdateKeg = null;
@@ -573,10 +600,18 @@ namespace KegID.ViewModel
                         }, useModalNavigation: true, animated: false);
                     }
                 }
+                else
+                {
+                    await _dialogService.DisplayAlertAsync("Alert", "Please add scan item", "Ok");
+                }
             }
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
+            }
+            finally
+            {
+                Loader.StopLoading();
             }
         }
 

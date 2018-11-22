@@ -401,71 +401,70 @@ namespace KegID.ViewModel
             {
                 Loader.StartLoading();
                 var location = await _geolocationService.GetLastLocationAsync();
-                if (location != null)
+
+                ManifestModel manifestModel = null;
+
+                try
                 {
-                    ManifestModel manifestModel = null;
-
-                    try
+                    manifestModel = GenerateManifest(PalletCollection ?? new List<PalletModel>(), location??new Xamarin.Essentials.Location(0,0));
+                    if (manifestModel != null)
                     {
-                        manifestModel = GenerateManifest(PalletCollection ?? new List<PalletModel>(), location);
-                        if (manifestModel != null)
+
+                        manifestModel.IsDraft = true;
+                        var isNew = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).Find<ManifestModel>(manifestModel.ManifestId);
+                        if (isNew != null)
                         {
-
-                            manifestModel.IsDraft = true;
-                            var isNew = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).Find<ManifestModel>(manifestModel.ManifestId);
-                            if (isNew != null)
+                            try
                             {
-                                try
+                                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                                RealmDb.Write(() =>
                                 {
-                                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                                    RealmDb.Write(() =>
-                                    {
-                                        RealmDb.Add(manifestModel, update: true);
-                                    });
-                                }
-                                catch (Exception ex)
-                                {
-                                    Crashes.TrackError(ex);
-                                }
+                                    RealmDb.Add(manifestModel, update: true);
+                                });
                             }
-                            else
+                            catch (Exception ex)
                             {
-                                try
-                                {
-                                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                                    RealmDb.Write(() =>
-                                    {
-                                        RealmDb.Add(manifestModel);
-                                    });
-                                }
-                                catch (Exception ex)
-                                {
-                                    Crashes.TrackError(ex);
-                                }
+                                Crashes.TrackError(ex);
                             }
-
-                            Loader.StopLoading();
-                            await _navigationService.NavigateAsync(new Uri("ManifestsView", UriKind.Relative), 
-                                new NavigationParameters
-                                {
-                                    { "LoadDraftManifestAsync", "LoadDraftManifestAsync" }
-                                }, useModalNavigation: true, animated: false);
                         }
                         else
                         {
-                            await _dialogService.DisplayAlertAsync("Error", "Could not save manifest.", "Ok");
+                            try
+                            {
+                                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                                RealmDb.Write(() =>
+                                {
+                                    RealmDb.Add(manifestModel);
+                                });
+                            }
+                            catch (Exception ex)
+                            {
+                                Crashes.TrackError(ex);
+                            }
                         }
+
+                        Loader.StopLoading();
+                        await _navigationService.NavigateAsync(new Uri("ManifestsView", UriKind.Relative),
+                            new NavigationParameters
+                            {
+                                    { "LoadDraftManifestAsync", "LoadDraftManifestAsync" }
+                            }, useModalNavigation: true, animated: false);
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        Crashes.TrackError(ex);
-                    }
-                    finally
-                    {
-                        manifestModel = null;
-                        Cleanup();
+                        await _dialogService.DisplayAlertAsync("Error", "Could not save manifest.", "Ok");
                     }
                 }
+                catch (Exception ex)
+                {
+                    Crashes.TrackError(ex);
+                }
+                finally
+                {
+                    manifestModel = null;
+                    Cleanup();
+                }
+
             }
             catch (Exception)
             {
