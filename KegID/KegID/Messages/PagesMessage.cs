@@ -47,4 +47,9 @@ namespace KegID.Messages
     {
         public bool IsCheckDraft { get; set; }
     }
+
+    public class ScannerToPalletAssign
+    {
+        public string Barcode { get; set; }
+    }
 }

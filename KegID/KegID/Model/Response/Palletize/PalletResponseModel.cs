@@ -1,4 +1,5 @@
 ﻿using KegID.Model.PrintPDF;
+using Realms;
 using System;
 using System.Collections.Generic;
 
@@ -78,35 +79,35 @@ namespace KegID.Model
         public int CompanyNo { get; set; }
     }
 
-    public class PalletItem
+    public class PalletItem : RealmObject
     {
         public string PalletId { get; set; }
         public string Barcode { get; set; }
         public DateTimeOffset DateScanned { get; set; }
         public string Contents { get; set; }
-        public object ContentsSkuId { get; set; }
-        public object BuildBatchId { get; set; }
-        public object BuildBatchCode { get; set; }
-        public object BuildSkuId { get; set; }
+        public string ContentsSkuId { get; set; }
+        public string BuildBatchId { get; set; }
+        public string BuildBatchCode { get; set; }
+        public string BuildSkuId { get; set; }
         public PalletKeg Keg { get; set; }
         public bool IsActive { get; set; }
-        public object RemovedManifest { get; set; }
-        public List<Tag> Tags { get; set; }
+        public string RemovedManifest { get; set; }
+        public IList<Tag> Tags { get;}
         public DateTimeOffset ScanDate { get; set; }
     }
 
-    public class PalletKeg
+    public class PalletKeg : RealmObject
     {
         public string KegId { get; set; }
         public string OwnerId { get; set; }
         public string OwnerName { get; set; }
         public string Barcode { get; set; }
         public string SizeName { get; set; }
-        public object AssetSizeSourceKey { get; set; }
+        public string AssetSizeSourceKey { get; set; }
         public string TypeName { get; set; }
-        public object AssetTypeSourceKey { get; set; }
+        public string AssetTypeSourceKey { get; set; }
         public string VolumeName { get; set; }
-        public object AssetVolumeSourceKey { get; set; }
+        public string AssetVolumeSourceKey { get; set; }
         public string LocationId { get; set; }
         public string LocationName { get; set; }
         public string Contents { get; set; }

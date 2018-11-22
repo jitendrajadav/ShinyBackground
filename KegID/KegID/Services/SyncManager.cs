@@ -55,6 +55,7 @@ namespace KegID.Services
                                         AddorUpdateManifestOffline(item, false);
                                     break;
                                 case EventTypeEnum.PALLETIZE_MANIFEST:
+
                                     break;
                                 case EventTypeEnum.RETURN_MANIFEST:
                                     break;
@@ -83,6 +84,25 @@ namespace KegID.Services
                     {
                         Crashes.TrackError(ex);
                     }
+                }
+
+                var pallets = RealmDb.All<PalletRequestModel>().Where(x => x.IsQueue == true).ToList();
+
+                if (pallets.Count > 0)
+                {
+                    IPalletizeService _palletizeService = new PalletizeService();
+
+                    foreach (var pallet in pallets)
+                    {
+                        var result = await _palletizeService.PostPalletAsync(pallet, AppSettings.SessionId, Configuration.NewPallet);
+                        AddorUpdatePalletsOffline(pallet,false);
+                    }
+
+                    CheckDraftmaniFests checkDraftmaniFests = new CheckDraftmaniFests
+                    {
+                        IsCheckDraft = true
+                    };
+                    MessagingCenter.Send(checkDraftmaniFests, "CheckDraftmaniFests");
                 }
             }
         }
@@ -129,5 +149,28 @@ namespace KegID.Services
                 }
             }
         }
+
+        private void AddorUpdatePalletsOffline(PalletRequestModel palletRequestModel, bool queue)
+        {
+            string palletId = palletRequestModel.PalletId;
+            var isNew = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).Find<PalletRequestModel>(palletId);
+            if (isNew != null)
+            {
+                try
+                {
+                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                    RealmDb.Write(() =>
+                    {
+                        palletRequestModel.IsQueue = false;
+                        RealmDb.Add(palletRequestModel, update: true);
+                    });
+                }
+                catch (Exception ex)
+                {
+                    Crashes.TrackError(ex);
+                }
+            }
+        }
+
     }
 }

@@ -568,8 +568,8 @@ namespace KegID.ViewModel
             {
                 Crashes.TrackError(ex);
             }
-            ConstantManager.Barcodes.Clear();
-            PalletCollection.Clear();
+            ConstantManager.Barcodes?.Clear();
+            PalletCollection?.Clear();
         }
 
         private async void NextCommandRecieverAsync()

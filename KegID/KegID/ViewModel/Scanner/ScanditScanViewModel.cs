@@ -8,7 +8,6 @@ using Prism.Navigation;
 using Prism.Services;
 using Scandit.BarcodePicker.Unified;
 using Scandit.BarcodePicker.Unified.Abstractions;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xamarin.Forms;
@@ -26,7 +25,7 @@ namespace KegID.ViewModel
 
         public IList<Tag> Tags { get; set; }
         public string TagsStr { get; set; }
-        public string Page { get; set; }
+        public string PageName { get; set; }
         IList<BarcodeModel> models = new List<BarcodeModel>();
         private ScanSettings _scanSettings;
 
@@ -116,7 +115,7 @@ namespace KegID.ViewModel
             var message = new StartLongRunningTaskMessage
             {
                 Barcode = models.Select(x => x.Barcode).ToList(),
-                PageName = Page
+                PageName = PageName
             };
             MessagingCenter.Send(message, "StartLongRunningTaskMessage");
 
@@ -162,6 +161,15 @@ namespace KegID.ViewModel
                             model.Tags.Add(item);
                     }
                     models.Add(model);
+                    if (PageName == ViewTypeEnum.PalletizeView.ToString())
+                    {
+                        ScannerToPalletAssign scannerToPalletAssign = new ScannerToPalletAssign
+                        {
+                           Barcode = models.LastOrDefault().Barcode
+                        };
+                        MessagingCenter.Send(scannerToPalletAssign, "ScannerToPalletAssign");
+                        
+                    }
                 }
             });
         }
@@ -215,9 +223,9 @@ namespace KegID.ViewModel
 
             if (_scanSettings.RestrictedAreaScanningEnabled)
             {
-                Double HotSpotHeight = AppSettings.getDoubleSetting(AppSettings.HotSpotHeightString);
-                Double HotSpotWidth = AppSettings.getDoubleSetting(AppSettings.HotSpotWidthString);
-                Double HotSpotY = AppSettings.getDoubleSetting(AppSettings.HotSpotYString);
+                double HotSpotHeight = AppSettings.getDoubleSetting(AppSettings.HotSpotHeightString);
+                double HotSpotWidth = AppSettings.getDoubleSetting(AppSettings.HotSpotWidthString);
+                double HotSpotY = AppSettings.getDoubleSetting(AppSettings.HotSpotYString);
 
                 Rect restricted = new Rect(0.5f - HotSpotWidth * 0.5f, HotSpotY - 0.5f * HotSpotHeight, HotSpotWidth, HotSpotHeight);
 
@@ -264,32 +272,42 @@ namespace KegID.ViewModel
                     case ViewTypeEnum.BulkUpdateScanView:
                         Tags = parameters.GetValue<List<Tag>>("Tags");
                         TagsStr = parameters.GetValue<string>("TagsStr");
-                        Page = ViewTypeEnum.BulkUpdateScanView.ToString();
+                        PageName = ViewTypeEnum.BulkUpdateScanView.ToString();
                         break;
                     case ViewTypeEnum.KegSearchView:
                         Tags = parameters.GetValue<List<Tag>>("Tags");
                         TagsStr = parameters.GetValue<string>("TagsStr");
-                        Page = ViewTypeEnum.KegSearchView.ToString();
+                        PageName = ViewTypeEnum.KegSearchView.ToString();
                         break;
                     case ViewTypeEnum.FillScanView:
                         Tags = parameters.GetValue<List<Tag>>("Tags");
                         TagsStr = parameters.GetValue<string>("TagsStr");
-                        Page = ViewTypeEnum.FillScanView.ToString();
+                        PageName = ViewTypeEnum.FillScanView.ToString();
                         break;
                     case ViewTypeEnum.MaintainScanView:
                         Tags = parameters.GetValue<List<Tag>>("Tags");
                         TagsStr = parameters.GetValue<string>("TagsStr");
-                        Page = ViewTypeEnum.MaintainScanView.ToString();
+                        PageName = ViewTypeEnum.MaintainScanView.ToString();
                         break;
                     case ViewTypeEnum.ScanKegsView:
                         Tags = parameters.GetValue<List<Tag>>("Tags");
                         TagsStr = parameters.GetValue<string>("TagsStr");
-                        Page = ViewTypeEnum.ScanKegsView.ToString();
+                        PageName = ViewTypeEnum.ScanKegsView.ToString();
+                        break;
+                    case ViewTypeEnum.PalletizeView:
+                        PageName = ViewTypeEnum.PalletizeView.ToString();
                         break;
                     default:
+                        PageName = string.Empty;
                         break;
                 }
             }
+        }
+
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            base.OnNavigatedFrom(parameters);
         }
 
         #endregion

@@ -599,34 +599,55 @@ namespace KegID.ViewModel
             try
             {
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                var collection = RealmDb.All<ManifestModel>().Where(x => x.IsDraft == true || x.IsQueue == true).ToList();
-                var draft = collection.Where(x => x.IsDraft == true).ToList();
-                var queue = collection.Where(x => x.IsQueue == true).ToList();
+                var manifests = RealmDb.All<ManifestModel>().Where(x => x.IsDraft == true || x.IsQueue == true).ToList();
+                var pallets = RealmDb.All<PalletRequestModel>().Where(x => x.IsQueue == true).ToList();
+
+                var draft = manifests.Where(x => x.IsDraft == true).ToList();
+                var queue = manifests.Where(x => x.IsQueue == true).ToList();
                 string queueMsg = queue.Count > 1 ? "queued manifests" : "queued manifest";
                 string draftMsg = draft.Count > 1 ? "draft manifests" : "draft manifest";
+                string palletMsg = pallets.Count > 1 ? "queued pallets" : "queued pallet";
 
                 var current = Connectivity.NetworkAccess;
                 if (current == NetworkAccess.Internet)
                 {
-                    if (collection.Count > 0)
+                    if (manifests.Count > 0)
                     {
                         if (draft.Count > 0)
                         {
                             if (queue.Count > 0)
                             {
-                                DraftmaniFests = string.Format("{0} " + draftMsg + ", {1} " + queueMsg, draft.Count, queue.Count);
+                                if (pallets.Count > 0)
+                                {
+                                    DraftmaniFests = string.Format("{0} " + draftMsg + ", {1} " + queueMsg + ", {2} " + palletMsg, draft.Count, queue.Count, pallets.Count);
+                                }
+                                else
+                                    DraftmaniFests = string.Format("{0} " + draftMsg + ", {1} " + queueMsg, draft.Count, queue.Count);
                             }
                             else
                             {
-                                DraftmaniFests = string.Format("{0} " + draftMsg, draft.Count);
+                                if (pallets.Count > 0)
+                                {
+                                    DraftmaniFests = string.Format("{0} " + draftMsg + ", {1} " + palletMsg, draft.Count, pallets.Count);
+                                }
+                                else
+                                    DraftmaniFests = string.Format("{0} " + draftMsg, draft.Count);
                             }
                         }
                         else if (queue.Count > 0)
                         {
+                            if (pallets.Count > 0)
+                            {
+                                DraftmaniFests = string.Format("{0} " + queueMsg + ", {1} " + palletMsg, queue.Count, pallets.Count);
+                            }
                             DraftmaniFests = string.Format("{0} " + queueMsg, queue.Count);
                         }
 
                         IsVisibleDraftmaniFestsLabel = true;
+                    }
+                    else if (pallets.Count > 0)
+                    {
+                        DraftmaniFests = string.Format("{0} " + palletMsg, pallets.Count);
                     }
                     else
                     {
@@ -636,25 +657,35 @@ namespace KegID.ViewModel
                 }
                 else
                 {
-                    if (collection.Count > 0)
+                    if (manifests.Count > 0)
                     {
                         if (draft.Count > 0)
                         {
                             if (queue.Count > 0)
                             {
-                                DraftmaniFests = string.Format("Lost communication with KegID.com, {0} " + draftMsg + ", {1} " + queueMsg, draft.Count, queue.Count);
+                                if (pallets.Count > 0)
+                                {
+                                    DraftmaniFests = string.Format("Lost communication with KegID.com, {0} " + draftMsg + ", {1} " + queueMsg + ", {2} " + palletMsg, draft.Count, queue.Count, pallets.Count);
+                                }
+                                else
+                                    DraftmaniFests = string.Format("Lost communication with KegID.com, {0} " + draftMsg + ", {1} " + queueMsg, draft.Count, queue.Count);
                             }
                             else
                             {
-                                DraftmaniFests = string.Format("Lost communication with KegID.com, {0} "+ draftMsg , draft.Count);
+                                if (pallets.Count > 0)
+                                {
+                                    DraftmaniFests = string.Format("Lost communication with KegID.com, {0} " + draftMsg + ", {1} " + palletMsg, draft.Count, pallets.Count);
+                                }
+                                else
+                                    DraftmaniFests = string.Format("Lost communication with KegID.com, {0} " + draftMsg, draft.Count);
                             }
-                        }
-                        else if (queue.Count > 0)
-                        {
-                            DraftmaniFests = string.Format("Lost communication with KegID.com, {0} " + queueMsg, queue.Count);
                         }
 
                         IsVisibleDraftmaniFestsLabel = true;
+                    }
+                    else if (pallets.Count > 0)
+                    {
+                        DraftmaniFests = string.Format("Lost communication with KegID.com, {0} " + palletMsg, pallets.Count);
                     }
                     else
                     {

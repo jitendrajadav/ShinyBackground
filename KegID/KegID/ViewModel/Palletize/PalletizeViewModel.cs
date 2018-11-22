@@ -13,6 +13,7 @@ using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
 using Realms;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -340,11 +341,35 @@ namespace KegID.ViewModel
 
             StockLocation.FullName = "Barcode Brewing";
             TargetLocation.FullName = "None";
+            HandleUnsubscribeMessages();
+            HandleReceivedMessages();
         }
 
         #endregion
 
         #region Methods
+        private void HandleUnsubscribeMessages()
+        {
+            MessagingCenter.Unsubscribe<ScannerToPalletAssign>(this, "ScannerToPalletAssign");
+        }
+
+        private void HandleReceivedMessages()
+        {
+            MessagingCenter.Subscribe<ScannerToPalletAssign>(this, "ScannerToPalletAssign", message =>
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    var value = message;
+                    if (value != null)
+                    {
+                        if (!string.IsNullOrEmpty(value.Barcode))
+                        {
+                            ManifestId = value.Barcode;
+                        }
+                    }
+                });
+            });
+        }
 
         public void GenerateManifestIdAsync(PalletModel palletModel)
         {
@@ -418,6 +443,7 @@ namespace KegID.ViewModel
             PalletItem pallet = null;
             PalletRequestModel palletRequestModel = null;
             var barCodeCollection = ConstantManager.Barcodes;
+            PalletResponseModel palletResponseModel = null;
 
             try
             {
@@ -429,9 +455,12 @@ namespace KegID.ViewModel
                     {
                         Barcode = item.Barcode,
                         ScanDate = DateTimeOffset.Now,
-                        Tags = ConstantManager.Tags,
                     };
 
+                    foreach (var tag in ConstantManager.Tags)
+                    {
+                        pallet.Tags.Add(tag);
+                    }
                     palletItems.Add(pallet);
                 }
 
@@ -441,30 +470,67 @@ namespace KegID.ViewModel
                     BuildDate = DateTimeOffset.Now,
                     OwnerId = AppSettings.CompanyId,
                     PalletId = _uuidManager.GetUuId(),
-                    PalletItems = palletItems,
                     ReferenceKey = "",
                     StockLocation = StockLocation.PartnerId,
                     StockLocationId = StockLocation.PartnerId,
                     StockLocationName = StockLocation.FullName,
-                    Tags = ConstantManager.Tags
                 };
 
-                var value = await _palletizeService.PostPalletAsync(palletRequestModel, AppSettings.SessionId, Configuration.NewPallet);
-
-                if (value.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
+                foreach (var item in palletItems)
                 {
-                    Loader.StopLoading();
-                    PrintPallet();
+                    palletRequestModel.PalletItems.Add(item);
+                }
+                foreach (var item in ConstantManager.Tags)
+                {
+                    palletRequestModel.Tags.Add(item);
+                }
 
-                    await _navigationService.NavigateAsync(new Uri("PalletizeDetailView", UriKind.Relative), new NavigationParameters
-                    {
-                        { "LoadInfo", value },{ "Contents", ConstantManager.Contents }
-                    }, useModalNavigation: true, animated: false);
+                palletResponseModel = new PalletResponseModel
+                {
+                    Barcode = ManifestId.Split('-').LastOrDefault(),
+                    BuildDate = DateTimeOffset.Now,
+                    Container = null,
+                    CreatedDate = DateTimeOffset.Now,
+                    DataInfo = new Model.PrintPDF.DateInfo { },
+                    Location = new Owner { },
+                    Owner = new Owner { },
+                    PalletId = palletRequestModel.PalletId,
+                    PalletItems = palletItems,
+                    ReferenceKey = string.Empty,
+                    StockLocation = new Owner { FullName = StockLocation.FullName , PartnerTypeName = StockLocation.PartnerTypeName },
+                    TargetLocation = new Model.PrintPDF.TargetLocation { },
+                    Tags = ConstantManager.Tags,
+                };
+
+                var current = Connectivity.NetworkAccess;
+                if (current == NetworkAccess.Internet)
+                {
+                    var value = await _palletizeService.PostPalletAsync(palletRequestModel, AppSettings.SessionId, Configuration.NewPallet);
                 }
                 else
                 {
-                    Loader.StopLoading();
+                    try
+                    {
+                        palletRequestModel.IsQueue = true;
+                        var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                        RealmDb.Write(() =>
+                        {
+                            RealmDb.Add(palletRequestModel, update: true);
+                        });
+                    }
+                    catch (Exception ex)
+                    {
+                        Crashes.TrackError(ex);
+                    }
                 }
+
+                PrintPallet();
+
+                await _navigationService.NavigateAsync(new Uri("PalletizeDetailView", UriKind.Relative), new NavigationParameters
+                    {
+                        { "LoadInfo", palletResponseModel },{ "Contents", ConstantManager.Contents }
+                    }, useModalNavigation: true, animated: false);
+
             }
             catch (Exception ex)
             {
@@ -514,15 +580,14 @@ namespace KegID.ViewModel
                 IsSubmitVisible = true;
         }
 
-        private void BarcodeScanCommandReciever()
+        private async void BarcodeScanCommandReciever()
         {
             try
             {
-                PalletToScanKegPagesMsg msg = new PalletToScanKegPagesMsg
-                {
-                    BarcodeScan = true
-                };
-                MessagingCenter.Send(msg, "PalletToScanKegPagesMsg");
+                await _navigationService.NavigateAsync(new Uri("ScanditScanView", UriKind.Relative), new NavigationParameters
+                    {
+                        { "ViewTypeEnum", ViewTypeEnum.PalletizeView }
+                    }, useModalNavigation: true, animated: false);
             }
             catch (Exception ex)
             {

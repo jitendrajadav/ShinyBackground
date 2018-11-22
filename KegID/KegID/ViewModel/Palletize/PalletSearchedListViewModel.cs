@@ -91,6 +91,7 @@ namespace KegID.ViewModel
         {
             try
             {
+                Loader.StartLoading();
                 //needs to assing partnerId??string.Empty once backend is ready...
                 var value = await _dashboardService.GetPalletSearchAsync(AppSettings.SessionId, string.Empty, fromDate, toDate, kegs, kegOwnerId);
                 PalletSearchCollection = value.SearchPalletResponseModel;
@@ -98,6 +99,10 @@ namespace KegID.ViewModel
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
+            }
+            finally
+            {
+                Loader.StopLoading();
             }
         }
 

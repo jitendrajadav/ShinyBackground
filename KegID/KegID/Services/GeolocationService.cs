@@ -82,10 +82,10 @@ namespace KegID.Services
             {
                 location = new Location(0, 0);
             }
-            catch (FeatureNotEnabledException fNEx)
+            catch (FeatureNotEnabledException)
             {
-                location = null;
-                throw fNEx;
+                location = new Location(0, 0);
+                //throw fNEx;
             }
             catch (Exception ex)
             {
@@ -124,9 +124,10 @@ namespace KegID.Services
                 {
                     location = await OnGetCurrentLocationAsync();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    await _dialogService.DisplayAlertAsync("Warning", ex.Message + " Please enable location Service and try again", "Ok");
+                    location = new Location(0, 0);
+                    //await _dialogService.DisplayAlertAsync("Warning", ex.Message + " Please enable location Service and try again", "Ok");
                 }
                 return location;
             }

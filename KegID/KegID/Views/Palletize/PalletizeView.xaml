@@ -75,59 +75,80 @@
                     VerticalOptions="FillAndExpand"
                     HorizontalOptions="FillAndExpand"/>
 
-                <Label
-                    AutomationId="manifestIdLabel"
-                    Font="16"
-                    Style="{StaticResource LabelTitleWhiteTextColorStyle}"
-                    IsVisible="{Binding IsCameraVisible,Converter={StaticResource InvertedBooleanConverter}}"
-                    Text="{Binding ManifestId, StringFormat='Pallet# -{0}'}"
-                    />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20*"/>
+                        <ColumnDefinition Width="70*"/>
+                        <ColumnDefinition Width="15*"/>
+                    </Grid.ColumnDefinitions>
 
-                <Entry 
-                    AutomationId="manifestIdEntry"
-                    Margin="10,0,40,0"
-                    IsVisible="{Binding IsCameraVisible}"
-                    Text="{Binding ManifestId,Mode=TwoWay}"
-                    VerticalOptions="Center"/>
+                    <Label
+                        Grid.Column="0"
+                        AutomationId="palletLabel"
+                        Font="16"
+                        Style="{StaticResource LabelTitleWhiteTextColorStyle}"
+                        Text="Pallet #:"
+                        />
 
-                <Image
-                    AutomationId="pencilImage"
-                    x:Name="imgPencil"
-                    IsVisible="{Binding IsCameraVisible,Converter={StaticResource InvertedBooleanConverter}}"
-                    HorizontalOptions="End"                  
-                    HeightRequest="30"
-                    VerticalOptions="Center"
-                    BackgroundColor="Transparent">
+                    <Label
+                        Grid.Column="1"
+                        AutomationId="manifestIdLabel"
+                        Font="16"
+                        Style="{StaticResource LabelTitleWhiteTextColorStyle}"
+                        IsVisible="{Binding IsCameraVisible,Converter={StaticResource InvertedBooleanConverter}}"
+                        Text="{Binding ManifestId}"
+                        />
 
-                    <Image.Source>
-                        <FileImageSource File="{OnPlatform Android=pencil.png,iOS=pencil.png, UWP=Assets/pencil.png }"/>
-                    </Image.Source>
+                    <Label 
+                        Font="16"
+                        Grid.Column="1"
+                        AutomationId="manifestIdEntry"
+                        IsVisible="{Binding IsCameraVisible}"
+                        Text="{Binding ManifestId,Mode=TwoWay}"
+                        VerticalOptions="Center"
+                        Style="{StaticResource LabelTitleWhiteTextColorStyle}"/>
 
-                    <Image.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding Path=BindingContext.IsPalletVisibleCommand, 
+                    <Image
+                        Grid.Column="2"
+                        AutomationId="pencilImage"
+                        x:Name="imgPencil"
+                        IsVisible="{Binding IsCameraVisible,Converter={StaticResource InvertedBooleanConverter}}"
+                        HorizontalOptions="End"                  
+                        HeightRequest="30"
+                        VerticalOptions="Center"
+                        BackgroundColor="Transparent">
+
+                        <Image.Source>
+                            <FileImageSource File="{OnPlatform Android=pencil.png,iOS=pencil.png, UWP=Assets/pencil.png }"/>
+                        </Image.Source>
+
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Path=BindingContext.IsPalletVisibleCommand, 
                                                     Source={x:Reference Name=imgPencil}}"
                                                         CommandParameter="{Binding}"/>
-                    </Image.GestureRecognizers>
-                </Image>
+                        </Image.GestureRecognizers>
+                    </Image>
 
-                <Image
-                    AutomationId="cameraImage"
-                    x:Name="imgCamera"
-                    IsVisible="{Binding IsCameraVisible}"
-                    HorizontalOptions="End"                  
-                    HeightRequest="30"
-                    VerticalOptions="FillAndExpand"
-                    BackgroundColor="Transparent">
-                    <Image.Source>
-                        <FileImageSource File="{OnPlatform Android=camera.png,iOS=camera.png, UWP=Assets/camera.png }"/>
-                    </Image.Source>
+                    <Image
+                        Grid.Column="2"
+                        AutomationId="cameraImage"
+                        x:Name="imgCamera"
+                        IsVisible="{Binding IsCameraVisible}"
+                        HorizontalOptions="End"                  
+                        HeightRequest="30"
+                        VerticalOptions="FillAndExpand"
+                        BackgroundColor="Transparent">
+                        <Image.Source>
+                            <FileImageSource File="{OnPlatform Android=camera.png,iOS=camera.png, UWP=Assets/camera.png }"/>
+                        </Image.Source>
 
-                    <Image.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding Path=BindingContext.BarcodeScanCommand, 
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Path=BindingContext.BarcodeScanCommand, 
                                                     Source={x:Reference Name=imgCamera}}"
                                                         CommandParameter="{Binding}"/>
-                    </Image.GestureRecognizers>
-                </Image>
+                        </Image.GestureRecognizers>
+                    </Image>
+                </Grid>
 
                 <Label
                     AutomationId="stockLocationLabel"

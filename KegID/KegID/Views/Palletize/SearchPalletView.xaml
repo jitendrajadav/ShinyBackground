@@ -27,6 +27,13 @@
                 Command="{Binding HomeCommand}"
                 />
 
+            <Label
+                AutomationId="palletsSearchLabel"
+                HorizontalOptions="Center"
+                Style="{StaticResource LabelTitleStyle}"
+                Text="{Binding Resources[title_pallet_list]}"
+                />
+
             <Grid
                 AutomationId="innerGrd"
                 Grid.Row="1"

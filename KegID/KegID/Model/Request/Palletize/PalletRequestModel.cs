@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Realms;
+using System;
 using System.Collections.Generic;
 
 namespace KegID.Model
 {
-    public class PalletRequestModel
+    public class PalletRequestModel : RealmObject
     {
+        [PrimaryKey]
         public string PalletId { get; set; }
         public string OwnerId { get; set; }
         public string Barcode { get; set; }
@@ -13,7 +15,8 @@ namespace KegID.Model
         public string StockLocationId { get; set; }
         public string StockLocationName { get; set; }
         public string ReferenceKey { get; set; }
-        public List<PalletItem> PalletItems { get; set; }
-        public List<Tag> Tags { get; set; }
+        public IList<PalletItem> PalletItems { get; }
+        public IList<Tag> Tags { get;}
+        public bool IsQueue { get; internal set; }
     }
 }
