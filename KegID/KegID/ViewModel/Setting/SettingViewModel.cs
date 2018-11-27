@@ -54,7 +54,7 @@ namespace KegID.ViewModel
             {
                 try
                 {
-                    await _navigationService.NavigateAsync(new Uri("AboutAppView", UriKind.Relative), useModalNavigation: true, animated: false);
+                    await _navigationService.NavigateAsync("AboutAppView", animated: false);
                 }
                 catch (Exception ex)
                 {
@@ -105,7 +105,7 @@ namespace KegID.ViewModel
                         { "IsLogOut",true}
                     };
                     await _navigationService.ClearPopupStackAsync(animated: false);
-                    await _navigationService.NavigateAsync("/NavigationPage/LoginView", param,useModalNavigation:true);
+                    await _navigationService.NavigateAsync("/NavigationPage/LoginView", param, animated: false);
                 }
             }
             catch (Exception ex)
@@ -120,7 +120,7 @@ namespace KegID.ViewModel
             {
                 try
                 {
-                    await _navigationService.NavigateAsync(new Uri("PrinterSettingView", UriKind.Relative), useModalNavigation: true, animated: false);
+                    await _navigationService.NavigateAsync("PrinterSettingView", animated: false);
                 }
                 catch (Exception ex)
                 {
@@ -139,8 +139,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("WhatIsNewView", UriKind.Relative), useModalNavigation: true, animated: false);
-                await _navigationService.ClearPopupStackAsync("SettingView", null);
+                await _navigationService.NavigateAsync("WhatIsNewView", animated: false);
+                await _navigationService.ClearPopupStackAsync("SettingView", null, animated: false);
             }
             catch (Exception ex)
             {

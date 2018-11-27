@@ -396,7 +396,7 @@ namespace KegID.ViewModel
                 await _navigationService.GoBackAsync(new NavigationParameters
                         {
                             { "EditAddress", address },{ "IsShipping", IsShipping }
-                        }, useModalNavigation: true, animated: false);
+                        }, animated: false);
 
                 CleanupData();
             }
@@ -426,7 +426,7 @@ namespace KegID.ViewModel
 
         private async void BackCommandRecieverAsync()
         {
-            await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+            await _navigationService.GoBackAsync(animated: false);
         }
 
         public override void OnNavigatingTo(INavigationParameters parameters)

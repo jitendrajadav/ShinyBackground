@@ -1,6 +1,4 @@
-﻿using Prism.Navigation;
-using Rg.Plugins.Popup.Pages;
-using System.Linq;
+﻿using Rg.Plugins.Popup.Pages;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -12,6 +10,7 @@ namespace KegID.Views
         public SettingView()
         {
             InitializeComponent();
+            NavigationPage.SetHasNavigationBar(this, false);
         }
 
         

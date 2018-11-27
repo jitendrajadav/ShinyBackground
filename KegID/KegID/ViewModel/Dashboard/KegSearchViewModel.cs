@@ -132,10 +132,10 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("KegSearchedListView", UriKind.Relative), new NavigationParameters
+                await _navigationService.NavigateAsync("KegSearchedListView", new NavigationParameters
                     {
                         { "LoadKegSearchAsync", Barcode }
-                    }, useModalNavigation: true, animated: false);
+                    }, animated: false);
             }
             catch (Exception ex)
             {
@@ -147,7 +147,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+                await _navigationService.GoBackAsync(animated: false);
             }
             catch (Exception ex)
             {
@@ -159,10 +159,10 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("CognexScanView", UriKind.Relative), new NavigationParameters
+                await _navigationService.NavigateAsync("CognexScanView", new NavigationParameters
                     {
                         { "Tags", null },{ "TagsStr", string.Empty },{ "ViewTypeEnum", ViewTypeEnum.KegSearchView }
-                    }, useModalNavigation: true, animated: false);
+                    }, animated: false);
             }
             catch (Exception ex)
             {
@@ -174,7 +174,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("BulkUpdateScanView", UriKind.Relative), useModalNavigation: true, animated: false);
+                await _navigationService.NavigateAsync("BulkUpdateScanView", animated: false);
             }
             catch (Exception ex)
             {
@@ -200,11 +200,10 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("KegSearchedListView", UriKind.Relative), new NavigationParameters
+                await _navigationService.NavigateAsync("KegSearchedListView", new NavigationParameters
                     {
                         { "LoadKegSearchAsync", barcodes }
-                    }, useModalNavigation: true, animated: false);
-
+                    }, animated: false);
             }
             catch (Exception ex)
             {

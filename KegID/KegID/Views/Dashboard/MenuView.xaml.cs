@@ -10,6 +10,7 @@ namespace KegID.Views
 		public MenuView()
 		{
 			InitializeComponent ();
-		}
+            NavigationPage.SetHasNavigationBar(this, false);
+        }
 	}
 }

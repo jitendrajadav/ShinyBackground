@@ -165,7 +165,7 @@ namespace KegID.ViewModel
                 await _navigationService.GoBackAsync(new NavigationParameters
                         {
                             {"IDiscoveredPrinter", ConstantManager.PrinterSetting}
-                        }, useModalNavigation: true, animated: false);
+                        }, animated: false);
 
             }
             catch (Exception ex)
@@ -180,7 +180,7 @@ namespace KegID.ViewModel
             await _navigationService.GoBackAsync(new NavigationParameters
                         {
                             {"IDiscoveredPrinter", ConstantManager.PrinterSetting},{"friendlyLbl", friendlyLbl }
-                        }, useModalNavigation: true, animated: false);
+                        },animated: false);
         }
 
         private void StartSearch()

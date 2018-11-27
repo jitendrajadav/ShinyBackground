@@ -72,6 +72,7 @@
         <controls:CarouselViewControl 
             AutomationId="carouselMain"
             Grid.Row="2"
+            Grid.RowSpan="2"
             x:Name="myDashboard"
             ShowIndicators="true">
             <controls:CarouselViewControl.ItemsSource>

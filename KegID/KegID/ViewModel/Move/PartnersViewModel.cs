@@ -9,7 +9,6 @@ using Realms;
 using KegID.LocalDb;
 using Prism.Commands;
 using Prism.Navigation;
-using System.Threading.Tasks;
 
 namespace KegID.ViewModel
 {
@@ -326,7 +325,7 @@ namespace KegID.ViewModel
                     await _navigationService.GoBackAsync(new NavigationParameters
                     {
                         { "model", model }
-                    }, useModalNavigation: true, animated: false);
+                    }, animated: false);
 
                     Cleanup();
                 }
@@ -353,11 +352,6 @@ namespace KegID.ViewModel
                     else
                         PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners);
                 }
-                //else
-                //{
-                //    //await _initializeMetaData.LoadInitializeMetaData();
-                //    await LoadPartnersAsync();
-                //}
             }
             catch (Exception ex)
             {
@@ -373,6 +367,7 @@ namespace KegID.ViewModel
         {
             try
             {
+                PartnerCollection = null;
                 if (BrewerStockOn)
                     PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners.OrderBy(x => x.FullName).Where(x => x.PartnerTypeName == "Brewer - Stock").ToList());
                 else
@@ -394,6 +389,7 @@ namespace KegID.ViewModel
         {
             try
             {
+                PartnerCollection = null;
                 if (BrewerStockOn)
                     PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners.Where(x => x.PartnerTypeName == "Brewer - Stock").ToList());
                 else
@@ -415,7 +411,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+                await _navigationService.GoBackAsync(animated: false);
                 Cleanup();
             }
             catch (Exception ex)
@@ -428,7 +424,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("AddPartnerView", UriKind.Relative), useModalNavigation: true, animated: false);
+                await _navigationService.NavigateAsync("AddPartnerView", animated: false);
             }
             catch (Exception ex)
             {
@@ -440,7 +436,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("SearchPartnersView", UriKind.Relative), useModalNavigation: true, animated: false);
+                await _navigationService.NavigateAsync("SearchPartnersView", animated: false);
             }
             catch (Exception ex)
             {
@@ -461,15 +457,8 @@ namespace KegID.ViewModel
             }
         }
 
-        public async override void OnNavigatedTo(INavigationParameters parameters)
+        public override void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (parameters.ContainsKey("GoBackPartner"))
-            {
-                await _navigationService.GoBackAsync(new NavigationParameters
-                    {
-                        { "model", ConstantManager.Partner }
-                    }, useModalNavigation: true, animated: false);
-            }
             if (parameters.ContainsKey("BackCommandRecieverAsync"))
             {
                 BackCommandRecieverAsync();

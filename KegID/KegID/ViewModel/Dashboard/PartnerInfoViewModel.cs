@@ -430,10 +430,10 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("MoveView", UriKind.Relative), new NavigationParameters
+                await _navigationService.NavigateAsync("MoveView", new NavigationParameters
                     {
                         { "PartnerModel", PartnerModel }
-                    }, useModalNavigation: true, animated: false);
+                    }, animated: false);
             }
             catch (Exception ex)
             {
@@ -452,10 +452,10 @@ namespace KegID.ViewModel
                     Label = PartnerInfoModel.BillAddress.City,
                     Address = PartnerInfoModel.BillAddress.Line1
                 };
-                await _navigationService.NavigateAsync(new Uri("PartnerInfoMapView", UriKind.Relative), new NavigationParameters
+                await _navigationService.NavigateAsync("PartnerInfoMapView", new NavigationParameters
                     {
                         { "PartnerInfoModel", PartnerInfoModel }
-                    }, useModalNavigation: true, animated: false);
+                    }, animated: false);
             }
             catch (Exception ex)
             {
@@ -467,7 +467,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("KegsView", UriKind.Relative), useModalNavigation: true, animated: false);
+                await _navigationService.NavigateAsync("KegsView", animated: false);
             }
             catch (Exception ex)
             {
@@ -571,10 +571,10 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("AddPartnerView", UriKind.Relative), new NavigationParameters
+                await _navigationService.NavigateAsync("AddPartnerView", new NavigationParameters
                     {
                         { "PartnerInfoModel", PartnerInfoModel }
-                    }, useModalNavigation: true, animated: false);
+                    }, animated: false);
             }
             catch (Exception ex)
             {
@@ -586,7 +586,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+                await _navigationService.GoBackAsync(animated: false);
             }
             catch (Exception ex)
             {

@@ -15,6 +15,7 @@ namespace KegID.Views
             try
             {
                 InitializeComponent();
+                NavigationPage.SetHasNavigationBar(this, false);
             }
             catch (System.Exception ex)
             {
@@ -24,7 +25,7 @@ namespace KegID.Views
 
         protected override bool OnBackButtonPressed()
         {
-            (Application.Current.MainPage.Navigation.ModalStack.Last()?.BindingContext as INavigationAware)?.OnNavigatedTo(new NavigationParameters
+            (Application.Current.MainPage.Navigation.NavigationStack.Last()?.BindingContext as INavigationAware)?.OnNavigatedTo(new NavigationParameters
                     {
                         { "HomeCommandRecieverAsync", "HomeCommandRecieverAsync" }
                     });

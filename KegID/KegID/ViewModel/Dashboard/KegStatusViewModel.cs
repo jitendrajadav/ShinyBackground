@@ -718,12 +718,12 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("MoveView", UriKind.Relative), new NavigationParameters
+                await _navigationService.NavigateAsync("MoveView", new NavigationParameters
                     {
                         { "AssignInitialValueFromKegStatus", Barcode },
                         { "KegId", KegId },
                         { "ManifestId", _uuidManager.GetUuId() }
-                    }, useModalNavigation: true, animated: false);
+                    }, animated: false);
             }
             catch (Exception ex)
             {
@@ -796,7 +796,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+                await _navigationService.GoBackAsync(animated: false);
                 KegHasAlert = false;
                 Alerts = null;
                 MaintenanceCollection.Clear();
@@ -812,10 +812,10 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("EditKegView", UriKind.Relative), new NavigationParameters
+                await _navigationService.NavigateAsync("EditKegView", new NavigationParameters
                     {
                         { "AssignInitialValue", Barcode }, {"KegId",KegId },{"Owner",Owner },{"TypeName",TypeName },{"SizeName",SizeName }
-                    }, useModalNavigation: true, animated: false);
+                    }, animated: false);
             }
             catch (Exception ex)
             {
@@ -852,10 +852,10 @@ namespace KegID.ViewModel
             try
             {
                 ConstantManager.Position = Posision;
-                await _navigationService.NavigateAsync(new Uri("PartnerInfoMapView", UriKind.Relative), new NavigationParameters
+                await _navigationService.NavigateAsync("PartnerInfoMapView", new NavigationParameters
                     {
                         { "Posision", Posision }
-                    }, useModalNavigation: true, animated: false);
+                    }, animated: false);
             }
             catch (Exception ex)
             {

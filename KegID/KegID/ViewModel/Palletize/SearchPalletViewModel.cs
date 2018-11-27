@@ -246,7 +246,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("PartnersView", UriKind.Relative), useModalNavigation: true, animated: false);
+                await _navigationService.NavigateAsync("PartnersView", animated: false);
             }
             catch (Exception ex)
             {
@@ -258,7 +258,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+                await _navigationService.GoBackAsync(animated: false);
             }
             catch (Exception ex)
             {
@@ -269,10 +269,10 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("PalletSearchedListView", UriKind.Relative), new NavigationParameters
+                await _navigationService.NavigateAsync("PalletSearchedListView", new NavigationParameters
                     {
                         { "GetPalletSearchAsync", PartnerModel?.PartnerId },{ "FromDate", FromDate.ToShortDateString() },{ "ToDate", ToDate.ToShortDateString() }
-                    }, useModalNavigation: true, animated: false);
+                    }, animated: false);
             }
             catch (Exception ex)
             {

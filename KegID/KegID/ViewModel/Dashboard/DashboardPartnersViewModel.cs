@@ -437,10 +437,10 @@ namespace KegID.ViewModel
                     catch (Exception)
                     {
                     }
-                    await _navigationService.NavigateAsync(new Uri("PartnerInfoView", UriKind.Relative), new NavigationParameters
+                    await _navigationService.NavigateAsync("PartnerInfoView", new NavigationParameters
                     {
                         { "PartnerModel", model }
-                    }, useModalNavigation: true, animated: false);
+                    }, animated: false);
                 }
             }
             catch (Exception ex)
@@ -493,14 +493,14 @@ namespace KegID.ViewModel
 
         private async void BackCommandRecieverAsync()
         {
-            await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+            await _navigationService.GoBackAsync(animated: false);
         }
 
         private async void AddNewPartnerCommandRecieverAsync()
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("AddPartnerView", UriKind.Relative), useModalNavigation: true, animated: false);
+                await _navigationService.NavigateAsync("AddPartnerView", animated: false);
             }
             catch (Exception ex)
             {

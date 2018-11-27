@@ -390,7 +390,7 @@ namespace KegID.ViewModel
 
         private async void SelectPrinterCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync(new Uri("SelectPrinterView", UriKind.Relative), useModalNavigation: true, animated: false);
+            await _navigationService.NavigateAsync("SelectPrinterView", animated: false);
         }
 
         private void PrinterTestCommandReciever()
@@ -403,13 +403,13 @@ namespace KegID.ViewModel
 
         private async void CancelCommandRecieverAsync()
         {
-            await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+            await _navigationService.GoBackAsync(animated: false);
         }
 
         private async void SaveCommandRecieverAsync()
         {
             UpdatePrintingSetting();
-            await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+            await _navigationService.GoBackAsync(animated: false);
         }
 
         private void UpdatePrintingSetting()

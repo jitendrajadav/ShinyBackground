@@ -196,14 +196,14 @@ namespace KegID.ViewModel
 
         private async void HomeCommandRecieverAsync()
         {
-            await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+            await _navigationService.GoBackAsync(animated: false);
         }
 
         private async void PartnerCommandRecieverAsync()
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("PartnersView", UriKind.Relative), useModalNavigation: true, animated: false);
+                await _navigationService.NavigateAsync("PartnersView", animated: false);
             }
             catch (Exception ex)
             {
@@ -218,13 +218,13 @@ namespace KegID.ViewModel
                 var flag = ConstantManager.MaintainTypeCollection.Where(x => x.IsToggled == true);
                 if (flag != null)
                 {
-                    await _navigationService.NavigateAsync(new Uri("MaintainScanView", UriKind.Relative),
+                    await _navigationService.NavigateAsync("MaintainScanView",
                         new NavigationParameters
                         {
                             { "Notes", Notes },
                             { "PartnerModel", PartnerModel},
                             { "ManifestModel", ManifestModel }
-                        }, useModalNavigation: true, animated: false);
+                        }, animated: false);
                 }
                 else
                     await _dialogService.DisplayAlertAsync("Error", "Please select at least one maintenance item to perform.", "Ok");
@@ -239,7 +239,7 @@ namespace KegID.ViewModel
         {
             if (parameters.ContainsKey("MaintainHome"))
             {
-                await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+                await _navigationService.GoBackAsync(animated: false);
             }
             if (parameters.ContainsKey("HomeCommandRecieverAsync"))
             {

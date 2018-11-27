@@ -96,7 +96,7 @@ namespace KegID.ViewModel
                     await _navigationService.GoBackAsync(new NavigationParameters
                     {
                         { "BrandModel", model }
-                    }, useModalNavigation: true, animated: false);
+                    }, animated: false);
                 }
                 else
                 {

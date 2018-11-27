@@ -432,11 +432,10 @@ namespace KegID.ViewModel
                 }
                 else
                 {
-                    await _navigationService.NavigateAsync(new Uri("ScanInfoView", UriKind.Relative), new NavigationParameters
+                    await _navigationService.NavigateAsync("ScanInfoView", new NavigationParameters
                     {
                         { "model", model }
-                    }, useModalNavigation: true, animated: false);
-
+                    }, animated: false);
                 }
             }
             catch (Exception ex)
@@ -460,10 +459,10 @@ namespace KegID.ViewModel
                 else
                 {
                     ConstantManager.IsFromScanned = true;
-                    await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), new NavigationParameters
+                    await _navigationService.NavigateAsync("AddTagsView", new NavigationParameters
                     {
                         {"viewTypeEnum",ViewTypeEnum.BulkUpdateScanView }
-                    }, useModalNavigation: true, animated: false);
+                    }, animated: false);
                 }
             }
             catch (Exception ex)
@@ -476,11 +475,10 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("ValidateBarcodeView", UriKind.Relative), new NavigationParameters
+                await _navigationService.NavigateAsync("ValidateBarcodeView", new NavigationParameters
                     {
                         { "model", model }
-                    }, useModalNavigation:true, animated: false);
-
+                    }, animated: false);
             }
             catch (Exception ex)
             {
@@ -492,10 +490,10 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), new NavigationParameters
+                await _navigationService.NavigateAsync("AddTagsView", new NavigationParameters
                     {
                         {"viewTypeEnum",ViewTypeEnum.BulkUpdateScanView }
-                    }, useModalNavigation: true, animated: false);
+                    }, animated: false);
             }
             catch (Exception ex)
             {
@@ -551,10 +549,10 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("CognexScanView", UriKind.Relative), new NavigationParameters
+                await _navigationService.NavigateAsync("CognexScanView", new NavigationParameters
                     {
                         { "Tags", Tags },{ "TagsStr", TagsStr },{ "ViewTypeEnum", ViewTypeEnum.BulkUpdateScanView }
-                    }, useModalNavigation: true, animated: false);
+                    }, animated: false);
             }
             catch (Exception ex)
             {
@@ -597,7 +595,7 @@ namespace KegID.ViewModel
                         await _navigationService.GoBackAsync(new NavigationParameters
                         {
                             { "AssingSuccessMsgAsync", "AssingSuccessMsgAsync" }
-                        }, useModalNavigation: true, animated: false);
+                        }, animated: false);
                     }
                 }
                 else
@@ -619,7 +617,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+                await _navigationService.GoBackAsync(animated: false);
             }
             catch (Exception ex)
             {

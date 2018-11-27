@@ -404,10 +404,10 @@ namespace KegID.ViewModel
                 Crashes.TrackError(ex);
             }
 
-            await _navigationService.NavigateAsync(new Uri("ManifestDetailView", UriKind.Relative), new NavigationParameters
+            await _navigationService.NavigateAsync("ManifestDetailView", new NavigationParameters
                                 {
                                     { "manifest", manifest },{ "Contents", Contents }
-                                }, useModalNavigation: true, animated: false);
+                                }, animated: false);
         }
 
         private void AddorUpdateManifestOffline(ManifestModel manifestPostModel, bool queue)
@@ -463,10 +463,10 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("FillScanView", UriKind.Relative), new NavigationParameters
+                await _navigationService.NavigateAsync("FillScanView", new NavigationParameters
                     {
                         { "model", model }
-                    }, useModalNavigation: true, animated: false);
+                    }, animated: false);
             }
             catch (Exception ex)
             {
@@ -492,7 +492,7 @@ namespace KegID.ViewModel
 
         private async void ScanCommandRecieverAsync()
         {
-            await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+            await _navigationService.GoBackAsync(animated: false);
         }
 
         internal void AssignInitialValue(INavigationParameters parameters)

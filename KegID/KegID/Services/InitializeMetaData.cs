@@ -419,6 +419,7 @@ namespace KegID.Services
                     RealmDb.RemoveAll<PartnerModel>();
                     trans.Commit();
                 }
+                var AllPartners = RealmDb.All<PartnerModel>().ToList();
             }
             catch (Exception ex)
             {

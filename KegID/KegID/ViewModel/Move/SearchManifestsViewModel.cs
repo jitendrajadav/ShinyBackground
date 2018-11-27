@@ -290,10 +290,10 @@ namespace KegID.ViewModel
             try
             {
                 var value = await _moveService.GetManifestSearchAsync(AppSettings.SessionId, TrackingNumber, Barcode, ManifestSender, ManifestDestination, Referencekey, FromDate.ToString("MM/dd/yyyy", CultureInfo.CreateSpecificCulture("en-US")), ToDate.ToString("MM/dd/yyyy", CultureInfo.CreateSpecificCulture("en-US")));
-                await _navigationService.NavigateAsync(new Uri("SearchedManifestsListView", UriKind.Relative), new NavigationParameters
+                await _navigationService.NavigateAsync("SearchedManifestsListView", new NavigationParameters
                     {
                         { "SearchManifestsCollection", value.ManifestSearchResponseModel }
-                    }, useModalNavigation: true, animated: false);
+                    }, animated: false);
             }
             catch (Exception ex)
             {
@@ -306,7 +306,7 @@ namespace KegID.ViewModel
             try
             {
                 IsManifestDestination = true;
-                await _navigationService.NavigateAsync(new Uri("PartnersView", UriKind.Relative), useModalNavigation: true, animated: false);
+                await _navigationService.NavigateAsync("PartnersView", animated: false);
             }
             catch (Exception ex)
             {
@@ -318,7 +318,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("PartnersView", UriKind.Relative), useModalNavigation: true, animated: false);
+                await _navigationService.NavigateAsync("PartnersView", animated: false);
             }
             catch (Exception ex)
             {
@@ -328,7 +328,7 @@ namespace KegID.ViewModel
 
         private async void ManifestsCommandRecieverAsync()
         {
-            await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+            await _navigationService.GoBackAsync(animated: false);
         }
 
         internal void AssignPartnerValue(PartnerModel model)

@@ -12,11 +12,12 @@ namespace KegID.Views
 		public AddBatchView ()
 		{
 			InitializeComponent ();
-		}
+            NavigationPage.SetHasNavigationBar(this, false);
+        }
 
         protected override bool OnBackButtonPressed()
         {
-            (Application.Current.MainPage.Navigation.ModalStack.Last()?.BindingContext as INavigationAware)?.OnNavigatedTo(new NavigationParameters
+            (Application.Current.MainPage.Navigation.NavigationStack.Last()?.BindingContext as INavigationAware)?.OnNavigatedTo(new NavigationParameters
                     {
                         { "CancelCommandRecievierAsync", "CancelCommandRecievierAsync" }
                     });

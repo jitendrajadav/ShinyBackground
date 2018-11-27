@@ -10,7 +10,8 @@ namespace KegID.Views
 		public DashboardView()
 		{
 			InitializeComponent ();
-		}
+            NavigationPage.SetHasNavigationBar(this, false);
+        }
 
     }
 }

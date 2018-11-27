@@ -79,7 +79,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+                await _navigationService.GoBackAsync(animated: false);
             }
             catch (Exception ex)
             {
@@ -110,10 +110,10 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("PalletizeDetailView", UriKind.Relative), new NavigationParameters
+                await _navigationService.NavigateAsync("PalletizeDetailView", new NavigationParameters
                     {
                         { "model", model }
-                    }, useModalNavigation: true, animated: false);
+                    }, animated: false);
             }
             catch (Exception ex)
             {

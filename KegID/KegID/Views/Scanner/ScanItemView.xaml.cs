@@ -10,6 +10,7 @@ namespace KegID.Views
 		public ScanItemView ()
 		{
 			InitializeComponent ();
-		}
+            NavigationPage.SetHasNavigationBar(this, false);
+        }
 	}
 }

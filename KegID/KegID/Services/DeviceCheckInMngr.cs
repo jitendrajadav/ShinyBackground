@@ -38,7 +38,7 @@ namespace KegID.Services
                     {
                         { "IsLogOut",true}
                     };
-                await _navigationService.NavigateAsync("/NavigationPage/LoginView", param, useModalNavigation: true);
+                await _navigationService.NavigateAsync("/NavigationPage/LoginView", param);
             }
         }
     }

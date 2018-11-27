@@ -12,6 +12,7 @@ namespace KegID.Views
             try
             {
                 InitializeComponent();
+                NavigationPage.SetHasNavigationBar(this, false);
             }
             catch (System.Exception ex)
             {

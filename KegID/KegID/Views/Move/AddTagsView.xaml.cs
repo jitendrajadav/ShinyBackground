@@ -20,6 +20,7 @@ namespace KegID.Views
         public AddTagsView()
         {
             InitializeComponent();
+            NavigationPage.SetHasNavigationBar(this, false);
         }
 
         protected override bool OnBackButtonPressed()
@@ -408,12 +409,12 @@ namespace KegID.Views
             }
         }
 
-        public void OnNavigatedTo(INavigationParameters parameters)
+        public void OnNavigatedFrom(INavigationParameters parameters)
         {
             
         }
 
-        public void OnNavigatedFrom(INavigationParameters parameters)
+        public void OnNavigatedTo(INavigationParameters parameters)
         {
             
         }

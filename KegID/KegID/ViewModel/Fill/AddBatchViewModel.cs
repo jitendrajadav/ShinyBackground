@@ -460,7 +460,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("VolumeView", UriKind.Relative), useModalNavigation: true, animated: false);
+                await _navigationService.NavigateAsync("VolumeView", animated: false);
             }
             catch (Exception ex)
             {
@@ -472,7 +472,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("BrandView", UriKind.Relative), useModalNavigation: true, animated: false);
+                await _navigationService.NavigateAsync("BrandView", animated: false);
             }
             catch (Exception ex)
             {
@@ -502,7 +502,7 @@ namespace KegID.ViewModel
                 NewBatchModel.RecipeId = AppSettings.CompanyId;
                 NewBatchModel.SourceKey = "";
 
-                await _navigationService.GoBackAsync(new NavigationParameters { { "NewBatchModel", NewBatchModel } }, useModalNavigation: true, animated: false);
+                await _navigationService.GoBackAsync(new NavigationParameters { { "NewBatchModel", NewBatchModel } }, animated: false);
             }
             catch (Exception ex)
             {
@@ -514,7 +514,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+                await _navigationService.GoBackAsync(animated: false);
             }
             catch (Exception ex)
             {
@@ -526,10 +526,10 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), new NavigationParameters
+                await _navigationService.NavigateAsync("AddTagsView", new NavigationParameters
                     {
                         {"viewTypeEnum",ViewTypeEnum.AddBatchView }
-                    }, useModalNavigation: true, animated: false);
+                    }, animated: false);
             }
             catch (Exception ex)
             {

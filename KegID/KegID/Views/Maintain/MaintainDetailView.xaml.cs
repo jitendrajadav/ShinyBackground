@@ -13,6 +13,7 @@ namespace KegID.Views
         public MaintainDetailView()
         {
             InitializeComponent();
+            NavigationPage.SetHasNavigationBar(this, false);
             GenerateDynamicMaintenancePerformed();
         }
 
@@ -59,7 +60,7 @@ namespace KegID.Views
 
         protected override bool OnBackButtonPressed()
         {
-            (Application.Current.MainPage.Navigation.ModalStack.Last()?.BindingContext as INavigationAware)?.OnNavigatedTo(new NavigationParameters
+            (Application.Current.MainPage.Navigation.NavigationStack.Last()?.BindingContext as INavigationAware)?.OnNavigatedTo(new NavigationParameters
                     {
                         { "HomeCommandCommandRecieverAsync", "HomeCommandCommandRecieverAsync" }
                     });

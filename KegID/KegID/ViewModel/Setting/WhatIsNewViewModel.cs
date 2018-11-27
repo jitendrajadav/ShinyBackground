@@ -88,13 +88,12 @@ namespace KegID.ViewModel
                         AppSettings.IsFreshInstall = false;
 
                         // If it is Android or iOS
-                        await _navigationService.NavigateAsync(new Uri("/NavigationPage/MainPage", UriKind.Absolute), useModalNavigation: true, animated: false);
-                        // If it is UWP
-                        //await _navigationService.NavigateAsync(new Uri("/NavigationPage/MainPage", UriKind.RelativeOrAbsolute), useModalNavigation: true, animated: false);
-                       
+                        await _navigationService.NavigateAsync("../MainPage", animated: false);
                     }
                     else
-                        await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+                    {
+                        await _navigationService.GoBackAsync(animated: false);
+                    }
                 });
             });
         }

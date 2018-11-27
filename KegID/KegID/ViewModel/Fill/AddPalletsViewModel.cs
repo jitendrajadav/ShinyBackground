@@ -216,10 +216,10 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("FillScanView", UriKind.Relative), new NavigationParameters
+                await _navigationService.NavigateAsync("FillScanView", new NavigationParameters
                     {
                         { "model", model }
-                    }, useModalNavigation: true, animated: false);
+                    }, animated: false);
             }
             catch (Exception ex)
             {
@@ -231,7 +231,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.GoBackAsync(new NavigationParameters { { "PalletCollection", PalletCollection } },useModalNavigation: true, animated: false);
+                await _navigationService.GoBackAsync(new NavigationParameters { { "PalletCollection", PalletCollection } }, animated: false);
             }
             catch (Exception ex)
             {
@@ -458,10 +458,10 @@ namespace KegID.ViewModel
                 Crashes.TrackError(ex);
             }
 
-            await _navigationService.NavigateAsync(new Uri("ManifestDetailView", UriKind.Relative), new NavigationParameters
+            await _navigationService.NavigateAsync("ManifestDetailView", new NavigationParameters
                                 {
                                     { "manifest", manifest },{ "Contents", Contents }
-                                }, useModalNavigation: true, animated: false);
+                                }, animated: false);
         }
 
         private void AddorUpdateManifestOffline(ManifestModel manifestPostModel, bool queue)
@@ -509,13 +509,13 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("FillScanView", UriKind.Relative), new NavigationParameters
+                await _navigationService.NavigateAsync("FillScanView", new NavigationParameters
                     {
                         { "GenerateManifestIdAsync", "GenerateManifestIdAsync" },
                         {"PartnerModel",PartnerModel },
                             {"NewBatchModel",BatchModel },
                             {"SizeButtonTitle",SizeButtonTitle }
-                    }, useModalNavigation: true, animated: false);
+                    }, animated: false);
             }
             catch (Exception ex)
             {

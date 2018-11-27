@@ -13,6 +13,8 @@
     <ContentPage.Content>
         
         <Grid
+            RowSpacing="0"
+            ColumnSpacing="0"
             AutomationId="mainGrd">
             
             <Grid.RowDefinitions>
@@ -26,6 +28,7 @@
                 AutomationId="innerGrd"
                 VerticalOptions="Center"
                 Margin="0,0,10,0"
+                ColumnSpacing="0"
                 RowSpacing="0">
 
                 <Grid.ColumnDefinitions>

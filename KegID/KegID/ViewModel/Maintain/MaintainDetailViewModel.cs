@@ -180,15 +180,15 @@ namespace KegID.ViewModel
 
         private async void GridTappedCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync(new Uri("ContentTagsView", UriKind.Relative), new NavigationParameters
+            await _navigationService.NavigateAsync("ContentTagsView", new NavigationParameters
                             {
                                 { "Barcode", Barcodes }
-                            }, useModalNavigation: true, animated: false);
+                            }, animated: false);
         }
 
         private async void HomeCommandCommandRecieverAsync()
         {
-            await _navigationService.GoBackAsync(new NavigationParameters { { "MaintainHome", "MaintainHome" } }, useModalNavigation: true, animated: false);
+            await _navigationService.GoBackToRootAsync();
         }
 
         internal void LoadInfo(IList<BarcodeModel> barcodeCollection)

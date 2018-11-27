@@ -465,7 +465,7 @@ namespace KegID.ViewModel
                     {
                         { "IsLogOut",true}
                     };
-                    await _navigationService.NavigateAsync("/NavigationPage/LoginView", param, useModalNavigation: true);
+                    await _navigationService.NavigateAsync("/NavigationPage/LoginView", param,animated:false);
                 });
             });
 
@@ -504,10 +504,10 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("MoveView", UriKind.Relative), new NavigationParameters
+                await _navigationService.NavigateAsync("MoveView", new NavigationParameters
                 {
                     { "ManifestId", _uuidManager.GetUuId() }
-                }, useModalNavigation: true, animated: false);
+                }, animated: false);
             }
             catch (Exception ex)
             {
@@ -519,7 +519,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("DashboardPartnersView", UriKind.Relative), useModalNavigation: true, animated: false);
+                await _navigationService.NavigateAsync("DashboardPartnersView", animated: false);
             }
             catch (Exception ex)
             {
@@ -531,7 +531,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("KegSearchView", UriKind.Relative), useModalNavigation: true, animated: false);
+                await _navigationService.NavigateAsync("KegSearchView", animated: false);
             }
             catch (Exception ex)
             {
@@ -543,7 +543,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("DashboardPartnersView", UriKind.Relative), useModalNavigation: true, animated: false);
+                await _navigationService.NavigateAsync("DashboardPartnersView", animated: false);
             }
             catch (Exception ex)
             {
@@ -555,10 +555,10 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("InventoryView", UriKind.Relative), new NavigationParameters
+                await _navigationService.NavigateAsync("InventoryView", new NavigationParameters
                     {
                         { "currentPage", 0 }
-                    }, useModalNavigation: true, animated: false);
+                    }, animated: false);
             }
             catch (Exception ex)
             {
@@ -570,10 +570,10 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("InventoryView", UriKind.Relative), new NavigationParameters
+                await _navigationService.NavigateAsync("InventoryView", new NavigationParameters
                     {
                         { "currentPage", 1 }
-                    }, useModalNavigation: true, animated: false);
+                    }, animated: false);
             }
             catch (Exception ex)
             {
@@ -585,10 +585,10 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("ManifestsView", UriKind.Relative), new NavigationParameters
+                await _navigationService.NavigateAsync("ManifestsView", new NavigationParameters
                     {
                         { "LoadDraftManifestAsync", "LoadDraftManifestAsync" }
-                    }, useModalNavigation: true, animated: false);
+                    }, animated: false);
             }
             catch (Exception ex)
             {
@@ -716,17 +716,17 @@ namespace KegID.ViewModel
 
         private async void FillCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync(new Uri("FillView", UriKind.Relative), new NavigationParameters { { "UuId", _uuidManager.GetUuId() } }, useModalNavigation: true, animated: false);
+            await _navigationService.NavigateAsync("FillView", new NavigationParameters { { "UuId", _uuidManager.GetUuId() } }, animated: false);
         }
 
         private async void PalletizeCommandRecieverAsync()
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("PalletizeView", UriKind.Relative), new NavigationParameters
+                await _navigationService.NavigateAsync("PalletizeView", new NavigationParameters
                     {
                         { "GenerateManifestIdAsync", "GenerateManifestIdAsync" }
-                    }, useModalNavigation: true, animated: false);
+                    }, animated: false);
             }
             catch (Exception ex)
             {
@@ -738,7 +738,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("SearchPalletView", UriKind.Relative), useModalNavigation: true, animated: false);
+                await _navigationService.NavigateAsync("SearchPalletView", animated: false);
             }
             catch (Exception ex)
             {
@@ -750,10 +750,10 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("MaintainView", UriKind.Relative), new NavigationParameters
+                await _navigationService.NavigateAsync("MaintainView", new NavigationParameters
                     {
                         { "LoadMaintenanceTypeAsync", "LoadMaintenanceTypeAsync" }
-                    }, useModalNavigation: true, animated: false);
+                    }, animated: false);
             }
             catch (Exception ex)
             {
@@ -791,7 +791,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("SettingView", UriKind.Relative), useModalNavigation: true, animated: false);
+                await _navigationService.NavigateAsync("SettingView", animated: false);
             }
             catch (Exception ex)
             {

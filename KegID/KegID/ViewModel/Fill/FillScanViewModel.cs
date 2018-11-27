@@ -456,7 +456,7 @@ namespace KegID.ViewModel
                     ConstantManager.Barcodes = BarcodeCollection;
                     ConstantManager.Tags = Tags;
                     var formsNav = ((Prism.Common.IPageAware)_navigationService).Page;
-                    var page = formsNav.Navigation.ModalStack[formsNav.Navigation.ModalStack.Count-2];
+                    var page = formsNav.Navigation.NavigationStack[formsNav.Navigation.NavigationStack.Count-2];
                     (page?.BindingContext as INavigationAware)?.OnNavigatingTo(new NavigationParameters
                     {
                         { "Barcodes", BarcodeCollection },{ "BatchId", BatchId }
@@ -469,14 +469,14 @@ namespace KegID.ViewModel
                 await _navigationService.ClearPopupStackAsync(animated: false);
                 if (IsPalletze)
                 {
-                    await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+                    await _navigationService.GoBackAsync(animated: false);
                 }
                 else
                 {
-                    await _navigationService.NavigateAsync(new Uri("FillScanReviewView", UriKind.Relative), new NavigationParameters
+                    await _navigationService.NavigateAsync("FillScanReviewView", new NavigationParameters
                     {
                         { "BatchId", BatchId },{ "Count", BarcodeCollection.Count }
-                    }, useModalNavigation: true, animated: false);
+                    }, animated: false);
                 }
             }
             catch (Exception ex)
@@ -574,11 +574,11 @@ namespace KegID.ViewModel
                 }
                 else
                 {
-                    await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), new NavigationParameters
+                    await _navigationService.NavigateAsync("AddTagsView", new NavigationParameters
                     {
                         {"viewTypeEnum",ViewTypeEnum.FillScanView },
                         {"AddTagsViewInitialValue",model }
-                    }, useModalNavigation: true, animated: false);
+                    }, animated: false);
                 }
             }
             catch (Exception ex)
@@ -622,10 +622,10 @@ namespace KegID.ViewModel
                         }
                         else
                         {
-                            await _navigationService.NavigateAsync(new Uri("ScanInfoView", UriKind.Relative), new NavigationParameters
+                            await _navigationService.NavigateAsync("ScanInfoView", new NavigationParameters
                             {
                                 { "model", model }
-                            }, useModalNavigation: true, animated: false);
+                            }, animated: false);
                         }
                     }
                 }
@@ -640,10 +640,10 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("ValidateBarcodeView", UriKind.Relative), new NavigationParameters
+                await _navigationService.NavigateAsync("ValidateBarcodeView", new NavigationParameters
                     {
                         { "model", model }
-                    }, useModalNavigation: true, animated: false);
+                    }, animated: false);
             }
             catch (Exception ex)
             {
@@ -731,11 +731,11 @@ namespace KegID.ViewModel
 
         private async Task NavigateToFillScanReview()
         {
-            await _navigationService.NavigateAsync(new Uri("FillScanReviewView", UriKind.Relative),
+            await _navigationService.NavigateAsync("FillScanReviewView",
                                         new NavigationParameters
                                         {
                                 { "BatchId", BatchId },{ "BarcodeCollection", BarcodeCollection }
-                                        }, useModalNavigation: true, animated: false);
+                                        }, animated: false);
         }
 
         private void IsPalletVisibleCommandReciever()
@@ -773,14 +773,14 @@ namespace KegID.ViewModel
                             await _navigationService.GoBackAsync(new NavigationParameters
                                     {
                                         { "AssignValueToAddPalletAsync", BatchId }, { "BarcodesCollection", BarcodeCollection },
-                                    }, useModalNavigation: true, animated: false);
+                                    }, animated: false);
                             break;
                         case "Assign sizes":
                             var param = new NavigationParameters
                             {
                                 { "alert", alert }
                             };
-                            await _navigationService.NavigateAsync(new Uri("AssignSizesView", UriKind.Relative), param, useModalNavigation: true, animated: false);
+                            await _navigationService.NavigateAsync("AssignSizesView", param, animated: false);
 
                             break;
                         case "Countinue with current scans":
@@ -831,7 +831,7 @@ namespace KegID.ViewModel
                     await _navigationService.GoBackAsync(new NavigationParameters
                                     {
                                         { "AssignValueToAddPalletAsync", BatchId }, { "BarcodesCollection", BarcodeCollection },
-                                    }, useModalNavigation: true, animated: false);
+                                    }, animated: false);
                 }
             }
             catch (Exception ex)
@@ -869,7 +869,7 @@ namespace KegID.ViewModel
                     { "BatchId", BatchId },
                     { "ManifestId", ManifestId },
 
-                },useModalNavigation: true, animated: false);
+                }, animated: false);
             }
             catch (Exception ex)
             {
@@ -881,10 +881,10 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("ScanditScanView", UriKind.Relative), new NavigationParameters
+                await _navigationService.NavigateAsync("ScanditScanView", new NavigationParameters
                     {
                         { "Tags", Tags },{ "TagsStr", TagsStr },{ "ViewTypeEnum", ViewTypeEnum.FillScanView }
-                    }, useModalNavigation: true, animated: false);
+                    }, animated: false);
             }
             catch (Exception ex)
             {
@@ -922,10 +922,10 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), new NavigationParameters
+                await _navigationService.NavigateAsync("AddTagsView", new NavigationParameters
                     {
                         {"viewTypeEnum",ViewTypeEnum.FillScanView }
-                    }, useModalNavigation: true, animated: false);
+                    }, animated: false);
             }
             catch (Exception ex)
             {
@@ -990,7 +990,7 @@ namespace KegID.ViewModel
                     }
 
                     if (!BarcodeCollection.Any(x => x?.Kegs?.Partners?.Count > 1))
-                        await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+                        await _navigationService.GoBackAsync(animated: false);
                 }
                 catch (Exception ex)
                 {

@@ -9,14 +9,15 @@ namespace KegID.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class FillView : ContentPage
 	{
-		public FillView ()
-		{
-			InitializeComponent ();
-		}
+        public FillView()
+        {
+            InitializeComponent();
+            NavigationPage.SetHasNavigationBar(this, false);
+        }
 
         protected override bool OnBackButtonPressed()
         {
-            (Application.Current.MainPage.Navigation.ModalStack.Last()?.BindingContext as INavigationAware)?.OnNavigatedTo(new NavigationParameters
+            (Application.Current.MainPage.Navigation.NavigationStack.Last()?.BindingContext as INavigationAware)?.OnNavigatedTo(new NavigationParameters
                     {
                         { "CancelCommandRecieverAsync", "CancelCommandRecieverAsync" }
                     });

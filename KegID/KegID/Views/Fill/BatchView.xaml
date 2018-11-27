@@ -22,6 +22,7 @@
             </Grid.RowDefinitions>
 
             <Button
+                Margin="10,0,0,0"
                 AutomationId="addBatchButton"
                 x:Name="lblAddBatch"
                 Style="{StaticResource TopButtonTitleStyle}"

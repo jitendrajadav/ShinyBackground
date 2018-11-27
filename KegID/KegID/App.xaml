@@ -23,7 +23,7 @@
             <Color x:Key="textLabelColor">#555555</Color>
             <Color x:Key="alertGoldColor">#F7D68A</Color>
 
-            <OnPlatform x:Key="AppBarButtonMargin" x:TypeArguments="Thickness" iOS="10,0,10,0" Android="10,0,0,0" />
+            <OnPlatform x:Key="AppBarButtonMargin" x:TypeArguments="Thickness" iOS="10,0,10,0" />
             
             <converter1:SelectedItemEventArgsToSelectedItemConverter x:Key="SelectedItemConverter" />
             <converter1:ItemTappedEventArgsToSelectedItemConverter x:Key="ItemTappedConverter" />

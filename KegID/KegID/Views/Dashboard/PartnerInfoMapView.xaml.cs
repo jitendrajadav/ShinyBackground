@@ -13,6 +13,7 @@ namespace KegID.Views
         public PartnerInfoMapView ()
         {
             InitializeComponent();
+            NavigationPage.SetHasNavigationBar(this, false);
             var map = new Map
             {
                 MapType = MapType.Street,
@@ -43,7 +44,7 @@ namespace KegID.Views
 
         protected override bool OnBackButtonPressed()
         {
-            (Application.Current.MainPage.Navigation.ModalStack.Last()?.BindingContext as INavigationAware)?.OnNavigatedTo(new NavigationParameters
+            (Application.Current.MainPage.Navigation.NavigationStack.Last()?.BindingContext as INavigationAware)?.OnNavigatedTo(new NavigationParameters
                     {
                         { "PartnerInfoCommandRecieverAsync", "PartnerInfoCommandRecieverAsync" }
                     });

@@ -84,7 +84,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("AddBatchView", UriKind.Relative), useModalNavigation: true, animated: false);
+                await _navigationService.NavigateAsync("AddBatchView", animated: false);
             }
             catch (Exception ex)
             {
@@ -101,7 +101,7 @@ namespace KegID.ViewModel
                     await _navigationService.GoBackAsync(new NavigationParameters
                     {
                         { "BatchModel", model }
-                    }, useModalNavigation: true, animated: false);
+                    }, animated: false);
                 }
                 else
                 {
@@ -131,7 +131,7 @@ namespace KegID.ViewModel
         {
             if (parameters.ContainsKey("NewBatchModel"))
             {
-                await _navigationService.GoBackAsync(parameters, useModalNavigation: true, animated: false);
+                await _navigationService.GoBackAsync(parameters, animated: false);
             }
             if (parameters.ContainsKey("ItemTappedCommandRecieverAsync"))
             {

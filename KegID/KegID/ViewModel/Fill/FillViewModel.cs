@@ -381,7 +381,7 @@ namespace KegID.ViewModel
                 {
                     // Delete an object with a transaction
                     DeleteManifest(ManifestId);
-                    await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+                    await _navigationService.GoBackAsync(animated: false);
                 }
                 else
                 {
@@ -444,11 +444,11 @@ namespace KegID.ViewModel
                         }
 
                         Loader.StopLoading();
-                        await _navigationService.NavigateAsync(new Uri("ManifestsView", UriKind.Relative),
+                        await _navigationService.NavigateAsync("ManifestsView",
                             new NavigationParameters
                             {
                                     { "LoadDraftManifestAsync", "LoadDraftManifestAsync" }
-                            }, useModalNavigation: true, animated: false);
+                            }, animated: false);
                     }
                     else
                     {
@@ -579,7 +579,7 @@ namespace KegID.ViewModel
                 {
                     if (IsPalletze)
                     {
-                        await _navigationService.NavigateAsync(new Uri("AddPalletsView", UriKind.Relative), new NavigationParameters
+                        await _navigationService.NavigateAsync("AddPalletsView", new NavigationParameters
                         {
                             { "AddPalletsTitle", "Filling " + SizeButtonTitle + " kegs with " + BatchButtonTitle + "\n" + DestinationTitle },
                             {"PalletCollection",PalletCollection },
@@ -587,11 +587,11 @@ namespace KegID.ViewModel
                             {"PartnerModel",PartnerModel },
                             {"NewBatchModel",NewBatchModel },
                             {"SizeButtonTitle",SizeButtonTitle }
-                        }, useModalNavigation: true, animated: false);
+                        }, animated: false);
                     }
                     else
                     {
-                        await _navigationService.NavigateAsync(new Uri("FillScanView", UriKind.Relative), new NavigationParameters
+                        await _navigationService.NavigateAsync("FillScanView", new NavigationParameters
                         {
                             { "IsPalletze",IsPalletze},
                             { "Title","Filling " + SizeButtonTitle + " kegs with " + BatchButtonTitle + " " + DestinationTitle},
@@ -600,7 +600,7 @@ namespace KegID.ViewModel
                             {"SizeButtonTitle",SizeButtonTitle },
                             {"ManifestId",ManifestId },
                             { "Barcodes",ConstantManager.Barcodes}
-                        }, useModalNavigation: true, animated: false);
+                        }, animated: false);
                     }
                 }
                 else
@@ -618,10 +618,10 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("PartnersView", UriKind.Relative), new NavigationParameters
+                await _navigationService.NavigateAsync("PartnersView", new NavigationParameters
                     {
                         { "BrewerStockOn", true }
-                    }, useModalNavigation: true, animated: false);
+                    }, animated: false);
             }
             catch (Exception ex)
             {
@@ -631,12 +631,12 @@ namespace KegID.ViewModel
 
         private async void BatchCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync(new Uri("BatchView", UriKind.Relative), useModalNavigation: true, animated: false);
+            await _navigationService.NavigateAsync("BatchView", animated: false);
         }
 
         private async void SizeCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync(new Uri("SizeView", UriKind.Relative), useModalNavigation: true, animated: false);
+            await _navigationService.NavigateAsync("SizeView", animated: false);
         }
 
         private void AssignInitialValue(ManifestModel manifestModel)

@@ -332,7 +332,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("PalletizeView", UriKind.Relative), useModalNavigation: true, animated: false);
+                await _navigationService.NavigateAsync("PalletizeView", animated: false);
             }
             catch (Exception ex)
             {
@@ -344,7 +344,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("MoveView", UriKind.Relative), useModalNavigation: true, animated: false);
+                await _navigationService.NavigateAsync("MoveView", animated: false);
             }
             catch (Exception ex)
             {
@@ -354,10 +354,10 @@ namespace KegID.ViewModel
 
         private async void GridTappedCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync(new Uri("ContentTagsView", UriKind.Relative), new NavigationParameters
+            await _navigationService.NavigateAsync("ContentTagsView", new NavigationParameters
                             {
                                 { "Barcode", Barcodes }
-                            }, useModalNavigation: true, animated: false);
+                            }, animated: false);
         }
 
         private void ShareCommandReciever()
@@ -410,7 +410,7 @@ namespace KegID.ViewModel
         private async void HomeCommandRecieverAsync()
         {
             ConstantManager.Barcodes.Clear();
-            await _navigationService.GoBackAsync(new NavigationParameters { { "PalletHome", "PalletHome" } }, useModalNavigation: true, animated: false);
+            await _navigationService.GoBackToRootAsync();
         }
 
         internal void LoadInfo(PalletResponseModel value)

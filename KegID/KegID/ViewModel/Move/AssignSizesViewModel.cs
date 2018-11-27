@@ -286,7 +286,7 @@ namespace KegID.ViewModel
                 await _navigationService.GoBackAsync(new NavigationParameters
                         {
                             { "AssignSizesValue", ConstantManager.VerifiedBarcodes }
-                        }, useModalNavigation: true, animated: false);
+                        }, animated: false);
             }
             catch (Exception ex)
             {

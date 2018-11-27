@@ -222,10 +222,10 @@ namespace KegID.ViewModel
 
         private async void GridTappedCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync(new Uri("ContentTagsView", UriKind.Relative), new NavigationParameters
+            await _navigationService.NavigateAsync("ContentTagsView", new NavigationParameters
                             {
                                 { "Barcode", Barcode }
-                            }, useModalNavigation: true, animated: false);
+                            }, animated: false);
         }
 
         private void ShareCommandRecieverAsync()
@@ -278,8 +278,8 @@ namespace KegID.ViewModel
         private async void ManifestsCommandRecieverAsync()
         {
             ConstantManager.Barcodes.Clear();
-            await _navigationService.NavigateAsync(new Uri("/NavigationPage/MainPage", UriKind.Absolute), useModalNavigation: true, animated: false);
-            //await _navigationService.NavigateAsync("../../", useModalNavigation: true, animated: false);
+            var pages = Application.Current.MainPage.Navigation.NavigationStack;
+            await _navigationService.GoBackToRootAsync();
         }
 
         internal void AssignInitialValue(ManifestResponseModel manifest, string content)

@@ -8,6 +8,7 @@ using Realms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
@@ -97,7 +98,7 @@ namespace KegID.ViewModel
                     await _navigationService.GoBackAsync(new NavigationParameters
                     {
                         { "SizeModel", model }
-                    }, useModalNavigation: true, animated: false);
+                    }, animated: false);
                 }
                 else
                 {

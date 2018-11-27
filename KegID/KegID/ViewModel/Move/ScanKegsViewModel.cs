@@ -378,11 +378,12 @@ namespace KegID.ViewModel
                 else
                 {
                     ConstantManager.IsFromScanned = true;
-                    await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), new NavigationParameters
+                    await _navigationService.NavigateAsync("AddTagsView", new NavigationParameters
                     {
                         {"viewTypeEnum",ViewTypeEnum.ScanKegsView },
                         {"AddTagsViewInitialValue",model }
-                    }, useModalNavigation: true, animated: false);
+                    }, animated: false);
+
                 }
             }
             catch (Exception ex)
@@ -426,10 +427,10 @@ namespace KegID.ViewModel
                         }
                         else
                         {
-                            await _navigationService.NavigateAsync(new Uri("ScanInfoView", UriKind.Relative), new NavigationParameters
+                            await _navigationService.NavigateAsync("ScanInfoView", new NavigationParameters
                             {
                                 { "model", model }
-                            }, useModalNavigation: true, animated: false);
+                            }, animated: false);
                         }
                     }
                 }
@@ -444,10 +445,10 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("ValidateBarcodeView", UriKind.Relative), new NavigationParameters
+                await _navigationService.NavigateAsync("ValidateBarcodeView", new NavigationParameters
                             {
                                 { "model", model }
-                            }, useModalNavigation: true, animated: false);
+                            }, animated: false);
             }
             catch (Exception ex)
             {
@@ -459,10 +460,10 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), new NavigationParameters
+                await _navigationService.NavigateAsync("AddTagsView", new NavigationParameters
                     {
                         {"viewTypeEnum", ViewTypeEnum.ScanKegsView },
-                    }, useModalNavigation: true, animated: false);
+                    }, animated: false);
             }
             catch (Exception ex)
             {
@@ -485,7 +486,7 @@ namespace KegID.ViewModel
                     {
                         case "Remove unverified scans":
                             BarcodeCollection.Remove(alert.FirstOrDefault());
-                            await _navigationService.GoBackAsync(useModalNavigation:true, animated: false);
+                            await _navigationService.GoBackAsync(animated: false);
                             Cleanup();
 
                             break;
@@ -494,8 +495,7 @@ namespace KegID.ViewModel
                             {
                                 { "alert", alert }
                             };
-                            await _navigationService.NavigateAsync(new Uri("AssignSizesView", UriKind.Relative), param, useModalNavigation: true, animated: false);
-
+                            await _navigationService.NavigateAsync("AssignSizesView", param, animated: false);
                             break;
                         case "Countinue with current scans":
                             await NavigateNextPage();
@@ -536,7 +536,7 @@ namespace KegID.ViewModel
                     await NavigateToValidatePartner(BarcodeCollection.Where(x => x?.Kegs?.Partners?.Count > 1).ToList());
                 else
                 {
-                    await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+                    await _navigationService.GoBackAsync(animated: false);
                     Cleanup();
                 }
             }
@@ -670,10 +670,10 @@ namespace KegID.ViewModel
             try
             {
                 UpdateTagsStr();
-                await _navigationService.NavigateAsync(new Uri("ScanditScanView", UriKind.Relative), new NavigationParameters
+                await _navigationService.NavigateAsync("ScanditScanView", new NavigationParameters
                     {
                         { "Tags", ConstantManager.Tags },{ "TagsStr", TagsStr },{ "ViewTypeEnum", ViewTypeEnum.ScanKegsView }
-                    }, useModalNavigation: true, animated: false);
+                    }, animated: false);
             }
             catch (Exception ex)
             {
@@ -730,8 +730,6 @@ namespace KegID.ViewModel
             {
                 if (model.Kegs.FirstOrDefault().MaintenanceItems?.Count > 0)
                 {
-                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-
                     try
                     {
                         BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = _getIconByPlatform.GetIcon(Maintenace);
@@ -743,8 +741,6 @@ namespace KegID.ViewModel
                 }
                 else
                 {
-                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-
                     try
                     {
                         BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = _getIconByPlatform.GetIcon(ValidationOK);
@@ -757,7 +753,6 @@ namespace KegID.ViewModel
 
                 try
                 {
-                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                     BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Kegs.Partners.Remove(unusedPartner);
                 }
                 catch (Exception ex)
@@ -767,16 +762,15 @@ namespace KegID.ViewModel
 
                 if (HasDone && model.Kegs?.FirstOrDefault()?.MaintenanceItems?.Count < 0)
                 {
-                    await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
-                    await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+                    await _navigationService.NavigateAsync("../../", animated: false);
                     Cleanup();
                 }
                 else
                 {
                     var check = BarcodeCollection.Where(x => x?.Kegs?.Partners?.Count > 1).ToList();
                     if (check.Count == 0)
-                    {    
-                        await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+                    {
+                        await _navigationService.GoBackAsync(animated: false);
                     }
                 }
             }

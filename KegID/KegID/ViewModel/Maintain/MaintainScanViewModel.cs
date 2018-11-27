@@ -218,7 +218,7 @@ namespace KegID.ViewModel
                     BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = _getIconByPlatform.GetIcon(ValidationOK);
                 }
 
-                await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+                await _navigationService.GoBackAsync(animated: false);
 
                 foreach (var item in BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode))
                 {
@@ -245,11 +245,11 @@ namespace KegID.ViewModel
                 }
                 else
                 {
-                    await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), new NavigationParameters
+                    await _navigationService.NavigateAsync("AddTagsView", new NavigationParameters
                     {
                         {"viewTypeEnum",ViewTypeEnum.MaintainScanView },
                         {"AddTagsViewInitialValue",model }
-                    }, useModalNavigation: true, animated: false);
+                    }, animated: false);
                 }
             }
             catch (Exception ex)
@@ -272,10 +272,10 @@ namespace KegID.ViewModel
                 }
                 else
                 {
-                    await _navigationService.NavigateAsync(new Uri("ScanInfoView", UriKind.Relative), new NavigationParameters
+                    await _navigationService.NavigateAsync("ScanInfoView", new NavigationParameters
                     {
                         { "model", model }
-                    }, useModalNavigation: true, animated: false);
+                    }, animated: false);
                 }
             }
             catch (Exception ex)
@@ -288,10 +288,10 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("ValidateBarcodeView", UriKind.Relative), new NavigationParameters
+                await _navigationService.NavigateAsync("ValidateBarcodeView", new NavigationParameters
                     {
                         { "model", models }
-                    }, useModalNavigation: true, animated: false);
+                    }, animated: false);
             }
             catch (Exception ex)
             {
@@ -336,13 +336,13 @@ namespace KegID.ViewModel
 
         private async Task GetPostedManifestDetail()
         {
-            await _navigationService.NavigateAsync(new Uri("MaintainDetailView", UriKind.Relative),
+            await _navigationService.NavigateAsync("MaintainDetailView",
                               new NavigationParameters
                               {
                                 {
                                     "BarcodeModel", BarcodeCollection
                                 }
-                              }, useModalNavigation: true, animated: false);
+                              }, animated: false);
         }
 
         private void AddorUpdateManifestOffline(ManifestModel manifestPostModel, bool queue)
@@ -390,10 +390,10 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("ScanditScanView", UriKind.Relative), new NavigationParameters
+                await _navigationService.NavigateAsync("ScanditScanView", new NavigationParameters
                     {
                         { "Tags", null },{ "TagsStr", string.Empty },{ "ViewTypeEnum", ViewTypeEnum.MaintainScanView }
-                    }, useModalNavigation: true, animated: false);
+                    }, animated: false);
             }
             catch (Exception ex)
             {
@@ -418,7 +418,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.GoBackAsync(useModalNavigation:true, animated: false);
+                await _navigationService.GoBackAsync(animated: false);
             }
             catch (Exception ex)
             {
@@ -583,12 +583,8 @@ namespace KegID.ViewModel
             MessagingCenter.Send(message, "MaintainDTToMaintMsg");
         }
 
-        public async override void OnNavigatedTo(INavigationParameters parameters)
+        public override void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (parameters.ContainsKey("MaintainHome"))
-            {
-                await _navigationService.GoBackAsync(parameters, useModalNavigation: true, animated: false);
-            }
             if (parameters.ContainsKey("BackCommandRecieverAsync"))
             {
                 BackCommandRecieverAsync();

@@ -936,10 +936,11 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("EditAddressView", UriKind.Relative), new NavigationParameters
+                await _navigationService.NavigateAsync("EditAddressView", new NavigationParameters
                     {
                         { "AddressTitle", "Billing Address" }
-                    }, useModalNavigation: true, animated: false);
+                    }, animated: false);
+
             }
             catch (Exception ex)
             {
@@ -951,10 +952,10 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("EditAddressView", UriKind.Relative), new NavigationParameters
+                await _navigationService.NavigateAsync("EditAddressView", new NavigationParameters
                     {
                         { "AddressTitle", "Shipping Address" }
-                    }, useModalNavigation: true, animated: false);
+                    }, animated: false);
             }
             catch (Exception ex)
             {
@@ -969,7 +970,7 @@ namespace KegID.ViewModel
                 bool accept = await _dialogService.DisplayAlertAsync("Cancel?", "Are you sure you want to cancel?", "Stay here", "Leave");
                 if (!accept)
                 {
-                    await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+                    await _navigationService.GoBackAsync(animated: false);
                 }
             }
             catch (Exception ex)
@@ -1050,7 +1051,7 @@ namespace KegID.ViewModel
                         await _navigationService.GoBackAsync(new NavigationParameters
                         {
                             { "partnerModel", partnerModel }
-                        }, useModalNavigation: true, animated: false);
+                        }, animated: false);
                     }
                     catch (Exception ex)
                     {

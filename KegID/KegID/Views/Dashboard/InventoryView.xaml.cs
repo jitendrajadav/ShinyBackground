@@ -12,6 +12,7 @@ namespace KegID.Views
         public InventoryView()
         {
             InitializeComponent();
+            NavigationPage.SetHasNavigationBar(this, false);
         }
 
         public void OnNavigatedFrom(INavigationParameters parameters)
@@ -43,7 +44,7 @@ namespace KegID.Views
 
         protected override bool OnBackButtonPressed()
         {
-            (Application.Current.MainPage.Navigation.ModalStack.Last()?.BindingContext as INavigationAware)?.OnNavigatedTo(new NavigationParameters
+            (Application.Current.MainPage.Navigation.NavigationStack.Last()?.BindingContext as INavigationAware)?.OnNavigatedTo(new NavigationParameters
                     {
                         { "HomeCommandRecieverAsync", "HomeCommandRecieverAsync" }
                     });

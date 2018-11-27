@@ -336,30 +336,30 @@ namespace KegID.ViewModel
                     switch ((EventTypeEnum)model.EventTypeId)
                     {
                         case EventTypeEnum.MOVE_MANIFEST:
-                            await _navigationService.NavigateAsync(new Uri("MoveView", UriKind.Relative), new NavigationParameters
+                            await _navigationService.NavigateAsync("MoveView", new NavigationParameters
                                 {
                                     { "AssignInitialValue", model }
-                                }, useModalNavigation: true, animated: false);
+                                }, animated: false);
                             break;
                         case EventTypeEnum.SHIP_MANIFEST:
                             break;
                         case EventTypeEnum.RECEIVE_MANIFEST:
                             break;
                         case EventTypeEnum.FILL_MANIFEST:
-                            await _navigationService.NavigateAsync(new Uri("FillView", UriKind.Relative), new NavigationParameters
+                            await _navigationService.NavigateAsync("FillView", new NavigationParameters
                                 {
                                     { "AssignInitialValue", model }
-                                }, useModalNavigation: true, animated: false);
+                                }, animated: false);
                             break;
                         case EventTypeEnum.PALLETIZE_MANIFEST:
                             break;
                         case EventTypeEnum.RETURN_MANIFEST:
                             break;
                         case EventTypeEnum.REPAIR_MANIFEST:
-                            await _navigationService.NavigateAsync(new Uri("MaintainView", UriKind.Relative), new NavigationParameters
+                            await _navigationService.NavigateAsync("MaintainView", new NavigationParameters
                                 {
                                     { "AssignInitialValue", model }
-                                }, useModalNavigation: true, animated: false);
+                                }, animated: false);
                             break;
                         case EventTypeEnum.COLLECT_MANIFEST:
                             break;
@@ -380,7 +380,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+                await _navigationService.GoBackAsync(animated: false);
             }
             catch (Exception ex)
             {
@@ -390,7 +390,7 @@ namespace KegID.ViewModel
 
         private async void ActionSearchCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync(new Uri("SearchManifestsView", UriKind.Relative), useModalNavigation: true, animated: false);
+            await _navigationService.NavigateAsync("SearchManifestsView", animated: false);
         }
 
         private void QueuedCommandReciever()

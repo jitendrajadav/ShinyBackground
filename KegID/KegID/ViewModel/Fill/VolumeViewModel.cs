@@ -96,7 +96,7 @@ namespace KegID.ViewModel
                     await _navigationService.GoBackAsync(new NavigationParameters
                     {
                         { "VolumeModel", model }
-                    }, useModalNavigation: true, animated: false);
+                    }, animated: false);
                 }
                 else
                 {

@@ -13,7 +13,7 @@
        
         <Grid
             AutomationId="mainGrd"
-            Margin="10,0,10,0">
+            >
            
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -28,6 +28,15 @@
                 Text="{Binding Resources[title_partner_list]}"
                 HorizontalOptions="Start"
                 Command="{Binding BackPartnersCommand}"
+                />
+
+            <Label 
+                AutomationId="parnterListLabel"
+                Text="{Binding Resources[title_partner_list]}"
+                FontAttributes="Bold"
+                Style="{StaticResource LabelTitleStyle}"
+                TextColor="Black"
+                HorizontalOptions="CenterAndExpand"
                 />
 
             <BoxView
@@ -57,6 +66,7 @@
             </SearchBar>
 
             <ListView
+                Margin="10,0,10,0"
                 AutomationId="partnerListView"
                 x:Name="lstSearchPartners"
                 Grid.Row="2"

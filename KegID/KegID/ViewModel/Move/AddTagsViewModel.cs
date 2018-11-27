@@ -115,14 +115,14 @@ namespace KegID.ViewModel
                                 {
                                     { "AddTags", ConstantManager.Tags },
                                     { "Barcode", value.Barcode }
-                            }, useModalNavigation: true, animated: false);
+                            }, animated: false);
                         }
                         else
                         {
                             await _navigationService.GoBackAsync(new NavigationParameters
                                 {
                                     { "AddTags", ConstantManager.Tags },
-                            }, useModalNavigation: true, animated: false);
+                            }, animated: false);
                         }
                     }
                 });

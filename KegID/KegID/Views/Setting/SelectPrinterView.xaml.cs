@@ -22,7 +22,7 @@ namespace KegID.Views
         public SelectPrinterView ()
 		{
 			InitializeComponent ();
-
+            NavigationPage.SetHasNavigationBar(this, false);
             //printerList = new ObservableCollection<IDiscoveredPrinter>();
 
             //printerLv = new ListView
@@ -240,7 +240,7 @@ namespace KegID.Views
 
         protected override bool OnBackButtonPressed()
         {
-            (Application.Current.MainPage.Navigation.ModalStack.Last()?.BindingContext as INavigationAware)?.OnNavigatedTo(new NavigationParameters
+            (Application.Current.MainPage.Navigation.NavigationStack.Last()?.BindingContext as INavigationAware)?.OnNavigatedTo(new NavigationParameters
                     {
                         { "GoBackMethod", "GoBackMethod" }
                     });

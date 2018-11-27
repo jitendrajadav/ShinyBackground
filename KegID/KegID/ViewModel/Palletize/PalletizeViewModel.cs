@@ -526,10 +526,10 @@ namespace KegID.ViewModel
 
                 PrintPallet();
 
-                await _navigationService.NavigateAsync(new Uri("PalletizeDetailView", UriKind.Relative), new NavigationParameters
+                await _navigationService.NavigateAsync("PalletizeDetailView", new NavigationParameters
                     {
                         { "LoadInfo", palletResponseModel },{ "Contents", ConstantManager.Contents }
-                    }, useModalNavigation: true, animated: false);
+                    }, animated: false);
 
             }
             catch (Exception ex)
@@ -584,10 +584,10 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("ScanditScanView", UriKind.Relative), new NavigationParameters
+                await _navigationService.NavigateAsync("ScanditScanView", new NavigationParameters
                     {
                         { "ViewTypeEnum", ViewTypeEnum.PalletizeView }
-                    }, useModalNavigation: true, animated: false);
+                    }, animated: false);
             }
             catch (Exception ex)
             {
@@ -604,7 +604,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("ScanKegsView", UriKind.Relative),new NavigationParameters { { "models", ConstantManager.Barcodes } }, useModalNavigation: true, animated: false);
+                await _navigationService.NavigateAsync("ScanKegsView", new NavigationParameters { { "models", ConstantManager.Barcodes } }, animated: false);
             }
             catch (Exception ex)
             {
@@ -616,10 +616,10 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("AddTagsView", UriKind.Relative), new NavigationParameters
+                await _navigationService.NavigateAsync("AddTagsView", new NavigationParameters
                     {
                         {"viewTypeEnum",ViewTypeEnum.PalletizeView }
-                    }, useModalNavigation: true, animated: false);
+                    }, animated: false);
             }
             catch (Exception ex)
             {
@@ -631,7 +631,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync(new Uri("PartnersView", UriKind.Relative), useModalNavigation: true, animated: false);
+                await _navigationService.NavigateAsync("PartnersView", animated: false);
             }
             catch (Exception ex)
             {
@@ -644,7 +644,7 @@ namespace KegID.ViewModel
             try
             {
                 TargetLocationPartner = true;
-                await _navigationService.NavigateAsync(new Uri("PartnersView", UriKind.Relative), useModalNavigation: true, animated: false);
+                await _navigationService.NavigateAsync("PartnersView", animated: false);
             }
             catch (Exception ex)
             {
@@ -658,7 +658,7 @@ namespace KegID.ViewModel
             {
                 if (AddInfoTitle == "Add info" && AddKegs == "Add Kegs")
                 {
-                    await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+                    await _navigationService.GoBackAsync(animated: false);
                     IsCameraVisible = false;
                 }
                 else
@@ -666,7 +666,7 @@ namespace KegID.ViewModel
                     bool result = await _dialogService.DisplayAlertAsync("Cancel?", "Are you sure you want to cancel?", "Leave", "Stay here");
                     if (result)
                     {
-                        await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+                        await _navigationService.GoBackAsync(animated: false);
                         IsCameraVisible = false;
                     }
                 }
@@ -685,12 +685,12 @@ namespace KegID.ViewModel
                 AddKegs = "Add Kegs";
                 IsSubmitVisible = false;
                 // Update an object with a transaction
-                using (var trans = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
-                {
-                    StockLocation.FullName = "Barcode Brewing";
-                    TargetLocation.FullName = "None";
-                    trans.Commit();
-                }
+                //using (var trans = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
+                //{
+                //    StockLocation.FullName = "Barcode Brewing";
+                //    TargetLocation.FullName = "None";
+                //    trans.Commit();
+                //}
                 Tags = null;
                 ConstantManager.Barcodes.Clear();
             }
@@ -700,12 +700,8 @@ namespace KegID.ViewModel
             }
         }
 
-        public async override void OnNavigatedTo(INavigationParameters parameters)
+        public override void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (parameters.ContainsKey("PalletHome"))
-            {
-                await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
-            }
             if (parameters.ContainsKey("CancelCommandRecieverAsync"))
             {
                 CancelCommandRecieverAsync();

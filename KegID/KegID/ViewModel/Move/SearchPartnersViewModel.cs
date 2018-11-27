@@ -170,7 +170,7 @@ namespace KegID.ViewModel
 
         private async void BackPartnersCommandRecieverAsync()
         {
-            await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+            await _navigationService.GoBackAsync(animated: false);
         }
 
         private async void ItemTappedCommandRecieverAsync(PartnerModel model)
@@ -180,7 +180,10 @@ namespace KegID.ViewModel
                 if (model != null)
                 {
                     ConstantManager.Partner = model;
-                    await _navigationService.GoBackAsync(new NavigationParameters { { "GoBackPartner", model } }, useModalNavigation: true, animated: false);
+                    await _navigationService.NavigateAsync("../../", new NavigationParameters
+                    {
+                        { "model", model }
+                    }, animated: false);
                 }
             }
             catch (Exception ex)

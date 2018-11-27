@@ -122,9 +122,9 @@ namespace KegID.ViewModel
             await _navigationService.GoBackAsync(new NavigationParameters
                     {
                         { "models", models }
-                    }, useModalNavigation: true, animated: false);
+                    }, animated: false);
 
-            await _navigationService.GoBackAsync(useModalNavigation: true, animated: false);
+            await _navigationService.GoBackAsync(animated: false);
         }
 
         private void OnDidScan(ScanSession session)
