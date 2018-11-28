@@ -230,6 +230,7 @@ namespace KegID.ViewModel
                 }
 
                 _AddKegs = value;
+                IsSubmitVisible = _AddKegs.Contains("Item") ? true : false;
                 RaisePropertyChanged(AddKegsPropertyName);
             }
         }
@@ -576,8 +577,6 @@ namespace KegID.ViewModel
                 AddKegs = string.Format("{0} Item", _barcodes.Count);
             else 
                 AddKegs = "Add Kegs";
-            if (!IsSubmitVisible)
-                IsSubmitVisible = true;
         }
 
         private async void BarcodeScanCommandReciever()
@@ -668,6 +667,7 @@ namespace KegID.ViewModel
                     {
                         await _navigationService.GoBackAsync(animated: false);
                         IsCameraVisible = false;
+                        Cleanup();
                     }
                 }
             }

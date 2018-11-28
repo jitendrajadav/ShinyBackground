@@ -604,8 +604,8 @@ namespace KegID.ViewModel
                     AddKegs = string.Format("{0} Item", _barcodes.Count);
                 else
                     AddKegs = "Add Kegs";
-                if (!IsSubmitVisible)
-                    IsSubmitVisible = true;
+                //if (!IsSubmitVisible)
+                //    IsSubmitVisible = true;
             }
             catch (Exception ex)
             {

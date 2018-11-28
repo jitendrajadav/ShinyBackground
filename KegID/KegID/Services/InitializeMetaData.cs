@@ -50,7 +50,14 @@ namespace KegID.Services
                 {
                     foreach (var item in maintenance.MaintainTypeReponseModel)
                     {
-                        realmDb.Add(item);
+                        try
+                        {
+                            realmDb.Add(item);
+                        }
+                        catch (Exception ex)
+                        {
+                            Crashes.TrackError(ex);
+                        }
                     }
                 });
             }

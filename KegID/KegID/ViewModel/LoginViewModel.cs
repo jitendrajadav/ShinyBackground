@@ -196,7 +196,10 @@ namespace KegID.ViewModel
                     try
                     {
                         if (AppSettings.IsFreshInstall)
+                        {
                             await _navigationService.NavigateAsync("../WhatIsNewView", animated: false);
+                            Loader.StopLoading();
+                        }
                         else
                             await _navigationService.NavigateAsync("../MainPage", animated: false);
                     }
@@ -232,7 +235,6 @@ namespace KegID.ViewModel
             }
             finally
             {
-                Loader.StopLoading();
                 Analytics.TrackEvent("Loged In");
             }
         }

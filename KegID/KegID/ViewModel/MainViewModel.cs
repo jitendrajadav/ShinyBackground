@@ -358,10 +358,9 @@ namespace KegID.ViewModel
             {
                 try
                 {
-                    Loader.StartLoading();
+                    Loader.StartLoading("Wait while downloading metadata...");
 
                     _initializeMetaData.DeleteInitializeMetaData();
-
                     await _initializeMetaData.LoadInitializeMetaData();
                 }
                 catch (Exception ex)

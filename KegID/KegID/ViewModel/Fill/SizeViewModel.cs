@@ -98,7 +98,7 @@ namespace KegID.ViewModel
                     await _navigationService.GoBackAsync(new NavigationParameters
                     {
                         { "SizeModel", model }
-                    }, animated: false);
+                    });
                 }
                 else
                 {

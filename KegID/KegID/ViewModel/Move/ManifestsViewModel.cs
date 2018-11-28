@@ -380,7 +380,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.GoBackAsync(animated: false);
+                await _navigationService.GoBackToRootAsync();
             }
             catch (Exception ex)
             {
