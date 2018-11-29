@@ -92,7 +92,7 @@ namespace KegID.ViewModel
             {
                 await _navigationService.NavigateAsync("KegStatusView", new NavigationParameters
                     {
-                        { "model", model }
+                        { "KegSearchedKegStatusModel", model }
                     }, animated: false);
             }
             catch (Exception ex)
@@ -124,6 +124,10 @@ namespace KegID.ViewModel
             if (parameters.ContainsKey("KegSearchCommandRecieverAsync"))
             {
                 KegSearchCommandRecieverAsync();
+            }
+            if (parameters.ContainsKey("LoadKegSearchAsync"))
+            {
+                LoadKegSearchAsync(parameters.GetValue<string>("LoadKegSearchAsync"));
             }
         }
 

@@ -27,13 +27,13 @@ namespace KegID.Services
 
         public async Task LoadInitializeMetaData()
         {
+            await LoadPartnersAsync();
             await LoadMaintainTypeAsync();
             await LoadAssetSizeAsync();
             await LoadAssetTypeAsync();
             await LoadAssetVolumeAsync();
             await LoadOwnerAsync();
             await LoadDashboardPartnersAsync();
-            await LoadPartnersAsync();
             await LoadBrandAsync();
             await LoadBatchAsync();
             await LoadPartnerTypeAsync();

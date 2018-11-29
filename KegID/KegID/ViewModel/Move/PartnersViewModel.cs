@@ -9,6 +9,8 @@ using Realms;
 using KegID.LocalDb;
 using Prism.Commands;
 using Prism.Navigation;
+using System.Threading.Tasks;
+using KegID.Common;
 
 namespace KegID.ViewModel
 {
@@ -18,7 +20,6 @@ namespace KegID.ViewModel
 
         private readonly IMoveService _moveService;
         private readonly INavigationService _navigationService;
-        //private readonly IInitializeMetaData _initializeMetaData;
 
         public bool BrewerStockOn { get; set; }
 
@@ -279,12 +280,10 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public PartnersViewModel(IMoveService moveService, INavigationService navigationService/*, IInitializeMetaData initializeMetaData*/)
+        public PartnersViewModel(IMoveService moveService, INavigationService navigationService)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
-
             _moveService = moveService;
-            //_initializeMetaData = initializeMetaData;
 
             InternalCommand = new DelegateCommand(InternalCommandReciever);
             AlphabeticalCommand = new DelegateCommand(AlphabeticalCommandReciever);
@@ -336,7 +335,7 @@ namespace KegID.ViewModel
             }
         }
 
-        public void LoadPartnersAsync()
+        public async Task LoadPartnersAsync()
         {
             Loader.StartLoading();
 
@@ -352,6 +351,12 @@ namespace KegID.ViewModel
                     else
                         PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners);
                 }
+                else
+                {
+                    DeletePartners();
+                    await LoadMetaDataPartnersAsync();
+                    await LoadPartnersAsync();
+                }
             }
             catch (Exception ex)
             {
@@ -363,6 +368,55 @@ namespace KegID.ViewModel
             }
         }
 
+        public async Task LoadMetaDataPartnersAsync()
+        {
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            try
+            {
+                var value = await _moveService.GetPartnersListAsync(AppSettings.SessionId);
+                if (value.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
+                {
+                    var Partners = value.PartnerModel.Where(x => x.FullName != string.Empty).ToList();
+
+                    RealmDb.Write(() =>
+                    {
+                        foreach (var item in Partners)
+                        {
+                            try
+                            {
+                                RealmDb.Add(item);
+                            }
+                            catch (Exception ex)
+                            {
+                                Crashes.TrackError(ex);
+                            }
+                        }
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
+        }
+
+        private void DeletePartners()
+        {
+            try
+            {
+                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                using (var trans = RealmDb.BeginWrite())
+                {
+                    RealmDb.RemoveAll<PartnerModel>();
+                    trans.Commit();
+                }
+                var AllPartners = RealmDb.All<PartnerModel>().ToList();
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
+        }
         private void AlphabeticalCommandReciever()
         {
             try
@@ -465,13 +519,13 @@ namespace KegID.ViewModel
             }
         }
 
-        public override void OnNavigatingTo(INavigationParameters parameters)
+        public override async void OnNavigatingTo(INavigationParameters parameters)
         {
             if (parameters.ContainsKey("BrewerStockOn"))
                 BrewerStockOn = true;
             else
                 BrewerStockOn = false;
-           LoadPartnersAsync();
+          await LoadPartnersAsync();
         }
 
         #endregion

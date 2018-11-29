@@ -960,6 +960,11 @@ namespace KegID.ViewModel
                 var model = parameters.GetValue<KegPossessionResponseModel>("KegStatusModel");
                 await LoadMaintenanceHistoryAsync(model.KegId, model.Contents, model.HeldDays, model.PossessorName, model.Barcode, model.TypeName, model.SizeName);
             }
+            if (parameters.ContainsKey("KegSearchedKegStatusModel"))
+            {
+                var model = parameters.GetValue<KegSearchResponseModel>("KegSearchedKegStatusModel");
+                await LoadMaintenanceHistoryAsync(model.KegId, model.Contents, 0, model?.Location?.FullName, model.Barcode, model.TypeName, model.SizeName);
+            }
         }
 
         public override void OnNavigatedTo(INavigationParameters parameters)

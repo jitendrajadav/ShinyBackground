@@ -20,6 +20,7 @@
                 AutomationId="partnerInfoButton"
                 x:Name="lblPartnerInfo"
                 HorizontalOptions="Start"
+                Margin="10,0,0,0"
                 Style="{StaticResource TopButtonTitleStyle}"
                 Text="{Binding Resources[title_partner_info]}"
                 Command="{Binding PartnerInfoCommand}"/>
