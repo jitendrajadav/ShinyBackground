@@ -27,7 +27,7 @@ namespace KegID.ViewModel
         private const string Maintenace = "maintenace.png";
         private const string ValidationOK = "validationok.png";
 
-        private readonly INavigationService _navigationService;
+        //private readonly INavigationService _navigationService;
         private readonly IMoveService _moveService;
         private readonly IZebraPrinterManager _zebraPrinterManager;
         private readonly IGetIconByPlatform _getIconByPlatform;
@@ -332,9 +332,9 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public FillScanViewModel(IMoveService moveService, INavigationService navigationService, IZebraPrinterManager zebraPrinterManager, IGetIconByPlatform getIconByPlatform, ICalcCheckDigitMngr calcCheckDigitMngr, IPageDialogService dialogService)
+        public FillScanViewModel(IMoveService moveService, INavigationService navigationService, IZebraPrinterManager zebraPrinterManager, IGetIconByPlatform getIconByPlatform, ICalcCheckDigitMngr calcCheckDigitMngr, IPageDialogService dialogService) : base(navigationService)
         {
-            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
 
             _moveService = moveService;
             _getIconByPlatform = getIconByPlatform;

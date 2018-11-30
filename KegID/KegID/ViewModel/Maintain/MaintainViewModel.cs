@@ -18,7 +18,7 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        private readonly INavigationService _navigationService;
+        //private readonly INavigationService _navigationService;
         private readonly IPageDialogService _dialogService;
         private ManifestModel ManifestModel;
 
@@ -137,9 +137,9 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public MaintainViewModel(INavigationService navigationService, IPageDialogService dialogService)
+        public MaintainViewModel(INavigationService navigationService, IPageDialogService dialogService) : base(navigationService)
         {
-            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _dialogService = dialogService;
             HomeCommand = new DelegateCommand(HomeCommandRecieverAsync);
             PartnerCommand = new DelegateCommand(PartnerCommandRecieverAsync);

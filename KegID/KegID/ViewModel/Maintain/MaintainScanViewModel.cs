@@ -29,7 +29,7 @@ namespace KegID.ViewModel
         public string Notes { get; private set; }
         private string ManifestId;
 
-        private readonly INavigationService _navigationService;
+        //private readonly INavigationService _navigationService;
         private readonly IMoveService _moveService;
         private readonly IMaintainService _maintainService;
         private readonly IGetIconByPlatform _getIconByPlatform;
@@ -124,9 +124,9 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public MaintainScanViewModel(IMoveService moveService, IMaintainService maintainService, INavigationService navigationService, IGetIconByPlatform getIconByPlatform, IUuidManager uuidManager, IManifestManager manifestManager, IGeolocationService geolocationService)
+        public MaintainScanViewModel(IMoveService moveService, IMaintainService maintainService, INavigationService navigationService, IGetIconByPlatform getIconByPlatform, IUuidManager uuidManager, IManifestManager manifestManager, IGeolocationService geolocationService) : base(navigationService)
         {
-            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
 
             _moveService = moveService;
             _maintainService = maintainService;

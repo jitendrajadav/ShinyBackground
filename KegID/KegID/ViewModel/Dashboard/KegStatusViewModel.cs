@@ -20,7 +20,7 @@ namespace KegID.ViewModel
         #region Properties
 
         private readonly IDashboardService _dashboardService;
-        private readonly INavigationService _navigationService;
+        //private readonly INavigationService _navigationService;
         private readonly IPageDialogService _dialogService;
         private readonly IUuidManager _uuidManager;
 
@@ -694,9 +694,9 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public KegStatusViewModel(IDashboardService dashboardService, INavigationService navigationService, IPageDialogService dialogService, IUuidManager uuidManager)
+        public KegStatusViewModel(IDashboardService dashboardService, INavigationService navigationService, IPageDialogService dialogService, IUuidManager uuidManager) : base(navigationService)
         {
-            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _dialogService = dialogService;
             _dashboardService = dashboardService;
             _uuidManager = uuidManager;

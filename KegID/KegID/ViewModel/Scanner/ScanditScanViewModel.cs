@@ -10,6 +10,7 @@ using Scandit.BarcodePicker.Unified;
 using Scandit.BarcodePicker.Unified.Abstractions;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -20,7 +21,7 @@ namespace KegID.ViewModel
 
         private const string Cloud = "collectionscloud.png";
         private readonly IMoveService _moveService;
-        private readonly INavigationService _navigationService;
+        //private readonly INavigationService _navigationService;
         private readonly IPageDialogService _dialogService;
 
         public IList<Tag> Tags { get; set; }
@@ -89,21 +90,15 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public ScanditScanViewModel(IMoveService moveService, INavigationService navigationService, IPageDialogService dialogService)
+        public ScanditScanViewModel(IMoveService moveService, INavigationService navigationService, IPageDialogService dialogService) : base(navigationService)
         {
-            _navigationService = navigationService;
+            //_navigationService = navigationService;
             _moveService = moveService;
             _dialogService = dialogService;
 
             DoneCommand = new DelegateCommand(DoneCommandRecieverAsync);
 
             InitSettings();
-            ScanditService.BarcodePicker.DidScan += OnDidScan;
-            ScanditService.BarcodePicker.DidStop += OnDidStopAsync;
-            UpdateScanSettings();
-            UpdateScanOverlay();
-            ScanditService.BarcodePicker.CancelButtonText = "Done";
-            ScanditService.BarcodePicker.StartScanningAsync(false);
         }
 
         #endregion
@@ -200,12 +195,19 @@ namespace KegID.ViewModel
             foreach (var sym in symbologiesToEnable)
                 _scanSettings.EnableSymbology(sym, true);
             await _picker.ApplySettingsAsync(_scanSettings);
-            // This will open the scanner in full-screen mode. 
+            // This will open the scanner in full-screen mode.  
+
+            ScanditService.BarcodePicker.DidScan += OnDidScan;
+            ScanditService.BarcodePicker.DidStop += OnDidStopAsync;
+            await UpdateScanSettings();
+            UpdateScanOverlay();
+            ScanditService.BarcodePicker.CancelButtonText = "Done";
+            await ScanditService.BarcodePicker.StartScanningAsync(false);
         }
 
         // reads the values needed for ScanSettings from the Settings class
         // and applies them to the Picker
-        private void UpdateScanSettings()
+        private async Task UpdateScanSettings()
         {
             bool addOnEnabled = false;
             foreach (string setting in ScanditConvert.settingToSymbologies.Keys)
@@ -241,7 +243,7 @@ namespace KegID.ViewModel
 
             _scanSettings.ResolutionPreference = ScanditConvert.resolutionToScanSetting[AppSettings.getStringSetting(AppSettings.ResolutionString)];
             _scanSettings.CodeDuplicateFilter = 0;
-            ScanditService.BarcodePicker.ApplySettingsAsync(_scanSettings);
+            await ScanditService.BarcodePicker.ApplySettingsAsync(_scanSettings);
         }
 
         private void UpdateScanOverlay()

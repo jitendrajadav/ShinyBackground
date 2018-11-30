@@ -6,7 +6,12 @@ using Prism.Navigation;
 namespace KegID.ViewModel
 {
     public abstract class BaseViewModel : BindableBase, INavigationAware
-    {
+    {     
+        /* 
+         * Define Fields
+         */
+        protected INavigationService _navigationService { get; }
+
         public ILoader  Loader { get; set; }
         public LocalizedResources Resources
         {
@@ -14,8 +19,9 @@ namespace KegID.ViewModel
             private set;
         }
 
-        public BaseViewModel()
+        public BaseViewModel(INavigationService navigationService)
         {
+            _navigationService = navigationService;
             Loader = new Loader();
             Resources = new LocalizedResources(typeof(KegIDResource), App.CurrentLanguage);
         }

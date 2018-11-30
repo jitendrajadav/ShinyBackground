@@ -9,7 +9,7 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        private readonly INavigationService _navigationService;
+        //private readonly INavigationService _navigationService;
 
         #region ContentCollection
 
@@ -55,9 +55,9 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public ContentTagsViewModel(INavigationService navigationService)
+        public ContentTagsViewModel(INavigationService navigationService) : base(navigationService)
         {
-            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
 
             ManifestCommand = new DelegateCommand(ManifestCommandRecieverAsync);
         }

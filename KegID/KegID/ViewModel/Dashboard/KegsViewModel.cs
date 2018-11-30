@@ -14,7 +14,7 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        private readonly INavigationService _navigationService;
+        //private readonly INavigationService _navigationService;
         private readonly IDashboardService _dashboardService;
 
         #region KegsTitle
@@ -94,9 +94,9 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public KegsViewModel(IDashboardService dashboardService, INavigationService navigationService)
+        public KegsViewModel(IDashboardService dashboardService, INavigationService navigationService) : base(navigationService)
         {
-            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
 
             _dashboardService = dashboardService;
             PartnerInfoCommand = new DelegateCommand(PartnerInfoCommandRecieverAsync);

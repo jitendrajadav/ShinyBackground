@@ -22,7 +22,7 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        private readonly INavigationService _navigationService;
+        //private readonly INavigationService _navigationService;
         private readonly IPalletizeService _palletizeService;
         private readonly IPageDialogService _dialogService;
         private readonly IMoveService _moveService;
@@ -321,9 +321,9 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public PalletizeViewModel(IPalletizeService palletizeService, IMoveService moveService, INavigationService navigationService, IZebraPrinterManager zebraPrinterManager, IUuidManager uuidManager, ICalcCheckDigitMngr calcCheckDigitMngr, IPageDialogService dialogService)
+        public PalletizeViewModel(IPalletizeService palletizeService, IMoveService moveService, INavigationService navigationService, IZebraPrinterManager zebraPrinterManager, IUuidManager uuidManager, ICalcCheckDigitMngr calcCheckDigitMngr, IPageDialogService dialogService) : base(navigationService)
         {
-            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _moveService = moveService;
             _dialogService = dialogService;
             _palletizeService = palletizeService;

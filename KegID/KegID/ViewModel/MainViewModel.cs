@@ -26,7 +26,7 @@ namespace KegID.ViewModel
 
         private readonly IDeviceCheckInMngr _deviceCheckInMngr;
         private readonly IInitializeMetaData _initializeMetaData;
-        private readonly INavigationService _navigationService;
+        //private readonly INavigationService _navigationService;
         private readonly IDashboardService _dashboardService;
         private readonly IGetIconByPlatform _getIconByPlatform;
         private readonly IUuidManager _uuidManager;
@@ -309,9 +309,9 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public MainViewModel(INavigationService navigationService/*, ISyncManager syncManager*/, IDeviceCheckInMngr deviceCheckInMngr, IInitializeMetaData initializeMetaData, IDashboardService dashboardService, IGetIconByPlatform getIconByPlatform, IUuidManager uuidManager)
+        public MainViewModel(INavigationService navigationService/*, ISyncManager syncManager*/, IDeviceCheckInMngr deviceCheckInMngr, IInitializeMetaData initializeMetaData, IDashboardService dashboardService, IGetIconByPlatform getIconByPlatform, IUuidManager uuidManager) : base(navigationService)
         {
-            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
 
             _deviceCheckInMngr = deviceCheckInMngr;
             _initializeMetaData = initializeMetaData;

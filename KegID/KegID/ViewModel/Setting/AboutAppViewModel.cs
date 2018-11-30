@@ -9,7 +9,7 @@ namespace KegID.ViewModel
     {
         #region Propreties
 
-        private readonly INavigationService _navigationService;
+        //private readonly INavigationService _navigationService;
 
         #region Version
 
@@ -89,9 +89,9 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public AboutAppViewModel(INavigationService navigationService)
+        public AboutAppViewModel(INavigationService navigationService) : base(navigationService)
         {
-            _navigationService = navigationService;
+            //_navigationService = navigationService;
             CancelCommand = new DelegateCommand(CancelCommandRecieverAsync);
 
             Version = AppInfo.VersionString;

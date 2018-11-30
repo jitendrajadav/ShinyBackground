@@ -12,7 +12,7 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        private readonly INavigationService _navigationService;
+        //private readonly INavigationService _navigationService;
         public List<BarcodeModel> Models { get; set; }
 
         #region MultipleKegsTitle
@@ -94,9 +94,9 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public ValidateBarcodeViewModel(INavigationService navigationService)
+        public ValidateBarcodeViewModel(INavigationService navigationService) : base(navigationService)
         {
-            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
 
             CancelCommand = new DelegateCommand(CancelCommandRecievierAsync);
             ItemTappedCommand = new DelegateCommand<Partner>((model) => ItemTappedCommandRecieverAsync(model));

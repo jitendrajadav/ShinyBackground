@@ -13,7 +13,7 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        private readonly INavigationService _navigationService;
+        //private readonly INavigationService _navigationService;
         private readonly IDashboardService _dashboardService;
 
         #region PalletSearchCollection
@@ -61,9 +61,9 @@ namespace KegID.ViewModel
 
         #region Contructor
 
-        public PalletSearchedListViewModel(IDashboardService dashboardService, INavigationService navigationService)
+        public PalletSearchedListViewModel(IDashboardService dashboardService, INavigationService navigationService) : base(navigationService)
         {
-            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
 
             _dashboardService = dashboardService;
 

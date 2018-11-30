@@ -21,7 +21,7 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        private readonly INavigationService _navigationService;
+        //private readonly INavigationService _navigationService;
         private readonly IPageDialogService _dialogService;
         private readonly IMoveService _moveService;
         private readonly IManifestManager _manifestManager;
@@ -252,9 +252,9 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public ScanKegsViewModel(IMoveService moveService, INavigationService navigationService, IPageDialogService dialogService, IManifestManager manifestManager, IGetIconByPlatform getIconByPlatform)
+        public ScanKegsViewModel(IMoveService moveService, INavigationService navigationService, IPageDialogService dialogService, IManifestManager manifestManager, IGetIconByPlatform getIconByPlatform) : base(navigationService)
         {
-            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _dialogService = dialogService;
             _moveService = moveService;
             _manifestManager = manifestManager;

@@ -15,7 +15,7 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        private readonly INavigationService _navigationService;
+        //private readonly INavigationService _navigationService;
         private readonly IPageDialogService _dialogService;
         private readonly IDashboardService _dashboardService;
         public string KegId { get; set; }
@@ -242,9 +242,9 @@ namespace KegID.ViewModel
 
         #region Contructor
 
-        public EditKegViewModel(IDashboardService dashboardService, INavigationService navigationService, IPageDialogService dialogService)
+        public EditKegViewModel(IDashboardService dashboardService, INavigationService navigationService, IPageDialogService dialogService) : base(navigationService)
         {
-            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _dialogService = dialogService;
             _dashboardService = dashboardService;
             CancelCommand = new DelegateCommand(CancelCommandRecieverAsync);

@@ -20,7 +20,7 @@ namespace KegID.ViewModel
         private readonly IPageDialogService _dialogService;
         private readonly IAccountService _accountService;
         private readonly IMaintainService _maintainService;
-        private readonly INavigationService _navigationService;
+        //private readonly INavigationService _navigationService;
         private readonly IGetIconByPlatform _getIconByPlatform;
 
         #region Username
@@ -137,9 +137,9 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public LoginViewModel(IAccountService accountService, INavigationService navigationService, IMaintainService maintainService, IPageDialogService dialogService, IGetIconByPlatform getIconByPlatform)
+        public LoginViewModel(IAccountService accountService, INavigationService navigationService, IMaintainService maintainService, IPageDialogService dialogService, IGetIconByPlatform getIconByPlatform) : base(navigationService)
         {
-            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _dialogService = dialogService;
             _accountService = accountService;
             _maintainService = maintainService;

@@ -14,7 +14,7 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        private readonly INavigationService _navigationService;
+        //private readonly INavigationService _navigationService;
         public bool IsShipping { get; private set; }
 
         #region AddressTitle
@@ -304,9 +304,9 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public EditAddressViewModel(INavigationService navigationService,IGeolocationService geolocationService, IPageDialogService dialogService)
+        public EditAddressViewModel(INavigationService navigationService,IGeolocationService geolocationService, IPageDialogService dialogService) : base(navigationService)
         {
-            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _geolocationService = geolocationService;
             _dialogService = dialogService;
 

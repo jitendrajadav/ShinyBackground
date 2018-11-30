@@ -1,4 +1,6 @@
-﻿namespace KegID.ViewModel
+﻿using Prism.Navigation;
+
+namespace KegID.ViewModel
 {
     public class ScanItemViewModel : BaseViewModel
     {
@@ -12,7 +14,7 @@
 
         #region Contstructor
 
-        public ScanItemViewModel()
+        public ScanItemViewModel(INavigationService navigationService) : base(navigationService)
         {
 
         }

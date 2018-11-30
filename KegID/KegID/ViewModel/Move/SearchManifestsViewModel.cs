@@ -14,7 +14,7 @@ namespace KegID.ViewModel
         #region Properties
 
         private readonly IMoveService _moveService;
-        private readonly INavigationService _navigationService;
+        //private readonly INavigationService _navigationService;
         public bool IsManifestDestination { get; set; }
 
         #region TrackingNumber
@@ -269,9 +269,9 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public SearchManifestsViewModel(IMoveService moveService, INavigationService navigationService)
+        public SearchManifestsViewModel(IMoveService moveService, INavigationService navigationService) : base(navigationService)
         {
-            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
 
             _moveService = moveService;
 

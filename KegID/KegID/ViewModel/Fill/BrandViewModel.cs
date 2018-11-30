@@ -15,7 +15,7 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        private readonly INavigationService _navigationService;
+        //private readonly INavigationService _navigationService;
         private readonly IPageDialogService _dialogService;
 
         #region BrandCollection
@@ -62,9 +62,9 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public BrandViewModel(INavigationService navigationService, IPageDialogService dialogService)
+        public BrandViewModel(INavigationService navigationService, IPageDialogService dialogService) : base(navigationService)
         {
-            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _dialogService = dialogService;
             ItemTappedCommand = new DelegateCommand<BrandModel>((model)=>ItemTappedCommandRecieverAsync(model));
             LoadBrand();

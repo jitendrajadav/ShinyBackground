@@ -13,7 +13,7 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        private readonly INavigationService _navigationService;
+        //private readonly INavigationService _navigationService;
         private readonly IUuidManager _uuidManager;
 
         public List<string> Barcodes { get; private set; }
@@ -165,9 +165,9 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public MaintainDetailViewModel(INavigationService navigationService, IUuidManager uuidManager)
+        public MaintainDetailViewModel(INavigationService navigationService, IUuidManager uuidManager) : base(navigationService)
         {
-            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _uuidManager = uuidManager;
 
             HomeCommand = new DelegateCommand(HomeCommandCommandRecieverAsync);

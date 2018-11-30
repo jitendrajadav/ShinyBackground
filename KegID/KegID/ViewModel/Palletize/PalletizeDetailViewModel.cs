@@ -21,7 +21,7 @@ namespace KegID.ViewModel
         #region Properties
 
         private Model.PrintPDF.Pallet PalletPrintModels = null;
-        private readonly INavigationService _navigationService;
+        //private readonly INavigationService _navigationService;
         private readonly IMoveService _moveService;
         private SearchPalletResponseModel Model { get; set; }
         public List<string> Barcodes { get; private set; }
@@ -312,9 +312,9 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public PalletizeDetailViewModel(IMoveService moveService, INavigationService navigationService)
+        public PalletizeDetailViewModel(IMoveService moveService, INavigationService navigationService) : base(navigationService)
         {
-            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
 
             _moveService = moveService;
             HomeCommand = new DelegateCommand(HomeCommandRecieverAsync);

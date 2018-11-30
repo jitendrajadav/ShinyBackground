@@ -14,7 +14,7 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        private readonly INavigationService _navigationService;
+        //private readonly INavigationService _navigationService;
         private readonly IUuidManager _uuidManager;
 
         #region BrandButtonTitle
@@ -440,9 +440,9 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public AddBatchViewModel(INavigationService navigationService, IUuidManager uuidManager)
+        public AddBatchViewModel(INavigationService navigationService, IUuidManager uuidManager) : base(navigationService)
         {
-            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _uuidManager = uuidManager;
 
             AddTagsCommand = new DelegateCommand(AddTagsCommandRecieverAsync);

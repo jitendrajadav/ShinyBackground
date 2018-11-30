@@ -18,7 +18,7 @@ namespace KegID.ViewModel
     {
         #region Propreties
 
-        private readonly INavigationService _navigationService;
+        //private readonly INavigationService _navigationService;
         private readonly IPageDialogService _dialogService;
         ConnectionType connetionType;
 
@@ -135,9 +135,9 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public SelectPrinterViewModel(INavigationService navigationService, IPageDialogService dialogService)
+        public SelectPrinterViewModel(INavigationService navigationService, IPageDialogService dialogService) : base(navigationService)
         {
-            _navigationService = navigationService;
+            //_navigationService = navigationService;
             _dialogService = dialogService;
 
             BackCommand = new DelegateCommand(BackCommandReceiver);

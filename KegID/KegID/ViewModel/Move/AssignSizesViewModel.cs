@@ -16,7 +16,7 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        private readonly INavigationService _navigationService;
+        //private readonly INavigationService _navigationService;
 
         #region MaintenaceCollection
 
@@ -266,9 +266,9 @@ namespace KegID.ViewModel
         #endregion
 
         #region Constructor
-        public AssignSizesViewModel(INavigationService navigationService)
+        public AssignSizesViewModel(INavigationService navigationService) : base(navigationService)
         {
-            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
 
             ApplyToAllCommand = new DelegateCommand(ApplyToAllCommandReciever);
             DoneCommand = new DelegateCommand(DoneCommandRecieverAsync);

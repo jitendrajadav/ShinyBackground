@@ -9,7 +9,7 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        private readonly INavigationService _navigationService;
+        //private readonly INavigationService _navigationService;
 
         #endregion
 
@@ -21,9 +21,9 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public PartnerInfoMapViewModel(INavigationService navigationService)
+        public PartnerInfoMapViewModel(INavigationService navigationService) : base(navigationService)
         {
-            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
 
             try
             {

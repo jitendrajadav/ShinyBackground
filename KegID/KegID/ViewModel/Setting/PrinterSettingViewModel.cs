@@ -13,7 +13,7 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        private readonly INavigationService _navigationService;
+        //private readonly INavigationService _navigationService;
         private readonly IZebraPrinterManager _zebraPrinterManager;
 
         #region SelectedPrinter
@@ -371,9 +371,9 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public PrinterSettingViewModel(INavigationService navigationService, IZebraPrinterManager zebraPrinterManager)
+        public PrinterSettingViewModel(INavigationService navigationService, IZebraPrinterManager zebraPrinterManager) : base(navigationService)
         {
-            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _zebraPrinterManager = zebraPrinterManager;
 
             CancelCommand = new DelegateCommand(CancelCommandRecieverAsync);

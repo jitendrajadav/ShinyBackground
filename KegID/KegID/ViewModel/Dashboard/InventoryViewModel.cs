@@ -17,7 +17,7 @@ namespace KegID.ViewModel
         #region Properties
 
         public int CurrentPage { get; internal set; }
-        private readonly INavigationService _navigationService;
+        //private readonly INavigationService _navigationService;
         private readonly IDashboardService _dashboardService;
         private bool isNavigated;
 
@@ -166,9 +166,9 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public InventoryViewModel(IDashboardService dashboardService, INavigationService navigationService)
+        public InventoryViewModel(IDashboardService dashboardService, INavigationService navigationService) : base(navigationService)
         {
-            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
 
             _dashboardService = dashboardService;
             HomeCommand = new DelegateCommand(HomeCommandRecieverAsync);

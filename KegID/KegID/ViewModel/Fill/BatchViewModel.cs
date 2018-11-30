@@ -16,7 +16,7 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        private readonly INavigationService _navigationService;
+        //private readonly INavigationService _navigationService;
         private readonly IPageDialogService _dialogService;
         private readonly IFillService _fillService;
 
@@ -65,9 +65,9 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public BatchViewModel(IFillService fillService, INavigationService navigationService, IPageDialogService dialogService)
+        public BatchViewModel(IFillService fillService, INavigationService navigationService, IPageDialogService dialogService) : base(navigationService)
         {
-            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _dialogService = dialogService;
             _fillService = fillService;
             ItemTappedCommand = new DelegateCommand<NewBatch>((model) => ItemTappedCommandRecieverAsync(model));

@@ -21,7 +21,7 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        private readonly INavigationService _navigationService;
+        //private readonly INavigationService _navigationService;
         private Manifest manifestPrintModels = null;
         public List<string> Barcode { get; set; }
 
@@ -207,9 +207,9 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public ManifestDetailViewModel(INavigationService navigationService)
+        public ManifestDetailViewModel(INavigationService navigationService) : base(navigationService)
         {
-            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
 
             ManifestsCommand = new DelegateCommand(ManifestsCommandRecieverAsync);
             ShareCommand = new DelegateCommand(ShareCommandRecieverAsync);

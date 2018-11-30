@@ -17,7 +17,7 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        private readonly INavigationService _navigationService;
+        //private readonly INavigationService _navigationService;
         private readonly IPageDialogService _dialogService;
         private readonly IMoveService _moveService;
         private readonly IUuidManager _uuidManager;
@@ -892,9 +892,9 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public AddPartnerViewModel(IMoveService moveService, INavigationService navigationService, IPageDialogService dialogService, IUuidManager uuidManager)
+        public AddPartnerViewModel(IMoveService moveService, INavigationService navigationService, IPageDialogService dialogService, IUuidManager uuidManager) : base(navigationService)
         {
-            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _dialogService = dialogService;
             _moveService = moveService;
             _uuidManager = uuidManager;

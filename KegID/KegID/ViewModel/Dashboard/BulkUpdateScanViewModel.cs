@@ -23,7 +23,7 @@ namespace KegID.ViewModel
         #region Properties
 
         private const string Cloud = "collectionscloud.png";
-        private readonly INavigationService _navigationService;
+        //private readonly INavigationService _navigationService;
         private readonly IMoveService _moveService;
         private readonly IDashboardService _dashboardService;
         private readonly IGetIconByPlatform _getIconByPlatform;
@@ -317,9 +317,9 @@ namespace KegID.ViewModel
 
         #region Contructor
 
-        public BulkUpdateScanViewModel(IMoveService moveService, IDashboardService dashboardService, INavigationService navigationService, IGetIconByPlatform getIconByPlatform, IUuidManager uuidManager, IPageDialogService dialogService)
+        public BulkUpdateScanViewModel(IMoveService moveService, IDashboardService dashboardService, INavigationService navigationService, IGetIconByPlatform getIconByPlatform, IUuidManager uuidManager, IPageDialogService dialogService) : base(navigationService)
         {
-            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _moveService = moveService;
             _dashboardService = dashboardService;
             _getIconByPlatform = getIconByPlatform;

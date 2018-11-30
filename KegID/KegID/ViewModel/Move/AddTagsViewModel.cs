@@ -11,7 +11,7 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        private readonly INavigationService _navigationService;
+        //private readonly INavigationService _navigationService;
 
         #region ProductionDate
 
@@ -91,9 +91,9 @@ namespace KegID.ViewModel
 
         #region Contructor
 
-        public AddTagsViewModel(INavigationService navigationService)
+        public AddTagsViewModel(INavigationService navigationService) : base(navigationService)
         {
-            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
         }
 
         #endregion

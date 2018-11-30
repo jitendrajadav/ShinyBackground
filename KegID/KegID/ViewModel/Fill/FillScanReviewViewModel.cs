@@ -22,7 +22,7 @@ namespace KegID.ViewModel
         #region Properties
 
         private readonly IPageDialogService _dialogService;
-        private readonly INavigationService _navigationService;
+        //private readonly INavigationService _navigationService;
         private readonly IUuidManager _uuidManager;
         private readonly IMoveService _moveService;
         private readonly IManifestManager _manifestManager;
@@ -179,9 +179,9 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public FillScanReviewViewModel(INavigationService navigationService, IUuidManager uuidManager, IPageDialogService dialogService, IMoveService moveService, IManifestManager manifestManager, IGeolocationService geolocationService)
+        public FillScanReviewViewModel(INavigationService navigationService, IUuidManager uuidManager, IPageDialogService dialogService, IMoveService moveService, IManifestManager manifestManager, IGeolocationService geolocationService) : base(navigationService)
         {
-            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _uuidManager = uuidManager;
             _dialogService = dialogService;
             _moveService = moveService;

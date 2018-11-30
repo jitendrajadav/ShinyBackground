@@ -19,7 +19,7 @@ namespace KegID.ViewModel
         #region Properties
 
         private readonly IMoveService _moveService;
-        private readonly INavigationService _navigationService;
+        //private readonly INavigationService _navigationService;
 
         public bool BrewerStockOn { get; set; }
 
@@ -280,9 +280,9 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public PartnersViewModel(IMoveService moveService, INavigationService navigationService)
+        public PartnersViewModel(IMoveService moveService, INavigationService navigationService) : base(navigationService)
         {
-            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _moveService = moveService;
 
             InternalCommand = new DelegateCommand(InternalCommandReciever);

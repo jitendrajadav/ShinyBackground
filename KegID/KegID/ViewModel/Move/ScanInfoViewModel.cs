@@ -11,7 +11,7 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        private readonly INavigationService _navigationService;
+        //private readonly INavigationService _navigationService;
 
         #region Barcode
 
@@ -260,9 +260,9 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public ScanInfoViewModel(INavigationService navigationService)
+        public ScanInfoViewModel(INavigationService navigationService) : base(navigationService)
         {
-            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
 
             DoneCommand = new DelegateCommand(DoneCommandRecieverAsync);
         }

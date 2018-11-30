@@ -1,6 +1,7 @@
 ﻿
 using KegID.Localization;
 using Microsoft.AppCenter.Crashes;
+using Prism.Navigation;
 using System.Collections.Generic;
 using Xamarin.Forms;
 
@@ -27,7 +28,7 @@ namespace KegID.ViewModel
             }
         }
 
-        public SettingsViewModel()
+        public SettingsViewModel(INavigationService navigationService) : base(navigationService)
         {
             _SelectedLanguage = App.CurrentLanguage;
         }

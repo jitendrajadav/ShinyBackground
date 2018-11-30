@@ -14,7 +14,7 @@ namespace KegID.ViewModel
         #region Properties
 
         private readonly IDashboardService _dashboardService;
-        private readonly INavigationService _navigationService;
+        //private readonly INavigationService _navigationService;
 
         #region KegSearchCollection
 
@@ -61,9 +61,9 @@ namespace KegID.ViewModel
 
         #region Contructor
 
-        public KegSearchedListViewModel(IDashboardService dashboardService, INavigationService navigationService)
+        public KegSearchedListViewModel(IDashboardService dashboardService, INavigationService navigationService) : base(navigationService)
         {
-            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
 
             _dashboardService = dashboardService;
             ItemTappedCommand = new DelegateCommand<KegSearchResponseModel>( (model) => ItemTappedCommandRecieverAsync(model));

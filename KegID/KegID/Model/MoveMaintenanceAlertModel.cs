@@ -1,13 +1,13 @@
 ﻿using KegID.LocalDb;
 using KegID.Services;
-using KegID.ViewModel;
+using Prism.Mvvm;
 using Realms;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace KegID.Model
 {
-    public class MoveMaintenanceAlertModel : BaseViewModel
+    public class MoveMaintenanceAlertModel : BindableBase
     {
         #region BarcodeId
 

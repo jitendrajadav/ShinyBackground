@@ -16,7 +16,7 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        private readonly INavigationService _navigationService;
+        //private readonly INavigationService _navigationService;
         private readonly IDashboardService _dashboardService;
         public IList<PossessorResponseModel> AllPartners { get; set; }
 
@@ -342,9 +342,9 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public DashboardPartnersViewModel(IDashboardService dashboardService, INavigationService navigationService)
+        public DashboardPartnersViewModel(IDashboardService dashboardService, INavigationService navigationService) : base(navigationService)
         {
-            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
 
             _dashboardService = dashboardService;
 

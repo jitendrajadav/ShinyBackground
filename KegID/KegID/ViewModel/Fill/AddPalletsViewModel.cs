@@ -23,7 +23,7 @@ namespace KegID.ViewModel
         #region Properties
 
         private readonly IPageDialogService _dialogService;
-        private readonly INavigationService _navigationService;
+        //private readonly INavigationService _navigationService;
         private readonly IPalletizeService _palletizeService;
         private readonly IMoveService _moveService;
         private readonly IManifestManager _manifestManager;
@@ -185,9 +185,9 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public AddPalletsViewModel(IPalletizeService palletizeService, IMoveService moveService, INavigationService navigationService, IPageDialogService dialogService, IManifestManager manifestManager, IUuidManager uuidManager, IGeolocationService geolocationService)
+        public AddPalletsViewModel(IPalletizeService palletizeService, IMoveService moveService, INavigationService navigationService, IPageDialogService dialogService, IManifestManager manifestManager, IUuidManager uuidManager, IGeolocationService geolocationService) : base(navigationService)
         {
-            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _dialogService = dialogService;
             _palletizeService = palletizeService;
             _moveService = moveService;

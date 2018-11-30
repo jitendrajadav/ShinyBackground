@@ -10,7 +10,7 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        private readonly INavigationService _navigationService;
+        //private readonly INavigationService _navigationService;
 
         #region PalletBarcode
 
@@ -229,9 +229,9 @@ namespace KegID.ViewModel
 
         #region Contructor
 
-        public SearchPalletViewModel(INavigationService navigationService)
+        public SearchPalletViewModel(INavigationService navigationService) : base(navigationService)
         {
-            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
 
             HomeCommand = new DelegateCommand(HomeCommandRecieverAsync);
             SearchCommand = new DelegateCommand(SearchCommandRecieverAsync);
