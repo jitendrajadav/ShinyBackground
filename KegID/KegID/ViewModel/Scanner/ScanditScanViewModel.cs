@@ -84,7 +84,7 @@ namespace KegID.ViewModel
         #region Commands
 
         public DelegateCommand DoneCommand { get; }
-        
+
         #endregion
 
         #region Constructor
@@ -170,6 +170,11 @@ namespace KegID.ViewModel
                         MessagingCenter.Send(scannerToPalletAssign, "ScannerToPalletAssign");
                         
                     }
+                    try
+                    {
+                        Loader.Toast("Last scan: " + message);
+                    }
+                    catch { }
                 }
             });
         }

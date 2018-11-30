@@ -35,5 +35,23 @@ namespace KegID.Services
                 new Exception(e.Message);
             }
         }
+
+        public void Toast(string msg)
+        {
+            try
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    var toastConfig = new ToastConfig(msg);
+                    toastConfig.SetDuration(3000);
+                    toastConfig.SetBackgroundColor(System.Drawing.Color.FromArgb(12, 131, 193));
+                    UserDialogs.Instance.Toast(toastConfig);
+                });
+            }
+            catch (Exception e)
+            {
+                new Exception(e.Message);
+            }
+        }
     }
 }

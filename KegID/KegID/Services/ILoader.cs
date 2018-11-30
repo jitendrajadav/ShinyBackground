@@ -4,5 +4,6 @@
     {
         void StartLoading(string message = "Loading...");
         void StopLoading();
+        void Toast(string msg);
     }
 }

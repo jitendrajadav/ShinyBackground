@@ -57,7 +57,7 @@
     <MtouchDebug>true</MtouchDebug>
     <CodesignEntitlements>
     </CodesignEntitlements>
-    <CodesignProvision>KegIDXBeta</CodesignProvision>
+    <CodesignProvision>KegIDBeta</CodesignProvision>
     <MtouchLink>None</MtouchLink>
     <CodesignExtraArgs>
     </CodesignExtraArgs>
@@ -188,7 +188,7 @@
       <Version>7.1.0.431</Version>
     </PackageReference>
     <PackageReference Include="Prism.Plugin.Popups">
-      <Version>2.1.0.228</Version>
+      <Version>2.2.0.293</Version>
     </PackageReference>
     <PackageReference Include="Prism.Unity.Forms">
       <Version>7.1.0.431</Version>
