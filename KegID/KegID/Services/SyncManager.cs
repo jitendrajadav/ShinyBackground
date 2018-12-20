@@ -23,7 +23,7 @@ namespace KegID.Services
         private async void Connectivity_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
         {
             var access = e.NetworkAccess;
-            var profiles = e.Profiles;
+            var profiles = e.ConnectionProfiles;
             var current = Connectivity.NetworkAccess;
             if (current == NetworkAccess.Internet)
             {

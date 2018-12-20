@@ -26,7 +26,7 @@ namespace KegID.Services
                 AppVersion = AppInfo.VersionString,
                 DeviceId = DeviceInfo.Manufacturer,
                 DeviceModel = DeviceInfo.Model,
-                OS = DeviceInfo.Platform,
+                OS = DeviceInfo.VersionString,
                 PushToken = "",
                 UserId = AppSettings.UserId
             };
