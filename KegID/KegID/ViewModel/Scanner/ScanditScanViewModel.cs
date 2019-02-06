@@ -199,6 +199,7 @@ namespace KegID.ViewModel
             ScanditService.BarcodePicker.CancelButtonText = "Done";
             ScanditService.BarcodePicker.DidScan += OnDidScan;
             ScanditService.BarcodePicker.DidStop += OnDidStopAsync;
+            ScanditService.BarcodePicker.AlwaysShowModally = true;
             await UpdateScanSettings();
             UpdateScanOverlay();
             //ScanditService.BarcodePicker.CancelButtonText = "Done";
