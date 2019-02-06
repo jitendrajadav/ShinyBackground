@@ -196,12 +196,12 @@ namespace KegID.ViewModel
                 _scanSettings.EnableSymbology(sym, true);
             await _picker.ApplySettingsAsync(_scanSettings);
             // This will open the scanner in full-screen mode.  
-
+            ScanditService.BarcodePicker.CancelButtonText = "Done";
             ScanditService.BarcodePicker.DidScan += OnDidScan;
             ScanditService.BarcodePicker.DidStop += OnDidStopAsync;
             await UpdateScanSettings();
             UpdateScanOverlay();
-            ScanditService.BarcodePicker.CancelButtonText = "Done";
+            //ScanditService.BarcodePicker.CancelButtonText = "Done";
             await ScanditService.BarcodePicker.StartScanningAsync(false);
         }
 
