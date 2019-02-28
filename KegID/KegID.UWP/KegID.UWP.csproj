@@ -252,8 +252,7 @@
     <Content Include="..\KegID\Assets\warn.png">
       <Link>Assets\warn.png</Link>
     </Content>
-    <Content Include="FodyWeavers.xml" />
-    <Content Include="Properties\Default.rd.xml" />
+    <EmbeddedResource Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-100.png" />
     <Content Include="Assets\LockScreenLogo.scale-125.png" />
     <Content Include="Assets\LockScreenLogo.scale-150.png" />
@@ -298,27 +297,22 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Acr.UserDialogs">
-      <Version>7.0.1</Version>
+      <Version>7.0.3</Version>
     </PackageReference>
     <PackageReference Include="CarouselView.FormsPlugin">
       <Version>5.2.0</Version>
-    </PackageReference>
-    <PackageReference Include="Fody">
-      <Version>3.3.5</Version>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="LinkOS_Xamarin_SDK">
       <Version>1.2.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AppCenter.Analytics">
-      <Version>1.13.0</Version>
+      <Version>1.13.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AppCenter.Crashes">
-      <Version>1.13.0</Version>
+      <Version>1.13.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AppCenter.Distribute">
-      <Version>1.13.0</Version>
+      <Version>1.13.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.CSharp">
       <Version>4.5.0</Version>
@@ -364,10 +358,10 @@
       <Version>2.4.4.859</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms">
-      <Version>3.5.0.129452</Version>
+      <Version>3.5.0.169047</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms.Maps">
-      <Version>3.5.0.129452</Version>
+      <Version>3.5.0.169047</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

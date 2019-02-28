@@ -51,7 +51,6 @@ namespace KegID.UWP
                 TintedImageRenderer.Init();
                 FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
                 Rg.Plugins.Popup.Popup.Init();
-
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
                     //TODO: Load state from previously suspended application
