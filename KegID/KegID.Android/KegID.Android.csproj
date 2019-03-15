@@ -39,6 +39,7 @@
     <EmbedAssembliesIntoApk>false</EmbedAssembliesIntoApk>
     <AndroidEnableMultiDex>true</AndroidEnableMultiDex>
     <SolutionDir>..\</SolutionDir>
+    <EnableProguard>false</EnableProguard>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>false</DebugSymbols>
@@ -71,7 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Acr.UserDialogs">
-      <Version>7.0.3</Version>
+      <Version>7.0.4</Version>
     </PackageReference>
     <PackageReference Include="CarouselView.FormsPlugin">
       <Version>5.2.0</Version>
@@ -152,10 +153,10 @@
       <Version>2.4.4.859</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms">
-      <Version>3.5.0.169047</Version>
+      <Version>3.6.0.220655</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms.Maps">
-      <Version>3.5.0.169047</Version>
+      <Version>3.6.0.220655</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
@@ -453,7 +454,9 @@
   <ItemGroup>
     <ProguardConfiguration Include="proguard_custom.cfg" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <AndroidResource Include="Resources\values\dimens.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="ReplaceRefAssemblies" AfterTargets="_ResolveAssemblies">
     <ItemGroup>
