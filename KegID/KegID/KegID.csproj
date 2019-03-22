@@ -33,9 +33,9 @@
     <PackageReference Include="Acr.UserDialogs" Version="7.0.4" />
     <PackageReference Include="CarouselView.FormsPlugin" Version="5.2.0" />
     <PackageReference Include="LinkOS_Xamarin_SDK" Version="1.2.0" />
-    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="1.13.2" />
-    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="1.13.2" />
-    <PackageReference Include="Microsoft.AppCenter.Distribute" Version="1.13.2" />
+    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="1.14.0" />
+    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="1.14.0" />
+    <PackageReference Include="Microsoft.AppCenter.Distribute" Version="1.14.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
     <PackageReference Include="Microsoft.Net.Http" Version="2.2.29" />
@@ -47,10 +47,10 @@
     <PackageReference Include="Realm" Version="3.4.0" />
     <PackageReference Include="Scandit.BarcodePicker.Unified" Version="5.10.1.10" />
     <PackageReference Include="Xam.Plugins.Settings" Version="4.0.0.10-beta" />
-    <PackageReference Include="Xamarin.Essentials" Version="1.0.1" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.1.0" />
     <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.4.859" />
-    <PackageReference Include="Xamarin.Forms" Version="3.6.0.220655" />
-    <PackageReference Include="Xamarin.Forms.Maps" Version="3.6.0.220655" />
+    <PackageReference Include="Xamarin.Forms" Version="3.6.0.264807" />
+    <PackageReference Include="Xamarin.Forms.Maps" Version="3.6.0.264807" />
   </ItemGroup>
 
   <ItemGroup>
