@@ -16,7 +16,7 @@
     <UseEmulator>true</UseEmulator>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <UseSimulator>false</UseSimulator>
+    <UseSimulator>true</UseSimulator>
     <DeviceId>F0AB49D8-754C-4531-A635-E6B4395FD39A</DeviceId>
     <UseEmulator>false</UseEmulator>
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
