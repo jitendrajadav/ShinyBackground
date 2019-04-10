@@ -132,22 +132,24 @@ namespace KegID.ViewModel
         /// Sets and gets the VolumeDigit property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public long VolumeDigit
+        public String VolumeDigit
         {
             get
             {
-                return _VolumeDigit;
+                return _VolumeDigit.Equals(default)? "" : _VolumeDigit.ToString();
             }
 
             set
             {
-                if (_VolumeDigit == value)
+                if(long.TryParse(value, out long v))
                 {
-                    return;
+                    if (_VolumeDigit != v)
+                    {
+                        _VolumeDigit = v;
+                        RaisePropertyChanged(VolumeDigitPropertyName);
+                    }
                 }
-
-                _VolumeDigit = value;
-                RaisePropertyChanged(VolumeDigitPropertyName);
+               
             }
         }
 
@@ -491,14 +493,16 @@ namespace KegID.ViewModel
                 NewBatchModel.BestBeforeDate = BestByDate;
                 NewBatchModel.BrandName = BrandButtonTitle;
                 NewBatchModel.BrewDate = BrewDate;
-                NewBatchModel.BrewedVolume = VolumeDigit;
+                if(long.TryParse(VolumeDigit, out long v))
+                    NewBatchModel.BrewedVolume = v;
+
                 NewBatchModel.BrewedVolumeUom = VolumeChar;
                 NewBatchModel.CompanyId = AppSettings.CompanyId;
                 NewBatchModel.CompletedDate = DateTime.Today;
                 NewBatchModel.IsCompleted = true;
                 NewBatchModel.PackageDate = PackageDate;
-                NewBatchModel.PackagedVolume = 12;
-                NewBatchModel.PackagedVolumeUom = "";
+                //NewBatchModel.PackagedVolume = 0;
+                //NewBatchModel.PackagedVolumeUom = "";
                 NewBatchModel.RecipeId = AppSettings.CompanyId;
                 NewBatchModel.SourceKey = "";
 

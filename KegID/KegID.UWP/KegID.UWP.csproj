@@ -11,7 +11,7 @@
     <AssemblyName>KegID.UWP</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.17134.0</TargetPlatformVersion>
+    <TargetPlatformVersion>10.0.17763.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.17134.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <EnableDotNetNativeCompatibleProfile>true</EnableDotNetNativeCompatibleProfile>
@@ -344,8 +344,14 @@
     <PackageReference Include="runtime.win10-arm64.runtime.native.System.IO.Compression">
       <Version>4.3.2</Version>
     </PackageReference>
+    <PackageReference Include="Scandit.BarcodePicker">
+      <Version>5.11.0.10</Version>
+    </PackageReference>
     <PackageReference Include="Scandit.BarcodePicker.Unified">
-      <Version>5.10.1.10</Version>
+      <Version>5.11.0.10</Version>
+    </PackageReference>
+    <PackageReference Include="Scandit.Recognition">
+      <Version>5.11.0.10</Version>
     </PackageReference>
     <PackageReference Include="Xam.Plugins.Settings">
       <Version>4.0.0.10-beta</Version>
@@ -358,20 +364,20 @@
       <Version>2.4.4.859</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms">
-      <Version>3.6.0.264807</Version>
+      <Version>3.6.0.293080</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms.Maps">
-      <Version>3.6.0.264807</Version>
+      <Version>3.6.0.293080</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <SDKReference Include="Microsoft.VCLibs, Version=14.0">
       <Name>Visual C++ 2015 Runtime for Universal Windows Platform Apps</Name>
     </SDKReference>
-    <SDKReference Include="WindowsDesktop, Version=10.0.17134.0">
+    <SDKReference Include="WindowsDesktop, Version=10.0.17763.0">
       <Name>Windows Desktop Extensions for the UWP</Name>
     </SDKReference>
-    <SDKReference Include="WindowsMobile, Version=10.0.17134.0">
+    <SDKReference Include="WindowsMobile, Version=10.0.17763.0">
       <Name>Windows Mobile Extensions for the UWP</Name>
     </SDKReference>
   </ItemGroup>
