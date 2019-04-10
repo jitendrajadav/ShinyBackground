@@ -159,13 +159,17 @@
                         Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Resources[label_bestby_date]}"/>
 
-                <myDatePicker:KegIDDatePicker 
+                <myDatePicker:ExtendedDatePicker
                         AutomationId="bestByDatePicker"
                         Grid.Row="5"
                         Grid.ColumnSpan="2"
                         Grid.Column="1"
                     NullableDate="{Binding BestByDate}"
-                        />
+                        XAlign="Start"
+                   HasBorder="false"
+                   HorizontalOptions="FillAndExpand"
+                   StyleId="BirthDateFieldId"
+                   VerticalOptions="Center"/>
 
                     <Label
                         AutomationId="alcohalContentLabel"

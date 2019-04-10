@@ -126,8 +126,10 @@
     <Compile Include="DependencyServices\PrinterDiscoveryImplementation.cs" />
     <Compile Include="DependencyServices\ShareFileImplementation.cs" />
     <Compile Include="DependencyServices\XsltContent.cs" />
+    <Compile Include="Extensions\CheckColorExtensions.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
+    <Compile Include="Renderers\ExtendedDatePickerRenderer.cs" />
     <Compile Include="Services\iOSLongRunningTaskExample.cs" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist">
