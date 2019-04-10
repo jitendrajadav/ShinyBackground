@@ -6,7 +6,7 @@
              BackgroundColor="{StaticResource pageBGColor}"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              ios:Page.UseSafeArea="true"
-             >
+             xmlns:myDatePicker="clr-namespace:KegID.Common">
 
     <ContentPage.Content>
        
@@ -159,12 +159,13 @@
                         Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Resources[label_bestby_date]}"/>
 
-                    <DatePicker 
+                <myDatePicker:KegIDDatePicker 
                         AutomationId="bestByDatePicker"
                         Grid.Row="5"
                         Grid.ColumnSpan="2"
                         Grid.Column="1"
-                        Date="{Binding BestByDate}"/>
+                    NullableDate="{Binding BestByDate}"
+                        />
 
                     <Label
                         AutomationId="alcohalContentLabel"
