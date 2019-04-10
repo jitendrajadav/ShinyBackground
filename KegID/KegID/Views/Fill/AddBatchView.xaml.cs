@@ -13,6 +13,15 @@ namespace KegID.Views
 		{
 			InitializeComponent ();
             NavigationPage.SetHasNavigationBar(this, false);
+            bestDatePicker.Unfocused += BestDatePicker_Unfocused;
+        }
+
+        private void BestDatePicker_Unfocused(object sender, FocusEventArgs e)
+        {
+            // Needs to debbug and assing the correct value
+            //var tmp = Date;
+            //Date = DateTime.MinValue;
+            //Date = tmp;
         }
 
         protected override bool OnBackButtonPressed()

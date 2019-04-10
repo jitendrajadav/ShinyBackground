@@ -159,19 +159,31 @@
                         Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Resources[label_bestby_date]}"/>
 
-                <myDatePicker:ExtendedDatePicker
-                        AutomationId="bestByDatePicker"
-                        Grid.Row="5"
-                        Grid.ColumnSpan="2"
-                        Grid.Column="1"
+                <!--<myDatePicker:ExtendedDatePicker
+                    AutomationId="bestByDatePicker"
+                    Grid.Row="5"
+                    Format="d/MM/yyyy"
+                    Grid.ColumnSpan="2"
+                    Grid.Column="1"
                     NullableDate="{Binding BestByDate}"
-                        XAlign="Start"
-                   HasBorder="false"
-                   HorizontalOptions="FillAndExpand"
-                   StyleId="BirthDateFieldId"
-                   VerticalOptions="Center"/>
+                    XAlign="Start"
+                    HasBorder="false"
+                    HorizontalOptions="FillAndExpand"
+                    StyleId="BirthDateFieldId"
+                    VerticalOptions="Center"/>-->
+                <myDatePicker:ExtDatePicker
+                    x:Name="bestDatePicker"
+                    AutomationId="bestByDatePicker"
+                    Grid.Row="5"
+                    Grid.ColumnSpan="2"
+                    Grid.Column="1"
+                    NullableDate="{Binding BestByDate}"
+                    HorizontalOptions="FillAndExpand"
+                    StyleId="BirthDateFieldId"
+                    VerticalOptions="Center"
+                    />
 
-                    <Label
+                <Label
                         AutomationId="alcohalContentLabel"
                         Grid.Row="6"
                         Style="{StaticResource LabelNormalStyle}"
