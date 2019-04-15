@@ -1,9 +1,13 @@
 ﻿using KegID.Common;
+using KegID.LocalDb;
 using KegID.Model;
 using KegID.Services;
 using Microsoft.AppCenter.Crashes;
+using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
+using Prism.Services;
+using Realms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +20,7 @@ namespace KegID.ViewModel
 
         //private readonly INavigationService _navigationService;
         private readonly IUuidManager _uuidManager;
+        private readonly IPageDialogService _dialogService;
 
         #region BrandButtonTitle
 
@@ -392,6 +397,74 @@ namespace KegID.ViewModel
 
         #endregion
 
+        #region RequiredTag
+
+        /// <summary>
+        /// The <see cref="RequiredTag" /> property's name.
+        /// </summary>
+        public const string RequiredTagPropertyName = "RequiredTag";
+
+        private string _RequiredTag = default;
+
+        /// <summary>
+        /// Sets and gets the RequiredTag property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public string RequiredTag
+        {
+            get
+            {
+                return _RequiredTag;
+            }
+
+            set
+            {
+                if (_RequiredTag == value)
+                {
+                    return;
+                }
+
+                _RequiredTag = value;
+                RaisePropertyChanged(RequiredTagPropertyName);
+            }
+        }
+
+        #endregion
+
+        #region IsTagRequired
+
+        /// <summary>
+        /// The <see cref="IsTagRequired" /> property's name.
+        /// </summary>
+        public const string IsTagRequiredPropertyName = "IsTagRequired";
+
+        private bool _IsTagRequired = false;
+
+        /// <summary>
+        /// Sets and gets the IsTagRequired property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public bool IsTagRequired
+        {
+            get
+            {
+                return _IsTagRequired;
+            }
+
+            set
+            {
+                if (_IsTagRequired == value)
+                {
+                    return;
+                }
+
+                _IsTagRequired = value;
+                RaisePropertyChanged(IsTagRequiredPropertyName);
+            }
+        }
+
+        #endregion
+
         #region NewBatchModel
 
         /// <summary>
@@ -430,9 +503,9 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public DelegateCommand AddTagsCommand { get;}
+        public DelegateCommand AddTagsCommand { get; }
         public DelegateCommand CancelCommand { get; }
-        public DelegateCommand DoneCommand { get;}
+        public DelegateCommand DoneCommand { get; }
         public DelegateCommand BrandCommand { get; }
         public DelegateCommand VolumeCharCommand { get; }
 
@@ -440,18 +513,26 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public AddBatchViewModel(INavigationService navigationService, IUuidManager uuidManager) : base(navigationService)
+        public AddBatchViewModel(INavigationService navigationService, IUuidManager uuidManager, IPageDialogService dialogService) : base(navigationService)
         {
             //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _uuidManager = uuidManager;
+            _dialogService = dialogService;
 
             AddTagsCommand = new DelegateCommand(AddTagsCommandRecieverAsync);
             CancelCommand = new DelegateCommand(CancelCommandRecieverAsync);
             DoneCommand = new DelegateCommand(DoneCommandRecieverAsync);
             BrandCommand = new DelegateCommand(BrandCommandRecieverAsync);
             VolumeCharCommand = new DelegateCommand(VolumeCharCommandRecieverAsync);
-        }
 
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            var preference = RealmDb.All<Preference>().Where(x => x.PreferenceName == "DefaultBatchTags").FirstOrDefault();
+            var preferenceValue = JsonConvert.DeserializeObject<PreferenceTags>(preference.PreferenceValue);
+            if (preferenceValue.Tags.FirstOrDefault().Required)
+            {
+                IsTagRequired = true;
+            }
+        }
         #endregion
 
         #region Methods
@@ -484,30 +565,51 @@ namespace KegID.ViewModel
         {
             try
             {
-                //NewBatchModel.Tags = Tags;
-                NewBatchModel.Abv = AlcoholContent;
-                NewBatchModel.BatchCode = BatchCode;
-                NewBatchModel.BatchId = _uuidManager.GetUuId();
-                NewBatchModel.BestBeforeDate = BestByDate;
-                NewBatchModel.BrandName = BrandButtonTitle;
-                NewBatchModel.BrewDate = BrewDate;
-                NewBatchModel.BrewedVolume = VolumeDigit;
-                NewBatchModel.BrewedVolumeUom = VolumeChar;
-                NewBatchModel.CompanyId = AppSettings.CompanyId;
-                NewBatchModel.CompletedDate = DateTime.Today;
-                NewBatchModel.IsCompleted = true;
-                NewBatchModel.PackageDate = PackageDate;
-                NewBatchModel.PackagedVolume = 12;
-                NewBatchModel.PackagedVolumeUom = "";
-                NewBatchModel.RecipeId = AppSettings.CompanyId;
-                NewBatchModel.SourceKey = "";
+                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                var preference = RealmDb.All<Preference>().Where(x => x.PreferenceName == "DefaultBatchTags").FirstOrDefault();
 
-                await _navigationService.GoBackAsync(new NavigationParameters { { "NewBatchModel", NewBatchModel } }, animated: false);
+                var preferenceValue = JsonConvert.DeserializeObject<PreferenceTags>(preference.PreferenceValue);
+                if (preferenceValue.Tags.FirstOrDefault().Required)
+                {
+                    if (!string.IsNullOrEmpty(RequiredTag))
+                    {
+                        NewBatchModel.Tags.Add(new Tag { PropertyName = "A RequiredTag", PropertyValue = RequiredTag });
+                        await NagivatToNextPage();
+                    }
+                    else
+                    {
+                        await _dialogService.DisplayAlertAsync("Warning", "Required tag missing\n", "Ok");
+                    }
+                }
+                else
+                    await NagivatToNextPage();
             }
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
             }
+        }
+
+        private async System.Threading.Tasks.Task NagivatToNextPage()
+        {
+            NewBatchModel.Abv = AlcoholContent;
+            NewBatchModel.BatchCode = BatchCode;
+            NewBatchModel.BatchId = _uuidManager.GetUuId();
+            NewBatchModel.BestBeforeDate = BestByDate;
+            NewBatchModel.BrandName = BrandButtonTitle;
+            NewBatchModel.BrewDate = BrewDate;
+            NewBatchModel.BrewedVolume = VolumeDigit;
+            NewBatchModel.BrewedVolumeUom = VolumeChar;
+            NewBatchModel.CompanyId = AppSettings.CompanyId;
+            NewBatchModel.CompletedDate = DateTime.Today;
+            NewBatchModel.IsCompleted = true;
+            NewBatchModel.PackageDate = PackageDate;
+            NewBatchModel.PackagedVolume = 12;
+            NewBatchModel.PackagedVolumeUom = "";
+            NewBatchModel.RecipeId = AppSettings.CompanyId;
+            NewBatchModel.SourceKey = "";
+
+            await _navigationService.GoBackAsync(new NavigationParameters { { "NewBatchModel", NewBatchModel } }, animated: false);
         }
 
         private async void CancelCommandRecieverAsync()

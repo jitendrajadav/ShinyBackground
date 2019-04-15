@@ -20,4 +20,18 @@ namespace KegID.Model
         public long X { get; set; }
         public long Y { get; set; }
     }
+
+    public class PreferenceTag
+    {
+        public string Name { get; set; }
+        public bool Required { get; set; }
+        public string Type { get; set; }
+        public object DefaultValue { get; set; }
+    }
+
+    public class PreferenceTags
+    {
+        public IList<PreferenceTag> Tags { get; set; }
+    }
+
 }

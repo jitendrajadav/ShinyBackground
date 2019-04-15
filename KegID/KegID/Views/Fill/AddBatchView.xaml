@@ -180,13 +180,28 @@
                         Grid.ColumnSpan="2"
                         HorizontalOptions="FillAndExpand"
                         Text="{Binding AlcoholContent}"/>
-                   
-                    <Label
-                        AutomationId="tagsStrLabel"
-                        Style="{StaticResource LabelNormalStyle}"
-                        Grid.ColumnSpan="2"
-                        Text="{Binding TagsStr}"
-                        Grid.Row="7"/>
+                <Label
+                    IsVisible="{Binding IsTagRequired}"
+                    AutomationId="requiredTagLbl"
+                    Grid.Row="7"
+                    Style="{StaticResource LabelNormalStyle}"
+                    Text="Required Tag"/>
+
+                <Entry 
+                    IsVisible="{Binding IsTagRequired}"
+                    AutomationId="requiredTagEntry"
+                    Grid.Row="7"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="2"
+                    HorizontalOptions="FillAndExpand"
+                    Text="{Binding RequiredTag}"/>
+                    
+                <!--<Label
+                    AutomationId="tagsStrLabel"
+                    Style="{StaticResource LabelNormalStyle}"
+                    Grid.ColumnSpan="2"
+                    Text="{Binding TagsStr}"
+                    Grid.Row="7"/>-->
 
                 </Grid>
                 
