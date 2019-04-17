@@ -262,13 +262,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string AlcoholContentPropertyName = "AlcoholContent";
 
-        private long? _AlcoholContent = null;
+        private decimal? _AlcoholContent = null;
 
         /// <summary>
         /// Sets and gets the AlcoholContent property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public long? AlcoholContent
+        public decimal? AlcoholContent
         {
             get
             {
@@ -485,7 +485,8 @@ namespace KegID.ViewModel
             try
             {
                 //NewBatchModel.Tags = Tags;
-                NewBatchModel.Abv = AlcoholContent.HasValue? AlcoholContent.Value: 0;
+                var abv = AlcoholContent ?? 0;
+                NewBatchModel.Abv = (long)abv;
                 NewBatchModel.BatchCode = BatchCode;
                 NewBatchModel.BatchId = _uuidManager.GetUuId();
                 NewBatchModel.BestBeforeDate = BestByDate;
