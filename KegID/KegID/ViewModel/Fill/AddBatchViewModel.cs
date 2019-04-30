@@ -165,7 +165,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string VolumeCharPropertyName = "VolumeChar";
 
-        private string _VolumeChar = default;
+        private string _VolumeChar = "bbl";
 
         /// <summary>
         /// Sets and gets the VolumeChar property.
