@@ -77,9 +77,15 @@ namespace KegID.ViewModel
         {
             try
             {
-                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                var value = RealmDb.All<AssetVolumeModel>().ToList();
-                VolumeCollection = value.Select(x => x.AssetVolume).ToList();
+                //var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                //var value = RealmDb.All<AssetVolumeModel>().ToList();
+                //VolumeCollection = value.Select(x => x.AssetVolume).ToList();
+                VolumeCollection = new List<string>
+                {
+                    "bbl",
+                    "hl",
+                    "gal"
+                };
             }
             catch (Exception ex)
             {
