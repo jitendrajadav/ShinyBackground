@@ -24,9 +24,9 @@ namespace KegID.iOS.Renderers
             {
                 this.AddClearButton();
 
-                this.Control.BorderStyle = UITextBorderStyle.Line;
-                Control.Layer.BorderColor = UIColor.LightGray.CGColor;
-                Control.Layer.BorderWidth = 1;
+                //this.Control.BorderStyle = UITextBorderStyle.Line;
+                //Control.Layer.BorderColor = UIColor.LightGray.CGColor;
+                //Control.Layer.BorderWidth = 1;
 
                 var entry = (NullableDatePicker)this.Element;
                 if (!entry.NullableDate.HasValue)

@@ -106,12 +106,12 @@
                         Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Resources[label_brew_date]}"/>
 
-                    <DatePicker 
+                <myDatePicker:NullableDatePicker
                         AutomationId="brewDatePicker"
                         Grid.Row="2"
                         Grid.ColumnSpan="2"
                         Grid.Column="1"
-                        Date="{Binding BrewDate}"/>
+                        NullableDate="{Binding BrewDate}"/>
 
                     <Label
                         AutomationId="assetVolumeLabel"
