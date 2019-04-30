@@ -14,17 +14,6 @@ namespace KegID.Views
 		{
 			InitializeComponent ();
             NavigationPage.SetHasNavigationBar(this, false);
-            bestDatePicker.Unfocused += BestDatePicker_Unfocused;
-        }
-
-        private void BestDatePicker_Unfocused(object sender, FocusEventArgs e)
-        {
-            // Needs to debbug and assing the correct value
-            var tmp = ((Xamarin.Forms.DatePicker)e.VisualElement).Date;
-            bestDatePicker.Date = DateTime.MinValue;
-            //BestByDate = tmp;
-            //((KegID.ViewModel.AddBatchViewModel)((Xamarin.Forms.BindableObject)sender).BindingContext).BestByDate
-            bestDatePicker.Date = tmp;
         }
 
         protected override bool OnBackButtonPressed()
