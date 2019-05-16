@@ -126,13 +126,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string VolumeDigitPropertyName = "VolumeDigit";
 
-        private long _VolumeDigit = default;
+        private float? _VolumeDigit = default;
 
         /// <summary>
         /// Sets and gets the VolumeDigit property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public long VolumeDigit
+        public float? VolumeDigit
         {
             get
             {
@@ -151,6 +151,31 @@ namespace KegID.ViewModel
             }
         }
 
+        #endregion
+
+        #region StrVolumeDigit
+        public string StrVolumeDigit
+        {
+            get
+            {
+                if (VolumeDigit == null)
+                    return "";
+                else
+                    return VolumeDigit.ToString();
+            }
+
+            set
+            {
+                try
+                {
+                    VolumeDigit = float.Parse(value);
+                }
+                catch
+                {
+                    VolumeDigit = null;
+                }
+            }
+        } 
         #endregion
 
         #region VolumeChar
@@ -262,13 +287,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string AlcoholContentPropertyName = "AlcoholContent";
 
-        private decimal? _AlcoholContent = null;
+        private float? _AlcoholContent = null;
 
         /// <summary>
         /// Sets and gets the AlcoholContent property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public decimal? AlcoholContent
+        public float? AlcoholContent
         {
             get
             {
@@ -287,6 +312,31 @@ namespace KegID.ViewModel
             }
         }
 
+        #endregion
+
+        #region StrAlcoholContent
+        public string StrAlcoholContent
+        {
+            get
+            {
+                if (AlcoholContent == null)
+                    return "";
+                else
+                    return AlcoholContent.ToString();
+            }
+
+            set
+            {
+                try
+                {
+                    AlcoholContent = float.Parse(value);
+                }
+                catch
+                {
+                    AlcoholContent = null;
+                }
+            }
+        }
         #endregion
 
         #region TagsStr
@@ -486,7 +536,7 @@ namespace KegID.ViewModel
             {
                 //NewBatchModel.Tags = Tags;
                 var abv = AlcoholContent ?? 0;
-                NewBatchModel.Abv = (long)abv;
+                NewBatchModel.Abv = abv;
                 NewBatchModel.BatchCode = BatchCode;
                 NewBatchModel.BatchId = _uuidManager.GetUuId();
                 NewBatchModel.BestBeforeDate = BestByDate;

@@ -125,7 +125,7 @@
                         Grid.Column="1"
                         HorizontalOptions="FillAndExpand"
                         Keyboard="Numeric"
-                        Text="{Binding VolumeDigit}"/>
+                        Text="{Binding StrVolumeDigit,Mode=TwoWay}"/>
 
                     <Entry 
                         AutomationId="volumeCharEntry"
@@ -179,7 +179,7 @@
                         Grid.Column="1"
                         Grid.ColumnSpan="2"
                         HorizontalOptions="FillAndExpand"
-                        Text="{Binding AlcoholContent}"/>
+                        Text="{Binding StrAlcoholContent,Mode=TwoWay}"/>
                    
                     <Label
                         AutomationId="tagsStrLabel"
