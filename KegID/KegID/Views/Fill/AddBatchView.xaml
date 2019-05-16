@@ -9,34 +9,35 @@
              >
 
     <ContentPage.Content>
-       
-        <Grid
+
+        <ScrollView>
+            <Grid
             AutomationId="mainGrd"
             RowSpacing="{OnPlatform Android=0,iOS=5,UWP=0}">
-            
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
 
-            <Button
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Button
                 AutomationId="cancelButton"
                 x:Name="lblCancel"
                 Style="{StaticResource TopButtonTitleStyle}"
                 Text="{Binding Resources[dialog_print_negative]}"
                 Command="{Binding CancelCommand}"/>
 
-            <Label
+                <Label
                 AutomationId="addBatchLabel"
                 Grid.ColumnSpan="3"
                 Style="{StaticResource LabelTitleStyle}"
                 TextColor="Black"
                 HorizontalOptions="Center"
                 Text="{Binding Resources[title_batch_add]}"/>
-            
-            <BoxView
+
+                <BoxView
                 AutomationId="topBarSeperatorBoxView"
                 Grid.ColumnSpan="3"
                 Margin="0,0,0,10"
@@ -53,7 +54,7 @@
                     Grid.Row="2"
                     ColumnSpacing="0"
                     RowSpacing="{OnPlatform Android=0,UWP=0,iOS=10}">
-                    
+
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -180,14 +181,14 @@
                         Grid.ColumnSpan="2"
                         HorizontalOptions="FillAndExpand"
                         Text="{Binding AlcoholContent}"/>
-                <Label
+                    <Label
                     IsVisible="{Binding IsTagRequired}"
                     AutomationId="requiredTagLbl"
                     Grid.Row="7"
                     Style="{StaticResource LabelNormalStyle}"
-                    Text="Required Tag"/>
+                    Text="Tag"/>
 
-                <Entry 
+                    <Entry 
                     IsVisible="{Binding IsTagRequired}"
                     AutomationId="requiredTagEntry"
                     Grid.Row="7"
@@ -195,8 +196,8 @@
                     Grid.ColumnSpan="2"
                     HorizontalOptions="FillAndExpand"
                     Text="{Binding RequiredTag}"/>
-                    
-                <!--<Label
+
+                    <!--<Label
                     AutomationId="tagsStrLabel"
                     Style="{StaticResource LabelNormalStyle}"
                     Grid.ColumnSpan="2"
@@ -204,9 +205,9 @@
                     Grid.Row="7"/>-->
 
                 </Grid>
-                
 
-            <Button
+
+                <Button
                 AutomationId="doneButton"
                 x:Name="lblDone"
                 Grid.ColumnSpan="3"
@@ -218,6 +219,8 @@
                 Style="{StaticResource BottomButtonTitleStyle}"
                 />
 
-        </Grid>
+            </Grid>
+
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>
