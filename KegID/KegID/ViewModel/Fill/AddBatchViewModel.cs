@@ -126,13 +126,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string VolumeDigitPropertyName = "VolumeDigit";
 
-        private float? _VolumeDigit = default;
+        private string _VolumeDigit = default;
 
         /// <summary>
         /// Sets and gets the VolumeDigit property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public float? VolumeDigit
+        public string VolumeDigit
         {
             get
             {
@@ -168,7 +168,7 @@ namespace KegID.ViewModel
             {
                 try
                 {
-                    VolumeDigit = float.Parse(value);
+                    //VolumeDigit = float.Parse(value);
                 }
                 catch
                 {
@@ -287,13 +287,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string AlcoholContentPropertyName = "AlcoholContent";
 
-        private float? _AlcoholContent = null;
+        private string _AlcoholContent = default;
 
         /// <summary>
         /// Sets and gets the AlcoholContent property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public float? AlcoholContent
+        public string AlcoholContent
         {
             get
             {
@@ -329,7 +329,7 @@ namespace KegID.ViewModel
             {
                 try
                 {
-                    AlcoholContent = float.Parse(value);
+                    //AlcoholContent = float.Parse(value);
                 }
                 catch
                 {
@@ -535,8 +535,8 @@ namespace KegID.ViewModel
             try
             {
                 //NewBatchModel.Tags = Tags;
-                var abv = AlcoholContent ?? 0;
-                NewBatchModel.Abv = abv;
+                //var abv = AlcoholContent ?? 0;
+                NewBatchModel.Abv = AlcoholContent;
                 NewBatchModel.BatchCode = BatchCode;
                 NewBatchModel.BatchId = _uuidManager.GetUuId();
                 NewBatchModel.BestBeforeDate = BestByDate;
