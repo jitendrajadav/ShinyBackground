@@ -18,7 +18,6 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        //private readonly INavigationService _navigationService;
         private readonly IUuidManager _uuidManager;
         private readonly IPageDialogService _dialogService;
 
@@ -397,74 +396,6 @@ namespace KegID.ViewModel
 
         #endregion
 
-        #region RequiredTag
-
-        /// <summary>
-        /// The <see cref="RequiredTag" /> property's name.
-        /// </summary>
-        public const string RequiredTagPropertyName = "RequiredTag";
-
-        private string _RequiredTag = default;
-
-        /// <summary>
-        /// Sets and gets the RequiredTag property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string RequiredTag
-        {
-            get
-            {
-                return _RequiredTag;
-            }
-
-            set
-            {
-                if (_RequiredTag == value)
-                {
-                    return;
-                }
-
-                _RequiredTag = value;
-                RaisePropertyChanged(RequiredTagPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region IsTagRequired
-
-        /// <summary>
-        /// The <see cref="IsTagRequired" /> property's name.
-        /// </summary>
-        public const string IsTagRequiredPropertyName = "IsTagRequired";
-
-        private bool _IsTagRequired = false;
-
-        /// <summary>
-        /// Sets and gets the IsTagRequired property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public bool IsTagRequired
-        {
-            get
-            {
-                return _IsTagRequired;
-            }
-
-            set
-            {
-                if (_IsTagRequired == value)
-                {
-                    return;
-                }
-
-                _IsTagRequired = value;
-                RaisePropertyChanged(IsTagRequiredPropertyName);
-            }
-        }
-
-        #endregion
-
         #region NewBatchModel
 
         /// <summary>
@@ -524,14 +455,6 @@ namespace KegID.ViewModel
             DoneCommand = new DelegateCommand(DoneCommandRecieverAsync);
             BrandCommand = new DelegateCommand(BrandCommandRecieverAsync);
             VolumeCharCommand = new DelegateCommand(VolumeCharCommandRecieverAsync);
-
-            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-            var preference = RealmDb.All<Preference>().Where(x => x.PreferenceName == "DefaultBatchTags").FirstOrDefault();
-            var preferenceValue = JsonConvert.DeserializeObject<PreferenceTags>(preference.PreferenceValue);
-            if (preferenceValue.Tags.FirstOrDefault().Required)
-            {
-                IsTagRequired = true;
-            }
         }
         #endregion
 
@@ -563,31 +486,7 @@ namespace KegID.ViewModel
 
         private async void DoneCommandRecieverAsync()
         {
-            try
-            {
-                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                var preference = RealmDb.All<Preference>().Where(x => x.PreferenceName == "DefaultBatchTags").FirstOrDefault();
-
-                var preferenceValue = JsonConvert.DeserializeObject<PreferenceTags>(preference.PreferenceValue);
-                if (preferenceValue.Tags.FirstOrDefault().Required)
-                {
-                    if (!string.IsNullOrEmpty(RequiredTag))
-                    {
-                        NewBatchModel.Tags.Add(new Tag { PropertyName = "A RequiredTag", PropertyValue = RequiredTag });
-                        await NagivatToNextPage();
-                    }
-                    else
-                    {
-                        await _dialogService.DisplayAlertAsync("Warning", "Required tag missing\n", "Ok");
-                    }
-                }
-                else
-                    await NagivatToNextPage();
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            await NagivatToNextPage();
         }
 
         private async System.Threading.Tasks.Task NagivatToNextPage()
