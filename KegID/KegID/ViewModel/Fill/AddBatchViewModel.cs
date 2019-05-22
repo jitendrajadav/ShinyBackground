@@ -1,9 +1,13 @@
 ﻿using KegID.Common;
+using KegID.LocalDb;
 using KegID.Model;
 using KegID.Services;
 using Microsoft.AppCenter.Crashes;
+using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
+using Prism.Services;
+using Realms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,8 +18,8 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        //private readonly INavigationService _navigationService;
         private readonly IUuidManager _uuidManager;
+        private readonly IPageDialogService _dialogService;
 
         #region BrandButtonTitle
 
@@ -428,9 +432,9 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public DelegateCommand AddTagsCommand { get;}
+        public DelegateCommand AddTagsCommand { get; }
         public DelegateCommand CancelCommand { get; }
-        public DelegateCommand DoneCommand { get;}
+        public DelegateCommand DoneCommand { get; }
         public DelegateCommand BrandCommand { get; }
         public DelegateCommand VolumeCharCommand { get; }
 
@@ -438,10 +442,11 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public AddBatchViewModel(INavigationService navigationService, IUuidManager uuidManager) : base(navigationService)
+        public AddBatchViewModel(INavigationService navigationService, IUuidManager uuidManager, IPageDialogService dialogService) : base(navigationService)
         {
             //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _uuidManager = uuidManager;
+            _dialogService = dialogService;
 
             AddTagsCommand = new DelegateCommand(AddTagsCommandRecieverAsync);
             CancelCommand = new DelegateCommand(CancelCommandRecieverAsync);
@@ -449,7 +454,6 @@ namespace KegID.ViewModel
             BrandCommand = new DelegateCommand(BrandCommandRecieverAsync);
             VolumeCharCommand = new DelegateCommand(VolumeCharCommandRecieverAsync);
         }
-
         #endregion
 
         #region Methods
