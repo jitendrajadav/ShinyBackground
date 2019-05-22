@@ -126,13 +126,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string VolumeDigitPropertyName = "VolumeDigit";
 
-        private long _VolumeDigit = default;
+        private string _VolumeDigit = default;
 
         /// <summary>
         /// Sets and gets the VolumeDigit property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public long VolumeDigit
+        public string VolumeDigit
         {
             get
             {
@@ -262,13 +262,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string AlcoholContentPropertyName = "AlcoholContent";
 
-        private long _AlcoholContent = default;
+        private string _AlcoholContent = default;
 
         /// <summary>
         /// Sets and gets the AlcoholContent property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public long AlcoholContent
+        public string AlcoholContent
         {
             get
             {
@@ -485,7 +485,8 @@ namespace KegID.ViewModel
             try
             {
                 //NewBatchModel.Tags = Tags;
-                NewBatchModel.Abv = AlcoholContent;
+                var abv = AlcoholContent ?? "";
+                NewBatchModel.Abv = abv;
                 NewBatchModel.BatchCode = BatchCode;
                 NewBatchModel.BatchId = _uuidManager.GetUuId();
                 NewBatchModel.BestBeforeDate = BestByDate;

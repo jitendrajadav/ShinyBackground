@@ -338,7 +338,7 @@ namespace KegID.ViewModel
             HandleReceivedMessages();
 
             RefreshDashboardRecieverAsync();
-            StartPrinterSearch();
+            //StartPrinterSearch();
 
             Connectivity.ConnectivityChanged -= Connectivity_ConnectivityChanged;
             Connectivity.ConnectivityChanged += Connectivity_ConnectivityChanged;
