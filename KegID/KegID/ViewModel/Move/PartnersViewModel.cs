@@ -337,86 +337,16 @@ namespace KegID.ViewModel
 
         public async Task LoadPartnersAsync()
         {
-            Loader.StartLoading();
-
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             AllPartners = RealmDb.All<PartnerModel>().ToList();
-            try
-            {
-                PartnerCollection = null;
-                if (AllPartners.Count > 0)
-                {
-                    if (BrewerStockOn)
-                        PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners.Where(x => x.PartnerTypeName == "Brewer - Stock").ToList());
-                    else
-                        PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners);
-                }
-                else
-                {
-                    DeletePartners();
-                    await LoadMetaDataPartnersAsync();
-                    await LoadPartnersAsync();
-                }
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
-            finally
-            {
-                Loader.StopLoading();
-            }
+            PartnerCollection = null;
+
+            if (BrewerStockOn)
+                PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners.Where(x => x.PartnerTypeName == "Brewer - Stock").ToList());
+            else
+                PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners);
         }
 
-        public async Task LoadMetaDataPartnersAsync()
-        {
-            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-            try
-            {
-                var value = await _moveService.GetPartnersListAsync(AppSettings.SessionId);
-                if (value.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
-                {
-                    var Partners = value.PartnerModel.Where(x => x.FullName != string.Empty).ToList();
-
-                    RealmDb.Write(() =>
-                    {
-                        foreach (var item in Partners)
-                        {
-                            try
-                            {
-                                RealmDb.Add(item);
-                            }
-                            catch (Exception ex)
-                            {
-                                Crashes.TrackError(ex);
-                            }
-                        }
-                    });
-                }
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
-        }
-
-        private void DeletePartners()
-        {
-            try
-            {
-                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                using (var trans = RealmDb.BeginWrite())
-                {
-                    RealmDb.RemoveAll<PartnerModel>();
-                    trans.Commit();
-                }
-                var AllPartners = RealmDb.All<PartnerModel>().ToList();
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
-        }
         private void AlphabeticalCommandReciever()
         {
             try

@@ -294,23 +294,10 @@ namespace KegID.ViewModel
         internal void LoadDraftManifestAsync()
         {
             List<ManifestModel> collection;
-            try
-            {
-                ManifestCollection.Clear();
-                Loader.StartLoading();
-                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                collection = RealmDb.All<ManifestModel>().Where(x => x.IsDraft == true && x.IsQueue == false).ToList();
-                AssignColletionToManifest(collection);
-            }
-            catch (Exception ex)
-            {
-                Debug.Write(ex.Message);
-            }
-            finally
-            {
-                Loader.StopLoading();
-                collection = null;
-            }
+            ManifestCollection.Clear();
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            collection = RealmDb.All<ManifestModel>().Where(x => x.IsDraft == true && x.IsQueue == false).ToList();
+            AssignColletionToManifest(collection);
         }
 
         private void AssignColletionToManifest(List<ManifestModel> collection)
@@ -396,23 +383,11 @@ namespace KegID.ViewModel
         private void QueuedCommandReciever()
         {
             List<ManifestModel> collection;
-            try
-            {
-                ManifestCollection.Clear();
-                Loader.StartLoading();
-                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                collection = RealmDb.All<ManifestModel>().Where(x => x.IsDraft == false && x.IsQueue == true).ToList();
-                AssignColletionToManifest(collection);
-            }
-            catch (Exception ex)
-            {
-                Debug.Write(ex.Message);
-            }
-            finally
-            {
-                Loader.StopLoading();
-                collection = null;
-            }
+
+            ManifestCollection.Clear();
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            collection = RealmDb.All<ManifestModel>().Where(x => x.IsDraft == false && x.IsQueue == true).ToList();
+            AssignColletionToManifest(collection);
 
             QueuedTextColor = "White";
             QueuedBackgroundColor = "#4E6388";
@@ -444,23 +419,11 @@ namespace KegID.ViewModel
         private void RecentCommandReciever()
         {
             List<ManifestModel> collection;
-            try
-            {
-                ManifestCollection.Clear();
-                Loader.StartLoading();
-                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                collection = RealmDb.All<ManifestModel>().Where(x => x.SubmittedDate == DateTimeOffset.UtcNow.Date && x.IsDraft == false && x.IsQueue == false).ToList();
-                AssignColletionToManifest(collection);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
-            finally
-            {
-                Loader.StopLoading();
-                collection = null;
-            }
+
+            ManifestCollection.Clear();
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            collection = RealmDb.All<ManifestModel>().Where(x => x.SubmittedDate == DateTimeOffset.UtcNow.Date && x.IsDraft == false && x.IsQueue == false).ToList();
+            AssignColletionToManifest(collection);
 
             RecentTextColor = "White";
             RecentBackgroundColor = "#4E6388";
