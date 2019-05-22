@@ -24,7 +24,7 @@ namespace KegID.Model
         public DateTimeOffset BrewDate { get; set; }
         public DateTimeOffset PackageDate { get; set; }
         public DateTimeOffset BestBeforeDate { get; set; }
-        public long BrewedVolume { get; set; }
+        public string BrewedVolume { get; set; }
         public string BrewedVolumeUom { get; set; }
         public long PackagedVolume { get; set; }
         public string PackagedVolumeUom { get; set; }
