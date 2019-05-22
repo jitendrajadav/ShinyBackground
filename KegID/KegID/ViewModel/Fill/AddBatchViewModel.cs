@@ -141,13 +141,11 @@ namespace KegID.ViewModel
 
             set
             {
-                if (_VolumeDigit == value)
+                if(_VolumeDigit != value)
                 {
-                    return;
+                    _VolumeDigit = value;
+                    RaisePropertyChanged(VolumeDigitPropertyName);
                 }
-
-                _VolumeDigit = value;
-                RaisePropertyChanged(VolumeDigitPropertyName);
             }
         }
 
@@ -493,13 +491,14 @@ namespace KegID.ViewModel
                 NewBatchModel.BrandName = BrandButtonTitle;
                 NewBatchModel.BrewDate = BrewDate;
                 NewBatchModel.BrewedVolume = VolumeDigit;
+
                 NewBatchModel.BrewedVolumeUom = VolumeChar;
                 NewBatchModel.CompanyId = AppSettings.CompanyId;
                 NewBatchModel.CompletedDate = DateTime.Today;
                 NewBatchModel.IsCompleted = true;
                 NewBatchModel.PackageDate = PackageDate;
-                NewBatchModel.PackagedVolume = 12;
-                NewBatchModel.PackagedVolumeUom = "";
+                //NewBatchModel.PackagedVolume = 0;
+                //NewBatchModel.PackagedVolumeUom = "";
                 NewBatchModel.RecipeId = AppSettings.CompanyId;
                 NewBatchModel.SourceKey = "";
 
