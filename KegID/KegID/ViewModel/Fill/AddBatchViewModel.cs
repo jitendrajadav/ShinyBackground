@@ -130,13 +130,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string VolumeDigitPropertyName = "VolumeDigit";
 
-        private long _VolumeDigit = default;
+        private string _VolumeDigit = default;
 
         /// <summary>
         /// Sets and gets the VolumeDigit property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public long VolumeDigit
+        public string VolumeDigit
         {
             get
             {
@@ -145,13 +145,11 @@ namespace KegID.ViewModel
 
             set
             {
-                if (_VolumeDigit == value)
+                if(_VolumeDigit != value)
                 {
-                    return;
+                    _VolumeDigit = value;
+                    RaisePropertyChanged(VolumeDigitPropertyName);
                 }
-
-                _VolumeDigit = value;
-                RaisePropertyChanged(VolumeDigitPropertyName);
             }
         }
 
@@ -266,13 +264,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string AlcoholContentPropertyName = "AlcoholContent";
 
-        private long _AlcoholContent = default;
+        private string _AlcoholContent = default;
 
         /// <summary>
         /// Sets and gets the AlcoholContent property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public long AlcoholContent
+        public string AlcoholContent
         {
             get
             {
@@ -486,29 +484,34 @@ namespace KegID.ViewModel
 
         private async void DoneCommandRecieverAsync()
         {
-            await NagivatToNextPage();
-        }
+            try
+            {
+                //NewBatchModel.Tags = Tags;
+                var abv = AlcoholContent ?? "";
+                NewBatchModel.Abv = abv;
+                NewBatchModel.BatchCode = BatchCode;
+                NewBatchModel.BatchId = _uuidManager.GetUuId();
+                NewBatchModel.BestBeforeDate = BestByDate;
+                NewBatchModel.BrandName = BrandButtonTitle;
+                NewBatchModel.BrewDate = BrewDate;
+                NewBatchModel.BrewedVolume = VolumeDigit;
 
-        private async System.Threading.Tasks.Task NagivatToNextPage()
-        {
-            NewBatchModel.Abv = AlcoholContent;
-            NewBatchModel.BatchCode = BatchCode;
-            NewBatchModel.BatchId = _uuidManager.GetUuId();
-            NewBatchModel.BestBeforeDate = BestByDate;
-            NewBatchModel.BrandName = BrandButtonTitle;
-            NewBatchModel.BrewDate = BrewDate;
-            NewBatchModel.BrewedVolume = VolumeDigit;
-            NewBatchModel.BrewedVolumeUom = VolumeChar;
-            NewBatchModel.CompanyId = AppSettings.CompanyId;
-            NewBatchModel.CompletedDate = DateTime.Today;
-            NewBatchModel.IsCompleted = true;
-            NewBatchModel.PackageDate = PackageDate;
-            NewBatchModel.PackagedVolume = 12;
-            NewBatchModel.PackagedVolumeUom = "";
-            NewBatchModel.RecipeId = AppSettings.CompanyId;
-            NewBatchModel.SourceKey = "";
+                NewBatchModel.BrewedVolumeUom = VolumeChar;
+                NewBatchModel.CompanyId = AppSettings.CompanyId;
+                NewBatchModel.CompletedDate = DateTime.Today;
+                NewBatchModel.IsCompleted = true;
+                NewBatchModel.PackageDate = PackageDate;
+                //NewBatchModel.PackagedVolume = 0;
+                //NewBatchModel.PackagedVolumeUom = "";
+                NewBatchModel.RecipeId = AppSettings.CompanyId;
+                NewBatchModel.SourceKey = "";
 
-            await _navigationService.GoBackAsync(new NavigationParameters { { "NewBatchModel", NewBatchModel } }, animated: false);
+                await _navigationService.GoBackAsync(new NavigationParameters { { "NewBatchModel", NewBatchModel } }, animated: false);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async void CancelCommandRecieverAsync()
