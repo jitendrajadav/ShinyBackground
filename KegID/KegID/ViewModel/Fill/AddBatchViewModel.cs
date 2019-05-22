@@ -126,30 +126,26 @@ namespace KegID.ViewModel
         /// </summary>
         public const string VolumeDigitPropertyName = "VolumeDigit";
 
-        private long _VolumeDigit = default;
+        private string _VolumeDigit = default;
 
         /// <summary>
         /// Sets and gets the VolumeDigit property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public String VolumeDigit
+        public string VolumeDigit
         {
             get
             {
-                return _VolumeDigit.Equals(default)? "" : _VolumeDigit.ToString();
+                return _VolumeDigit;
             }
 
             set
             {
-                if(long.TryParse(value, out long v))
+                if(_VolumeDigit != value)
                 {
-                    if (_VolumeDigit != v)
-                    {
-                        _VolumeDigit = v;
-                        RaisePropertyChanged(VolumeDigitPropertyName);
-                    }
+                    _VolumeDigit = value;
+                    RaisePropertyChanged(VolumeDigitPropertyName);
                 }
-               
             }
         }
 
@@ -493,8 +489,7 @@ namespace KegID.ViewModel
                 NewBatchModel.BestBeforeDate = BestByDate;
                 NewBatchModel.BrandName = BrandButtonTitle;
                 NewBatchModel.BrewDate = BrewDate;
-                if(long.TryParse(VolumeDigit, out long v))
-                    NewBatchModel.BrewedVolume = v;
+                NewBatchModel.BrewedVolume = VolumeDigit;
 
                 NewBatchModel.BrewedVolumeUom = VolumeChar;
                 NewBatchModel.CompanyId = AppSettings.CompanyId;
