@@ -30,7 +30,7 @@ namespace KegID.Model
         public string PackagedVolumeUom { get; set; }
         public DateTimeOffset CompletedDate { get; set; }
         public bool IsCompleted { get; set; }
-        public long Abv { get; set; }
+        public string Abv { get; set; }
         public string SourceKey { get; set; }
         public IList<Tag> Tags { get; }
     }
