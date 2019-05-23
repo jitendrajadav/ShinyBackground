@@ -195,7 +195,7 @@ namespace KegID.ViewModel
             InventoryDetailModel model = null;
             try
             {
-                Loader.StartLoading();
+                //Loader.StartLoading();
                 model = await _dashboardService.GetInventoryAsync(AppSettings.SessionId);
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                 RealmDb.Write(()=>
