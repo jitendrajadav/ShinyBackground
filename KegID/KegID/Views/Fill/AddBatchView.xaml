@@ -6,7 +6,7 @@
              BackgroundColor="{StaticResource pageBGColor}"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              ios:Page.UseSafeArea="true"
-             >
+             xmlns:myDatePicker="clr-namespace:KegID.Common">
 
     <ContentPage.Content>
 
@@ -107,12 +107,12 @@
                         Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Resources[label_brew_date]}"/>
 
-                    <DatePicker 
+                <myDatePicker:NullableDatePicker
                         AutomationId="brewDatePicker"
                         Grid.Row="2"
                         Grid.ColumnSpan="2"
                         Grid.Column="1"
-                        Date="{Binding BrewDate}"/>
+                        NullableDate="{Binding BrewDate}"/>
 
                     <Label
                         AutomationId="assetVolumeLabel"
@@ -160,14 +160,31 @@
                         Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Resources[label_bestby_date]}"/>
 
-                    <DatePicker 
-                        AutomationId="bestByDatePicker"
-                        Grid.Row="5"
-                        Grid.ColumnSpan="2"
-                        Grid.Column="1"
-                        Date="{Binding BestByDate}"/>
+                <!--<myDatePicker:ExtendedDatePicker
+                    AutomationId="bestByDatePicker"
+                    Grid.Row="5"
+                    Format="d/MM/yyyy"
+                    Grid.ColumnSpan="2"
+                    Grid.Column="1"
+                    NullableDate="{Binding BestByDate}"
+                    XAlign="Start"
+                    HasBorder="false"
+                    HorizontalOptions="FillAndExpand"
+                    StyleId="BirthDateFieldId"
+                    VerticalOptions="Center"/>-->
+                <myDatePicker:NullableDatePicker
+                    x:Name="bestDatePicker"
+                    AutomationId="bestByDatePicker"
+                    Grid.Row="5"
+                    Grid.ColumnSpan="2"
+                    Grid.Column="1"
+                    NullableDate="{Binding BestByDate}"
+                    HorizontalOptions="FillAndExpand"
+                    StyleId="BirthDateFieldId"
+                    VerticalOptions="Center"
+                    />
 
-                    <Label
+                <Label
                         AutomationId="alcohalContentLabel"
                         Grid.Row="6"
                         Style="{StaticResource LabelNormalStyle}"

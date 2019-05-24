@@ -230,13 +230,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string BestByDatePropertyName = "BestByDate";
 
-        private DateTimeOffset _BestByDate = DateTime.Now;
+        private DateTime? _BestByDate = null;
 
         /// <summary>
         /// Sets and gets the BestByDate property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public DateTimeOffset BestByDate
+        public DateTime? BestByDate
         {
             get
             {
@@ -491,7 +491,7 @@ namespace KegID.ViewModel
                 NewBatchModel.Abv = abv;
                 NewBatchModel.BatchCode = BatchCode;
                 NewBatchModel.BatchId = _uuidManager.GetUuId();
-                NewBatchModel.BestBeforeDate = BestByDate;
+                NewBatchModel.BestBeforeDate = BestByDate.HasValue ? BestByDate.Value : DateTime.Now;
                 NewBatchModel.BrandName = BrandButtonTitle;
                 NewBatchModel.BrewDate = BrewDate;
                 NewBatchModel.BrewedVolume = VolumeDigit;
