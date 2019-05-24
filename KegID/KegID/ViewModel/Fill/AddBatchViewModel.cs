@@ -484,33 +484,39 @@ namespace KegID.ViewModel
 
         private async void DoneCommandRecieverAsync()
         {
-            try
+            if (BrandButtonTitle.ToLower() != "brand")
             {
-                //NewBatchModel.Tags = Tags;
-                var abv = AlcoholContent ?? "";
-                NewBatchModel.Abv = abv;
-                NewBatchModel.BatchCode = BatchCode;
-                NewBatchModel.BatchId = _uuidManager.GetUuId();
-                NewBatchModel.BestBeforeDate = BestByDate.HasValue ? BestByDate.Value : DateTime.Now;
-                NewBatchModel.BrandName = BrandButtonTitle;
-                NewBatchModel.BrewDate = BrewDate;
-                NewBatchModel.BrewedVolume = VolumeDigit;
+                try
+                {
+                    var abv = AlcoholContent ?? "";
+                    NewBatchModel.Abv = abv;
+                    NewBatchModel.BatchCode = BatchCode;
+                    NewBatchModel.BatchId = _uuidManager.GetUuId();
+                    NewBatchModel.BestBeforeDate = BestByDate.HasValue ? BestByDate.Value : DateTime.Now;
+                    NewBatchModel.BrandName = BrandButtonTitle;
+                    NewBatchModel.BrewDate = BrewDate;
+                    NewBatchModel.BrewedVolume = VolumeDigit;
 
-                NewBatchModel.BrewedVolumeUom = VolumeChar;
-                NewBatchModel.CompanyId = AppSettings.CompanyId;
-                NewBatchModel.CompletedDate = DateTime.Today;
-                NewBatchModel.IsCompleted = true;
-                NewBatchModel.PackageDate = PackageDate;
-                //NewBatchModel.PackagedVolume = 0;
-                //NewBatchModel.PackagedVolumeUom = "";
-                NewBatchModel.RecipeId = AppSettings.CompanyId;
-                NewBatchModel.SourceKey = "";
+                    NewBatchModel.BrewedVolumeUom = VolumeChar;
+                    NewBatchModel.CompanyId = AppSettings.CompanyId;
+                    NewBatchModel.CompletedDate = DateTime.Today;
+                    NewBatchModel.IsCompleted = true;
+                    NewBatchModel.PackageDate = PackageDate;
+                    //NewBatchModel.PackagedVolume = 0;
+                    //NewBatchModel.PackagedVolumeUom = "";
+                    NewBatchModel.RecipeId = AppSettings.CompanyId;
+                    NewBatchModel.SourceKey = "";
 
-                await _navigationService.GoBackAsync(new NavigationParameters { { "NewBatchModel", NewBatchModel } }, animated: false);
+                    await _navigationService.GoBackAsync(new NavigationParameters { { "NewBatchModel", NewBatchModel } }, animated: false);
+                }
+                catch (Exception ex)
+                {
+                    Crashes.TrackError(ex);
+                }
             }
-            catch (Exception ex)
+            else
             {
-                Crashes.TrackError(ex);
+                await _dialogService.DisplayAlertAsync("Error", "Brand is required.", "Ok");
             }
         }
 
