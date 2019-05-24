@@ -1,9 +1,13 @@
 ﻿using KegID.Common;
+using KegID.LocalDb;
 using KegID.Model;
 using KegID.Services;
 using Microsoft.AppCenter.Crashes;
+using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
+using Prism.Services;
+using Realms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,8 +18,8 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        //private readonly INavigationService _navigationService;
         private readonly IUuidManager _uuidManager;
+        private readonly IPageDialogService _dialogService;
 
         #region BrandButtonTitle
 
@@ -126,13 +130,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string VolumeDigitPropertyName = "VolumeDigit";
 
-        private long _VolumeDigit = default;
+        private string _VolumeDigit = default;
 
         /// <summary>
         /// Sets and gets the VolumeDigit property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public long VolumeDigit
+        public string VolumeDigit
         {
             get
             {
@@ -141,13 +145,11 @@ namespace KegID.ViewModel
 
             set
             {
-                if (_VolumeDigit == value)
+                if(_VolumeDigit != value)
                 {
-                    return;
+                    _VolumeDigit = value;
+                    RaisePropertyChanged(VolumeDigitPropertyName);
                 }
-
-                _VolumeDigit = value;
-                RaisePropertyChanged(VolumeDigitPropertyName);
             }
         }
 
@@ -262,13 +264,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string AlcoholContentPropertyName = "AlcoholContent";
 
-        private long _AlcoholContent = default;
+        private string _AlcoholContent = default;
 
         /// <summary>
         /// Sets and gets the AlcoholContent property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public long AlcoholContent
+        public string AlcoholContent
         {
             get
             {
@@ -430,9 +432,9 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public DelegateCommand AddTagsCommand { get;}
+        public DelegateCommand AddTagsCommand { get; }
         public DelegateCommand CancelCommand { get; }
-        public DelegateCommand DoneCommand { get;}
+        public DelegateCommand DoneCommand { get; }
         public DelegateCommand BrandCommand { get; }
         public DelegateCommand VolumeCharCommand { get; }
 
@@ -440,10 +442,11 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public AddBatchViewModel(INavigationService navigationService, IUuidManager uuidManager) : base(navigationService)
+        public AddBatchViewModel(INavigationService navigationService, IUuidManager uuidManager, IPageDialogService dialogService) : base(navigationService)
         {
             //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _uuidManager = uuidManager;
+            _dialogService = dialogService;
 
             AddTagsCommand = new DelegateCommand(AddTagsCommandRecieverAsync);
             CancelCommand = new DelegateCommand(CancelCommandRecieverAsync);
@@ -451,7 +454,6 @@ namespace KegID.ViewModel
             BrandCommand = new DelegateCommand(BrandCommandRecieverAsync);
             VolumeCharCommand = new DelegateCommand(VolumeCharCommandRecieverAsync);
         }
-
         #endregion
 
         #region Methods
@@ -485,20 +487,22 @@ namespace KegID.ViewModel
             try
             {
                 //NewBatchModel.Tags = Tags;
-                NewBatchModel.Abv = AlcoholContent;
+                var abv = AlcoholContent ?? "";
+                NewBatchModel.Abv = abv;
                 NewBatchModel.BatchCode = BatchCode;
                 NewBatchModel.BatchId = _uuidManager.GetUuId();
                 NewBatchModel.BestBeforeDate = BestByDate.HasValue ? BestByDate.Value : DateTime.Now;
                 NewBatchModel.BrandName = BrandButtonTitle;
                 NewBatchModel.BrewDate = BrewDate;
                 NewBatchModel.BrewedVolume = VolumeDigit;
+
                 NewBatchModel.BrewedVolumeUom = VolumeChar;
                 NewBatchModel.CompanyId = AppSettings.CompanyId;
                 NewBatchModel.CompletedDate = DateTime.Today;
                 NewBatchModel.IsCompleted = true;
                 NewBatchModel.PackageDate = PackageDate;
-                NewBatchModel.PackagedVolume = 12;
-                NewBatchModel.PackagedVolumeUom = "";
+                //NewBatchModel.PackagedVolume = 0;
+                //NewBatchModel.PackagedVolumeUom = "";
                 NewBatchModel.RecipeId = AppSettings.CompanyId;
                 NewBatchModel.SourceKey = "";
 

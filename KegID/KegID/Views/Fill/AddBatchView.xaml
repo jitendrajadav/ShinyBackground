@@ -9,53 +9,54 @@
              xmlns:myDatePicker="clr-namespace:KegID.Common">
 
     <ContentPage.Content>
-       
-        <Grid
-            AutomationId="mainGrd"
-            RowSpacing="{OnPlatform Android=0,iOS=5,UWP=0}">
-            
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
 
-            <Button
-                AutomationId="cancelButton"
-                x:Name="lblCancel"
-                Style="{StaticResource TopButtonTitleStyle}"
-                Text="{Binding Resources[dialog_print_negative]}"
-                Command="{Binding CancelCommand}"/>
+        <ScrollView>
+            <Grid
+                AutomationId="mainGrd"
+                RowSpacing="{OnPlatform Android=0,iOS=5,UWP=0}">
 
-            <Label
-                AutomationId="addBatchLabel"
-                Grid.ColumnSpan="3"
-                Style="{StaticResource LabelTitleStyle}"
-                TextColor="Black"
-                HorizontalOptions="Center"
-                Text="{Binding Resources[title_batch_add]}"/>
-            
-            <BoxView
-                AutomationId="topBarSeperatorBoxView"
-                Grid.ColumnSpan="3"
-                Margin="0,0,0,10"
-                Grid.Row="1"
-                BackgroundColor="{StaticResource lightGrayPlaceholderColor}"
-                HeightRequest="1"
-                VerticalOptions="Start"
-                HorizontalOptions="FillAndExpand"/>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Button
+                    AutomationId="cancelButton"
+                    x:Name="lblCancel"
+                    Style="{StaticResource TopButtonTitleStyle}"
+                    Text="{Binding Resources[dialog_print_negative]}"
+                    Command="{Binding CancelCommand}"/>
+
+                <Label
+                    AutomationId="addBatchLabel"
+                    Grid.ColumnSpan="3"
+                    Style="{StaticResource LabelTitleStyle}"
+                    TextColor="Black"
+                    HorizontalOptions="Center"
+                    Text="{Binding Resources[title_batch_add]}"/>
+
+                <BoxView
+                    AutomationId="topBarSeperatorBoxView"
+                    Grid.ColumnSpan="3"
+                    Margin="0,0,0,10"
+                    Grid.Row="1"
+                    BackgroundColor="{StaticResource lightGrayPlaceholderColor}"
+                    HeightRequest="1"
+                    VerticalOptions="Start"
+                    HorizontalOptions="FillAndExpand"/>
 
                 <Grid
-                    AutomationId="innerGrd"
+                    AutomationId="requiredTagGrid"
+                    x:Name="requiredTagGrd"
                     Margin="10,0,10,0"
                     Grid.ColumnSpan="3"
                     Grid.Row="2"
                     ColumnSpacing="0"
                     RowSpacing="{OnPlatform Android=0,UWP=0,iOS=10}">
-                    
+
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -125,7 +126,7 @@
                         Grid.Column="1"
                         HorizontalOptions="FillAndExpand"
                         Keyboard="Numeric"
-                        Text="{Binding VolumeDigit}"/>
+                        Text="{Binding VolumeDigit,Mode=TwoWay}"/>
 
                     <Entry 
                         AutomationId="volumeCharEntry"
@@ -196,7 +197,7 @@
                         Grid.Column="1"
                         Grid.ColumnSpan="2"
                         HorizontalOptions="FillAndExpand"
-                        Text="{Binding AlcoholContent}"/>
+                        Text="{Binding AlcoholContent,Mode=TwoWay}"/>
                    
                     <Label
                         AutomationId="tagsStrLabel"
@@ -204,22 +205,22 @@
                         Grid.ColumnSpan="2"
                         Text="{Binding TagsStr}"
                         Grid.Row="7"/>
-
                 </Grid>
                 
-
-            <Button
-                AutomationId="doneButton"
-                x:Name="lblDone"
-                Grid.ColumnSpan="3"
-                Grid.Row="3"
-                Text="{Binding Resources[button_done]}"
-                Command="{Binding DoneCommand}"
-                VerticalOptions="EndAndExpand"
-                HorizontalOptions="FillAndExpand"
-                Style="{StaticResource BottomButtonTitleStyle}"
+                <Button
+                    AutomationId="doneButton"
+                    x:Name="lblDone"
+                    Grid.ColumnSpan="3"
+                    Grid.Row="3"
+                    Text="{Binding Resources[button_done]}"
+                    Clicked="LblDone_Clicked"
+                    VerticalOptions="EndAndExpand"
+                    HorizontalOptions="FillAndExpand"
+                    Style="{StaticResource BottomButtonTitleStyle}"
                 />
 
-        </Grid>
+            </Grid>
+
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>
