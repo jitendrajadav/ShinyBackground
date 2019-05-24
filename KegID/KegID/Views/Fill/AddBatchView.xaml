@@ -198,13 +198,7 @@
                         Grid.ColumnSpan="2"
                         HorizontalOptions="FillAndExpand"
                         Text="{Binding AlcoholContent,Mode=TwoWay}"/>
-                   
-                    <Label
-                        AutomationId="tagsStrLabel"
-                        Style="{StaticResource LabelNormalStyle}"
-                        Grid.ColumnSpan="2"
-                        Text="{Binding TagsStr}"
-                        Grid.Row="7"/>
+                    
                 </Grid>
                 
                 <Button
