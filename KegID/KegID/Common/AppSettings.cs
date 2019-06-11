@@ -408,6 +408,12 @@ namespace KegID.Common
             set => Settings.AddOrUpdateValue(nameof(IsFreshInstall), value);
         }
 
+        public static string WhatsNewVersion
+        {
+            get => Settings.GetValueOrDefault(nameof(WhatsNewVersion), null);
+            set => Settings.AddOrUpdateValue(nameof(WhatsNewVersion), value);
+        }
+
         public static bool IsMetaDataLoaded
         {
             get => Settings.GetValueOrDefault(nameof(IsMetaDataLoaded), false);
