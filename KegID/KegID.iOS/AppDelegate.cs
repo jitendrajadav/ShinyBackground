@@ -39,6 +39,7 @@ namespace KegID.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             Forms.Init();
+            FormsMaterial.Init();
             CarouselViewRenderer.Init();
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
             Xamarin.FormsMaps.Init();

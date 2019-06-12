@@ -7,7 +7,7 @@
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              ios:Page.UseSafeArea="true"
              xmlns:control="clr-namespace:KegID.Common"
-             >
+             Visual="Material">
 
     <ContentPage.Content>
         
@@ -105,8 +105,7 @@
                         AutomationId="manifestIdEntry"
                         IsVisible="{Binding IsCameraVisible}"
                         Text="{Binding ManifestId,Mode=TwoWay}"
-                        VerticalOptions="Center"
-                        TextColor="White"/>
+                        VerticalOptions="Center"/>
 
                     <Image
                         Grid.Column="2"

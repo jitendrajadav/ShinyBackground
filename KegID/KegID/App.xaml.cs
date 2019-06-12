@@ -38,6 +38,9 @@ namespace KegID
             //#endif
             InitializeComponent();
 
+#if DEBUG
+            HotReloader.Current.Start(this);
+#endif
             serviceProvider = new ServiceCollection()
                 .AddSingleton<HttpClient>()
                 .AddTransient<KegIDClient>()

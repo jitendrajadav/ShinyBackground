@@ -36,6 +36,7 @@ namespace KegID.Droid
             Forms.SetFlags("FastRenderers_Experimental");
 
             Forms.Init(this, bundle);
+            FormsMaterial.Init(this, bundle);
             UserDialogs.Init(this);
             CarouselViewRenderer.Init();
             Rg.Plugins.Popup.Popup.Init(this, bundle);
