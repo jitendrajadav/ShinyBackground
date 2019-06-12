@@ -131,6 +131,7 @@
     <Compile Include="AppDelegate.cs" />
     <Compile Include="Renderers\ExtendedDatePickerRenderer.cs" />
     <Compile Include="Renderers\NullableDatePickerRenderer.cs" />
+    <Compile Include="Renderers\SelectableEntryRenderer.cs" />
     <Compile Include="Services\iOSLongRunningTaskExample.cs" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist">

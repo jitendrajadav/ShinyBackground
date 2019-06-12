@@ -6,6 +6,7 @@
              BackgroundColor="{StaticResource pageBGColor}"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              ios:Page.UseSafeArea="true"
+             xmlns:control="clr-namespace:KegID.Common"
              >
 
     <ContentPage.Content>
@@ -99,14 +100,13 @@
                         Text="{Binding ManifestId}"
                         />
 
-                    <Label 
-                        Font="16"
+                    <control:SelectableEntry 
                         Grid.Column="1"
                         AutomationId="manifestIdEntry"
                         IsVisible="{Binding IsCameraVisible}"
                         Text="{Binding ManifestId,Mode=TwoWay}"
                         VerticalOptions="Center"
-                        Style="{StaticResource LabelTitleWhiteTextColorStyle}"/>
+                        TextColor="White"/>
 
                     <Image
                         Grid.Column="2"
