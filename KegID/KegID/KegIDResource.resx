@@ -1731,6 +1731,9 @@
   <data name="label_what_is_new" xml:space="preserve">
     <value>What's New</value>
   </data>
+  <data name="label_general" xml:space="preserve">
+    <value>General:</value>
+  </data>
   <data name="label_zebra_printer" xml:space="preserve">
     <value>Zebra Printer:</value>
   </data>
