@@ -11,9 +11,11 @@ namespace KegID.UWP.Renderers
         protected override void OnElementChanged(ElementChangedEventArgs<Entry> e)
         {
             base.OnElementChanged(e);
-            if (e.NewElement.IsFocused
-               && Control != null && Control.FocusState != Windows.UI.Xaml.FocusState.Unfocused)
-                Control.SelectAll();
+            if (e.NewElement != null)
+            {
+                if (Control != null)
+                    Control.SelectAll(); 
+            }
         }
 
     }
