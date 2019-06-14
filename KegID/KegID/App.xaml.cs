@@ -39,7 +39,7 @@ namespace KegID
             InitializeComponent();
 
 #if DEBUG
-            HotReloader.Current.Start(this);
+            HotReloader.Current.Run(this);
 #endif
             serviceProvider = new ServiceCollection()
                 .AddSingleton<HttpClient>()
