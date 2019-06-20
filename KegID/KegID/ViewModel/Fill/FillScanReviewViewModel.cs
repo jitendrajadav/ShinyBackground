@@ -22,7 +22,6 @@ namespace KegID.ViewModel
         #region Properties
 
         private readonly IPageDialogService _dialogService;
-        //private readonly INavigationService _navigationService;
         private readonly IUuidManager _uuidManager;
         private readonly IMoveService _moveService;
         private readonly IManifestManager _manifestManager;
@@ -30,143 +29,10 @@ namespace KegID.ViewModel
 
         public IList<BarcodeModel> Barcodes { get; set; }
         public string BatchId { get; set; }
-
-
-        #region TrackingNumber
-
-        /// <summary>
-        /// The <see cref="TrackingNumber" /> property's name.
-        /// </summary>
-        public const string TrackingNumberPropertyName = "TrackingNumber";
-
-        private string _TrackingNumber = default;
-
-        /// <summary>
-        /// Sets and gets the TrackingNumber property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string TrackingNumber
-        {
-            get
-            {
-                return _TrackingNumber;
-            }
-
-            set
-            {
-                if (_TrackingNumber == value)
-                {
-                    return;
-                }
-
-                _TrackingNumber = value;
-                RaisePropertyChanged(TrackingNumberPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region ManifestTo
-
-        /// <summary>
-        /// The <see cref="ManifestTo" /> property's name.
-        /// </summary>
-        public const string ManifestToPropertyName = "ManifestTo";
-
-        private string _ManifestTo = default;
-
-        /// <summary>
-        /// Sets and gets the ManifestTo property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string ManifestTo
-        {
-            get
-            {
-                return _ManifestTo;
-            }
-
-            set
-            {
-                if (_ManifestTo == value)
-                {
-                    return;
-                }
-
-                _ManifestTo = value;
-                RaisePropertyChanged(ManifestToPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region ItemCount
-
-        /// <summary>
-        /// The <see cref="ItemCount" /> property's name.
-        /// </summary>
-        public const string ItemCountPropertyName = "ItemCount";
-
-        private int _ItemCount = 0;
-
-        /// <summary>
-        /// Sets and gets the ItemCount property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public int ItemCount
-        {
-            get
-            {
-                return _ItemCount;
-            }
-
-            set
-            {
-                if (_ItemCount == value)
-                {
-                    return;
-                }
-
-                _ItemCount = value;
-                RaisePropertyChanged(ItemCountPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region Contents
-
-        /// <summary>
-        /// The <see cref="Contents" /> property's name.
-        /// </summary>
-        public const string ContentsPropertyName = "Contents";
-
-        private string _Contents = "No contents";
-
-        /// <summary>
-        /// Sets and gets the Contents property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string Contents
-        {
-            get
-            {
-                return _Contents;
-            }
-
-            set
-            {
-                if (_Contents == value)
-                {
-                    return;
-                }
-
-                _Contents = value;
-                RaisePropertyChanged(ContentsPropertyName);
-            }
-        }
-
-        #endregion
+        public string TrackingNumber { get; set; }
+        public string ManifestTo { get; set; }
+        public int ItemCount { get; set; }
+        public string Contents { get; set; }
 
         #endregion
 
@@ -181,7 +47,6 @@ namespace KegID.ViewModel
 
         public FillScanReviewViewModel(INavigationService navigationService, IUuidManager uuidManager, IPageDialogService dialogService, IMoveService moveService, IManifestManager manifestManager, IGeolocationService geolocationService) : base(navigationService)
         {
-            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _uuidManager = uuidManager;
             _dialogService = dialogService;
             _moveService = moveService;

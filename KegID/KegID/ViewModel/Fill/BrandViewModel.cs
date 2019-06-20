@@ -15,42 +15,8 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        //private readonly INavigationService _navigationService;
         private readonly IPageDialogService _dialogService;
-
-        #region BrandCollection
-
-        /// <summary>
-        /// The <see cref="BrandCollection" /> property's name.
-        /// </summary>
-        public const string BrandCollectionPropertyName = "BrandCollection";
-
-        private IList<BrandModel> _BrandCollection = null;
-
-        /// <summary>
-        /// Sets and gets the BrandCollection property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public IList<BrandModel> BrandCollection
-        {
-            get
-            {
-                return _BrandCollection;
-            }
-
-            set
-            {
-                if (_BrandCollection == value)
-                {
-                    return;
-                }
-
-                _BrandCollection = value;
-                RaisePropertyChanged(BrandCollectionPropertyName);
-            }
-        }
-
-        #endregion
+        public IList<BrandModel> BrandCollection { get; set; }
 
         #endregion
 
@@ -64,7 +30,6 @@ namespace KegID.ViewModel
 
         public BrandViewModel(INavigationService navigationService, IPageDialogService dialogService) : base(navigationService)
         {
-            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _dialogService = dialogService;
             ItemTappedCommand = new DelegateCommand<BrandModel>((model)=>ItemTappedCommandRecieverAsync(model));
             LoadBrand();

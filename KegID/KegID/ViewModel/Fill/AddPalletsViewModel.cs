@@ -23,8 +23,6 @@ namespace KegID.ViewModel
         #region Properties
 
         private readonly IPageDialogService _dialogService;
-        //private readonly INavigationService _navigationService;
-        private readonly IPalletizeService _palletizeService;
         private readonly IMoveService _moveService;
         private readonly IManifestManager _manifestManager;
         private readonly IUuidManager _uuidManager;
@@ -34,142 +32,10 @@ namespace KegID.ViewModel
         public NewBatch BatchModel { get; private set; }
         public string SizeButtonTitle { get; private set; }
         public PartnerModel PartnerModel { get; private set; }
-
-        #region AddPalletsTitle
-
-        /// <summary>
-        /// The <see cref="AddPalletsTitle" /> property's name.
-        /// </summary>
-        public const string AddPalletsTitlePropertyName = "AddPalletsTitle";
-
-        private string _AddPalletsTitle = default;
-
-        /// <summary>
-        /// Sets and gets the AddPalletsTitle property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string AddPalletsTitle
-        {
-            get
-            {
-                return _AddPalletsTitle;
-            }
-
-            set
-            {
-                if (_AddPalletsTitle == value)
-                {
-                    return;
-                }
-
-                _AddPalletsTitle = value;
-                RaisePropertyChanged(AddPalletsTitlePropertyName);
-            }
-        }
-
-        #endregion
-
-        #region Pallets
-
-        /// <summary>
-        /// The <see cref="Pallets" /> property's name.
-        /// </summary>
-        public const string PalletsPropertyName = "Pallets";
-
-        private string _Pallets = default;
-
-        /// <summary>
-        /// Sets and gets the Pallets property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string Pallets
-        {
-            get
-            {
-                return _Pallets;
-            }
-
-            set
-            {
-                if (_Pallets == value)
-                {
-                    return;
-                }
-
-                _Pallets = value;
-                RaisePropertyChanged(PalletsPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region PalletCollection
-
-        /// <summary>
-        /// The <see cref="PalletCollection" /> property's name.
-        /// </summary>
-        public const string PalletCollectionPropertyName = "PalletCollection";
-
-        private ObservableCollection<PalletModel> _PalletCollection = new ObservableCollection<PalletModel>();
-
-        /// <summary>
-        /// Sets and gets the PalletCollection property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public ObservableCollection<PalletModel> PalletCollection
-        {
-            get
-            {
-                return _PalletCollection;
-            }
-
-            set
-            {
-                if (_PalletCollection == value)
-                {
-                    return;
-                }
-
-                _PalletCollection = value;
-                RaisePropertyChanged(PalletCollectionPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region Kegs
-
-        /// <summary>
-        /// The <see cref="Kegs" /> property's name.
-        /// </summary>
-        public const string KegsPropertyName = "Kegs";
-
-        private string _Kegs = default;
-
-        /// <summary>
-        /// Sets and gets the Kegs property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string Kegs
-        {
-            get
-            {
-                return _Kegs;
-            }
-
-            set
-            {
-                if (_Kegs == value)
-                {
-                    return;
-                }
-
-                _Kegs = value;
-                RaisePropertyChanged(KegsPropertyName);
-            }
-        }
-
-        #endregion
+        public string AddPalletsTitle { get; set; }
+        public string Pallets { get; set; }
+        public ObservableCollection<PalletModel> PalletCollection { get; set; } = new ObservableCollection<PalletModel>();
+        public string Kegs { get; set; }
 
         #endregion
 
@@ -185,11 +51,9 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public AddPalletsViewModel(IPalletizeService palletizeService, IMoveService moveService, INavigationService navigationService, IPageDialogService dialogService, IManifestManager manifestManager, IUuidManager uuidManager, IGeolocationService geolocationService) : base(navigationService)
+        public AddPalletsViewModel(IMoveService moveService, INavigationService navigationService, IPageDialogService dialogService, IManifestManager manifestManager, IUuidManager uuidManager, IGeolocationService geolocationService) : base(navigationService)
         {
-            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _dialogService = dialogService;
-            _palletizeService = palletizeService;
             _moveService = moveService;
             _manifestManager = manifestManager;
             _uuidManager = uuidManager;

@@ -10,7 +10,7 @@ namespace KegID.Services
 {
     public class GeolocationService : IGeolocationService, INotifyPropertyChanged
     {
-        string notAvailable = "not available";
+        //string notAvailable = "not available";
         string lastLocation;
         string currentLocation;
         int accuracy = (int)GeolocationAccuracy.Medium;
@@ -112,23 +112,23 @@ namespace KegID.Services
             }
         }
 
-        string FormatLocation(Location location, Exception ex = null)
-        {
-            if (location == null)
-            {
-                return $"Unable to detect location. Exception: {ex?.Message ?? string.Empty}";
-            }
+        //string FormatLocation(Location location, Exception ex = null)
+        //{
+        //    if (location == null)
+        //    {
+        //        return $"Unable to detect location. Exception: {ex?.Message ?? string.Empty}";
+        //    }
 
-            return
-                $"Latitude: {location.Latitude}\n" +
-                $"Longitude: {location.Longitude}\n" +
-                $"Accuracy: {location.Accuracy}\n" +
-                $"Altitude: {(location.Altitude.HasValue ? location.Altitude.Value.ToString() : notAvailable)}\n" +
-                $"Heading: {(location.Course.HasValue ? location.Course.Value.ToString() : notAvailable)}\n" +
-                $"Speed: {(location.Speed.HasValue ? location.Speed.Value.ToString() : notAvailable)}\n" +
-                $"Date (UTC): {location.Timestamp:d}\n" +
-                $"Time (UTC): {location.Timestamp:T}";
-        }
+        //    return
+        //        $"Latitude: {location.Latitude}\n" +
+        //        $"Longitude: {location.Longitude}\n" +
+        //        $"Accuracy: {location.Accuracy}\n" +
+        //        $"Altitude: {(location.Altitude.HasValue ? location.Altitude.Value.ToString() : notAvailable)}\n" +
+        //        $"Heading: {(location.Course.HasValue ? location.Course.Value.ToString() : notAvailable)}\n" +
+        //        $"Speed: {(location.Speed.HasValue ? location.Speed.Value.ToString() : notAvailable)}\n" +
+        //        $"Date (UTC): {location.Timestamp:d}\n" +
+        //        $"Time (UTC): {location.Timestamp:T}";
+        //}
 
         public async Task InitCurrentLocationAsync()
         {

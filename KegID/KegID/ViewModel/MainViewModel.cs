@@ -26,272 +26,23 @@ namespace KegID.ViewModel
 
         private readonly IDeviceCheckInMngr _deviceCheckInMngr;
         private readonly IInitializeMetaData _initializeMetaData;
-        //private readonly INavigationService _navigationService;
         private readonly IDashboardService _dashboardService;
-        private readonly IGetIconByPlatform _getIconByPlatform;
         private readonly IUuidManager _uuidManager;
         ConnectionType connetionType;
 
-        #region Stock
-
-        private string _Stock = "0";
-
-        public string Stock
-        {
-            get
-            {
-                return _Stock;
-            }
-
-            set
-            {
-                SetProperty(ref _Stock, value);
-            }
-        }
-
-        #endregion
-
-        #region Empty
-
-        /// <summary>
-        /// The <see cref="Empty" /> property's name.
-        /// </summary>
-        public const string EmptyPropertyName = "Empty";
-
-        private string _Empty = "0";
-
-        /// <summary>
-        /// Sets and gets the Empty property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string Empty
-        {
-            get
-            {
-                return _Empty;
-            }
-
-            set
-            {
-                if (_Empty == value)
-                {
-                    return;
-                }
-
-                _Empty = value;
-                RaisePropertyChanged(EmptyPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region InUse
-
-        /// <summary>
-        /// The <see cref="InUse" /> property's name.
-        /// </summary>
-        public const string InUsePropertyName = "InUse";
-
-        private string _InUse = "0";
-
-        /// <summary>
-        /// Sets and gets the InUse property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string InUse
-        {
-            get
-            {
-                return _InUse;
-            }
-
-            set
-            {
-                if (_InUse == value)
-                {
-                    return;
-                }
-
-                _InUse = value;
-                RaisePropertyChanged(InUsePropertyName);
-            }
-        }
-
-        #endregion
-
-        #region Total
-
-        /// <summary>
-        /// The <see cref="Total" /> property's name.
-        /// </summary>
-        public const string TotalPropertyName = "Total";
-
-        private string _Total = "0";
-
-        /// <summary>
-        /// Sets and gets the Total property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string Total
-        {
-            get
-            {
-                return _Total;
-            }
-
-            set
-            {
-                if (_Total == value)
-                {
-                    return;
-                }
-
-                _Total = value;
-                RaisePropertyChanged(TotalPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region AverageCycle
-
-        /// <summary>
-        /// The <see cref="AverageCycle" /> property's name.
-        /// </summary>
-        public const string AverageCyclePropertyName = "AverageCycle";
-
-        private string _AverageCycle = "0 day";
-
-        /// <summary>
-        /// Sets and gets the AverageCycle property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string AverageCycle
-        {
-            get
-            {
-                return _AverageCycle;
-            }
-
-            set
-            {
-                if (_AverageCycle == value)
-                {
-                    return;
-                }
-
-                _AverageCycle = value;
-                RaisePropertyChanged(AverageCyclePropertyName);
-            }
-        }
-
-        #endregion
-
-        #region Atriskegs
-
-        /// <summary>
-        /// The <see cref="Atriskegs" /> property's name.
-        /// </summary>
-        public const string AtriskegsPropertyName = "Atriskegs";
-
-        private string _Atriskegs = "0";
-
-        /// <summary>
-        /// Sets and gets the Atriskegs property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string Atriskegs
-        {
-            get
-            {
-                return _Atriskegs;
-            }
-
-            set
-            {
-                if (_Atriskegs == value)
-                {
-                    return;
-                }
-
-                _Atriskegs = value;
-                RaisePropertyChanged(AtriskegsPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region DraftmaniFests
-
-        /// <summary>
-        /// The <see cref="DraftmaniFests" /> property's name.
-        /// </summary>
-        public const string DraftmaniFestsPropertyName = "DraftmaniFests";
-
-        private string _DraftmaniFests = default;
-
-        /// <summary>
-        /// Sets and gets the DraftmaniFests property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string DraftmaniFests
-        {
-            get
-            {
-                return _DraftmaniFests;
-            }
-
-            set
-            {
-                if (_DraftmaniFests == value)
-                {
-                    return;
-                }
-
-                _DraftmaniFests = value;
-                RaisePropertyChanged(DraftmaniFestsPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region IsVisibleDraftmaniFestsLabel
-
-        /// <summary>
-        /// The <see cref="IsVisibleDraftmaniFestsLabel" /> property's name.
-        /// </summary>
-        public const string IsVisibleDraftmaniFestsLabelPropertyName = "IsVisibleDraftmaniFestsLabel";
-
-        private bool _IsVisibleDraftmaniFestsLabel = false;
-
-        /// <summary>
-        /// Sets and gets the IsVisibleDraftmaniFestsLabel property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public bool IsVisibleDraftmaniFestsLabel
-        {
-            get
-            {
-                return _IsVisibleDraftmaniFestsLabel;
-            }
-
-            set
-            {
-                if (_IsVisibleDraftmaniFestsLabel == value)
-                {
-                    return;
-                }
-
-                _IsVisibleDraftmaniFestsLabel = value;
-                RaisePropertyChanged(IsVisibleDraftmaniFestsLabelPropertyName);
-            }
-        }
-
-        #endregion
+        public string Stock { get; set; } = "0";
+        public string Empty { get; set; } = "0";
+        public string  InUse { get; set; } = "0";
+        public string Total { get; set; } = "0";
+        public string AverageCycle { get; set; } = "0 day";
+        public string Atriskegs { get; set; } = "0";
+        public string DraftmaniFests { get; set; }
+        public bool IsVisibleDraftmaniFestsLabel { get; set; }
 
         #endregion
 
         #region Commands
+
         public DelegateCommand MoreCommand { get; }
         public DelegateCommand MaintainCommand { get; }
         public DelegateCommand PalletizeCommand { get; }
@@ -309,14 +60,11 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public MainViewModel(INavigationService navigationService/*, ISyncManager syncManager*/, IDeviceCheckInMngr deviceCheckInMngr, IInitializeMetaData initializeMetaData, IDashboardService dashboardService, IGetIconByPlatform getIconByPlatform, IUuidManager uuidManager) : base(navigationService)
+        public MainViewModel(INavigationService navigationService, IDeviceCheckInMngr deviceCheckInMngr, IInitializeMetaData initializeMetaData, IDashboardService dashboardService, IUuidManager uuidManager) : base(navigationService)
         {
-            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
-
             _deviceCheckInMngr = deviceCheckInMngr;
             _initializeMetaData = initializeMetaData;
             _dashboardService = dashboardService;
-            _getIconByPlatform = getIconByPlatform;
             _uuidManager = uuidManager;
 
             MoveCommand = new DelegateCommand(MoveCommandRecieverAsync);

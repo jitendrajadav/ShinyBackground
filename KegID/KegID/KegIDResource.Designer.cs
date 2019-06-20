@@ -19,7 +19,7 @@ namespace KegID {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class KegIDResource {
@@ -1483,6 +1483,15 @@ namespace KegID {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Camera scanner:.
+        /// </summary>
+        internal static string label_camera_scanner {
+            get {
+                return ResourceManager.GetString("label_camera_scanner", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to choose a date.
         /// </summary>
         internal static string label_choose_a_date {
@@ -1555,6 +1564,15 @@ namespace KegID {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Data Matrix.
+        /// </summary>
+        internal static string label_data_matrix {
+            get {
+                return ResourceManager.GetString("label_data_matrix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Date.
         /// </summary>
         internal static string label_date {
@@ -1596,6 +1614,15 @@ namespace KegID {
         internal static string label_destination {
             get {
                 return ResourceManager.GetString("label_destination", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to EAN 13.
+        /// </summary>
+        internal static string label_ean_13 {
+            get {
+                return ResourceManager.GetString("label_ean_13", resourceCulture);
             }
         }
         
@@ -2104,6 +2131,15 @@ namespace KegID {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to QR Matrix.
+        /// </summary>
+        internal static string label_qr_code {
+            get {
+                return ResourceManager.GetString("label_qr_code", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Qty.
         /// </summary>
         internal static string label_qty {
@@ -2374,6 +2410,15 @@ namespace KegID {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to UPC.
+        /// </summary>
+        internal static string label_upc {
+            get {
+                return ResourceManager.GetString("label_upc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to use scan date.
         /// </summary>
         internal static string label_use_scan_date {
@@ -2433,6 +2478,24 @@ namespace KegID {
         internal static string label_zebra_printer {
             get {
                 return ResourceManager.GetString("label_zebra_printer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Code 128.
+        /// </summary>
+        internal static string lable_code_128 {
+            get {
+                return ResourceManager.GetString("lable_code_128", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Code 39.
+        /// </summary>
+        internal static string lable_code_39 {
+            get {
+                return ResourceManager.GetString("lable_code_39", resourceCulture);
             }
         }
         

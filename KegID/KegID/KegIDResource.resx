@@ -1788,4 +1788,25 @@
   <data name="title_about_kegid" xml:space="preserve">
     <value>About KegID</value>
   </data>
+  <data name="label_camera_scanner" xml:space="preserve">
+    <value>Camera scanner:</value>
+  </data>
+  <data name="label_data_matrix" xml:space="preserve">
+    <value>Data Matrix</value>
+  </data>
+  <data name="label_ean_13" xml:space="preserve">
+    <value>EAN 13</value>
+  </data>
+  <data name="label_qr_code" xml:space="preserve">
+    <value>QR Matrix</value>
+  </data>
+  <data name="label_upc" xml:space="preserve">
+    <value>UPC</value>
+  </data>
+  <data name="lable_code_128" xml:space="preserve">
+    <value>Code 128</value>
+  </data>
+  <data name="lable_code_39" xml:space="preserve">
+    <value>Code 39</value>
+  </data>
 </root>
