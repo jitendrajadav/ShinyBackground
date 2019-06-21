@@ -21,220 +21,21 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        //private readonly INavigationService _navigationService;
         private readonly IPageDialogService _dialogService;
-        private readonly IMoveService _moveService;
-        private readonly IManifestManager _manifestManager;
+        //private readonly IMoveService _moveService;
+        //private readonly IManifestManager _manifestManager;
         private readonly IGetIconByPlatform _getIconByPlatform;
 
         private const string Maintenace = "maintenace.png";
         private const string ValidationOK = "validationok.png";
         private const string Cloud = "collectionscloud.png";
         public bool HasDone { get; set; }
-
-        #region BarcodeCollection
-
-        /// <summary>
-        /// The <see cref="BarcodeCollection" /> property's name.
-        /// </summary>
-        public const string BarcodeCollectionPropertyName = "BarcodeCollection";
-
-        private ObservableCollection<BarcodeModel> _BarcodeCollection = new ObservableCollection<BarcodeModel>();
-
-        /// <summary>
-        /// Sets and gets the BarcodeCollection property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public ObservableCollection<BarcodeModel> BarcodeCollection
-        {
-            get
-            {
-                return _BarcodeCollection;
-            }
-
-            set
-            {
-                if (_BarcodeCollection == value)
-                {
-                    return;
-                }
-
-                _BarcodeCollection = value;
-                RaisePropertyChanged(BarcodeCollectionPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region BrandCollection
-
-        /// <summary>
-        /// The <see cref="BrandCollection" /> property's name.
-        /// </summary>
-        public const string BrandCollectionPropertyName = "BrandCollection";
-
-        private IList<BrandModel> _BrandCollection = null;
-
-        /// <summary>
-        /// Sets and gets the BrandCollection property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public IList<BrandModel> BrandCollection
-        {
-            get
-            {
-                return _BrandCollection;
-            }
-
-            set
-            {
-                if (_BrandCollection == value)
-                {
-                    return;
-                }
-
-                _BrandCollection = value;
-                RaisePropertyChanged(BrandCollectionPropertyName);
-            }
-        }
-
-
-        #endregion
-
-        #region SelectedBrand
-
-        /// <summary>
-        /// The <see cref="SelectedBrand" /> property's name.
-        /// </summary>
-        public const string SelectedBrandPropertyName = "SelectedBrand";
-
-        private BrandModel _SelectedBrand = null;
-
-        /// <summary>
-        /// Sets and gets the SelectedBrand property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public BrandModel SelectedBrand
-        {
-            get
-            {
-                return _SelectedBrand;
-            }
-
-            set
-            {
-                if (_SelectedBrand == value)
-                {
-                    return;
-                }
-                _SelectedBrand = value;
-                RaisePropertyChanged(SelectedBrandPropertyName);
-            }
-        }
-
-
-        #endregion
-
-        #region ManaulBarcode
-
-        /// <summary>
-        /// The <see cref="ManaulBarcode" /> property's name.
-        /// </summary>
-        public const string ManaulBarcodePropertyName = "ManaulBarcode";
-
-        private string _ManaulBarcode = default;
-
-        /// <summary>
-        /// Sets and gets the ManaulBarcode property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string ManaulBarcode
-        {
-            get
-            {
-                return _ManaulBarcode;
-            }
-
-            set
-            {
-                if (_ManaulBarcode == value)
-                {
-                    return;
-                }
-
-                _ManaulBarcode = value;
-                RaisePropertyChanged(ManaulBarcodePropertyName);
-            }
-        }
-
-        #endregion
-
-        #region TagsStr
-
-        /// <summary>
-        /// The <see cref="TagsStr" /> property's name.
-        /// </summary>
-        public const string TagsStrPropertyName = "TagsStr";
-
-        private string _tagsStr = default;
-
-        /// <summary>
-        /// Sets and gets the TagsStr property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string TagsStr
-        {
-            get
-            {
-                return _tagsStr;
-            }
-
-            set
-            {
-                if (_tagsStr == value)
-                {
-                    return;
-                }
-
-                _tagsStr = value;
-                RaisePropertyChanged(TagsStrPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region Batch
-
-        /// <summary>
-        /// The <see cref="Batch" /> property's name.
-        /// </summary>
-        public const string BatchPropertyName = "Batch";
-
-        private string _Batch = string.Empty;
-
-        /// <summary>
-        /// Sets and gets the Batch property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string Batch
-        {
-            get
-            {
-                return _Batch;
-            }
-
-            set
-            {
-                if (_Batch == value)
-                {
-                    return;
-                }
-                _Batch = value;
-                RaisePropertyChanged(BatchPropertyName);
-            }
-        }
-
-        #endregion
+        public ObservableCollection<BarcodeModel> BarcodeCollection { get; set; } = new ObservableCollection<BarcodeModel>();
+        public IList<BrandModel> BrandCollection { get; set; }
+        public BrandModel SelectedBrand { get; set; }
+        public string ManaulBarcode { get; set; }
+        public string TagsStr { get; set; }
+        public string Batch { get; set; }
 
         #endregion
 
@@ -252,12 +53,9 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public ScanKegsViewModel(IMoveService moveService, INavigationService navigationService, IPageDialogService dialogService, IManifestManager manifestManager, IGetIconByPlatform getIconByPlatform) : base(navigationService)
+        public ScanKegsViewModel(INavigationService navigationService, IPageDialogService dialogService,IGetIconByPlatform getIconByPlatform) : base(navigationService)
         {
-            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _dialogService = dialogService;
-            _moveService = moveService;
-            _manifestManager = manifestManager;
             _getIconByPlatform = getIconByPlatform;
 
             DoneCommand = new DelegateCommand(DoneCommandRecieverAsync);
@@ -272,7 +70,6 @@ namespace KegID.ViewModel
             HandleUnsubscribeMessages();
             HandleReceivedMessages();
         }
-
 
         #endregion
 

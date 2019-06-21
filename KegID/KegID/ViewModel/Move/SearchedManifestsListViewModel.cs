@@ -13,42 +13,8 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        //private readonly INavigationService _navigationService;
         private readonly IMoveService _moveService;
-
-        #region SearchManifestsCollection
-
-        /// <summary>
-        /// The <see cref="SearchManifestsCollection" /> property's name.
-        /// </summary>
-        public const string SearchManifestsCollectionPropertyName = "SearchManifestsCollection";
-
-        private IList<ManifestSearchResponseModel> _SearchManifestsCollection = null;
-
-        /// <summary>
-        /// Sets and gets the SearchManifestsCollection property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public IList<ManifestSearchResponseModel> SearchManifestsCollection
-        {
-            get
-            {
-                return _SearchManifestsCollection;
-            }
-
-            set
-            {
-                if (_SearchManifestsCollection == value)
-                {
-                    return;
-                }
-
-                _SearchManifestsCollection = value;
-                RaisePropertyChanged(SearchManifestsCollectionPropertyName);
-            }
-        }
-
-        #endregion
+        public IList<ManifestSearchResponseModel> SearchManifestsCollection { get; set; }
 
         #endregion
 
@@ -63,10 +29,7 @@ namespace KegID.ViewModel
 
         public SearchedManifestsListViewModel(IMoveService moveService, INavigationService navigationService) : base(navigationService)
         {
-            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
-
             _moveService = moveService;
-
             ItemTappedCommand = new DelegateCommand<ManifestSearchResponseModel>((model) => ItemTappedCommandRecieverAsync(model));
             SearchManifestsCommand = new DelegateCommand(SearchManifestsCommandRecieverAsync);
         }

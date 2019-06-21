@@ -12,76 +12,9 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        //private readonly INavigationService _navigationService;
         public List<BarcodeModel> Models { get; set; }
-
-        #region MultipleKegsTitle
-
-        /// <summary>
-        /// The <see cref="MultipleKegsTitle" /> property's name.
-        /// </summary>
-        public const string MultipleKegsTitlePropertyName = "MultipleKegsTitle";
-
-        private string _MultipleKegsTitle = default;
-
-        /// <summary>
-        /// Sets and gets the MultipleKegsTitle property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string MultipleKegsTitle
-        {
-            get
-            {
-                return _MultipleKegsTitle;
-            }
-
-            set
-            {
-                if (_MultipleKegsTitle == value)
-                {
-                    return;
-                }
-
-                _MultipleKegsTitle = value;
-                RaisePropertyChanged(MultipleKegsTitlePropertyName);
-            }
-        }
-
-        #endregion
-
-        #region PartnerCollection
-
-        /// <summary>
-        /// The <see cref="PartnerCollection" /> property's name.
-        /// </summary>
-        public const string PartnerCollectionPropertyName = "PartnerCollection";
-
-        private IList<Partner> _PartnerCollection = null;
-
-        /// <summary>
-        /// Sets and gets the PartnerCollection property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public IList<Partner> PartnerCollection
-        {
-            get
-            {
-                return _PartnerCollection;
-            }
-
-            set
-            {
-                if (_PartnerCollection == value)
-                {
-                    return;
-                }
-
-                _PartnerCollection = value;
-                RaisePropertyChanged(PartnerCollectionPropertyName);
-            }
-        }
-
-        #endregion
+        public string MultipleKegsTitle { get; set; }
+        public IList<Partner> PartnerCollection { get; set; }
 
         #endregion
 
@@ -96,8 +29,6 @@ namespace KegID.ViewModel
 
         public ValidateBarcodeViewModel(INavigationService navigationService) : base(navigationService)
         {
-            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
-
             CancelCommand = new DelegateCommand(CancelCommandRecievierAsync);
             ItemTappedCommand = new DelegateCommand<Partner>((model) => ItemTappedCommandRecieverAsync(model));
         }
