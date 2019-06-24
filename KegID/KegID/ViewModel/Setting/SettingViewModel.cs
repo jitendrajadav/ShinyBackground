@@ -15,7 +15,6 @@ namespace KegID.ViewModel
         #region Properties
 
         private readonly IPageDialogService _dialogService;
-        //private readonly INavigationService _navigationService;
 
         #endregion
 
@@ -32,9 +31,8 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public SettingViewModel(IDashboardService dashboardService, INavigationService navigationService, IPageDialogService dialogService) : base(navigationService)
+        public SettingViewModel(INavigationService navigationService, IPageDialogService dialogService) : base(navigationService)
         {
-            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _dialogService = dialogService;
             RefreshSettingCommand = new DelegateCommand(RefreshSettingCommandRecieverAsync);
             WhatsNewCommand = new DelegateCommand(WhatsNewCommandRecieverAsync);

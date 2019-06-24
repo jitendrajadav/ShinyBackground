@@ -510,7 +510,7 @@ namespace KegID.ViewModel
 
         public async void RefreshDashboardRecieverAsync(bool refresh = false)
         {
-            DashboardResponseModel Result = null;
+            DashboardResponseModel Result;
             try
             {
                 if (refresh)
@@ -550,7 +550,7 @@ namespace KegID.ViewModel
         {
             if (parameters.ContainsKey("ManifestId"))
             {
-                var Manifestd = parameters.GetValue<string>("ManifestId");
+                _ = parameters.GetValue<string>("ManifestId");
             }
             CheckDraftmaniFestsAsync();
         }

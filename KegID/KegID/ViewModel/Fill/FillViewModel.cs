@@ -11,7 +11,6 @@ using Realms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel

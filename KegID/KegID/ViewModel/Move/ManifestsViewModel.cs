@@ -17,7 +17,6 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        private readonly IMoveService _moveService;
         public ObservableCollection<ManifestModel> ManifestCollection { get; set; } = new ObservableCollection<ManifestModel>();
         public string QueuedTextColor { get; set; } = "#4E6388";
         public string QueuedBackgroundColor { get; set; } = "Transparent";
@@ -41,10 +40,8 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public ManifestsViewModel(IMoveService moveService, INavigationService navigationService) : base(navigationService)
+        public ManifestsViewModel(INavigationService navigationService) : base(navigationService)
         {
-            _moveService = moveService;
-
             HomeCommand = new DelegateCommand(HomeCommandRecieverAsync);
             ActionSearchCommand = new DelegateCommand(ActionSearchCommandRecieverAsync);
             QueuedCommand = new DelegateCommand(QueuedCommandReciever);

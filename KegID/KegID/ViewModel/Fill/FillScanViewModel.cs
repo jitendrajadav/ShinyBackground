@@ -282,12 +282,10 @@ namespace KegID.ViewModel
         private static int SecondsInDayTillNow()
         {
             DateTimeOffset now = DateTimeOffset.Now;
-            int hours = 0, minutes = 0, seconds = 0, totalSeconds = 0;
-            hours = (24 - now.Hour) - 1;
-            minutes = (60 - now.Minute) - 1;
-            seconds = (60 - now.Second - 1);
-
-            return totalSeconds = seconds + (minutes * 60) + (hours * 3600);
+            int hours = 24 - now.Hour - 1;
+            int minutes = 60 - now.Minute - 1;
+            int seconds = 60 - now.Second - 1;
+            return _ = seconds + (minutes * 60) + (hours * 3600);
         }
 
         private async void LabelItemTappedCommandRecieverAsync(BarcodeModel model)

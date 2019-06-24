@@ -158,7 +158,6 @@ namespace KegID.ViewModel
 
         private async Task GetPostedManifestDetail()
         {
-            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             string sizeName = string.Empty;
             ManifestResponseModel manifest = new ManifestResponseModel();
             try

@@ -71,7 +71,7 @@ namespace KegID.Services
                 cts = new CancellationTokenSource(10000);
                 location = await Geolocation.GetLocationAsync(request, cts.Token);
             }
-            catch (Exception ex)
+            catch
             {
             }
             finally

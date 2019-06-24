@@ -94,7 +94,7 @@ namespace KegID.ViewModel
                     NewBatchModel.Abv = abv;
                     NewBatchModel.BatchCode = BatchCode;
                     NewBatchModel.BatchId = _uuidManager.GetUuId();
-                    NewBatchModel.BestBeforeDate = BestByDate.HasValue ? BestByDate.Value : DateTime.Now;
+                    NewBatchModel.BestBeforeDate = BestByDate ?? DateTime.Now;
                     NewBatchModel.BrandName = BrandButtonTitle;
                     NewBatchModel.BrewDate = BrewDate;
                     NewBatchModel.BrewedVolume = VolumeDigit;

@@ -22,8 +22,6 @@ namespace KegID.ViewModel
         #region Properties
 
         private readonly IPageDialogService _dialogService;
-        //private readonly IMoveService _moveService;
-        //private readonly IManifestManager _manifestManager;
         private readonly IGetIconByPlatform _getIconByPlatform;
 
         private const string Maintenace = "maintenace.png";
@@ -362,7 +360,7 @@ namespace KegID.ViewModel
             }
         }
 
-        internal void AssignInitialValue(string _barcode)
+        internal void AssignInitialValue()
         {
             try
             {
