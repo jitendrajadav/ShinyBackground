@@ -198,7 +198,7 @@
                     HorizontalOptions="Start" />
                 <Switch
                     AutomationId="upcwitch"
-                    IsToggled="{Binding Upc}"
+                    IsToggled="{Binding Upce}"
                     OnColor="#4CD864"
                     HorizontalOptions="End"
                     Grid.Column="1"
@@ -228,7 +228,7 @@
                     HorizontalOptions="Start" />
                 <Switch
                     AutomationId="qrSwitch"
-                    IsToggled="{Binding QrCode}"
+                    IsToggled="{Binding Qr}"
                     OnColor="#4CD864"
                     HorizontalOptions="End"
                     Grid.Column="1"

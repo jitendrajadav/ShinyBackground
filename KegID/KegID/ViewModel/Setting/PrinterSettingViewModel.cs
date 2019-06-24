@@ -25,9 +25,9 @@ namespace KegID.ViewModel
         public bool BatchScan { get; set; }
         public string Version { get; set; }
         public bool Ean13 { get; set; }
-        public bool Upc { get; set; }
+        public bool Upce { get; set; }
         public bool DataMatrix { get; set; }
-        public bool QrCode { get; set; }
+        public bool Qr { get; set; }
         public bool Code39 { get; set; }
         public bool Code128 { get; set; }
 
@@ -90,6 +90,12 @@ namespace KegID.ViewModel
             AppSettings.PrintEveryPallet = PrintEveryPallet;
             AppSettings.PalletLabelCopies = PalletLabelCopies;
             AppSettings.BeepOnValidScans = BeepOnValidScans;
+            AppSettings.Ean13 = Ean13;
+            AppSettings.Upce = Upce;
+            AppSettings.DataMatrix = DataMatrix;
+            AppSettings.Qr = Qr;
+            AppSettings.Code39 = Code39;
+            AppSettings.Code128 = Code128;
             AppSettings.IpAddress = IpAddress;
             AppSettings.Port = Port;
             AppSettings.FriendlyLbl = SelectedPrinter;
@@ -105,6 +111,12 @@ namespace KegID.ViewModel
             IpAddress = AppSettings.IpAddress;
             Port = AppSettings.Port;
             SelectedPrinter = AppSettings.FriendlyLbl;
+            Ean13 = AppSettings.Ean13;
+            Upce = AppSettings.Upce;
+            DataMatrix = AppSettings.DataMatrix;
+            Qr = AppSettings.Qr;
+            Code39 = AppSettings.Code39;
+            Code128 = AppSettings.Code128;
         }
 
         public override void OnNavigatingTo(INavigationParameters parameters)

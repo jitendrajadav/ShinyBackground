@@ -22,7 +22,7 @@ namespace KegID.ViewModel
         ConnectionType connetionType;
         public string LabelMsg { get; set; } = "Discovering Printers...";
         public ObservableCollection<IDiscoveredPrinter> PrinterList { get; set; } = new ObservableCollection<IDiscoveredPrinter>();
-        public string friendlyLbl { get; set; }
+        public string FriendlyLbl { get; set; }
 
         #endregion
 
@@ -77,7 +77,7 @@ namespace KegID.ViewModel
             Xamarin.Forms.DependencyService.Get<IPrinterDiscovery>().CancelDiscovery();
             await _navigationService.GoBackAsync(new NavigationParameters
                         {
-                            {"IDiscoveredPrinter", ConstantManager.PrinterSetting},{"friendlyLbl", friendlyLbl }
+                            {"IDiscoveredPrinter", ConstantManager.PrinterSetting},{"friendlyLbl", FriendlyLbl }
                         },animated: false);
         }
 

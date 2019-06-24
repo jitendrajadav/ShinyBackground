@@ -438,6 +438,41 @@ namespace KegID.Common
             set => Settings.AddOrUpdateValue(nameof(BeepOnValidScans), value);
         }
 
+        public static bool Ean13
+        {
+            get => Settings.GetValueOrDefault(nameof(Ean13), false);
+            set => Settings.AddOrUpdateValue(nameof(Ean13), value);
+        }
+
+        public static bool Upce
+        {
+            get => Settings.GetValueOrDefault(nameof(Upce), false);
+            set => Settings.AddOrUpdateValue(nameof(Upce), value);
+        }
+
+        public static bool DataMatrix
+        {
+            get => Settings.GetValueOrDefault(nameof(DataMatrix), false);
+            set => Settings.AddOrUpdateValue(nameof(DataMatrix), value);
+        }
+
+        public static bool Qr
+        {
+            get => Settings.GetValueOrDefault(nameof(Qr), false);
+            set => Settings.AddOrUpdateValue(nameof(Qr), value);
+        }
+
+        public static bool Code39
+        {
+            get => Settings.GetValueOrDefault(nameof(Code39), false);
+            set => Settings.AddOrUpdateValue(nameof(Code39), value);
+        }
+        public static bool Code128
+        {
+            get => Settings.GetValueOrDefault(nameof(Code128), false);
+            set => Settings.AddOrUpdateValue(nameof(Code128), value);
+        }
+        
         public static bool BatchScan
         {
             get => Settings.GetValueOrDefault(nameof(BatchScan), false);

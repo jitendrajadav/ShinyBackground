@@ -1,7 +1,6 @@
 ﻿using System;
 using KegID.Common;
 using KegID.Messages;
-using KegID.Services;
 using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;

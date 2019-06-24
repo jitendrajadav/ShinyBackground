@@ -125,17 +125,45 @@ namespace KegID.ViewModel
             // set of symbologies. In your own apps, only enable the symbologies you
             // actually need.
             _scanSettings = _picker.GetDefaultScanSettings();
-            var symbologiesToEnable = new Symbology[] {
+            Symbology[] symbologiesToEnable = new Symbology[] {
                 Symbology.Qr,
                 Symbology.Ean13,
                 Symbology.Upce,
                 Symbology.Code128,
                 Symbology.Ean8,
                 Symbology.Upca,
-                Symbology.DataMatrix
+                Symbology.DataMatrix,
+                Symbology.Code39,
             };
+
             foreach (var sym in symbologiesToEnable)
-                _scanSettings.EnableSymbology(sym, true);
+            {
+                switch (sym)
+                {
+                    case Symbology.Ean13:
+                        _scanSettings.EnableSymbology(sym, AppSettings.Ean13);
+                        break;
+                    case Symbology.Upce:
+                        _scanSettings.EnableSymbology(sym, AppSettings.Upce);
+                        break;
+                    case Symbology.Code128:
+                        _scanSettings.EnableSymbology(sym, AppSettings.Code128);
+                        break;
+                    case Symbology.Code39:
+                        _scanSettings.EnableSymbology(sym, AppSettings.Code39);
+                        break;
+                    case Symbology.Qr:
+                        _scanSettings.EnableSymbology(sym, AppSettings.Qr);
+                        break;
+                    case Symbology.DataMatrix:
+                        _scanSettings.EnableSymbology(sym, AppSettings.DataMatrix);
+                        break;
+                    default:
+                        _scanSettings.EnableSymbology(sym, true);
+                        break;
+                }
+            }
+
             await _picker.ApplySettingsAsync(_scanSettings);
             // This will open the scanner in full-screen mode.  
             ScanditService.BarcodePicker.CancelButtonText = "Done";
