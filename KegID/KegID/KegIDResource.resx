@@ -1788,4 +1788,7 @@
   <data name="title_about_kegid" xml:space="preserve">
     <value>About KegID</value>
   </data>
+  <data name="title_batch_scan" xml:space="preserve">
+    <value>Batch scan</value>
+  </data>
 </root>
