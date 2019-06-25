@@ -159,7 +159,6 @@
                 Text="{Binding Resources[label_zebra_printer]}"
                 TextColor="Black"
                 FontSize="Medium"
-                FontAttributes="Bold"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="Start" />
 
