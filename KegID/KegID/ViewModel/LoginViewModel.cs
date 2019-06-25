@@ -125,6 +125,40 @@ namespace KegID.ViewModel
 
         #endregion
 
+        #region APIBase
+
+        /// <summary>
+        /// The <see cref="APIBase" /> property's name.
+        /// </summary>
+        public const string APIBasePropertyName = "APIBase";
+
+        private string _APIBase = default;
+
+        /// <summary>
+        /// Sets and gets the APIBase property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public string APIBase
+        {
+            get
+            {
+                return _APIBase;
+            }
+
+            set
+            {
+                if (_APIBase == value)
+                {
+                    return;
+                }
+
+                _APIBase = value;
+                RaisePropertyChanged(APIBasePropertyName);
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Commands
@@ -152,6 +186,7 @@ namespace KegID.ViewModel
             //Password = "beer2keg";
 
             BgImage = _getIconByPlatform.GetIcon("kegbg.png");
+            APIBase = Configuration.ServiceUrl.Contains("Prod") ? string.Empty : Configuration.ServiceUrl;
         }
 
         #endregion
