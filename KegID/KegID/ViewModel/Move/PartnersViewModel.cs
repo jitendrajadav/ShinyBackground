@@ -340,7 +340,7 @@ namespace KegID.ViewModel
             Loader.StartLoading();
 
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-            AllPartners = RealmDb.All<PartnerModel>().ToList();
+            AllPartners = RealmDb.All<PartnerModel>().Where(x=>x.PartnerId != AppSettings.CompanyId).ToList();
             try
             {
                 PartnerCollection = null;
