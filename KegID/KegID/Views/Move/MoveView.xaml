@@ -62,6 +62,9 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
                 <BoxView
@@ -79,28 +82,31 @@
                     />
 
                 <Label
-                    AutomationId="destinationLabel"
+                    AutomationId="originLabel"
                     Style="{StaticResource LabelNormalStyle}"
-                    Text="{Binding Resources[label_destination]}"
+                    Text="{Binding Resources[label_show_origin]}"
                     Grid.Row="1"
+                    IsVisible="{Binding OriginRequired}"
                     />
 
                 <Button
-                    AutomationId="destinationButton"
-                    x:Name="lblDestination"
+                    AutomationId="originButton"
+                    x:Name="lblOrigin"
                     Style="{StaticResource ButtonNormalStyle}"
-                    Text="{Binding Destination}"
+                    Text="{Binding Origin}"
                     Grid.Row="2"
-                    Command="{Binding SelectLocationCommand}"/>
+                    Command="{Binding SelectOriginLocationCommand}"
+                    IsVisible="{Binding OriginRequired}"
+                    />
 
                 <Label
-                    AutomationId="requiredLabel"
-                    IsVisible="{Binding IsRequiredVisible}"
+                    AutomationId="requiredOriginLabel"
                     Grid.Row="2"
                     HorizontalOptions="End"
                     VerticalOptions="Center"
                     Text="(required)"
                     TextColor="{StaticResource lightGrayColor}"
+                    IsVisible="{Binding IsOriginRequired}"
                     />
 
                 <BoxView
@@ -109,27 +115,62 @@
                     BackgroundColor="{StaticResource lightGrayColor}"
                     HeightRequest="1"
                     VerticalOptions="Start"
-                    HorizontalOptions="FillAndExpand"/>
+                    HorizontalOptions="FillAndExpand"
+                    IsVisible="{Binding OriginRequired}"
+                    />
 
+                <Label
+                    AutomationId="destinationLabel"
+                    Style="{StaticResource LabelNormalStyle}"
+                    Text="{Binding Resources[label_destination]}"
+                    Grid.Row="4"
+                    />
+
+                <Button
+                    AutomationId="destinationButton"
+                    x:Name="lblDestination"
+                    Style="{StaticResource ButtonNormalStyle}"
+                    Text="{Binding Destination}"
+                    Grid.Row="5"
+                    Command="{Binding SelectLocationCommand}"/>
+
+                <Label
+                    AutomationId="requiredLabel"
+                    IsVisible="{Binding IsRequiredVisible}"
+                    Grid.Row="5"
+                    HorizontalOptions="End"
+                    VerticalOptions="Center"
+                    Text="(required)"
+                    TextColor="{StaticResource lightGrayColor}"
+                    />
+
+                <BoxView
+                    AutomationId="lineSeperator1"
+                    Grid.Row="6"
+                    BackgroundColor="{StaticResource lightGrayColor}"
+                    HeightRequest="1"
+                    VerticalOptions="Start"
+                    HorizontalOptions="FillAndExpand"/>
+                
                 <Label
                     AutomationId="moreInfoLabel"
                     Style="{StaticResource LabelNormalStyle}"
                     Text="{Binding Resources[label_more_info]}"
-                    Grid.Row="4"
+                    Grid.Row="7"
                     />
 
                 <Button
                     AutomationId="tagsStrButton"
                     x:Name="lblTagsStr"
                     Text="{Binding TagsStr}"
-                    Grid.Row="5"
+                    Grid.Row="8"
                     Command="{Binding MoreInfoCommand}"
                     Style="{StaticResource ButtonNormalStyle}"
                     />
 
                 <BoxView
                     AutomationId="lineSeperator2"
-                    Grid.Row="6"
+                    Grid.Row="9"
                     BackgroundColor="{StaticResource lightGrayColor}"
                     HeightRequest="1"
                     VerticalOptions="Start"
@@ -139,21 +180,21 @@
                     AutomationId="kegsLabel"
                     Style="{StaticResource LabelNormalStyle}"
                     Text="{Binding Resources[label_kegs]}"
-                    Grid.Row="7"
+                    Grid.Row="10"
                     />
 
                 <Button
                     AutomationId="addKegsButton"
                     x:Name="lblAddKegs"
                     Text="{Binding AddKegs}"
-                    Grid.Row="8"
+                    Grid.Row="11"
                     Command="{Binding ScanKegsCommad}"
                     Style="{StaticResource ButtonLargeStyle}"
                     />
 
                 <BoxView
                     AutomationId="lineSeperator3"
-                    Grid.Row="9"
+                    Grid.Row="12"
                     BackgroundColor="{StaticResource lightGrayColor}"
                     HeightRequest="3"
                     VerticalOptions="Start"
@@ -163,7 +204,7 @@
                     AutomationId="saveDraftButton"
                     x:Name="lblSaveDraft"
                     Text="{Binding Resources[menu_action_save_draft]}"
-                    Grid.Row="10"
+                    Grid.Row="13"
                     HorizontalOptions="EndAndExpand"
                     Style="{StaticResource TopButtonTitleStyle}"
                     IsVisible="{Binding IsSaveDraftVisible}"

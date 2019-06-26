@@ -22,6 +22,7 @@ namespace KegID.ViewModel
         //private readonly INavigationService _navigationService;
 
         public bool BrewerStockOn { get; set; }
+        public string CommingFrom { get; set; }
 
         #region IsWorking
 
@@ -323,7 +324,7 @@ namespace KegID.ViewModel
                     ConstantManager.Partner = model;
                     await _navigationService.GoBackAsync(new NavigationParameters
                     {
-                        { "model", model }
+                        { "model", model },{ "CommingFrom", CommingFrom }
                     }, animated: false);
 
                     Cleanup();
@@ -417,6 +418,7 @@ namespace KegID.ViewModel
                 Crashes.TrackError(ex);
             }
         }
+
         private void AlphabeticalCommandReciever()
         {
             try
@@ -525,7 +527,11 @@ namespace KegID.ViewModel
                 BrewerStockOn = true;
             else
                 BrewerStockOn = false;
-          await LoadPartnersAsync();
+            if (parameters.ContainsKey("GoingFrom"))
+            {
+                CommingFrom = parameters.GetValue<string>("GoingFrom");
+            }
+            await LoadPartnersAsync();
         }
 
         #endregion

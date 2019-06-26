@@ -1788,4 +1788,7 @@
   <data name="title_about_kegid" xml:space="preserve">
     <value>About KegID</value>
   </data>
+  <data name="label_show_origin" xml:space="preserve">
+    <value>Origin:</value>
+  </data>
 </root>
