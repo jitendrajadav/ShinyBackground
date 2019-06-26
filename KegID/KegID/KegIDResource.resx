@@ -1788,4 +1788,7 @@
   <data name="title_about_kegid" xml:space="preserve">
     <value>About KegID</value>
   </data>
+  <data name="title_order" xml:space="preserve">
+    <value>Order:</value>
+  </data>
 </root>

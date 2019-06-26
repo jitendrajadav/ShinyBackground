@@ -62,6 +62,9 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
                 <BoxView
@@ -109,27 +112,50 @@
                     BackgroundColor="{StaticResource lightGrayColor}"
                     HeightRequest="1"
                     VerticalOptions="Start"
-                    HorizontalOptions="FillAndExpand"/>
+                    HorizontalOptions="FillAndExpand"
+                    IsVisible="{Binding OrderNumRequired}"/>
+                
+                <Label
+                    AutomationId="orderLabel"
+                    Style="{StaticResource LabelNormalStyle}"
+                    Text="{Binding Resources[title_order]}"
+                    Grid.Row="4"
+                    IsVisible="{Binding OrderNumRequired}"
+                    />
+                
+                <Entry
+                    Grid.Row="5"
+                    Text="{Binding Order}"
+                    Placeholder="(required)"
+                    IsVisible="{Binding OrderNumRequired}"/>
 
+                <BoxView
+                    AutomationId="lineSeperator2"
+                    Grid.Row="6"
+                    BackgroundColor="{StaticResource lightGrayColor}"
+                    HeightRequest="1"
+                    VerticalOptions="Start"
+                    HorizontalOptions="FillAndExpand"/>
+                
                 <Label
                     AutomationId="moreInfoLabel"
                     Style="{StaticResource LabelNormalStyle}"
                     Text="{Binding Resources[label_more_info]}"
-                    Grid.Row="4"
+                    Grid.Row="7"
                     />
 
                 <Button
                     AutomationId="tagsStrButton"
                     x:Name="lblTagsStr"
                     Text="{Binding TagsStr}"
-                    Grid.Row="5"
+                    Grid.Row="8"
                     Command="{Binding MoreInfoCommand}"
                     Style="{StaticResource ButtonNormalStyle}"
                     />
 
                 <BoxView
-                    AutomationId="lineSeperator2"
-                    Grid.Row="6"
+                    AutomationId="lineSeperator3"
+                    Grid.Row="9"
                     BackgroundColor="{StaticResource lightGrayColor}"
                     HeightRequest="1"
                     VerticalOptions="Start"
@@ -139,21 +165,21 @@
                     AutomationId="kegsLabel"
                     Style="{StaticResource LabelNormalStyle}"
                     Text="{Binding Resources[label_kegs]}"
-                    Grid.Row="7"
+                    Grid.Row="10"
                     />
 
                 <Button
                     AutomationId="addKegsButton"
                     x:Name="lblAddKegs"
                     Text="{Binding AddKegs}"
-                    Grid.Row="8"
+                    Grid.Row="11"
                     Command="{Binding ScanKegsCommad}"
                     Style="{StaticResource ButtonLargeStyle}"
                     />
 
                 <BoxView
-                    AutomationId="lineSeperator3"
-                    Grid.Row="9"
+                    AutomationId="lineSeperator4"
+                    Grid.Row="12"
                     BackgroundColor="{StaticResource lightGrayColor}"
                     HeightRequest="3"
                     VerticalOptions="Start"
@@ -163,7 +189,7 @@
                     AutomationId="saveDraftButton"
                     x:Name="lblSaveDraft"
                     Text="{Binding Resources[menu_action_save_draft]}"
-                    Grid.Row="10"
+                    Grid.Row="13"
                     HorizontalOptions="EndAndExpand"
                     Style="{StaticResource TopButtonTitleStyle}"
                     IsVisible="{Binding IsSaveDraftVisible}"
