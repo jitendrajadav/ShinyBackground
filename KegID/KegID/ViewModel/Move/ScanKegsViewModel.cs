@@ -14,6 +14,7 @@ using KegID.LocalDb;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
+using Acr.UserDialogs;
 
 namespace KegID.ViewModel
 {
@@ -73,13 +74,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string BrandCollectionPropertyName = "BrandCollection";
 
-        private IList<BrandModel> _BrandCollection = null;
+        private ObservableCollection<BrandModel> _BrandCollection = null;
 
         /// <summary>
         /// Sets and gets the BrandCollection property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public IList<BrandModel> BrandCollection
+        public ObservableCollection<BrandModel> BrandCollection
         {
             get
             {
@@ -116,20 +117,35 @@ namespace KegID.ViewModel
         /// </summary>
         public BrandModel SelectedBrand
         {
-            get
-            {
-                return _SelectedBrand;
-            }
+            get => _SelectedBrand;
 
             set
             {
                 if (_SelectedBrand == value)
-                {
                     return;
-                }
                 _SelectedBrand = value;
+                if (_SelectedBrand?.BrandName == "Add")
+                    AddNewBrand();
+                else if(_SelectedBrand?.BrandName == "'\"'")
+                    SelectedBrand = null;
                 RaisePropertyChanged(SelectedBrandPropertyName);
             }
+        }
+
+        private async void AddNewBrand()
+        {
+            var r = await UserDialogs.Instance.PromptAsync(new PromptConfig()
+                            .SetTitle("Add")
+                            .SetPlaceholder("Maximum Text Length (100)")
+                            .SetInputMode(InputType.Name)
+                            .SetMaxLength(100));
+            if (r.Ok)
+            {
+                BrandCollection.Add(new BrandModel { BrandId = Guid.NewGuid().ToString(), BrandName = r.Text, BrandCode = r.Text });
+                SelectedBrand = BrandCollection.LastOrDefault();
+            }
+            else
+                SelectedBrand = null;
         }
 
 
@@ -339,7 +355,10 @@ namespace KegID.ViewModel
             });
         }
 
-        public void LoadBrand() => BrandCollection = LoadBrandAsync();
+        public void LoadBrand()
+        {
+            BrandCollection = new ObservableCollection<BrandModel>(LoadBrandAsync());
+        }
 
         public IList<BrandModel> LoadBrandAsync()
         {
