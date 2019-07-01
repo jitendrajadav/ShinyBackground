@@ -98,7 +98,6 @@
                     <ColumnDefinition Width="55*"/>
                     <ColumnDefinition Width="10*"/>
                 </Grid.ColumnDefinitions>
-
             </Grid>
         </Grid>
     </ContentPage.Content>
