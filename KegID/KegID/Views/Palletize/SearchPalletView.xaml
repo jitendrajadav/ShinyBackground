@@ -6,8 +6,11 @@
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              ios:Page.UseSafeArea="true"
+             xmlns:converters="clr-namespace:KegID.Converter"
              >
-
+  <ContentPage.Resources>
+    <converters:UtcToLocalDateTimeConverter x:Key="UtcToLocalDateTimeConverter"/>
+  </ContentPage.Resources>
     <ContentPage.Content>
         
         <Grid
@@ -109,7 +112,7 @@
                     <DatePicker
                         AutomationId="fromDatePicker"
                         HorizontalOptions="FillAndExpand"
-                        Date="{Binding FromDate}"
+                        Date="{Binding FromDate, Converter={StaticResource UtcToLocalDateTimeConverter}}"
                         Margin="5,0,0,0"/>
                 </StackLayout>
 
@@ -127,7 +130,7 @@
                     <DatePicker
                         AutomationId="toDatePicker"
                         HorizontalOptions="FillAndExpand"
-                        Date="{Binding ToDate}"
+                        Date="{Binding ToDate, Converter={StaticResource UtcToLocalDateTimeConverter}}"
                         Margin="5,0,0,0"/>
                 </StackLayout>
              

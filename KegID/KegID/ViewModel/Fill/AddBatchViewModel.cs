@@ -1,13 +1,10 @@
 ﻿using KegID.Common;
-using KegID.LocalDb;
 using KegID.Model;
 using KegID.Services;
 using Microsoft.AppCenter.Crashes;
-using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
-using Realms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -196,7 +193,7 @@ namespace KegID.ViewModel
         /// </summary>
         public const string PackageDatePropertyName = "PackageDate";
 
-        private DateTimeOffset _PackageDate = DateTime.Today;
+        private DateTimeOffset _PackageDate = DateTime.Now;
 
         /// <summary>
         /// Sets and gets the PackageDate property.
@@ -499,7 +496,7 @@ namespace KegID.ViewModel
 
                     NewBatchModel.BrewedVolumeUom = VolumeChar;
                     NewBatchModel.CompanyId = AppSettings.CompanyId;
-                    NewBatchModel.CompletedDate = DateTime.Today;
+                    NewBatchModel.CompletedDate = DateTime.Now;
                     NewBatchModel.IsCompleted = true;
                     NewBatchModel.PackageDate = PackageDate;
                     //NewBatchModel.PackagedVolume = 0;
