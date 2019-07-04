@@ -8,7 +8,7 @@ namespace KegID.Converter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return DateTime.SpecifyKind(DateTime.Parse(value.ToString(), culture), DateTimeKind.Utc).ToLocalTime();
+           return DateTimeOffset.Parse(value.ToString()).ToLocalTime().ToString(culture.DateTimeFormat.ShortDatePattern);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
