@@ -57,13 +57,7 @@
                 Text="{Binding PartnerSearch}"
                 SearchCommand="{Binding PartnerSearchCommand}" 
                 HeightRequest="40"
-                SearchCommandParameter="{Binding Text, Source={x:Reference SearchBar}}">
-
-                <SearchBar.Behaviors>
-                    <behaviors:TextChangedBehavior />
-                </SearchBar.Behaviors>
-                
-            </SearchBar>
+                SearchCommandParameter="{Binding Text, Source={x:Reference SearchBar}}"/>
 
             <ListView
                 Margin="10,0,10,0"
