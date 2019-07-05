@@ -1,0 +1,224 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             BackgroundColor="{StaticResource pageBGColor}"
+             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             ios:Page.UseSafeArea="true"
+             x:Class="KegID.Views.AssetProfileView">
+    
+    <ContentPage.Content>
+        <Grid
+            AutomationId="mainGrd"
+            RowSpacing="0">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Label 
+                AutomationId="assingSizesLabel"
+                HorizontalOptions="Center"
+                HorizontalTextAlignment="Center"
+                Text="{Binding Resources[title_assign_sizes]}"
+                Style="{StaticResource LabelTitleStyle}"
+                TextColor="Black"/>
+
+            <Button
+                AutomationId="doneButton"
+                x:Name="lblDone"
+                HorizontalOptions="End"
+                Text="{Binding Resources[button_done]}"
+                Style="{StaticResource TopButtonTitleStyle}"
+                Command="{Binding DoneCommand}"
+                />
+
+            <BoxView
+                AutomationId="topBarSeperatorBoxView"
+                Grid.Row="1"
+                BackgroundColor="{StaticResource lightGrayColor}"
+                HeightRequest="1"
+                VerticalOptions="Start"
+                HorizontalOptions="FillAndExpand"/>
+
+            <Grid
+                AutomationId="innerGrd"
+                Margin="10,5,0,0"
+                RowSpacing="{OnPlatform iOS=5,Android=0,UWP=0}"
+                ColumnSpacing="{OnPlatform iOS=5,Android=0,UWP=0}"
+                Grid.Row="2">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20*"/>
+                    <ColumnDefinition Width="80*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button
+                    AutomationId="applyToAllButton"
+                    x:Name="btnApplyToAll"
+                    Style="{StaticResource TopButtonTitleStyle}"
+                    Text="{Binding Resources[title_apply_to_all]}"
+                    Grid.Row="0"
+                    Grid.ColumnSpan="2"
+                    Command="{Binding ApplyToAllCommand}"/>
+
+                <Label
+                    AutomationId="partnerTypeInfoLabel"
+                    Style="{StaticResource LabelNormalStyle}"
+                    Text="{Binding Resources[label_partnerinfo_type]}"
+                    Grid.Row="1"
+                    />
+
+                <Picker
+                    AutomationId="partnerInfoTypePicker"
+                    ItemsSource="{Binding TypeCollection}"
+                    TextColor="{StaticResource selectTextColor}"
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    Title="{Binding Resources[label_partnerinfo_type]}"
+                    ItemDisplayBinding="{Binding AssetType}"
+                    SelectedItem="{Binding SelectedType}"
+                    />
+
+                <Label
+                    AutomationId="tagLabel"
+                    Style="{StaticResource LabelNormalStyle}"
+                    Text="{Binding Resources[tag_size]}"
+                    Grid.Row="2"
+                    />
+
+                <Picker
+                    AutomationId="tagPicker"
+                    ItemsSource="{Binding SizeCollection}"
+                    TextColor="{StaticResource selectTextColor}"
+                    Grid.Column="1"
+                    Grid.Row="2"
+                    Title="{Binding Resources[tag_size]}"
+                    ItemDisplayBinding="{Binding AssetSize}"
+                    SelectedItem="{Binding SelectedSize}"
+                    />
+
+                <Label
+                    AutomationId="ownerLabel"
+                    Style="{StaticResource LabelNormalStyle}"
+                    Text="{Binding Resources[title_owner]}"
+                    Grid.Row="3"
+                    />
+
+                <Picker
+                    AutomationId="ownerPicker"
+                    ItemsSource="{Binding OwnerCollection}"
+                    TextColor="{StaticResource selectTextColor}"
+                    Grid.Column="1"
+                    Grid.Row="3"
+                    Title="{Binding Resources[title_owner]}"
+                    ItemDisplayBinding="{Binding FullName}"
+                    SelectedItem="{Binding SelectedOwner}"
+                    />
+
+                <BoxView
+                    AutomationId="lineSeperator1"
+                    Margin="-10,0,-10,0"
+                    Grid.Row="4"
+                    Grid.ColumnSpan="2"
+                    BackgroundColor="{StaticResource bannerBGColor}"
+                    VerticalOptions="FillAndExpand"
+                    HorizontalOptions="FillAndExpand"/>
+
+                <Label
+                    AutomationId="unknownScanLabel"
+                    HorizontalOptions="Start"
+                    TextColor="White"
+                    Grid.Column="0"
+                    Grid.Row="4"
+                    FontSize="30"
+                    Margin="15,0,0,0"
+                    VerticalOptions="Center"
+                    Grid.ColumnSpan="2"
+                    Text="{Binding Resources[title_unknown_scans]}"/>
+
+                <ListView
+                    AutomationId="maintenanceListView"
+                    Margin="10,0,10,0"
+                    x:Name="lstMaintenaceAlert"
+                    Grid.Row="5"
+                    Grid.ColumnSpan="2"
+                    SelectionMode="None"
+                    SeparatorVisibility="Default"
+                    android:ListView.IsFastScrollEnabled="true"
+                    SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
+                    HasUnevenRows="True"
+                    CachingStrategy="RecycleElement"
+                    ItemsSource="{Binding MaintenaceCollection}">
+
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid 
+                                    RowSpacing="0"
+                                    ColumnSpacing="0">
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Label
+                                        Style="{StaticResource LabelNormalStyle}"
+                                        Text="{Binding BarcodeId}"
+                                        Grid.Row="0"
+                                        />
+
+                                    <Picker
+                                        ItemsSource="{Binding UTypeCollection}"
+                                        TextColor="{StaticResource selectTextColor}"
+                                        Grid.Row="1"
+                                        Title="{Binding Resources[label_partnerinfo_type]}"
+                                        ItemDisplayBinding="{Binding AssetType}"
+                                        SelectedItem="{Binding SelectedUType}"
+                                        />
+
+                                    <Picker
+                                        ItemsSource="{Binding USizeCollection}"
+                                        TextColor="{StaticResource selectTextColor}"
+                                        Grid.Row="2"
+                                        Title="{Binding Resources[tag_size]}"
+                                        ItemDisplayBinding="{Binding AssetSize}"
+                                        SelectedItem="{Binding SelectedUSize}"
+                                        />
+
+                                    <Picker
+                                        ItemsSource="{Binding UOwnerCollection}"
+                                        TextColor="{StaticResource selectTextColor}"
+                                        Grid.Row="3"
+                                        Title="{Binding Resources[title_owner]}"
+                                        ItemDisplayBinding="{Binding FullName}"
+                                        SelectedItem="{Binding SelectedUOwner}"
+                                        />
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+            </Grid>
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

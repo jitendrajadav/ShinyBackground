@@ -113,6 +113,8 @@ namespace KegID
             containerRegistry.RegisterForNavigation<PartnersView, PartnersViewModel>();
             containerRegistry.RegisterForNavigation<ScanInfoView, ScanInfoViewModel>();
             containerRegistry.RegisterForNavigation<ScanKegsView, ScanKegsViewModel>();
+            containerRegistry.RegisterForNavigation<AssetProfileView, AssetProfileViewModel>();
+            
 
             containerRegistry.RegisterForNavigation<SearchedManifestsListView, SearchedManifestsListViewModel>();
             containerRegistry.RegisterForNavigation<SearchManifestsView, SearchManifestsViewModel>();
