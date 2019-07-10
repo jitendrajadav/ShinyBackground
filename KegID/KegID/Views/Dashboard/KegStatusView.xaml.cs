@@ -31,7 +31,7 @@ namespace KegID.Views
         {
             if (e.PropertyName == Forms9Patch.SinglePicker.SelectedItemProperty.PropertyName)
             {
-                removeAlertPickerButton.HtmlText = (removeAlertPicker.SelectedItem as string) ?? "Remove alert";
+                //removeAlertPickerButton.HtmlText = (removeAlertPicker.SelectedItem as string) ?? "Remove alert";
                 removeAlertPickerButton.TextColor = removeAlertPicker.SelectedItem == null ? Color.DarkGray : Color.FromHex("#007AFF");
                 if (removeAlertPicker.SelectedItem as string != null)
                 {
@@ -53,7 +53,7 @@ namespace KegID.Views
         {
             if (e.PropertyName == Forms9Patch.SinglePicker.SelectedItemProperty.PropertyName)
             {
-                addAlertPickerButton.HtmlText = (addAlertPicker.SelectedItem as string) ?? "Add alert";
+                //addAlertPickerButton.HtmlText = (addAlertPicker.SelectedItem as string) ?? "Add alert";
                 addAlertPickerButton.TextColor = addAlertPicker.SelectedItem == null ? Color.DarkGray : Color.FromHex("#007AFF");
                 if (addAlertPicker.SelectedItem as string != null)
                 {
@@ -77,14 +77,15 @@ namespace KegID.Views
                 VerticalOptions = LayoutOptions.StartAndExpand
             };
 
-            var bubblePopup = new Forms9Patch.BubblePopup(addAlertPickerButton)
+            var addBubblePopup = new Forms9Patch.BubblePopup(addAlertPickerButton)
             {
                 PointerDirection = Forms9Patch.PointerDirection.Vertical,
                 Content = bubbleContent,
                 BackgroundColor = Color.WhiteSmoke,
             };
 
-            bubblePopup.IsVisible = true;
+            addBubblePopup.IsVisible = true;
+            addBubblePopup.Popped += AddBubblePopup_Popped;
         }
 
         private void RemoveAlertPickerButton_Clicked(object sender, System.EventArgs e)
@@ -102,14 +103,26 @@ namespace KegID.Views
                 VerticalOptions = LayoutOptions.StartAndExpand
             };
 
-            var bubblePopup = new Forms9Patch.BubblePopup(removeAlertPickerButton)
+            var removeBubblePopup = new Forms9Patch.BubblePopup(removeAlertPickerButton)
             {
                 PointerDirection = Forms9Patch.PointerDirection.Vertical,
                 Content = bubbleContent,
                 BackgroundColor = Color.WhiteSmoke,
             };
 
-            bubblePopup.IsVisible = true;
+            removeBubblePopup.IsVisible = true;
+            removeBubblePopup.Popped += RemoveBubblePopup_Popped; ;
         }
+
+        private void RemoveBubblePopup_Popped(object sender, Forms9Patch.PopupPoppedEventArgs e)
+        {
+            ((ViewModel.KegStatusViewModel)removeAlertPickerButton.BindingContext).RemoveAlertCommand.Execute();
+        }
+
+        private void AddBubblePopup_Popped(object sender, Forms9Patch.PopupPoppedEventArgs e)
+        {
+            ((ViewModel.KegStatusViewModel)addAlertPickerButton.BindingContext).AddAlertCommand.Execute();
+        }
+
     }
 }
