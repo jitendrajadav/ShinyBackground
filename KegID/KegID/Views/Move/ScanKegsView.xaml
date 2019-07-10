@@ -111,15 +111,6 @@
                     Grid.Row="1"
                     HtmlText="{Binding Resources[hint_select_content]}"
                     Clicked="_singlePickerButton_Clicked"/>
-                <!--<Picker
-                    AutomationId="brandPicker"
-                    ItemsSource="{Binding BrandCollection}"
-                    TextColor="{StaticResource selectTextColor}"
-                    Grid.Column="0"
-                    Grid.Row="1"
-                    Title="{Binding Resources[hint_select_content]}"
-                    ItemDisplayBinding="{Binding BrandName}"
-                    SelectedItem="{Binding SelectedBrand}"/>-->
 
                 <Entry
                     AutomationId="batchEntry"
