@@ -18,111 +18,11 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        //private readonly INavigationService _navigationService;
         private readonly IPageDialogService _dialogService;
         private ManifestModel ManifestModel;
-
-        #region PartnerModel
-
-        /// <summary>
-        /// The <see cref="PartnerModel" /> property's name.
-        /// </summary>
-        public const string PartnerModelPropertyName = "PartnerModel";
-
-        private PartnerModel _PartnerModel = new PartnerModel();
-
-        /// <summary>
-        /// Sets and gets the PartnerModel property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public PartnerModel PartnerModel
-        {
-            get
-            {
-                return _PartnerModel;
-            }
-
-            set
-            {
-                if (_PartnerModel == value)
-                {
-                    return;
-                }
-
-                _PartnerModel = value;
-                RaisePropertyChanged(PartnerModelPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region Notes
-
-        /// <summary>
-        /// The <see cref="Notes" /> property's name.
-        /// </summary>
-        public const string NotesPropertyName = "Notes";
-
-        private string _Notes = string.Empty;
-
-        /// <summary>
-        /// Sets and gets the Notes property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string Notes
-        {
-            get
-            {
-                return _Notes;
-            }
-
-            set
-            {
-                if (_Notes == value)
-                {
-                    return;
-                }
-
-                _Notes = value;
-                RaisePropertyChanged(NotesPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region MaintainTypeCollection
-
-        /// <summary>
-        /// The <see cref="MaintainTypeCollection" /> property's name.
-        /// </summary>
-        public const string MaintainTypeCollectionPropertyName = "MaintainTypeCollection";
-
-        private IList<MaintainTypeReponseModel> _maintainTypeCollection = null;
-
-        /// <summary>
-        /// Sets and gets the MaintainTypeCollection property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public IList<MaintainTypeReponseModel> MaintainTypeCollection
-        {
-            get
-            {
-                return _maintainTypeCollection;
-            }
-
-            set
-            {
-                if (_maintainTypeCollection == value)
-                {
-                    return;
-                }
-
-                _maintainTypeCollection = value;
-                RaisePropertyChanged(MaintainTypeCollectionPropertyName);
-            }
-        }
-
-        #endregion
+        public PartnerModel PartnerModel { get; set; } = new PartnerModel();
+        public string Notes { get; set; }
+        public IList<MaintainTypeReponseModel> MaintainTypeCollection { get; set; }
 
         #endregion
 
@@ -139,7 +39,6 @@ namespace KegID.ViewModel
 
         public MaintainViewModel(INavigationService navigationService, IPageDialogService dialogService) : base(navigationService)
         {
-            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _dialogService = dialogService;
             HomeCommand = new DelegateCommand(HomeCommandRecieverAsync);
             PartnerCommand = new DelegateCommand(PartnerCommandRecieverAsync);

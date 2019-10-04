@@ -11,75 +11,8 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        //private readonly INavigationService _navigationService;
-
-        #region ProductionDate
-
-        /// <summary>
-        /// The <see cref="ProductionDate" /> property's name.
-        /// </summary>
-        public const string ProductionDatePropertyName = "ProductionDate";
-
-        private DateTimeOffset _ProductionDate = DateTimeOffset.Now.Date;
-
-        /// <summary>
-        /// Sets and gets the ProductionDate property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public DateTimeOffset ProductionDate
-        {
-            get
-            {
-                return _ProductionDate;
-            }
-
-            set
-            {
-                if (_ProductionDate == value)
-                {
-                    return;
-                }
-
-                _ProductionDate = value;
-                RaisePropertyChanged(ProductionDatePropertyName);
-            }
-        }
-
-        #endregion
-
-        #region BestByDataDate
-
-        /// <summary>
-        /// The <see cref="BestByDataDate" /> property's name.
-        /// </summary>
-        public const string BestByDataDatePropertyName = "BestByDataDate";
-
-        private DateTimeOffset _BestByDataDate = DateTimeOffset.Now;
-
-        /// <summary>
-        /// Sets and gets the BestByDataDate property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public DateTimeOffset BestByDataDate
-        {
-            get
-            {
-                return _BestByDataDate;
-            }
-
-            set
-            {
-                if (_BestByDataDate == value)
-                {
-                    return;
-                }
-
-                _BestByDataDate = value;
-                RaisePropertyChanged(BestByDataDatePropertyName);
-            }
-        }
-
-        #endregion
+        public DateTime ProductionDate { get; set; } = DateTime.Now.Date;
+        public DateTime BestByDataDate { get; set; } = DateTime.Now;
 
         #endregion
 
@@ -93,7 +26,7 @@ namespace KegID.ViewModel
 
         public AddTagsViewModel(INavigationService navigationService) : base(navigationService)
         {
-            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+
         }
 
         #endregion

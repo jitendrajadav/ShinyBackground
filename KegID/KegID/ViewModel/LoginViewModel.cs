@@ -19,111 +19,11 @@ namespace KegID.ViewModel
 
         private readonly IPageDialogService _dialogService;
         private readonly IAccountService _accountService;
-        private readonly IMaintainService _maintainService;
-        //private readonly INavigationService _navigationService;
         private readonly IGetIconByPlatform _getIconByPlatform;
 
-        #region Username
-
-        /// <summary>
-        /// The <see cref="Username" /> property's name.
-        /// </summary>
-        public const string UsernamePropertyName = "Username";
-
-        private string _Username = default;
-
-        /// <summary>
-        /// Sets and gets the Username property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string Username
-        {
-            get
-            {
-                return _Username;
-            }
-
-            set
-            {
-                if (_Username == value)
-                {
-                    return;
-                }
-
-                _Username = value;
-                RaisePropertyChanged(UsernamePropertyName);
-            }
-        }
-
-        #endregion
-
-        #region Password
-
-        /// <summary>
-        /// The <see cref="Password" /> property's name.
-        /// </summary>
-        public const string PasswordPropertyName = "Password";
-
-        private string _Password = default;
-
-        /// <summary>
-        /// Sets and gets the Password property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string Password
-        {
-            get
-            {
-                return _Password;
-            }
-
-            set
-            {
-                if (_Password == value)
-                {
-                    return;
-                }
-
-                _Password = value;
-                RaisePropertyChanged(PasswordPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region BgImage
-
-        /// <summary>
-        /// The <see cref="BgImage" /> property's name.
-        /// </summary>
-        public const string BgImagePropertyName = "BgImage";
-
-        private string _BgImage = "Assets/kegbg.png";
-
-        /// <summary>
-        /// Sets and gets the BgImage property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string BgImage
-        {
-            get
-            {
-                return _BgImage;
-            }
-
-            set
-            {
-                if (_BgImage == value)
-                {
-                    return;
-                }
-
-                _BgImage = value;
-                RaisePropertyChanged(BgImagePropertyName);
-            }
-        }
-
-        #endregion
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public string BgImage { get; set; }
 
         #region APIBase
 
@@ -171,12 +71,10 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public LoginViewModel(IAccountService accountService, INavigationService navigationService, IMaintainService maintainService, IPageDialogService dialogService, IGetIconByPlatform getIconByPlatform) : base(navigationService)
+        public LoginViewModel(IAccountService accountService, INavigationService navigationService, IPageDialogService dialogService, IGetIconByPlatform getIconByPlatform) : base(navigationService)
         {
-            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _dialogService = dialogService;
             _accountService = accountService;
-            _maintainService = maintainService;
             _getIconByPlatform = getIconByPlatform;
 
             LoginCommand = new DelegateCommand(LoginCommandRecieverAsync);

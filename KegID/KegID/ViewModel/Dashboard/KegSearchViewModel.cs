@@ -14,75 +14,8 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        private readonly IMoveService _moveService;
-
-        #region Barcode
-
-        /// <summary>
-        /// The <see cref="Barcode" /> property's name.
-        /// </summary>
-        public const string BarcodePropertyName = "Barcode";
-
-        private string _Barcode = string.Empty;
-
-        /// <summary>
-        /// Sets and gets the Barcode property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string Barcode
-        {
-            get
-            {
-                return _Barcode;
-            }
-
-            set
-            {
-                if (_Barcode == value)
-                {
-                    return;
-                }
-
-                _Barcode = value;
-                RaisePropertyChanged(BarcodePropertyName);
-            }
-        }
-
-        #endregion
-
-        #region KegsSuccessMsg
-
-        /// <summary>
-            /// The <see cref="KegsSuccessMsg" /> property's name.
-            /// </summary>
-        public const string KegsSuccessMsgPropertyName = "KegsSuccessMsg";
-
-        private string _kegsSuccessMsg = string.Empty;
-
-        /// <summary>
-        /// Sets and gets the KegsSuccessMsg property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string KegsSuccessMsg
-        {
-            get
-            {
-                return _kegsSuccessMsg;
-            }
-
-            set
-            {
-                if (_kegsSuccessMsg == value)
-                {
-                    return;
-                }
-
-                _kegsSuccessMsg = value;
-                RaisePropertyChanged(KegsSuccessMsgPropertyName);
-            }
-        }
-
-        #endregion
+        public string Barcode { get; set; }
+        public string KegsSuccessMsg { get; set; }
 
         #endregion
 
@@ -97,9 +30,8 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public KegSearchViewModel(IMoveService moveService, INavigationService navigationService) : base(navigationService)
+        public KegSearchViewModel(INavigationService navigationService) : base(navigationService)
         {
-            _moveService = moveService;
             HomeCommand = new DelegateCommand(HomeCommandRecieverAsync);
             BarcodeScanCommand = new DelegateCommand(BarcodeScanCommandRecieverAsync);
             BulkUpdateCommand = new DelegateCommand(BulkUpdateCommandRecieverAsync);

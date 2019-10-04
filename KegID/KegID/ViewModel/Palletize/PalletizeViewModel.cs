@@ -22,287 +22,25 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        //private readonly INavigationService _navigationService;
         private readonly IPalletizeService _palletizeService;
         private readonly IPageDialogService _dialogService;
-        private readonly IMoveService _moveService;
         private readonly IZebraPrinterManager _zebraPrinterManager;
         private readonly IUuidManager _uuidManager;
         private readonly ICalcCheckDigitMngr _calcCheckDigitMngr;
 
         public bool TargetLocationPartner { get; set; }
-
-        #region StockLocation
-
-        /// <summary>
-        /// The <see cref="StockLocation" /> property's name.
-        /// </summary>
-        public const string StockLocationPropertyName = "StockLocation";
-
-        private PartnerModel _stockLocation = new PartnerModel();
-
-        /// <summary>
-        /// Sets and gets the StockLocation property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public PartnerModel StockLocation
+        public PartnerModel StockLocation { get; set; } = new PartnerModel();
+        public PartnerModel TargetLocation { get; set; } = new PartnerModel();
+        public string AddInfoTitle { get; set; } = "Add info";
+        public bool IsCameraVisible { get; set; }
+        public string ManifestId { get; set; }
+        public string AddKegs { get; set; } = "Add Kegs";
+        public void OnAddKegsChanged()
         {
-            get
-            {
-                return _stockLocation;
-            }
-
-            set
-            {
-                if (_stockLocation == value)
-                {
-                    return;
-                }
-
-                _stockLocation = value;
-                RaisePropertyChanged(StockLocationPropertyName);
-            }
+            IsSubmitVisible = AddKegs.Contains("Item") ? true : false;
         }
-
-        #endregion
-
-        #region TargetLocation
-
-        /// <summary>
-        /// The <see cref="TargetLocation" /> property's name.
-        /// </summary>
-        public const string TargetLocationPropertyName = "TargetLocation";
-
-        private PartnerModel _targetLocation = new PartnerModel();
-
-        /// <summary>
-        /// Sets and gets the TargetLocation property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public PartnerModel TargetLocation
-        {
-            get
-            {
-                return _targetLocation;
-            }
-
-            set
-            {
-                if (_targetLocation == value)
-                {
-                    return;
-                }
-
-                _targetLocation = value;
-                RaisePropertyChanged(TargetLocationPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region AddInfoTitle
-
-        /// <summary>
-        /// The <see cref="AddInfoTitle" /> property's name.
-        /// </summary>
-        public const string AddInfoTitlePropertyName = "AddInfoTitle";
-
-        private string _AddInfoTitle = "Add info";
-
-        /// <summary>
-        /// Sets and gets the AddInfoTitle property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string AddInfoTitle
-        {
-            get
-            {
-                return _AddInfoTitle;
-            }
-
-            set
-            {
-                if (_AddInfoTitle == value)
-                {
-                    return;
-                }
-
-                _AddInfoTitle = value;
-                RaisePropertyChanged(AddInfoTitlePropertyName);
-            }
-        }
-
-        #endregion
-
-        #region IsCameraVisible
-
-        /// <summary>
-        /// The <see cref="IsCameraVisible" /> property's name.
-        /// </summary>
-        public const string IsCameraVisiblePropertyName = "IsCameraVisible";
-
-        private bool _IsCameraVisible = false;
-
-        /// <summary>
-        /// Sets and gets the IsCameraVisible property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public bool IsCameraVisible
-        {
-            get
-            {
-                return _IsCameraVisible;
-            }
-
-            set
-            {
-                if (_IsCameraVisible == value)
-                {
-                    return;
-                }
-
-                _IsCameraVisible = value;
-                RaisePropertyChanged(IsCameraVisiblePropertyName);
-            }
-        }
-
-        #endregion
-
-        #region ManifestId
-
-        /// <summary>
-        /// The <see cref="ManifestId" /> property's name.
-        /// </summary>
-        public const string ManifestIdPropertyName = "ManifestId";
-
-        private string _ManifestId = default;
-
-        /// <summary>
-        /// Sets and gets the ManifestId property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string ManifestId
-        {
-            get
-            {
-                return _ManifestId;
-            }
-
-            set
-            {
-                if (_ManifestId == value)
-                {
-                    return;
-                }
-
-                _ManifestId = value;
-                RaisePropertyChanged(ManifestIdPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region AddKegs
-
-        /// <summary>
-        /// The <see cref="AddKegs" /> property's name.
-        /// </summary>
-        public const string AddKegsPropertyName = "AddKegs";
-
-        private string _AddKegs = "Add Kegs";
-
-        /// <summary>
-        /// Sets and gets the AddKegs property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string AddKegs
-        {
-            get
-            {
-                return _AddKegs;
-            }
-
-            set
-            {
-                if (_AddKegs == value)
-                {
-                    return;
-                }
-
-                _AddKegs = value;
-                IsSubmitVisible = _AddKegs.Contains("Item") ? true : false;
-                RaisePropertyChanged(AddKegsPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region IsSubmitVisible
-
-        /// <summary>
-        /// The <see cref="IsSubmitVisible" /> property's name.
-        /// </summary>
-        public const string IsSubmitVisiblePropertyName = "IsSubmitVisible";
-
-        private bool _IsSubmitVisible = false;
-
-        /// <summary>
-        /// Sets and gets the IsSubmitVisible property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public bool IsSubmitVisible
-        {
-            get
-            {
-                return _IsSubmitVisible;
-            }
-
-            set
-            {
-                if (_IsSubmitVisible == value)
-                {
-                    return;
-                }
-
-                _IsSubmitVisible = value;
-                RaisePropertyChanged(IsSubmitVisiblePropertyName);
-            }
-        }
-
-        #endregion
-
-        #region Tags
-        /// <summary>
-        /// The <see cref="Tags" /> property's name.
-        /// </summary>
-        public const string TagsPropertyName = "Tags";
-
-        private List<Tag> _tags = new List<Tag>();
-
-        /// <summary>
-        /// Sets and gets the Tags property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public List<Tag> Tags
-        {
-            get
-            {
-                return _tags;
-            }
-
-            set
-            {
-                if (_tags == value)
-                {
-                    return;
-                }
-
-                _tags = value;
-                RaisePropertyChanged(TagsPropertyName);
-            }
-        }
-
-        #endregion
+        public bool IsSubmitVisible { get; set; }
+        public List<Tag> Tags { get; set; } = new List<Tag>();
 
         #endregion
 
@@ -321,10 +59,8 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public PalletizeViewModel(IPalletizeService palletizeService, IMoveService moveService, INavigationService navigationService, IZebraPrinterManager zebraPrinterManager, IUuidManager uuidManager, ICalcCheckDigitMngr calcCheckDigitMngr, IPageDialogService dialogService) : base(navigationService)
+        public PalletizeViewModel(IPalletizeService palletizeService, INavigationService navigationService, IZebraPrinterManager zebraPrinterManager, IUuidManager uuidManager, ICalcCheckDigitMngr calcCheckDigitMngr, IPageDialogService dialogService) : base(navigationService)
         {
-            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
-            _moveService = moveService;
             _dialogService = dialogService;
             _palletizeService = palletizeService;
             _zebraPrinterManager = zebraPrinterManager;
@@ -430,12 +166,10 @@ namespace KegID.ViewModel
         private static int SecondsInDayTillNow()
         {
             DateTimeOffset now = DateTimeOffset.Now;
-            int hours = 0, minutes = 0, seconds = 0, totalSeconds = 0;
-            hours = (24 - now.Hour) - 1;
-            minutes = (60 - now.Minute) - 1;
-            seconds = (60 - now.Second - 1);
-
-            return totalSeconds = seconds + (minutes * 60) + (hours * 3600);
+            int hours = 24 - now.Hour - 1;
+            int minutes = 60 - now.Minute - 1;
+            int seconds = 60 - now.Second - 1;
+            return _ = seconds + (minutes * 60) + (hours * 3600);
         }
 
         private async void SubmitCommandRecieverAsync()

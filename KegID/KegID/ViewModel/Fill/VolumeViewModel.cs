@@ -1,13 +1,9 @@
-﻿using KegID.LocalDb;
-using KegID.Model;
-using Microsoft.AppCenter.Crashes;
+﻿using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
-using Realms;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace KegID.ViewModel
 {
@@ -15,42 +11,8 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        //private readonly INavigationService _navigationService;
         private readonly IPageDialogService _dialogService;
-
-        #region VolumeCollection
-
-        /// <summary>
-        /// The <see cref="VolumeCollection" /> property's name.
-        /// </summary>
-        public const string VolumeCollectionPropertyName = "VolumeCollection";
-
-        private IList<string> _VolumeCollection = null;
-
-        /// <summary>
-        /// Sets and gets the VolumeCollection property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public IList<string> VolumeCollection
-        {
-            get
-            {
-                return _VolumeCollection;
-            }
-
-            set
-            {
-                if (_VolumeCollection == value)
-                {
-                    return;
-                }
-
-                _VolumeCollection = value;
-                RaisePropertyChanged(VolumeCollectionPropertyName);
-            }
-        }
-
-        #endregion
+        public IList<string> VolumeCollection { get; set; }
 
         #endregion
 
@@ -64,7 +26,6 @@ namespace KegID.ViewModel
 
         public VolumeViewModel(INavigationService navigationService, IPageDialogService dialogService) : base(navigationService)
         {
-            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _dialogService = dialogService;
             ItemTappedCommand = new DelegateCommand<string>((model)=>ItemTappedCommandRecieverAsync(model));
             LoadAssetVolumeAsync();
@@ -77,9 +38,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                //var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                //var value = RealmDb.All<AssetVolumeModel>().ToList();
-                //VolumeCollection = value.Select(x => x.AssetVolume).ToList();
                 VolumeCollection = new List<string>
                 {
                     "bbl",

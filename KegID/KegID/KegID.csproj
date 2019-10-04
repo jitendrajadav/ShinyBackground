@@ -1,5 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
+  <Import Project="..\packages\Fody.1.29.3\build\portable-net+sl+win+wpa+wp\Fody.targets" Condition="Exists('..\packages\Fody.1.29.3\build\portable-net+sl+win+wpa+wp\Fody.targets')" />
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <DisableImplicitAssetTargetFallback>true</DisableImplicitAssetTargetFallback>
@@ -33,6 +33,7 @@
     <PackageReference Include="Microsoft.AppCenter.Analytics" Version="2.1.1" />
     <PackageReference Include="Microsoft.AppCenter.Crashes" Version="2.1.1" />
     <PackageReference Include="Microsoft.AppCenter.Distribute" Version="2.1.1" />
+
     <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
     <PackageReference Include="Microsoft.Net.Http" Version="2.2.29" />
@@ -41,17 +42,17 @@
     <PackageReference Include="Prism.Forms" Version="7.1.0.431" />
     <PackageReference Include="Prism.Plugin.Popups" Version="2.2.0.293" />
     <PackageReference Include="Prism.Unity.Forms" Version="7.1.0.431" />
+    <PackageReference Include="PropertyChanged.Fody" Version="3.0.1" />
     <PackageReference Include="Realm" Version="4.0.1" />
     <PackageReference Include="Scandit.BarcodePicker.Unified" Version="5.11.4.10" />
+    <PackageReference Include="System.Diagnostics.Debug" Version="4.3.0" />
+    <PackageReference Include="System.Diagnostics.Tools" Version="4.3.0" />
+    <PackageReference Include="System.Diagnostics.Tracing" Version="4.3.0" />
     <PackageReference Include="Xam.Plugins.Settings" Version="4.0.0.10-beta" />
     <PackageReference Include="Xamarin.Essentials" Version="1.2.0" />
     <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.11.982" />
-
-
     <PackageReference Include="Xamarin.Forms" Version="4.1.0.581479" />
     <PackageReference Include="Xamarin.Forms.Maps" Version="4.1.0.581479" />
-
-
   </ItemGroup>
 
   <ItemGroup>
@@ -405,4 +406,6 @@
   <ItemGroup>
     <Folder Include="Model\Request\Fill\" />
   </ItemGroup>
+  
+  
 </Project>

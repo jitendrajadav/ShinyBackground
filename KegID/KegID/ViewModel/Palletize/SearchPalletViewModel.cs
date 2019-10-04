@@ -9,213 +9,16 @@ namespace KegID.ViewModel
     public class SearchPalletViewModel : BaseViewModel
     {
         #region Properties
-
-        //private readonly INavigationService _navigationService;
-
-        #region PalletBarcode
-
-        /// <summary>
-        /// The <see cref="PalletBarcode" /> property's name.
-        /// </summary>
-        public const string PalletBarcodePropertyName = "PalletBarcode";
-
-        private string _PalletBarcode = string.Empty;
-
-        /// <summary>
-        /// Sets and gets the PalletBarcode property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string PalletBarcode
+        public string PalletBarcode { get; set; }
+        public string Barcode { get; set; }
+        public string LocationCreated { get; set; }
+        public DateTime FromDate { get; set; } = DateTime.Now;
+        public DateTime ToDate { get; set; } = DateTime.Now;
+        public PartnerModel PartnerModel { get; set; } = new PartnerModel();
+        public void OnPartnerModelChanged()
         {
-            get
-            {
-                return _PalletBarcode;
-            }
-
-            set
-            {
-                if (_PalletBarcode == value)
-                {
-                    return;
-                }
-
-                _PalletBarcode = value;
-                RaisePropertyChanged(PalletBarcodePropertyName);
-            }
+            LocationCreated = PartnerModel.FullName;
         }
-
-        #endregion
-
-        #region Barcode
-
-        /// <summary>
-        /// The <see cref="Barcode" /> property's name.
-        /// </summary>
-        public const string BarcodePropertyName = "Barcode";
-
-        private string _Barcode = string.Empty;
-
-        /// <summary>
-        /// Sets and gets the Barcode property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string Barcode
-        {
-            get
-            {
-                return _Barcode;
-            }
-
-            set
-            {
-                if (_Barcode == value)
-                {
-                    return;
-                }
-
-                _Barcode = value;
-                RaisePropertyChanged(BarcodePropertyName);
-            }
-        }
-
-        #endregion
-
-        #region LocationCreated
-
-        /// <summary>
-        /// The <see cref="LocationCreated" /> property's name.
-        /// </summary>
-        public const string LocationCreatedPropertyName = "LocationCreated";
-
-        private string _LocationCreated = string.Empty;
-
-        /// <summary>
-        /// Sets and gets the LocationCreated property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string LocationCreated
-        {
-            get
-            {
-                return _LocationCreated;
-            }
-
-            set
-            {
-                if (_LocationCreated == value)
-                {
-                    return;
-                }
-
-                _LocationCreated = value;
-                RaisePropertyChanged(LocationCreatedPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region FromDate
-
-        /// <summary>
-        /// The <see cref="FromDate" /> property's name.
-        /// </summary>
-        public const string FromDatePropertyName = "FromDate";
-
-        private DateTimeOffset _FromDate = DateTimeOffset.Now;
-
-        /// <summary>
-        /// Sets and gets the FromDate property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public DateTimeOffset FromDate
-        {
-            get
-            {
-                return _FromDate;
-            }
-
-            set
-            {
-                if (_FromDate == value)
-                {
-                    return;
-                }
-
-                _FromDate = value;
-                RaisePropertyChanged(FromDatePropertyName);
-            }
-        }
-
-        #endregion
-
-        #region ToDate
-
-        /// <summary>
-        /// The <see cref="ToDate" /> property's name.
-        /// </summary>
-        public const string ToDatePropertyName = "ToDate";
-
-        private DateTimeOffset _ToDate = DateTimeOffset.Now;
-
-        /// <summary>
-        /// Sets and gets the ToDate property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public DateTimeOffset ToDate
-        {
-            get
-            {
-                return _ToDate;
-            }
-
-            set
-            {
-                if (_ToDate == value)
-                {
-                    return;
-                }
-
-                _ToDate = value;
-                RaisePropertyChanged(ToDatePropertyName);
-            }
-        }
-
-        #endregion
-
-        #region PartnerModel
-
-        /// <summary>
-        /// The <see cref="PartnerModel" /> property's name.
-        /// </summary>
-        public const string PartnerModelPropertyName = "PartnerModel";
-
-        private PartnerModel _PartnerModel = new PartnerModel();
-
-        /// <summary>
-        /// Sets and gets the PartnerModel property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public PartnerModel PartnerModel
-        {
-            get
-            {
-                return _PartnerModel;
-            }
-
-            set
-            {
-                if (_PartnerModel == value)
-                {
-                    return;
-                }
-
-                _PartnerModel = value;
-                RaisePropertyChanged(PartnerModelPropertyName);
-                LocationCreated = PartnerModel.FullName;
-            }
-        }
-
-        #endregion
 
         #endregion
 
@@ -231,8 +34,6 @@ namespace KegID.ViewModel
 
         public SearchPalletViewModel(INavigationService navigationService) : base(navigationService)
         {
-            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
-
             HomeCommand = new DelegateCommand(HomeCommandRecieverAsync);
             SearchCommand = new DelegateCommand(SearchCommandRecieverAsync);
             LocationCreatedCommand = new DelegateCommand(LocationCreatedCommandRecieverAsync);

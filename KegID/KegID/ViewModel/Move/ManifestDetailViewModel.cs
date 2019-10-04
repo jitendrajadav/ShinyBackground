@@ -21,179 +21,13 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        //private readonly INavigationService _navigationService;
         private Manifest manifestPrintModels = null;
         public List<string> Barcode { get; set; }
-
-        #region TrackingNumber
-
-        /// <summary>
-        /// The <see cref="TrackingNumber" /> property's name.
-        /// </summary>
-        public const string TrackingNumberPropertyName = "TrackingNumber";
-
-        private string _TrackingNumber = default;
-
-        /// <summary>
-        /// Sets and gets the TrackingNumber property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string TrackingNumber
-        {
-            get
-            {
-                return _TrackingNumber;
-            }
-
-            set
-            {
-                if (_TrackingNumber == value)
-                {
-                    return;
-                }
-
-                _TrackingNumber = value;
-                RaisePropertyChanged(TrackingNumberPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region ManifestTo
-
-        /// <summary>
-        /// The <see cref="ManifestTo" /> property's name.
-        /// </summary>
-        public const string ManifestToPropertyName = "ManifestTo";
-
-        private string _ManifestTo = default;
-
-        /// <summary>
-        /// Sets and gets the ManifestTo property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string ManifestTo
-        {
-            get
-            {
-                return _ManifestTo;
-            }
-
-            set
-            {
-                if (_ManifestTo == value)
-                {
-                    return;
-                }
-
-                _ManifestTo = value;
-                RaisePropertyChanged(ManifestToPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region ShippingDate
-
-        /// <summary>
-        /// The <see cref="ShippingDate" /> property's name.
-        /// </summary>
-        public const string ShippingDatePropertyName = "ShippingDate";
-
-        private DateTimeOffset _ShippingDate = DateTimeOffset.UtcNow.Date;
-
-        /// <summary>
-        /// Sets and gets the ShippingDate property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public DateTimeOffset ShippingDate
-        {
-            get
-            {
-                return _ShippingDate;
-            }
-
-            set
-            {
-                if (_ShippingDate == value)
-                {
-                    return;
-                }
-
-                _ShippingDate = value;
-                RaisePropertyChanged(ShippingDatePropertyName);
-            }
-        }
-
-        #endregion
-
-        #region ItemCount
-
-        /// <summary>
-        /// The <see cref="ItemCount" /> property's name.
-        /// </summary>
-        public const string ItemCountPropertyName = "ItemCount";
-
-        private int _ItemCount = 0;
-
-        /// <summary>
-        /// Sets and gets the ItemCount property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public int ItemCount
-        {
-            get
-            {
-                return _ItemCount;
-            }
-
-            set
-            {
-                if (_ItemCount == value)
-                {
-                    return;
-                }
-
-                _ItemCount = value;
-                RaisePropertyChanged(ItemCountPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region Contents
-
-        /// <summary>
-        /// The <see cref="Contents" /> property's name.
-        /// </summary>
-        public const string ContentsPropertyName = "Contents";
-
-        private string _Contents = "No contents";
-
-        /// <summary>
-        /// Sets and gets the Contents property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string Contents
-        {
-            get
-            {
-                return _Contents;
-            }
-
-            set
-            {
-                if (_Contents == value)
-                {
-                    return;
-                }
-
-                _Contents = value;
-                RaisePropertyChanged(ContentsPropertyName);
-            }
-        }
-
-        #endregion
+        public string TrackingNumber { get; set; }
+        public string ManifestTo { get; set; }
+        public DateTimeOffset ShippingDate { get; set; } = DateTimeOffset.UtcNow.Date;
+        public int ItemCount { get; set; }
+        public string Contents { get; set; }
 
         #endregion
 
@@ -209,8 +43,6 @@ namespace KegID.ViewModel
 
         public ManifestDetailViewModel(INavigationService navigationService) : base(navigationService)
         {
-            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
-
             ManifestsCommand = new DelegateCommand(ManifestsCommandRecieverAsync);
             ShareCommand = new DelegateCommand(ShareCommandRecieverAsync);
             GridTappedCommand = new DelegateCommand(GridTappedCommandRecieverAsync);
