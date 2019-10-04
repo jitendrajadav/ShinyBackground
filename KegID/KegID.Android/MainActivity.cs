@@ -33,8 +33,7 @@ namespace KegID.Droid
             base.OnCreate(bundle);
             myActivity = this;
 
-            Forms.SetFlags("FastRenderers_Experimental");
-
+            Forms.SetFlags("FastRenderers_Experimental", "CollectionView_Experimental");
             Forms.Init(this, bundle);
             UserDialogs.Init(this);
             CarouselViewRenderer.Init();

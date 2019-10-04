@@ -135,13 +135,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string ShippingDatePropertyName = "ShippingDate";
 
-        private DateTime _ShippingDate = DateTime.Today;
+        private DateTimeOffset _ShippingDate = DateTimeOffset.Now;
 
         /// <summary>
         /// Sets and gets the ShippingDate property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public DateTime ShippingDate
+        public DateTimeOffset ShippingDate
         {
             get
             {

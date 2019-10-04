@@ -6,8 +6,11 @@
              xmlns:controls="clr-namespace:Plugin.CrossPlatformTintedImage.Abstractions;assembly=Plugin.CrossPlatformTintedImage.Abstractions"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              ios:Page.UseSafeArea="true"
+             xmlns:converters="clr-namespace:KegID.Converter"
              >
-
+  <ContentPage.Resources>
+    <converters:UtcToLocalDateTimeConverter x:Key="UtcToLocalDateTimeConverter"/>
+  </ContentPage.Resources>
     <ContentPage.Content>
         <Grid
             AutomationId="mainGrd">
@@ -112,7 +115,7 @@
                     Margin="10,0,0,0"
                     Grid.Row="4"
                     FontSize="Medium"
-                    Text="{Binding ShippingDate,StringFormat='{0:dd/MM/yy}'}"
+                    Text="{Binding ShippingDate, Converter={StaticResource UtcToLocalDateTimeConverter}}"
                     VerticalOptions="Center" 
                     HorizontalOptions="Start"/>
 

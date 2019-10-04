@@ -150,6 +150,7 @@
                     Command="{Binding PartnerCommand}"
                     Text="{Binding Path=PartnerModel.FullName}"/>
 
+
         </Grid>
             
         <Button
