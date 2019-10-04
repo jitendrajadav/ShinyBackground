@@ -59,7 +59,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="60"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
@@ -177,10 +177,11 @@
                     AutomationId="barcodeCountLabel"
                     Grid.Column="2"
                     Grid.Row="3"
-                    FontSize="30"
+                    FontSize="45"
                     TextColor="{StaticResource scanCounterColor}"
                     HorizontalOptions="Center"
                     VerticalOptions="Center"
+                    VerticalTextAlignment="Center"
                     Text="{Binding BarcodeCollection.Count}"/>
 
                 <local:ScanItemView
