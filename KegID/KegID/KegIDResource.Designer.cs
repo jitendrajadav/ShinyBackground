@@ -2212,6 +2212,15 @@ namespace KegID {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Origin:.
+        /// </summary>
+        internal static string label_show_origin {
+            get {
+                return ResourceManager.GetString("label_show_origin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Size:.
         /// </summary>
         internal static string label_size {
