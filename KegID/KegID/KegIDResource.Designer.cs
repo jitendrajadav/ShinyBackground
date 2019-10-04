@@ -4471,6 +4471,15 @@ namespace KegID {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Batch scan.
+        /// </summary>
+        internal static string title_batch_scan {
+            get {
+                return ResourceManager.GetString("title_batch_scan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Build Pallet.
         /// </summary>
         internal static string title_build_pallet {

@@ -418,6 +418,7 @@ namespace KegID.ViewModel
             AppSettings.PrintEveryPallet = PrintEveryPallet;
             AppSettings.PalletLabelCopies = PalletLabelCopies;
             AppSettings.BeepOnValidScans = BeepOnValidScans;
+            AppSettings.BatchScan = BatchScan;
             AppSettings.IpAddress = IpAddress;
             AppSettings.Port = Port;
             AppSettings.FriendlyLbl = SelectedPrinter;
@@ -429,6 +430,7 @@ namespace KegID.ViewModel
             PrintEveryPallet = AppSettings.PrintEveryPallet;
             PalletLabelCopies = AppSettings.PalletLabelCopies;
             BeepOnValidScans = AppSettings.BeepOnValidScans;
+            BatchScan = AppSettings.BatchScan;
             IsBluetoothOn = AppSettings.IsBluetoothOn;
             IpAddress = AppSettings.IpAddress;
             Port = AppSettings.Port;

@@ -1789,11 +1789,16 @@
     <value>About KegID</value>
   </data>
 
+  <data name="title_batch_scan" xml:space="preserve">
+    <value>Batch scan</value>
+
+
   <data name="title_order" xml:space="preserve">
     <value>Order:</value>
 
   <data name="label_show_origin" xml:space="preserve">
     <value>Origin:</value>
+
 
   </data>
 </root>
