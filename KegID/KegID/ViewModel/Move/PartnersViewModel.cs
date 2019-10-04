@@ -300,17 +300,27 @@ namespace KegID.ViewModel
 
         #region Methods
 
-        private void TextChangedCommandRecieverAsync()
+        private async void TextChangedCommandRecieverAsync()
         {
-            try
+            if (!string.IsNullOrEmpty(PartnerName))
             {
-                var notNullPartners = AllPartners.Where(x => x.FullName != null).ToList();
-                var result = notNullPartners.Where(x => x.FullName.ToLower().Contains(PartnerName.ToLower())).ToList();
-                PartnerCollection = new ObservableCollection<PartnerModel>(result);
+                try
+                {
+                    var notNullPartners = AllPartners.Where(x => x.FullName != null).ToList();
+                    var result = notNullPartners.Where(x => x.FullName.ToLower().Contains(PartnerName.ToLower())).ToList();
+                    PartnerCollection = new ObservableCollection<PartnerModel>(result);
+                }
+                catch (Exception ex)
+                {
+                    Crashes.TrackError(ex);
+                }
             }
-            catch (Exception ex)
+            else
             {
-                Crashes.TrackError(ex);
+                if (InternalTextColor.Contains("White"))
+                    InternalCommandReciever();
+                else
+                    AlphabeticalCommandReciever();
             }
         }
 
@@ -417,6 +427,7 @@ namespace KegID.ViewModel
                 Crashes.TrackError(ex);
             }
         }
+
         private void AlphabeticalCommandReciever()
         {
             try

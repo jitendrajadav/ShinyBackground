@@ -436,7 +436,7 @@ namespace KegID.ViewModel
                         {
                             Barcode = item.Barcode,
                             Contents = Contents,
-                            VolumeName = "Jitendra",
+                            VolumeName = "Needs to add here!",
                             OwnerName = ConstantManager.Partner.FullName,
                             SizeName = sizeName,
                         }
