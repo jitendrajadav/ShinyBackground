@@ -105,12 +105,14 @@
                     </controls:TintedImage.GestureRecognizers>
                 </controls:TintedImage>
 
+
                 <forms9:Button
                     x:Name="_singlePickerButton"
                     Grid.Column="0"
                     Grid.Row="1"
                     HtmlText="{Binding Resources[hint_select_content]}"
                     Clicked="_singlePickerButton_Clicked"/>
+
 
                 <Entry
                     AutomationId="batchEntry"

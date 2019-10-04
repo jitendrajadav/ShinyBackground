@@ -14,6 +14,7 @@ using KegID.LocalDb;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
+using Acr.UserDialogs;
 
 namespace KegID.ViewModel
 {
@@ -72,33 +73,19 @@ namespace KegID.ViewModel
         ///// </summary>
         //public const string BrandCollectionPropertyName = "BrandCollection";
 
-        //private IList<BrandModel> _BrandCollection = null;
+        private ObservableCollection<BrandModel> _BrandCollection = null;
 
-        ///// <summary>
-        ///// Sets and gets the BrandCollection property.
-        ///// Changes to that property's value raise the PropertyChanged event. 
-        ///// </summary>
-        //public IList<BrandModel> BrandCollection
-        //{
-        //    get
-        //    {
-        //        return _BrandCollection;
-        //    }
-
-        //    set
-        //    {
-        //        if (_BrandCollection == value)
-        //        {
-        //            return;
-        //        }
-
-        //        _BrandCollection = value;
-        //        RaisePropertyChanged(BrandCollectionPropertyName);
-        //    }
-        //}
-
-
-        //#endregion
+        /// <summary>
+        /// Sets and gets the BrandCollection property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public ObservableCollection<BrandModel> BrandCollection
+        {
+            get
+            {
+                return _BrandCollection;
+            }
+        }
 
         #region SelectedBrand
 
@@ -115,20 +102,35 @@ namespace KegID.ViewModel
         /// </summary>
         public string SelectedBrand
         {
-            get
-            {
-                return _SelectedBrand;
-            }
+            get => _SelectedBrand;
 
             set
             {
                 if (_SelectedBrand == value)
-                {
                     return;
-                }
                 _SelectedBrand = value;
+                if (_SelectedBrand?.BrandName == "Add")
+                    AddNewBrand();
+                else if(_SelectedBrand?.BrandName == "'\"'")
+                    SelectedBrand = null;
                 RaisePropertyChanged(SelectedBrandPropertyName);
             }
+        }
+
+        private async void AddNewBrand()
+        {
+            var r = await UserDialogs.Instance.PromptAsync(new PromptConfig()
+                            .SetTitle("Add")
+                            .SetPlaceholder("Maximum Text Length (100)")
+                            .SetInputMode(InputType.Name)
+                            .SetMaxLength(100));
+            if (r.Ok)
+            {
+                BrandCollection.Add(new BrandModel { BrandId = Guid.NewGuid().ToString(), BrandName = r.Text, BrandCode = r.Text });
+                SelectedBrand = BrandCollection.LastOrDefault();
+            }
+            else
+                SelectedBrand = null;
         }
 
 
@@ -338,29 +340,34 @@ namespace KegID.ViewModel
             });
         }
 
-        //public void LoadBrand() => BrandCollection = LoadBrandAsync();
 
-        //public IList<BrandModel> LoadBrandAsync()
-        //{
-        //    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-        //    var all = RealmDb.All<BrandModel>().ToList();
-        //    IList<BrandModel> model = all;
-        //    try
-        //    {
-        //        if (model.Count > 0)
-        //            return model;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //         Crashes.TrackError(ex);
-        //        return null;
-        //    }
-        //    finally
-        //    {
-        //        Loader.StopLoading();
-        //    }
-        //    return model;
-        //}
+        public void LoadBrand()
+        {
+            BrandCollection = new ObservableCollection<BrandModel>(LoadBrandAsync());
+        }
+
+        public IList<BrandModel> LoadBrandAsync()
+        {
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            var all = RealmDb.All<BrandModel>().ToList();
+            IList<BrandModel> model = all;
+            try
+            {
+                if (model.Count > 0)
+                    return model;
+            }
+            catch (Exception ex)
+            {
+                 Crashes.TrackError(ex);
+                return null;
+            }
+            finally
+            {
+                Loader.StopLoading();
+            }
+            return model;
+        }
+
 
         private async void LabelItemTappedCommandRecieverAsync(BarcodeModel model)
         {
