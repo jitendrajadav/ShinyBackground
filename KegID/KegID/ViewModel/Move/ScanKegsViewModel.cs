@@ -14,6 +14,7 @@ using KegID.LocalDb;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
+using Acr.UserDialogs;
 
 namespace KegID.ViewModel
 {
@@ -21,7 +22,6 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        //private readonly INavigationService _navigationService;
         private readonly IPageDialogService _dialogService;
         private readonly IMoveService _moveService;
         private readonly IManifestManager _manifestManager;
@@ -66,40 +66,26 @@ namespace KegID.ViewModel
 
         #endregion
 
-        #region BrandCollection
+        //#region BrandCollection
 
-        /// <summary>
-        /// The <see cref="BrandCollection" /> property's name.
-        /// </summary>
-        public const string BrandCollectionPropertyName = "BrandCollection";
+        ///// <summary>
+        ///// The <see cref="BrandCollection" /> property's name.
+        ///// </summary>
+        //public const string BrandCollectionPropertyName = "BrandCollection";
 
-        private IList<BrandModel> _BrandCollection = null;
+        private ObservableCollection<BrandModel> _BrandCollection = null;
 
         /// <summary>
         /// Sets and gets the BrandCollection property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public IList<BrandModel> BrandCollection
+        public ObservableCollection<BrandModel> BrandCollection
         {
             get
             {
                 return _BrandCollection;
             }
-
-            set
-            {
-                if (_BrandCollection == value)
-                {
-                    return;
-                }
-
-                _BrandCollection = value;
-                RaisePropertyChanged(BrandCollectionPropertyName);
-            }
         }
-
-
-        #endregion
 
         #region SelectedBrand
 
@@ -108,28 +94,43 @@ namespace KegID.ViewModel
         /// </summary>
         public const string SelectedBrandPropertyName = "SelectedBrand";
 
-        private BrandModel _SelectedBrand = null;
+        private string _SelectedBrand = null;
 
         /// <summary>
         /// Sets and gets the SelectedBrand property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public BrandModel SelectedBrand
+        public string SelectedBrand
         {
-            get
-            {
-                return _SelectedBrand;
-            }
+            get => _SelectedBrand;
 
             set
             {
                 if (_SelectedBrand == value)
-                {
                     return;
-                }
                 _SelectedBrand = value;
+                if (_SelectedBrand?.BrandName == "Add")
+                    AddNewBrand();
+                else if(_SelectedBrand?.BrandName == "'\"'")
+                    SelectedBrand = null;
                 RaisePropertyChanged(SelectedBrandPropertyName);
             }
+        }
+
+        private async void AddNewBrand()
+        {
+            var r = await UserDialogs.Instance.PromptAsync(new PromptConfig()
+                            .SetTitle("Add")
+                            .SetPlaceholder("Maximum Text Length (100)")
+                            .SetInputMode(InputType.Name)
+                            .SetMaxLength(100));
+            if (r.Ok)
+            {
+                BrandCollection.Add(new BrandModel { BrandId = Guid.NewGuid().ToString(), BrandName = r.Text, BrandCode = r.Text });
+                SelectedBrand = BrandCollection.LastOrDefault();
+            }
+            else
+                SelectedBrand = null;
         }
 
 
@@ -267,7 +268,7 @@ namespace KegID.ViewModel
             LabelItemTappedCommand = new DelegateCommand<BarcodeModel>((model) => LabelItemTappedCommandRecieverAsync(model));
             IconItemTappedCommand = new DelegateCommand<BarcodeModel>((model) => IconItemTappedCommandRecieverAsync(model));
             DeleteItemCommand = new DelegateCommand<BarcodeModel>((model) => DeleteItemCommandReciever(model));
-            LoadBrand();
+            //LoadBrand();
 
             HandleUnsubscribeMessages();
             HandleReceivedMessages();
@@ -339,7 +340,11 @@ namespace KegID.ViewModel
             });
         }
 
-        public void LoadBrand() => BrandCollection = LoadBrandAsync();
+
+        public void LoadBrand()
+        {
+            BrandCollection = new ObservableCollection<BrandModel>(LoadBrandAsync());
+        }
 
         public IList<BrandModel> LoadBrandAsync()
         {
@@ -362,6 +367,7 @@ namespace KegID.ViewModel
             }
             return model;
         }
+
 
         private async void LabelItemTappedCommandRecieverAsync(BarcodeModel model)
         {
@@ -530,8 +536,7 @@ namespace KegID.ViewModel
             try
             {
                 ConstantManager.Barcodes = BarcodeCollection.ToList();
-                ConstantManager.Contents = SelectedBrand?.BrandName;
-                ConstantManager.ContentsCode = SelectedBrand?.BrandCode;
+                ConstantManager.Contents = SelectedBrand;
                 if (BarcodeCollection.Any(x => x?.Kegs?.Partners?.Count > 1))
                     await NavigateToValidatePartner(BarcodeCollection.Where(x => x?.Kegs?.Partners?.Count > 1).ToList());
                 else
@@ -588,9 +593,11 @@ namespace KegID.ViewModel
         {
             try
             {
-                var isNew = BarcodeCollection.ToList().Any(x => x?.Kegs?.Partners?.FirstOrDefault()?.Kegs?.FirstOrDefault()?.Barcode == ManaulBarcode);
-                if (!isNew)
+                var isNew = BarcodeCollection.Where(x => x.Barcode == ManaulBarcode).FirstOrDefault();
+                UpdateTagsStr();
+                BarcodeModel model = new BarcodeModel()
                 {
+
                     UpdateTagsStr();
                     BarcodeModel model = new BarcodeModel()
                     {
@@ -598,7 +605,7 @@ namespace KegID.ViewModel
                         TagsStr = TagsStr,
                         Icon = _getIconByPlatform.GetIcon(Cloud),
                         Page = ViewTypeEnum.ScanKegsView.ToString(),
-                        Contents = SelectedBrand?.BrandName
+                        Contents = SelectedBrand
                     };
 
                     if (ConstantManager.Tags != null)
@@ -607,21 +614,39 @@ namespace KegID.ViewModel
                             model.Tags.Add(item);
                     }
 
-                    BarcodeCollection.Add(model);
 
-                    var current = Connectivity.NetworkAccess;
-                    if (current == NetworkAccess.Internet)
-                    {
-                        var message = new StartLongRunningTaskMessage
-                        {
-                            Barcode = new List<string>() { ManaulBarcode },
-                            PageName = ViewTypeEnum.ScanKegsView.ToString()
-                        };
-                        MessagingCenter.Send(message, "StartLongRunningTaskMessage");
-                    }
-
-                    ManaulBarcode = string.Empty;
+                if (ConstantManager.Tags != null)
+                {
+                    foreach (var item in ConstantManager.Tags)
+                        model.Tags.Add(item);
                 }
+                if (isNew==null)
+                {
+                    BarcodeCollection.Add(model);
+                }
+                else
+                {
+                    using (var db = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
+                    {
+                        var oldBarcode = BarcodeCollection.Where(x => x.Barcode == ManaulBarcode).FirstOrDefault();
+                        oldBarcode.TagsStr = model.TagsStr;
+                        oldBarcode.Icon = model.Icon;
+                        oldBarcode.Contents = SelectedBrand?.BrandName;
+                        db.Commit();
+                    }
+                }
+                var current = Connectivity.NetworkAccess;
+                if (current == NetworkAccess.Internet)
+                {
+                    var message = new StartLongRunningTaskMessage
+                    {
+                        Barcode = new List<string>() { ManaulBarcode },
+                        PageName = ViewTypeEnum.ScanKegsView.ToString()
+                    };
+                    MessagingCenter.Send(message, "StartLongRunningTaskMessage");
+                }
+
+                ManaulBarcode = string.Empty;
             }
             catch (Exception ex)
             {
@@ -634,15 +659,15 @@ namespace KegID.ViewModel
             string tags = string.Empty;
             if (ConstantManager.Tags != null)
             {
-                if (!string.IsNullOrEmpty(SelectedBrand?.BrandName))
+                if (!string.IsNullOrEmpty(SelectedBrand))
                 {
                     if (!ConstantManager.Tags.Any(x => x.Property == "Contents"))
                     {
-                        ConstantManager.Tags.Add(new Tag { Property = "Contents", Value = SelectedBrand?.BrandName });
+                        ConstantManager.Tags.Add(new Tag { Property = "Contents", Value = SelectedBrand });
                     }
                     else
                     {
-                        ConstantManager.Tags.Find(x => x.Property == "Contents").Value = SelectedBrand?.BrandName;
+                        ConstantManager.Tags.Find(x => x.Property == "Contents").Value = SelectedBrand;
                     }
                 }
                 if (!string.IsNullOrEmpty(Batch))

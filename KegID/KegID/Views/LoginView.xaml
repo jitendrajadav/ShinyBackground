@@ -19,6 +19,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             
             <Image
@@ -58,6 +59,12 @@
                 Text="{Binding Resources[button_login]}"
                 Command="{Binding LoginCommand}"/>
 
+            <Label
+                Text="{Binding APIBase}"
+                HorizontalOptions="CenterAndExpand"
+                VerticalOptions="EndAndExpand"
+                TextColor="Blue"
+                Grid.Row="4"/>
         </Grid>
         
     </ContentPage.Content>

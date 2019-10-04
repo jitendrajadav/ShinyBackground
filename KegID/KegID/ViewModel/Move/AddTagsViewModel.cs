@@ -20,13 +20,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string ProductionDatePropertyName = "ProductionDate";
 
-        private DateTime _ProductionDate = DateTime.Now.Date;
+        private DateTimeOffset _ProductionDate = DateTimeOffset.Now.Date;
 
         /// <summary>
         /// Sets and gets the ProductionDate property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public DateTime ProductionDate
+        public DateTimeOffset ProductionDate
         {
             get
             {
@@ -54,13 +54,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string BestByDataDatePropertyName = "BestByDataDate";
 
-        private DateTime _BestByDataDate = DateTime.Now;
+        private DateTimeOffset _BestByDataDate = DateTimeOffset.Now;
 
         /// <summary>
         /// Sets and gets the BestByDataDate property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public DateTime BestByDataDate
+        public DateTimeOffset BestByDataDate
         {
             get
             {
