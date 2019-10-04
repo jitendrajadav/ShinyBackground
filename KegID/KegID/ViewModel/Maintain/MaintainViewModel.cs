@@ -215,8 +215,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                var flag = ConstantManager.MaintainTypeCollection.Where(x => x.IsToggled == true);
-                if (flag != null)
+                var flag = ConstantManager.MaintainTypeCollection.Where(x => x.IsToggled == true).ToList();
+                if (flag.Count > 0)
                 {
                     await _navigationService.NavigateAsync("MaintainScanView",
                         new NavigationParameters
