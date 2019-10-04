@@ -9,144 +9,144 @@
              >
 
     <ContentPage.Content>
-        
-        <Grid
-            AutomationId="mainGrd">
-            
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-
-            <Button
-                AutomationId="homeButton"
-                x:Name="lblHome"
-                HorizontalOptions="Start"
-                Style="{StaticResource TopButtonTitleStyle}"
-                Text="{Binding Resources[button_home]}"
-                Command="{Binding HomeCommand}"
-                />
-
-            <Label
-                AutomationId="palletsSearchLabel"
-                HorizontalOptions="Center"
-                Style="{StaticResource LabelTitleStyle}"
-                Text="{Binding Resources[title_pallet_list]}"
-                />
-
+        <ScrollView>
             <Grid
-                AutomationId="innerGrd"
-                Grid.Row="1"
-                BackgroundColor="#E6E6E6">
-                
+                AutomationId="mainGrd">
+            
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                
-                <BoxView
-                    AutomationId="topBarSeperatorBoxView"
-                    Grid.Row="0"
-                    Grid.ColumnSpan="2"
-                    BackgroundColor="{StaticResource lightGrayColor}"
-                    HeightRequest="1"
-                    VerticalOptions="Start"
-                    HorizontalOptions="FillAndExpand"/>
-
-                <Entry
-                    AutomationId="palletBarcodeEntry"
-                    BackgroundColor="White"
-                    Margin="0,10"
-                    Text="{Binding PalletBarcode,Mode=TwoWay}"
-                    Placeholder="{Binding Resources[hint_scan_pallet]}"
-                    Grid.Row="1"
-                    Grid.ColumnSpan="2"/>
-                
-                <Entry
-                    AutomationId="barcodeEntry"
-                    BackgroundColor="White"
-                    Margin="0,10"
-                    Text="{Binding Barcode,Mode=TwoWay}"
-                    Placeholder="{Binding Resources[hint_scan]}"
-                    Grid.Row="2"
-                    Grid.ColumnSpan="2"/>
-
-                <Entry
-                    AutomationId="locationCreatedEntry"
-                    BackgroundColor="White"
-                    Margin="0,10"
-                    Text="{Binding LocationCreated,Mode=TwoWay}"
-                    Placeholder="{Binding Resources[hint_location_created]}"
-                    Grid.Row="3"
-                    Grid.ColumnSpan="2">
-                    
-                    <Entry.Behaviors>
-                        <behaviors:EventToCommandBehavior
-                        EventName="Focused"
-                      Command="{Binding LocationCreatedCommand}"/>
-                    </Entry.Behaviors>
-                </Entry>
-                
-                <StackLayout
-                    AutomationId="fromStackLayout"
-                    Margin="10,0,0,0"
-                    Grid.Row="4"
-                    Orientation="Horizontal">
-
-                    <Label
-                        AutomationId="fromDateLabel"
-                        Style="{StaticResource LabelNormalStyle}"
-                        Text="{Binding Resources[hint_fromdate]}"/>
-
-                    <DatePicker
-                        AutomationId="fromDatePicker"
-                        HorizontalOptions="FillAndExpand"
-                        Date="{Binding FromDate}"
-                        Margin="5,0,0,0"/>
-                </StackLayout>
-
-                <StackLayout
-                    AutomationId="toStackLayout"
-                    Grid.Row="4"
-                    Grid.Column="1"
-                    Orientation="Horizontal">
-
-                    <Label
-                        AutomationId="toDateLabel"
-                        Style="{StaticResource LabelNormalStyle}"
-                        Text="{Binding Resources[hint_todate]}"/>
-
-                    <DatePicker
-                        AutomationId="toDatePicker"
-                        HorizontalOptions="FillAndExpand"
-                        Date="{Binding ToDate}"
-                        Margin="5,0,0,0"/>
-                </StackLayout>
-             
                 <Button
-                    AutomationId="searchButton"
-                    Margin="10"
-                    Grid.Row="5"
-                    x:Name="lblSearch"
-                    Grid.Column="1"
-                    HorizontalOptions="End"
-                    VerticalOptions="Start"
+                    AutomationId="homeButton"
+                    x:Name="lblHome"
+                    HorizontalOptions="Start"
                     Style="{StaticResource TopButtonTitleStyle}"
-                    Text="{Binding Resources[menu_action_search]}"
-                    Command="{Binding SearchCommand}"
+                    Text="{Binding Resources[button_home]}"
+                    Command="{Binding HomeCommand}"
                     />
 
+                <Label
+                    AutomationId="palletsSearchLabel"
+                    HorizontalOptions="Center"
+                    Style="{StaticResource LabelTitleStyle}"
+                    Text="{Binding Resources[title_pallet_list]}"
+                    />
+
+                <Grid
+                    AutomationId="innerGrd"
+                    Grid.Row="1"
+                    BackgroundColor="#E6E6E6">
+                
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                
+                    <BoxView
+                        AutomationId="topBarSeperatorBoxView"
+                        Grid.Row="0"
+                        Grid.ColumnSpan="2"
+                        BackgroundColor="{StaticResource lightGrayColor}"
+                        HeightRequest="1"
+                        VerticalOptions="Start"
+                        HorizontalOptions="FillAndExpand"/>
+
+                    <Entry
+                        AutomationId="palletBarcodeEntry"
+                        BackgroundColor="White"
+                        Margin="0,10"
+                        Text="{Binding PalletBarcode,Mode=TwoWay}"
+                        Placeholder="{Binding Resources[hint_scan_pallet]}"
+                        Grid.Row="1"
+                        Grid.ColumnSpan="2"/>
+                
+                    <Entry
+                        AutomationId="barcodeEntry"
+                        BackgroundColor="White"
+                        Margin="0,10"
+                        Text="{Binding Barcode,Mode=TwoWay}"
+                        Placeholder="{Binding Resources[hint_scan]}"
+                        Grid.Row="2"
+                        Grid.ColumnSpan="2"/>
+
+                    <Entry
+                        AutomationId="locationCreatedEntry"
+                        BackgroundColor="White"
+                        Margin="0,10"
+                        Text="{Binding LocationCreated,Mode=TwoWay}"
+                        Placeholder="{Binding Resources[hint_location_created]}"
+                        Grid.Row="3"
+                        Grid.ColumnSpan="2">
+                    
+                        <Entry.Behaviors>
+                            <behaviors:EventToCommandBehavior
+                            EventName="Focused"
+                          Command="{Binding LocationCreatedCommand}"/>
+                        </Entry.Behaviors>
+                    </Entry>
+                
+                    <StackLayout
+                        AutomationId="fromStackLayout"
+                        Margin="10,0,0,0"
+                        Grid.Row="4"
+                        Orientation="Horizontal">
+
+                        <Label
+                            AutomationId="fromDateLabel"
+                            Style="{StaticResource LabelNormalStyle}"
+                            Text="{Binding Resources[hint_fromdate]}"/>
+
+                        <DatePicker
+                            AutomationId="fromDatePicker"
+                            HorizontalOptions="FillAndExpand"
+                            Date="{Binding FromDate}"
+                            Margin="5,0,0,0"/>
+                    </StackLayout>
+
+                    <StackLayout
+                        AutomationId="toStackLayout"
+                        Grid.Row="4"
+                        Grid.Column="1"
+                        Orientation="Horizontal">
+
+                        <Label
+                            AutomationId="toDateLabel"
+                            Style="{StaticResource LabelNormalStyle}"
+                            Text="{Binding Resources[hint_todate]}"/>
+
+                        <DatePicker
+                            AutomationId="toDatePicker"
+                            HorizontalOptions="FillAndExpand"
+                            Date="{Binding ToDate}"
+                            Margin="5,0,0,0"/>
+                    </StackLayout>
+             
+                    <Button
+                        AutomationId="searchButton"
+                        Margin="10"
+                        Grid.Row="5"
+                        x:Name="lblSearch"
+                        Grid.Column="1"
+                        HorizontalOptions="End"
+                        VerticalOptions="Start"
+                        Style="{StaticResource TopButtonTitleStyle}"
+                        Text="{Binding Resources[menu_action_search]}"
+                        Command="{Binding SearchCommand}"
+                        />
+
+                </Grid>
+
             </Grid>
-
-        </Grid>
-
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>
