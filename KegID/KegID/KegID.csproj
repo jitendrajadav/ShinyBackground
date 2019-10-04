@@ -64,6 +64,9 @@
     <Compile Update="Views\Dashboard\DashboardPartnersView.xaml.cs">
       <DependentUpon>DashboardPartnersView.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\Dashboard\MainPageTablet.xaml.cs">
+      <DependentUpon>MainPageTablet.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\Dashboard\MenuView.xaml.cs">
       <DependentUpon>MenuView.xaml</DependentUpon>
     </Compile>
