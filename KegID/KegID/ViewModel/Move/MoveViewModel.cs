@@ -166,6 +166,40 @@ namespace KegID.ViewModel
 
         #endregion
 
+        #region Order
+
+        /// <summary>
+        /// The <see cref="Order" /> property's name.
+        /// </summary>
+        public const string OrderPropertyName = "Order";
+
+        private string _Order = string.Empty;
+
+        /// <summary>
+        /// Sets and gets the Order property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public string Order
+        {
+            get
+            {
+                return _Order;
+            }
+
+            set
+            {
+                if (_Order == value)
+                {
+                    return;
+                }
+
+                _Order = value;
+                RaisePropertyChanged(OrderPropertyName);
+            }
+        }
+
+        #endregion
+
         #region Tags
         /// <summary>
         /// The <see cref="Tags" /> property's name.
@@ -407,6 +441,40 @@ namespace KegID.ViewModel
 
         #endregion
 
+        #region OrderNumRequired
+
+        /// <summary>
+        /// The <see cref="OrderNumRequired" /> property's name.
+        /// </summary>
+        public const string OrderNumRequiredPropertyName = "OrderNumRequired";
+
+        private bool _OrderNumRequired;
+
+        /// <summary>
+        /// Sets and gets the OrderNumRequired property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public bool OrderNumRequired
+        {
+            get
+            {
+                return _OrderNumRequired;
+            }
+
+            set
+            {
+                if (_OrderNumRequired == value)
+                {
+                    return;
+                }
+
+                _OrderNumRequired = value;
+                RaisePropertyChanged(OrderNumRequiredPropertyName);
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Commands
@@ -418,6 +486,7 @@ namespace KegID.ViewModel
         public DelegateCommand SaveDraftCommand { get; }
         public DelegateCommand CancelCommand { get; }
         public DelegateCommand SubmitCommand { get; }
+        public object RealmDb { get; }
 
         #endregion
 
@@ -441,8 +510,14 @@ namespace KegID.ViewModel
             SubmitCommand = new DelegateCommand(SubmitCommandRecieverAsync);
 
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            var preference = RealmDb.All<Preference>().Where(x => x.PreferenceName == "OrderNumRequired").FirstOrDefault();
+            OrderNumRequired = preference != null ? bool.Parse(preference.PreferenceValue) : false;
+
+
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             var preference = RealmDb.All<Preference>().Where(x => x.PreferenceName == "OriginRequired").FirstOrDefault();
             OriginRequired = preference != null ? bool.Parse(preference.PreferenceValue) : false;
+
         }
 
 
@@ -522,7 +597,6 @@ namespace KegID.ViewModel
 
         private async Task GetPostedManifestDetail()
         {
-            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             string sizeName = string.Empty;
             ManifestResponseModel manifest = new ManifestResponseModel();
             try
@@ -812,6 +886,11 @@ namespace KegID.ViewModel
             {
                 if (!string.IsNullOrEmpty(ConstantManager.Partner?.PartnerId))
                 {
+
+                    if (OrderNumRequired && string.IsNullOrEmpty(Order))
+                    {
+                        await _dialogService.DisplayAlertAsync("Error", "Please enter order first.", "Ok");
+                    }
                     if (OriginRequired && Origin.Contains("Select a location"))
                     {
                         await _dialogService.DisplayAlertAsync("Error", "Please select a origin first.", "Ok");
@@ -828,7 +907,7 @@ namespace KegID.ViewModel
                         else
                         {
                             await _navigationService.NavigateAsync("ScanKegsView", animated: false);
-                        } 
+                        }
                     }
                 }
                 else

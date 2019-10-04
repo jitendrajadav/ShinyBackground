@@ -4732,6 +4732,15 @@ namespace KegID {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Order:.
+        /// </summary>
+        internal static string title_order {
+            get {
+                return ResourceManager.GetString("title_order", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Owner.
         /// </summary>
         internal static string title_owner {

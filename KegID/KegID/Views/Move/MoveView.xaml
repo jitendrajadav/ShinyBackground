@@ -11,9 +11,7 @@
     <ContentPage.Content>
        
         <Grid
-            
             AutomationId="mainGrd">
-            
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
@@ -145,7 +143,30 @@
                     />
 
                 <BoxView
-                    AutomationId="lineSeperator1"
+                    AutomationId="lineSeperatorOrder1"
+                    Grid.Row="6"
+                    BackgroundColor="{StaticResource lightGrayColor}"
+                    HeightRequest="1"
+                    VerticalOptions="Start"
+                    HorizontalOptions="FillAndExpand"
+                    IsVisible="{Binding OrderNumRequired}"/>
+                
+                <Label
+                    AutomationId="orderLabel"
+                    Style="{StaticResource LabelNormalStyle}"
+                    Text="{Binding Resources[title_order]}"
+                    Grid.Row="4"
+                    IsVisible="{Binding OrderNumRequired}"
+                    />
+                
+                <Entry
+                    Grid.Row="5"
+                    Text="{Binding Order}"
+                    Placeholder="(required)"
+                    IsVisible="{Binding OrderNumRequired}"/>
+
+                <BoxView
+                    AutomationId="lineSeperator2"
                     Grid.Row="6"
                     BackgroundColor="{StaticResource lightGrayColor}"
                     HeightRequest="1"
@@ -169,7 +190,7 @@
                     />
 
                 <BoxView
-                    AutomationId="lineSeperator2"
+                    AutomationId="lineSeperator3"
                     Grid.Row="9"
                     BackgroundColor="{StaticResource lightGrayColor}"
                     HeightRequest="1"
@@ -193,7 +214,7 @@
                     />
 
                 <BoxView
-                    AutomationId="lineSeperator3"
+                    AutomationId="lineSeperator4"
                     Grid.Row="12"
                     BackgroundColor="{StaticResource lightGrayColor}"
                     HeightRequest="3"
