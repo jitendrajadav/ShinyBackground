@@ -8,8 +8,15 @@
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
              ios:Page.UseSafeArea="true"
+
+             xmlns:forms9="clr-namespace:Forms9Patch;assembly=Forms9Patch"
+
+             xmlns:converters="clr-namespace:KegID.Converter"
+
              >
-    
+  <ContentPage.Resources>
+    <converters:UtcToLocalDateTimeConverter x:Key="UtcToLocalDateTimeConverter"/>
+  </ContentPage.Resources>
     <ContentPage.Content>
         
         <Grid
@@ -265,7 +272,20 @@
                         HorizontalOptions="Start"
                         Command="{Binding MoveKegCommand}"/>
 
-                    <Picker
+                    <forms9:Button
+                        BackgroundColor="Transparent"
+                        x:Name="addAlertPickerButton"
+                        Grid.Column="0"
+                        Grid.Row="19"
+                        TextColor="{StaticResource selectTextColor}"
+                        FontSize="20"
+                        BorderRadius="0"
+                        HorizontalTextAlignment="Start"
+                        BorderWidth="0"
+                        Text="Add alert"
+                        Clicked="AddAlertPickerButton_Clicked"/>
+
+                    <!--<Picker
                         AutomationId="addAlertPicker"
                         x:Name="picker"
                         Grid.Column="0"
@@ -282,10 +302,21 @@
                                 EventName="Unfocused"
                                 Command="{Binding AddAlertCommand}"/>
                         </Picker.Behaviors>
-
-                    </Picker>
-
-                    <Picker
+                    </Picker>-->
+                    <forms9:Button
+                        BackgroundColor="Transparent"
+                        x:Name="removeAlertPickerButton"
+                        Grid.Column="1"
+                        Grid.Row="19"
+                        TextColor="{StaticResource selectTextColor}"
+                        FontSize="20"
+                        BorderRadius="0"
+                        HorizontalTextAlignment="Start"
+                        BorderWidth="0"
+                        Text="Remove alert"
+                        Clicked="RemoveAlertPickerButton_Clicked"/>
+                    
+                    <!--<Picker
                         AutomationId="removeAlertPicker"
                         Grid.Column="1"
                         HorizontalOptions="FillAndExpand"
@@ -301,7 +332,7 @@
                                 EventName="Unfocused"
                                 Command="{Binding RemoveAlertCommand}"/>
                         </Picker.Behaviors>
-                    </Picker>
+                    </Picker>-->
 
                     <ListView
                         AutomationId="maintenancePerformedListView"
@@ -362,7 +393,7 @@
                                         <Label 
                                             VerticalOptions="FillAndExpand" 
                                             VerticalTextAlignment="Center" 
-                                            Text="{Binding DatePerformed,StringFormat='{0:dd/MM/yy}'}"
+                                            Text="{Binding DatePerformed, Converter={StaticResource UtcToLocalDateTimeConverter}}"
                                             TextColor="Black"
                                             FontSize="{StaticResource ListViewTitleFont}"/>
 

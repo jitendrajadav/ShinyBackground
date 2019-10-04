@@ -2068,7 +2068,7 @@ namespace KegID {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Print every pallate.
+        ///   Looks up a localized string similar to Print every pallet.
         /// </summary>
         internal static string label_prin_every_pallate {
             get {
@@ -2208,6 +2208,15 @@ namespace KegID {
         internal static string label_shipping_date {
             get {
                 return ResourceManager.GetString("label_shipping_date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Origin:.
+        /// </summary>
+        internal static string label_show_origin {
+            get {
+                return ResourceManager.GetString("label_show_origin", resourceCulture);
             }
         }
         

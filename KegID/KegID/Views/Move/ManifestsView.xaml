@@ -8,8 +8,11 @@
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
              ios:Page.UseSafeArea="true"
+             xmlns:converters="clr-namespace:KegID.Converter"
              >
-    
+    <ContentPage.Resources>
+        <converters:UtcToLocalDateTimeConverter x:Key="UtcToLocalDateTimeConverter"/>
+    </ContentPage.Resources>
     <ContentPage.Content>
         
         <Grid
@@ -116,7 +119,7 @@
                                     FontSize="{StaticResource ListViewDetailFont}"
                                     TextColor="{StaticResource selectTextColor}"
                                     Grid.Row="1"
-                                    Text="{Binding ShipDate, StringFormat='{0:dd/MM/yy}'}"/>
+                                    Text="{Binding ShipDate, Converter={StaticResource UtcToLocalDateTimeConverter}}"/>
 
                                 <Label
                                     FontSize="{StaticResource ListViewDetailFont}"

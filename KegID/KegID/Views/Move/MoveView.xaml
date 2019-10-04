@@ -11,9 +11,7 @@
     <ContentPage.Content>
        
         <Grid
-            
             AutomationId="mainGrd">
-            
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
@@ -82,10 +80,48 @@
                     />
 
                 <Label
+                    AutomationId="originLabel"
+                    Style="{StaticResource LabelNormalStyle}"
+                    Text="{Binding Resources[label_show_origin]}"
+                    Grid.Row="1"
+                    IsVisible="{Binding OriginRequired}"
+                    />
+
+                <Button
+                    AutomationId="originButton"
+                    x:Name="lblOrigin"
+                    Style="{StaticResource ButtonNormalStyle}"
+                    Text="{Binding Origin}"
+                    Grid.Row="2"
+                    Command="{Binding SelectOriginLocationCommand}"
+                    IsVisible="{Binding OriginRequired}"
+                    />
+
+                <Label
+                    AutomationId="requiredOriginLabel"
+                    Grid.Row="2"
+                    HorizontalOptions="End"
+                    VerticalOptions="Center"
+                    Text="(required)"
+                    TextColor="{StaticResource lightGrayColor}"
+                    IsVisible="{Binding IsOriginRequired}"
+                    />
+
+                <BoxView
+                    AutomationId="lineSeperator1"
+                    Grid.Row="3"
+                    BackgroundColor="{StaticResource lightGrayColor}"
+                    HeightRequest="1"
+                    VerticalOptions="Start"
+                    HorizontalOptions="FillAndExpand"
+                    IsVisible="{Binding OriginRequired}"
+                    />
+
+                <Label
                     AutomationId="destinationLabel"
                     Style="{StaticResource LabelNormalStyle}"
                     Text="{Binding Resources[label_destination]}"
-                    Grid.Row="1"
+                    Grid.Row="4"
                     />
 
                 <Button
@@ -93,13 +129,13 @@
                     x:Name="lblDestination"
                     Style="{StaticResource ButtonNormalStyle}"
                     Text="{Binding Destination}"
-                    Grid.Row="2"
+                    Grid.Row="5"
                     Command="{Binding SelectLocationCommand}"/>
 
                 <Label
                     AutomationId="requiredLabel"
                     IsVisible="{Binding IsRequiredVisible}"
-                    Grid.Row="2"
+                    Grid.Row="5"
                     HorizontalOptions="End"
                     VerticalOptions="Center"
                     Text="(required)"
@@ -107,8 +143,8 @@
                     />
 
                 <BoxView
-                    AutomationId="lineSeperator1"
-                    Grid.Row="3"
+                    AutomationId="lineSeperatorOrder1"
+                    Grid.Row="6"
                     BackgroundColor="{StaticResource lightGrayColor}"
                     HeightRequest="1"
                     VerticalOptions="Start"

@@ -19,7 +19,7 @@ namespace KegID.ViewModel
         //private readonly INavigationService _navigationService;
         private readonly IDashboardService _dashboardService;
         public IList<PossessorResponseModel> AllPartners { get; set; }
-
+        public PartnerTypes SelectedPartner { get; set; }
         #region IsWorking
 
         /// <summary>
@@ -385,6 +385,7 @@ namespace KegID.ViewModel
             {
                 InitialSetting();
                 PartnerCollection = new ObservableCollection<PossessorResponseModel>(AllPartners.OrderByDescending(x => x.KegsHeld));
+                SelectedPartner = PartnerTypes.KegsHeld;
             }
             catch (Exception ex)
             {
@@ -413,14 +414,34 @@ namespace KegID.ViewModel
 
         private void TextChangedCommandRecieverAsync()
         {
-            try
+            if (!string.IsNullOrEmpty(PartnerName))
             {
-                var result = AllPartners.Where(x => x.Location.FullName.ToLower().Contains(PartnerName.ToLower()));
-                PartnerCollection = new ObservableCollection<PossessorResponseModel>(result);
+                try
+                {
+                    var result = AllPartners.Where(x => x.Location.FullName.ToLower().Contains(PartnerName.ToLower()));
+                    PartnerCollection = new ObservableCollection<PossessorResponseModel>(result);
+                }
+                catch (Exception ex)
+                {
+                    Crashes.TrackError(ex);
+                }
             }
-            catch (Exception ex)
+            else
             {
-                 Crashes.TrackError(ex);
+                switch (SelectedPartner)
+                {
+                    case PartnerTypes.Internal:
+                        InternalCommandReciever();
+                        break;
+                    case PartnerTypes.Alphabetical:
+                        AlphabeticalCommandReciever();
+                        break;
+                    case PartnerTypes.KegsHeld:
+                        KegsHeldCommandReciever();
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 
@@ -463,6 +484,7 @@ namespace KegID.ViewModel
                 KegsHeldTextColor = "#4E6388";
 
                 PartnerCollection = new ObservableCollection<PossessorResponseModel>(AllPartners.OrderBy(x => x.Location.FullName));
+                SelectedPartner = PartnerTypes.Alphabetical;
             }
             catch (Exception ex)
             {
@@ -484,6 +506,7 @@ namespace KegID.ViewModel
                 KegsHeldTextColor = "#4E6388";
 
                 PartnerCollection = new ObservableCollection<PossessorResponseModel>(AllPartners);
+                SelectedPartner = PartnerTypes.Internal;
             }
             catch (Exception ex)
             {
@@ -517,5 +540,12 @@ namespace KegID.ViewModel
         }
 
         #endregion
+    }
+
+    public enum PartnerTypes
+    {
+        Internal = 1,
+        Alphabetical = 2,
+        KegsHeld = 0
     }
 }

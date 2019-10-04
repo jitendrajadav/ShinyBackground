@@ -98,6 +98,40 @@ namespace KegID.ViewModel
 
         #endregion
 
+        #region Origin
+
+        /// <summary>
+        /// The <see cref="Origin" /> property's name.
+        /// </summary>
+        public const string OriginPropertyName = "Origin";
+
+        private string _Origin = "Select a location";
+
+        /// <summary>
+        /// Sets and gets the Origin property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public string Origin
+        {
+            get
+            {
+                return _Origin;
+            }
+
+            set
+            {
+                if (_Origin == value)
+                {
+                    return;
+                }
+
+                _Origin = value;
+                RaisePropertyChanged(OriginPropertyName);
+            }
+        }
+
+        #endregion
+
         #region TagsStr
 
         /// <summary>
@@ -304,6 +338,75 @@ namespace KegID.ViewModel
 
         #endregion
 
+        #region OriginRequired
+
+        /// <summary>
+        /// The <see cref="OriginRequired" /> property's name.
+        /// </summary>
+        public const string OriginRequiredPropertyName = "OriginRequired";
+
+        private bool _OriginRequired = false;
+
+        /// <summary>
+        /// Sets and gets the OriginRequired property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public bool OriginRequired
+        {
+            get
+            {
+                return _OriginRequired;
+            }
+
+            set
+            {
+                if (_OriginRequired == value)
+                {
+                    return;
+                }
+
+                _OriginRequired = value;
+                IsOriginRequired = _OriginRequired ? true : false;
+                RaisePropertyChanged(OriginRequiredPropertyName);
+            }
+        }
+
+        #endregion
+
+        #region IsOriginRequired
+
+        /// <summary>
+        /// The <see cref="IsOriginRequired" /> property's name.
+        /// </summary>
+        public const string IsOriginRequiredPropertyName = "IsOriginRequired";
+
+        private bool _IsOriginRequired = false;
+
+        /// <summary>
+        /// Sets and gets the IsOriginRequired property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public bool IsOriginRequired
+        {
+            get
+            {
+                return _IsOriginRequired;
+            }
+
+            set
+            {
+                if (_IsOriginRequired == value)
+                {
+                    return;
+                }
+
+                _IsOriginRequired = value;
+                RaisePropertyChanged(IsOriginRequiredPropertyName);
+            }
+        }
+
+        #endregion
+
         #region IsRequiredVisible
 
         /// <summary>
@@ -377,6 +480,7 @@ namespace KegID.ViewModel
         #region Commands
 
         public DelegateCommand SelectLocationCommand { get; }
+        public DelegateCommand SelectOriginLocationCommand { get; }
         public DelegateCommand MoreInfoCommand { get; }
         public DelegateCommand ScanKegsCommad { get;}
         public DelegateCommand SaveDraftCommand { get; }
@@ -398,15 +502,24 @@ namespace KegID.ViewModel
             _geolocationService = geolocationService;
 
             SelectLocationCommand = new DelegateCommand(SelectLocationCommandRecieverAsync);
+            SelectOriginLocationCommand = new DelegateCommand(SelectOriginLocationCommandRecieverAsync);
             MoreInfoCommand = new DelegateCommand(MoreInfoCommandRecieverAsync);
             ScanKegsCommad = new DelegateCommand(ScanKegsCommadRecieverAsync);
             SaveDraftCommand = new DelegateCommand(SaveDraftCommandRecieverAsync);
             CancelCommand = new DelegateCommand(CancelCommandRecieverAsync);
             SubmitCommand = new DelegateCommand(SubmitCommandRecieverAsync);
+
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             var preference = RealmDb.All<Preference>().Where(x => x.PreferenceName == "OrderNumRequired").FirstOrDefault();
             OrderNumRequired = preference != null ? bool.Parse(preference.PreferenceValue) : false;
+
+
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            var preference = RealmDb.All<Preference>().Where(x => x.PreferenceName == "OriginRequired").FirstOrDefault();
+            OriginRequired = preference != null ? bool.Parse(preference.PreferenceValue) : false;
+
         }
+
 
         #endregion
 
@@ -507,7 +620,7 @@ namespace KegID.ViewModel
                         {
                             Barcode = item.Barcode,
                             Contents = Contents,
-                            VolumeName = "Jitendra",
+                            VolumeName = "Needs to add here!",
                             OwnerName = ConstantManager.Partner.FullName,
                             SizeName = sizeName,
                         }
@@ -744,7 +857,18 @@ namespace KegID.ViewModel
 
         private async void SelectLocationCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("PartnersView", animated: false);
+            await _navigationService.NavigateAsync("PartnersView", new NavigationParameters
+                    {
+                        { "GoingFrom",  "Destination" }
+                    }, animated: false);
+        }
+
+        private async void SelectOriginLocationCommandRecieverAsync()
+        {
+            await _navigationService.NavigateAsync("PartnersView", new NavigationParameters
+                    {
+                        { "GoingFrom",  "MoveOrigin" }
+                    }, animated: false);
         }
 
         private async void MoreInfoCommandRecieverAsync()
@@ -762,9 +886,14 @@ namespace KegID.ViewModel
             {
                 if (!string.IsNullOrEmpty(ConstantManager.Partner?.PartnerId))
                 {
+
                     if (OrderNumRequired && string.IsNullOrEmpty(Order))
                     {
                         await _dialogService.DisplayAlertAsync("Error", "Please enter order first.", "Ok");
+                    }
+                    if (OriginRequired && Origin.Contains("Select a location"))
+                    {
+                        await _dialogService.DisplayAlertAsync("Error", "Please select a origin first.", "Ok");
                     }
                     else
                     {
@@ -874,8 +1003,16 @@ namespace KegID.ViewModel
                     ManifestId = parameters.GetValue<string>("ManifestId");
                     break;
                 case "model":
-                    Destination = ConstantManager.Partner.FullName;
-                    IsRequiredVisible = false;
+                    if (parameters.GetValue<string>("CommingFrom") == "MoveOrigin")
+                    {
+                        Origin = ConstantManager.Partner.FullName;
+                        IsOriginRequired = false;
+                    }
+                    else
+                    {
+                        Destination = ConstantManager.Partner.FullName;
+                        IsRequiredVisible = false;
+                    }
                     IsSaveDraftVisible = true;
                     break;
                 case "AddTags":

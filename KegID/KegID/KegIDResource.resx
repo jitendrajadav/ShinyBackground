@@ -1720,7 +1720,7 @@
     <value>Print every manifest</value>
   </data>
   <data name="label_prin_every_pallate" xml:space="preserve">
-    <value>Print every pallate</value>
+    <value>Print every pallet</value>
   </data>
   <data name="label_shipping_date" xml:space="preserve">
     <value>Shipping date:</value>
@@ -1788,7 +1788,12 @@
   <data name="title_about_kegid" xml:space="preserve">
     <value>About KegID</value>
   </data>
+
   <data name="title_order" xml:space="preserve">
     <value>Order:</value>
+
+  <data name="label_show_origin" xml:space="preserve">
+    <value>Origin:</value>
+
   </data>
 </root>
