@@ -2095,7 +2095,7 @@ namespace KegID {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Print every pallate.
+        ///   Looks up a localized string similar to Print every pallet.
         /// </summary>
         internal static string label_prin_every_pallate {
             get {
@@ -2244,6 +2244,15 @@ namespace KegID {
         internal static string label_shipping_date {
             get {
                 return ResourceManager.GetString("label_shipping_date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Origin:.
+        /// </summary>
+        internal static string label_show_origin {
+            get {
+                return ResourceManager.GetString("label_show_origin", resourceCulture);
             }
         }
         
@@ -4525,6 +4534,15 @@ namespace KegID {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Batch scan.
+        /// </summary>
+        internal static string title_batch_scan {
+            get {
+                return ResourceManager.GetString("title_batch_scan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Build Pallet.
         /// </summary>
         internal static string title_build_pallet {
@@ -4782,6 +4800,15 @@ namespace KegID {
         internal static string title_no_printer_found {
             get {
                 return ResourceManager.GetString("title_no_printer_found", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Order:.
+        /// </summary>
+        internal static string title_order {
+            get {
+                return ResourceManager.GetString("title_order", resourceCulture);
             }
         }
         

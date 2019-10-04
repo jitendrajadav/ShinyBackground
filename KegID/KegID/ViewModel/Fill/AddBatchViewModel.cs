@@ -17,7 +17,6 @@ namespace KegID.ViewModel
 
         private readonly IUuidManager _uuidManager;
         private readonly IPageDialogService _dialogService;
-
         public string BrandButtonTitle { get; set; } = "Brand";
         public string BatchCode { get; set; } = "BatchCode";
         public DateTimeOffset BrewDate { get; set; } = DateTime.Now;
@@ -30,7 +29,7 @@ namespace KegID.ViewModel
         public BrandModel BrandModel { get; set; }
         public List<Tag> Tags { get; set; }
         public NewBatch NewBatchModel { get; set; }
-
+       
         #endregion
 
         #region Commands
@@ -98,10 +97,9 @@ namespace KegID.ViewModel
                     NewBatchModel.BrandName = BrandButtonTitle;
                     NewBatchModel.BrewDate = BrewDate;
                     NewBatchModel.BrewedVolume = VolumeDigit;
-
                     NewBatchModel.BrewedVolumeUom = VolumeChar;
                     NewBatchModel.CompanyId = AppSettings.CompanyId;
-                    NewBatchModel.CompletedDate = DateTime.Today;
+                    NewBatchModel.CompletedDate = DateTimeOffset.Now;
                     NewBatchModel.IsCompleted = true;
                     NewBatchModel.PackageDate = PackageDate;
                     NewBatchModel.RecipeId = AppSettings.CompanyId;

@@ -284,10 +284,12 @@ namespace KegID.ViewModel
 
         public void PrintPallet()
         {
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            var brandCode = RealmDb.All<BrandModel>().Where(x=>x.BrandName == ConstantManager.Contents).FirstOrDefault();         
             try
             {
                 var addresss = StockLocation;
-                string header = string.Format(_zebraPrinterManager.PalletHeader, ManifestId, addresss.ParentPartnerName, addresss.Address1, addresss.City + "," + addresss.State + " " + addresss.PostalCode, "", addresss.ParentPartnerName, ConstantManager.ContentsCode, DateTimeOffset.UtcNow.Date.ToShortDateString(), "1", "", ConstantManager.Contents,
+                string header = string.Format(_zebraPrinterManager.PalletHeader, ManifestId, addresss.ParentPartnerName, addresss.Address1, addresss.City + "," + addresss.State + " " + addresss.PostalCode, "", addresss.ParentPartnerName, brandCode, DateTimeOffset.UtcNow.Date.ToShortDateString(), "1", "", ConstantManager.Contents,
                                     "1", "", "", "", "", "", "", "", "", "",
                                     "", "", "", "", "", "", "", "", "", "",
                                     "", ManifestId, ManifestId);

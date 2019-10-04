@@ -27,6 +27,8 @@ namespace KegID.ViewModel
         public string AlphabeticalTextColor { get; set; } = "#4E6388";
         public ObservableCollection<PartnerModel> PartnerCollection { get; set; }
         public string PartnerName { get; set; }
+        public string CommingFrom { get; set; }
+        
         public IList<PartnerModel> AllPartners { get; set; }
 
         #endregion
@@ -64,17 +66,27 @@ namespace KegID.ViewModel
 
         #region Methods
 
-        private void TextChangedCommandRecieverAsync()
+        private async void TextChangedCommandRecieverAsync()
         {
-            try
+            if (!string.IsNullOrEmpty(PartnerName))
             {
-                var notNullPartners = AllPartners.Where(x => x.FullName != null).ToList();
-                var result = notNullPartners.Where(x => x.FullName.ToLower().Contains(PartnerName.ToLower())).ToList();
-                PartnerCollection = new ObservableCollection<PartnerModel>(result);
+                try
+                {
+                    var notNullPartners = AllPartners.Where(x => x.FullName != null).ToList();
+                    var result = notNullPartners.Where(x => x.FullName.ToLower().Contains(PartnerName.ToLower())).ToList();
+                    PartnerCollection = new ObservableCollection<PartnerModel>(result);
+                }
+                catch (Exception ex)
+                {
+                    Crashes.TrackError(ex);
+                }
             }
-            catch (Exception ex)
+            else
             {
-                Crashes.TrackError(ex);
+                if (InternalTextColor.Contains("White"))
+                    InternalCommandReciever();
+                else
+                    AlphabeticalCommandReciever();
             }
         }
 
@@ -87,7 +99,7 @@ namespace KegID.ViewModel
                     ConstantManager.Partner = model;
                     await _navigationService.GoBackAsync(new NavigationParameters
                     {
-                        { "model", model }
+                        { "model", model },{ "CommingFrom", CommingFrom }
                     }, animated: false);
 
                     Cleanup();
@@ -104,7 +116,7 @@ namespace KegID.ViewModel
             Loader.StartLoading();
 
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-            AllPartners = RealmDb.All<PartnerModel>().ToList();
+            AllPartners = RealmDb.All<PartnerModel>().Where(x=>x.PartnerId != AppSettings.CompanyId).ToList();
             try
             {
                 PartnerCollection = null;
@@ -181,6 +193,7 @@ namespace KegID.ViewModel
                 Crashes.TrackError(ex);
             }
         }
+
         private void AlphabeticalCommandReciever()
         {
             try
@@ -289,7 +302,11 @@ namespace KegID.ViewModel
                 BrewerStockOn = true;
             else
                 BrewerStockOn = false;
-          await LoadPartnersAsync();
+            if (parameters.ContainsKey("GoingFrom"))
+            {
+                CommingFrom = parameters.GetValue<string>("GoingFrom");
+            }
+            await LoadPartnersAsync();
         }
 
         #endregion

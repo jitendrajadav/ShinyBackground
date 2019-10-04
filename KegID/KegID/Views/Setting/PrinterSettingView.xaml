@@ -41,6 +41,7 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
+
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
@@ -375,6 +376,7 @@
                     FontSize="Micro"
                     VerticalOptions="EndAndExpand" 
                     HorizontalOptions="Start" />
+
 
             </Grid>
         </ScrollView>

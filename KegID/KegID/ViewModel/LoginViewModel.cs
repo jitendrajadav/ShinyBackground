@@ -25,6 +25,40 @@ namespace KegID.ViewModel
         public string Password { get; set; }
         public string BgImage { get; set; }
 
+        #region APIBase
+
+        /// <summary>
+        /// The <see cref="APIBase" /> property's name.
+        /// </summary>
+        public const string APIBasePropertyName = "APIBase";
+
+        private string _APIBase = default;
+
+        /// <summary>
+        /// Sets and gets the APIBase property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public string APIBase
+        {
+            get
+            {
+                return _APIBase;
+            }
+
+            set
+            {
+                if (_APIBase == value)
+                {
+                    return;
+                }
+
+                _APIBase = value;
+                RaisePropertyChanged(APIBasePropertyName);
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Commands
@@ -50,6 +84,7 @@ namespace KegID.ViewModel
             //Password = "beer2keg";
 
             BgImage = _getIconByPlatform.GetIcon("kegbg.png");
+            APIBase = Configuration.ServiceUrl.Contains("Prod") ? string.Empty : Configuration.ServiceUrl;
         }
 
         #endregion
@@ -93,7 +128,8 @@ namespace KegID.ViewModel
                     }
                     try
                     {
-                        if (AppSettings.IsFreshInstall)
+                        string v = Xamarin.Essentials.AppInfo.Version.ToString();
+                        if (AppSettings.IsFreshInstall == false && AppSettings.WhatsNewVersion != v)
                         {
                             await _navigationService.NavigateAsync("../WhatIsNewView", animated: false);
                             Loader.StopLoading();
@@ -144,6 +180,7 @@ namespace KegID.ViewModel
                 IsLogOut = true;
                 AppSettings.RemoveUserData();
                 AppSettings.IsFreshInstall = false;
+                AppSettings.WhatsNewVersion = null;
             }
             else
                 IsLogOut = false;

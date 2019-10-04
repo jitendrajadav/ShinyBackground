@@ -151,7 +151,7 @@ namespace KegID.ViewModel
                 ItemCount = manifest.ManifestItems.Count;
 
                 Barcode = manifest.ManifestItems.Select(x => x.Barcode).ToList();
-                Contents = !string.IsNullOrEmpty(content) ? content : "No contens";
+                Contents = !string.IsNullOrEmpty(content) ? content : "No contents";
             }
             catch (Exception ex)
             {

@@ -72,7 +72,7 @@ namespace KegID.ViewModel
             {
                 await _navigationService.NavigateAsync("PalletSearchedListView", new NavigationParameters
                     {
-                        { "GetPalletSearchAsync", PartnerModel?.PartnerId },{ "FromDate", FromDate.ToShortDateString() },{ "ToDate", ToDate.ToShortDateString() }
+                        { "GetPalletSearchAsync", PartnerModel?.PartnerId },{ "FromDate", FromDate.Date.ToShortDateString() },{ "ToDate", ToDate.Date.ToShortDateString() }
                     }, animated: false);
             }
             catch (Exception ex)

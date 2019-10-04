@@ -114,6 +114,9 @@ namespace KegID.ViewModel
                     catch { }
                 }
             });
+
+            if (!AppSettings.BatchScan)
+                session.StopScanning();
         }
 
         private async void InitSettings()
