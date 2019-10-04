@@ -150,10 +150,11 @@ namespace KegID.ViewModel
         {
             if (!string.IsNullOrEmpty(PartnerSearch))
             {
-                try
+               try
                 {
                     Loader.StartLoading();
-                    var value = await _moveService.GetPartnerSearchAsync(AppSettings.SessionId, PartnerSearch, false, false);
+                    var value = await _moveService.GetPartnerSearchAsync(AppSettings.SessionId, PartnerSearch, false, true);
+
 
                     if (value.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                     {
