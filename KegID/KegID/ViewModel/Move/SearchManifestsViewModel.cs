@@ -194,13 +194,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string FromDatePropertyName = "FromDate";
 
-        private DateTime _FromDate = DateTime.Today;
+        private DateTimeOffset _FromDate = DateTimeOffset.Now;
 
         /// <summary>
         /// Sets and gets the FromDate property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public DateTime FromDate
+        public DateTimeOffset FromDate
         {
             get
             {
@@ -229,13 +229,13 @@ namespace KegID.ViewModel
         /// </summary>
         public const string ToDatePropertyName = "ToDate";
 
-        private DateTime _ToDate = DateTime.Today;
+        private DateTimeOffset _ToDate = DateTimeOffset.Now;
 
         /// <summary>
         /// Sets and gets the ToDate property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public DateTime ToDate
+        public DateTimeOffset ToDate
         {
             get
             {

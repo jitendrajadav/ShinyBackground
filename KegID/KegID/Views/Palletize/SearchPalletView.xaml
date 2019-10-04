@@ -6,8 +6,11 @@
              xmlns:behaviors="clr-namespace:KegID.Behaviors"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              ios:Page.UseSafeArea="true"
+             xmlns:converters="clr-namespace:KegID.Converter"
              >
-
+  <ContentPage.Resources>
+    <converters:UtcToLocalDateTimeConverter x:Key="UtcToLocalDateTimeConverter"/>
+  </ContentPage.Resources>
     <ContentPage.Content>
         <ScrollView>
             <Grid
@@ -106,12 +109,13 @@
                             Style="{StaticResource LabelNormalStyle}"
                             Text="{Binding Resources[hint_fromdate]}"/>
 
-                        <DatePicker
-                            AutomationId="fromDatePicker"
-                            HorizontalOptions="FillAndExpand"
-                            Date="{Binding FromDate}"
-                            Margin="5,0,0,0"/>
-                    </StackLayout>
+                    <DatePicker
+                        AutomationId="fromDatePicker"
+                        HorizontalOptions="FillAndExpand"
+                        Date="{Binding FromDate, Converter={StaticResource UtcToLocalDateTimeConverter}}"
+                        Margin="5,0,0,0"/>
+                </StackLayout>
+
 
                     <StackLayout
                         AutomationId="toStackLayout"
@@ -124,12 +128,14 @@
                             Style="{StaticResource LabelNormalStyle}"
                             Text="{Binding Resources[hint_todate]}"/>
 
-                        <DatePicker
-                            AutomationId="toDatePicker"
-                            HorizontalOptions="FillAndExpand"
-                            Date="{Binding ToDate}"
-                            Margin="5,0,0,0"/>
-                    </StackLayout>
+
+                    <DatePicker
+                        AutomationId="toDatePicker"
+                        HorizontalOptions="FillAndExpand"
+                        Date="{Binding ToDate, Converter={StaticResource UtcToLocalDateTimeConverter}}"
+                        Margin="5,0,0,0"/>
+                </StackLayout>
+
              
                     <Button
                         AutomationId="searchButton"
