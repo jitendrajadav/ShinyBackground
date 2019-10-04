@@ -14,7 +14,6 @@
 
         <ContentPage 
             x:Name="cnStock"
-            Icon="actionaccept.png"
             Title="{Binding Resources[label_stock]}">
            
             <Grid
@@ -25,41 +24,41 @@
                     <RowDefinition Height="82*"/>
                 </Grid.RowDefinitions>
 
-            <Button
-                AutomationId="homeButton"
-                x:Name="lblHome"
-                HorizontalOptions="Start"
-                Style="{StaticResource TopButtonTitleStyle}"
-                TextColor="{StaticResource selectTextColor}"
-                Text="{Binding Resources[button_home]}"
-                Command="{Binding HomeCommand}">
-                <Button.Margin>
-                    <OnPlatform x:TypeArguments="Thickness">
-                        <On Platform="iOS" Value="10,20,10,0" />
-                        <On Platform="Android, WinPhone, Windows" Value="10,0,10,0" />
-                    </OnPlatform>
-                </Button.Margin>
-                <Button.VerticalOptions>
-                    <OnPlatform x:TypeArguments="LayoutOptions">
-                        <On Platform="iOS" Value="EndAndExpand"/>
-                        <On Platform="Android" Value="Center"/>
-                    </OnPlatform>
-                </Button.VerticalOptions>
-            </Button>
+                <Button
+                    AutomationId="homeButton"
+                    x:Name="lblHome"
+                    HorizontalOptions="Start"
+                    Style="{StaticResource TopButtonTitleStyle}"
+                    TextColor="{StaticResource selectTextColor}"
+                    Text="{Binding Resources[button_home]}"
+                    Command="{Binding HomeCommand}">
+                    <Button.Margin>
+                        <OnPlatform x:TypeArguments="Thickness">
+                            <On Platform="iOS" Value="10,20,10,0" />
+                            <On Platform="Android, WinPhone, Windows" Value="10,0,10,0" />
+                        </OnPlatform>
+                    </Button.Margin>
+                    <Button.VerticalOptions>
+                        <OnPlatform x:TypeArguments="LayoutOptions">
+                            <On Platform="iOS" Value="EndAndExpand"/>
+                            <On Platform="Android" Value="Center"/>
+                        </OnPlatform>
+                    </Button.VerticalOptions>
+                </Button>
 
-            <Label
-                AutomationId="stockSummaryLabel"
-                HorizontalOptions="Center"
-                Style="{StaticResource LabelTitleStyle}"
-                TextColor="Black"
-                Text="{Binding Resources[title_stock_summary]}">
-                <Label.VerticalOptions>
-                    <OnPlatform x:TypeArguments="LayoutOptions">
-                        <On Platform="iOS" Value="EndAndExpand"/>
-                        <On Platform="Android" Value="Center"/>
-                    </OnPlatform>
-                </Label.VerticalOptions>
-            </Label>
+                <Label
+                    AutomationId="stockSummaryLabel"
+                    HorizontalOptions="Center"
+                    Style="{StaticResource LabelTitleStyle}"
+                    TextColor="Black"
+                    Text="{Binding Resources[title_stock_summary]}">
+                    <Label.VerticalOptions>
+                        <OnPlatform x:TypeArguments="LayoutOptions">
+                            <On Platform="iOS" Value="EndAndExpand"/>
+                            <On Platform="Android" Value="Center"/>
+                        </OnPlatform>
+                    </Label.VerticalOptions>
+                </Label>
 
                 <BoxView
                     AutomationId="lineSeperatorBoxView1"
@@ -77,119 +76,119 @@
                     Style="{StaticResource LabelTitleWhiteTextColorStyle}"
                     Text="{Binding Resources[label_stock]}"/>
 
-                <ListView 
-                    AutomationId="stockInventoryListView"
-                    Margin="5,0,5,0"
-                    Grid.Row="2"
-                    SelectionMode="None"
-                    x:Name="stockInventoryListView"
-                    VerticalOptions="FillAndExpand"
-                    SeparatorVisibility="Default"
-                    android:ListView.IsFastScrollEnabled="true"
-                    CachingStrategy="RecycleElement"
-                    SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
-                    HasUnevenRows="true"
-                    ItemsSource="{Binding StockInventoryCollection}"
-                    Header="{Binding}" 
-                    Footer="{Binding}"
-                    >
+                <Grid Grid.Row="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
 
-                    <ListView.ItemTemplate>
+
+                <Grid
+                    Padding="5"
+                    BackgroundColor="{StaticResource lightGrayColor}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="45*"/>
+                        <ColumnDefinition Width="30*"/>
+                        <ColumnDefinition Width="25*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label
+                            Text="{Binding Resources[label_brand]}"/>
+                    <Label
+                            Grid.Column="1"
+                            Text="{Binding Resources[tag_size]}"/>
+
+                    <Label
+                            Grid.Column="2"
+                            Text="{Binding Resources[label_quantity]}"/>
+                </Grid>
+
+         
+                    <CollectionView  
+                        AutomationId="stockInventoryListView"
+                        Margin="5,0,5,0"
+                        Grid.Row="1"
+                        SelectionMode="None"
+                        x:Name="stockInventoryListView"
+                        VerticalOptions="FillAndExpand"
+                        android:ListView.IsFastScrollEnabled="true"
+                        ItemsSource="{Binding StockInventoryCollection}"
+                        >
+
+                    <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <ViewCell>
+                            <Frame BorderColor="LightGray" CornerRadius="0" HasShadow="False" Padding="0">
                                 <Grid 
+                                    Padding="5,0,0,0"
                                     BackgroundColor="Transparent"
                                     VerticalOptions="FillAndExpand"
                                     HorizontalOptions="FillAndExpand">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="45*"/>
+                                        <ColumnDefinition Width="1"/>
                                         <ColumnDefinition Width="30*"/>
+                                        <ColumnDefinition Width="1"/>
                                         <ColumnDefinition Width="25*"/>
                                     </Grid.ColumnDefinitions>
 
                                     <Label 
-                                        Grid.Column="0"
-                                        VerticalOptions="FillAndExpand" 
-                                        VerticalTextAlignment="Center" 
-                                        FontSize="{StaticResource ListViewTitleFont}"
-                                        Text="{Binding OwnerName}" />
+                                            Grid.Column="0"
+                                            VerticalOptions="FillAndExpand" 
+                                            VerticalTextAlignment="Center" 
+                                            FontSize="{StaticResource ListViewTitleFont}"
+                                            Text="{Binding OwnerName}" />
+                                <Frame BorderColor="LightGray" Grid.Column="1" CornerRadius="0" HasShadow="False" Padding="0"/>
+                                <Label 
+                                            Grid.Column="2"
+                                            VerticalOptions="FillAndExpand" 
+                                            VerticalTextAlignment="Center" 
+                                            FontSize="{StaticResource ListViewTitleFont}"
+                                            Text="{Binding Size}" />
+                                <Frame BorderColor="LightGray" Grid.Column="3" CornerRadius="0" HasShadow="False" Padding="0"/>
 
-                                    <Label 
-                                        Grid.Column="1"
-                                        VerticalOptions="FillAndExpand" 
-                                        VerticalTextAlignment="Center" 
-                                        FontSize="{StaticResource ListViewTitleFont}"
-                                        Text="{Binding Size}" />
-
-                                    <Label 
-                                        Margin="0,0,5,0"
-                                        Grid.Column="2"
-                                        VerticalOptions="FillAndExpand" 
-                                        VerticalTextAlignment="Center"
-                                        HorizontalTextAlignment="End"
-                                        FontSize="{StaticResource ListViewTitleFont}"
-                                        Text="{Binding Quantity}" />
+                                <Label 
+                                            Margin="0,0,5,0"
+                                            Grid.Column="4"
+                                            VerticalOptions="FillAndExpand" 
+                                            VerticalTextAlignment="Center"
+                                            HorizontalTextAlignment="End"
+                                            FontSize="{StaticResource ListViewTitleFont}"
+                                            Text="{Binding Quantity}" />
                                 </Grid>
-                            </ViewCell>
+                            </Frame>
                         </DataTemplate>
-                    </ListView.ItemTemplate>
-                    
-                    <ListView.HeaderTemplate>
-                        <DataTemplate>
-                            <Grid
-                                Padding="0,5"
-                                BackgroundColor="{StaticResource lightGrayColor}">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="45*"/>
-                                    <ColumnDefinition Width="30*"/>
-                                    <ColumnDefinition Width="25*"/>
-                                </Grid.ColumnDefinitions>
+                    </CollectionView.ItemTemplate>
+            </CollectionView>
+          
+                  
+                    <Grid
+                    Grid.Row="2"
+                    Padding="5"
+                    BackgroundColor="{StaticResource lightGrayColor}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="45*"/>
+                    <ColumnDefinition Width="30*"/>
+                    <ColumnDefinition Width="25*"/>
+                </Grid.ColumnDefinitions>
 
-                                <Label
-                                    Text="{Binding Resources[label_brand]}"/>
+                <Label
+                                        FontAttributes="Bold"
+                                        Grid.ColumnSpan="2"
+                                        Text="{Binding Resources[label_totals]}"/>
 
-                                <Label
-                                    Grid.Column="1"
-                                    Text="{Binding Resources[tag_size]}"/>
-
-                                <Label
-                                    Grid.Column="2"
-                                    Text="{Binding Resources[label_quantity]}"/>
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.HeaderTemplate>
-                    
-                    <ListView.FooterTemplate>
-                        <DataTemplate>
-                            <Grid
-                                Padding="0,5"
-                                BackgroundColor="{StaticResource lightGrayColor}">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="45*"/>
-                                    <ColumnDefinition Width="30*"/>
-                                    <ColumnDefinition Width="25*"/>
-                                </Grid.ColumnDefinitions>
-
-                                <Label
-                                    FontAttributes="Bold"
-                                    Grid.ColumnSpan="2"
-                                    Text="{Binding Resources[label_totals]}"/>
-
-                                <Label
-                                    Margin="0,0,5,0"
-                                    FontAttributes="Bold"
-                                    Grid.Column="2"
-                                    HorizontalOptions="EndAndExpand"
-                                    Text="{Binding StockTotals}"/>
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.FooterTemplate>
-                </ListView>
+                <Label
+                                        Margin="0,0,5,0"
+                                        FontAttributes="Bold"
+                                        Grid.Column="2"
+                                        HorizontalOptions="EndAndExpand"
+                                        Text="{Binding StockTotals}"/>
+            </Grid>
+          
+                </Grid>
             </Grid>
         </ContentPage>
 
         <ContentPage 
-            Icon="actionaccept.png"
             Title="{Binding Resources[content_list_empty]}"
             x:Name="cnEmpty">
             <Grid
@@ -213,29 +212,29 @@
                             <On Platform="Android, WinPhone, Windows" Value="10,0,10,0" />
                         </OnPlatform>
                     </Button.Margin>
-                <Button.VerticalOptions>
-                    <OnPlatform x:TypeArguments="LayoutOptions">
-                        <On Platform="iOS" Value="EndAndExpand"/>
-                        <On Platform="Android" Value="Center"/>
-                    </OnPlatform>
-                </Button.VerticalOptions>
+                    <Button.VerticalOptions>
+                        <OnPlatform x:TypeArguments="LayoutOptions">
+                            <On Platform="iOS" Value="EndAndExpand"/>
+                            <On Platform="Android" Value="Center"/>
+                        </OnPlatform>
+                    </Button.VerticalOptions>
 
-            </Button>
+                </Button>
 
-            <Label
-                AutomationId="emptySummaryLabel"
-                HorizontalOptions="Center"
-                Style="{StaticResource LabelTitleStyle}"
-                TextColor="Black"
-                Text="{Binding Resources[title_empty_summary]}">
-                <Label.VerticalOptions>
-                    <OnPlatform x:TypeArguments="LayoutOptions">
-                        <On Platform="iOS" Value="EndAndExpand"/>
-                        <On Platform="Android" Value="Center"/>
-                    </OnPlatform>
-                </Label.VerticalOptions>
+                <Label
+                    AutomationId="emptySummaryLabel"
+                    HorizontalOptions="Center"
+                    Style="{StaticResource LabelTitleStyle}"
+                    TextColor="Black"
+                    Text="{Binding Resources[title_empty_summary]}">
+                    <Label.VerticalOptions>
+                        <OnPlatform x:TypeArguments="LayoutOptions">
+                            <On Platform="iOS" Value="EndAndExpand"/>
+                            <On Platform="Android" Value="Center"/>
+                        </OnPlatform>
+                    </Label.VerticalOptions>
 
-            </Label>
+                </Label>
 
                 <BoxView
                     AutomationId="lineSeperatorBoxview2"
@@ -252,31 +251,59 @@
                     Style="{StaticResource LabelTitleWhiteTextColorStyle}"
                     Text="{Binding Resources[content_list_empty]}"/>
 
-                <ListView 
+            <Grid
+                Grid.Row="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid
+                                Padding="5"
+                                BackgroundColor="{StaticResource lightGrayColor}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="45*"/>
+                        <ColumnDefinition Width="30*"/>
+                        <ColumnDefinition Width="25*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label
+                                    Text="{Binding Resources[label_brand]}"/>
+
+                    <Label
+                                    Grid.Column="1"
+                                    Text="{Binding Resources[tag_size]}"/>
+
+                    <Label
+                                    Grid.Column="2"
+                                    Text="{Binding Resources[label_quantity]}"/>
+                </Grid>
+                <CollectionView 
                     AutomationId="EmptyInventoryListView"
                     SelectionMode="None"
                     Margin="5,0,5,0"
-                    Grid.Row="2"
+                    Grid.Row="1"
                     x:Name="emptyInventoryListView"
-                    CachingStrategy="RecycleElement"
-                    SeparatorVisibility="Default"
                     android:ListView.IsFastScrollEnabled="true"
-                    SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
-                    HasUnevenRows="true"
                     VerticalOptions="FillAndExpand"
-                    ItemsSource="{Binding EmptyInventoryCollection}"
-                    Header="{Binding}" 
-                    Footer="{Binding}">
-                    <ListView.ItemTemplate>
+                    ItemsSource="{Binding EmptyInventoryCollection}">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical" Span="1" VerticalItemSpacing="0"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <ViewCell
-                                x:Name="invViewCell">
-
-                                <Grid 
+                            <Frame BorderColor="LightGray" CornerRadius="0" HasShadow="False" Padding="0">
+                                <Grid  
+                                    IsClippedToBounds="True"
+                                    RowSpacing="0"
+                                    Padding="5,0,0,0"
                                     HorizontalOptions="FillAndExpand">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="45*"/>
+                                        <ColumnDefinition Width="1"/>
                                         <ColumnDefinition Width="30*"/>
+                                        <ColumnDefinition Width="1"/>
                                         <ColumnDefinition Width="25*"/>
                                     </Grid.ColumnDefinitions>
 
@@ -287,79 +314,54 @@
                                         FontSize="{StaticResource ListViewTitleFont}"
                                         Text="{Binding OwnerName}" />
 
+                                    <Frame Grid.Column="1" BorderColor="LightGray" CornerRadius="0" HasShadow="False" Padding="0" IsClippedToBounds="True"/>
+
                                     <Label 
-                                        Grid.Column="1"
+                                        Grid.Column="2"
                                         VerticalOptions="FillAndExpand" 
                                         VerticalTextAlignment="Center" 
                                         FontSize="{StaticResource ListViewTitleFont}"
                                         Text="{Binding Size}" />
 
+                                    <Frame  Grid.Column="3" BorderColor="LightGray" Padding="0" CornerRadius="0" HasShadow="False" IsClippedToBounds="True"/>
+
                                     <Label 
                                         Margin="0,0,5,0"
-                                        Grid.Column="2"
+                                        Grid.Column="4"
                                         VerticalOptions="FillAndExpand" 
                                         VerticalTextAlignment="Center"
                                         HorizontalTextAlignment="End"
                                         FontSize="{StaticResource ListViewTitleFont}"
                                         Text="{Binding Quantity}" />
                                 </Grid>
-
-                            </ViewCell>
+                            </Frame>
                         </DataTemplate>
-                    </ListView.ItemTemplate>
+                    </CollectionView.ItemTemplate>
 
-                    <ListView.HeaderTemplate>
-                        <DataTemplate>
-                            <Grid
-                                Padding="0,5"
+                </CollectionView>
+                <Grid
+                    Grid.Row="2"
+                                Padding="5"
                                 BackgroundColor="{StaticResource lightGrayColor}">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="45*"/>
-                                    <ColumnDefinition Width="30*"/>
-                                    <ColumnDefinition Width="25*"/>
-                                </Grid.ColumnDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="45*"/>
+                        <ColumnDefinition Width="30*"/>
+                        <ColumnDefinition Width="25*"/>
+                    </Grid.ColumnDefinitions>
 
-                                <Label
-                                    Text="{Binding Resources[label_brand]}"/>
-
-                                <Label
-                                    Grid.Column="1"
-                                    Text="{Binding Resources[tag_size]}"/>
-
-                                <Label
-                                    Grid.Column="2"
-                                    Text="{Binding Resources[label_quantity]}"/>
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.HeaderTemplate>
-
-                    <ListView.FooterTemplate>
-                        <DataTemplate>
-                            <Grid
-                                Padding="0,5"
-                                BackgroundColor="{StaticResource lightGrayColor}">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="45*"/>
-                                    <ColumnDefinition Width="30*"/>
-                                    <ColumnDefinition Width="25*"/>
-                                </Grid.ColumnDefinitions>
-
-                                <Label
+                    <Label
                                     FontAttributes="Bold"
                                     Grid.ColumnSpan="2"
                                     Text="{Binding Resources[label_totals]}"/>
 
-                                <Label
+                    <Label
                                     FontAttributes="Bold"
                                     Grid.Column="2"
                                     Margin="0,0,5,0"
                                     HorizontalOptions="EndAndExpand"
                                     Text="{Binding EmptyTotals}"/>
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.FooterTemplate>
-
-                </ListView>
+                </Grid>
+            </Grid>
 
             </Grid>
         </ContentPage>
