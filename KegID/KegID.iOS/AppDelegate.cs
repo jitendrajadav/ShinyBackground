@@ -46,7 +46,7 @@ namespace KegID.iOS
             Rg.Plugins.Popup.Popup.Init();
             TintedImageRenderer.Init();
             UIApplication.SharedApplication.SetMinimumBackgroundFetchInterval(UIApplication.BackgroundFetchIntervalMinimum);
-
+            Forms9Patch.iOS.Settings.Initialize(this);
             Distribute.DontCheckForUpdatesInDebug();
             //AppCenter.Start("{Your Xamarin iOS App Secret}", typeof(Distribute));
 

@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-
-using Foundation;
 using KegID.Common;
 using KegID.iOS.Renderers;
 using UIKit;
@@ -23,10 +19,6 @@ namespace KegID.iOS.Renderers
             if (e.NewElement != null && this.Control != null)
             {
                 this.AddClearButton();
-
-                //this.Control.BorderStyle = UITextBorderStyle.Line;
-                //Control.Layer.BorderColor = UIColor.LightGray.CGColor;
-                //Control.Layer.BorderWidth = 1;
 
                 var entry = (NullableDatePicker)this.Element;
                 if (!entry.NullableDate.HasValue)
@@ -85,8 +77,6 @@ namespace KegID.iOS.Renderers
                 originalToolbar.Items = newItems.ToArray();
                 originalToolbar.SetNeedsDisplay();
             }
-
         }
     }
-
 }
