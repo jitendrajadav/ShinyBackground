@@ -586,9 +586,11 @@ namespace KegID.ViewModel
         {
             try
             {
-                var isNew = BarcodeCollection.ToList().Any(x => x?.Kegs?.Partners?.FirstOrDefault()?.Kegs?.FirstOrDefault()?.Barcode == ManaulBarcode);
-                if (!isNew)
+                var isNew = BarcodeCollection.Where(x => x.Barcode == ManaulBarcode).FirstOrDefault();
+                UpdateTagsStr();
+                BarcodeModel model = new BarcodeModel()
                 {
+
                     UpdateTagsStr();
                     BarcodeModel model = new BarcodeModel()
                     {
@@ -605,21 +607,39 @@ namespace KegID.ViewModel
                             model.Tags.Add(item);
                     }
 
-                    BarcodeCollection.Add(model);
 
-                    var current = Connectivity.NetworkAccess;
-                    if (current == NetworkAccess.Internet)
-                    {
-                        var message = new StartLongRunningTaskMessage
-                        {
-                            Barcode = new List<string>() { ManaulBarcode },
-                            PageName = ViewTypeEnum.ScanKegsView.ToString()
-                        };
-                        MessagingCenter.Send(message, "StartLongRunningTaskMessage");
-                    }
-
-                    ManaulBarcode = string.Empty;
+                if (ConstantManager.Tags != null)
+                {
+                    foreach (var item in ConstantManager.Tags)
+                        model.Tags.Add(item);
                 }
+                if (isNew==null)
+                {
+                    BarcodeCollection.Add(model);
+                }
+                else
+                {
+                    using (var db = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
+                    {
+                        var oldBarcode = BarcodeCollection.Where(x => x.Barcode == ManaulBarcode).FirstOrDefault();
+                        oldBarcode.TagsStr = model.TagsStr;
+                        oldBarcode.Icon = model.Icon;
+                        oldBarcode.Contents = SelectedBrand?.BrandName;
+                        db.Commit();
+                    }
+                }
+                var current = Connectivity.NetworkAccess;
+                if (current == NetworkAccess.Internet)
+                {
+                    var message = new StartLongRunningTaskMessage
+                    {
+                        Barcode = new List<string>() { ManaulBarcode },
+                        PageName = ViewTypeEnum.ScanKegsView.ToString()
+                    };
+                    MessagingCenter.Send(message, "StartLongRunningTaskMessage");
+                }
+
+                ManaulBarcode = string.Empty;
             }
             catch (Exception ex)
             {

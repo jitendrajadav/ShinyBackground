@@ -61,7 +61,7 @@ namespace KegID.iOS.Renderers
                 {
                     NullableDatePicker baseDatePicker = this.Element as NullableDatePicker;
                     this.Element.Unfocus();
-                    this.Element.Date = DateTime.Now;
+                    this.Element.Date = DateTimeOffset.Now.Date;
                     baseDatePicker.CleanDate();
 
                 }));
