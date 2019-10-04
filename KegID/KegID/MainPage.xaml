@@ -73,7 +73,8 @@
             AutomationId="carouselMain"
             Grid.Row="2"
             x:Name="myDashboard"
-            ShowIndicators="true">
+            ShowArrows="True"
+            ShowIndicators="True">
             <controls:CarouselViewControl.ItemsSource>
                 <x:Array Type="{x:Type View}">
                     <views:MenuView />
