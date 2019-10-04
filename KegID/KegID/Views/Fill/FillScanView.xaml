@@ -58,7 +58,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="60"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
@@ -177,16 +177,16 @@
                     AutomationId="printButton"
                     Text="{Binding Resources[menu_action_print]}"
                     Grid.Row="3"
+                    Margin="-10,0,-10,0"
                     IsVisible="{Binding IsPalletze}"
                     Style="{StaticResource BottomButtonTitleStyle}"
-                    HeightRequest="50"
                     Command="{Binding PrintCommand}"/>
 
                 <BoxView
                     AutomationId="lineSeperatorBoxView"
                     Margin="-10,0,-10,0"
                     Grid.Row="4"
-                    HeightRequest="50"
+                    HeightRequest="60"
                     BackgroundColor="{StaticResource bannerBGColor}"
                     VerticalOptions="FillAndExpand"
                     HorizontalOptions="FillAndExpand"/>
@@ -196,15 +196,19 @@
                     Grid.Row="4"
                     Grid.Column="0"
                     Margin="10,0,0,0"
-                    Style="{StaticResource LabelTitleWhiteTextColorStyle}"
+                    TextColor="White"
+                    FontSize="30"
+                    VerticalOptions="Center"
                     Text="{Binding Resources[label_scanned]}"/>
             
                 <Label
                     AutomationId="barcodeCountLabel"
                     Grid.Row="4"
                     HorizontalOptions="End"
-                    TextColor="#B7EB35"
-                    Style="{StaticResource LabelTitleWhiteTextColorStyle}"
+                    FontSize="45"
+                    TextColor="{StaticResource scanCounterColor}"
+                    VerticalOptions="Center"
+                    VerticalTextAlignment="Center"
                     Text="{Binding BarcodeCollection.Count}"/>
               
                 <local:ScanItemView

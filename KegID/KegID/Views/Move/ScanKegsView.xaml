@@ -9,7 +9,7 @@
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              xmlns:local="clr-namespace:KegID.Views"
              ios:Page.UseSafeArea="true"
-             >
+             xmlns:forms9="clr-namespace:Forms9Patch;assembly=Forms9Patch">
 
     <ContentPage.Content>
 
@@ -59,7 +59,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="60"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
@@ -105,15 +105,14 @@
                     </controls:TintedImage.GestureRecognizers>
                 </controls:TintedImage>
 
-                <Picker
-                    AutomationId="brandPicker"
-                    ItemsSource="{Binding BrandCollection,Mode=TwoWay}"
-                    TextColor="{StaticResource selectTextColor}"
+
+                <forms9:Button
+                    x:Name="_singlePickerButton"
                     Grid.Column="0"
                     Grid.Row="1"
-                    Title="{Binding Resources[hint_select_content]}"
-                    ItemDisplayBinding="{Binding BrandName}"
-                    SelectedItem="{Binding SelectedBrand,Mode=TwoWay}"/>
+                    HtmlText="{Binding Resources[hint_select_content]}"
+                    Clicked="_singlePickerButton_Clicked"/>
+
 
                 <Entry
                     AutomationId="batchEntry"
@@ -177,10 +176,11 @@
                     AutomationId="barcodeCountLabel"
                     Grid.Column="2"
                     Grid.Row="3"
-                    FontSize="30"
+                    FontSize="45"
                     TextColor="{StaticResource scanCounterColor}"
                     HorizontalOptions="Center"
                     VerticalOptions="Center"
+                    VerticalTextAlignment="Center"
                     Text="{Binding BarcodeCollection.Count}"/>
 
                 <local:ScanItemView
