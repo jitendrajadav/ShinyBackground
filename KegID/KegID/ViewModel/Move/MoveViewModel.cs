@@ -19,7 +19,6 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        //private readonly INavigationService _navigationService;
         private readonly IPageDialogService _dialogService;
         private readonly IMoveService _moveService;
         private readonly IManifestManager _manifestManager;
@@ -28,277 +27,58 @@ namespace KegID.ViewModel
 
         public string Contents { get; set; }
         public IList<BarcodeModel> Barcodes { get; set; }
-
-        #region ManifestId
-
-        /// <summary>
-        /// The <see cref="ManifestId" /> property's name.
-        /// </summary>
-        public const string ManifestIdPropertyName = "ManifestId";
-
-        private string _ManifestId = default;
-
-        /// <summary>
-        /// Sets and gets the ManifestId property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string ManifestId
+        public string ManifestId { get; set; }
+        public void OnManifestIdChanged()
         {
-            get
-            {
-                return _ManifestId;
-            }
-
-            set
-            {
-                if (_ManifestId == value)
-                {
-                    return;
-                }
-
-                _ManifestId = value;
-                ConstantManager.ManifestId = value;
-                RaisePropertyChanged(ManifestIdPropertyName);
-            }
+            ConstantManager.ManifestId = ManifestId;
         }
 
-        #endregion
-
-        #region Destination
-
-        /// <summary>
-        /// The <see cref="Destination" /> property's name.
-        /// </summary>
-        public const string DestinationPropertyName = "Destination";
-
-        private string _Destination = "Select a location";
-
-        /// <summary>
-        /// Sets and gets the Destination property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string Destination
+        public string Destination { get; set; } = "Select a location";
+        public string TagsStr { get; set; } = "Add info";
+        public List<Tag> Tags { get; set; } = new List<Tag>();
+        public string AddKegs { get; set; } = "Add Kegs";
+        public void OnAddKegsChanged()
         {
-            get
-            {
-                return _Destination;
-            }
-
-            set
-            {
-                if (_Destination == value)
-                {
-                    return;
-                }
-
-                _Destination = value;
-                RaisePropertyChanged(DestinationPropertyName);
-            }
+            IsSubmitVisible = AddKegs.Contains("Item") ? true : false;
         }
 
-        #endregion
-
-        #region TagsStr
-
-        /// <summary>
-        /// The <see cref="TagsStr" /> property's name.
-        /// </summary>
-        public const string TagsStrPropertyName = "TagsStr";
-
-        private string _tagsStr = "Add info";
-
-        /// <summary>
-        /// Sets and gets the TagsStr property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string TagsStr
+        public bool IsSaveDraftVisible { get; set; }
+        public bool IsSubmitVisible { get; set; }
+        public void OnIsSubmitVisibleChanged()
         {
-            get
-            {
-                return _tagsStr;
-            }
-
-            set
-            {
-                if (_tagsStr == value)
-                {
-                    return;
-                }
-
-                _tagsStr = value;
-                RaisePropertyChanged(TagsStrPropertyName);
-            }
+            IsSaveDraftVisible = IsSubmitVisible;
         }
 
-        #endregion
+        public bool IsRequiredVisible { get; set; } = true;
+        #region OrderNumRequired
 
-        #region Tags
         /// <summary>
-        /// The <see cref="Tags" /> property's name.
+        /// The <see cref="OrderNumRequired" /> property's name.
         /// </summary>
-        public const string TagsPropertyName = "Tags";
+        public const string OrderNumRequiredPropertyName = "OrderNumRequired";
 
-        private List<Tag> _tags = new List<Tag>();
+        private bool _OrderNumRequired;
 
         /// <summary>
-        /// Sets and gets the Tags property.
+        /// Sets and gets the OrderNumRequired property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public List<Tag> Tags
+        public bool OrderNumRequired
         {
             get
             {
-                return _tags;
+                return _OrderNumRequired;
             }
 
             set
             {
-                if (_tags == value)
+                if (_OrderNumRequired == value)
                 {
                     return;
                 }
 
-                _tags = value;
-                RaisePropertyChanged(TagsPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region AddKegs
-
-        /// <summary>
-        /// The <see cref="AddKegs" /> property's name.
-        /// </summary>
-        public const string AddKegsPropertyName = "AddKegs";
-
-        private string _AddKegs = "Add Kegs";
-
-
-        /// <summary>
-        /// Sets and gets the AddKegs property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string AddKegs
-        {
-            get
-            {
-                return _AddKegs;
-            }
-
-            set
-            {
-                if (_AddKegs == value)
-                {
-                    return;
-                }
-
-                _AddKegs = value;
-                IsSubmitVisible = _AddKegs.Contains("Item") ? true : false;
-                RaisePropertyChanged(AddKegsPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region IsSaveDraftVisible
-
-        /// <summary>
-        /// The <see cref="IsSaveDraftVisible" /> property's name.
-        /// </summary>
-        public const string IsSaveDraftVisiblePropertyName = "IsSaveDraftVisible";
-
-        private bool _IsSaveDraftVisible = false;
-
-        /// <summary>
-        /// Sets and gets the IsSaveDraftVisible property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public bool IsSaveDraftVisible
-        {
-            get
-            {
-                return _IsSaveDraftVisible;
-            }
-
-            set
-            {
-                if (_IsSaveDraftVisible == value)
-                {
-                    return;
-                }
-
-                _IsSaveDraftVisible = value;
-                RaisePropertyChanged(IsSaveDraftVisiblePropertyName);
-            }
-        }
-
-        #endregion
-
-        #region IsSubmitVisible
-
-        /// <summary>
-        /// The <see cref="IsSubmitVisible" /> property's name.
-        /// </summary>
-        public const string IsSubmitVisiblePropertyName = "IsSubmitVisible";
-
-        private bool _IsSubmitVisible = false;
-
-        /// <summary>
-        /// Sets and gets the IsSubmitVisible property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public bool IsSubmitVisible
-        {
-            get
-            {
-                return _IsSubmitVisible;
-            }
-
-            set
-            {
-                if (_IsSubmitVisible == value)
-                {
-                    return;
-                }
-
-                _IsSubmitVisible = value;
-                IsSaveDraftVisible = _IsSubmitVisible;
-                RaisePropertyChanged(IsSubmitVisiblePropertyName);
-            }
-        }
-
-        #endregion
-
-        #region IsRequiredVisible
-
-        /// <summary>
-        /// The <see cref="IsRequiredVisible" /> property's name.
-        /// </summary>
-        public const string IsRequiredVisiblePropertyName = "IsRequiredVisible";
-
-        private bool _IsRequiredVisible = true;
-
-        /// <summary>
-        /// Sets and gets the IsRequiredVisible property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public bool IsRequiredVisible
-        {
-            get
-            {
-                return _IsRequiredVisible;
-            }
-
-            set
-            {
-                if (_IsRequiredVisible == value)
-                {
-                    return;
-                }
-
-                _IsRequiredVisible = value;
-                RaisePropertyChanged(IsRequiredVisiblePropertyName);
+                _OrderNumRequired = value;
+                RaisePropertyChanged(OrderNumRequiredPropertyName);
             }
         }
 
@@ -309,11 +89,13 @@ namespace KegID.ViewModel
         #region Commands
 
         public DelegateCommand SelectLocationCommand { get; }
+        public DelegateCommand SelectOriginLocationCommand { get; }
         public DelegateCommand MoreInfoCommand { get; }
         public DelegateCommand ScanKegsCommad { get;}
         public DelegateCommand SaveDraftCommand { get; }
         public DelegateCommand CancelCommand { get; }
         public DelegateCommand SubmitCommand { get; }
+        public object RealmDb { get; }
 
         #endregion
 
@@ -321,7 +103,6 @@ namespace KegID.ViewModel
 
         public MoveViewModel(IMoveService moveService, INavigationService navigationService, IPageDialogService dialogService, IManifestManager manifestManager, IUuidManager uuidManager, IGeolocationService geolocationService) : base(navigationService)
         {
-            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _dialogService = dialogService;
             _moveService = moveService;
             _manifestManager = manifestManager;
@@ -329,12 +110,24 @@ namespace KegID.ViewModel
             _geolocationService = geolocationService;
 
             SelectLocationCommand = new DelegateCommand(SelectLocationCommandRecieverAsync);
+            SelectOriginLocationCommand = new DelegateCommand(SelectOriginLocationCommandRecieverAsync);
             MoreInfoCommand = new DelegateCommand(MoreInfoCommandRecieverAsync);
             ScanKegsCommad = new DelegateCommand(ScanKegsCommadRecieverAsync);
             SaveDraftCommand = new DelegateCommand(SaveDraftCommandRecieverAsync);
             CancelCommand = new DelegateCommand(CancelCommandRecieverAsync);
             SubmitCommand = new DelegateCommand(SubmitCommandRecieverAsync);
+
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            var preference = RealmDb.All<Preference>().Where(x => x.PreferenceName == "OrderNumRequired").FirstOrDefault();
+            OrderNumRequired = preference != null ? bool.Parse(preference.PreferenceValue) : false;
+
+
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            var preference = RealmDb.All<Preference>().Where(x => x.PreferenceName == "OriginRequired").FirstOrDefault();
+            OriginRequired = preference != null ? bool.Parse(preference.PreferenceValue) : false;
+
         }
+
 
         #endregion
 
@@ -412,7 +205,6 @@ namespace KegID.ViewModel
 
         private async Task GetPostedManifestDetail()
         {
-            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             string sizeName = string.Empty;
             ManifestResponseModel manifest = new ManifestResponseModel();
             try
@@ -436,7 +228,7 @@ namespace KegID.ViewModel
                         {
                             Barcode = item.Barcode,
                             Contents = Contents,
-                            VolumeName = "Jitendra",
+                            VolumeName = "Needs to add here!",
                             OwnerName = ConstantManager.Partner.FullName,
                             SizeName = sizeName,
                         }
@@ -673,7 +465,18 @@ namespace KegID.ViewModel
 
         private async void SelectLocationCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("PartnersView", animated: false);
+            await _navigationService.NavigateAsync("PartnersView", new NavigationParameters
+                    {
+                        { "GoingFrom",  "Destination" }
+                    }, animated: false);
+        }
+
+        private async void SelectOriginLocationCommandRecieverAsync()
+        {
+            await _navigationService.NavigateAsync("PartnersView", new NavigationParameters
+                    {
+                        { "GoingFrom",  "MoveOrigin" }
+                    }, animated: false);
         }
 
         private async void MoreInfoCommandRecieverAsync()
@@ -691,17 +494,28 @@ namespace KegID.ViewModel
             {
                 if (!string.IsNullOrEmpty(ConstantManager.Partner?.PartnerId))
                 {
-                    if (Barcodes != null)
-                    {
-                        await _navigationService.NavigateAsync("ScanKegsView", new NavigationParameters
-                        {
-                            { "models", Barcodes }
-                        }, animated: false);
 
+                    if (OrderNumRequired && string.IsNullOrEmpty(Order))
+                    {
+                        await _dialogService.DisplayAlertAsync("Error", "Please enter order first.", "Ok");
+                    }
+                    if (OriginRequired && Origin.Contains("Select a location"))
+                    {
+                        await _dialogService.DisplayAlertAsync("Error", "Please select a origin first.", "Ok");
                     }
                     else
                     {
-                        await _navigationService.NavigateAsync("ScanKegsView",animated: false);
+                        if (Barcodes != null)
+                        {
+                            await _navigationService.NavigateAsync("ScanKegsView", new NavigationParameters
+                            {
+                                { "models", Barcodes }
+                            }, animated: false);
+                        }
+                        else
+                        {
+                            await _navigationService.NavigateAsync("ScanKegsView", animated: false);
+                        }
                     }
                 }
                 else
@@ -797,8 +611,16 @@ namespace KegID.ViewModel
                     ManifestId = parameters.GetValue<string>("ManifestId");
                     break;
                 case "model":
-                    Destination = ConstantManager.Partner.FullName;
-                    IsRequiredVisible = false;
+                    if (parameters.GetValue<string>("CommingFrom") == "MoveOrigin")
+                    {
+                        Origin = ConstantManager.Partner.FullName;
+                        IsOriginRequired = false;
+                    }
+                    else
+                    {
+                        Destination = ConstantManager.Partner.FullName;
+                        IsRequiredVisible = false;
+                    }
                     IsSaveDraftVisible = true;
                     break;
                 case "AddTags":

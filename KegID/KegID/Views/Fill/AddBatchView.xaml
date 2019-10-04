@@ -6,11 +6,15 @@
              BackgroundColor="{StaticResource pageBGColor}"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              ios:Page.UseSafeArea="true"
+             xmlns:converters="clr-namespace:KegID.Converter"
              xmlns:myDatePicker="clr-namespace:KegID.Common">
 
+    <ContentPage.Resources>
+        <converters:UtcToLocalDateTimeConverter x:Key="UtcToLocalDateTimeConverter"/>
+    </ContentPage.Resources>
+    
     <ContentPage.Content>
-
-        <ScrollView>
+    <ScrollView>
             <Grid
                 AutomationId="mainGrd"
                 RowSpacing="{OnPlatform Android=0,iOS=5,UWP=0}">
@@ -152,7 +156,7 @@
                         Grid.Row="4"
                         Grid.ColumnSpan="2"
                         Grid.Column="1"
-                        Date="{Binding PackageDate}"/>
+                        Date="{Binding PackageDate , Converter={StaticResource UtcToLocalDateTimeConverter}}"/>
 
                     <Label
                         AutomationId="bestByDateLabel"
@@ -160,18 +164,6 @@
                         Style="{StaticResource LabelNormalStyle}"
                         Text="{Binding Resources[label_bestby_date]}"/>
 
-                <!--<myDatePicker:ExtendedDatePicker
-                    AutomationId="bestByDatePicker"
-                    Grid.Row="5"
-                    Format="d/MM/yyyy"
-                    Grid.ColumnSpan="2"
-                    Grid.Column="1"
-                    NullableDate="{Binding BestByDate}"
-                    XAlign="Start"
-                    HasBorder="false"
-                    HorizontalOptions="FillAndExpand"
-                    StyleId="BirthDateFieldId"
-                    VerticalOptions="Center"/>-->
                 <myDatePicker:NullableDatePicker
                     x:Name="bestDatePicker"
                     AutomationId="bestByDatePicker"

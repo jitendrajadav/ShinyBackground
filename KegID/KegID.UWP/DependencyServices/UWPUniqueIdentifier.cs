@@ -61,7 +61,7 @@ namespace KegID.UWP.DependencyServices
 
         public string AppPackageCreationDate()
         {
-            string date = DateTime.Today.ToShortDateString();
+            string date = DateTimeOffset.Now.Date.ToShortDateString();
             return date;
         }
     }

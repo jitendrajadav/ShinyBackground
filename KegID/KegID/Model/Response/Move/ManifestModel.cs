@@ -1,17 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using PropertyChanged;
 using Realms;
 
 namespace KegID.Model
 {
     public class ManifestItem : RealmObject
     {
+        [DoNotNotify]
         public string Barcode { get; set; }
+        [DoNotNotify]
         public DateTimeOffset ScanDate { get; set; }
+        [DoNotNotify]
         public long ValidationStatus { get; set; }
+        [DoNotNotify]
         public string KegId { get; set; }
+        [DoNotNotify]
         public IList<Tag> Tags { get; }
+        [DoNotNotify]
         public string Icon { get; set; }
+        [DoNotNotify]
         public string TagsStr { get; set; }
     }
 

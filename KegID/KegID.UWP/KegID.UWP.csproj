@@ -304,17 +304,20 @@
     <PackageReference Include="CarouselView.FormsPlugin">
       <Version>5.2.0</Version>
     </PackageReference>
+    <PackageReference Include="Forms9Patch">
+      <Version>1.8.0</Version>
+    </PackageReference>
     <PackageReference Include="LinkOS_Xamarin_SDK">
       <Version>1.2.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AppCenter.Analytics">
-      <Version>2.0.0</Version>
+      <Version>2.1.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AppCenter.Crashes">
-      <Version>2.0.0</Version>
+      <Version>2.1.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AppCenter.Distribute">
-      <Version>2.0.0</Version>
+      <Version>2.1.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.CSharp">
       <Version>4.5.0</Version>
@@ -341,35 +344,35 @@
       <Version>7.1.0.431</Version>
     </PackageReference>
     <PackageReference Include="Realm">
-      <Version>4.0.0</Version>
+      <Version>4.0.1</Version>
     </PackageReference>
     <PackageReference Include="runtime.win10-arm64.runtime.native.System.IO.Compression">
       <Version>4.3.2</Version>
     </PackageReference>
     <PackageReference Include="Scandit.BarcodePicker">
-      <Version>5.11.3.10</Version>
+      <Version>5.11.4.10</Version>
     </PackageReference>
     <PackageReference Include="Scandit.BarcodePicker.Unified">
-      <Version>5.11.3.10</Version>
+      <Version>5.11.4.10</Version>
     </PackageReference>
     <PackageReference Include="Scandit.Recognition">
-      <Version>5.11.3.10</Version>
+      <Version>5.11.4.10</Version>
     </PackageReference>
     <PackageReference Include="Xam.Plugins.Settings">
       <Version>4.0.0.10-beta</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.2.8" />
     <PackageReference Include="Xamarin.Essentials">
-      <Version>1.1.0</Version>
+      <Version>1.2.0</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.FFImageLoading.Forms">
       <Version>2.4.11.982</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms">
-      <Version>4.0.0.497661</Version>
+      <Version>4.1.0.581479</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms.Maps">
-      <Version>4.0.0.497661</Version>
+      <Version>4.1.0.581479</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms.Visual.Material">
       <Version>4.0.0.497661</Version>

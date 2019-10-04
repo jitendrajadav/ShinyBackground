@@ -1,5 +1,4 @@
 ﻿using KegID.Model;
-using KegID.Services;
 using System.Collections.Generic;
 using System.Linq;
 using System;
@@ -16,43 +15,8 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        //private readonly INavigationService _navigationService;
         private readonly IPageDialogService _dialogService;
-        private readonly IFillService _fillService;
-
-        #region BatchCollection
-
-        /// <summary>
-        /// The <see cref="BatchCollection" /> property's name.
-        /// </summary>
-        public const string BatchCollectionPropertyName = "BatchCollection";
-
-        private IList<NewBatch> _BatchCollection = null;
-
-        /// <summary>
-        /// Sets and gets the BatchCollection property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public IList<NewBatch> BatchCollection
-        {
-            get
-            {
-                return _BatchCollection;
-            }
-
-            set
-            {
-                if (_BatchCollection == value)
-                {
-                    return;
-                }
-
-                _BatchCollection = value;
-                RaisePropertyChanged(BatchCollectionPropertyName);
-            }
-        }
-
-        #endregion
+        public IList<NewBatch> BatchCollection { get; set; }
 
         #endregion
 
@@ -65,11 +29,9 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public BatchViewModel(IFillService fillService, INavigationService navigationService, IPageDialogService dialogService) : base(navigationService)
+        public BatchViewModel(INavigationService navigationService, IPageDialogService dialogService) : base(navigationService)
         {
-            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _dialogService = dialogService;
-            _fillService = fillService;
             ItemTappedCommand = new DelegateCommand<NewBatch>((model) => ItemTappedCommandRecieverAsync(model));
             AddBatchCommand = new DelegateCommand(AddBatchCommandRecieverAsync);
 

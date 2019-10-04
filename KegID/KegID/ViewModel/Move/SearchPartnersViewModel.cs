@@ -13,110 +13,10 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        //private readonly INavigationService _navigationService;
         private readonly IMoveService _moveService;
-
-        #region BackPartners
-
-        /// <summary>
-        /// The <see cref="BackPartners" /> property's name.
-        /// </summary>
-        public const string BackPartnersPropertyName = "BackPartners";
-
-        private string _BackPartners = default(string);
-
-        /// <summary>
-        /// Sets and gets the BackPartners property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string BackPartners
-        {
-            get
-            {
-                return _BackPartners;
-            }
-
-            set
-            {
-                if (_BackPartners == value)
-                {
-                    return;
-                }
-
-                _BackPartners = value;
-                RaisePropertyChanged(BackPartnersPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region PartnerSearch
-
-        /// <summary>
-        /// The <see cref="PartnerSearch" /> property's name.
-        /// </summary>
-        public const string PartnerSearchPropertyName = "PartnerSearch";
-
-        private string _PartnerSearch = string.Empty;
-
-        /// <summary>
-        /// Sets and gets the PartnerSearch property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string PartnerSearch
-        {
-            get
-            {
-                return _PartnerSearch;
-            }
-
-            set
-            {
-                if (_PartnerSearch == value)
-                {
-                    return;
-                }
-
-                _PartnerSearch = value;
-                RaisePropertyChanged(PartnerSearchPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region PartnerSearchCollection
-
-        /// <summary>
-        /// The <see cref="PartnerSearchCollection" /> property's name.
-        /// </summary>
-        public const string PartnerSearchCollectionPropertyName = "PartnerSearchCollection";
-
-        private IList<PartnerModel> _PartnerSearchCollection = null;
-
-        /// <summary>
-        /// Sets and gets the PartnerSearchCollection property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public IList<PartnerModel> PartnerSearchCollection
-        {
-            get
-            {
-                return _PartnerSearchCollection;
-            }
-
-            set
-            {
-                if (_PartnerSearchCollection == value)
-                {
-                    return;
-                }
-
-                _PartnerSearchCollection = value;
-                RaisePropertyChanged(PartnerSearchCollectionPropertyName);
-            }
-        }
-
-        #endregion
+        public string BackPartners { get; set; }
+        public string PartnerSearch { get; set; }
+        public IList<PartnerModel> PartnerSearchCollection { get; set; }
 
         #endregion
 
@@ -132,8 +32,6 @@ namespace KegID.ViewModel
 
         public SearchPartnersViewModel(IMoveService moveService, INavigationService navigationService) : base(navigationService)
         {
-            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
-
             _moveService = moveService;
 
             BackPartners = "< Partners";
@@ -148,23 +46,27 @@ namespace KegID.ViewModel
 
         private async void PartnerSearchCommandRecieverAsync()
         {
-            try
+            if (!string.IsNullOrEmpty(PartnerSearch))
             {
-                Loader.StartLoading();
-                var value = await _moveService.GetPartnerSearchAsync(AppSettings.SessionId, PartnerSearch, false, false);
-
-                if (value.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
+               try
                 {
-                    PartnerSearchCollection = value.PartnerModel;
+                    Loader.StartLoading();
+                    var value = await _moveService.GetPartnerSearchAsync(AppSettings.SessionId, PartnerSearch, false, true);
+
+
+                    if (value.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
+                    {
+                        PartnerSearchCollection = value.PartnerModel;
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                 Crashes.TrackError(ex);
-            }
-            finally
-            {
-                Loader.StopLoading();
+                catch (Exception ex)
+                {
+                    Crashes.TrackError(ex);
+                }
+                finally
+                {
+                    Loader.StopLoading();
+                }
             }
         }
 

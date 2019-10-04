@@ -46,6 +46,8 @@ namespace KegID
                 .AddTransient<KegIDClient>()
                 .BuildServiceProvider();
 
+            kegIDClient = serviceProvider.GetService<KegIDClient>();
+
             switch (Xamarin.Forms.Device.RuntimePlatform)
             {
                 case Xamarin.Forms.Device.Android:
@@ -56,11 +58,13 @@ namespace KegID
                     break;
             }
 
-            kegIDClient = serviceProvider.GetService<KegIDClient>();
 
             if (!string.IsNullOrEmpty(AppSettings.SessionId))
             {
-                await NavigationService.NavigateAsync("NavigationPage/MainPage");
+                if (TargetIdiom.Tablet == Xamarin.Forms.Device.Idiom)
+                    await NavigationService.NavigateAsync("NavigationPage/MainPageTablet");
+                else
+                    await NavigationService.NavigateAsync("NavigationPage/MainPage");
             }
             else
             {
@@ -133,7 +137,8 @@ namespace KegID
             containerRegistry.RegisterForNavigation<WhatIsNewView, WhatIsNewViewModel>();
             containerRegistry.RegisterForNavigation<LoginView, LoginViewModel>();
             containerRegistry.RegisterForNavigation<MainPage, MainViewModel>();
-            
+            containerRegistry.RegisterForNavigation<MainPageTablet, MainViewModel>();
+
             //Popup Navigation Register
             containerRegistry.RegisterPopupNavigationService();
 

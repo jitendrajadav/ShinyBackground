@@ -1,13 +1,10 @@
 ﻿using KegID.Common;
-using KegID.LocalDb;
 using KegID.Model;
 using KegID.Services;
 using Microsoft.AppCenter.Crashes;
-using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
-using Realms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,414 +17,19 @@ namespace KegID.ViewModel
 
         private readonly IUuidManager _uuidManager;
         private readonly IPageDialogService _dialogService;
-
-        #region BrandButtonTitle
-
-        /// <summary>
-        /// The <see cref="BrandButtonTitle" /> property's name.
-        /// </summary>
-        public const string BrandButtonTitlePropertyName = "BrandButtonTitle";
-
-        private string _BrandButtonTitle = "Brand";
-
-        /// <summary>
-        /// Sets and gets the BrandButtonTitle property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string BrandButtonTitle
-        {
-            get
-            {
-                return _BrandButtonTitle;
-            }
-
-            set
-            {
-                if (_BrandButtonTitle == value)
-                {
-                    return;
-                }
-
-                _BrandButtonTitle = value;
-                RaisePropertyChanged(BrandButtonTitlePropertyName);
-            }
-        }
-
-        #endregion
-
-        #region BatchCode
-
-        /// <summary>
-        /// The <see cref="BatchCode" /> property's name.
-        /// </summary>
-        public const string BatchCodePropertyName = "BatchCode";
-
-        private string _BatchCode = default;
-
-        /// <summary>
-        /// Sets and gets the BatchCode property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string BatchCode
-        {
-            get
-            {
-                return _BatchCode;
-            }
-
-            set
-            {
-                if (_BatchCode == value)
-                {
-                    return;
-                }
-
-                _BatchCode = value;
-                RaisePropertyChanged(BatchCodePropertyName);
-            }
-        }
-
-        #endregion
-
-        #region BrewDate
-
-        /// <summary>
-        /// The <see cref="BrewDate" /> property's name.
-        /// </summary>
-        public const string BrewDatePropertyName = "BrewDate";
-
-        private DateTimeOffset _BrewDate = DateTime.Now;
-
-        /// <summary>
-        /// Sets and gets the BrewDate property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public DateTimeOffset BrewDate
-        {
-            get
-            {
-                return _BrewDate;
-            }
-
-            set
-            {
-                if (_BrewDate == value)
-                {
-                    return;
-                }
-
-                _BrewDate = value;
-                RaisePropertyChanged(BrewDatePropertyName);
-            }
-        }
-
-        #endregion
-
-        #region VolumeDigit
-
-        /// <summary>
-        /// The <see cref="VolumeDigit" /> property's name.
-        /// </summary>
-        public const string VolumeDigitPropertyName = "VolumeDigit";
-
-        private string _VolumeDigit = default;
-
-        /// <summary>
-        /// Sets and gets the VolumeDigit property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string VolumeDigit
-        {
-            get
-            {
-                return _VolumeDigit;
-            }
-
-            set
-            {
-                if(_VolumeDigit != value)
-                {
-                    _VolumeDigit = value;
-                    RaisePropertyChanged(VolumeDigitPropertyName);
-                }
-            }
-        }
-
-        #endregion
-
-        #region VolumeChar
-
-        /// <summary>
-        /// The <see cref="VolumeChar" /> property's name.
-        /// </summary>
-        public const string VolumeCharPropertyName = "VolumeChar";
-
-        private string _VolumeChar = "bbl";
-
-        /// <summary>
-        /// Sets and gets the VolumeChar property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string VolumeChar
-        {
-            get
-            {
-                return _VolumeChar;
-            }
-
-            set
-            {
-                if (_VolumeChar == value)
-                {
-                    return;
-                }
-
-                _VolumeChar = value;
-                RaisePropertyChanged(VolumeCharPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region PackageDate
-
-        /// <summary>
-        /// The <see cref="PackageDate" /> property's name.
-        /// </summary>
-        public const string PackageDatePropertyName = "PackageDate";
-
-        private DateTimeOffset _PackageDate = DateTime.Today;
-
-        /// <summary>
-        /// Sets and gets the PackageDate property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public DateTimeOffset PackageDate
-        {
-            get
-            {
-                return _PackageDate;
-            }
-
-            set
-            {
-                if (_PackageDate == value)
-                {
-                    return;
-                }
-
-                _PackageDate = value;
-                RaisePropertyChanged(PackageDatePropertyName);
-            }
-        }
-
-        #endregion
-
-        #region BestByDate
-
-        /// <summary>
-        /// The <see cref="BestByDate" /> property's name.
-        /// </summary>
-        public const string BestByDatePropertyName = "BestByDate";
-
-        private DateTime? _BestByDate = null;
-
-        /// <summary>
-        /// Sets and gets the BestByDate property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public DateTime? BestByDate
-        {
-            get
-            {
-                return _BestByDate;
-            }
-
-            set
-            {
-                if (_BestByDate == value)
-                {
-                    return;
-                }
-
-                _BestByDate = value;
-                RaisePropertyChanged(BestByDatePropertyName);
-            }
-        }
-
-        #endregion
-
-        #region AlcoholContent
-
-        /// <summary>
-        /// The <see cref="AlcoholContent" /> property's name.
-        /// </summary>
-        public const string AlcoholContentPropertyName = "AlcoholContent";
-
-        private string _AlcoholContent = default;
-
-        /// <summary>
-        /// Sets and gets the AlcoholContent property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string AlcoholContent
-        {
-            get
-            {
-                return _AlcoholContent;
-            }
-
-            set
-            {
-                if (_AlcoholContent == value)
-                {
-                    return;
-                }
-
-                _AlcoholContent = value;
-                RaisePropertyChanged(AlcoholContentPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region TagsStr
-
-        /// <summary>
-        /// The <see cref="TagsStr" /> property's name.
-        /// </summary>
-        public const string TagsStrPropertyName = "TagsStr";
-
-        private string _TagsStr = default;
-
-        /// <summary>
-        /// Sets and gets the TagsStr property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string TagsStr
-        {
-            get
-            {
-                return _TagsStr;
-            }
-
-            set
-            {
-                if (_TagsStr == value)
-                {
-                    return;
-                }
-
-                _TagsStr = value;
-                RaisePropertyChanged(TagsStrPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region BrandModel
-
-        /// <summary>
-        /// The <see cref="BrandModel" /> property's name.
-        /// </summary>
-        public const string BrandModelPropertyName = "BrandModel";
-
-        private BrandModel _BrandModel = null;
-
-        /// <summary>
-        /// Sets and gets the BrandModel property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public BrandModel BrandModel
-        {
-            get
-            {
-                return _BrandModel;
-            }
-
-            set
-            {
-                if (_BrandModel == value)
-                {
-                    return;
-                }
-
-                _BrandModel = value;
-                BrandButtonTitle = _BrandModel.BrandName;
-                RaisePropertyChanged(BrandModelPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region Tags
-
-        /// <summary>
-        /// The <see cref="Tags" /> property's name.
-        /// </summary>
-        public const string TagsPropertyName = "Tags";
-
-        private List<Tag> _Tags = null;
-
-        /// <summary>
-        /// Sets and gets the Tags property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public List<Tag> Tags
-        {
-            get
-            {
-                return _Tags;
-            }
-
-            set
-            {
-                if (_Tags == value)
-                {
-                    return;
-                }
-
-                _Tags = value;
-                RaisePropertyChanged(TagsPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region NewBatchModel
-
-        /// <summary>
-        /// The <see cref="NewBatchModel" /> property's name.
-        /// </summary>
-        public const string NewBatchModelPropertyName = "NewBatchModel";
-
-        private NewBatch _NewBatchModel = new NewBatch();
-
-        /// <summary>
-        /// Sets and gets the NewBatchModel property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public NewBatch NewBatchModel
-        {
-            get
-            {
-                return _NewBatchModel;
-            }
-
-            set
-            {
-                if (_NewBatchModel == value)
-                {
-                    return;
-                }
-
-                _NewBatchModel = value;
-                RaisePropertyChanged(NewBatchModelPropertyName);
-            }
-        }
-
-        #endregion
-
+        public string BrandButtonTitle { get; set; } = "Brand";
+        public string BatchCode { get; set; } = "BatchCode";
+        public DateTimeOffset BrewDate { get; set; } = DateTime.Now;
+        public string VolumeDigit { get; set; }
+        public string VolumeChar { get; set; } = "bbl";
+        public DateTimeOffset PackageDate { get; set; } = DateTime.Today;
+        public DateTime? BestByDate { get; set; }
+        public string AlcoholContent { get; set; }
+        public string TagsStr { get; set; }
+        public BrandModel BrandModel { get; set; }
+        public List<Tag> Tags { get; set; }
+        public NewBatch NewBatchModel { get; set; }
+       
         #endregion
 
         #region Commands
@@ -444,7 +46,6 @@ namespace KegID.ViewModel
 
         public AddBatchViewModel(INavigationService navigationService, IUuidManager uuidManager, IPageDialogService dialogService) : base(navigationService)
         {
-            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _uuidManager = uuidManager;
             _dialogService = dialogService;
 
@@ -492,18 +93,15 @@ namespace KegID.ViewModel
                     NewBatchModel.Abv = abv;
                     NewBatchModel.BatchCode = BatchCode;
                     NewBatchModel.BatchId = _uuidManager.GetUuId();
-                    NewBatchModel.BestBeforeDate = BestByDate.HasValue ? BestByDate.Value : DateTime.Now;
+                    NewBatchModel.BestBeforeDate = BestByDate ?? DateTime.Now;
                     NewBatchModel.BrandName = BrandButtonTitle;
                     NewBatchModel.BrewDate = BrewDate;
                     NewBatchModel.BrewedVolume = VolumeDigit;
-
                     NewBatchModel.BrewedVolumeUom = VolumeChar;
                     NewBatchModel.CompanyId = AppSettings.CompanyId;
-                    NewBatchModel.CompletedDate = DateTime.Today;
+                    NewBatchModel.CompletedDate = DateTimeOffset.Now;
                     NewBatchModel.IsCompleted = true;
                     NewBatchModel.PackageDate = PackageDate;
-                    //NewBatchModel.PackagedVolume = 0;
-                    //NewBatchModel.PackagedVolumeUom = "";
                     NewBatchModel.RecipeId = AppSettings.CompanyId;
                     NewBatchModel.SourceKey = "";
 

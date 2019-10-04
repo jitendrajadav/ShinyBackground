@@ -13,146 +13,13 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        //private readonly INavigationService _navigationService;
         private readonly IUuidManager _uuidManager;
 
         public List<string> Barcodes { get; private set; }
-
-        #region TrackingNo
-
-        /// <summary>
-        /// The <see cref="TrackingNo" /> property's name.
-        /// </summary>
-        public const string TrackingNoPropertyName = "TrackingNo";
-
-        private string _TrackingNo = string.Empty;
-
-        /// <summary>
-        /// Sets and gets the TrackingNo property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string TrackingNo
-        {
-            get
-            {
-                return _TrackingNo;
-            }
-
-            set
-            {
-                if (_TrackingNo == value)
-                {
-                    return;
-                }
-
-                _TrackingNo = value;
-                RaisePropertyChanged(TrackingNoPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region StockLocation
-
-        /// <summary>
-        /// The <see cref="StockLocation" /> property's name.
-        /// </summary>
-        public const string StockLocationPropertyName = "StockLocation";
-
-        private string _StockLocation = default(string);
-
-        /// <summary>
-        /// Sets and gets the StockLocation property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string StockLocation
-        {
-            get
-            {
-                return _StockLocation;
-            }
-
-            set
-            {
-                if (_StockLocation == value)
-                {
-                    return;
-                }
-
-                _StockLocation = value;
-                RaisePropertyChanged(StockLocationPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region ItemCount
-
-        /// <summary>
-        /// The <see cref="ItemCount" /> property's name.
-        /// </summary>
-        public const string ItemCountPropertyName = "ItemCount";
-
-        private int _ItemCount = 0;
-
-        /// <summary>
-        /// Sets and gets the ItemCount property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public int ItemCount
-        {
-            get
-            {
-                return _ItemCount;
-            }
-
-            set
-            {
-                if (_ItemCount == value)
-                {
-                    return;
-                }
-
-                _ItemCount = value;
-                RaisePropertyChanged(ItemCountPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region Contents
-
-        /// <summary>
-        /// The <see cref="Contents" /> property's name.
-        /// </summary>
-        public const string ContentsPropertyName = "Contents";
-
-        private string _Contents = "No contents";
-
-        /// <summary>
-        /// Sets and gets the Contents property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string Contents
-        {
-            get
-            {
-                return _Contents;
-            }
-
-            set
-            {
-                if (_Contents == value)
-                {
-                    return;
-                }
-
-                _Contents = value;
-                RaisePropertyChanged(ContentsPropertyName);
-            }
-        }
-
-        #endregion
+        public string TrackingNo { get; set; }
+        public string StockLocation { get; set; }
+        public int ItemCount { get; set; }
+        public string Contents { get; set; }
 
         #endregion
 
@@ -167,7 +34,6 @@ namespace KegID.ViewModel
 
         public MaintainDetailViewModel(INavigationService navigationService, IUuidManager uuidManager) : base(navigationService)
         {
-            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _uuidManager = uuidManager;
 
             HomeCommand = new DelegateCommand(HomeCommandCommandRecieverAsync);

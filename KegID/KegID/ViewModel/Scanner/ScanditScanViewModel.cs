@@ -2,10 +2,8 @@
 using KegID.Converter;
 using KegID.Messages;
 using KegID.Model;
-using KegID.Services;
 using Prism.Commands;
 using Prism.Navigation;
-using Prism.Services;
 using Scandit.BarcodePicker.Unified;
 using Scandit.BarcodePicker.Unified.Abstractions;
 using System.Collections.Generic;
@@ -20,65 +18,14 @@ namespace KegID.ViewModel
         #region Properties
 
         private const string Cloud = "collectionscloud.png";
-        private readonly IMoveService _moveService;
-        //private readonly INavigationService _navigationService;
-        private readonly IPageDialogService _dialogService;
-
         public IList<Tag> Tags { get; set; }
         public string TagsStr { get; set; }
         public string PageName { get; set; }
-        IList<BarcodeModel> models = new List<BarcodeModel>();
+        private readonly IList<BarcodeModel> models = new List<BarcodeModel>();
         private ScanSettings _scanSettings;
-
-        #region IsAnalyzing
-        private bool isAnalyzing = true;
-        public bool IsAnalyzing
-        {
-            get { return isAnalyzing; }
-            set
-            {
-                if (!Equals(isAnalyzing, value))
-                {
-                    isAnalyzing = value;
-                    RaisePropertyChanged(nameof(IsAnalyzing));
-                }
-            }
-        }
-        #endregion
-
-        #region IsScanning
-
-        private bool isScanning = true;
-        public bool IsScanning
-        {
-            get { return isScanning; }
-            set
-            {
-                if (!Equals(isScanning, value))
-                {
-                    isScanning = value;
-                    RaisePropertyChanged(nameof(IsScanning));
-                }
-            }
-        }
-        #endregion
-
-        #region BottonText
-
-        private string bottonText = default(string);
-        public string BottonText
-        {
-            get { return bottonText; }
-            set
-            {
-                if (!Equals(bottonText, value))
-                {
-                    bottonText = value;
-                    RaisePropertyChanged(nameof(BottonText));
-                }
-            }
-        }
-        #endregion
+        public bool IsAnalyzing { get; set; } = true;
+        public bool IsScanning { get; set; } = true;
+        public string BottonText { get; set; }
 
         #endregion
 
@@ -90,14 +37,9 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public ScanditScanViewModel(IMoveService moveService, INavigationService navigationService, IPageDialogService dialogService) : base(navigationService)
+        public ScanditScanViewModel(INavigationService navigationService) : base(navigationService)
         {
-            //_navigationService = navigationService;
-            _moveService = moveService;
-            _dialogService = dialogService;
-
             DoneCommand = new DelegateCommand(DoneCommandRecieverAsync);
-
             InitSettings();
         }
 
@@ -172,6 +114,9 @@ namespace KegID.ViewModel
                     catch { }
                 }
             });
+
+            if (!AppSettings.BatchScan)
+                session.StopScanning();
         }
 
         private async void InitSettings()
@@ -183,17 +128,45 @@ namespace KegID.ViewModel
             // set of symbologies. In your own apps, only enable the symbologies you
             // actually need.
             _scanSettings = _picker.GetDefaultScanSettings();
-            var symbologiesToEnable = new Symbology[] {
+            Symbology[] symbologiesToEnable = new Symbology[] {
                 Symbology.Qr,
                 Symbology.Ean13,
                 Symbology.Upce,
                 Symbology.Code128,
                 Symbology.Ean8,
                 Symbology.Upca,
-                Symbology.DataMatrix
+                Symbology.DataMatrix,
+                Symbology.Code39,
             };
+
             foreach (var sym in symbologiesToEnable)
-                _scanSettings.EnableSymbology(sym, true);
+            {
+                switch (sym)
+                {
+                    case Symbology.Ean13:
+                        _scanSettings.EnableSymbology(sym, AppSettings.Ean13);
+                        break;
+                    case Symbology.Upce:
+                        _scanSettings.EnableSymbology(sym, AppSettings.Upce);
+                        break;
+                    case Symbology.Code128:
+                        _scanSettings.EnableSymbology(sym, AppSettings.Code128);
+                        break;
+                    case Symbology.Code39:
+                        _scanSettings.EnableSymbology(sym, AppSettings.Code39);
+                        break;
+                    case Symbology.Qr:
+                        _scanSettings.EnableSymbology(sym, AppSettings.Qr);
+                        break;
+                    case Symbology.DataMatrix:
+                        _scanSettings.EnableSymbology(sym, AppSettings.DataMatrix);
+                        break;
+                    default:
+                        _scanSettings.EnableSymbology(sym, true);
+                        break;
+                }
+            }
+
             await _picker.ApplySettingsAsync(_scanSettings);
             // This will open the scanner in full-screen mode.  
             ScanditService.BarcodePicker.CancelButtonText = "Done";
@@ -311,7 +284,6 @@ namespace KegID.ViewModel
                 }
             }
         }
-
 
         public override void OnNavigatedFrom(INavigationParameters parameters)
         {

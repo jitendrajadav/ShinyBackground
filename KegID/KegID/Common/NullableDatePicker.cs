@@ -25,11 +25,11 @@ namespace KegID.Common
 
 
         public static readonly BindableProperty NullableDateProperty =
-        BindableProperty.Create(nameof(NullableDate), typeof(DateTime?), typeof(NullableDatePicker), null, defaultBindingMode: BindingMode.TwoWay);
+        BindableProperty.Create(nameof(NullableDate), typeof(DateTimeOffset?), typeof(NullableDatePicker), null, defaultBindingMode: BindingMode.TwoWay);
 
-        public DateTime? NullableDate
+        public DateTimeOffset? NullableDate
         {
-            get { return (DateTime?)GetValue(NullableDateProperty); }
+            get { return (DateTimeOffset?)GetValue(NullableDateProperty); }
             set { SetValue(NullableDateProperty, value); UpdateDate(); }
         }
 
@@ -63,15 +63,15 @@ namespace KegID.Common
         {
             base.OnPropertyChanged(propertyName);
 
-            if (propertyName == DateProperty.PropertyName || (propertyName == IsFocusedProperty.PropertyName && !IsFocused && (Date.ToString("d") == DateTime.Now.ToString("d"))))
+            if (propertyName == DateProperty.PropertyName || (propertyName == IsFocusedProperty.PropertyName && !IsFocused && (Date.ToString("d") == DateTimeOffset.Now.ToString("d"))))
             {
                 AssignValue();
             }
 
             if (propertyName == NullableDateProperty.PropertyName && NullableDate.HasValue)
             {
-                Date = NullableDate.Value;
-                if (Date.ToString(_originalFormat) == DateTime.Now.ToString(_originalFormat))
+                Date = NullableDate.Value.Date;
+                if (Date.ToString(_originalFormat) == DateTimeOffset.Now.ToString(_originalFormat))
                 {
                     //this code was done because when date selected is the actual date the"DateProperty" does not raise  
                     UpdateDate();

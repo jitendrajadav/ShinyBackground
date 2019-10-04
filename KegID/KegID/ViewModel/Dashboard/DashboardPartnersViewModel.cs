@@ -16,316 +16,19 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        //private readonly INavigationService _navigationService;
-        private readonly IDashboardService _dashboardService;
         public IList<PossessorResponseModel> AllPartners { get; set; }
 
-        #region IsWorking
-
-        /// <summary>
-        /// The <see cref="IsWorking" /> property's name.
-        /// </summary>
-        public const string IsWorkingPropertyName = "IsWorking";
-
-        private bool _IsWorking = false;
-
-        /// <summary>
-        /// Sets and gets the IsWorking property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public bool IsWorking
-        {
-            get
-            {
-                return _IsWorking;
-            }
-
-            set
-            {
-                if (_IsWorking == value)
-                {
-                    return;
-                }
-
-                _IsWorking = value;
-                RaisePropertyChanged(IsWorkingPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region InternalBackgroundColor
-
-        /// <summary>
-        /// The <see cref="InternalBackgroundColor" /> property's name.
-        /// </summary>
-        public const string InternalBackgroundColorPropertyName = "InternalBackgroundColor";
-
-        private string _InternalBackgroundColor = "Transparent";
-
-        /// <summary>
-        /// Sets and gets the InternalBackgroundColor property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string InternalBackgroundColor
-        {
-            get
-            {
-                return _InternalBackgroundColor;
-            }
-
-            set
-            {
-                if (_InternalBackgroundColor == value)
-                {
-                    return;
-                }
-
-                _InternalBackgroundColor = value;
-                RaisePropertyChanged(InternalBackgroundColorPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region InternalTextColor
-
-        /// <summary>
-        /// The <see cref="InternalTextColor" /> property's name.
-        /// </summary>
-        public const string InternalTextColorPropertyName = "InternalTextColor";
-
-        private string _InternalTextColor = "#4E6388";
-
-        /// <summary>
-        /// Sets and gets the InternalTextColor property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string InternalTextColor
-        {
-            get
-            {
-                return _InternalTextColor;
-            }
-
-            set
-            {
-                if (_InternalTextColor == value)
-                {
-                    return;
-                }
-
-                _InternalTextColor = value;
-                RaisePropertyChanged(InternalTextColorPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region AlphabeticalBackgroundColor
-
-        /// <summary>
-        /// The <see cref="AlphabeticalBackgroundColor" /> property's name.
-        /// </summary>
-        public const string AlphabeticalBackgroundColorPropertyName = "AlphabeticalBackgroundColor";
-
-        private string _AlphabeticalBackgroundColor = "Transparent";
-
-        /// <summary>
-        /// Sets and gets the AlphabeticalBackgroundColor property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string AlphabeticalBackgroundColor
-        {
-            get
-            {
-                return _AlphabeticalBackgroundColor;
-            }
-
-            set
-            {
-                if (_AlphabeticalBackgroundColor == value)
-                {
-                    return;
-                }
-
-                _AlphabeticalBackgroundColor = value;
-                RaisePropertyChanged(AlphabeticalBackgroundColorPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region AlphabeticalTextColor
-
-        /// <summary>
-        /// The <see cref="AlphabeticalTextColor" /> property's name.
-        /// </summary>
-        public const string AlphabeticalTextColorPropertyName = "AlphabeticalTextColor";
-
-        private string _AlphabeticalTextColor = "#4E6388";
-
-        /// <summary>
-        /// Sets and gets the AlphabeticalTextColor property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string AlphabeticalTextColor
-        {
-            get
-            {
-                return _AlphabeticalTextColor;
-            }
-
-            set
-            {
-                if (_AlphabeticalTextColor == value)
-                {
-                    return;
-                }
-
-                _AlphabeticalTextColor = value;
-                RaisePropertyChanged(AlphabeticalTextColorPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region KegsHeldBackgroundColor
-
-        /// <summary>
-        /// The <see cref="KegsHeldBackgroundColor" /> property's name.
-        /// </summary>
-        public const string KegsHeldBackgroundColorPropertyName = "KegsHeldBackgroundColor";
-
-        private string _KegsHeldBackgroundColor = "#4E6388";
-
-        /// <summary>
-        /// Sets and gets the KegsHeldBackgroundColor property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string KegsHeldBackgroundColor
-        {
-            get
-            {
-                return _KegsHeldBackgroundColor;
-            }
-
-            set
-            {
-                if (_KegsHeldBackgroundColor == value)
-                {
-                    return;
-                }
-
-                _KegsHeldBackgroundColor = value;
-                RaisePropertyChanged(KegsHeldBackgroundColorPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region KegsHeldTextColor
-
-        /// <summary>
-        /// The <see cref="KegsHeldTextColor" /> property's name.
-        /// </summary>
-        public const string KegsHeldTextColorPropertyName = "KegsHeldTextColor";
-
-        private string _KegsHeldTextColor = "White";
-
-        /// <summary>
-        /// Sets and gets the KegsHeldTextColor property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string KegsHeldTextColor
-        {
-            get
-            {
-                return _KegsHeldTextColor;
-            }
-
-            set
-            {
-                if (_KegsHeldTextColor == value)
-                {
-                    return;
-                }
-
-                _KegsHeldTextColor = value;
-                RaisePropertyChanged(KegsHeldTextColorPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region PartnerCollection
-
-        /// <summary>
-        /// The <see cref="PartnerCollection" /> property's name.
-        /// </summary>
-        public const string PartnerCollectionPropertyName = "PartnerCollection";
-
-        private ObservableCollection<PossessorResponseModel> _PartnerCollection = null;
-
-        /// <summary>
-        /// Sets and gets the PartnerCollection property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public ObservableCollection<PossessorResponseModel> PartnerCollection
-        {
-            get
-            {
-                return _PartnerCollection;
-            }
-
-            set
-            {
-                if (_PartnerCollection == value)
-                {
-                    return;
-                }
-
-                _PartnerCollection = value;
-                RaisePropertyChanged(PartnerCollectionPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region PartnerName
-
-        /// <summary>
-        /// The <see cref="PartnerName" /> property's name.
-        /// </summary>
-        public const string PartnerNamePropertyName = "PartnerName";
-
-        private string _PartnerName = default(string);
-
-        /// <summary>
-        /// Sets and gets the PartnerName property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string PartnerName
-        {
-            get
-            {
-                return _PartnerName;
-            }
-
-            set
-            {
-                if (_PartnerName == value)
-                {
-                    return;
-                }
-
-                _PartnerName = value;
-                RaisePropertyChanged(PartnerNamePropertyName);
-            }
-        }
-
-        #endregion
-
+        public bool IsWorking { get; set; }
+        public string InternalBackgroundColor { get; set; }
+        public string InternalTextColor { get; set; }
+        public string AlphabeticalBackgroundColor { get; set; }
+        public string AlphabeticalTextColor { get; set; }
+        public string KegsHeldBackgroundColor { get; set; }
+        public string KegsHeldTextColor { get; set; }
+        public ObservableCollection<PossessorResponseModel> PartnerCollection { get; set; }
+        public string PartnerName { get; set; }
+        public PartnerTypes SelectedPartner { get; set; }
+       
         #endregion
 
         #region Commands
@@ -342,12 +45,8 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public DashboardPartnersViewModel(IDashboardService dashboardService, INavigationService navigationService) : base(navigationService)
+        public DashboardPartnersViewModel(INavigationService navigationService) : base(navigationService)
         {
-            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
-
-            _dashboardService = dashboardService;
-
             InternalCommand = new DelegateCommand(InternalCommandReciever);
             AlphabeticalCommand = new DelegateCommand(AlphabeticalCommandReciever);
             ItemTappedCommand = new DelegateCommand<PossessorResponseModel>((model) => ItemTappedCommandRecieverAsync(model));
@@ -385,6 +84,7 @@ namespace KegID.ViewModel
             {
                 InitialSetting();
                 PartnerCollection = new ObservableCollection<PossessorResponseModel>(AllPartners.OrderByDescending(x => x.KegsHeld));
+                SelectedPartner = PartnerTypes.KegsHeld;
             }
             catch (Exception ex)
             {
@@ -413,14 +113,34 @@ namespace KegID.ViewModel
 
         private void TextChangedCommandRecieverAsync()
         {
-            try
+            if (!string.IsNullOrEmpty(PartnerName))
             {
-                var result = AllPartners.Where(x => x.Location.FullName.ToLower().Contains(PartnerName.ToLower()));
-                PartnerCollection = new ObservableCollection<PossessorResponseModel>(result);
+                try
+                {
+                    var result = AllPartners.Where(x => x.Location.FullName.ToLower().Contains(PartnerName.ToLower()));
+                    PartnerCollection = new ObservableCollection<PossessorResponseModel>(result);
+                }
+                catch (Exception ex)
+                {
+                    Crashes.TrackError(ex);
+                }
             }
-            catch (Exception ex)
+            else
             {
-                 Crashes.TrackError(ex);
+                switch (SelectedPartner)
+                {
+                    case PartnerTypes.Internal:
+                        InternalCommandReciever();
+                        break;
+                    case PartnerTypes.Alphabetical:
+                        AlphabeticalCommandReciever();
+                        break;
+                    case PartnerTypes.KegsHeld:
+                        KegsHeldCommandReciever();
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 
@@ -463,6 +183,7 @@ namespace KegID.ViewModel
                 KegsHeldTextColor = "#4E6388";
 
                 PartnerCollection = new ObservableCollection<PossessorResponseModel>(AllPartners.OrderBy(x => x.Location.FullName));
+                SelectedPartner = PartnerTypes.Alphabetical;
             }
             catch (Exception ex)
             {
@@ -484,6 +205,7 @@ namespace KegID.ViewModel
                 KegsHeldTextColor = "#4E6388";
 
                 PartnerCollection = new ObservableCollection<PossessorResponseModel>(AllPartners);
+                SelectedPartner = PartnerTypes.Internal;
             }
             catch (Exception ex)
             {
@@ -517,5 +239,12 @@ namespace KegID.ViewModel
         }
 
         #endregion
+    }
+
+    public enum PartnerTypes
+    {
+        Internal = 1,
+        Alphabetical = 2,
+        KegsHeld = 0
     }
 }
