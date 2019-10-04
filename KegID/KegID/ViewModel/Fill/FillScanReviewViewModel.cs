@@ -508,7 +508,7 @@ namespace KegID.ViewModel
                 TrackingNumber = _uuidManager.GetUuId();
                 ManifestTo = partner.FullName + "\n" + partner.PartnerTypeCode;
                 ItemCount = Barcodes.Count;
-                Contents = !string.IsNullOrEmpty(content) ? content : "No contens";
+                Contents = !string.IsNullOrEmpty(content) ? content : "No contents";
             }
             catch (Exception ex)
             {
