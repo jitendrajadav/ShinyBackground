@@ -148,23 +148,26 @@ namespace KegID.ViewModel
 
         private async void PartnerSearchCommandRecieverAsync()
         {
-            try
+            if (!string.IsNullOrEmpty(PartnerSearch))
             {
-                Loader.StartLoading();
-                var value = await _moveService.GetPartnerSearchAsync(AppSettings.SessionId, PartnerSearch, false, false);
-
-                if (value.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
+                try
                 {
-                    PartnerSearchCollection = value.PartnerModel;
+                    Loader.StartLoading();
+                    var value = await _moveService.GetPartnerSearchAsync(AppSettings.SessionId, PartnerSearch, false, false);
+
+                    if (value.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
+                    {
+                        PartnerSearchCollection = value.PartnerModel;
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                 Crashes.TrackError(ex);
-            }
-            finally
-            {
-                Loader.StopLoading();
+                catch (Exception ex)
+                {
+                    Crashes.TrackError(ex);
+                }
+                finally
+                {
+                    Loader.StopLoading();
+                }
             }
         }
 
