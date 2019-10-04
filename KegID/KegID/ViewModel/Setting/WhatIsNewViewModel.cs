@@ -83,10 +83,10 @@ namespace KegID.ViewModel
             {
                 Device.BeginInvokeOnMainThread(async () =>
                 {
-                    if (AppSettings.IsFreshInstall)
+                    if (!AppSettings.IsFreshInstall && !AppSettings.WhatsNewVersion.Equals(Xamarin.Essentials.AppInfo.VersionString))
                     {
                         AppSettings.IsFreshInstall = false;
-
+                        AppSettings.WhatsNewVersion = Xamarin.Essentials.AppInfo.Version.ToString();
                         // If it is Android or iOS
                         await _navigationService.NavigateAsync("../MainPage", animated: false);
                     }

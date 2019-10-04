@@ -230,7 +230,8 @@ namespace KegID.ViewModel
                     }
                     try
                     {
-                        if (AppSettings.IsFreshInstall)
+                        string v = Xamarin.Essentials.AppInfo.Version.ToString();
+                        if (AppSettings.IsFreshInstall == false && AppSettings.WhatsNewVersion != v)
                         {
                             await _navigationService.NavigateAsync("../WhatIsNewView", animated: false);
                             Loader.StopLoading();
@@ -281,6 +282,7 @@ namespace KegID.ViewModel
                 IsLogOut = true;
                 AppSettings.RemoveUserData();
                 AppSettings.IsFreshInstall = false;
+                AppSettings.WhatsNewVersion = null;
             }
             else
                 IsLogOut = false;
