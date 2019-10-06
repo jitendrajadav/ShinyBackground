@@ -1717,6 +1717,15 @@ namespace KegID {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to General:.
+        /// </summary>
+        internal static string label_general {
+            get {
+                return ResourceManager.GetString("label_general", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to History.
         /// </summary>
         internal static string label_history {
