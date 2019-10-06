@@ -113,9 +113,8 @@ namespace KegID.ViewModel
 
         public async Task LoadPartnersAsync()
         {
-            Loader.StartLoading();
-
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+
             AllPartners = RealmDb.All<PartnerModel>().Where(x=>x.PartnerId != AppSettings.CompanyId).ToList();
             try
             {
@@ -154,26 +153,10 @@ namespace KegID.ViewModel
                 {
                     var Partners = value.PartnerModel.Where(x => x.FullName != string.Empty).ToList();
 
-                    RealmDb.Write(() =>
-                    {
-                        foreach (var item in Partners)
-                        {
-                            try
-                            {
-                                RealmDb.Add(item);
-                            }
-                            catch (Exception ex)
-                            {
-                                Crashes.TrackError(ex);
-                            }
-                        }
-                    });
-                }
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            if (BrewerStockOn)
+                PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners.Where(x => x.PartnerTypeName == "Brewer - Stock").ToList());
+            else
+                PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners);
         }
 
         private void DeletePartners()

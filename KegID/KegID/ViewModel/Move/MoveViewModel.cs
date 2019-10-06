@@ -297,82 +297,44 @@ namespace KegID.ViewModel
 
         private async void SaveDraftCommandRecieverAsync()
         {
-            try
+            var location = await _geolocationService.GetLastLocationAsync();
+
+            ManifestModel manifestModel = null;
+
+            manifestModel = GenerateManifest(location ?? new Xamarin.Essentials.Location(0, 0));
+            if (manifestModel != null)
             {
-                Loader.StartLoading();
-                var location = await _geolocationService.GetLastLocationAsync();
 
-                ManifestModel manifestModel = null;
-                try
+                manifestModel.IsDraft = true;
+                var isNew = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).Find<ManifestModel>(manifestModel.ManifestId);
+                if (isNew != null)
                 {
-                    manifestModel = GenerateManifest(location??new Xamarin.Essentials.Location(0,0));
-                    if (manifestModel != null)
+                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                    RealmDb.Write(() =>
                     {
+                        RealmDb.Add(manifestModel, update: true);
+                    });
+                }
+                else
+                {
+                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                    RealmDb.Write(() =>
+                   {
+                       RealmDb.Add(manifestModel);
+                   });
+                }
 
-                        manifestModel.IsDraft = true;
-                        var isNew = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).Find<ManifestModel>(manifestModel.ManifestId);
-                        if (isNew != null)
-                        {
-                            try
-                            {
-                                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                                RealmDb.Write(() =>
-                                {
-                                    RealmDb.Add(manifestModel, update: true);
-                                });
-                            }
-                            catch (Exception ex)
-                            {
-                                Crashes.TrackError(ex);
-                            }
-                        }
-                        else
-                        {
-                            try
-                            {
-                                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                                RealmDb.Write(() =>
-                               {
-                                   RealmDb.Add(manifestModel);
-                               });
-                            }
-                            catch (Exception ex)
-                            {
-                                Crashes.TrackError(ex);
-                            }
-                        }
-
-                        Loader.StopLoading();
-                        await _navigationService.NavigateAsync("ManifestsView",
-                            new NavigationParameters
-                            {
+                await _navigationService.NavigateAsync("ManifestsView",
+                    new NavigationParameters
+                    {
                                 { "LoadDraftManifestAsync", "LoadDraftManifestAsync" }
-                            }, animated: false);
-                    }
-                    else
-                    {
-                        await _dialogService.DisplayAlertAsync("Error", "Could not save manifest.", "Ok");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Crashes.TrackError(ex);
-                }
-                finally
-                {
-                    manifestModel = null;
-                    Cleanup();
-                }
-
+                    }, animated: false);
             }
-            catch (Exception ex)
+            else
             {
-                Crashes.TrackError(ex);
+                await _dialogService.DisplayAlertAsync("Error", "Could not save manifest.", "Ok");
             }
-            finally
-            {
-                Loader.StopLoading();
-            }
+            Cleanup();
         }
 
         public ManifestModel GenerateManifest(Xamarin.Essentials.Location location)
