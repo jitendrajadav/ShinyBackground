@@ -44,13 +44,15 @@ namespace KegID.UWP
 
                 List<Assembly> assembliesToInclude = new List<Assembly>
                 {
-                    typeof(CarouselViewRenderer).GetTypeInfo().Assembly
+                    typeof(CarouselViewRenderer).GetTypeInfo().Assembly,
+                    typeof(Forms9Patch.UWP.Settings).GetTypeInfo().Assembly
                 };
                 Xamarin.Forms.Forms.Init(e, assembliesToInclude);
 
                 TintedImageRenderer.Init();
                 FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
                 Rg.Plugins.Popup.Popup.Init();
+                Forms9Patch.UWP.Settings.Initialize(this);
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
                     //TODO: Load state from previously suspended application

@@ -18,326 +18,44 @@ namespace KegID.ViewModel
     public class FillViewModel : BaseViewModel
     {
         #region Properties
+
         public IList<PalletModel> PalletCollection { get; private set; }
 
-        //private readonly INavigationService _navigationService;
         private readonly IPageDialogService _dialogService;
-        private readonly IUuidManager _uuidManager;
         private readonly IManifestManager _manifestManager;
         private readonly IGeolocationService _geolocationService;
 
-
-        #region ManifestId
-
-        /// <summary>
-        /// The <see cref="ManifestId" /> property's name.
-        /// </summary>
-        public const string ManifestIdPropertyName = "ManifestId";
-
-        private string _ManifestId = default;
-
-        /// <summary>
-        /// Sets and gets the ManifestId property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string ManifestId
+        public string ManifestId { get; set; }
+        public void OnManifestIdChanged()
         {
-            get
-            {
-                return _ManifestId;
-            }
-
-            set
-            {
-                if (_ManifestId == value)
-                {
-                    return;
-                }
-
-                _ManifestId = value;
-                ConstantManager.ManifestId = value;
-                RaisePropertyChanged(ManifestIdPropertyName);
-            }
+            ConstantManager.ManifestId = ManifestId;
         }
 
-        #endregion
-
-        #region NewBatchModel
-
-        /// <summary>
-        /// The <see cref="NewBatchModel" /> property's name.
-        /// </summary>
-        public const string NewBatchModelPropertyName = "NewBatchModel";
-
-        private NewBatch _NewBatchModel = new NewBatch();
-
-        /// <summary>
-        /// Sets and gets the NewBatchModel property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public NewBatch NewBatchModel
+        public NewBatch NewBatchModel { get; set; } = new NewBatch();
+        public void OnNewBatchModelChanged()
         {
-            get
-            {
-                return _NewBatchModel;
-            }
-
-            set
-            {
-                if (_NewBatchModel == value)
-                {
-                    return;
-                }
-
-                _NewBatchModel = value;
-                BatchButtonTitle = _NewBatchModel.BrandName + "-" + _NewBatchModel.BatchCode;
-                IsRequiredVisible = false;
-                RaisePropertyChanged(NewBatchModelPropertyName);
-            }
+            BatchButtonTitle = NewBatchModel.BrandName + "-" + NewBatchModel.BatchCode;
+            IsRequiredVisible = false;
         }
 
-        #endregion
-
-        #region BatchButtonTitle
-
-        /// <summary>
-        /// The <see cref="BatchButtonTitle" /> property's name.
-        /// </summary>
-        public const string BatchButtonTitlePropertyName = "BatchButtonTitle";
-
-        private string _BatchButtonTitle = "Select batch";
-
-        /// <summary>
-        /// Sets and gets the BatchButtonTitle property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string BatchButtonTitle
+        public string BatchButtonTitle { get; set; } = "Select batch";
+        public string SizeButtonTitle { get; set; } =  "Select size";
+        public string DestinationTitle { get; set; } = "Select destination";
+        public void OnDestinationTitleChanged()
         {
-            get
-            {
-                return _BatchButtonTitle;
-            }
-
-            set
-            {
-                if (_BatchButtonTitle == value)
-                {
-                    return;
-                }
-
-                _BatchButtonTitle = value;
-                RaisePropertyChanged(BatchButtonTitlePropertyName);
-            }
+            IsDestinationRequiredVisible = false;
         }
 
-        #endregion
-
-        #region SizeButtonTitle
-
-        /// <summary>
-        /// The <see cref="SizeButtonTitle" /> property's name.
-        /// </summary>
-        public const string SizeButtonTitlePropertyName = "SizeButtonTitle";
-
-        private string _SizeButtonTitle = "Select size";
-
-        /// <summary>
-        /// Sets and gets the SizeButtonTitle property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string SizeButtonTitle
+        public PartnerModel PartnerModel { get; set; } = new PartnerModel();
+        public void OnPartnerModelChanged()
         {
-            get
-            {
-                return _SizeButtonTitle;
-            }
-
-            set
-            {
-                if (_SizeButtonTitle == value)
-                {
-                    return;
-                }
-
-                _SizeButtonTitle = value;
-                RaisePropertyChanged(SizeButtonTitlePropertyName);
-            }
+            DestinationTitle = PartnerModel.FullName;
+            ConstantManager.Partner = PartnerModel;
         }
 
-        #endregion
-
-        #region DestinationTitle
-
-        /// <summary>
-        /// The <see cref="DestinationTitle" /> property's name.
-        /// </summary>
-        public const string DestinationTitlePropertyName = "DestinationTitle";
-
-        private string _DestinationTitle = "Select destination";
-
-        /// <summary>
-        /// Sets and gets the DestinationTitle property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string DestinationTitle
-        {
-            get
-            {
-                return _DestinationTitle;
-            }
-
-            set
-            {
-                if (_DestinationTitle == value)
-                {
-                    return;
-                }
-
-                _DestinationTitle = value;
-                IsDestinationRequiredVisible = false;
-                RaisePropertyChanged(DestinationTitlePropertyName);
-            }
-        }
-
-        #endregion
-
-        #region PartnerModel
-
-        /// <summary>
-        /// The <see cref="PartnerModel" /> property's name.
-        /// </summary>
-        public const string PartnerModelPropertyName = "PartnerModel";
-
-        private PartnerModel _PartnerModel = new PartnerModel();
-
-        /// <summary>
-        /// Sets and gets the PartnerModel property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public PartnerModel PartnerModel
-        {
-            get
-            {
-                return _PartnerModel;
-            }
-
-            set
-            {
-                if (_PartnerModel == value)
-                {
-                    return;
-                }
-
-                _PartnerModel = value;
-                DestinationTitle = _PartnerModel.FullName;
-                ConstantManager.Partner = _PartnerModel;
-                RaisePropertyChanged(PartnerModelPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region IsPalletze
-
-        /// <summary>
-        /// The <see cref="IsPalletze" /> property's name.
-        /// </summary>
-        public const string IsPalletzePropertyName = "IsPalletze";
-
-        private bool _IsPalletze = true;
-
-        /// <summary>
-        /// Sets and gets the IsPalletze property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public bool IsPalletze
-        {
-            get
-            {
-                return _IsPalletze;
-            }
-
-            set
-            {
-                if (_IsPalletze == value)
-                {
-                    return;
-                }
-
-                _IsPalletze = value;
-                RaisePropertyChanged(IsPalletzePropertyName);
-            }
-        }
-
-        #endregion
-
-        #region IsRequiredVisible
-
-        /// <summary>
-        /// The <see cref="IsRequiredVisible" /> property's name.
-        /// </summary>
-        public const string IsRequiredVisiblePropertyName = "IsRequiredVisible";
-
-        private bool _IsRequiredVisible = true;
-
-        /// <summary>
-        /// Sets and gets the IsRequiredVisible property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public bool IsRequiredVisible
-        {
-            get
-            {
-                return _IsRequiredVisible;
-            }
-
-            set
-            {
-                if (_IsRequiredVisible == value)
-                {
-                    return;
-                }
-
-                _IsRequiredVisible = value;
-                RaisePropertyChanged(IsRequiredVisiblePropertyName);
-            }
-        }
-
-        #endregion
-
-        #region IsDestinationRequiredVisible
-
-        /// <summary>
-        /// The <see cref="IsDestinationRequiredVisible" /> property's name.
-        /// </summary>
-        public const string IsDestinationRequiredVisiblePropertyName = "IsDestinationRequiredVisible";
-
-        private bool _IsDestinationRequiredVisible = true;
-
-        /// <summary>
-        /// Sets and gets the IsDestinationRequiredVisible property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public bool IsDestinationRequiredVisible
-        {
-            get
-            {
-                return _IsDestinationRequiredVisible;
-            }
-
-            set
-            {
-                if (_IsDestinationRequiredVisible == value)
-                {
-                    return;
-                }
-
-                _IsDestinationRequiredVisible = value;
-                RaisePropertyChanged(IsDestinationRequiredVisiblePropertyName);
-            }
-        }
-
-        #endregion
+        public bool IsPalletze { get; set; } = true;
+        public bool IsRequiredVisible { get; set; } = true;
+        public bool IsDestinationRequiredVisible { get; set; } = true;
 
         #endregion
 
@@ -353,11 +71,9 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public FillViewModel(INavigationService navigationService, IPageDialogService dialogService, IUuidManager uuidManager, IManifestManager manifestManager, IGeolocationService geolocationService) : base(navigationService)
+        public FillViewModel(INavigationService navigationService, IPageDialogService dialogService, IManifestManager manifestManager, IGeolocationService geolocationService) : base(navigationService)
         {
-            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _dialogService = dialogService;
-            _uuidManager = uuidManager;
             _manifestManager = manifestManager;
             _geolocationService = geolocationService;
 
@@ -397,84 +113,50 @@ namespace KegID.ViewModel
 
         private async void SaveDraftCommandRecieverAsync()
         {
-            try
+            var location = await _geolocationService.GetLastLocationAsync();
+
+            ManifestModel manifestModel = null;
+
+
+            manifestModel = GenerateManifest(PalletCollection ?? new List<PalletModel>(), location ?? new Xamarin.Essentials.Location(0, 0));
+            if (manifestModel != null)
             {
-                Loader.StartLoading();
-                var location = await _geolocationService.GetLastLocationAsync();
 
-                ManifestModel manifestModel = null;
-
-                try
+                manifestModel.IsDraft = true;
+                var isNew = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).Find<ManifestModel>(manifestModel.ManifestId);
+                if (isNew != null)
                 {
-                    manifestModel = GenerateManifest(PalletCollection ?? new List<PalletModel>(), location??new Xamarin.Essentials.Location(0,0));
-                    if (manifestModel != null)
+                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                    RealmDb.Write(() =>
                     {
+                        RealmDb.Add(manifestModel, update: true);
+                    });
 
-                        manifestModel.IsDraft = true;
-                        var isNew = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).Find<ManifestModel>(manifestModel.ManifestId);
-                        if (isNew != null)
-                        {
-                            try
-                            {
-                                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                                RealmDb.Write(() =>
-                                {
-                                    RealmDb.Add(manifestModel, update: true);
-                                });
-                            }
-                            catch (Exception ex)
-                            {
-                                Crashes.TrackError(ex);
-                            }
-                        }
-                        else
-                        {
-                            try
-                            {
-                                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                                RealmDb.Write(() =>
-                                {
-                                    RealmDb.Add(manifestModel);
-                                });
-                            }
-                            catch (Exception ex)
-                            {
-                                Crashes.TrackError(ex);
-                            }
-                        }
+                }
+                else
+                {
+                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                    RealmDb.Write(() =>
+                    {
+                        RealmDb.Add(manifestModel);
+                    });
+                }
 
-                        Loader.StopLoading();
-                        await _navigationService.NavigateAsync("ManifestsView",
-                            new NavigationParameters
-                            {
+                await _navigationService.NavigateAsync("ManifestsView",
+                    new NavigationParameters
+                    {
                                     { "LoadDraftManifestAsync", "LoadDraftManifestAsync" }
-                            }, animated: false);
-                    }
-                    else
-                    {
-                        await _dialogService.DisplayAlertAsync("Error", "Could not save manifest.", "Ok");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Crashes.TrackError(ex);
-                }
-                finally
-                {
-                    manifestModel = null;
-                    Cleanup();
-                }
-
+                    }, animated: false);
             }
-            catch (Exception)
+            else
             {
+                await _dialogService.DisplayAlertAsync("Error", "Could not save manifest.", "Ok");
+            }
 
-            }
-            finally
-            {
-                Loader.StopLoading();
-            }
+            manifestModel = null;
+            Cleanup();
         }
+            
 
         private void Cleanup()
         {

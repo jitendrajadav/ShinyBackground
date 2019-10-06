@@ -27,8 +27,6 @@ namespace KegID.ViewModel
         private const string Maintenace = "maintenace.png";
         private const string ValidationOK = "validationok.png";
 
-        //private readonly INavigationService _navigationService;
-        private readonly IMoveService _moveService;
         private readonly IZebraPrinterManager _zebraPrinterManager;
         private readonly IGetIconByPlatform _getIconByPlatform;
         private readonly ICalcCheckDigitMngr _calcCheckDigitMngr;
@@ -39,279 +37,14 @@ namespace KegID.ViewModel
         public string SizeButtonTitle { get; private set; }
         public PartnerModel PartnerModel { get; private set; }
         public bool HasPrint { get; private set; }
-
-        #region Title
-
-        /// <summary>
-        /// The <see cref="Title" /> property's name.
-        /// </summary>
-        public const string TitlePropertyName = "Title";
-
-        private string _Title = default;
-
-        /// <summary>
-        /// Sets and gets the Title property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string Title
-        {
-            get
-            {
-                return _Title;
-            }
-
-            set
-            {
-                if (_Title == value)
-                {
-                    return;
-                }
-
-                _Title = value;
-                RaisePropertyChanged(TitlePropertyName);
-            }
-        }
-
-        #endregion
-
-        #region ManifestId
-
-        /// <summary>
-        /// The <see cref="ManifestId" /> property's name.
-        /// </summary>
-        public const string ManifestIdPropertyName = "ManifestId";
-
-        private string _ManifestId = default;
-
-        /// <summary>
-        /// Sets and gets the ManifestId property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string ManifestId
-        {
-            get
-            {
-                return _ManifestId;
-            }
-
-            set
-            {
-                if (_ManifestId == value)
-                {
-                    return;
-                }
-
-                _ManifestId = value;
-                RaisePropertyChanged(ManifestIdPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region ManaulBarcode
-
-        /// <summary>
-        /// The <see cref="ManaulBarcode" /> property's name.
-        /// </summary>
-        public const string ManaulBarcodePropertyName = "ManaulBarcode";
-
-        private string _ManaulBarcode = default;
-
-        /// <summary>
-        /// Sets and gets the ManaulBarcode property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string ManaulBarcode
-        {
-            get
-            {
-                return _ManaulBarcode;
-            }
-
-            set
-            {
-                if (_ManaulBarcode == value)
-                {
-                    return;
-                }
-
-                _ManaulBarcode = value;
-                RaisePropertyChanged(ManaulBarcodePropertyName);
-            }
-        }
-
-        #endregion
-
-        #region TagsStr
-
-        /// <summary>
-        /// The <see cref="TagsStr" /> property's name.
-        /// </summary>
-        public const string TagsStrPropertyName = "TagsStr";
-
-        private string _TagsStr = default;
-
-
-        /// <summary>
-        /// Sets and gets the TagsStr property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string TagsStr
-        {
-            get
-            {
-                return _TagsStr;
-            }
-
-            set
-            {
-                if (_TagsStr == value)
-                {
-                    return;
-                }
-
-                _TagsStr = value;
-                RaisePropertyChanged(TagsStrPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region IsPalletVisible
-
-        /// <summary>
-        /// The <see cref="IsPalletVisible" /> property's name.
-        /// </summary>
-        public const string IsPalletVisiblePropertyName = "IsPalletVisible";
-
-        private bool _IsPalletVisible = true;
-
-        /// <summary>
-        /// Sets and gets the IsPalletVisible property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public bool IsPalletVisible
-        {
-            get
-            {
-                return _IsPalletVisible;
-            }
-
-            set
-            {
-                if (_IsPalletVisible == value)
-                {
-                    return;
-                }
-
-                _IsPalletVisible = value;
-                RaisePropertyChanged(IsPalletVisiblePropertyName);
-            }
-        }
-
-        #endregion
-
-        #region IsPalletze
-
-        /// <summary>
-        /// The <see cref="IsPalletze" /> property's name.
-        /// </summary>
-        public const string IsPalletzePropertyName = "IsPalletze";
-
-        private bool _IsPalletze = true;
-
-
-        /// <summary>
-        /// Sets and gets the IsPalletze property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public bool IsPalletze
-        {
-            get
-            {
-                return _IsPalletze;
-            }
-
-            set
-            {
-                if (_IsPalletze == value)
-                {
-                    return;
-                }
-
-                _IsPalletze = value;
-                RaisePropertyChanged(IsPalletzePropertyName);
-            }
-        }
-
-        #endregion
-
-        #region BarcodeCollection
-
-        /// <summary>
-        /// The <see cref="BarcodeCollection" /> property's name.
-        /// </summary>
-        public const string BarcodeCollectionPropertyName = "BarcodeCollection";
-
-        private ObservableCollection<BarcodeModel> _BarcodeCollection = new ObservableCollection<BarcodeModel>();
-
-        /// <summary>
-        /// Sets and gets the BarcodeCollection property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public ObservableCollection<BarcodeModel> BarcodeCollection
-        {
-            get
-            {
-                return _BarcodeCollection;
-            }
-
-            set
-            {
-                if (_BarcodeCollection == value)
-                {
-                    return;
-                }
-
-                _BarcodeCollection = value;
-                RaisePropertyChanged(BarcodeCollectionPropertyName);
-            }
-        }
-
-        #endregion
-      
-        #region Tags
-        /// <summary>
-        /// The <see cref="Tags" /> property's name.
-        /// </summary>
-        public const string TagsPropertyName = "Tags";
-
-        private List<Tag> _tags = new List<Tag>();
-
-        /// <summary>
-        /// Sets and gets the Tags property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public List<Tag> Tags
-        {
-            get
-            {
-                return _tags;
-            }
-
-            set
-            {
-                if (_tags == value)
-                {
-                    return;
-                }
-
-                _tags = value;
-                RaisePropertyChanged(TagsPropertyName);
-            }
-        }
-
-        #endregion
+        public string Title { get; set; }
+        public string ManifestId { get; set; }
+        public string ManaulBarcode { get; set; }
+        public string TagsStr { get; set; }
+        public bool IsPalletVisible { get; set; }
+        public bool IsPalletze { get; set; } = true;
+        public ObservableCollection<BarcodeModel> BarcodeCollection { get; set; } = new ObservableCollection<BarcodeModel>();
+        public List<Tag> Tags { get; set; } = new List<Tag>();
 
         #endregion
 
@@ -332,11 +65,8 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public FillScanViewModel(IMoveService moveService, INavigationService navigationService, IZebraPrinterManager zebraPrinterManager, IGetIconByPlatform getIconByPlatform, ICalcCheckDigitMngr calcCheckDigitMngr, IPageDialogService dialogService) : base(navigationService)
+        public FillScanViewModel(INavigationService navigationService, IZebraPrinterManager zebraPrinterManager, IGetIconByPlatform getIconByPlatform, ICalcCheckDigitMngr calcCheckDigitMngr, IPageDialogService dialogService) : base(navigationService)
         {
-            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
-
-            _moveService = moveService;
             _getIconByPlatform = getIconByPlatform;
             _zebraPrinterManager = zebraPrinterManager;
             _calcCheckDigitMngr = calcCheckDigitMngr;
@@ -552,12 +282,10 @@ namespace KegID.ViewModel
         private static int SecondsInDayTillNow()
         {
             DateTimeOffset now = DateTimeOffset.Now;
-            int hours = 0, minutes = 0, seconds = 0, totalSeconds = 0;
-            hours = (24 - now.Hour) - 1;
-            minutes = (60 - now.Minute) - 1;
-            seconds = (60 - now.Second - 1);
-
-            return totalSeconds = seconds + (minutes * 60) + (hours * 3600);
+            int hours = 24 - now.Hour - 1;
+            int minutes = 60 - now.Minute - 1;
+            int seconds = 60 - now.Second - 1;
+            return _ = seconds + (minutes * 60) + (hours * 3600);
         }
 
         private async void LabelItemTappedCommandRecieverAsync(BarcodeModel model)

@@ -32,6 +32,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
                 <Grid
@@ -371,6 +372,13 @@
                         VerticalOptions="CenterAndExpand" 
                         HorizontalOptions="Start" />
                 </Grid>
+                
+                <Label
+                    Text="{Binding APIBase}"
+                    HorizontalOptions="CenterAndExpand"
+                    VerticalOptions="CenterAndExpand"
+                    TextColor="White"
+                    Grid.Row="4"/>
 
             </Grid>
         </AbsoluteLayout>

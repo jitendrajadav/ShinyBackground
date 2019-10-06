@@ -1,6 +1,5 @@
 ﻿using Prism.Commands;
 using Prism.Navigation;
-using System;
 using System.Collections.Generic;
 
 namespace KegID.ViewModel
@@ -9,41 +8,7 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        //private readonly INavigationService _navigationService;
-
-        #region ContentCollection
-
-        /// <summary>
-        /// The <see cref="ContentCollection" /> property's name.
-        /// </summary>
-        public const string ContentCollectionPropertyName = "ContentCollection";
-
-        private IList<string> _ContentCollection = null;
-
-        /// <summary>
-        /// Sets and gets the ContentCollection property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public IList<string> ContentCollection
-        {
-            get
-            {
-                return _ContentCollection;
-            }
-
-            set
-            {
-                if (_ContentCollection == value)
-                {
-                    return;
-                }
-
-                _ContentCollection = value;
-                RaisePropertyChanged(ContentCollectionPropertyName);
-            }
-        }
-
-        #endregion
+        public IList<string> ContentCollection { get; set; }
 
         #endregion
 
@@ -57,8 +22,6 @@ namespace KegID.ViewModel
 
         public ContentTagsViewModel(INavigationService navigationService) : base(navigationService)
         {
-            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
-
             ManifestCommand = new DelegateCommand(ManifestCommandRecieverAsync);
         }
 

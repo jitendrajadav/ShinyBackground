@@ -85,10 +85,10 @@ namespace KegID.Droid.Renderers
             ShowDatePicker();
         }
 
-        void SetDate(DateTime date)
+        void SetDate(DateTimeOffset date)
         {
             this.Control.Text = date.ToString(Element.Format);
-            Element.Date = date;
+            Element.Date = date.Date;
         }
 
         private void ShowDatePicker()

@@ -18,111 +18,11 @@ namespace KegID.ViewModel
     {
         #region Propreties
 
-        //private readonly INavigationService _navigationService;
         private readonly IPageDialogService _dialogService;
         ConnectionType connetionType;
-
-        #region LabelMsg
-
-        /// <summary>
-        /// The <see cref="LabelMsg" /> property's name.
-        /// </summary>
-        public const string LabelMsgPropertyName = "LabelMsg";
-
-        private string _LabelMsg = "Discovering Printers...";
-
-        /// <summary>
-        /// Sets and gets the LabelMsg property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string LabelMsg
-        {
-            get
-            {
-                return _LabelMsg;
-            }
-
-            set
-            {
-                if (_LabelMsg == value)
-                {
-                    return;
-                }
-
-                _LabelMsg = value;
-                RaisePropertyChanged(LabelMsgPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region PrinterList
-
-        /// <summary>
-        /// The <see cref="PrinterList" /> property's name.
-        /// </summary>
-        public const string PrinterListPropertyName = "PrinterList";
-
-        private ObservableCollection<IDiscoveredPrinter> _printerList = new ObservableCollection<IDiscoveredPrinter>();
-
-        /// <summary>
-        /// Sets and gets the PrinterList property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public ObservableCollection<IDiscoveredPrinter> PrinterList
-        {
-            get
-            {
-                return _printerList;
-            }
-
-            set
-            {
-                if (_printerList == value)
-                {
-                    return;
-                }
-
-                _printerList = value;
-                RaisePropertyChanged(PrinterListPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region friendlyLbl
-
-        /// <summary>
-        /// The <see cref="friendlyLbl" /> property's name.
-        /// </summary>
-        public const string friendlyLblPropertyName = "friendlyLbl";
-
-        private string _friendlyLbl = default;
-
-        /// <summary>
-        /// Sets and gets the friendlyLbl property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string friendlyLbl
-        {
-            get
-            {
-                return _friendlyLbl;
-            }
-
-            set
-            {
-                if (_friendlyLbl == value)
-                {
-                    return;
-                }
-
-                _friendlyLbl = value;
-                RaisePropertyChanged(friendlyLblPropertyName);
-            }
-        }
-
-        #endregion
+        public string LabelMsg { get; set; } = "Discovering Printers...";
+        public ObservableCollection<IDiscoveredPrinter> PrinterList { get; set; } = new ObservableCollection<IDiscoveredPrinter>();
+        public string FriendlyLbl { get; set; }
 
         #endregion
 
@@ -137,9 +37,7 @@ namespace KegID.ViewModel
 
         public SelectPrinterViewModel(INavigationService navigationService, IPageDialogService dialogService) : base(navigationService)
         {
-            //_navigationService = navigationService;
             _dialogService = dialogService;
-
             BackCommand = new DelegateCommand(BackCommandReceiver);
             ItemTappedCommand = new DelegateCommand<IDiscoveredPrinter>((model) => ItemTappedCommandReciever(model));
         }
@@ -179,7 +77,7 @@ namespace KegID.ViewModel
             Xamarin.Forms.DependencyService.Get<IPrinterDiscovery>().CancelDiscovery();
             await _navigationService.GoBackAsync(new NavigationParameters
                         {
-                            {"IDiscoveredPrinter", ConstantManager.PrinterSetting},{"friendlyLbl", friendlyLbl }
+                            {"IDiscoveredPrinter", ConstantManager.PrinterSetting},{"friendlyLbl", FriendlyLbl }
                         },animated: false);
         }
 

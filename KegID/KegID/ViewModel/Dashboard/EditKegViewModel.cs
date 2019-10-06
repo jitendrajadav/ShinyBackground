@@ -15,7 +15,6 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        //private readonly INavigationService _navigationService;
         private readonly IPageDialogService _dialogService;
         private readonly IDashboardService _dashboardService;
         public string KegId { get; set; }
@@ -23,210 +22,12 @@ namespace KegID.ViewModel
         public string TypeName { get; set; }
         public string SizeName { get; set; }
 
-        #region Owner
-
-        /// <summary>
-        /// The <see cref="Owner" /> property's name.
-        /// </summary>
-        public const string OwnerPropertyName = "Owner";
-
-        private string _Owner = "Barcode Brewing";
-
-        /// <summary>
-        /// Sets and gets the Owner property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string Owner
-        {
-            get
-            {
-                return _Owner;
-            }
-
-            set
-            {
-                if (_Owner == value)
-                {
-                    return;
-                }
-
-                _Owner = value;
-                RaisePropertyChanged(OwnerPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region Size
-
-        /// <summary>
-        /// The <see cref="Size" /> property's name.
-        /// </summary>
-        public const string SizePropertyName = "Size";
-
-        private string _Size = string.Empty;
-
-        /// <summary>
-        /// Sets and gets the Size property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string Size
-        {
-            get
-            {
-                return _Size;
-            }
-
-            set
-            {
-                if (_Size == value)
-                {
-                    return;
-                }
-
-                _Size = value;
-                RaisePropertyChanged(SizePropertyName);
-            }
-        }
-
-        #endregion
-
-        #region PartnerModel
-
-        /// <summary>
-        /// The <see cref="PartnerModel" /> property's name.
-        /// </summary>
-        public const string PartnerModelPropertyName = "PartnerModel";
-
-        private PartnerModel _PartnerModel = new PartnerModel();
-
-        /// <summary>
-        /// Sets and gets the PartnerModel property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public PartnerModel PartnerModel
-        {
-            get
-            {
-                return _PartnerModel;
-            }
-
-            set
-            {
-                if (_PartnerModel == value)
-                {
-                    return;
-                }
-
-                _PartnerModel = value;
-                RaisePropertyChanged(PartnerModelPropertyName);
-                Owner = PartnerModel.FullName;
-            }
-        }
-
-        #endregion
-
-        #region SelectedItemType
-
-        /// <summary>
-        /// The <see cref="SelectedItemType" /> property's name.
-        /// </summary>
-        public const string SelectedItemTypePropertyName = "SelectedItemType";
-
-        private string _SelectedItemType = string.Empty;
-
-        /// <summary>
-        /// Sets and gets the SelectedItemType property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string SelectedItemType
-        {
-            get
-            {
-                return _SelectedItemType;
-            }
-
-            set
-            {
-                if (_SelectedItemType == value)
-                {
-                    return;
-                }
-
-                _SelectedItemType = value;
-                RaisePropertyChanged(SelectedItemTypePropertyName);
-            }
-        }
-
-        #endregion
-
-        #region TagsStr
-
-        /// <summary>
-        /// The <see cref="TagsStr" /> property's name.
-        /// </summary>
-        public const string TagsStrPropertyName = "TagsStr";
-
-        private string _TagsStr = "Add info";
-
-        /// <summary>
-        /// Sets and gets the TagsStr property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string TagsStr
-        {
-            get
-            {
-                return _TagsStr;
-            }
-
-            set
-            {
-                if (_TagsStr == value)
-                {
-                    return;
-                }
-
-                _TagsStr = value;
-                RaisePropertyChanged(TagsStrPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region Tags
-
-        /// <summary>
-        /// The <see cref="Tags" /> property's name.
-        /// </summary>
-        public const string TagsPropertyName = "Tags";
-
-        private List<Tag> _Tags = null;
-
-        /// <summary>
-        /// Sets and gets the Tags property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public List<Tag> Tags
-        {
-            get
-            {
-                return _Tags;
-            }
-
-            set
-            {
-                if (_Tags == value)
-                {
-                    return;
-                }
-
-                _Tags = value;
-                RaisePropertyChanged(TagsPropertyName);
-            }
-        }
-
-        #endregion
+        public string Owner { get; set; }
+        public string Size { get; set; }
+        public PartnerModel PartnerModel { get; set; } = new PartnerModel();
+        public string SelectedItemType { get; set; }
+        public string TagsStr { get; set; }
+        public List<Tag> Tags { get; set; }
 
         #endregion
 
@@ -244,7 +45,6 @@ namespace KegID.ViewModel
 
         public EditKegViewModel(IDashboardService dashboardService, INavigationService navigationService, IPageDialogService dialogService) : base(navigationService)
         {
-            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _dialogService = dialogService;
             _dashboardService = dashboardService;
             CancelCommand = new DelegateCommand(CancelCommandRecieverAsync);

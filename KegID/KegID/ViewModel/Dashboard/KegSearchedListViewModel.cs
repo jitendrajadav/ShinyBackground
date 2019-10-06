@@ -14,42 +14,8 @@ namespace KegID.ViewModel
         #region Properties
 
         private readonly IDashboardService _dashboardService;
-        //private readonly INavigationService _navigationService;
-
-        #region KegSearchCollection
-
-        /// <summary>
-        /// The <see cref="KegSearchCollection" /> property's name.
-        /// </summary>
-        public const string KegSearchCollectionPropertyName = "KegSearchCollection";
-
-        private IList<KegSearchResponseModel> _KegSearchCollection = null;
-
-        /// <summary>
-        /// Sets and gets the KegSearchCollection property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public IList<KegSearchResponseModel> KegSearchCollection
-        {
-            get
-            {
-                return _KegSearchCollection;
-            }
-
-            set
-            {
-                if (_KegSearchCollection == value)
-                {
-                    return;
-                }
-
-                _KegSearchCollection = value;
-                RaisePropertyChanged(KegSearchCollectionPropertyName);
-            }
-        }
-
-        #endregion
-
+        public IList<KegSearchResponseModel> KegSearchCollection { get; set; }
+        
         #endregion
 
         #region Commands
@@ -63,8 +29,6 @@ namespace KegID.ViewModel
 
         public KegSearchedListViewModel(IDashboardService dashboardService, INavigationService navigationService) : base(navigationService)
         {
-            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
-
             _dashboardService = dashboardService;
             ItemTappedCommand = new DelegateCommand<KegSearchResponseModel>( (model) => ItemTappedCommandRecieverAsync(model));
             KegSearchCommand = new DelegateCommand(KegSearchCommandRecieverAsync);
