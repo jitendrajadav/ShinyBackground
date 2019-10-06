@@ -1,8 +1,6 @@
 ﻿using KegID.Common;
 using KegID.Messages;
-using KegID.Services;
 using Prism.Navigation;
-using System;
 using System.Collections.Generic;
 using Xamarin.Forms;
 
@@ -12,42 +10,7 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        //private readonly INavigationService _navigationService;
-        //private readonly IInitializeMetaData _initializeMetaData;
-
-        #region ImageCollection
-
-        /// <summary>
-        /// The <see cref="ImageCollection" /> property's name.
-        /// </summary>
-        public const string ImageCollectionPropertyName = "ImageCollection";
-
-        private IList<ImageClass> _imageCollection = null;
-
-        /// <summary>
-        /// Sets and gets the ImageCollection property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public IList<ImageClass> ImageCollection
-        {
-            get
-            {
-                return _imageCollection;
-            }
-
-            set
-            {
-                if (_imageCollection == value)
-                {
-                    return;
-                }
-
-                _imageCollection = value;
-                RaisePropertyChanged(ImageCollectionPropertyName);
-            }
-        }
-
-        #endregion
+        public IList<ImageClass> ImageCollection { get; set; }
 
         #endregion
 
@@ -57,11 +20,8 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public WhatIsNewViewModel(INavigationService navigationService, IInitializeMetaData initializeMetaData) : base(navigationService)
+        public WhatIsNewViewModel(INavigationService navigationService) : base(navigationService)
         {
-            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
-            //_initializeMetaData = initializeMetaData;
-
             ImageCollection = new List<ImageClass>
             {
                 new ImageClass{ ImageUri = "new0.png" },
@@ -83,10 +43,10 @@ namespace KegID.ViewModel
             {
                 Device.BeginInvokeOnMainThread(async () =>
                 {
-                    if (AppSettings.IsFreshInstall)
+                    if (!AppSettings.IsFreshInstall && !AppSettings.WhatsNewVersion.Equals(Xamarin.Essentials.AppInfo.VersionString))
                     {
                         AppSettings.IsFreshInstall = false;
-
+                        AppSettings.WhatsNewVersion = Xamarin.Essentials.AppInfo.Version.ToString();
                         // If it is Android or iOS
                         await _navigationService.NavigateAsync("../MainPage", animated: false);
                     }

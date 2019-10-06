@@ -5,6 +5,7 @@
              BackgroundColor="{StaticResource pageBGColor}"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              ios:Page.UseSafeArea="true"
+             Visual="Material"
              >
 
     <ContentPage.Content>
@@ -19,6 +20,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             
             <Image
@@ -58,6 +60,12 @@
                 Text="{Binding Resources[button_login]}"
                 Command="{Binding LoginCommand}"/>
 
+            <Label
+                Text="{Binding APIBase}"
+                HorizontalOptions="CenterAndExpand"
+                VerticalOptions="EndAndExpand"
+                TextColor="Blue"
+                Grid.Row="4"/>
         </Grid>
         
     </ContentPage.Content>

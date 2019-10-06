@@ -33,9 +33,9 @@ namespace KegID.Droid
             base.OnCreate(bundle);
             myActivity = this;
 
-            Forms.SetFlags("FastRenderers_Experimental");
-
+            Forms.SetFlags("FastRenderers_Experimental", "CollectionView_Experimental");
             Forms.Init(this, bundle);
+            FormsMaterial.Init(this, bundle);
             UserDialogs.Init(this);
             CarouselViewRenderer.Init();
             Rg.Plugins.Popup.Popup.Init(this, bundle);
@@ -51,7 +51,7 @@ namespace KegID.Droid
             TintedImageRenderer.Init();
             Xamarin.Essentials.Platform.Init(this, bundle);
             CrossCurrentActivity.Current.Init(this, bundle);
-
+            Forms9Patch.Droid.Settings.Initialize(this);
             try
             {
                 LoadApplication(new App(new AndroidInitializer()));

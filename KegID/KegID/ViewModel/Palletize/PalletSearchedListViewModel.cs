@@ -13,42 +13,8 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        //private readonly INavigationService _navigationService;
         private readonly IDashboardService _dashboardService;
-
-        #region PalletSearchCollection
-
-        /// <summary>
-        /// The <see cref="PalletSearchCollection" /> property's name.
-        /// </summary>
-        public const string PalletSearchCollectionPropertyName = "PalletSearchCollection";
-
-        private IList<SearchPalletResponseModel> _PalletSearchCollection = null;
-
-        /// <summary>
-        /// Sets and gets the PalletSearchCollection property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public IList<SearchPalletResponseModel> PalletSearchCollection
-        {
-            get
-            {
-                return _PalletSearchCollection;
-            }
-
-            set
-            {
-                if (_PalletSearchCollection == value)
-                {
-                    return;
-                }
-
-                _PalletSearchCollection = value;
-                RaisePropertyChanged(PalletSearchCollectionPropertyName);
-            }
-        }
-
-        #endregion
+        public IList<SearchPalletResponseModel> PalletSearchCollection { get; set; }
 
         #endregion
 
@@ -63,8 +29,6 @@ namespace KegID.ViewModel
 
         public PalletSearchedListViewModel(IDashboardService dashboardService, INavigationService navigationService) : base(navigationService)
         {
-            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
-
             _dashboardService = dashboardService;
 
             BackCommand = new DelegateCommand(BackCommandRecieverAsync);

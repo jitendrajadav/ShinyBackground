@@ -6,6 +6,7 @@
              BackgroundColor="{StaticResource pageBGColor}"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              ios:Page.UseSafeArea="true"
+             xmlns:control="clr-namespace:KegID.Common"
              >
 
     <ContentPage.Content>
@@ -75,11 +76,11 @@
                     VerticalOptions="FillAndExpand"
                     HorizontalOptions="FillAndExpand"/>
 
-                <Grid>
+                <Grid ColumnSpacing="0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="20*"/>
-                        <ColumnDefinition Width="70*"/>
-                        <ColumnDefinition Width="15*"/>
+                        <ColumnDefinition Width="21*"/>
+                        <ColumnDefinition Width="67*"/>
+                        <ColumnDefinition Width="12*"/>
                     </Grid.ColumnDefinitions>
 
                     <Label
@@ -94,19 +95,19 @@
                         Grid.Column="1"
                         AutomationId="manifestIdLabel"
                         Font="16"
+                        x:Name="lblmanifest"
                         Style="{StaticResource LabelTitleWhiteTextColorStyle}"
                         IsVisible="{Binding IsCameraVisible,Converter={StaticResource InvertedBooleanConverter}}"
                         Text="{Binding ManifestId}"
                         />
 
-                    <Label 
-                        Font="16"
+                    <control:SelectableEntry 
                         Grid.Column="1"
                         AutomationId="manifestIdEntry"
+                        x:Name="manifestSelectedbleEntry"
                         IsVisible="{Binding IsCameraVisible}"
                         Text="{Binding ManifestId,Mode=TwoWay}"
-                        VerticalOptions="Center"
-                        Style="{StaticResource LabelTitleWhiteTextColorStyle}"/>
+                        />
 
                     <Image
                         Grid.Column="2"
