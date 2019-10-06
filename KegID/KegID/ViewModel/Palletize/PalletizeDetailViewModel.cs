@@ -24,6 +24,8 @@ namespace KegID.ViewModel
         private readonly IMoveService _moveService;
         private SearchPalletResponseModel Model { get; set; }
         public List<string> Barcodes { get; private set; }
+        private readonly IUuidManager _uuidManager;
+        
         public string ManifestId { get; set; }
         public string StockLocation { get; set; }
         public string PartnerTypeName { get; set; }
@@ -47,9 +49,11 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public PalletizeDetailViewModel(IMoveService moveService, INavigationService navigationService) : base(navigationService)
+        public PalletizeDetailViewModel(IMoveService moveService, INavigationService navigationService, IUuidManager uuidManager) : base(navigationService)
         {
             _moveService = moveService;
+            _uuidManager = uuidManager;
+
             HomeCommand = new DelegateCommand(HomeCommandRecieverAsync);
             ShareCommand = new DelegateCommand(ShareCommandReciever);
             GridTappedCommand = new DelegateCommand(GridTappedCommandRecieverAsync);
@@ -77,7 +81,14 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync("MoveView", animated: false);
+                // here we needs to pass value for e.g Barcode only string value, KegId Optional and Manifest but those value we have to fetch from 
+                // AssingIntialValueAsync() this needs to correct 
+                await _navigationService.NavigateAsync("MoveView", new NavigationParameters
+                    {
+                        { "AssignInitialValueFromKegStatus", Barcodes.FirstOrDefault() },
+                        { "KegId", string.Empty },
+                        { "ManifestId", _uuidManager.GetUuId() }
+                    }, animated: false);
             }
             catch (Exception ex)
             {
@@ -224,7 +235,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                var manifest = await _moveService.GetManifestAsync(AppSettings.SessionId, model.Barcode);
+                var manifest = await _moveService.GetManifestAsync(AppSettings.SessionId, model.PalletId);
 
                 Model = model;
                 IsFromDashboard = v;
