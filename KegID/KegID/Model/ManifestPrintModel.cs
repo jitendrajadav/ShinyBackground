@@ -19,7 +19,7 @@ namespace KegID.Model
             set;
         }
 
-        public DateTime ShipDate { get; set; }
+        public DateTimeOffset ShipDate { get; set; }
         public string Tracking { get; set; }
         public string Order { get; set; }
 

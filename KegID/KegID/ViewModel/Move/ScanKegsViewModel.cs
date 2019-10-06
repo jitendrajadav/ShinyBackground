@@ -14,6 +14,7 @@ using KegID.LocalDb;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
+using Acr.UserDialogs;
 
 namespace KegID.ViewModel
 {
@@ -21,220 +22,19 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        //private readonly INavigationService _navigationService;
         private readonly IPageDialogService _dialogService;
-        private readonly IMoveService _moveService;
-        private readonly IManifestManager _manifestManager;
         private readonly IGetIconByPlatform _getIconByPlatform;
 
         private const string Maintenace = "maintenace.png";
         private const string ValidationOK = "validationok.png";
         private const string Cloud = "collectionscloud.png";
         public bool HasDone { get; set; }
-
-        #region BarcodeCollection
-
-        /// <summary>
-        /// The <see cref="BarcodeCollection" /> property's name.
-        /// </summary>
-        public const string BarcodeCollectionPropertyName = "BarcodeCollection";
-
-        private ObservableCollection<BarcodeModel> _BarcodeCollection = new ObservableCollection<BarcodeModel>();
-
-        /// <summary>
-        /// Sets and gets the BarcodeCollection property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public ObservableCollection<BarcodeModel> BarcodeCollection
-        {
-            get
-            {
-                return _BarcodeCollection;
-            }
-
-            set
-            {
-                if (_BarcodeCollection == value)
-                {
-                    return;
-                }
-
-                _BarcodeCollection = value;
-                RaisePropertyChanged(BarcodeCollectionPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region BrandCollection
-
-        /// <summary>
-        /// The <see cref="BrandCollection" /> property's name.
-        /// </summary>
-        public const string BrandCollectionPropertyName = "BrandCollection";
-
-        private IList<BrandModel> _BrandCollection = null;
-
-        /// <summary>
-        /// Sets and gets the BrandCollection property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public IList<BrandModel> BrandCollection
-        {
-            get
-            {
-                return _BrandCollection;
-            }
-
-            set
-            {
-                if (_BrandCollection == value)
-                {
-                    return;
-                }
-
-                _BrandCollection = value;
-                RaisePropertyChanged(BrandCollectionPropertyName);
-            }
-        }
-
-
-        #endregion
-
-        #region SelectedBrand
-
-        /// <summary>
-        /// The <see cref="SelectedBrand" /> property's name.
-        /// </summary>
-        public const string SelectedBrandPropertyName = "SelectedBrand";
-
-        private BrandModel _SelectedBrand = null;
-
-        /// <summary>
-        /// Sets and gets the SelectedBrand property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public BrandModel SelectedBrand
-        {
-            get
-            {
-                return _SelectedBrand;
-            }
-
-            set
-            {
-                if (_SelectedBrand == value)
-                {
-                    return;
-                }
-                _SelectedBrand = value;
-                RaisePropertyChanged(SelectedBrandPropertyName);
-            }
-        }
-
-
-        #endregion
-
-        #region ManaulBarcode
-
-        /// <summary>
-        /// The <see cref="ManaulBarcode" /> property's name.
-        /// </summary>
-        public const string ManaulBarcodePropertyName = "ManaulBarcode";
-
-        private string _ManaulBarcode = default;
-
-        /// <summary>
-        /// Sets and gets the ManaulBarcode property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string ManaulBarcode
-        {
-            get
-            {
-                return _ManaulBarcode;
-            }
-
-            set
-            {
-                if (_ManaulBarcode == value)
-                {
-                    return;
-                }
-
-                _ManaulBarcode = value;
-                RaisePropertyChanged(ManaulBarcodePropertyName);
-            }
-        }
-
-        #endregion
-
-        #region TagsStr
-
-        /// <summary>
-        /// The <see cref="TagsStr" /> property's name.
-        /// </summary>
-        public const string TagsStrPropertyName = "TagsStr";
-
-        private string _tagsStr = default;
-
-        /// <summary>
-        /// Sets and gets the TagsStr property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string TagsStr
-        {
-            get
-            {
-                return _tagsStr;
-            }
-
-            set
-            {
-                if (_tagsStr == value)
-                {
-                    return;
-                }
-
-                _tagsStr = value;
-                RaisePropertyChanged(TagsStrPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region Batch
-
-        /// <summary>
-        /// The <see cref="Batch" /> property's name.
-        /// </summary>
-        public const string BatchPropertyName = "Batch";
-
-        private string _Batch = string.Empty;
-
-        /// <summary>
-        /// Sets and gets the Batch property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string Batch
-        {
-            get
-            {
-                return _Batch;
-            }
-
-            set
-            {
-                if (_Batch == value)
-                {
-                    return;
-                }
-                _Batch = value;
-                RaisePropertyChanged(BatchPropertyName);
-            }
-        }
-
-        #endregion
+        public ObservableCollection<BarcodeModel> BarcodeCollection { get; set; } = new ObservableCollection<BarcodeModel>();
+        public IList<BrandModel> BrandCollection { get; set; }
+        public BrandModel SelectedBrand { get; set; }
+        public string ManaulBarcode { get; set; }
+        public string TagsStr { get; set; }
+        public string Batch { get; set; }
 
         #endregion
 
@@ -252,12 +52,9 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public ScanKegsViewModel(IMoveService moveService, INavigationService navigationService, IPageDialogService dialogService, IManifestManager manifestManager, IGetIconByPlatform getIconByPlatform) : base(navigationService)
+        public ScanKegsViewModel(INavigationService navigationService, IPageDialogService dialogService,IGetIconByPlatform getIconByPlatform) : base(navigationService)
         {
-            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _dialogService = dialogService;
-            _moveService = moveService;
-            _manifestManager = manifestManager;
             _getIconByPlatform = getIconByPlatform;
 
             DoneCommand = new DelegateCommand(DoneCommandRecieverAsync);
@@ -267,12 +64,11 @@ namespace KegID.ViewModel
             LabelItemTappedCommand = new DelegateCommand<BarcodeModel>((model) => LabelItemTappedCommandRecieverAsync(model));
             IconItemTappedCommand = new DelegateCommand<BarcodeModel>((model) => IconItemTappedCommandRecieverAsync(model));
             DeleteItemCommand = new DelegateCommand<BarcodeModel>((model) => DeleteItemCommandReciever(model));
-            LoadBrand();
+            //LoadBrand();
 
             HandleUnsubscribeMessages();
             HandleReceivedMessages();
         }
-
 
         #endregion
 
@@ -302,6 +98,8 @@ namespace KegID.ViewModel
                                 oldBarcode.Pallets = value.Barcodes.Pallets;
                                 oldBarcode.Kegs = value.Barcodes.Kegs;
                                 oldBarcode.Icon = value?.Barcodes?.Kegs?.Partners.Count > 1 ? _getIconByPlatform.GetIcon("validationquestion.png") : value?.Barcodes?.Kegs?.Partners?.Count == 0 ? _getIconByPlatform.GetIcon("validationerror.png") : _getIconByPlatform.GetIcon("validationok.png");
+                                if (oldBarcode.Icon == "validationerror.png")
+                                    Vibration.Vibrate();
                                 oldBarcode.IsScanned = true;
                                 db.Commit();
                             }
@@ -339,7 +137,11 @@ namespace KegID.ViewModel
             });
         }
 
-        public void LoadBrand() => BrandCollection = LoadBrandAsync();
+
+        public void LoadBrand()
+        {
+            BrandCollection = new ObservableCollection<BrandModel>(LoadBrandAsync());
+        }
 
         public IList<BrandModel> LoadBrandAsync()
         {
@@ -362,6 +164,7 @@ namespace KegID.ViewModel
             }
             return model;
         }
+
 
         private async void LabelItemTappedCommandRecieverAsync(BarcodeModel model)
         {
@@ -530,8 +333,7 @@ namespace KegID.ViewModel
             try
             {
                 ConstantManager.Barcodes = BarcodeCollection.ToList();
-                ConstantManager.Contents = SelectedBrand?.BrandName;
-                ConstantManager.ContentsCode = SelectedBrand?.BrandCode;
+                ConstantManager.Contents = SelectedBrand;
                 if (BarcodeCollection.Any(x => x?.Kegs?.Partners?.Count > 1))
                     await NavigateToValidatePartner(BarcodeCollection.Where(x => x?.Kegs?.Partners?.Count > 1).ToList());
                 else
@@ -565,7 +367,7 @@ namespace KegID.ViewModel
             }
         }
 
-        internal void AssignInitialValue(string _barcode)
+        internal void AssignInitialValue()
         {
             try
             {
@@ -588,9 +390,11 @@ namespace KegID.ViewModel
         {
             try
             {
-                var isNew = BarcodeCollection.ToList().Any(x => x?.Kegs?.Partners?.FirstOrDefault()?.Kegs?.FirstOrDefault()?.Barcode == ManaulBarcode);
-                if (!isNew)
+                var isNew = BarcodeCollection.Where(x => x.Barcode == ManaulBarcode).FirstOrDefault();
+                UpdateTagsStr();
+                BarcodeModel model = new BarcodeModel()
                 {
+
                     UpdateTagsStr();
                     BarcodeModel model = new BarcodeModel()
                     {
@@ -598,7 +402,7 @@ namespace KegID.ViewModel
                         TagsStr = TagsStr,
                         Icon = _getIconByPlatform.GetIcon(Cloud),
                         Page = ViewTypeEnum.ScanKegsView.ToString(),
-                        Contents = SelectedBrand?.BrandName
+                        Contents = SelectedBrand
                     };
 
                     if (ConstantManager.Tags != null)
@@ -607,21 +411,39 @@ namespace KegID.ViewModel
                             model.Tags.Add(item);
                     }
 
-                    BarcodeCollection.Add(model);
 
-                    var current = Connectivity.NetworkAccess;
-                    if (current == NetworkAccess.Internet)
-                    {
-                        var message = new StartLongRunningTaskMessage
-                        {
-                            Barcode = new List<string>() { ManaulBarcode },
-                            PageName = ViewTypeEnum.ScanKegsView.ToString()
-                        };
-                        MessagingCenter.Send(message, "StartLongRunningTaskMessage");
-                    }
-
-                    ManaulBarcode = string.Empty;
+                if (ConstantManager.Tags != null)
+                {
+                    foreach (var item in ConstantManager.Tags)
+                        model.Tags.Add(item);
                 }
+                if (isNew==null)
+                {
+                    BarcodeCollection.Add(model);
+                }
+                else
+                {
+                    using (var db = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
+                    {
+                        var oldBarcode = BarcodeCollection.Where(x => x.Barcode == ManaulBarcode).FirstOrDefault();
+                        oldBarcode.TagsStr = model.TagsStr;
+                        oldBarcode.Icon = model.Icon;
+                        oldBarcode.Contents = SelectedBrand?.BrandName;
+                        db.Commit();
+                    }
+                }
+                var current = Connectivity.NetworkAccess;
+                if (current == NetworkAccess.Internet)
+                {
+                    var message = new StartLongRunningTaskMessage
+                    {
+                        Barcode = new List<string>() { ManaulBarcode },
+                        PageName = ViewTypeEnum.ScanKegsView.ToString()
+                    };
+                    MessagingCenter.Send(message, "StartLongRunningTaskMessage");
+                }
+
+                ManaulBarcode = string.Empty;
             }
             catch (Exception ex)
             {
@@ -634,15 +456,15 @@ namespace KegID.ViewModel
             string tags = string.Empty;
             if (ConstantManager.Tags != null)
             {
-                if (!string.IsNullOrEmpty(SelectedBrand?.BrandName))
+                if (!string.IsNullOrEmpty(SelectedBrand))
                 {
                     if (!ConstantManager.Tags.Any(x => x.Property == "Contents"))
                     {
-                        ConstantManager.Tags.Add(new Tag { Property = "Contents", Value = SelectedBrand?.BrandName });
+                        ConstantManager.Tags.Add(new Tag { Property = "Contents", Value = SelectedBrand });
                     }
                     else
                     {
-                        ConstantManager.Tags.Find(x => x.Property == "Contents").Value = SelectedBrand?.BrandName;
+                        ConstantManager.Tags.Find(x => x.Property == "Contents").Value = SelectedBrand;
                     }
                 }
                 if (!string.IsNullOrEmpty(Batch))

@@ -27,7 +27,7 @@ namespace KegID.Common
     {
         private readonly HttpClient _client;
 
-        public KegIDClient(HttpClient client)
+        public KegIDClient()
         {
             _client = GetHttpClient();//client;
         }

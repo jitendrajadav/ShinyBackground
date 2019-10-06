@@ -300,17 +300,37 @@
                         VerticalOptions="FillAndExpand"
                         HorizontalOptions="End"/>
 
+                    <BoxView
+                        AutomationId="topLineBoxView"
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        BackgroundColor="#E6E6E6"
+                        HeightRequest="5"
+                        VerticalOptions="Start"
+                        Margin="0,0,1,0"
+                        HorizontalOptions="FillAndExpand"/>
+
                     <Label
                         AutomationId="avgCycleLabel"
                         Style="{StaticResource LabelLeftAlign}"
                         Grid.Column="1"
                         Grid.Row="1"
+                        Margin="0,5,1,5"
                         HorizontalTextAlignment="Center"
                         FontSize="Medium"
                         VerticalOptions="FillAndExpand"
-                        VerticalTextAlignment="Center"
                         BackgroundColor="#E6E6E6"
                         Text="{Binding Resources[label_average_cycle]}"/>
+                    
+                    <BoxView
+                        AutomationId="topLineBoxView"
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        BackgroundColor="#E6E6E6"
+                        HeightRequest="5"
+                        Margin="0,0,1,0"
+                        VerticalOptions="End"
+                        HorizontalOptions="FillAndExpand"/>
 
                     <BoxView
                         AutomationId="lineSeperator5"
@@ -326,11 +346,12 @@
                         Style="{StaticResource LabelLeftAlign}"
                         Grid.Row="3"
                         Grid.Column="1"
-                        Margin="0,5,0,5"
                         FontSize="Medium"
+                        Margin="0,5,0,5"
                         HorizontalOptions="Center"
-                        HorizontalTextAlignment="Center"
+                        VerticalOptions="FillAndExpand"
                         Text="{Binding AverageCycle,Mode=TwoWay}"/>
+
 
                     <BoxView
                         AutomationId="lineSeperatorBoxView6"
@@ -341,18 +362,38 @@
                         VerticalOptions="Start"
                         HorizontalOptions="FillAndExpand"/>
 
+                    <BoxView
+                        AutomationId="topLineBoxView"
+                        Grid.Row="5"
+                        Grid.Column="1"
+                        BackgroundColor="#E6E6E6"
+                        HeightRequest="5"
+                        Margin="0,0,1,0"
+                        VerticalOptions="Start"
+                        HorizontalOptions="FillAndExpand"/>
+
                     <Label
                         AutomationId="overDueLabel"
                         Style="{StaticResource LabelLeftAlign}"
                         Grid.Column="1"
                         Grid.Row="5"
+                        Margin="0,5,1,5"
                         HorizontalTextAlignment="Center"
                         FontSize="Medium"
                         VerticalOptions="FillAndExpand"
-                        VerticalTextAlignment="Center"
                         BackgroundColor="#E6E6E6"
                         Text="{Binding Resources[label_overdue]}"/>
-
+                    
+                    <BoxView
+                        AutomationId="topLineBoxView"
+                        Grid.Row="5"
+                        Margin="0,0,1,0"
+                        Grid.Column="1"
+                        BackgroundColor="#E6E6E6"
+                        HeightRequest="5"
+                        VerticalOptions="End"
+                        HorizontalOptions="FillAndExpand"/>
+                    
                     <BoxView
                         AutomationId="lineSeperatorBoxView7"
                         Grid.Row="6"
@@ -361,15 +402,17 @@
                         HeightRequest="1"
                         VerticalOptions="Start"
                         HorizontalOptions="FillAndExpand"/>
+                    
 
                     <Label
                         AutomationId="atRiskKegsValue"
                         Style="{StaticResource LabelLeftAlign}"
                         Grid.Row="7"
-                        Margin="0,5,0,5"
+                        Margin="0,5,2,5"
                         Grid.Column="1"
-                        FontSize="Medium"
                         HorizontalTextAlignment="Center"
+                        FontSize="Medium"
+                        VerticalOptions="FillAndExpand"
                         Text="{Binding Atriskegs,Mode=TwoWay}"/>
 
                 </Grid>
