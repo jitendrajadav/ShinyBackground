@@ -98,6 +98,8 @@ namespace KegID.ViewModel
                                 oldBarcode.Pallets = value.Barcodes.Pallets;
                                 oldBarcode.Kegs = value.Barcodes.Kegs;
                                 oldBarcode.Icon = value?.Barcodes?.Kegs?.Partners.Count > 1 ? _getIconByPlatform.GetIcon("validationquestion.png") : value?.Barcodes?.Kegs?.Partners?.Count == 0 ? _getIconByPlatform.GetIcon("validationerror.png") : _getIconByPlatform.GetIcon("validationok.png");
+                                if (oldBarcode.Icon == "validationerror.png")
+                                    Vibration.Vibrate();
                                 oldBarcode.IsScanned = true;
                                 db.Commit();
                             }
