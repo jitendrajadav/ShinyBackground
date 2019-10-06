@@ -11,7 +11,6 @@ using KegID.Services;
 using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
-using Prism.Services;
 using Realms;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -29,8 +28,6 @@ namespace KegID.ViewModel
         public string Notes { get; private set; }
         private string ManifestId;
 
-        //private readonly INavigationService _navigationService;
-        private readonly IMoveService _moveService;
         private readonly IMaintainService _maintainService;
         private readonly IGetIconByPlatform _getIconByPlatform;
         private readonly IUuidManager _uuidManager;
@@ -38,74 +35,8 @@ namespace KegID.ViewModel
         private readonly IGeolocationService _geolocationService;
 
         private IList<MaintainTypeReponseModel> MaintainTypeReponseModel { get; set; }
-
-        #region ManaulBarcode
-
-        /// <summary>
-        /// The <see cref="ManaulBarcode" /> property's name.
-        /// </summary>
-        public const string ManaulBarcodePropertyName = "ManaulBarcode";
-
-        private string _ManaulBarcode = default;
-
-        /// <summary>
-        /// Sets and gets the ManaulBarcode property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string ManaulBarcode
-        {
-            get
-            {
-                return _ManaulBarcode;
-            }
-
-            set
-            {
-                if (_ManaulBarcode == value)
-                {
-                    return;
-                }
-
-                _ManaulBarcode = value;
-                RaisePropertyChanged(ManaulBarcodePropertyName);
-            }
-        }
-
-        #endregion
-
-        #region BarcodeCollection
-
-        /// <summary>
-        /// The <see cref="BarcodeCollection" /> property's name.
-        /// </summary>
-        public const string BarcodeCollectionPropertyName = "BarcodeCollection";
-
-        private ObservableCollection<BarcodeModel> _BarcodeCollection = new ObservableCollection<BarcodeModel>();
-
-        /// <summary>
-        /// Sets and gets the BarcodeCollection property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public ObservableCollection<BarcodeModel> BarcodeCollection
-        {
-            get
-            {
-                return _BarcodeCollection;
-            }
-
-            set
-            {
-                if (_BarcodeCollection == value)
-                {
-                    return;
-                }
-
-                _BarcodeCollection = value;
-                RaisePropertyChanged(BarcodeCollectionPropertyName);
-            }
-        }
-
-        #endregion
+        public string ManaulBarcode { get; set; }
+        public ObservableCollection<BarcodeModel> BarcodeCollection { get; set; } = new ObservableCollection<BarcodeModel>();
 
         #endregion
 
@@ -119,16 +50,12 @@ namespace KegID.ViewModel
         public DelegateCommand<BarcodeModel> LabelItemTappedCommand { get;}
         public DelegateCommand<BarcodeModel> DeleteItemCommand { get;}
 
-
         #endregion
 
         #region Constructor
 
-        public MaintainScanViewModel(IMoveService moveService, IMaintainService maintainService, INavigationService navigationService, IGetIconByPlatform getIconByPlatform, IUuidManager uuidManager, IManifestManager manifestManager, IGeolocationService geolocationService) : base(navigationService)
+        public MaintainScanViewModel(IMaintainService maintainService, INavigationService navigationService, IGetIconByPlatform getIconByPlatform, IUuidManager uuidManager, IManifestManager manifestManager, IGeolocationService geolocationService) : base(navigationService)
         {
-            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
-
-            _moveService = moveService;
             _maintainService = maintainService;
             _getIconByPlatform = getIconByPlatform;
             _uuidManager = uuidManager;

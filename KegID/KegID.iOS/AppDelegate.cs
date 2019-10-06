@@ -39,13 +39,15 @@ namespace KegID.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             Forms.Init();
+            FormsMaterial.Init();
+            Forms.SetFlags("CollectionView_Experimental");
             CarouselViewRenderer.Init();
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
             Xamarin.FormsMaps.Init();
             Rg.Plugins.Popup.Popup.Init();
             TintedImageRenderer.Init();
             UIApplication.SharedApplication.SetMinimumBackgroundFetchInterval(UIApplication.BackgroundFetchIntervalMinimum);
-
+            Forms9Patch.iOS.Settings.Initialize(this);
             Distribute.DontCheckForUpdatesInDebug();
             //AppCenter.Start("{Your Xamarin iOS App Secret}", typeof(Distribute));
 

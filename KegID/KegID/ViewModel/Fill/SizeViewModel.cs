@@ -8,7 +8,6 @@ using Realms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
@@ -16,42 +15,8 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        //private readonly INavigationService _navigationService;
         private readonly IPageDialogService _dialogService;
-
-        #region SizeCollection
-
-        /// <summary>
-        /// The <see cref="SizeCollection" /> property's name.
-        /// </summary>
-        public const string SizeCollectionPropertyName = "SizeCollection";
-
-        private IList<string> _SizeCollection = null;
-
-        /// <summary>
-        /// Sets and gets the SizeCollection property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public IList<string> SizeCollection
-        {
-            get
-            {
-                return _SizeCollection;
-            }
-
-            set
-            {
-                if (_SizeCollection == value)
-                {
-                    return;
-                }
-
-                _SizeCollection = value;
-                RaisePropertyChanged(SizeCollectionPropertyName);
-            }
-        }
-
-        #endregion
+        public IList<string> SizeCollection { get; set; }
 
         #endregion
 
@@ -65,7 +30,6 @@ namespace KegID.ViewModel
 
         public SizeViewModel(INavigationService navigationService, IPageDialogService dialogService) : base(navigationService)
         {
-            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _dialogService = dialogService;
             ItemTappedCommand = new DelegateCommand<string>((model) => ItemTappedCommandRecieverAsync(model));
             LoadAssetSizeAsync();

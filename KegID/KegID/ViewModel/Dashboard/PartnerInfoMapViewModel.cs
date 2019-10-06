@@ -9,8 +9,6 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        //private readonly INavigationService _navigationService;
-
         #endregion
 
         #region Commands
@@ -23,8 +21,6 @@ namespace KegID.ViewModel
 
         public PartnerInfoMapViewModel(INavigationService navigationService) : base(navigationService)
         {
-            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
-
             try
             {
                 PartnerInfoCommand = new DelegateCommand(PartnerInfoCommandRecieverAsync);

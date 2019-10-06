@@ -143,6 +143,10 @@ namespace KegID.Services
 
                 if (value.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                 {
+                    value.BrandModel.Insert(0, new BrandModel { BrandName = "Add", BrandCode = "Add", BrandId = Guid.NewGuid().ToString() });
+                    value.BrandModel.Insert(1, new BrandModel { BrandName = "'\"'", BrandCode = "'\"'", BrandId = Guid.NewGuid().ToString() });
+                    value.BrandModel.Move(value.BrandModel.Where(x => x.BrandName == "Empty").FirstOrDefault(), 2);
+
                     await RealmDb.WriteAsync((realmDb) =>
                      {
                          foreach (var item in value.BrandModel)

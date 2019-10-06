@@ -23,284 +23,19 @@ namespace KegID.ViewModel
         #region Properties
 
         private const string Cloud = "collectionscloud.png";
-        //private readonly INavigationService _navigationService;
-        private readonly IMoveService _moveService;
         private readonly IDashboardService _dashboardService;
         private readonly IGetIconByPlatform _getIconByPlatform;
         private readonly IUuidManager _uuidManager;
         private readonly IPageDialogService _dialogService;
 
-
-        #region ManaulBarcode
-
-        /// <summary>
-        /// The <see cref="ManaulBarcode" /> property's name.
-        /// </summary>
-        public const string ManaulBarcodePropertyName = "ManaulBarcode";
-
-        private string _ManaulBarcode = string.Empty;
-
-        /// <summary>
-        /// Sets and gets the ManaulBarcode property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string ManaulBarcode
-        {
-            get
-            {
-                return _ManaulBarcode;
-            }
-
-            set
-            {
-                if (_ManaulBarcode == value)
-                {
-                    return;
-                }
-
-                _ManaulBarcode = value;
-                RaisePropertyChanged(ManaulBarcodePropertyName);
-            }
-        }
-
-        #endregion
-
-        #region SelectedItemType
-
-        /// <summary>
-        /// The <see cref="SelectedItemType" /> property's name.
-        /// </summary>
-        public const string SelectedItemTypePropertyName = "SelectedItemType";
-
-        private string _SelectedItemType = string.Empty;
-
-        /// <summary>
-        /// Sets and gets the SelectedItemType property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string SelectedItemType
-        {
-            get
-            {
-                return _SelectedItemType;
-            }
-
-            set
-            {
-                if (_SelectedItemType == value)
-                {
-                    return;
-                }
-
-                _SelectedItemType = value;
-                RaisePropertyChanged(SelectedItemTypePropertyName);
-            }
-        }
-
-        #endregion
-
-        #region AssetTypeCollection
-
-        /// <summary>
-        /// The <see cref="AssetTypeCollection" /> property's name.
-        /// </summary>
-        public const string AssetTypeCollectionPropertyName = "AssetTypeCollection";
-
-        private IList<string> _AssetTypeCollection = null;
-
-        /// <summary>
-        /// Sets and gets the AssetTypeCollection property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public IList<string> AssetTypeCollection
-        {
-            get
-            {
-                return _AssetTypeCollection;
-            }
-
-            set
-            {
-                if (_AssetTypeCollection == value)
-                {
-                    return;
-                }
-
-                _AssetTypeCollection = value;
-                RaisePropertyChanged(AssetTypeCollectionPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region SizeCollection
-
-        /// <summary>
-        /// The <see cref="SizeCollection" /> property's name.
-        /// </summary>
-        public const string SizeCollectionPropertyName = "SizeCollection";
-
-        private IList<string> _SizeCollection = null;
-
-        /// <summary>
-        /// Sets and gets the SizeCollection property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public IList<string> SizeCollection
-        {
-            get
-            {
-                return _SizeCollection;
-            }
-
-            set
-            {
-                if (_SizeCollection == value)
-                {
-                    return;
-                }
-
-                _SizeCollection = value;
-                RaisePropertyChanged(SizeCollectionPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region SelectedItemSize
-
-        /// <summary>
-        /// The <see cref="SelectedItemSize" /> property's name.
-        /// </summary>
-        public const string SelectedItemSizePropertyName = "SelectedItemSize";
-
-        private string _SelectedItemSize = string.Empty;
-
-        /// <summary>
-        /// Sets and gets the SelectedItemSize property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string SelectedItemSize
-        {
-            get
-            {
-                return _SelectedItemSize;
-            }
-
-            set
-            {
-                if (_SelectedItemSize == value)
-                {
-                    return;
-                }
-
-                _SelectedItemSize = value;
-                RaisePropertyChanged(SelectedItemSizePropertyName);
-            }
-        }
-
-        #endregion
-
-        #region Tags
-        /// <summary>
-        /// The <see cref="Tags" /> property's name.
-        /// </summary>
-        public const string TagsPropertyName = "Tags";
-
-        private List<Tag> _tags = new List<Tag>();
-
-        /// <summary>
-        /// Sets and gets the Tags property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public List<Tag> Tags
-        {
-            get
-            {
-                return _tags;
-            }
-
-            set
-            {
-                if (_tags == value)
-                {
-                    return;
-                }
-
-                _tags = value;
-                RaisePropertyChanged(TagsPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region TagsStr
-
-        /// <summary>
-        /// The <see cref="TagsStr" /> property's name.
-        /// </summary>
-        public const string TagsStrPropertyName = "TagsStr";
-
-        private string _tagsStr = default;
-
-        /// <summary>
-        /// Sets and gets the TagsStr property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string TagsStr
-        {
-            get
-            {
-                return _tagsStr;
-            }
-
-            set
-            {
-                if (_tagsStr == value)
-                {
-                    return;
-                }
-
-                _tagsStr = value;
-                RaisePropertyChanged(TagsStrPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region BarcodeCollection
-
-        /// <summary>
-        /// The <see cref="BarcodeCollection" /> property's name.
-        /// </summary>
-        public const string BarcodeCollectionPropertyName = "BarcodeCollection";
-
-        private ObservableCollection<BarcodeModel> _BarcodeCollection = new ObservableCollection<BarcodeModel>();
-
-        /// <summary>
-        /// Sets and gets the BarcodeCollection property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public ObservableCollection<BarcodeModel> BarcodeCollection
-        {
-            get
-            {
-                return _BarcodeCollection;
-            }
-
-            set
-            {
-                if (_BarcodeCollection == value)
-                {
-                    return;
-                }
-
-                _BarcodeCollection = value;
-                RaisePropertyChanged(BarcodeCollectionPropertyName);
-            }
-        }
-
-        #endregion
+        public string ManaulBarcode { get; set; }
+        public string SelectedItemType { get; set; }
+        public IList<string> AssetTypeCollection { get; set; }
+        public IList<string> SizeCollection { get; set; }
+        public string SelectedItemSize { get; set; }
+        public List<Tag> Tags { get; set; } = new List<Tag>();
+        public string TagsStr { get; set; }
+        public ObservableCollection<BarcodeModel> BarcodeCollection { get; set; } = new ObservableCollection<BarcodeModel>();
 
         #endregion
 
@@ -317,10 +52,8 @@ namespace KegID.ViewModel
 
         #region Contructor
 
-        public BulkUpdateScanViewModel(IMoveService moveService, IDashboardService dashboardService, INavigationService navigationService, IGetIconByPlatform getIconByPlatform, IUuidManager uuidManager, IPageDialogService dialogService) : base(navigationService)
+        public BulkUpdateScanViewModel(IDashboardService dashboardService, INavigationService navigationService, IGetIconByPlatform getIconByPlatform, IUuidManager uuidManager, IPageDialogService dialogService) : base(navigationService)
         {
-            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
-            _moveService = moveService;
             _dashboardService = dashboardService;
             _getIconByPlatform = getIconByPlatform;
             _uuidManager = uuidManager;
@@ -373,7 +106,7 @@ namespace KegID.ViewModel
                         }
                         catch (Exception ex)
                         {
-
+                            Crashes.TrackError(ex);
                         }
                     }
                 });

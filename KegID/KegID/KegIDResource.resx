@@ -1720,7 +1720,7 @@
     <value>Print every manifest</value>
   </data>
   <data name="label_prin_every_pallate" xml:space="preserve">
-    <value>Print every pallate</value>
+    <value>Print every pallet</value>
   </data>
   <data name="label_shipping_date" xml:space="preserve">
     <value>Shipping date:</value>
@@ -1787,5 +1787,32 @@
   </data>
   <data name="title_about_kegid" xml:space="preserve">
     <value>About KegID</value>
+  </data>
+  <data name="label_camera_scanner" xml:space="preserve">
+    <value>Camera scanner:</value>
+  </data>
+  <data name="label_data_matrix" xml:space="preserve">
+    <value>Data Matrix</value>
+  </data>
+  <data name="label_ean_13" xml:space="preserve">
+    <value>EAN 13</value>
+  </data>
+  <data name="label_qr_code" xml:space="preserve">
+    <value>QR Matrix</value>
+  </data>
+  <data name="label_upc" xml:space="preserve">
+    <value>UPC</value>
+  </data>
+  <data name="lable_code_128" xml:space="preserve">
+    <value>Code 128</value>
+  </data>
+  <data name="lable_code_39" xml:space="preserve">
+    <value>Code 39</value>
+  <data name="title_batch_scan" xml:space="preserve">
+    <value>Batch scan</value>
+  <data name="title_order" xml:space="preserve">
+    <value>Order:</value>
+  <data name="label_show_origin" xml:space="preserve">
+    <value>Origin:</value>
   </data>
 </root>

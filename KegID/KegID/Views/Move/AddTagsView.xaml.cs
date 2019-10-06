@@ -231,6 +231,8 @@ namespace KegID.Views
                 {
                     BackgroundColor = Color.Transparent,
                     VerticalOptions = LayoutOptions.Center,
+                    HorizontalOptions = LayoutOptions.Start,
+                    FontSize = 25,
                     Text = "x",
                     TextColor = (Color)Application.Current.Resources["selectTextColor"]
                 };
@@ -283,6 +285,8 @@ namespace KegID.Views
                 {
                     BackgroundColor = Color.Transparent,
                     VerticalOptions = LayoutOptions.Center,
+                    HorizontalOptions = LayoutOptions.Start,
+                    FontSize = 25,
                     Text = "x",
                     TextColor = (Color)Application.Current.Resources["selectTextColor"]
                 };
