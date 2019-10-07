@@ -60,7 +60,7 @@ namespace KegID.ViewModel
         public DelegateCommand<BarcodeModel> IconItemTappedCommand { get;}
         public DelegateCommand<BarcodeModel> LabelItemTappedCommand { get; }
         public DelegateCommand<BarcodeModel> DeleteItemCommand { get; }
-        
+
         #endregion
 
         #region Constructor
@@ -187,7 +187,7 @@ namespace KegID.ViewModel
                     ConstantManager.Tags = Tags;
                     var formsNav = ((Prism.Common.IPageAware)_navigationService).Page;
                     var page = formsNav.Navigation.NavigationStack[formsNav.Navigation.NavigationStack.Count-2];
-                    (page?.BindingContext as INavigationAware)?.OnNavigatingTo(new NavigationParameters
+                    (page?.BindingContext as INavigationAware)?.OnNavigatedTo(new NavigationParameters
                     {
                         { "Barcodes", BarcodeCollection },{ "BatchId", BatchId }
                     });
@@ -405,7 +405,7 @@ namespace KegID.ViewModel
                         }
                         BarcodeCollection.Add(model);
                     }
-                   
+
                     catch (Exception ex)
                     {
                         Crashes.TrackError(ex);

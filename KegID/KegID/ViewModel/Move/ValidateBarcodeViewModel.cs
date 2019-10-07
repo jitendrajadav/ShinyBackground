@@ -8,7 +8,7 @@ using Prism.Navigation;
 
 namespace KegID.ViewModel
 {
-    public class ValidateBarcodeViewModel : BaseViewModel 
+    public class ValidateBarcodeViewModel : BaseViewModel
     {
         #region Properties
 
@@ -22,7 +22,7 @@ namespace KegID.ViewModel
 
         public DelegateCommand CancelCommand { get; }
         public DelegateCommand<Partner> ItemTappedCommand { get; }
-        
+
         #endregion
 
         #region Constructor
@@ -50,7 +50,7 @@ namespace KegID.ViewModel
                 {
                     var formsNav = ((Prism.Common.IPageAware)_navigationService).Page;
                     var page = formsNav.Navigation.NavigationStack.Last();
-                    (page?.BindingContext as INavigationAware)?.OnNavigatingTo(new NavigationParameters
+                    (page?.BindingContext as INavigationAware)?.OnNavigatedTo(new NavigationParameters
                     {
                         { "Partner", model }
                     });

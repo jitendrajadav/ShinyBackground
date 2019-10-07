@@ -41,8 +41,10 @@ namespace KegID.ViewModel
         {
             IsSubmitVisible = AddKegs.Contains("Item") ? true : false;
         }
-
+        public bool OriginRequired { get; set; }
+        public bool IsOriginRequired { get; set; }
         public bool IsSaveDraftVisible { get; set; }
+        public string Order { get; set; }
         public bool IsSubmitVisible { get; set; }
         public void OnIsSubmitVisibleChanged()
         {
@@ -50,40 +52,8 @@ namespace KegID.ViewModel
         }
 
         public bool IsRequiredVisible { get; set; } = true;
-        #region OrderNumRequired
-
-        /// <summary>
-        /// The <see cref="OrderNumRequired" /> property's name.
-        /// </summary>
-        public const string OrderNumRequiredPropertyName = "OrderNumRequired";
-
-        private bool _OrderNumRequired;
-
-        /// <summary>
-        /// Sets and gets the OrderNumRequired property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public bool OrderNumRequired
-        {
-            get
-            {
-                return _OrderNumRequired;
-            }
-
-            set
-            {
-                if (_OrderNumRequired == value)
-                {
-                    return;
-                }
-
-                _OrderNumRequired = value;
-                RaisePropertyChanged(OrderNumRequiredPropertyName);
-            }
-        }
-
-        #endregion
-
+        public bool OrderNumRequired { get; set; }
+        public string Origin { get; set; }
         #endregion
 
         #region Commands
@@ -121,13 +91,10 @@ namespace KegID.ViewModel
             var preference = RealmDb.All<Preference>().Where(x => x.PreferenceName == "OrderNumRequired").FirstOrDefault();
             OrderNumRequired = preference != null ? bool.Parse(preference.PreferenceValue) : false;
 
-
-            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-            var preference = RealmDb.All<Preference>().Where(x => x.PreferenceName == "OriginRequired").FirstOrDefault();
-            OriginRequired = preference != null ? bool.Parse(preference.PreferenceValue) : false;
-
+            var RealmDb1 = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            var preference1 = RealmDb1.All<Preference>().Where(x => x.PreferenceName == "OriginRequired").FirstOrDefault();
+            OriginRequired = preference1 != null ? bool.Parse(preference1.PreferenceValue) : false;
         }
-
 
         #endregion
 
@@ -508,7 +475,7 @@ namespace KegID.ViewModel
                             model.Tags.Add(tag);
                         }
                         ConstantManager.Barcodes.Add(model);
-                    } 
+                    }
                 }
                 Barcodes = ConstantManager.Barcodes;
                 Tags = tags?.ToList();

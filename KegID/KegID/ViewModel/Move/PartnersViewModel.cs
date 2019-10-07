@@ -28,7 +28,7 @@ namespace KegID.ViewModel
         public ObservableCollection<PartnerModel> PartnerCollection { get; set; }
         public string PartnerName { get; set; }
         public string CommingFrom { get; set; }
-        
+
         public IList<PartnerModel> AllPartners { get; set; }
 
         #endregion
@@ -42,7 +42,7 @@ namespace KegID.ViewModel
         public DelegateCommand AddNewPartnerCommand { get; }
         public DelegateCommand BackCommand { get; }
         public DelegateCommand TextChangedCommand { get; }
-        
+
         #endregion
 
         #region Constructor
@@ -153,11 +153,16 @@ namespace KegID.ViewModel
                 {
                     var Partners = value.PartnerModel.Where(x => x.FullName != string.Empty).ToList();
 
-            if (BrewerStockOn)
-                PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners.Where(x => x.PartnerTypeName == "Brewer - Stock").ToList());
-            else
-                PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners);
-        }
+                    if (BrewerStockOn)
+                        PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners.Where(x => x.PartnerTypeName == "Brewer - Stock").ToList());
+                    else
+                        PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners);
+                }
+            }
+            catch
+            {
+            }
+         }
 
         private void DeletePartners()
         {

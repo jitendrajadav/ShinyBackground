@@ -31,7 +31,7 @@ namespace KegID.ViewModel
         public bool HasDone { get; set; }
         public ObservableCollection<BarcodeModel> BarcodeCollection { get; set; } = new ObservableCollection<BarcodeModel>();
         public IList<BrandModel> BrandCollection { get; set; }
-        public BrandModel SelectedBrand { get; set; }
+        public string SelectedBrand { get; set; }
         public string ManaulBarcode { get; set; }
         public string TagsStr { get; set; }
         public string Batch { get; set; }
@@ -111,7 +111,7 @@ namespace KegID.ViewModel
                     }
                 });
             });
-            
+
             MessagingCenter.Subscribe<PalletToScanKegPagesMsg>(this, "PalletToScanKegPagesMsg", message =>
             {
                 Device.BeginInvokeOnMainThread(() =>
@@ -391,10 +391,6 @@ namespace KegID.ViewModel
             try
             {
                 var isNew = BarcodeCollection.Where(x => x.Barcode == ManaulBarcode).FirstOrDefault();
-                UpdateTagsStr();
-                BarcodeModel model = new BarcodeModel()
-                {
-
                     UpdateTagsStr();
                     BarcodeModel model = new BarcodeModel()
                     {
@@ -428,7 +424,7 @@ namespace KegID.ViewModel
                         var oldBarcode = BarcodeCollection.Where(x => x.Barcode == ManaulBarcode).FirstOrDefault();
                         oldBarcode.TagsStr = model.TagsStr;
                         oldBarcode.Icon = model.Icon;
-                        oldBarcode.Contents = SelectedBrand?.BrandName;
+                        oldBarcode.Contents = SelectedBrand;
                         db.Commit();
                     }
                 }
@@ -559,7 +555,7 @@ namespace KegID.ViewModel
                     catch (Exception ex)
                     {
                         Crashes.TrackError(ex);
-                    }                     
+                    }
                 }
                 else
                 {
