@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>KegID.Droid</RootNamespace>
     <AssemblyName>KegID.Android</AssemblyName>
-    <TargetFrameworkVersion>v9.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v10.0</TargetFrameworkVersion>
     <AndroidApplication>True</AndroidApplication>
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <AndroidResgenClass>Resource</AndroidResgenClass>
@@ -38,6 +38,10 @@
     <SolutionDir>..\</SolutionDir>
     <EnableProguard>false</EnableProguard>
     <AndroidHttpClientHandlerType>Xamarin.Android.Net.AndroidClientHandler</AndroidHttpClientHandlerType>
+    <AotAssemblies>false</AotAssemblies>
+    <EnableLLVM>false</EnableLLVM>
+    <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
+    <BundleAssemblies>false</BundleAssemblies>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>false</DebugSymbols>
@@ -432,8 +436,6 @@
     <AndroidResource Include="..\KegID\Assets\new3.png">
       <Link>Resources\drawable\new3.png</Link>
     </AndroidResource>
-    <AndroidResource Include="Resources\drawable\icon.png" />
-    <AndroidResource Include="Resources\drawable\splashscreen.png" />
     <AndroidResource Include="Resources\drawable\splash_screen.xml" />
     <AndroidResource Include="Resources\drawable\tab_indicator_ab_maintheme.xml" />
     <AndroidResource Include="Resources\drawable-hdpi\tab_unselected_pressed_maintheme.9.png" />
@@ -462,7 +464,11 @@
     <AndroidResource Include="Resources\values\dimens.xml" />
   </ItemGroup>
   <ItemGroup>
+    <AndroidResource Include="..\KegID\Assets\splashlogo.png">
+      <Link>Resources\drawable\splashlogo.png</Link>
+    </AndroidResource>
     <Content Include="FodyWeavers.xml" />
+    <AndroidResource Include="Resources\drawable\icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="ReplaceRefAssemblies" AfterTargets="_ResolveAssemblies">

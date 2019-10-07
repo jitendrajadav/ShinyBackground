@@ -5,8 +5,9 @@
   </item>
   <item>
     <bitmap
-        android:src="@drawable/splashscreen"
+        android:src="@drawable/splashlogo"
         android:tileMode="disabled"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:layout_gravity="center"/>
   </item>
 </layer-list>

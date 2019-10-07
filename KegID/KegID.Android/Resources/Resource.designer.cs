@@ -19590,7 +19590,7 @@ namespace KegID.Droid
 			public const int setting = 2131165564;
 			
 			// aapt resource value: 0x7F07017E
-			public const int splashscreen = 2131165566;
+			public const int splashlogo = 2131165566;
 			
 			// aapt resource value: 0x7F07017D
 			public const int splash_screen = 2131165565;
