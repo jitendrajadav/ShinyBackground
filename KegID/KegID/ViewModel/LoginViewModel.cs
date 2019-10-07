@@ -36,7 +36,7 @@ namespace KegID.ViewModel
 
         /// <summary>
         /// Sets and gets the APIBase property.
-        /// Changes to that property's value raise the PropertyChanged event. 
+        /// Changes to that property's value raise the PropertyChanged event.
         /// </summary>
         public string APIBase
         {
