@@ -41,7 +41,7 @@ namespace KegID.UWP
                 rootFrame = new Frame();
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
-
+                Xamarin.Forms.Forms.SetFlags("CollectionView_Experimental");
                 List<Assembly> assembliesToInclude = new List<Assembly>
                 {
                     typeof(CarouselViewRenderer).GetTypeInfo().Assembly,

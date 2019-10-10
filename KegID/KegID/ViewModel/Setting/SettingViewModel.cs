@@ -1,6 +1,7 @@
 ﻿using System;
 using KegID.Common;
 using KegID.Messages;
+using KegID.Services;
 using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
@@ -147,14 +148,22 @@ namespace KegID.ViewModel
 
         private async void SupportCommandRecieverAsync()
         {
+            string mWebRoot = string.Empty;
             try
             {
-               await _navigationService.ClearPopupStackAsync(animated:false);
+                if (Configuration.ServiceUrl.Contains("https://api.kegid.com/api/"))
+                    mWebRoot = "http://www.kegid.com";
+                else if (Configuration.ServiceUrl.Contains("https://stageapi.kegid.com/api/"))
+                    mWebRoot = "http://stage.kegid.com";
+                else
+                    mWebRoot = "http://test.kegid.com";
+
+                await _navigationService.ClearPopupStackAsync(animated:false);
                 //await Application.Current.MainPage.Navigation.PopPopupAsync();
                 // You can remove the switch to UI Thread if you are already in the UI Thread.
                 Device.BeginInvokeOnMainThread(() =>
                 {
-                    Device.OpenUri(new Uri("https://www.slg.com/"));
+                    Device.OpenUri(new Uri(mWebRoot + "/Account/Login/ZendeskSingleSignOnMobile?sessionid="+AppSettings.SessionId));
                 });
             }
             catch (Exception ex)
@@ -163,6 +172,6 @@ namespace KegID.ViewModel
             }
         }
 
-        #endregion
+#endregion
     }
 }

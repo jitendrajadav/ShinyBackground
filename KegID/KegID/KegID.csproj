@@ -8,11 +8,39 @@
     <SolutionDir>..\</SolutionDir>
   </PropertyGroup>
 
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;DEBUG;DEV;NETSTANDARD2_1</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug-PROD|AnyCPU'">
+    <DefineConstants>TRACE;PROD;DEBUG_PROD;NETSTANDARD2_1</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug-STAGE|AnyCPU'">
+    <DefineConstants>TRACE;STAGE;DEBUG_STAGE;NETSTANDARD2_1</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-DEV|AnyCPU'">
+    <DefineConstants>TRACE;DEV;RELEASE_DEV;NETSTANDARD2_1</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug-DEV|AnyCPU'">
+    <DefineConstants>TRACE;DEV;DEBUG_DEV;NETSTANDARD2_1</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>TRACE;PROD;RELEASE;NETSTANDARD2_1</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-STAGE|AnyCPU'">
+    <DefineConstants>TRACE;STAGE;RELEASE_STAGE;NETSTANDARD2_1</DefineConstants>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
     <PlatformTarget>x86</PlatformTarget>
-    <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NETSTANDARD2_1</DefineConstants>
     <SolutionDir>..\</SolutionDir>
   </PropertyGroup>
 
@@ -412,6 +440,6 @@
   <ItemGroup>
     <Folder Include="Model\Request\Fill\" />
   </ItemGroup>
-  
-  
+
+
 </Project>

@@ -44,3 +44,5 @@
 /Plugin.ShareFile/bin/Debug/netstandard2.0
 *.pdb
 /KegID/KegID.UITest/obj
+*.json
+*.mdb
