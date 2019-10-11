@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using KegID.Model;
 using KegID.Services;
 using Microsoft.AppCenter.Crashes;
@@ -73,12 +74,13 @@ namespace KegID.ViewModel
             }
         }
 
-        public override void OnNavigatingTo(INavigationParameters parameters)
+        public override Task InitializeAsync(INavigationParameters parameters)
         {
             if (parameters.ContainsKey("BarcodeModel"))
             {
                 LoadInfo(parameters.GetValue<IList<BarcodeModel>>("BarcodeModel"));
             }
+            return base.InitializeAsync(parameters);
         }
 
         public override void OnNavigatedTo(INavigationParameters parameters)

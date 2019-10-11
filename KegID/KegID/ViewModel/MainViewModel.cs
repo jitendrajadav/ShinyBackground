@@ -582,13 +582,15 @@ namespace KegID.ViewModel
             }
         }
 
-        public override void OnNavigatingTo(INavigationParameters parameters)
+        public override Task InitializeAsync(INavigationParameters parameters)
         {
             if (parameters.ContainsKey("ManifestId"))
             {
                 _ = parameters.GetValue<string>("ManifestId");
             }
             CheckDraftmaniFestsAsync();
+
+            return base.InitializeAsync(parameters);
         }
 
         #endregion

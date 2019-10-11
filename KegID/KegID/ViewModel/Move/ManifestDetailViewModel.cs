@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Xsl;
 using Xamarin.Forms;
@@ -159,7 +160,7 @@ namespace KegID.ViewModel
             }
         }
 
-        public override void OnNavigatingTo(INavigationParameters parameters)
+        public override Task InitializeAsync(INavigationParameters parameters)
         {
             switch (parameters.Keys.FirstOrDefault())
             {
@@ -172,6 +173,8 @@ namespace KegID.ViewModel
                 default:
                     break;
             }
+
+            return base.InitializeAsync(parameters);
         }
 
         public override void OnNavigatedTo(INavigationParameters parameters)

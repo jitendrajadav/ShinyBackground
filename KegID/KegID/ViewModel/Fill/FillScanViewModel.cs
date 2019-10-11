@@ -192,9 +192,9 @@ namespace KegID.ViewModel
                         { "Barcodes", BarcodeCollection },{ "BatchId", BatchId }
                     });
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-
+                    Crashes.TrackError(ex);
                 }
                 await _navigationService.ClearPopupStackAsync(animated: false);
                 if (IsPalletze)
@@ -552,8 +552,9 @@ namespace KegID.ViewModel
                     {
                         PrintPallet();
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        Crashes.TrackError(ex);
                     }
 
                     await _navigationService.GoBackAsync(new NavigationParameters
@@ -789,7 +790,7 @@ namespace KegID.ViewModel
             }
         }
 
-        public async override void OnNavigatingTo(INavigationParameters parameters)
+        public override async Task InitializeAsync(INavigationParameters parameters)
         {
             switch (parameters.Keys.FirstOrDefault())
             {
@@ -810,8 +811,9 @@ namespace KegID.ViewModel
                         SizeButtonTitle = parameters.GetValue<string>("SizeButtonTitle");
                         PartnerModel = parameters.GetValue<PartnerModel>("PartnerModel");
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        Crashes.TrackError(ex);
                     }
                     break;
                 case "models":
@@ -823,6 +825,8 @@ namespace KegID.ViewModel
                 default:
                     break;
             }
+
+            //return base.InitializeAsync(parameters);
         }
 
         public override void OnNavigatedTo(INavigationParameters parameters)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Xsl;
 using KegID.Common;
@@ -25,7 +26,7 @@ namespace KegID.ViewModel
         private SearchPalletResponseModel Model { get; set; }
         public List<string> Barcodes { get; private set; }
         private readonly IUuidManager _uuidManager;
-        
+
         public string ManifestId { get; set; }
         public string StockLocation { get; set; }
         public string PartnerTypeName { get; set; }
@@ -81,8 +82,8 @@ namespace KegID.ViewModel
         {
             try
             {
-                // here we needs to pass value for e.g Barcode only string value, KegId Optional and Manifest but those value we have to fetch from 
-                // AssingIntialValueAsync() this needs to correct 
+                // here we needs to pass value for e.g Barcode only string value, KegId Optional and Manifest but those value we have to fetch from
+                // AssingIntialValueAsync() this needs to correct
                 await _navigationService.NavigateAsync("MoveView", new NavigationParameters
                     {
                         { "AssignInitialValueFromKegStatus", Barcodes.FirstOrDefault() },
@@ -253,7 +254,7 @@ namespace KegID.ViewModel
             }
         }
 
-        public override void OnNavigatingTo(INavigationParameters parameters)
+        public override Task InitializeAsync(INavigationParameters parameters)
         {
             switch (parameters.Keys.FirstOrDefault())
             {
@@ -266,6 +267,8 @@ namespace KegID.ViewModel
                 default:
                     break;
             }
+
+            return base.InitializeAsync(parameters);
         }
 
         public override void OnNavigatedTo(INavigationParameters parameters)

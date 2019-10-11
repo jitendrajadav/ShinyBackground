@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using KegID.Model;
 using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
@@ -81,12 +82,13 @@ namespace KegID.ViewModel
             }
         }
 
-        public override void OnNavigatingTo(INavigationParameters parameters)
+        public override Task InitializeAsync(INavigationParameters parameters)
         {
             if (parameters.ContainsKey("model"))
             {
                 PartnerModel = parameters.GetValue<PartnerModel>("model");
             }
+            return base.InitializeAsync(parameters);
         }
 
         public override void OnNavigatedTo(INavigationParameters parameters)

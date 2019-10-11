@@ -255,7 +255,7 @@ namespace KegID.ViewModel
                     }
                     else
                         await _dialogService.DisplayAlertAsync("Alert", "Something goes wrong please check again", "Ok");
-                
+
             }
             catch (Exception ex)
             {
@@ -508,7 +508,7 @@ namespace KegID.ViewModel
             }
         }
 
-        public override void OnNavigatingTo(INavigationParameters parameters)
+        public override Task InitializeAsync(INavigationParameters parameters)
         {
             switch (parameters.Keys.FirstOrDefault())
             {
@@ -527,6 +527,8 @@ namespace KegID.ViewModel
                 default:
                     break;
             }
+
+            return base.InitializeAsync(parameters);
         }
 
         #endregion

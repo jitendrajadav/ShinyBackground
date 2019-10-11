@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using KegID.LocalDb;
 using KegID.Model;
 using KegID.Services;
@@ -112,7 +113,7 @@ namespace KegID.ViewModel
             try
             {
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                SizeCollection = RealmDb.All<AssetSizeModel>().ToList(); 
+                SizeCollection = RealmDb.All<AssetSizeModel>().ToList();
             }
             catch (Exception ex)
             {
@@ -125,7 +126,7 @@ namespace KegID.ViewModel
             try
             {
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                TypeCollection = RealmDb.All<AssetTypeModel>().ToList(); 
+                TypeCollection = RealmDb.All<AssetTypeModel>().ToList();
             }
             catch (Exception ex)
             {
@@ -164,7 +165,7 @@ namespace KegID.ViewModel
                         RealmDb.Write(() =>
                         {
                             selectedType.HasInitial = true;
-                        }); 
+                        });
                     }
                     if (item.Tags.Count > 3)
                     {
@@ -194,12 +195,13 @@ namespace KegID.ViewModel
             }
         }
 
-        public override void OnNavigatingTo(INavigationParameters parameters)
+        public override Task InitializeAsync(INavigationParameters parameters)
         {
             if (parameters.ContainsKey("alert"))
             {
                 AssignInitialValueAsync(parameters.GetValue<List<BarcodeModel>>("alert"));
             }
+            return base.InitializeAsync(parameters);
         }
 
         public override void OnNavigatedTo(INavigationParameters parameters)

@@ -56,7 +56,7 @@ namespace KegID.ViewModel
         public DelegateCommand MoveKegCommand { get; }
         public DelegateCommand AddAlertCommand { get; }
         public DelegateCommand RemoveAlertCommand { get; }
-        
+
         #endregion
 
         #region Constructor
@@ -316,11 +316,11 @@ namespace KegID.ViewModel
                 {
                     Loader.StopLoading();
                     RemoveSelecetedMaintenance = null;
-                } 
+                }
             }
         }
 
-        public async override void OnNavigatingTo(INavigationParameters parameters)
+        public override async Task InitializeAsync(INavigationParameters parameters)
         {
             if (parameters.ContainsKey("KegStatusModel"))
             {
@@ -332,7 +332,10 @@ namespace KegID.ViewModel
                 var model = parameters.GetValue<KegSearchResponseModel>("KegSearchedKegStatusModel");
                 await LoadMaintenanceHistoryAsync(model.KegId, model.Contents, 0, model?.Location?.FullName, model.Barcode, model.TypeName, model.SizeName);
             }
+
+            //return base.InitializeAsync(parameters);
         }
+
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {

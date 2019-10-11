@@ -40,7 +40,7 @@ namespace KegID.ViewModel
         public DelegateCommand PhoneNumberCommand { get; }
         public DelegateCommand ContactEmailCommand { get;}
         public DelegateCommand SendKegsCommand { get;}
-        
+
         #endregion
 
         #region Constructor
@@ -291,12 +291,13 @@ namespace KegID.ViewModel
             }
         }
 
-        public override void OnNavigatingTo(INavigationParameters parameters)
+        public override Task InitializeAsync(INavigationParameters parameters)
         {
             if (parameters.ContainsKey("PartnerModel"))
             {
                 PartnerModel = parameters.GetValue<PossessorResponseModel>("PartnerModel").Location;
             }
+            return base.InitializeAsync(parameters);
         }
 
         public override void OnNavigatedTo(INavigationParameters parameters)

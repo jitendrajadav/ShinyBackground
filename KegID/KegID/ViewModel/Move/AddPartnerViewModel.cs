@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using KegID.Common;
 using KegID.LocalDb;
 using KegID.Model;
@@ -279,7 +280,7 @@ namespace KegID.ViewModel
             }
         }
 
-        public override void OnNavigatingTo(INavigationParameters parameters)
+        public override Task InitializeAsync(INavigationParameters parameters)
         {
             switch (parameters.Keys.FirstOrDefault())
             {
@@ -296,6 +297,7 @@ namespace KegID.ViewModel
                     break;
             }
 
+            return base.InitializeAsync(parameters);
         }
 
         private void AssignValueAddress(INavigationParameters parameters)

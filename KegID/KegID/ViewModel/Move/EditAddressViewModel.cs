@@ -6,6 +6,7 @@ using Prism.Navigation;
 using Prism.Services;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Xamarin.Essentials;
 
 namespace KegID.ViewModel
@@ -162,12 +163,14 @@ namespace KegID.ViewModel
             await _navigationService.GoBackAsync(animated: false);
         }
 
-        public override void OnNavigatingTo(INavigationParameters parameters)
+        public override Task InitializeAsync(INavigationParameters parameters)
         {
             if (parameters.ContainsKey("AddressTitle"))
             {
                 AddressTitle = parameters.GetValue<string>("AddressTitle");
             }
+
+            return base.InitializeAsync(parameters);
         }
 
         public override void OnNavigatedTo(INavigationParameters parameters)

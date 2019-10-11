@@ -121,7 +121,7 @@ namespace KegID.ViewModel
             Code128 = AppSettings.Code128;
         }
 
-        public override void OnNavigatingTo(INavigationParameters parameters)
+        public override Task InitializeAsync(INavigationParameters parameters)
         {
             if (parameters.ContainsKey("IDiscoveredPrinter"))
             {
@@ -136,6 +136,8 @@ namespace KegID.ViewModel
             }
 
             AssignPrintingSetting();
+
+            return base.InitializeAsync(parameters);
         }
 
         public override void OnNavigatedTo(INavigationParameters parameters)

@@ -21,7 +21,7 @@ namespace KegID.ViewModel
 
         /// <summary>
         /// Sets and gets the SelectedOwner property.
-        /// Changes to that property's value raise the PropertyChanged event. 
+        /// Changes to that property's value raise the PropertyChanged event.
         /// </summary>
         public string SelectedOwner
         {
@@ -79,14 +79,9 @@ namespace KegID.ViewModel
             }
         }
 
-        public override void OnNavigatingTo(INavigationParameters parameters)
-        {
-            
-        }
-
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
-            
+
         }
 
         #endregion

@@ -77,7 +77,7 @@ namespace KegID.ViewModel
                 message = secondCode.Data;
             }
 
-            // Because this event handler is called from an scanner-internal thread, 
+            // Because this event handler is called from an scanner-internal thread,
             // you must make sure to dispatch to the main thread for any UI work.
             Device.BeginInvokeOnMainThread(() =>
             {
@@ -105,7 +105,7 @@ namespace KegID.ViewModel
                            Barcode = models.LastOrDefault().Barcode
                         };
                         MessagingCenter.Send(scannerToPalletAssign, "ScannerToPalletAssign");
-                        
+
                     }
                     try
                     {
@@ -168,7 +168,7 @@ namespace KegID.ViewModel
             }
 
             await _picker.ApplySettingsAsync(_scanSettings);
-            // This will open the scanner in full-screen mode.  
+            // This will open the scanner in full-screen mode.
             ScanditService.BarcodePicker.CancelButtonText = "Done";
             ScanditService.BarcodePicker.DidScan += OnDidScan;
             ScanditService.BarcodePicker.DidStop += OnDidStopAsync;
@@ -244,7 +244,7 @@ namespace KegID.ViewModel
             //        }, useModalNavigation: true, animated: false);
         }
 
-        public override void OnNavigatingTo(INavigationParameters parameters)
+        public override Task InitializeAsync(INavigationParameters parameters)
         {
             if (parameters.ContainsKey("ViewTypeEnum"))
             {
@@ -283,6 +283,8 @@ namespace KegID.ViewModel
                         break;
                 }
             }
+
+            return base.InitializeAsync(parameters);
         }
 
         public override void OnNavigatedFrom(INavigationParameters parameters)

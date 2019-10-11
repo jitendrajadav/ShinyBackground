@@ -8,6 +8,7 @@ using Prism.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace KegID.ViewModel
 {
@@ -29,7 +30,7 @@ namespace KegID.ViewModel
         public BrandModel BrandModel { get; set; }
         public List<Tag> Tags { get; set; }
         public NewBatch NewBatchModel { get; set; }
-       
+
         #endregion
 
         #region Commands
@@ -85,7 +86,7 @@ namespace KegID.ViewModel
 
         private async void DoneCommandRecieverAsync()
         {
-            if (BrandButtonTitle.ToLower() != "brand")
+            if (!string.Equals(BrandButtonTitle, "brand", StringComparison.OrdinalIgnoreCase))
             {
                 try
                 {
@@ -158,7 +159,7 @@ namespace KegID.ViewModel
             }
         }
 
-        public override void OnNavigatingTo(INavigationParameters parameters)
+        public override Task InitializeAsync(INavigationParameters parameters)
         {
             switch (parameters.Keys.FirstOrDefault())
             {
@@ -171,6 +172,8 @@ namespace KegID.ViewModel
                 default:
                     break;
             }
+
+            return base.InitializeAsync(parameters);
         }
 
         public override void OnNavigatedTo(INavigationParameters parameters)

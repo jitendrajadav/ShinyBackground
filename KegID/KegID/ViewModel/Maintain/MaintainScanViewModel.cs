@@ -239,7 +239,7 @@ namespace KegID.ViewModel
                         TagsStr = string.Empty,
                         Icon = Cloud
                     };
-                    
+
                     BarcodeCollection.Add(model);
                     var current = Connectivity.NetworkAccess;
                     if (current == NetworkAccess.Internet)
@@ -251,7 +251,7 @@ namespace KegID.ViewModel
                         };
                         MessagingCenter.Send(message, "StartLongRunningTaskMessage");
                     }
-                   
+
                     ManaulBarcode = string.Empty;
                 }
             }
@@ -411,9 +411,9 @@ namespace KegID.ViewModel
                 }
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                Crashes.TrackError(ex);
             }
             finally
             {
@@ -524,7 +524,7 @@ namespace KegID.ViewModel
             MessagingCenter.Unsubscribe<CancelledMessage>(this, "CancelledMessage");
         }
 
-        public async override void OnNavigatingTo(INavigationParameters parameters)
+        public override async Task InitializeAsync(INavigationParameters parameters)
         {
             switch (parameters.Keys.FirstOrDefault())
             {
@@ -543,6 +543,8 @@ namespace KegID.ViewModel
                 default:
                     break;
             }
+
+            //return base.InitializeAsync(parameters);
         }
 
         private void AssignMaintenanceViewValue(INavigationParameters parameters)

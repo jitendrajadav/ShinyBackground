@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using KegID.LocalDb;
 using KegID.Model;
 using KegID.Services;
@@ -117,7 +118,7 @@ namespace KegID.ViewModel
                             break;
                         default:
                             break;
-                    } 
+                    }
                 }
             }
             catch (Exception ex)
@@ -196,9 +197,10 @@ namespace KegID.ViewModel
             DraftBackgroundColor = "Transparent";
         }
 
-        public override void OnNavigatingTo(INavigationParameters parameters)
+        public override Task InitializeAsync(INavigationParameters parameters)
         {
             LoadDraftManifestAsync();
+            return base.InitializeAsync(parameters);
         }
 
         public override void OnNavigatedTo(INavigationParameters parameters)

@@ -4,6 +4,7 @@ using Prism.Commands;
 using Prism.Navigation;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace KegID.ViewModel
 {
@@ -76,12 +77,13 @@ namespace KegID.ViewModel
             }
         }
 
-        public override void OnNavigatingTo(INavigationParameters parameters)
+        public override Task InitializeAsync(INavigationParameters parameters)
         {
             if (parameters.ContainsKey("model"))
             {
                 AssignInitialValue(parameters.GetValue<BarcodeModel>("model"));
             }
+            return base.InitializeAsync(parameters);
         }
 
         public override void OnNavigatedTo(INavigationParameters parameters)

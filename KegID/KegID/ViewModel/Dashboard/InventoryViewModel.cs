@@ -9,6 +9,7 @@ using Realms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace KegID.ViewModel
 {
@@ -114,7 +115,7 @@ namespace KegID.ViewModel
             }
         }
 
-        public override void OnNavigatingTo(INavigationParameters parameters)
+        public override Task InitializeAsync(INavigationParameters parameters)
         {
             if (!isNavigated)
             {
@@ -124,6 +125,8 @@ namespace KegID.ViewModel
                     isNavigated = true;
                 }
             }
+
+            return base.InitializeAsync(parameters);
         }
 
         public override void OnNavigatedFrom(INavigationParameters parameters)

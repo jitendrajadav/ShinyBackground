@@ -1,13 +1,14 @@
-﻿using KegID.Localization;
+﻿using System.Threading.Tasks;
+using KegID.Localization;
 using KegID.Services;
 using Prism.Mvvm;
 using Prism.Navigation;
 
 namespace KegID.ViewModel
 {
-    public abstract class BaseViewModel : BindableBase, INavigationAware
-    {     
-        /* 
+    public abstract class BaseViewModel : BindableBase, INavigationAware, IInitializeAsync
+    {
+        /*
          * Define Fields
          */
         protected INavigationService _navigationService { get; }
@@ -34,13 +35,12 @@ namespace KegID.ViewModel
 
         public virtual void OnNavigatedTo(INavigationParameters parameters)
         {
-            
+
         }
 
-        public virtual void OnNavigatingTo(INavigationParameters parameters)
+        public virtual async Task InitializeAsync(INavigationParameters parameters)
         {
-           
-        }
 
+        }
     }
 }

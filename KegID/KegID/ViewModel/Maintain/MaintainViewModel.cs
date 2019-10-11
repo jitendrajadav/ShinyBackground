@@ -10,6 +10,7 @@ using Realms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -45,7 +46,7 @@ namespace KegID.ViewModel
             NextCommand = new DelegateCommand(NextCommandRecieverAsync);
             PartnerModel.FullName = "Select a location";
             ItemTappedCommand = new DelegateCommand<MaintainTypeReponseModel>((model) => ItemTappedCommandReciever(model));
-            
+
             LoadMaintenanceTypeAsync();
 
             HandleUnsubscribeMessages();
@@ -146,7 +147,7 @@ namespace KegID.ViewModel
             }
         }
 
-        public override void OnNavigatingTo(INavigationParameters parameters)
+        public override Task InitializeAsync(INavigationParameters parameters)
         {
             switch (parameters.Keys.FirstOrDefault())
             {
@@ -162,6 +163,8 @@ namespace KegID.ViewModel
                 default:
                     break;
             }
+
+            return base.InitializeAsync(parameters);
         }
 
         private void AssignInitialValue(ManifestModel manifestModel)

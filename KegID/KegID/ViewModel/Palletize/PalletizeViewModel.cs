@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using KegID.Common;
 using KegID.LocalDb;
 using KegID.Messages;
@@ -54,7 +55,7 @@ namespace KegID.ViewModel
         public DelegateCommand IsPalletVisibleCommand { get; }
         public DelegateCommand BarcodeScanCommand { get; }
         public DelegateCommand SubmitCommand { get; }
-        
+
         #endregion
 
         #region Constructor
@@ -285,7 +286,7 @@ namespace KegID.ViewModel
         public void PrintPallet()
         {
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-            var brandCode = RealmDb.All<BrandModel>().Where(x=>x.BrandName == ConstantManager.Contents).FirstOrDefault();         
+            var brandCode = RealmDb.All<BrandModel>().Where(x=>x.BrandName == ConstantManager.Contents).FirstOrDefault();
             try
             {
                 var addresss = StockLocation;
@@ -311,7 +312,7 @@ namespace KegID.ViewModel
                 AddKegs = string.Format("{0} Items", _barcodes.Count);
             else if (_barcodes.Count == 1)
                 AddKegs = string.Format("{0} Item", _barcodes.Count);
-            else 
+            else
                 AddKegs = "Add Kegs";
         }
 
@@ -444,7 +445,7 @@ namespace KegID.ViewModel
             }
         }
 
-        public override void OnNavigatingTo(INavigationParameters parameters)
+        public override Task InitializeAsync(INavigationParameters parameters)
         {
             if (ConstantManager.Barcodes != null)
                 AssingScanKegsValue(ConstantManager.Barcodes);
@@ -464,6 +465,8 @@ namespace KegID.ViewModel
                 default:
                     break;
             }
+
+            return base.InitializeAsync(parameters);
         }
 
         #endregion

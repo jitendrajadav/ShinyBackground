@@ -25,7 +25,7 @@ namespace KegID.ViewModel
         public DelegateCommand BarcodeScanCommand { get; }
         public DelegateCommand BulkUpdateCommand { get; }
         public DelegateCommand SearchCommand { get; }
-        
+
         #endregion
 
         #region Constructor
@@ -145,12 +145,13 @@ namespace KegID.ViewModel
             MessagingCenter.Unsubscribe<BarcodeScannerToKegSearchMsg>(this, "BarcodeScannerToKegSearchMsg");
         }
 
-        public override void OnNavigatingTo(INavigationParameters parameters)
+        public override Task InitializeAsync(INavigationParameters parameters)
         {
             if (parameters.ContainsKey("AssingSuccessMsgAsync"))
             {
                 AssingSuccessMsgAsync();
             }
+            return base.InitializeAsync(parameters);
         }
 
         public override void OnNavigatedTo(INavigationParameters parameters)

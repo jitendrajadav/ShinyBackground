@@ -11,6 +11,7 @@ using Realms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -156,14 +157,14 @@ namespace KegID.ViewModel
             manifestModel = null;
             Cleanup();
         }
-            
+
 
         private void Cleanup()
         {
             try
             {
                 PalletCollection.Clear();
-                
+
                 AddPalletToFillScanMsg msg = new AddPalletToFillScanMsg
                 {
                     CleanUp = true
@@ -384,7 +385,7 @@ namespace KegID.ViewModel
             }
         }
 
-        public override void OnNavigatingTo(INavigationParameters parameters)
+        public override Task InitializeAsync(INavigationParameters parameters)
         {
             switch (parameters.Keys.FirstOrDefault())
             {
@@ -416,6 +417,8 @@ namespace KegID.ViewModel
                 default:
                     break;
             }
+
+            return base.InitializeAsync(parameters);
         }
 
         private void AssingScanToFillView(INavigationParameters parameters)

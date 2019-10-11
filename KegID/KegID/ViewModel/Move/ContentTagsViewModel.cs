@@ -1,6 +1,7 @@
 ﻿using Prism.Commands;
 using Prism.Navigation;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace KegID.ViewModel
 {
@@ -34,12 +35,14 @@ namespace KegID.ViewModel
             await _navigationService.GoBackAsync(animated: false);
         }
 
-        public override void OnNavigatingTo(INavigationParameters parameters)
+        public override Task InitializeAsync(INavigationParameters parameters)
         {
             if (parameters.ContainsKey("Barcode"))
             {
                 ContentCollection = parameters.GetValue<List<string>>("Barcode");
             }
+
+            return base.InitializeAsync(parameters);
         }
 
         public override void OnNavigatedTo(INavigationParameters parameters)

@@ -9,6 +9,7 @@ using Prism.Services;
 using Realms;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -173,7 +174,7 @@ namespace KegID.ViewModel
             }
         }
 
-        public override void OnNavigatingTo(INavigationParameters parameters)
+        public override Task InitializeAsync(INavigationParameters parameters)
         {
             if (parameters.ContainsKey("IsLogOut"))
             {
@@ -184,6 +185,8 @@ namespace KegID.ViewModel
             }
             else
                 IsLogOut = false;
+
+            return base.InitializeAsync(parameters);
         }
 
         #endregion

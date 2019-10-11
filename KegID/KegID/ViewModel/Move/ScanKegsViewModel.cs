@@ -658,7 +658,7 @@ namespace KegID.ViewModel
             }
         }
 
-        public async override void OnNavigatingTo(INavigationParameters parameters)
+        public override async Task InitializeAsync(INavigationParameters parameters)
         {
             switch (parameters.Keys.FirstOrDefault())
             {
@@ -680,6 +680,8 @@ namespace KegID.ViewModel
                 default:
                     break;
             }
+
+            //return base.InitializeAsync(parameters);
         }
 
         public override void OnNavigatedTo(INavigationParameters parameters)

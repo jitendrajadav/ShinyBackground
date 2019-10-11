@@ -3,6 +3,7 @@ using KegID.Services;
 using Prism.Commands;
 using Prism.Navigation;
 using System;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -62,9 +63,10 @@ namespace KegID.ViewModel
             });
         }
 
-        public override void OnNavigatingTo(INavigationParameters parameters)
+        public override Task InitializeAsync(INavigationParameters parameters)
         {
             HandleReceivedMessages();
+            return base.InitializeAsync(parameters);
         }
 
         public override void OnNavigatedFrom(INavigationParameters parameters)

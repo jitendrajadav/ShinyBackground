@@ -66,14 +66,14 @@ namespace KegID.ViewModel
 
         #region Methods
 
-        private async void TextChangedCommandRecieverAsync()
+        private void TextChangedCommandRecieverAsync()
         {
             if (!string.IsNullOrEmpty(PartnerName))
             {
                 try
                 {
                     var notNullPartners = AllPartners.Where(x => x.FullName != null).ToList();
-                    var result = notNullPartners.Where(x => x.FullName.ToLower().Contains(PartnerName.ToLower())).ToList();
+                    var result = notNullPartners.Where(x => x.FullName.IndexOf(PartnerName, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
                     PartnerCollection = new ObservableCollection<PartnerModel>(result);
                 }
                 catch (Exception ex)
@@ -284,7 +284,7 @@ namespace KegID.ViewModel
             }
         }
 
-        public override async void OnNavigatingTo(INavigationParameters parameters)
+        public override async Task InitializeAsync(INavigationParameters parameters)
         {
             if (parameters.ContainsKey("BrewerStockOn"))
                 BrewerStockOn = true;
@@ -295,6 +295,8 @@ namespace KegID.ViewModel
                 CommingFrom = parameters.GetValue<string>("GoingFrom");
             }
             await LoadPartnersAsync();
+
+            //return base.InitializeAsync(parameters);
         }
 
         #endregion

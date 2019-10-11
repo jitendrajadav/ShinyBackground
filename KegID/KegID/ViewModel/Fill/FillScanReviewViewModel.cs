@@ -203,10 +203,11 @@ namespace KegID.ViewModel
                     }
                     else
                         await _dialogService.DisplayAlertAsync("Alert", "Something goes wrong please check again", "Ok");
-                
+
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Crashes.TrackError(ex);
             }
             finally
             {
@@ -381,12 +382,13 @@ namespace KegID.ViewModel
             }
         }
 
-        public override void OnNavigatingTo(INavigationParameters parameters)
+        public override Task InitializeAsync(INavigationParameters parameters)
         {
             if (parameters.ContainsKey("BatchId"))
             {
                 AssignInitialValue(parameters);
             }
+            return base.InitializeAsync(parameters);
         }
 
         public override void OnNavigatedTo(INavigationParameters parameters)
