@@ -150,9 +150,9 @@ namespace KegID.ViewModel
             string mWebRoot = string.Empty;
             try
             {
-                if (Configuration.ServiceUrl.Contains("https://api.kegid.com/api/"))
+                if (AppSettings.BaseURL.Contains("https://api.kegid.com/api/"))
                     mWebRoot = "https://www.kegid.com";
-                else if (Configuration.ServiceUrl.Contains("https://stageapi.kegid.com/api/"))
+                else if (AppSettings.BaseURL.Contains("https://stageapi.kegid.com/api/"))
                     mWebRoot = "https://stage.kegid.com";
                 else
                     mWebRoot = "https://test.kegid.com";

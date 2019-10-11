@@ -32,15 +32,15 @@ namespace KegID
         public App(IPlatformInitializer initializer = null) : base(initializer) { }
         protected override async void OnInitialized()
         {
-            // Initialize Live Reload.
-            //#if DEBUG
-            //            LiveReload.Init();
-            //#endif
             InitializeComponent();
 
 #if DEBUG
             HotReloader.Current.Run(this);
+            AppSettings.BaseURL = Configuration.TestAPIUrl;
+#elif RELEASE
+            AppSettings.BaseURL = Configuration.ProdAPIUrl;
 #endif
+
             serviceProvider = new ServiceCollection()
                 .AddSingleton<HttpClient>()
                 .AddTransient<KegIDClient>()
@@ -121,7 +121,7 @@ namespace KegID
             containerRegistry.RegisterForNavigation<ScanInfoView, ScanInfoViewModel>();
             containerRegistry.RegisterForNavigation<ScanKegsView, ScanKegsViewModel>();
             containerRegistry.RegisterForNavigation<AssetProfileView, AssetProfileViewModel>();
-            
+
 
             containerRegistry.RegisterForNavigation<SearchedManifestsListView, SearchedManifestsListViewModel>();
             containerRegistry.RegisterForNavigation<SearchManifestsView, SearchManifestsViewModel>();
@@ -135,7 +135,7 @@ namespace KegID
             containerRegistry.RegisterForNavigation<PrinterSettingView, PrinterSettingViewModel>();
             containerRegistry.RegisterForNavigation<SettingView, SettingViewModel>();
             containerRegistry.RegisterForNavigation<AboutAppView, AboutAppViewModel>();
-            
+
             containerRegistry.RegisterForNavigation<WhatIsNewView, WhatIsNewViewModel>();
             containerRegistry.RegisterForNavigation<LoginView, LoginViewModel>();
             containerRegistry.RegisterForNavigation<MainPage, MainViewModel>();

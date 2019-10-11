@@ -124,7 +124,7 @@ namespace KegID.ViewModel
 
             Connectivity.ConnectivityChanged -= Connectivity_ConnectivityChanged;
             Connectivity.ConnectivityChanged += Connectivity_ConnectivityChanged;
-            APIBase = Configuration.ServiceUrl.Contains("Prod") ? string.Empty : Configuration.ServiceUrl;
+            APIBase = AppSettings.BaseURL.Contains("Prod") ? string.Empty : AppSettings.BaseURL;
         }
 
         #endregion

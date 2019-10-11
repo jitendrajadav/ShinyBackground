@@ -1,4 +1,6 @@
-﻿namespace KegID.Services
+﻿using KegID.Common;
+
+namespace KegID.Services
 {
     public class Configuration
     {
@@ -22,77 +24,77 @@
         public const string StageAPIUrl = "https://stageapi.kegid.com/api/";
         public const string TestAPIUrl = "https://testapi.kegid.com/api/";
         public const string ProdAPIUrl = "https://api.kegid.com/api/";
+        public const string DemoAPIUrl = "https://demo.kegid.com/api/";
 
-        /// <summary>
-        /// Base Url
-        /// </summary>
-        public const string ServiceUrl = TestAPIUrl;
+        ///// <summary>
+        ///// Base Url
+        ///// </summary>
+        //public string BaseURL {get;set;} = ProdAPIUrl;
 
         /// <summary>
         /// Login Service Url
         /// </summary>
-        public const string GetLoginUserUrl = ServiceUrl + "login/get?username={0}&password={1}";
-        public const string GetUserUrl = ServiceUrl + "user/get?username={0}&password={1}";
-        public const string DeviceCheckinUrl = ServiceUrl + "DeviceCheckin/?sessionId={0}";
+        public const string GetLoginUserUrl =  "login/get?username={0}&password={1}";
+        public const string GetUserUrl =  "user/get?username={0}&password={1}";
+        public const string DeviceCheckinUrl =  "DeviceCheckin/?sessionId={0}";
 
         /// <summary>
         /// Dashboard Service Url
         /// </summary>
-        public const string GetDashboardUrl = ServiceUrl + "dashboard/get?sessionId={0}";
-        public const string GetInventoryUrl = ServiceUrl + "Inventory/?sessionId={0}";
-        public const string GetKegPossessionByPartnerIdUrl = ServiceUrl + "KegPossession/?sessionId={0}&partnerid={1}";
-        public const string GetPartnerInfoByPartnerIdUrl = ServiceUrl + "Partner/?sessionId={0}&id={1}";
-        public const string GetKegStatusByKegIdUrl = ServiceUrl + "Keg/{0}?sessionId={1}";
-        public const string GetKegSearchByBarcodeUrl = ServiceUrl + "Keg/?sessionId={0}&barcode={1}&includePartials={2}";
+        public const string GetDashboardUrl = "dashboard/get?sessionId={0}";
+        public const string GetInventoryUrl = "Inventory/?sessionId={0}";
+        public const string GetKegPossessionByPartnerIdUrl = "KegPossession/?sessionId={0}&partnerid={1}";
+        public const string GetPartnerInfoByPartnerIdUrl = "Partner/?sessionId={0}&id={1}";
+        public const string GetKegStatusByKegIdUrl = "Keg/{0}?sessionId={1}";
+        public const string GetKegSearchByBarcodeUrl = "Keg/?sessionId={0}&barcode={1}&includePartials={2}";
 
-        public const string GetKegMaintenanceHistoryByKegIdUrl = ServiceUrl + "KegMaintenanceHistory/{0}?sessionId={1}";
-        public const string GetMaintenanceAlertByKegIdUrl = ServiceUrl + "MaintenanceAlert?kegId={0}&sessionId={1}";
+        public const string GetKegMaintenanceHistoryByKegIdUrl = "KegMaintenanceHistory/{0}?sessionId={1}";
+        public const string GetMaintenanceAlertByKegIdUrl = "MaintenanceAlert?kegId={0}&sessionId={1}";
 
-        public const string GetDeleteMaintenanceAlertByKegIdUrl = ServiceUrl + "DeleteMaintenanceAlert?kegId={0}&sessionId={1}";
-        public const string GetPalletSearchUrl = ServiceUrl + "PalletSearch?sessionId={0}&locationId={1}&fromDate={2}&toDate={3}&kegs={4}&kegOwnerId={5}";
-        public const string GetPalletUrl = ServiceUrl + "Pallet/?sessionId={0}&barcode={1}";
-        public const string GetAssetSize = ServiceUrl + "AssetSize/?sessionId={0}&assignableOnly={1}";
-        public const string GetAssetType = ServiceUrl + "AssetType/?sessionId={0}&assignableOnly={1}";
-        public const string GetAssetVolume = ServiceUrl + "AssetVolume/?sessionId={0}&assignableOnly={1}";
-        public const string GetOwner = ServiceUrl + "Owner/?sessionId={0}";
+        public const string GetDeleteMaintenanceAlertByKegIdUrl = "DeleteMaintenanceAlert?kegId={0}&sessionId={1}";
+        public const string GetPalletSearchUrl = "PalletSearch?sessionId={0}&locationId={1}&fromDate={2}&toDate={3}&kegs={4}&kegOwnerId={5}";
+        public const string GetPalletUrl = "Pallet/?sessionId={0}&barcode={1}";
+        public const string GetAssetSize = "AssetSize/?sessionId={0}&assignableOnly={1}";
+        public const string GetAssetType = "AssetType/?sessionId={0}&assignableOnly={1}";
+        public const string GetAssetVolume = "AssetVolume/?sessionId={0}&assignableOnly={1}";
+        public const string GetOwner = "Owner/?sessionId={0}";
 
-        public const string PostKegsUrl = ServiceUrl + "Kegs/?sessionId={0}";
-        public const string PostKegUrl = ServiceUrl + "Keg/?sessionId={0}";
+        public const string PostKegsUrl = "Kegs/?sessionId={0}";
+        public const string PostKegUrl = "Keg/?sessionId={0}";
 
-        public const string PostMaintenanceAlertUrl = ServiceUrl + "MaintenanceAlert/?sessionId={0}";
-        public const string PostMaintenanceDeleteAlertUrl = ServiceUrl + "MaintenanceAlert/DeleteAlert/?sessionId={0}";
+        public const string PostMaintenanceAlertUrl = "MaintenanceAlert/?sessionId={0}";
+        public const string PostMaintenanceDeleteAlertUrl = "MaintenanceAlert/DeleteAlert/?sessionId={0}";
 
         /// <summary>
         /// Move Service Url
         /// </summary>
-        public const string GetPartnerBySesssionIdUrl = ServiceUrl + "Partner/?sessionId={0}";
-        public const string GetPossessorByownerId = ServiceUrl + "Possessor?ownerId={0}&sessionId={1}";
+        public const string GetPartnerBySesssionIdUrl = "Partner/?sessionId={0}";
+        public const string GetPossessorByownerId = "Possessor?ownerId={0}&sessionId={1}";
 
-        public const string GetValidateBarcodeUrl = ServiceUrl + "validation/?barcode={0}&sessionId={1}";
-        public const string GetBrandUrl = ServiceUrl + "brand/?sessionId={0}";
-        public const string GetManifestUrl = ServiceUrl + "Manifest/{0}?sessionId={1}";
-        public const string GetPartnerTypeUrl = ServiceUrl + "PartnerType/?sessionId={0}";
-        public const string GetPartnerSearchUrl = ServiceUrl + "PartnerSearch/?sessionId={0}&search={1}&internalonly={2}&includepublic={3}";
-        public const string GetManifestSearchUrl = ServiceUrl + "ManifestSearch/?sessionId={0}&trackingNumber={1}&kegs={2}&senderId={3}&destinationId={4}&referenceKey={5}&fromDate={6}&toDate={7}";
+        public const string GetValidateBarcodeUrl = "validation/?barcode={0}&sessionId={1}";
+        public const string GetBrandUrl = "brand/?sessionId={0}";
+        public const string GetManifestUrl = "Manifest/{0}?sessionId={1}";
+        public const string GetPartnerTypeUrl = "PartnerType/?sessionId={0}";
+        public const string GetPartnerSearchUrl = "PartnerSearch/?sessionId={0}&search={1}&internalonly={2}&includepublic={3}";
+        public const string GetManifestSearchUrl = "ManifestSearch/?sessionId={0}&trackingNumber={1}&kegs={2}&senderId={3}&destinationId={4}&referenceKey={5}&fromDate={6}&toDate={7}";
 
-        public const string PostManifestUrl = ServiceUrl + "Manifest/?sessionId={0}";
-        public const string PostNewPartnerUrl = ServiceUrl + "Partner/?sessionId={0}";
+        public const string PostManifestUrl = "Manifest/?sessionId={0}";
+        public const string PostNewPartnerUrl = "Partner/?sessionId={0}";
 
 
         /// <summary>
         /// Fill Service Url
         /// </summary>
-        public const string GetBatchUrl = ServiceUrl + "batch/?sessionId={0}";
+        public const string GetBatchUrl = "batch/?sessionId={0}";
 
-        public const string PostBatchUrl = ServiceUrl + "Batch/?sessionId={0}";
-        public const string PostPalletUrl = ServiceUrl + "Pallet/?sessionId={0}";
+        public const string PostBatchUrl = "Batch/?sessionId={0}";
+        public const string PostPalletUrl = "Pallet/?sessionId={0}";
 
 
         /// <summary>
         /// Maintainenance Service Url
         /// </summary>
-        public const string GetMaintenanceTypeUrl = ServiceUrl + "MaintenanceType/?sessionId={0}";
-
-        public const string PostMaintenanceDoneUrl = ServiceUrl + "MaintenanceDone/?sessionId={0}";
+        public const string GetMaintenanceTypeUrl = "MaintenanceType/?sessionId={0}";
+        public const string PostMaintenanceDoneUrl = "MaintenanceDone/?sessionId={0}";
     }
 }

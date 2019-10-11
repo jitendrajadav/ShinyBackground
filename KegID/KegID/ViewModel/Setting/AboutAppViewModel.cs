@@ -1,4 +1,5 @@
-﻿using KegID.Services;
+﻿using KegID.Common;
+using KegID.Services;
 using Prism.Commands;
 using Prism.Navigation;
 using Xamarin.Essentials;
@@ -26,7 +27,7 @@ namespace KegID.ViewModel
         {
             CancelCommand = new DelegateCommand(CancelCommandRecieverAsync);
             Version = AppInfo.VersionString;
-            Environment = Configuration.ServiceUrl;
+            Environment = AppSettings.BaseURL;
         }
 
         #endregion

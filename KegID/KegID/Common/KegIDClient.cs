@@ -145,6 +145,7 @@ namespace KegID.Common
         public async Task<KegIDResponse> ExecuteServiceCall<T>(string url, HttpMethodType httpMethodType, string content, string RequestType = "")
         {
             KegIDResponse kegIDResponse = new KegIDResponse();
+            string ServiceUrl = AppSettings.BaseURL + url;
             var current = Connectivity.NetworkAccess;
             if (current == NetworkAccess.Internet)
             {
@@ -153,13 +154,13 @@ namespace KegID.Common
                     switch (httpMethodType)
                     {
                         case HttpMethodType.Get:
-                            kegIDResponse = await Get(url, content);
+                            kegIDResponse = await Get(ServiceUrl, content);
                             break;
                         case HttpMethodType.Send:
-                            kegIDResponse = await Send(url, content, RequestType);
+                            kegIDResponse = await Send(ServiceUrl, content, RequestType);
                             break;
                         case HttpMethodType.Post:
-                            kegIDResponse = await Post(url, content);
+                            kegIDResponse = await Post(ServiceUrl, content);
                             break;
                         case HttpMethodType.Put:
                             break;

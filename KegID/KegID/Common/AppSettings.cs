@@ -39,7 +39,7 @@ namespace KegID.Common
         public const string DefaultB2cTenant = "YOUR_B2C_TENANT";
 
 
-        // Booking 
+        // Booking
         private const bool DefaultHasBooking = false;
 
         // Fakes
@@ -328,6 +328,11 @@ namespace KegID.Common
 
             set => Settings.AddOrUpdateValue(nameof(SessionId), value);
         }
+        public static string BaseURL
+        {
+            get => Settings.GetValueOrDefault(nameof(BaseURL), string.Empty);
+            set => Settings.AddOrUpdateValue(nameof(BaseURL), value);
+        }
         public static string CompanyId
         {
             get => Settings.GetValueOrDefault(nameof(CompanyId), string.Empty);
@@ -478,7 +483,7 @@ namespace KegID.Common
             get => Settings.GetValueOrDefault(nameof(Code128), false);
             set => Settings.AddOrUpdateValue(nameof(Code128), value);
         }
-        
+
         public static bool BatchScan
         {
             get => Settings.GetValueOrDefault(nameof(BatchScan), false);

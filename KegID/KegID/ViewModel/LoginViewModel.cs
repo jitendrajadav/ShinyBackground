@@ -25,40 +25,7 @@ namespace KegID.ViewModel
         public string Username { get; set; }
         public string Password { get; set; }
         public string BgImage { get; set; }
-
-        #region APIBase
-
-        /// <summary>
-        /// The <see cref="APIBase" /> property's name.
-        /// </summary>
-        public const string APIBasePropertyName = "APIBase";
-
-        private string _APIBase = default;
-
-        /// <summary>
-        /// Sets and gets the APIBase property.
-        /// Changes to that property's value raise the PropertyChanged event.
-        /// </summary>
-        public string APIBase
-        {
-            get
-            {
-                return _APIBase;
-            }
-
-            set
-            {
-                if (_APIBase == value)
-                {
-                    return;
-                }
-
-                _APIBase = value;
-                RaisePropertyChanged(APIBasePropertyName);
-            }
-        }
-
-        #endregion
+        public string APIBase { get; set; }
 
         #endregion
 
@@ -80,12 +47,12 @@ namespace KegID.ViewModel
 
             LoginCommand = new DelegateCommand(LoginCommandRecieverAsync);
             KegIDCommand = new DelegateCommand(KegIDCommandReciever);
-
-            //Username = "test@kegid.com";//"demo@kegid.com";
-            //Password = "beer2keg";
-
+#if DEBUG
+            Username = "test@kegid.com";//"demo@kegid.com";
+            Password = "beer2keg";
+#endif
             BgImage = _getIconByPlatform.GetIcon("kegbg.png");
-            APIBase = Configuration.ServiceUrl.Contains("Prod") ? string.Empty : Configuration.ServiceUrl;
+            APIBase = AppSettings.BaseURL.Contains("Prod") ? string.Empty : AppSettings.BaseURL;
         }
 
         #endregion
@@ -114,6 +81,11 @@ namespace KegID.ViewModel
                     {
                         var overDues = model.LoginModel.Preferences.Where(x => x.PreferenceName == "OVERDUE_DAYS").Select(x => x.PreferenceValue).FirstOrDefault();
                         var atRisk = model.LoginModel.Preferences.Where(x => x.PreferenceName == "AT_RISK_DAYS").Select(x => x.PreferenceValue).FirstOrDefault();
+                        var appDataWebServiceUrl = model.LoginModel.Preferences.Where(x => x.PreferenceName == "AppDataWebServiceUrl").Select(x => x.PreferenceValue).FirstOrDefault();
+                        if (appDataWebServiceUrl != null)
+                        {
+                            AppSettings.BaseURL = Configuration.DemoAPIUrl;
+                        }
 
                         AppSettings.SessionId = model.LoginModel.SessionId;
                         AppSettings.CompanyId = model.LoginModel.CompanyId;
