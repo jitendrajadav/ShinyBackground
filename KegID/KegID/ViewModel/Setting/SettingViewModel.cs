@@ -50,6 +50,7 @@ namespace KegID.ViewModel
         {
             try
             {
+                await _navigationService.ClearPopupStackAsync("SettingView", null);
                 try
                 {
                     await _navigationService.NavigateAsync("AboutAppView", animated: false);
@@ -58,7 +59,6 @@ namespace KegID.ViewModel
                 {
                     Crashes.TrackError(ex);
                 }
-                await _navigationService.ClearPopupStackAsync("SettingView", null);
 
             }
             catch (Exception ex)
@@ -125,7 +125,6 @@ namespace KegID.ViewModel
                     Crashes.TrackError(ex);
                 }
                 await _navigationService.ClearPopupStackAsync("SettingView", null);
-
             }
             catch (Exception ex)
             {

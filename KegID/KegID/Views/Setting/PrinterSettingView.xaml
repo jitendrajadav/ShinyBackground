@@ -1,382 +1,396 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="KegID.Views.PrinterSettingView"
-             BackgroundColor="{StaticResource pageBGColor}"
-             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
-             ios:Page.UseSafeArea="true"
-             >
+<ContentPage
+    x:Class="KegID.Views.PrinterSettingView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    ios:Page.UseSafeArea="true"
+    BackgroundColor="{StaticResource pageBGColor}">
 
     <ContentPage.Content>
         <ScrollView>
             <Grid
+                Margin="10,0,10,0"
                 AutomationId="mainGrd"
                 ColumnSpacing="0"
-                RowSpacing="10"
-                Margin="10,0,10,0">
-            
+                RowSpacing="10">
+
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
-
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <!-- 0 -->
+
+                <!--  0  -->
                 <Button
-                    AutomationId="cancelButton"
-                    Grid.Row="0"
                     x:Name="lblCancel"
-                    Style="{StaticResource TopButtonTitleStyle}"
-                    HorizontalOptions="Start"
-                    Text="{Binding Resources[dialog_print_negative]}"
+                    Grid.Row="0"
+                    AutomationId="cancelButton"
                     Command="{Binding CancelCommand}"
-                    />
+                    HorizontalOptions="Start"
+                    Style="{StaticResource TopButtonTitleStyle}"
+                    Text="{Binding Resources[dialog_print_negative]}" />
+
                 <Button
-                    AutomationId="saveButton"
                     x:Name="lblSave"
                     Grid.Row="0"
-                    Style="{StaticResource TopButtonTitleStyle}"
-                    HorizontalOptions="End"
-                    Text="{Binding Resources[button_save]}"
+                    AutomationId="saveButton"
                     Command="{Binding SaveCommand}"
-                    />
-            
-                <!-- 1 -->
+                    HorizontalOptions="End"
+                    Style="{StaticResource TopButtonTitleStyle}"
+                    Text="{Binding Resources[button_save]}" />
+
+                <!--  1  -->
                 <BoxView
-                    AutomationId="topBarSeperatorBoxView"
-                    Margin="-10,0,-10,0"
-                    Grid.ColumnSpan="2"
                     Grid.Row="1"
+                    Grid.ColumnSpan="2"
+                    Margin="-10,0,-10,0"
+                    AutomationId="topBarSeperatorBoxView"
                     BackgroundColor="Black"
                     HeightRequest="1"
-                    VerticalOptions="Start"
-                    HorizontalOptions="FillAndExpand"/>
-            
-                <!-- 2 -->
-                <Label 
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="Start" />
+
+                <!--  2  -->
+                <Label
                     Grid.Row="2"
                     Grid.ColumnSpan="2"
+                    FontAttributes="Bold"
+                    FontSize="Medium"
+                    HorizontalOptions="Start"
                     Text="{Binding Resources[label_general]}"
                     TextColor="Black"
-                    FontSize="Medium"
-                    FontAttributes="Bold"
-                    VerticalOptions="CenterAndExpand" 
-                    HorizontalOptions="Start" />
+                    VerticalOptions="CenterAndExpand" />
 
-                <!-- 3 -->
-                <Label 
-                    AutomationId="printEveryManifestLabel"
+                <!--  3  -->
+                <Label
                     Grid.Row="3"
-                    TextColor="Black"
+                    AutomationId="printEveryManifestLabel"
                     FontSize="Medium"
+                    HorizontalOptions="Start"
                     Text="{Binding Resources[label_print_every_menifest]}"
-                    VerticalOptions="CenterAndExpand" 
-                    HorizontalOptions="Start" />
-            
+                    TextColor="Black"
+                    VerticalOptions="CenterAndExpand" />
+
                 <Switch
+                    Grid.Row="3"
+                    Grid.Column="1"
                     AutomationId="printEveryManifestSwitch"
+                    HorizontalOptions="End"
                     IsToggled="{Binding PrintEveryManifest}"
-                    OnColor="#4CD864"
-                    HorizontalOptions="End"
-                    Grid.Column="1"
-                    Grid.Row="3"/>
-
-                <Label 
-                    AutomationId="printEveryPalletLebel"
-                    Grid.Row="4"
-                    TextColor="Black"
-                    FontSize="Medium"
-                    Text="{Binding Resources[label_prin_every_pallate]}"
-                    VerticalOptions="CenterAndExpand" 
-                    HorizontalOptions="Start" />
-                <Switch
-                    AutomationId="printEveryPalletSwitch"
-                    IsToggled="{Binding PrintEveryPallet}"
-                    OnColor="#4CD864"
-                    HorizontalOptions="End"
-                    Grid.Column="1"
-                    Grid.Row="4"/>
-
-                <Label 
-                    AutomationId="palletLabelCopiesLabel"
-                    Grid.Row="5"
-                    TextColor="Black"
-                    FontSize="Medium"
-                    Text="{Binding Resources[label_pallet_label_copies]}"
-                    VerticalOptions="CenterAndExpand" 
-                    HorizontalOptions="Start" />
-                <Entry
-                    AutomationId="palletLabelCopiesEntry"
-                    Text="{Binding PalletLabelCopies}"
-                    HorizontalOptions="FillAndExpand"
-                    Grid.Column="1"
-                    Keyboard="Numeric"
-                    Grid.Row="5"/>
-
-                <Label 
-                    AutomationId="beepsOnvalidScanLabel"
-                    Grid.Row="6"
-                    TextColor="Black"
-                    FontSize="Medium"
-                    Text="{Binding Resources[label_beeps_on_valid_scan]}"
-                    VerticalOptions="CenterAndExpand" 
-                    HorizontalOptions="Start" />
-                <Switch
-                    AutomationId="beepsOnValidScanSwitch"
-                    IsToggled="{Binding BeepOnValidScans}"
-                    OnColor="#4CD864"
-                    HorizontalOptions="End"
-                    Grid.Column="1"
-                    Grid.Row="6"/>
-            
-                <BoxView
-                    AutomationId="lineSeperator1"
-                    Margin="-10,0,-10,0"
-                    Grid.ColumnSpan="2"
-                    Grid.Row="7"
-                    BackgroundColor="Black"
-                    HeightRequest="1"
-                    VerticalOptions="Start"
-                    HorizontalOptions="FillAndExpand"/>
-
-                <Label 
-                    AutomationId="cameraScannerLabel"
-                    Grid.Row="8"
-                    Text="{Binding Resources[label_camera_scanner]}"
-                    TextColor="Black"
-                    FontSize="Medium"
-                    FontAttributes="Bold"
-                    VerticalOptions="CenterAndExpand" 
-                    HorizontalOptions="Start" />
-
-                <Label 
-                    AutomationId="ean13Label"
-                    Grid.Row="9"
-                    TextColor="Black"
-                    FontSize="Medium"
-                    Text="{Binding Resources[label_ean_13]}"
-                    VerticalOptions="CenterAndExpand" 
-                    HorizontalOptions="Start" />
-                <Switch
-                    AutomationId="ean13Switch"
-                    IsToggled="{Binding Ean13}"
-                    OnColor="#4CD864"
-                    HorizontalOptions="End"
-                    Grid.Column="1"
-                    Grid.Row="9"/>
-                <Label 
-                    AutomationId="upcLable"
-                    Grid.Row="10"
-                    TextColor="Black"
-                    FontSize="Medium"
-                    Text="{Binding Resources[label_upc]}"
-                    VerticalOptions="CenterAndExpand" 
-                    HorizontalOptions="Start" />
-                <Switch
-                    AutomationId="upcwitch"
-                    IsToggled="{Binding Upce}"
-                    OnColor="#4CD864"
-                    HorizontalOptions="End"
-                    Grid.Column="1"
-                    Grid.Row="10"/>
-                <Label 
-                    AutomationId="dataMatrixLabel"
-                    Grid.Row="11"
-                    TextColor="Black"
-                    FontSize="Medium"
-                    Text="{Binding Resources[label_data_matrix]}"
-                    VerticalOptions="CenterAndExpand" 
-                    HorizontalOptions="Start" />
-                <Switch
-                    AutomationId="dataMatrixSwitch"
-                    IsToggled="{Binding DataMatrix}"
-                    OnColor="#4CD864"
-                    HorizontalOptions="End"
-                    Grid.Column="1"
-                    Grid.Row="11"/>
-                <Label 
-                    AutomationId="qrCodeLabel"
-                    Grid.Row="12"
-                    TextColor="Black"
-                    FontSize="Medium"
-                    Text="{Binding Resources[label_qr_code]}"
-                    VerticalOptions="CenterAndExpand" 
-                    HorizontalOptions="Start" />
-                <Switch
-                    AutomationId="qrSwitch"
-                    IsToggled="{Binding Qr}"
-                    OnColor="#4CD864"
-                    HorizontalOptions="End"
-                    Grid.Column="1"
-                    Grid.Row="12"/>
-                <Label 
-                    AutomationId="code39Label"
-                    Grid.Row="13"
-                    TextColor="Black"
-                    FontSize="Medium"
-                    Text="{Binding Resources[lable_code_39]}"
-                    VerticalOptions="CenterAndExpand" 
-                    HorizontalOptions="Start" />
-                <Switch
-                    AutomationId="code39Switch"
-                    IsToggled="{Binding Code39}"
-                    OnColor="#4CD864"
-                    HorizontalOptions="End"
-                    Grid.Column="1"
-                    Grid.Row="13"/>
-                <Label 
-                    AutomationId="code128Label"
-                    Grid.Row="14"
-                    TextColor="Black"
-                    FontSize="Medium"
-                    Text="{Binding Resources[lable_code_128]}"
-                    VerticalOptions="CenterAndExpand" 
-                    HorizontalOptions="Start" />
-                <Switch
-                    AutomationId="code128Switch"
-                    IsToggled="{Binding Code128}"
-                    OnColor="#4CD864"
-                    HorizontalOptions="End"
-                    Grid.Column="1"
-                    Grid.Row="14"/>
-
-                <BoxView
-                    AutomationId="lineSeperator2"
-                    Margin="-10,0,-10,0"
-                    Grid.ColumnSpan="2"
-                    Grid.Row="15"
-                    BackgroundColor="Black"
-                    HeightRequest="1"
-                    VerticalOptions="Start"
-                    HorizontalOptions="FillAndExpand"/>
-            
-                <Label 
-                    AutomationId="zebraPrinterLabel"
-                    Grid.Row="16"
-                    Text="{Binding Resources[label_zebra_printer]}"
-                    TextColor="Black"
-                    FontSize="Medium"
-                    FontAttributes="Bold"
-                    VerticalOptions="CenterAndExpand" 
-                    HorizontalOptions="Start" />
-
-                <Label 
-                    AutomationId="printviaBluetoothLabel"
-                    Grid.Row="17"
-                    Text="{Binding Resources[pref_print_via_bluetooth]}"
-                    TextColor="Black"
-                    FontSize="Medium"
-                    VerticalOptions="CenterAndExpand" 
-                    HorizontalOptions="Start" />
-                <Switch
-                    AutomationId="printBluetoothSwitch"
-                    IsToggled="{Binding IsBluetoothOn}"
-                    HorizontalOptions="End"
-                    Grid.Column="1"
-                    OnColor="#4CD864"
-                    Grid.Row="17"/>
-
-                <Label 
-                    AutomationId="printLabel"
-                    IsVisible="{Binding IsBluetoothOn,Mode=TwoWay}"
-                    Grid.Row="18"
-                    Text="{Binding Resources[label_printer]}"
-                    TextColor="Black"
-                    FontSize="Medium"
-                    VerticalOptions="CenterAndExpand" 
-                    HorizontalOptions="Start" />
-                <Button
-                    AutomationId="selectedBluetoothButton"
-                    IsVisible="{Binding IsBluetoothOn,Mode=TwoWay}"
-                    Grid.Column="1"
-                    HorizontalOptions="StartAndExpand"
-                    Style="{StaticResource TopButtonTitleStyle}"
-                    Text="{Binding SelectedPrinter}"
-                    Command="{Binding SelectPrinterCommand}"
-                    Grid.Row="18"/>
+                    OnColor="#4CD864" />
 
                 <Label
-                    AutomationId="iphostLabel"
-                    IsVisible="{Binding IsBluetoothOn,Converter={StaticResource InvertedBooleanConverter}}"
-                    Grid.Row="19"
-                    Text="{Binding Resources[label_ip_host]}"
-                    TextColor="Black"
+                    Grid.Row="4"
+                    AutomationId="printEveryPalletLebel"
                     FontSize="Medium"
-                    VerticalOptions="CenterAndExpand" 
-                    HorizontalOptions="Start" />
-                <Entry
-                    AutomationId="ipAddressEntry"
-                    IsVisible="{Binding IsBluetoothOn,Converter={StaticResource InvertedBooleanConverter}}"
-                    HorizontalOptions="FillAndExpand"
-                    Text="{Binding IpAddress}"
-                    Grid.Column="1"
-                    Grid.Row="19"/>
+                    HorizontalOptions="Start"
+                    Text="{Binding Resources[label_prin_every_pallate]}"
+                    TextColor="Black"
+                    VerticalOptions="CenterAndExpand" />
 
-                <Label 
-                    AutomationId="prefportLabel"
-                    IsVisible="{Binding IsBluetoothOn,Converter={StaticResource InvertedBooleanConverter}}"
-                    Grid.Row="20"
-                    Text="{Binding Resources[pref_port]}"
-                    TextColor="Black"
-                    FontSize="Medium"
-                    VerticalOptions="CenterAndExpand" 
-                    HorizontalOptions="Start" />
-                <Entry
-                    AutomationId="bluetoothEntry"
-                    IsVisible="{Binding IsBluetoothOn,Converter={StaticResource InvertedBooleanConverter}}"
-                    HorizontalOptions="FillAndExpand"
-                    Text="{Binding Port}"
+                <Switch
+                    Grid.Row="4"
                     Grid.Column="1"
-                    HorizontalTextAlignment="End"
+                    AutomationId="printEveryPalletSwitch"
+                    HorizontalOptions="End"
+                    IsToggled="{Binding PrintEveryPallet}"
+                    OnColor="#4CD864" />
+
+                <Label
+                    Grid.Row="5"
+                    AutomationId="palletLabelCopiesLabel"
+                    FontSize="Medium"
+                    HorizontalOptions="Start"
+                    Text="{Binding Resources[label_pallet_label_copies]}"
+                    TextColor="Black"
+                    VerticalOptions="CenterAndExpand" />
+
+                <Entry
+                    Grid.Row="5"
+                    Grid.Column="1"
+                    AutomationId="palletLabelCopiesEntry"
+                    HorizontalOptions="FillAndExpand"
                     Keyboard="Numeric"
-                    Grid.Row="20"/>
+                    Text="{Binding PalletLabelCopies}" />
+
+                <Label
+                    Grid.Row="6"
+                    AutomationId="beepsOnvalidScanLabel"
+                    FontSize="Medium"
+                    HorizontalOptions="Start"
+                    Text="{Binding Resources[label_beeps_on_valid_scan]}"
+                    TextColor="Black"
+                    VerticalOptions="CenterAndExpand" />
+
+                <Switch
+                    Grid.Row="6"
+                    Grid.Column="1"
+                    AutomationId="beepsOnValidScanSwitch"
+                    HorizontalOptions="End"
+                    IsToggled="{Binding BeepOnValidScans}"
+                    OnColor="#4CD864" />
+
+                <BoxView
+                    Grid.Row="7"
+                    Grid.ColumnSpan="2"
+                    Margin="-10,0,-10,0"
+                    AutomationId="lineSeperator1"
+                    BackgroundColor="Black"
+                    HeightRequest="1"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="Start" />
+
+                <Label
+                    Grid.Row="8"
+                    AutomationId="cameraScannerLabel"
+                    FontAttributes="Bold"
+                    FontSize="Medium"
+                    HorizontalOptions="Start"
+                    Text="{Binding Resources[label_camera_scanner]}"
+                    TextColor="Black"
+                    VerticalOptions="CenterAndExpand" />
+
+                <Label
+                    Grid.Row="9"
+                    AutomationId="ean13Label"
+                    FontSize="Medium"
+                    HorizontalOptions="Start"
+                    Text="{Binding Resources[label_ean_13]}"
+                    TextColor="Black"
+                    VerticalOptions="CenterAndExpand" />
+
+                <Switch
+                    Grid.Row="9"
+                    Grid.Column="1"
+                    AutomationId="ean13Switch"
+                    HorizontalOptions="End"
+                    IsToggled="{Binding Ean13}"
+                    OnColor="#4CD864" />
+
+                <Label
+                    Grid.Row="10"
+                    AutomationId="upcLable"
+                    FontSize="Medium"
+                    HorizontalOptions="Start"
+                    Text="{Binding Resources[label_upc]}"
+                    TextColor="Black"
+                    VerticalOptions="CenterAndExpand" />
+
+                <Switch
+                    Grid.Row="10"
+                    Grid.Column="1"
+                    AutomationId="upcwitch"
+                    HorizontalOptions="End"
+                    IsToggled="{Binding Upce}"
+                    OnColor="#4CD864" />
+
+                <Label
+                    Grid.Row="11"
+                    AutomationId="dataMatrixLabel"
+                    FontSize="Medium"
+                    HorizontalOptions="Start"
+                    Text="{Binding Resources[label_data_matrix]}"
+                    TextColor="Black"
+                    VerticalOptions="CenterAndExpand" />
+
+                <Switch
+                    Grid.Row="11"
+                    Grid.Column="1"
+                    AutomationId="dataMatrixSwitch"
+                    HorizontalOptions="End"
+                    IsToggled="{Binding DataMatrix}"
+                    OnColor="#4CD864" />
+
+                <Label
+                    Grid.Row="12"
+                    AutomationId="qrCodeLabel"
+                    FontSize="Medium"
+                    HorizontalOptions="Start"
+                    Text="{Binding Resources[label_qr_code]}"
+                    TextColor="Black"
+                    VerticalOptions="CenterAndExpand" />
+
+                <Switch
+                    Grid.Row="12"
+                    Grid.Column="1"
+                    AutomationId="qrSwitch"
+                    HorizontalOptions="End"
+                    IsToggled="{Binding Qr}"
+                    OnColor="#4CD864" />
+
+                <Label
+                    Grid.Row="13"
+                    AutomationId="code39Label"
+                    FontSize="Medium"
+                    HorizontalOptions="Start"
+                    Text="{Binding Resources[lable_code_39]}"
+                    TextColor="Black"
+                    VerticalOptions="CenterAndExpand" />
+
+                <Switch
+                    Grid.Row="13"
+                    Grid.Column="1"
+                    AutomationId="code39Switch"
+                    HorizontalOptions="End"
+                    IsToggled="{Binding Code39}"
+                    OnColor="#4CD864" />
+
+                <Label
+                    Grid.Row="14"
+                    AutomationId="code128Label"
+                    FontSize="Medium"
+                    HorizontalOptions="Start"
+                    Text="{Binding Resources[lable_code_128]}"
+                    TextColor="Black"
+                    VerticalOptions="CenterAndExpand" />
+
+                <Switch
+                    Grid.Row="14"
+                    Grid.Column="1"
+                    AutomationId="code128Switch"
+                    HorizontalOptions="End"
+                    IsToggled="{Binding Code128}"
+                    OnColor="#4CD864" />
+
+                <BoxView
+                    Grid.Row="15"
+                    Grid.ColumnSpan="2"
+                    Margin="-10,0,-10,0"
+                    AutomationId="lineSeperator2"
+                    BackgroundColor="Black"
+                    HeightRequest="1"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="Start" />
+
+                <Label
+                    Grid.Row="16"
+                    AutomationId="zebraPrinterLabel"
+                    FontAttributes="Bold"
+                    FontSize="Medium"
+                    HorizontalOptions="Start"
+                    Text="{Binding Resources[label_zebra_printer]}"
+                    TextColor="Black"
+                    VerticalOptions="CenterAndExpand" />
+
+                <Label
+                    Grid.Row="17"
+                    AutomationId="printviaBluetoothLabel"
+                    FontSize="Medium"
+                    HorizontalOptions="Start"
+                    Text="{Binding Resources[pref_print_via_bluetooth]}"
+                    TextColor="Black"
+                    VerticalOptions="CenterAndExpand" />
+
+                <Switch
+                    Grid.Row="17"
+                    Grid.Column="1"
+                    AutomationId="printBluetoothSwitch"
+                    HorizontalOptions="End"
+                    IsToggled="{Binding IsBluetoothOn}"
+                    OnColor="#4CD864" />
+
+                <Label
+                    Grid.Row="18"
+                    AutomationId="printLabel"
+                    FontSize="Medium"
+                    HorizontalOptions="Start"
+                    IsVisible="{Binding IsBluetoothOn, Mode=TwoWay}"
+                    Text="{Binding Resources[label_printer]}"
+                    TextColor="Black"
+                    VerticalOptions="CenterAndExpand" />
 
                 <Button
+                    Grid.Row="18"
+                    Grid.Column="1"
+                    AutomationId="selectedBluetoothButton"
+                    Command="{Binding SelectPrinterCommand}"
+                    HorizontalOptions="StartAndExpand"
+                    IsVisible="{Binding IsBluetoothOn, Mode=TwoWay}"
+                    Style="{StaticResource TopButtonTitleStyle}"
+                    Text="{Binding SelectedPrinter}" />
+
+                <Label
+                    Grid.Row="19"
+                    AutomationId="iphostLabel"
+                    FontSize="Medium"
+                    HorizontalOptions="Start"
+                    IsVisible="{Binding IsBluetoothOn, Converter={StaticResource InvertedBooleanConverter}}"
+                    Text="{Binding Resources[label_ip_host]}"
+                    TextColor="Black"
+                    VerticalOptions="CenterAndExpand" />
+                <Entry
+                    Grid.Row="19"
+                    Grid.Column="1"
+                    AutomationId="ipAddressEntry"
+                    HorizontalOptions="FillAndExpand"
+                    IsVisible="{Binding IsBluetoothOn, Converter={StaticResource InvertedBooleanConverter}}"
+                    Text="{Binding IpAddress}" />
+
+                <Label
+                    Grid.Row="20"
+                    AutomationId="prefportLabel"
+                    FontSize="Medium"
+                    HorizontalOptions="Start"
+                    IsVisible="{Binding IsBluetoothOn, Converter={StaticResource InvertedBooleanConverter}}"
+                    Text="{Binding Resources[pref_port]}"
+                    TextColor="Black"
+                    VerticalOptions="CenterAndExpand" />
+                <Entry
+                    Grid.Row="20"
+                    Grid.Column="1"
+                    AutomationId="bluetoothEntry"
+                    HorizontalOptions="FillAndExpand"
+                    HorizontalTextAlignment="End"
+                    IsVisible="{Binding IsBluetoothOn, Converter={StaticResource InvertedBooleanConverter}}"
+                    Keyboard="Numeric"
+                    Text="{Binding Port}" />
+
+                <Button
+                    Grid.Row="21"
+                    Grid.ColumnSpan="2"
                     AutomationId="testPrintButton"
                     BackgroundColor="Transparent"
-                    TextColor="{StaticResource selectTextColor}"
-                    VerticalOptions="Center"
-                    HorizontalOptions="Center"
-                    Grid.ColumnSpan="2"
-                    Grid.Row="21"
+                    Command="{Binding PrinterTestCommand}"
                     FontSize="Medium"
+                    HorizontalOptions="Center"
                     Text="{Binding Resources[button_test_printer]}"
-                    Command="{Binding PrinterTestCommand}"/>
+                    TextColor="{StaticResource selectTextColor}"
+                    VerticalOptions="Center" />
 
-                <Label 
-                    AutomationId="versionLabel"
+                <Label
                     Grid.Row="22"
+                    AutomationId="versionLabel"
+                    FontSize="Micro"
+                    HorizontalOptions="Start"
                     Text="{Binding Version}"
                     TextColor="Black"
-                    FontSize="Micro"
-                    VerticalOptions="EndAndExpand" 
-                    HorizontalOptions="Start" />
-
+                    VerticalOptions="EndAndExpand" />
 
             </Grid>
         </ScrollView>

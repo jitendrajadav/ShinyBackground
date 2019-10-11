@@ -10,9 +10,15 @@ namespace KegID.Views
 	public partial class PrinterSettingView : ContentPage
 	{
 		public PrinterSettingView ()
-		{
-			InitializeComponent ();
-            NavigationPage.SetHasNavigationBar(this, false);
+        {
+            try
+            {
+                InitializeComponent ();
+                NavigationPage.SetHasNavigationBar(this, false);
+            }
+            catch (System.Exception ex)
+            {
+            }
         }
 
         protected override bool OnBackButtonPressed()
