@@ -152,11 +152,11 @@ namespace KegID.ViewModel
             try
             {
                 if (Configuration.ServiceUrl.Contains("https://api.kegid.com/api/"))
-                    mWebRoot = "http://www.kegid.com";
+                    mWebRoot = "https://www.kegid.com";
                 else if (Configuration.ServiceUrl.Contains("https://stageapi.kegid.com/api/"))
-                    mWebRoot = "http://stage.kegid.com";
+                    mWebRoot = "https://stage.kegid.com";
                 else
-                    mWebRoot = "http://test.kegid.com";
+                    mWebRoot = "https://test.kegid.com";
 
                 await _navigationService.ClearPopupStackAsync(animated:false);
                 //await Application.Current.MainPage.Navigation.PopPopupAsync();

@@ -54,7 +54,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Acr.UserDialogs" Version="7.0.30" />
+    <PackageReference Include="Acr.UserDialogs" Version="7.0.32" />
     <PackageReference Include="CarouselView.FormsPlugin" Version="5.2.0" />
     <PackageReference Include="Forms9Patch" Version="1.8.1" />
     <PackageReference Include="LinkOS_Xamarin_SDK" Version="1.2.0" />

@@ -1,236 +1,225 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="KegID.Views.MoveView"
-             Title="{Binding Resources[title_create_manifest]}"
-             BackgroundColor="{StaticResource pageBGColor}"
-             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
-             ios:Page.UseSafeArea="true"
-             >
+<ContentPage
+    x:Class="KegID.Views.MoveView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    Title="{Binding Resources[title_create_manifest]}"
+    ios:Page.UseSafeArea="true"
+    BackgroundColor="{StaticResource pageBGColor}">
 
     <ContentPage.Content>
-       
-        <Grid
-            AutomationId="mainGrd">
+
+        <Grid AutomationId="mainGrd">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
             <Button
-                AutomationId="cancelButton"
                 x:Name="lblCancel"
+                AutomationId="cancelButton"
+                Command="{Binding CancelCommand}"
                 HorizontalOptions="Start"
                 Style="{StaticResource TopButtonTitleStyle}"
-                Text="{Binding Resources[dialog_print_negative]}"
-                Command="{Binding CancelCommand}"
-                />
+                Text="{Binding Resources[dialog_print_negative]}" />
 
             <Label
                 AutomationId="createManifestLabel"
                 HorizontalOptions="Center"
                 Style="{StaticResource LabelTitleStyle}"
-                Text="{Binding Resources[title_create_manifest]}"
-                />
+                Text="{Binding Resources[title_create_manifest]}" />
 
             <Button
-                AutomationId="submitButton"
                 x:Name="lblSubmit"
-                Style="{StaticResource TopButtonTitleStyle}"
-                HorizontalOptions="End"
-                Text="{Binding Resources[menu_action_submit]}"
-                IsVisible="{Binding IsSubmitVisible}"
+                AutomationId="submitButton"
                 Command="{Binding SubmitCommand}"
-                />
+                HorizontalOptions="End"
+                IsVisible="{Binding IsSubmitVisible}"
+                Style="{StaticResource TopButtonTitleStyle}"
+                Text="{Binding Resources[menu_action_submit]}" />
 
             <Grid
-                AutomationId="innerGrd"
-                Margin="10,0,10,0"
                 Grid.Row="1"
-                RowSpacing="{OnPlatform iOS=2,Android=0,UWP=0}">
+                Margin="10,0,10,0"
+                AutomationId="innerGrd"
+                RowSpacing="{OnPlatform iOS=2,
+                                        Android=0,
+                                        UWP=0}">
 
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <BoxView
-                    AutomationId="topBarSeperatorBoxView"
-                    Margin="-10,0,-10,0"
                     Grid.Row="0"
+                    Margin="-10,0,-10,0"
+                    AutomationId="topBarSeperatorBoxView"
                     BackgroundColor="{StaticResource bannerBGColor}"
-                    VerticalOptions="FillAndExpand"
-                    HorizontalOptions="FillAndExpand"/>
-            
-                <Label 
-                    AutomationId="manifestLabel"
-                    Text="{Binding ManifestId, StringFormat=' Manifest #: {0}', Converter={StaticResource StringToLast8CharacterConverter}}"
-                    Style="{StaticResource LabelTitleWhiteTextColorStyle}"
-                    />
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="FillAndExpand" />
 
                 <Label
-                    AutomationId="originLabel"
-                    Style="{StaticResource LabelNormalStyle}"
-                    Text="{Binding Resources[label_show_origin]}"
+                    Grid.Row="0"
+                    AutomationId="manifestLabel"
+                    Style="{StaticResource LabelTitleWhiteTextColorStyle}"
+                    Text="{Binding ManifestId, StringFormat=' Manifest #: {0}', Converter={StaticResource StringToLast8CharacterConverter}}" />
+
+                <Label
                     Grid.Row="1"
+                    AutomationId="originLabel"
                     IsVisible="{Binding OriginRequired}"
-                    />
+                    Style="{StaticResource LabelNormalStyle}"
+                    Text="{Binding Resources[label_show_origin]}" />
 
                 <Button
-                    AutomationId="originButton"
                     x:Name="lblOrigin"
-                    Style="{StaticResource ButtonNormalStyle}"
-                    Text="{Binding Origin}"
                     Grid.Row="2"
+                    AutomationId="originButton"
                     Command="{Binding SelectOriginLocationCommand}"
                     IsVisible="{Binding OriginRequired}"
-                    />
+                    Style="{StaticResource ButtonNormalStyle}"
+                    Text="{Binding Origin}" />
 
                 <Label
-                    AutomationId="requiredOriginLabel"
                     Grid.Row="2"
+                    AutomationId="requiredOriginLabel"
                     HorizontalOptions="End"
-                    VerticalOptions="Center"
+                    IsVisible="{Binding IsOriginRequired}"
                     Text="(required)"
                     TextColor="{StaticResource lightGrayColor}"
-                    IsVisible="{Binding IsOriginRequired}"
-                    />
+                    VerticalOptions="Center" />
 
                 <BoxView
-                    AutomationId="lineSeperator1"
                     Grid.Row="3"
+                    AutomationId="lineSeperator1"
                     BackgroundColor="{StaticResource lightGrayColor}"
                     HeightRequest="1"
-                    VerticalOptions="Start"
                     HorizontalOptions="FillAndExpand"
                     IsVisible="{Binding OriginRequired}"
-                    />
+                    VerticalOptions="Start" />
 
                 <Label
+                    Grid.Row="4"
                     AutomationId="destinationLabel"
                     Style="{StaticResource LabelNormalStyle}"
-                    Text="{Binding Resources[label_destination]}"
-                    Grid.Row="4"
-                    />
+                    Text="{Binding Resources[label_destination]}" />
 
                 <Button
-                    AutomationId="destinationButton"
                     x:Name="lblDestination"
-                    Style="{StaticResource ButtonNormalStyle}"
-                    Text="{Binding Destination}"
                     Grid.Row="5"
-                    Command="{Binding SelectLocationCommand}"/>
+                    AutomationId="destinationButton"
+                    Command="{Binding SelectLocationCommand}"
+                    Style="{StaticResource ButtonNormalStyle}"
+                    Text="{Binding Destination}" />
 
                 <Label
-                    AutomationId="requiredLabel"
-                    IsVisible="{Binding IsRequiredVisible}"
                     Grid.Row="5"
+                    AutomationId="requiredLabel"
                     HorizontalOptions="End"
-                    VerticalOptions="Center"
+                    IsVisible="{Binding IsRequiredVisible}"
                     Text="(required)"
                     TextColor="{StaticResource lightGrayColor}"
-                    />
+                    VerticalOptions="Center" />
 
                 <BoxView
+                    Grid.Row="6"
                     AutomationId="lineSeperatorOrder1"
-                    Grid.Row="6"
                     BackgroundColor="{StaticResource lightGrayColor}"
                     HeightRequest="1"
-                    VerticalOptions="Start"
                     HorizontalOptions="FillAndExpand"
-                    IsVisible="{Binding OrderNumRequired}"/>
-                
-                <Label
-                    AutomationId="orderLabel"
-                    Style="{StaticResource LabelNormalStyle}"
-                    Text="{Binding Resources[title_order]}"
-                    Grid.Row="4"
                     IsVisible="{Binding OrderNumRequired}"
-                    />
-                
+                    VerticalOptions="Start" />
+
+                <Label
+                    Grid.Row="7"
+                    AutomationId="orderLabel"
+                    IsVisible="{Binding OrderNumRequired}"
+                    Style="{StaticResource LabelNormalStyle}"
+                    Text="{Binding Resources[title_order]}" />
+
                 <Entry
-                    Grid.Row="5"
-                    Text="{Binding Order}"
+                    Grid.Row="8"
+                    IsVisible="{Binding OrderNumRequired}"
                     Placeholder="(required)"
-                    IsVisible="{Binding OrderNumRequired}"/>
+                    Text="{Binding Order}" />
 
                 <BoxView
+                    Grid.Row="9"
                     AutomationId="lineSeperator2"
-                    Grid.Row="6"
                     BackgroundColor="{StaticResource lightGrayColor}"
                     HeightRequest="1"
-                    VerticalOptions="Start"
-                    HorizontalOptions="FillAndExpand"/>
-                
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="Start" />
+
                 <Label
+                    Grid.Row="10"
                     AutomationId="moreInfoLabel"
                     Style="{StaticResource LabelNormalStyle}"
-                    Text="{Binding Resources[label_more_info]}"
-                    Grid.Row="7"
-                    />
+                    Text="{Binding Resources[label_more_info]}" />
 
                 <Button
-                    AutomationId="tagsStrButton"
                     x:Name="lblTagsStr"
-                    Text="{Binding TagsStr}"
-                    Grid.Row="8"
+                    Grid.Row="11"
+                    AutomationId="tagsStrButton"
                     Command="{Binding MoreInfoCommand}"
                     Style="{StaticResource ButtonNormalStyle}"
-                    />
+                    Text="{Binding TagsStr}" />
 
                 <BoxView
+                    Grid.Row="12"
                     AutomationId="lineSeperator3"
-                    Grid.Row="9"
                     BackgroundColor="{StaticResource lightGrayColor}"
                     HeightRequest="1"
-                    VerticalOptions="Start"
-                    HorizontalOptions="FillAndExpand"/>
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="Start" />
 
                 <Label
+                    Grid.Row="13"
                     AutomationId="kegsLabel"
                     Style="{StaticResource LabelNormalStyle}"
-                    Text="{Binding Resources[label_kegs]}"
-                    Grid.Row="10"
-                    />
+                    Text="{Binding Resources[label_kegs]}" />
 
                 <Button
-                    AutomationId="addKegsButton"
                     x:Name="lblAddKegs"
-                    Text="{Binding AddKegs}"
-                    Grid.Row="11"
+                    Grid.Row="14"
+                    AutomationId="addKegsButton"
                     Command="{Binding ScanKegsCommad}"
                     Style="{StaticResource ButtonLargeStyle}"
-                    />
+                    Text="{Binding AddKegs}" />
 
                 <BoxView
+                    Grid.Row="15"
                     AutomationId="lineSeperator4"
-                    Grid.Row="12"
                     BackgroundColor="{StaticResource lightGrayColor}"
                     HeightRequest="3"
-                    VerticalOptions="Start"
-                    HorizontalOptions="FillAndExpand"/>
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="Start" />
 
                 <Button
-                    AutomationId="saveDraftButton"
                     x:Name="lblSaveDraft"
-                    Text="{Binding Resources[menu_action_save_draft]}"
-                    Grid.Row="13"
-                    HorizontalOptions="EndAndExpand"
-                    Style="{StaticResource TopButtonTitleStyle}"
-                    IsVisible="{Binding IsSaveDraftVisible}"
+                    Grid.Row="16"
+                    AutomationId="saveDraftButton"
                     Command="{Binding SaveDraftCommand}"
-                    />
+                    HorizontalOptions="EndAndExpand"
+                    IsVisible="{Binding IsSaveDraftVisible}"
+                    Style="{StaticResource TopButtonTitleStyle}"
+                    Text="{Binding Resources[menu_action_save_draft]}" />
 
             </Grid>
         </Grid>

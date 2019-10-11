@@ -42,7 +42,7 @@ namespace KegID.ViewModel
             IsSubmitVisible = AddKegs.Contains("Item") ? true : false;
         }
         public bool OriginRequired { get; set; }
-        public bool IsOriginRequired { get; set; }
+        public bool IsOriginRequired { get; set; } = true;
         public bool IsSaveDraftVisible { get; set; }
         public string Order { get; set; }
         public bool IsSubmitVisible { get; set; }
@@ -53,7 +53,7 @@ namespace KegID.ViewModel
 
         public bool IsRequiredVisible { get; set; } = true;
         public bool OrderNumRequired { get; set; }
-        public string Origin { get; set; }
+        public string Origin { get; set; } = "Select a location";
         #endregion
 
         #region Commands

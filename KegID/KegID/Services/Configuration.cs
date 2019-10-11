@@ -26,7 +26,7 @@
         /// <summary>
         /// Base Url
         /// </summary>
-        public const string ServiceUrl = ProdAPIUrl;
+        public const string ServiceUrl = TestAPIUrl;
 
         /// <summary>
         /// Login Service Url

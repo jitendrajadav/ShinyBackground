@@ -50,7 +50,7 @@ namespace KegID.ViewModel
 
         /// <summary>
         /// Sets and gets the APIBase property.
-        /// Changes to that property's value raise the PropertyChanged event. 
+        /// Changes to that property's value raise the PropertyChanged event.
         /// </summary>
         public string APIBase
         {
@@ -278,7 +278,7 @@ namespace KegID.ViewModel
             var current = Connectivity.NetworkAccess;
             if (current == NetworkAccess.Internet)
             {
-                await _deviceCheckInMngr.DeviceCheckInAync(); 
+                await _deviceCheckInMngr.DeviceCheckInAync();
             }
         }
 
@@ -566,6 +566,7 @@ namespace KegID.ViewModel
             finally
             {
                 Result = null;
+                Loader.StopLoading();
             }
         }
 
