@@ -35,7 +35,7 @@ namespace KegID
             InitializeComponent();
 
 #if DEBUG
-            HotReloader.Current.Run(this);
+            //HotReloader.Current.Run(this);
             AppSettings.BaseURL = Configuration.TestAPIUrl;
 #elif RELEASE
             AppSettings.BaseURL = Configuration.ProdAPIUrl;

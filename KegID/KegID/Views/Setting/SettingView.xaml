@@ -1,77 +1,74 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<pages:PopupPage 
-            xmlns="http://xamarin.com/schemas/2014/forms"
-            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-            x:Class="KegID.Views.SettingView"
-            Title="Setting"
-            xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
-            xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
-            ios:Page.UseSafeArea="true"
-            >
-    
-    <StackLayout 
+<pages:PopupPage
+    x:Class="KegID.Views.SettingView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+    Title="Setting"
+    ios:Page.UseSafeArea="true">
+
+    <StackLayout
+        Padding="20,35,20,20"
         AutomationId="stackLayout"
-        Spacing="0"
-        VerticalOptions="Start"
         HorizontalOptions="FillAndExpand"
-        Padding="20, 35, 20, 20">
-      
+        Spacing="0"
+        VerticalOptions="Start">
+
         <Image
-            AutomationId="triangleImage"
             x:Name="imgTriangle"
+            AutomationId="triangleImage"
             HeightRequest="40"
-            HorizontalOptions="End"                  
+            HorizontalOptions="End"
             VerticalOptions="EndAndExpand">
 
             <Image.Source>
-                <FileImageSource File="{OnPlatform Android=triangle.png,iOS=triangle.png, UWP=Assets/triangle.png }"/>
+                <FileImageSource File="{OnPlatform Android=triangle.png, iOS=triangle.png, UWP=Assets/triangle.png}" />
             </Image.Source>
         </Image>
 
         <StackLayout
-            AutomationId="innerStackLayout"
             Margin="0,-15,0,0"
-            Spacing="0"
-            BackgroundColor="Black">
-            
-            <StackLayout 
-                AutomationId="stackLayout1"
+            AutomationId="innerStackLayout"
+            BackgroundColor="Black"
+            Spacing="0">
+
+            <StackLayout
                 Margin="3"
-                Spacing="0"
-                BackgroundColor="White">
+                AutomationId="stackLayout1"
+                BackgroundColor="White"
+                Spacing="0">
 
                 <Label
+                    x:Name="lblTitle"
                     AutomationId="settingsLabel"
                     HeightRequest="50"
-                    Style="{StaticResource LabelTitleStyle}"
-                    x:Name="lblTitle"
                     HorizontalOptions="CenterAndExpand"
-                    VerticalTextAlignment="Center"
+                    Style="{StaticResource LabelTitleStyle}"
+                    Text="{Binding Resources[label_settings]}"
                     TextColor="Black"
-                    Text="{Binding Resources[label_settings]}"/>
+                    VerticalTextAlignment="Center" />
 
                 <BoxView
                     AutomationId="lineSeperator1"
                     BackgroundColor="LightGray"
                     HeightRequest="1"
-                    VerticalOptions="Start"
-                    HorizontalOptions="FillAndExpand"/>
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="Start" />
 
                 <Label
-                    AutomationId="refreshLabel"
-                    Margin="20,0,10,0"
-                    HeightRequest="50"
-                    Style="{StaticResource LabelTitleStyle}"
                     x:Name="lblRefresh"
+                    Margin="20,0,10,0"
+                    AutomationId="refreshLabel"
+                    HeightRequest="50"
                     HorizontalOptions="StartAndExpand"
-                    VerticalTextAlignment="Center"
+                    Style="{StaticResource LabelTitleStyle}"
+                    Text="{Binding Resources[menu_action_refresh]}"
                     TextColor="{StaticResource selectTextColor}"
-                    Text="{Binding Resources[menu_action_refresh]}">
+                    VerticalTextAlignment="Center">
 
                     <Label.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding Path=BindingContext.RefreshSettingCommand, 
-                                                        Source={x:Reference Name=lblRefresh}}"
-                                                         CommandParameter="{Binding}"/>
+                        <TapGestureRecognizer Command="{Binding Path=BindingContext.RefreshSettingCommand, Source={x:Reference Name=lblRefresh}}" CommandParameter="{Binding}" />
                     </Label.GestureRecognizers>
                 </Label>
 
@@ -79,25 +76,23 @@
                     AutomationId="lineSeperator2"
                     BackgroundColor="LightGray"
                     HeightRequest="1"
-                    VerticalOptions="Start"
-                    HorizontalOptions="FillAndExpand"/>
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="Start" />
 
                 <Label
-                    AutomationId="printerSettingsLabel"
-                    Margin="20,0,0,0"
-                    HeightRequest="50"
                     x:Name="lblPrinterSettings"
-                    Style="{StaticResource LabelTitleStyle}"
+                    Margin="20,0,0,0"
+                    AutomationId="printerSettingsLabel"
+                    HeightRequest="50"
                     HorizontalOptions="StartAndExpand"
                     HorizontalTextAlignment="Start"
-                    VerticalTextAlignment="Center"
+                    Style="{StaticResource LabelTitleStyle}"
+                    Text="{Binding Resources[label_printer_settings]}"
                     TextColor="{StaticResource selectTextColor}"
-                    Text="{Binding Resources[label_printer_settings]}">
+                    VerticalTextAlignment="Center">
 
                     <Label.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding Path=BindingContext.PrinterSettingCommand, 
-                                                        Source={x:Reference Name=lblPrinterSettings}}"
-                                                         CommandParameter="{Binding}"/>
+                        <TapGestureRecognizer Command="{Binding Path=BindingContext.PrinterSettingCommand, Source={x:Reference Name=lblPrinterSettings}}" CommandParameter="{Binding}" />
                     </Label.GestureRecognizers>
                 </Label>
 
@@ -105,26 +100,23 @@
                     AutomationId="lineSeperator2"
                     BackgroundColor="LightGray"
                     HeightRequest="1"
-                    VerticalOptions="Start"
-                    HorizontalOptions="FillAndExpand"/>
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="Start" />
 
                 <Label
-                    AutomationId="whatsNewLabel"
-                    Margin="20,0,0,0"
-                    HeightRequest="50"
                     x:Name="lblWhatsNew"
-                    Style="{StaticResource LabelTitleStyle}"
+                    Margin="20,0,0,0"
+                    AutomationId="whatsNewLabel"
+                    HeightRequest="50"
                     HorizontalOptions="StartAndExpand"
                     HorizontalTextAlignment="Start"
-                    VerticalTextAlignment="Center"
-                    TextColor="{StaticResource selectTextColor}"
+                    Style="{StaticResource LabelTitleStyle}"
                     Text="{Binding Resources[label_what_is_new]}"
-                    >
+                    TextColor="{StaticResource selectTextColor}"
+                    VerticalTextAlignment="Center">
 
                     <Label.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding Path=BindingContext.WhatsNewCommand, 
-                                                        Source={x:Reference Name=lblWhatsNew}}"
-                                                         CommandParameter="{Binding}"/>
+                        <TapGestureRecognizer Command="{Binding Path=BindingContext.WhatsNewCommand, Source={x:Reference Name=lblWhatsNew}}" CommandParameter="{Binding}" />
                     </Label.GestureRecognizers>
                 </Label>
 
@@ -132,52 +124,46 @@
                     AutomationId="lineSeperator3"
                     BackgroundColor="LightGray"
                     HeightRequest="1"
-                    VerticalOptions="Start"
-                    HorizontalOptions="FillAndExpand"/>
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="Start" />
 
                 <Label
-                    AutomationId="supportLabel"
-                    Margin="20,0,0,0"
-                    HeightRequest="50"
                     x:Name="lblSupport"
-                    Style="{StaticResource LabelTitleStyle}"
+                    Margin="20,0,0,0"
+                    AutomationId="supportLabel"
+                    HeightRequest="50"
                     HorizontalOptions="StartAndExpand"
                     HorizontalTextAlignment="Start"
-                    VerticalTextAlignment="Center"
-                    TextColor="{StaticResource selectTextColor}"
+                    Style="{StaticResource LabelTitleStyle}"
                     Text="{Binding Resources[menu_action_support]}"
-                    >
+                    TextColor="{StaticResource selectTextColor}"
+                    VerticalTextAlignment="Center">
 
                     <Label.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding Path=BindingContext.SupportCommand, 
-                                                        Source={x:Reference Name=lblSupport}}"
-                                                         CommandParameter="{Binding}"/>
+                        <TapGestureRecognizer Command="{Binding Path=BindingContext.SupportCommand, Source={x:Reference Name=lblSupport}}" CommandParameter="{Binding}" />
                     </Label.GestureRecognizers>
                 </Label>
-                
+
                 <BoxView
                     AutomationId="lineSeperator4"
                     BackgroundColor="LightGray"
                     HeightRequest="1"
-                    VerticalOptions="Start"
-                    HorizontalOptions="FillAndExpand"/>
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="Start" />
 
                 <Label
-                    AutomationId="aboutAppLabel"
-                    Margin="20,0,0,0"
-                    HeightRequest="50"
                     x:Name="lblAboutApp"
-                    Style="{StaticResource LabelTitleStyle}"
+                    Margin="20,0,0,0"
+                    AutomationId="aboutAppLabel"
+                    HeightRequest="50"
                     HorizontalOptions="StartAndExpand"
-                    VerticalTextAlignment="Center"
-                    TextColor="{StaticResource selectTextColor}"
+                    Style="{StaticResource LabelTitleStyle}"
                     Text="{Binding Resources[title_about_app]}"
-                    >
+                    TextColor="{StaticResource selectTextColor}"
+                    VerticalTextAlignment="Center">
 
                     <Label.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding Path=BindingContext.AboutAppCommand, 
-                                                        Source={x:Reference Name=lblAboutApp}}"
-                                                         CommandParameter="{Binding}"/>
+                        <TapGestureRecognizer Command="{Binding Path=BindingContext.AboutAppCommand, Source={x:Reference Name=lblAboutApp}}" CommandParameter="{Binding}" />
                     </Label.GestureRecognizers>
                 </Label>
 
@@ -185,33 +171,30 @@
                     AutomationId="lineSeperator5"
                     BackgroundColor="LightGray"
                     HeightRequest="1"
-                    VerticalOptions="Start"
-                    HorizontalOptions="FillAndExpand"/>
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="Start" />
 
                 <Label
-                    AutomationId="logOutLabel"
-                    Margin="20,0,0,0"
-                    HeightRequest="50"
                     x:Name="lblLogOut"
-                    Style="{StaticResource LabelTitleStyle}"
+                    Margin="20,0,0,0"
+                    AutomationId="logOutLabel"
+                    HeightRequest="50"
                     HorizontalOptions="StartAndExpand"
                     HorizontalTextAlignment="Start"
-                    VerticalTextAlignment="Center"
-                    TextColor="{StaticResource selectTextColor}"
+                    Style="{StaticResource LabelTitleStyle}"
                     Text="{Binding Resources[menu_action_logout]}"
-                    >
+                    TextColor="{StaticResource selectTextColor}"
+                    VerticalTextAlignment="Center">
 
                     <Label.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding Path=BindingContext.LogOutSettingCommand, 
-                                                        Source={x:Reference Name=lblLogOut}}"
-                                                         CommandParameter="{Binding}"/>
+                        <TapGestureRecognizer Command="{Binding Path=BindingContext.LogOutSettingCommand, Source={x:Reference Name=lblLogOut}}" CommandParameter="{Binding}" />
                     </Label.GestureRecognizers>
                 </Label>
 
             </StackLayout>
 
         </StackLayout>
-        
+
     </StackLayout>
-    
+
 </pages:PopupPage>

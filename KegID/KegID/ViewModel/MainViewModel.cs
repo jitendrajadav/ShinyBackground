@@ -87,7 +87,8 @@ namespace KegID.ViewModel
             HandleReceivedMessages();
 
             RefreshDashboardRecieverAsync();
-            StartPrinterSearch();
+            if (Xamarin.Forms.Device.RuntimePlatform != Xamarin.Forms.Device.UWP)
+                StartPrinterSearch();
 
             Connectivity.ConnectivityChanged -= Connectivity_ConnectivityChanged;
             Connectivity.ConnectivityChanged += Connectivity_ConnectivityChanged;
