@@ -1,5 +1,4 @@
 ﻿using KegID.Common;
-using KegID.Services;
 using Prism.Commands;
 using Prism.Navigation;
 using Xamarin.Essentials;

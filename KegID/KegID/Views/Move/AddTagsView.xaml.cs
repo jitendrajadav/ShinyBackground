@@ -8,13 +8,14 @@ using Realms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace KegID.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class AddTagsView : ContentPage , INavigationAware
+    public partial class AddTagsView : ContentPage , IInitialize
     {
         BarcodeModel barcodeModel = null;
         public AddTagsView()
@@ -398,7 +399,7 @@ namespace KegID.Views
             }
         }
 
-        public void OnNavigatingTo(INavigationParameters parameters)
+        public void Initialize(INavigationParameters parameters)
         {
             if (parameters.ContainsKey("viewTypeEnum"))
             {
@@ -411,16 +412,6 @@ namespace KegID.Views
                     LoadAddTagsAsync(parameters.GetValue<ViewTypeEnum>("viewTypeEnum"));
                 }
             }
-        }
-
-        public void OnNavigatedFrom(INavigationParameters parameters)
-        {
-            
-        }
-
-        public void OnNavigatedTo(INavigationParameters parameters)
-        {
-            
         }
     }
 }

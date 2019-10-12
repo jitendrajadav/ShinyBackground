@@ -1,5 +1,4 @@
-﻿
-using Prism.Navigation;
+﻿using Prism.Navigation;
 using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -9,16 +8,10 @@ namespace KegID.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class PrinterSettingView : ContentPage
 	{
-		public PrinterSettingView ()
+        public PrinterSettingView()
         {
-            try
-            {
-                InitializeComponent ();
-                NavigationPage.SetHasNavigationBar(this, false);
-            }
-            catch (System.Exception ex)
-            {
-            }
+            InitializeComponent();
+            NavigationPage.SetHasNavigationBar(this, false);
         }
 
         protected override bool OnBackButtonPressed()

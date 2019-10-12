@@ -15,17 +15,8 @@ namespace KegID.ViewModel.Base
 
         private MemberInfo GetMemberInfo(Expression expression)
         {
-            MemberExpression operand;
             LambdaExpression lambdaExpression = (LambdaExpression)expression;
-            if (lambdaExpression.Body as UnaryExpression != null)
-            {
-                UnaryExpression body = (UnaryExpression)lambdaExpression.Body;
-                operand = (MemberExpression)body.Operand;
-            }
-            else
-            {
-                operand = (MemberExpression)lambdaExpression.Body;
-            }
+            var operand = lambdaExpression.Body is UnaryExpression body ? (MemberExpression)body.Operand : (MemberExpression)lambdaExpression.Body;
             return operand.Member;
         }
     }

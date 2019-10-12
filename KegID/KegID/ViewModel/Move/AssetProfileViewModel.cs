@@ -10,39 +10,7 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        #region SelectedOwner
-
-        /// <summary>
-        /// The <see cref="SelectedOwner" /> property's name.
-        /// </summary>
-        public const string SelectedOwnerPropertyName = "SelectedOwner";
-
-        private string _selectedOwner = null;
-
-        /// <summary>
-        /// Sets and gets the SelectedOwner property.
-        /// Changes to that property's value raise the PropertyChanged event.
-        /// </summary>
-        public string SelectedOwner
-        {
-            get
-            {
-                return _selectedOwner;
-            }
-
-            set
-            {
-                if (_selectedOwner == value)
-                {
-                    return;
-                }
-
-                _selectedOwner = value;
-                RaisePropertyChanged(SelectedOwnerPropertyName);
-            }
-        }
-
-        #endregion
+        public string SelectedOwner { get; set; }
 
         #endregion
 

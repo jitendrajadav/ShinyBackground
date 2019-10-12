@@ -11,14 +11,7 @@ namespace KegID.Views
     {
         public InventoryView()
         {
-            try
-            {
-                InitializeComponent();
-            }
-            catch (Exception ex)
-            {
-
-            }
+            InitializeComponent();
             NavigationPage.SetHasNavigationBar(this, false);
         }
 

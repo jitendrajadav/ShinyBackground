@@ -528,18 +528,11 @@ namespace KegID.ViewModel
             {
                 CancelCommandRecieverAsync();
             }
-        }
-
-        public override Task InitializeAsync(INavigationParameters parameters)
-        {
-            if (ConstantManager.Barcodes != null)
+            if (ConstantManager.Barcodes?.Count > 0)
                 AssingScanKegsValue(ConstantManager.Barcodes.ToList(), ConstantManager.Tags, ConstantManager.Contents);
 
             switch (parameters.Keys.FirstOrDefault())
             {
-                case "ManifestId":
-                    ManifestId = parameters.GetValue<string>("ManifestId");
-                    break;
                 case "model":
                     if (parameters.GetValue<string>("CommingFrom") == "MoveOrigin")
                     {
@@ -568,48 +561,20 @@ namespace KegID.ViewModel
                 default:
                     break;
             }
-            return base.InitializeAsync(parameters);
         }
 
-        //public override void OnNavigatingTo(INavigationParameters parameters)
-        //{
-        //    if (ConstantManager.Barcodes != null)
-        //        AssingScanKegsValue(ConstantManager.Barcodes.ToList(), ConstantManager.Tags, ConstantManager.Contents);
+        public override Task InitializeAsync(INavigationParameters parameters)
+        {
+            if (ConstantManager.Barcodes?.Count > 0)
+                AssingScanKegsValue(ConstantManager.Barcodes.ToList(), ConstantManager.Tags, ConstantManager.Contents);
 
-        //    switch (parameters.Keys.FirstOrDefault())
-        //    {
-        //        case "ManifestId":
-        //            ManifestId = parameters.GetValue<string>("ManifestId");
-        //            break;
-        //        case "model":
-        //            if (parameters.GetValue<string>("CommingFrom") == "MoveOrigin")
-        //            {
-        //                Origin = ConstantManager.Partner.FullName;
-        //                IsOriginRequired = false;
-        //            }
-        //            else
-        //            {
-        //                Destination = ConstantManager.Partner.FullName;
-        //                IsRequiredVisible = false;
-        //            }
-        //            IsSaveDraftVisible = true;
-        //            break;
-        //        case "AddTags":
-        //            AssignAddTagsValue(ConstantManager.Tags, ConstantManager.TagsStr);
-        //            break;
-        //        case "AssignInitialValue":
-        //            AssignInitialValue(parameters);
-        //            break;
-        //        case "AssignInitialValueFromKegStatus":
-        //            AssignInitialValueFromKegStatus(parameters);
-        //            break;
-        //        case "PartnerModel":
-        //            Destination = parameters.GetValue<PossessorLocation>("PartnerModel").FullName;
-        //            break;
-        //        default:
-        //            break;
-        //    }
-        //}
+            if (parameters.ContainsKey("ManifestId"))
+            {
+                ManifestId = parameters.GetValue<string>("ManifestId");
+            }
+
+            return base.InitializeAsync(parameters);
+        }
 
         private void AssignInitialValueFromKegStatus(INavigationParameters parameters)
         {
