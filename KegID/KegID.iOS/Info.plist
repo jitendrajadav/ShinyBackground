@@ -28,8 +28,6 @@
 	<string>com.anotherroundapps.KegIDBeta</string>
 	<key>CFBundleVersion</key>
 	<string>9</string>
-	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
 	<key>CFBundleIconFiles</key>
 	<array>
 		<string>Icon-60@2x</string>
@@ -87,5 +85,9 @@
 	</array>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0.0.1</string>
+	<key>XSAppIconAssets</key>
+	<string>Media.xcassets/AppIcons.appiconset</string>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
 </dict>
 </plist>

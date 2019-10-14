@@ -279,16 +279,6 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="..\KegID\Assets\kegidbanner.png">
-      <Link>Resources\drawable\kegidbanner.png</Link>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="..\KegID\Assets\kegidicon.png">
-      <Link>Resources\drawable\kegidicon.png</Link>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="..\KegID\Assets\kegidlogo.png">
       <Link>Resources\drawable\kegidlogo.png</Link>
     </AndroidResource>
@@ -414,11 +404,6 @@
   <ItemGroup>
     <AndroidResource Include="..\KegID\Assets\newkeg.png">
       <Link>Resources\drawable\newkeg.png</Link>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="..\KegID\Assets\kegidbannerwhite.png">
-      <Link>Resources\drawable\kegidbannerwhite.png</Link>
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>

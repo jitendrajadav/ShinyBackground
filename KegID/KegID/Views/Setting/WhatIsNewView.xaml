@@ -1,71 +1,79 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:controls="clr-namespace:CarouselView.FormsPlugin.Abstractions;assembly=CarouselView.FormsPlugin.Abstractions"
-             x:Class="KegID.Views.WhatIsNewView"
-             BackgroundColor="{StaticResource pageBGColor}"
-             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
-             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-             ios:Page.UseSafeArea="true"
-             >
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    x:Class="KegID.Views.WhatIsNewView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:CarouselView.FormsPlugin.Abstractions;assembly=CarouselView.FormsPlugin.Abstractions"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    ios:Page.UseSafeArea="true"
+    BackgroundColor="{StaticResource pageBGColor}">
 
     <ContentPage.Content>
-        
-        <Grid
-            AutomationId="mainGrd"
-            ColumnSpacing="0"
-            RowSpacing="0"
-            Margin="0,0,0,0">
-           
-            <Grid.RowDefinitions>
-                <RowDefinition Height="91*"/>
-                <RowDefinition Height="10*"/>
-            </Grid.RowDefinitions>
+        <RelativeLayout>
+            <Grid
+                Margin="0,0,0,0"
+                AutomationId="mainGrd"
+                ColumnSpacing="0"
+                RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,
+                                                                       Property=Height}"
+                RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,
+                                                                      Property=Width}"
+                RowSpacing="0">
 
-            <controls:CarouselViewControl
-                AutomationId="whatsNewCarouselViewControl"
-                VerticalOptions="FillAndExpand"
-                x:Name="myCarouselViewCtrl"
-                ItemsSource="{Binding ImageCollection}"
-                ShowIndicators="true"
-                PositionSelected="Handle_PositionSelected"
-                Orientation="Horizontal">
-                <controls:CarouselViewControl.ItemTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Grid.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding Path=BindingContext.KegFleetTappedCommand, Source={x:Reference Name=myCarouselViewCtrl}}"
-                                              CommandParameter="{Binding}"/>
-                            </Grid.GestureRecognizers>
-                            <ffimageloading:CachedImage
-                                Aspect="Fill"
-                                DownsampleToViewSize="False"
-                                FadeAnimationEnabled="True"
-                                FadeAnimationForCachedImages="True"
-                                Source="{Binding ImageUri}"
-                                ErrorPlaceholder="error.png">
-                                <ffimageloading:CachedImage.LoadingPlaceholder>
-                                    <OnPlatform x:TypeArguments="ImageSource">
-                                        <On Platform="Android, iOS">loadingplaceholder.png</On>
-                                    </OnPlatform>
-                                </ffimageloading:CachedImage.LoadingPlaceholder>
-                            </ffimageloading:CachedImage>
-                        </Grid>
-                    </DataTemplate>
-                </controls:CarouselViewControl.ItemTemplate>
-            </controls:CarouselViewControl>
-            
-            <Button
-                AutomationId="nextButton"
-                VerticalOptions="EndAndExpand"
-                x:Name="btnNavigation"
-                Style="{StaticResource BottomButtonTitleStyle}"
-                Grid.Row="1"
-                Text="{Binding Resources[button_next]}"
-                Clicked="NavigationCommand"/>
-            
-        </Grid>
-        
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="91*" />
+                    <RowDefinition Height="10*" />
+                </Grid.RowDefinitions>
+
+                <controls:CarouselViewControl
+                    x:Name="myCarouselViewCtrl"
+                    AutomationId="whatsNewCarouselViewControl"
+                    HorizontalOptions="Center"
+                    ItemsSource="{Binding ImageCollection}"
+                    Orientation="Horizontal"
+                    PositionSelected="Handle_PositionSelected"
+                    RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,
+                                                                           Property=Height}"
+                    RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,
+                                                                          Property=Width}"
+                    ShowIndicators="true"
+                    VerticalOptions="Center">
+                    <controls:CarouselViewControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Path=BindingContext.KegFleetTappedCommand, Source={x:Reference Name=myCarouselViewCtrl}}" CommandParameter="{Binding}" />
+                                </Grid.GestureRecognizers>
+                                <ffimageloading:CachedImage
+                                    Aspect="Fill"
+                                    DownsampleToViewSize="False"
+                                    ErrorPlaceholder="error.png"
+                                    FadeAnimationEnabled="True"
+                                    FadeAnimationForCachedImages="True"
+                                    Source="{Binding ImageUri}">
+                                    <ffimageloading:CachedImage.LoadingPlaceholder>
+                                        <OnPlatform x:TypeArguments="ImageSource">
+                                            <On Platform="Android, iOS">loadingplaceholder.png</On>
+                                        </OnPlatform>
+                                    </ffimageloading:CachedImage.LoadingPlaceholder>
+                                </ffimageloading:CachedImage>
+                            </Grid>
+                        </DataTemplate>
+                    </controls:CarouselViewControl.ItemTemplate>
+                </controls:CarouselViewControl>
+
+                <Button
+                    x:Name="btnNavigation"
+                    Grid.Row="1"
+                    AutomationId="nextButton"
+                    Clicked="NavigationCommand"
+                    Style="{StaticResource BottomButtonTitleStyle}"
+                    Text="{Binding Resources[button_next]}"
+                    VerticalOptions="EndAndExpand" />
+
+            </Grid>
+        </RelativeLayout>
     </ContentPage.Content>
-    
+
 </ContentPage>
