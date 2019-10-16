@@ -3,7 +3,6 @@ using KegID.Services;
 using Prism.Commands;
 using Prism.Navigation;
 using System;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -14,6 +13,7 @@ namespace KegID.ViewModel
 
         public DateTime ProductionDate { get; set; } = DateTime.Now.Date;
         public DateTime BestByDataDate { get; set; } = DateTime.Now;
+        public string Barcode { get; set; }
 
         #endregion
 
@@ -27,51 +27,30 @@ namespace KegID.ViewModel
 
         public AddTagsViewModel(INavigationService navigationService) : base(navigationService)
         {
-
+            SaveCommand = new DelegateCommand(SaveCommandReciever);
         }
 
         #endregion
 
         #region Methods
 
-        private void HandleReceivedMessages()
+        private async void SaveCommandReciever()
         {
-            MessagingCenter.Subscribe<PagesMessage>(this, "PagesMessage", message =>
+            if (!string.IsNullOrEmpty(Barcode))
             {
-                Device.BeginInvokeOnMainThread(async () =>
-                {
-                    var value = message;
-                    if (value != null)
-                    {
-                        if (!string.IsNullOrEmpty(value.Barcode))
-                        {
-                            await _navigationService.GoBackAsync(new NavigationParameters
+                await _navigationService.GoBackAsync(new NavigationParameters
                                 {
                                     { "AddTags", ConstantManager.Tags },
-                                    { "Barcode", value.Barcode }
+                                    { "Barcode", Barcode }
                             }, animated: false);
-                        }
-                        else
-                        {
-                            await _navigationService.GoBackAsync(new NavigationParameters
+            }
+            else
+            {
+                await _navigationService.GoBackAsync(new NavigationParameters
                                 {
                                     { "AddTags", ConstantManager.Tags },
                             }, animated: false);
-                        }
-                    }
-                });
-            });
-        }
-
-        public override Task InitializeAsync(INavigationParameters parameters)
-        {
-            HandleReceivedMessages();
-            return base.InitializeAsync(parameters);
-        }
-
-        public override void OnNavigatedFrom(INavigationParameters parameters)
-        {
-            MessagingCenter.Unsubscribe<PagesMessage>(this, "PagesMessage");
+            }
         }
 
         #endregion

@@ -162,8 +162,7 @@ namespace KegID.ViewModel
                 IsPalletze = parameters.GetValue<bool>("IsPalletze");
                 Title = parameters.GetValue<string>("Title");
                 ManifestId = parameters.GetValue<string>("ManifestId");
-                IList<BarcodeModel> collection = parameters.GetValue<IList<BarcodeModel>>("Barcodes");
-                foreach (var item in collection)
+                foreach (var item in parameters.GetValue<IList<BarcodeModel>>("Barcodes"))
                 {
                     BarcodeCollection.Add(item);
                     TagsStr = item.TagsStr;
@@ -261,9 +260,7 @@ namespace KegID.ViewModel
         {
             string barCode;
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-            var preference = RealmDb.All<Preference>().Where(x => x.PreferenceName == "DashboardPreferences").ToList();
-
-            foreach (var item in preference)
+            foreach (var item in RealmDb.All<Preference>().Where(x => x.PreferenceName == "DashboardPreferences").ToList())
             {
                 if (item.PreferenceValue.Contains("OldestKegs"))
                 {
@@ -790,8 +787,13 @@ namespace KegID.ViewModel
             }
         }
 
-        public override async Task InitializeAsync(INavigationParameters parameters)
+        public override async void OnNavigatedTo(INavigationParameters parameters)
         {
+            if (parameters.ContainsKey("CancelCommandRecieverAsync"))
+            {
+                CancelCommandRecieverAsync();
+            }
+
             switch (parameters.Keys.FirstOrDefault())
             {
                 case "Partner":
@@ -822,19 +824,8 @@ namespace KegID.ViewModel
                 case "AddTags":
                     AssignAddTagsValue(parameters);
                     break;
-                default:
-                    break;
             }
 
-            //return base.InitializeAsync(parameters);
-        }
-
-        public override void OnNavigatedTo(INavigationParameters parameters)
-        {
-            if (parameters.ContainsKey("CancelCommandRecieverAsync"))
-            {
-                CancelCommandRecieverAsync();
-            }
         }
 
         #endregion

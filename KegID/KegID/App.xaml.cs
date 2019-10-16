@@ -64,7 +64,7 @@ namespace KegID
                 if (TargetIdiom.Tablet == Xamarin.Forms.Device.Idiom)
                     await NavigationService.NavigateAsync("NavigationPage/MainPageTablet");
                 else
-                    await NavigationService.NavigateAsync("NavigationPage/WhatIsNewView");
+                    await NavigationService.NavigateAsync("NavigationPage/MainPage");
             }
             else
             {

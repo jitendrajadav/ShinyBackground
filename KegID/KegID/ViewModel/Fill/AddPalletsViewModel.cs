@@ -188,11 +188,18 @@ namespace KegID.ViewModel
                         newPallets.Add(newPallet);
                     }
 
+                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                var canCloseBatches = RealmDb.All<Preference>().Where(x => x.PreferenceName == "CanCloseBatches").FirstOrDefault();
+                bool closeSatches = canCloseBatches != null ? bool.Parse(canCloseBatches.PreferenceValue) : false;
+
+                if (closeSatches)
+                {
                     bool accept = await _dialogService.DisplayAlertAsync("Close batch", "Mark this batch as completed?", "Yes", "No");
                     if (accept)
                         closedBatches = PalletCollection.Select(x => x.ManifestId).ToList();
+                }
 
-                    Loader.StartLoading();
+                Loader.StartLoading();
                     ManifestModel model = null;
                     try
                     {
@@ -484,6 +491,19 @@ namespace KegID.ViewModel
             {
                 FillKegsCommandRecieverAsync();
             }
+
+            switch (parameters.Keys.FirstOrDefault())
+            {
+                case "Barcodes":
+                    AssignFillScanValue(parameters.GetValue<IList<BarcodeModel>>("Barcodes"), parameters.GetValue<string>("BatchId"));
+                    break;
+                case "SubmitCommandRecieverAsync":
+                    SubmitCommandRecieverAsync();
+                    break;
+                case "AssignValueToAddPalletAsync":
+                    AssignValueToAddPalletAsync(parameters.GetValue<string>("AssignValueToAddPalletAsync"), parameters.GetValue<IList<BarcodeModel>>("BarcodesCollection"));
+                    break;
+            }
         }
 
         internal void AssignInitValue(INavigationParameters parameters)
@@ -510,24 +530,10 @@ namespace KegID.ViewModel
 
         public override Task InitializeAsync(INavigationParameters parameters)
         {
-            switch (parameters.Keys.FirstOrDefault())
+            if (parameters.ContainsKey("AddPalletsTitle"))
             {
-                case "Barcodes":
-                    AssignFillScanValue(parameters.GetValue<IList<BarcodeModel>>("Barcodes"), parameters.GetValue<string>("BatchId"));
-                    break;
-                case "AddPalletsTitle":
-                    AssignInitValue(parameters);
-                    break;
-                case "SubmitCommandRecieverAsync":
-                    SubmitCommandRecieverAsync();
-                    break;
-                case "AssignValueToAddPalletAsync":
-                    AssignValueToAddPalletAsync(parameters.GetValue<string>("AssignValueToAddPalletAsync"), parameters.GetValue<IList<BarcodeModel>>("BarcodesCollection"));
-                    break;
-                default:
-                    break;
+                AssignInitValue(parameters);
             }
-
             return base.InitializeAsync(parameters);
         }
 

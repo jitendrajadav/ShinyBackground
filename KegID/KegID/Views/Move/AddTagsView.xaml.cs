@@ -2,7 +2,9 @@
 using KegID.Messages;
 using KegID.Model;
 using KegID.Services;
+using KegID.ViewModel;
 using Microsoft.AppCenter.Crashes;
+using Prism;
 using Prism.Navigation;
 using Realms;
 using System;
@@ -379,12 +381,10 @@ namespace KegID.Views
                 }
                 ConstantManager.Tags = tags;
                 ConstantManager.TagsStr = tagsStr;
-                PagesMessage pagesMessage = new PagesMessage
-                {
-                    AssingValue = true,
-                    Barcode = barcodeModel?.Barcode ?? ""
-                };
-                MessagingCenter.Send(pagesMessage, "PagesMessage");
+                INavigation currentNavigationProxy = PrismApplicationBase.Current.MainPage.Navigation;
+                var binding = currentNavigationProxy.NavigationStack.LastOrDefault()?.BindingContext;
+                ((AddTagsViewModel)binding).Barcode = barcodeModel?.Barcode ?? "";
+                ((AddTagsViewModel)binding).SaveCommand.Execute();
             }
             catch (Exception ex)
             {

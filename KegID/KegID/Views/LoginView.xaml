@@ -1,73 +1,72 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="KegID.Views.LoginView"
-             BackgroundColor="{StaticResource pageBGColor}"
-             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
-             ios:Page.UseSafeArea="true"
-             Visual="Material"
-             >
+<ContentPage
+    x:Class="KegID.Views.LoginView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    ios:Page.UseSafeArea="true"
+    BackgroundColor="{StaticResource pageBGColor}"
+    Visual="Material">
 
     <ContentPage.Content>
-        
-        <Grid 
+
+        <Grid
+            Margin="20"
             AutomationId="mainGrd"
-            Style="{StaticResource GirdRowSpacing}"
-            Margin="20">
-           
+            Style="{StaticResource GirdRowSpacing}">
+
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            
+
             <Image
-                AutomationId="imgLogo"
-                HorizontalOptions="Center"
-                VerticalOptions="Start"
                 Margin="40"
-                BackgroundColor="Transparent">
+                AutomationId="imgLogo"
+                BackgroundColor="Transparent"
+                HorizontalOptions="Center"
+                VerticalOptions="Start">
 
                 <Image.Source>
-                    <FileImageSource File="{OnPlatform Android=kegidlogo.png,iOS=kegidlogo.png, UWP=Assets/kegidlogo.png }"/>
+                    <FileImageSource File="{OnPlatform Android=kegidlogo.png, iOS=kegidlogo.png, UWP=Assets/kegidlogo.png}" />
                 </Image.Source>
             </Image>
 
             <Entry
-                AutomationId="usernameEntry"
                 Grid.Row="1"
+                AutomationId="usernameEntry"
                 Placeholder="{Binding Resources[hint_username]}"
                 Style="{StaticResource BasicEntryStyle}"
-                Text="{Binding Username}">
-            </Entry>
+                Text="{Binding Username}" />
 
             <Entry
+                Grid.Row="2"
                 AutomationId="passwordEntry"
                 IsPassword="True"
-                Grid.Row="2"
                 Placeholder="{Binding Resources[hint_password]}"
                 Style="{StaticResource BasicEntryStyle}"
-                Text="{Binding Password}"/>
+                Text="{Binding Password}" />
 
             <Button
-                AutomationId="loginButton"
-                Margin="0,20,0,0"
                 x:Name="lblLogin"
-                Style="{StaticResource BottomButtonTitleStyle}"
                 Grid.Row="3"
-                Text="{Binding Resources[button_login]}"
-                Command="{Binding LoginCommand}"/>
+                Margin="0,20,0,0"
+                AutomationId="loginButton"
+                Command="{Binding LoginCommand}"
+                Style="{StaticResource BottomButtonTitleStyle}"
+                Text="{Binding Resources[button_login]}" />
 
             <Label
-                Text="{Binding APIBase}"
+                Grid.Row="4"
                 HorizontalOptions="CenterAndExpand"
-                VerticalOptions="EndAndExpand"
+                Text="{Binding APIBase}"
                 TextColor="Blue"
-                Grid.Row="4"/>
+                VerticalOptions="EndAndExpand" />
         </Grid>
-        
+
     </ContentPage.Content>
-    
+
 </ContentPage>

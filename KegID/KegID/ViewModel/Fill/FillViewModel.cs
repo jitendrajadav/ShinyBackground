@@ -383,15 +383,9 @@ namespace KegID.ViewModel
             {
                 CancelCommandRecieverAsync();
             }
-        }
 
-        public override Task InitializeAsync(INavigationParameters parameters)
-        {
             switch (parameters.Keys.FirstOrDefault())
             {
-                case "UuId":
-                    ManifestId = parameters.GetValue<string>("UuId");
-                    break;
                 case "model":
                     PartnerModel = parameters.GetValue<PartnerModel>("model");
                     ConstantManager.Partner = PartnerModel;
@@ -414,10 +408,15 @@ namespace KegID.ViewModel
                 case "BarcodeCollection":
                     AssingScanToFillView(parameters);
                     break;
-                default:
-                    break;
             }
+        }
 
+        public override Task InitializeAsync(INavigationParameters parameters)
+        {
+            if (parameters.ContainsKey("UuId"))
+            {
+                ManifestId = parameters.GetValue<string>("UuId");
+            }
             return base.InitializeAsync(parameters);
         }
 
