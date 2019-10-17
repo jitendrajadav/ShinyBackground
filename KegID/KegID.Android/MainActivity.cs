@@ -13,6 +13,7 @@ using Plugin.CrossPlatformTintedImage.Android;
 using Plugin.CurrentActivity;
 using Prism;
 using Prism.Ioc;
+using SegmentedControl.FormsPlugin.Android;
 using System;
 using Xamarin.Forms;
 
@@ -52,6 +53,7 @@ namespace KegID.Droid
             Xamarin.Essentials.Platform.Init(this, bundle);
             CrossCurrentActivity.Current.Init(this, bundle);
             Forms9Patch.Droid.Settings.Initialize(this);
+            SegmentedControlRenderer.Init();
             try
             {
                 LoadApplication(new App(new AndroidInitializer()));

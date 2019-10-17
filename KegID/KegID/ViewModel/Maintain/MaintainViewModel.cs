@@ -145,25 +145,24 @@ namespace KegID.ViewModel
             {
                 HomeCommandRecieverAsync();
             }
-        }
-
-        public override Task InitializeAsync(INavigationParameters parameters)
-        {
             switch (parameters.Keys.FirstOrDefault())
             {
                 case "model":
                     PartnerModel = parameters.GetValue<PartnerModel>("model");
                     break;
-                case "AssignInitialValue":
-                    AssignInitialValue(parameters.GetValue<ManifestModel>("AssignInitialValue"));
-                    break;
                 case "Cleanup":
                     Cleanup();
                     break;
-                default:
-                    break;
             }
+        }
 
+        public override Task InitializeAsync(INavigationParameters parameters)
+        {
+
+            if (parameters.ContainsKey("AssignInitialValue"))
+            {
+                AssignInitialValue(parameters.GetValue<ManifestModel>("AssignInitialValue"));
+            }
             return base.InitializeAsync(parameters);
         }
 

@@ -443,10 +443,7 @@ namespace KegID.ViewModel
             {
                 CancelCommandRecieverAsync();
             }
-        }
 
-        public override Task InitializeAsync(INavigationParameters parameters)
-        {
             if (ConstantManager.Barcodes != null)
                 AssingScanKegsValue(ConstantManager.Barcodes);
 
@@ -455,17 +452,19 @@ namespace KegID.ViewModel
                 case "model":
                     AssignPartnerValue(parameters.GetValue<PartnerModel>("model"));
                     break;
-                case "GenerateManifestIdAsync":
-                    GenerateManifestIdAsync(null);
-                    break;
                 case "AddTags":
                     AddInfoTitle = ConstantManager.TagsStr;
                     Tags = ConstantManager.Tags;
                     break;
-                default:
-                    break;
             }
+        }
 
+        public override Task InitializeAsync(INavigationParameters parameters)
+        {
+            if (parameters.ContainsKey("GenerateManifestIdAsync"))
+            {
+                GenerateManifestIdAsync(null);
+            }
             return base.InitializeAsync(parameters);
         }
 

@@ -36,7 +36,7 @@ namespace KegID.ViewModel
         public string TagsStr { get; set; }
         public string CurrentLocation { get; set; }
         public string Batch { get; set; }
-        public string MoveKeg { get; set; }
+        public string MoveKeg { get; set; } = "Move keg";
         public ObservableCollection<MaintenanceAlert> MaintenanceCollection { get; set; } = new ObservableCollection<MaintenanceAlert>();
         public MaintenanceAlert SelectedMaintenance { get; set; }
         public ObservableCollection<MaintenanceAlert> RemoveMaintenanceCollection { get; set; } = new ObservableCollection<MaintenanceAlert>();
@@ -98,20 +98,20 @@ namespace KegID.ViewModel
             }
         }
 
-        public async Task LoadMaintenanceHistoryAsync(string _kegId,string _contents,long _heldDays,string _possessorName, string _barcode,string _typeName,string _sizeName)
+        public async Task LoadMaintenanceHistoryAsync(string _kegId, string _contents, long _heldDays, string _possessorName, string _barcode, string _typeName, string _sizeName)
         {
             try
             {
                 Loader.StartLoading();
                 KegId = _kegId;
-                Contents = _contents == string.Empty ? "--" : _contents;
+                Contents = string.IsNullOrEmpty(_contents) ? "--" : _contents;
                 HeldDays = _heldDays;
                 PossessorName = _possessorName;
                 Barcode = _barcode;
                 TypeName = _typeName;
                 SizeName = _sizeName;
 
-                var kegStatus = await _dashboardService.GetKegStatusAsync(KegId, AppSettings.SessionId);
+                KegStatusResponseModel kegStatus = await _dashboardService.GetKegStatusAsync(KegId, AppSettings.SessionId).ConfigureAwait(false);
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                 var addMaintenanceCollection = RealmDb.All<MaintainTypeReponseModel>().ToList();
                 KegHasAlert = kegStatus.MaintenanceAlerts.Count > 0 ? true : false;
@@ -120,17 +120,17 @@ namespace KegID.ViewModel
                 {
                     foreach (var item in addMaintenanceCollection)
                     {
-                        var flag = kegStatus.MaintenanceAlerts.Where(x => x.Id == item.Id).FirstOrDefault();
+                        var flag = kegStatus.MaintenanceAlerts.Find(x => x.Id == item.Id);
                         if (flag == null)
                             MaintenanceCollection.Add(new MaintenanceAlert { Id = (int)item.Id, ActivationMethod = item.ActivationMethod, AssetSize = "", AssetType = "", Barcode = Barcode, DefectType = item.DefectType.ToString(), DueDate = DateTimeOffset.Now, IsActivated = false, KegId = _kegId, LocationId = kegStatus.Location.PartnerId, LocationName = kegStatus.Owner.FullName, Message = "", Name = item.Name, OwnerId = kegStatus.Pallet?.OwnerId, OwnerName = kegStatus.Pallet?.OwnerName, PalletBarcode = kegStatus.Pallet?.Barcode, PalletId = kegStatus.Pallet?.PalletId, TypeId = kegStatus.TypeId, TypeName = kegStatus.TypeName });
                     }
                 }
                 catch (Exception ex)
                 {
-                     Crashes.TrackError(ex);
+                    Crashes.TrackError(ex);
                 }
 
-                RemoveMaintenanceCollection = new ObservableCollection<MaintenanceAlert>( kegStatus.MaintenanceAlerts);
+                RemoveMaintenanceCollection = new ObservableCollection<MaintenanceAlert>(kegStatus.MaintenanceAlerts);
                 Owner = kegStatus.Owner.FullName;
                 Batch = kegStatus.Batch == string.Empty ? "--" : kegStatus.Batch;
                 Posision = new LocationInfo
@@ -151,7 +151,7 @@ namespace KegID.ViewModel
             }
             catch (Exception ex)
             {
-                 Crashes.TrackError(ex);
+                Crashes.TrackError(ex);
             }
             finally
             {
@@ -192,8 +192,7 @@ namespace KegID.ViewModel
 
         private async void InvalidToolsCommandRecieverAsync()
         {
-            string maintenanceStr = string.Empty;
-
+            string maintenanceStr = "";
             try
             {
                 if (Alerts != null)
@@ -325,17 +324,14 @@ namespace KegID.ViewModel
             if (parameters.ContainsKey("KegStatusModel"))
             {
                 var model = parameters.GetValue<KegPossessionResponseModel>("KegStatusModel");
-                await LoadMaintenanceHistoryAsync(model.KegId, model.Contents, model.HeldDays, model.PossessorName, model.Barcode, model.TypeName, model.SizeName);
+                await LoadMaintenanceHistoryAsync(model.KegId, model.Contents, model.HeldDays, model.PossessorName, model.Barcode, model.TypeName, model.SizeName).ConfigureAwait(false);
             }
             if (parameters.ContainsKey("KegSearchedKegStatusModel"))
             {
                 var model = parameters.GetValue<KegSearchResponseModel>("KegSearchedKegStatusModel");
-                await LoadMaintenanceHistoryAsync(model.KegId, model.Contents, 0, model?.Location?.FullName, model.Barcode, model.TypeName, model.SizeName);
+                await LoadMaintenanceHistoryAsync(model.KegId, model.Contents, 0, model?.Location?.FullName, model.Barcode, model.TypeName, model.SizeName).ConfigureAwait(false);
             }
-
-            //return base.InitializeAsync(parameters);
         }
-
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {

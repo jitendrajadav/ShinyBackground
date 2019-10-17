@@ -86,7 +86,7 @@ namespace KegID.ViewModel
                 // AssingIntialValueAsync() this needs to correct
                 await _navigationService.NavigateAsync("MoveView", new NavigationParameters
                     {
-                        { "AssignInitialValueFromKegStatus", Barcodes.FirstOrDefault() },
+                        { "AssignInitialValueFromKegStatus", Barcodes },
                         { "KegId", string.Empty },
                         { "ManifestId", _uuidManager.GetUuId() }
                     }, animated: false);

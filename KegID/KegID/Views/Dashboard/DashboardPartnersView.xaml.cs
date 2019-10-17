@@ -1,4 +1,5 @@
 ﻿
+using KegID.ViewModel;
 using Prism.Navigation;
 using System.Linq;
 using Xamarin.Forms;
@@ -22,6 +23,11 @@ namespace KegID.Views
                         { "BackCommandRecieverAsync", "BackCommandRecieverAsync" }
                     });
             return true;
+        }
+
+        private void SegControl_ValueChanged(object sender, SegmentedControl.FormsPlugin.Abstractions.ValueChangedEventArgs e)
+        {
+            ((DashboardPartnersViewModel)Prism.PrismApplicationBase.Current.MainPage.Navigation.NavigationStack.LastOrDefault()?.BindingContext).SelectedSegmentCommand.Execute(e.NewValue);
         }
     }
 }

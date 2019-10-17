@@ -1,229 +1,250 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="KegID.Views.DashboardPartnersView"
-             xmlns:behaviors="clr-namespace:KegID.Behaviors"
-             BackgroundColor="{StaticResource pageBGColor}"
-             xmlns:controls="clr-namespace:Plugin.CrossPlatformTintedImage.Abstractions;assembly=Plugin.CrossPlatformTintedImage.Abstractions"
-             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
-             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
-             ios:Page.UseSafeArea="true"
-             >
+<ContentPage
+    x:Class="KegID.Views.DashboardPartnersView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+    xmlns:behaviors="clr-namespace:KegID.Behaviors"
+    xmlns:controls="clr-namespace:Plugin.CrossPlatformTintedImage.Abstractions;assembly=Plugin.CrossPlatformTintedImage.Abstractions"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    xmlns:segcontrols="clr-namespace:SegmentedControl.FormsPlugin.Abstractions;assembly=SegmentedControl.FormsPlugin.Abstractions"
+    ios:Page.UseSafeArea="true"
+    BackgroundColor="{StaticResource pageBGColor}">
 
     <ContentPage.Content>
-        
-        <Grid
-            AutomationId="mainGrd">
+
+        <Grid AutomationId="mainGrd">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <Button
-                AutomationId="backButton"
                 x:Name="lblBack"
+                AutomationId="backButton"
+                Command="{Binding BackCommand}"
                 HorizontalOptions="Start"
                 Style="{StaticResource TopButtonTitleStyle}"
-                Text="{Binding Resources[button_home]}"
-                Command="{Binding BackCommand}"/>
+                Text="{Binding Resources[button_home]}" />
 
-            <Label 
+            <Label
                 AutomationId="partnerLabel"
+                HorizontalOptions="Center"
+                Style="{StaticResource LabelTitleStyle}"
                 Text="{Binding Resources[title_partner_list]}"
                 TextColor="Black"
-                Style="{StaticResource LabelTitleStyle}"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="Center" />
+                VerticalOptions="CenterAndExpand" />
 
             <controls:TintedImage
-                AutomationId="addImage"
                 x:Name="imgAdd"
                 Margin="0,0,10,0"
+                AutomationId="addImage"
                 HeightRequest="30"
-                WidthRequest="30"
+                HorizontalOptions="End"
                 TintColor="{StaticResource selectTextColor}"
-                HorizontalOptions="End"                  
-                VerticalOptions="Center">
+                VerticalOptions="Center"
+                WidthRequest="30">
                 <controls:TintedImage.Source>
-                    <FileImageSource File="{OnPlatform Android=add.png,iOS=add.png, UWP=Assets/add.png }"/>
+                    <FileImageSource File="{OnPlatform Android=add.png, iOS=add.png, UWP=Assets/add.png}" />
                 </controls:TintedImage.Source>
 
                 <controls:TintedImage.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding Path=BindingContext.AddNewPartnerCommand, 
-                                                    Source={x:Reference Name=imgAdd}}"
-                                                        CommandParameter="{Binding}"/>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.AddNewPartnerCommand, Source={x:Reference Name=imgAdd}}" CommandParameter="{Binding}" />
 
                 </controls:TintedImage.GestureRecognizers>
             </controls:TintedImage>
 
             <BoxView
-                AutomationId="lineSeperator"
-                Margin="-10,0,-10,0"
                 Grid.Row="1"
+                Margin="-10,0,-10,0"
+                AutomationId="lineSeperator"
                 BackgroundColor="{StaticResource bannerBGColor}"
-                VerticalOptions="FillAndExpand"
-                HorizontalOptions="FillAndExpand"/>
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand" />
 
             <SearchBar
-                AutomationId="partnerSearchBar"
-                Margin="10,5,10,5"
                 x:Name="SearchBar"
-                BackgroundColor="White"
-                Placeholder="{Binding Resources[hint_partner_name]}"
                 Grid.Row="1"
-                Text="{Binding PartnerName}"
-                SearchCommand="{Binding TextChangedCommand}" 
-                HeightRequest="{OnPlatform iOS=40,Android=40,UWP=40}"
-                SearchCommandParameter="{Binding Text, Source={x:Reference SearchBar}}">
-              
+                Margin="10,5,10,5"
+                AutomationId="partnerSearchBar"
+                BackgroundColor="White"
+                HeightRequest="{OnPlatform iOS=40,
+                                           Android=40,
+                                           UWP=40}"
+                Placeholder="{Binding Resources[hint_partner_name]}"
+                SearchCommand="{Binding TextChangedCommand}"
+                SearchCommandParameter="{Binding Text, Source={x:Reference SearchBar}}"
+                Text="{Binding PartnerName}">
+
                 <SearchBar.Behaviors>
                     <behaviors:TextChangedBehavior />
                 </SearchBar.Behaviors>
             </SearchBar>
-            
+
             <ListView
-                AutomationId="partnerListview"
-                Margin="10,0,10,0"
                 x:Name="lstPartners"
                 Grid.Row="2"
-                SelectionMode="None"
+                Margin="10,0,10,0"
                 android:ListView.IsFastScrollEnabled="true"
-                VerticalOptions="FillAndExpand"
-                SeparatorVisibility="Default"
-                SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
-                HasUnevenRows="True"
+                AutomationId="partnerListview"
                 CachingStrategy="RecycleElement"
-                ItemsSource="{Binding PartnerCollection}">
+                HasUnevenRows="True"
+                ItemsSource="{Binding PartnerCollection}"
+                SelectionMode="None"
+                SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
+                SeparatorVisibility="Default"
+                VerticalOptions="FillAndExpand">
 
                 <ListView.Behaviors>
-                    
+
                     <behaviors:EventToCommandBehavior
-                        EventName="ItemTapped" 
                         Command="{Binding ItemTappedCommand}"
-                        EventArgsConverter="{StaticResource ItemTappedConverter}"/>
+                        EventArgsConverter="{StaticResource ItemTappedConverter}"
+                        EventName="ItemTapped" />
 
                 </ListView.Behaviors>
 
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Grid
-                                RowSpacing="0"
-                                ColumnSpacing="0">
+                            <Grid ColumnSpacing="0" RowSpacing="0">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
-                                
+
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="85*"/>
-                                    <ColumnDefinition Width="15*"/>
+                                    <ColumnDefinition Width="85*" />
+                                    <ColumnDefinition Width="15*" />
                                 </Grid.ColumnDefinitions>
-                                
-                                <Label 
-                                    TextColor="{StaticResource selectTextColor}"
+
+                                <Label
+                                    FontSize="{StaticResource ListViewTitleFont}"
                                     Text="{Binding Path=Location.FullName}"
-                                    FontSize="{StaticResource ListViewTitleFont}"/>
-                                <Label 
+                                    TextColor="{StaticResource selectTextColor}" />
+                                <Label
                                     Grid.Row="1"
-                                    TextColor="{StaticResource lightGrayColor}" 
-                                    Text="{Binding Path=Location.Address}" 
-                                    FontSize="{StaticResource ListViewDetailFont}"/>
+                                    FontSize="{StaticResource ListViewDetailFont}"
+                                    Text="{Binding Path=Location.Address}"
+                                    TextColor="{StaticResource lightGrayColor}" />
                                 <Label
                                     Grid.Row="2"
-                                    TextColor="{StaticResource lightGrayColor}" 
-                                    Text="{Binding Path=Location.PartnerTypeName}" 
-                                    FontSize="{StaticResource ListViewDetailFont}"/>
+                                    FontSize="{StaticResource ListViewDetailFont}"
+                                    Text="{Binding Path=Location.PartnerTypeName}"
+                                    TextColor="{StaticResource lightGrayColor}" />
 
-                                <Image 
-                                    IsVisible="{Binding HasOverdueKegs}"
+                                <Image
                                     Grid.RowSpan="2"
                                     Grid.Column="1"
                                     HeightRequest="30"
-                                    WidthRequest="30"
+                                    HorizontalOptions="Center"
+                                    IsVisible="{Binding HasOverdueKegs}"
                                     VerticalOptions="Center"
-                                    HorizontalOptions="Center">
+                                    WidthRequest="30">
                                     <Image.Source>
-                                        <FileImageSource File="{OnPlatform Android=warn.png,iOS=warn.png, UWP=Assets/warn.png }"/>
+                                        <FileImageSource File="{OnPlatform Android=warn.png, iOS=warn.png, UWP=Assets/warn.png}" />
                                     </Image.Source>
                                 </Image>
-                                
+
                                 <Label
                                     Grid.Row="2"
                                     Grid.Column="1"
-                                    TextColor="{StaticResource lightGrayColor}" 
-                                    Text="{Binding KegsHeld,StringFormat='{0} Kegs'}" 
-                                    FontSize="{StaticResource ListViewDetailFont}"/>
+                                    FontSize="{StaticResource ListViewDetailFont}"
+                                    Text="{Binding KegsHeld, StringFormat='{0} Kegs'}"
+                                    TextColor="{StaticResource lightGrayColor}" />
                             </Grid>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
-                
-                <!-- the "loading..." view -->
+
+                <!--  the "loading..." view  -->
                 <ListView.Footer>
-                    <Grid Padding="6"
-                          IsVisible="{Binding IsWorking}">
-                        <!-- set the footer to have a zero height when invisible -->
+                    <Grid Padding="6" IsVisible="{Binding IsWorking}">
+                        <!--  set the footer to have a zero height when invisible  -->
                         <Grid.Triggers>
                             <Trigger TargetType="Grid" Property="IsVisible" Value="False">
                                 <Setter Property="HeightRequest" Value="0" />
                             </Trigger>
                         </Grid.Triggers>
-                        <!-- the loading content -->
-                        <Label Text="Loading..." 
-                               VerticalOptions="Center" 
-                               HorizontalOptions="Center" />
+                        <!--  the loading content  -->
+                        <Label
+                            HorizontalOptions="Center"
+                            Text="Loading..."
+                            VerticalOptions="Center" />
                     </Grid>
                 </ListView.Footer>
 
             </ListView>
 
             <Grid
-                AutomationId="innerGrd"
-                VerticalOptions="Center"
-                HorizontalOptions="Center"
                 Grid.Row="3"
                 Margin="0,0,0,5"
+                AutomationId="innerGrd"
+                ColumnSpacing="0"
                 HeightRequest="35"
-                ColumnSpacing="0">
-                
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100"/>
-                    <ColumnDefinition Width="100"/>
-                    <ColumnDefinition Width="100"/>
-                </Grid.ColumnDefinitions>
+                HorizontalOptions="Center"
+                VerticalOptions="Center">
 
-                <Button
+                <segcontrols:SegmentedControl
+                    x:Name="SegControl"
+                    BackgroundColor="White"
+                    SelectedSegment="2"
+                    TintColor="#4E6388"
+                    ValueChanged="SegControl_ValueChanged"
+                    WidthRequest="300">
+                    <segcontrols:SegmentedControl.Children>
+                        <segcontrols:SegmentedControlOption
+                            MinimumWidthRequest="100"
+                            Text="Internal"
+                            WidthRequest="100" />
+                        <segcontrols:SegmentedControlOption
+                            MinimumWidthRequest="100"
+                            Text="Alphabetical"
+                            WidthRequest="100" />
+                        <segcontrols:SegmentedControlOption
+                            BackgroundColor="#4E6388"
+                            MinimumWidthRequest="100"
+                            Text="Kegs Held"
+                            WidthRequest="100" />
+                    </segcontrols:SegmentedControl.Children>
+                </segcontrols:SegmentedControl>
+                <!--<Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="100" />
+                </Grid.ColumnDefinitions>-->
+
+                <!--<Button
                     AutomationId="internalButton"
-                    BorderWidth="1"
-                    BorderColor="#4E6388"
                     BackgroundColor="{Binding InternalBackgroundColor}"
-                    TextColor="{Binding InternalTextColor}"
+                    BorderColor="#4E6388"
+                    BorderWidth="1"
+                    Command="{Binding InternalCommand}"
                     Text="{Binding Resources[menu_action_sort_internal]}"
-                    Command="{Binding InternalCommand}"/>
+                    TextColor="{Binding InternalTextColor}" />
 
                 <Button
-                    AutomationId="alphabetButton"
                     Grid.Column="1"
-                    BorderWidth="1"
-                    BorderColor="#4E6388"
+                    AutomationId="alphabetButton"
                     BackgroundColor="{Binding AlphabeticalBackgroundColor}"
-                    TextColor="{Binding AlphabeticalTextColor}"
+                    BorderColor="#4E6388"
+                    BorderWidth="1"
+                    Command="{Binding AlphabeticalCommand}"
                     Text="{Binding Resources[menu_action_sort_alphabetical]}"
-                    Command="{Binding AlphabeticalCommand}"/>
+                    TextColor="{Binding AlphabeticalTextColor}" />
 
                 <Button
-                    AutomationId="kegHeldButton"
                     Grid.Column="2"
-                    BorderWidth="1"
-                    BorderColor="#4E6388"
+                    AutomationId="kegHeldButton"
                     BackgroundColor="{Binding KegsHeldBackgroundColor}"
-                    TextColor="{Binding KegsHeldTextColor}"
+                    BorderColor="#4E6388"
+                    BorderWidth="1"
+                    Command="{Binding KegsHeldCommand}"
                     Text="{Binding Resources[menu_action_sort_kegs]}"
-                    Command="{Binding KegsHeldCommand}"/>
+                    TextColor="{Binding KegsHeldTextColor}" />-->
 
             </Grid>
         </Grid>

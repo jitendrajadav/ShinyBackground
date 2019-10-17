@@ -10,11 +10,12 @@ using System;
 using UIKit;
 using Xamarin.Forms;
 using Microsoft.AppCenter.Distribute;
+using SegmentedControl.FormsPlugin.iOS;
 
 namespace KegID.iOS
 {
-    // The UIApplicationDelegate for the application. This class is responsible for launching the 
-    // User Interface of the application, as well as listening (and optionally responding) to 
+    // The UIApplicationDelegate for the application. This class is responsible for launching the
+    // User Interface of the application, as well as listening (and optionally responding) to
     // application events from iOS.
     [Register("AppDelegate")]
     public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
@@ -30,7 +31,7 @@ namespace KegID.iOS
         }
 
         //
-        // This method is invoked when the application has loaded and is ready to run. In this 
+        // This method is invoked when the application has loaded and is ready to run. In this
         // method you should instantiate the window, load the UI into it and then make the window
         // visible.
         //
@@ -48,6 +49,7 @@ namespace KegID.iOS
             TintedImageRenderer.Init();
             UIApplication.SharedApplication.SetMinimumBackgroundFetchInterval(UIApplication.BackgroundFetchIntervalMinimum);
             Forms9Patch.iOS.Settings.Initialize(this);
+            SegmentedControlRenderer.Init();
             Distribute.DontCheckForUpdatesInDebug();
             //AppCenter.Start("{Your Xamarin iOS App Secret}", typeof(Distribute));
 
@@ -80,7 +82,7 @@ namespace KegID.iOS
     {
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            
+
         }
     }
 }

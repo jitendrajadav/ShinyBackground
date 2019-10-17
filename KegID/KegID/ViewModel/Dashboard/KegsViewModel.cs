@@ -57,10 +57,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync("KegStatusView", new NavigationParameters
-                    {
-                        { "KegStatusModel", model }
-                    }, animated: false);
+                await _navigationService.NavigateAsync("KegStatusView", new NavigationParameters { { "KegStatusModel", model } }, animated: false).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -75,7 +72,7 @@ namespace KegID.ViewModel
                 Loader.StartLoading();
                 var value = await _dashboardService.GetKegPossessionAsync(AppSettings.SessionId, ConstantManager.DBPartnerId);
                 KegPossessionCollection = value.KegPossessionResponseModel;
-                KegsTitle = KegPossessionCollection.FirstOrDefault().PossessorName;
+                KegsTitle = KegPossessionCollection.FirstOrDefault()?.PossessorName;
             }
             catch (Exception ex)
             {

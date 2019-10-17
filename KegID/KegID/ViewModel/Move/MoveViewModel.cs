@@ -578,13 +578,35 @@ namespace KegID.ViewModel
 
         private void AssignInitialValueFromKegStatus(INavigationParameters parameters)
         {
-            string Barcode = parameters.GetValue<string>("AssignInitialValueFromKegStatus");
-            string KegId = parameters.GetValue<string>("KegId");
-            List<ManifestItem> manifestItem = new List<ManifestItem>
+            List<string> Barcode = null;
+            List<ManifestItem> manifestItems = new List<ManifestItem>();
+
+            var getType = parameters.FirstOrDefault().Value.GetType();
+            if (getType.FullName.Contains("System.Collections.Generic"))
+            {
+                Barcode = parameters.GetValue<List<string>>("AssignInitialValueFromKegStatus");
+                ManifestItem manifestItem;
+                foreach (var item in Barcode)
+                {
+                    manifestItem = new ManifestItem
                     {
-                        new ManifestItem { Barcode = Barcode }
+                        Barcode = item
                     };
-            AssignInitialValue(KegId, manifestItem, "1", string.Empty, string.Empty, true, null, string.Empty);
+                    manifestItems.Add(manifestItem);
+                }
+            }
+            else
+            {
+                string barcode = parameters.GetValue<string>("AssignInitialValueFromKegStatus");
+                ManifestItem manifestItem = new ManifestItem
+                {
+                    Barcode = barcode
+                };
+                manifestItems.Add(manifestItem);
+            }
+            string KegId = parameters.GetValue<string>("KegId");
+
+            AssignInitialValue(KegId, manifestItems, "1", string.Empty, string.Empty, true, null, string.Empty);
         }
 
         private void AssignInitialValue(INavigationParameters parameters)
