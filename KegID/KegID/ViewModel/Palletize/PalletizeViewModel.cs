@@ -81,11 +81,23 @@ namespace KegID.ViewModel
             TargetLocation.FullName = "None";
             HandleUnsubscribeMessages();
             HandleReceivedMessages();
+
+            PreferenceSetting();
         }
 
         #endregion
 
         #region Methods
+
+        private void PreferenceSetting()
+        {
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            var preferences = RealmDb.All<Preference>().ToList();
+
+            var preferenceUSER_HOME = preferences.Find(x => x.PreferenceName == "USER_HOME");
+            var USER_HOME = preferenceUSER_HOME != null && bool.Parse(preferenceUSER_HOME.PreferenceValue);
+        }
+
         private void HandleUnsubscribeMessages()
         {
             MessagingCenter.Unsubscribe<ScannerToPalletAssign>(this, "ScannerToPalletAssign");

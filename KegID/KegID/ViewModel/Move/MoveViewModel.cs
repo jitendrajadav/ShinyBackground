@@ -91,6 +91,10 @@ namespace KegID.ViewModel
             PreferenceSetting();
         }
 
+        #endregion
+
+        #region Methods
+
         private void PreferenceSetting()
         {
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
@@ -105,10 +109,6 @@ namespace KegID.ViewModel
             var effectiveDate = preferences.Find(x => x.PreferenceName == "EffectiveDateAllowed");
             IsEffectiveDateAllowed = effectiveDate != null && bool.Parse(effectiveDate.PreferenceValue);
         }
-
-        #endregion
-
-        #region Methods
 
         private async void SubmitCommandRecieverAsync()
         {

@@ -27,12 +27,14 @@ namespace KegID.ViewModel
         private readonly IGeolocationService _geolocationService;
 
         public string ManifestId { get; set; }
+
         public void OnManifestIdChanged()
         {
             ConstantManager.ManifestId = ManifestId;
         }
 
         public NewBatch NewBatchModel { get; set; } = new NewBatch();
+
         public void OnNewBatchModelChanged()
         {
             BatchButtonTitle = NewBatchModel.BrandName + "-" + NewBatchModel.BatchCode;
@@ -83,11 +85,31 @@ namespace KegID.ViewModel
             DestinationCommand = new DelegateCommand(DestinationCommandRecieverAsync);
             NextCommand = new DelegateCommand(NextCommandRecieverAsync);
             CancelCommand = new DelegateCommand(CancelCommandRecieverAsync);
+
+            PreferenceSetting();
         }
 
         #endregion
 
         #region Methods
+
+        private void PreferenceSetting()
+        {
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            var preferences = RealmDb.All<Preference>().ToList();
+
+            var preferenceUSER_HOME = preferences.Find(x => x.PreferenceName == "USER_HOME");
+            var USER_HOME = preferenceUSER_HOME != null && bool.Parse(preferenceUSER_HOME.PreferenceValue);
+
+            var preferenceUsesSkus = preferences.Find(x => x.PreferenceName == "UsesSkus");
+            var UsesSkus = preferenceUsesSkus != null && bool.Parse(preferenceUsesSkus.PreferenceValue);
+
+            var preferenceFillFromLocations = preferences.Find(x => x.PreferenceName == "FillFromLocations");
+            var FillFromLocations = preferenceFillFromLocations != null && bool.Parse(preferenceFillFromLocations.PreferenceValue);
+
+            var preferenceAllowMaintenanceFill = preferences.Find(x => x.PreferenceName == "AllowMaintenanceFill");
+            var AllowMaintenanceFill = preferenceAllowMaintenanceFill != null && bool.Parse(preferenceAllowMaintenanceFill.PreferenceValue);
+        }
 
         private async void CancelCommandRecieverAsync()
         {
@@ -98,7 +120,7 @@ namespace KegID.ViewModel
                 {
                     // Delete an object with a transaction
                     DeleteManifest(ManifestId);
-                    await _navigationService.GoBackAsync(animated: false);
+                    _ = await _navigationService.GoBackAsync(animated: false).ConfigureAwait(false);
                 }
                 else
                 {
@@ -116,10 +138,7 @@ namespace KegID.ViewModel
         {
             var location = await _geolocationService.GetLastLocationAsync();
 
-            ManifestModel manifestModel = null;
-
-
-            manifestModel = GenerateManifest(PalletCollection ?? new List<PalletModel>(), location ?? new Xamarin.Essentials.Location(0, 0));
+            ManifestModel manifestModel = GenerateManifest(PalletCollection ?? new List<PalletModel>(), location ?? new Xamarin.Essentials.Location(0, 0));
             if (manifestModel != null)
             {
 
@@ -128,30 +147,20 @@ namespace KegID.ViewModel
                 if (isNew != null)
                 {
                     var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                    RealmDb.Write(() =>
-                    {
-                        RealmDb.Add(manifestModel, update: true);
-                    });
-
+                    RealmDb.Write(() => RealmDb.Add(manifestModel, update: true));
                 }
                 else
                 {
                     var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                    RealmDb.Write(() =>
-                    {
-                        RealmDb.Add(manifestModel);
-                    });
+                    RealmDb.Write(() => RealmDb.Add(manifestModel));
                 }
 
                 await _navigationService.NavigateAsync("ManifestsView",
-                    new NavigationParameters
-                    {
-                                    { "LoadDraftManifestAsync", "LoadDraftManifestAsync" }
-                    }, animated: false);
+                    new NavigationParameters { { "LoadDraftManifestAsync", "LoadDraftManifestAsync" } }, animated: false).ConfigureAwait(false);
             }
             else
             {
-                await _dialogService.DisplayAlertAsync("Error", "Could not save manifest.", "Ok");
+                await _dialogService.DisplayAlertAsync("Error", "Could not save manifest.", "Ok").ConfigureAwait(false);
             }
 
             manifestModel = null;
@@ -179,7 +188,7 @@ namespace KegID.ViewModel
 
         public ManifestModel GenerateManifest(IList<PalletModel> palletCollection, Xamarin.Essentials.Location location)
         {
-            List<string> closedBatches = new List<string>();
+            _ = new List<string>();
             List<NewPallet> newPallets = new List<NewPallet>();
             NewPallet newPallet = null;
             List<TItem> palletItems = new List<TItem>();
@@ -288,7 +297,7 @@ namespace KegID.ViewModel
                 }
                 else
                 {
-                    await _dialogService.DisplayAlertAsync("Error", "Batch and destination is required please select it.", "Ok");
+                    await _dialogService.DisplayAlertAsync("Error", "Batch and destination is required please select it.", "Ok").ConfigureAwait(false);
                 }
             }
             catch (Exception ex)
