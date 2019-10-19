@@ -137,14 +137,6 @@ namespace KegID.ViewModel
 
         public async override void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (parameters.ContainsKey("MaintainHome"))
-            {
-                await _navigationService.GoBackAsync(animated: false);
-            }
-            if (parameters.ContainsKey("HomeCommandRecieverAsync"))
-            {
-                HomeCommandRecieverAsync();
-            }
             switch (parameters.Keys.FirstOrDefault())
             {
                 case "model":
@@ -154,10 +146,22 @@ namespace KegID.ViewModel
                     Cleanup();
                     break;
             }
+            if (parameters.ContainsKey("MaintainHome"))
+            {
+                await _navigationService.GoBackAsync(animated: false);
+            }
+            if (parameters.ContainsKey("HomeCommandRecieverAsync"))
+            {
+                HomeCommandRecieverAsync();
+            }
         }
 
         public override Task InitializeAsync(INavigationParameters parameters)
         {
+            if (parameters.ContainsKey("LoadMaintenanceTypeAsync"))
+            {
+                LoadMaintenanceTypeAsync();
+            }
 
             if (parameters.ContainsKey("AssignInitialValue"))
             {
