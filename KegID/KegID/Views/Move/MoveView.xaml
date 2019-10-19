@@ -64,6 +64,10 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <BoxView
@@ -139,7 +143,39 @@
 
                 <BoxView
                     Grid.Row="6"
-                    AutomationId="lineSeperatorOrder1"
+                    AutomationId="lineSeperator2"
+                    BackgroundColor="{StaticResource lightGrayColor}"
+                    HeightRequest="1"
+                    HorizontalOptions="FillAndExpand"
+                    IsVisible="{Binding IsEffectiveDateAllowed}"
+                    VerticalOptions="Start" />
+
+                <Label
+                    Grid.Row="7"
+                    AutomationId="effectiveDateLabel"
+                    IsVisible="{Binding IsEffectiveDateAllowed}"
+                    Style="{StaticResource LabelNormalStyle}"
+                    Text="EffectiveDateAllowed" />
+
+                <DatePicker
+                    x:Name="lblEffectiveDate"
+                    Grid.Row="8"
+                    AutomationId="effectiveDatePicker"
+                    Date="{Binding EffectiveDateAllowed}"
+                    IsVisible="{Binding IsEffectiveDateAllowed}" />
+
+                <!--<Label
+                    Grid.Row="8"
+                    AutomationId="requirediveDateEffectLabel"
+                    HorizontalOptions="End"
+                    IsVisible="{Binding IsRequiredVisible}"
+                    Text="(required)"
+                    TextColor="{StaticResource lightGrayColor}"
+                    VerticalOptions="Center" />-->
+
+                <BoxView
+                    Grid.Row="9"
+                    AutomationId="lineSeperator3"
                     BackgroundColor="{StaticResource lightGrayColor}"
                     HeightRequest="1"
                     HorizontalOptions="FillAndExpand"
@@ -147,43 +183,21 @@
                     VerticalOptions="Start" />
 
                 <Label
-                    Grid.Row="7"
+                    Grid.Row="10"
                     AutomationId="orderLabel"
                     IsVisible="{Binding OrderNumRequired}"
                     Style="{StaticResource LabelNormalStyle}"
                     Text="{Binding Resources[title_order]}" />
 
                 <Entry
-                    Grid.Row="8"
+                    Grid.Row="11"
                     IsVisible="{Binding OrderNumRequired}"
                     Placeholder="(required)"
                     Text="{Binding Order}" />
 
                 <BoxView
-                    Grid.Row="9"
-                    AutomationId="lineSeperator2"
-                    BackgroundColor="{StaticResource lightGrayColor}"
-                    HeightRequest="1"
-                    HorizontalOptions="FillAndExpand"
-                    VerticalOptions="Start" />
-
-                <Label
-                    Grid.Row="10"
-                    AutomationId="moreInfoLabel"
-                    Style="{StaticResource LabelNormalStyle}"
-                    Text="{Binding Resources[label_more_info]}" />
-
-                <Button
-                    x:Name="lblTagsStr"
-                    Grid.Row="11"
-                    AutomationId="tagsStrButton"
-                    Command="{Binding MoreInfoCommand}"
-                    Style="{StaticResource ButtonNormalStyle}"
-                    Text="{Binding TagsStr}" />
-
-                <BoxView
                     Grid.Row="12"
-                    AutomationId="lineSeperator3"
+                    AutomationId="lineSeperator4"
                     BackgroundColor="{StaticResource lightGrayColor}"
                     HeightRequest="1"
                     HorizontalOptions="FillAndExpand"
@@ -191,21 +205,43 @@
 
                 <Label
                     Grid.Row="13"
+                    AutomationId="moreInfoLabel"
+                    Style="{StaticResource LabelNormalStyle}"
+                    Text="{Binding Resources[label_more_info]}" />
+
+                <Button
+                    x:Name="lblTagsStr"
+                    Grid.Row="14"
+                    AutomationId="tagsStrButton"
+                    Command="{Binding MoreInfoCommand}"
+                    Style="{StaticResource ButtonNormalStyle}"
+                    Text="{Binding TagsStr}" />
+
+                <BoxView
+                    Grid.Row="15"
+                    AutomationId="lineSeperator5"
+                    BackgroundColor="{StaticResource lightGrayColor}"
+                    HeightRequest="1"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="Start" />
+
+                <Label
+                    Grid.Row="16"
                     AutomationId="kegsLabel"
                     Style="{StaticResource LabelNormalStyle}"
                     Text="{Binding Resources[label_kegs]}" />
 
                 <Button
                     x:Name="lblAddKegs"
-                    Grid.Row="14"
+                    Grid.Row="17"
                     AutomationId="addKegsButton"
                     Command="{Binding ScanKegsCommad}"
                     Style="{StaticResource ButtonLargeStyle}"
                     Text="{Binding AddKegs}" />
 
                 <BoxView
-                    Grid.Row="15"
-                    AutomationId="lineSeperator4"
+                    Grid.Row="18"
+                    AutomationId="lineSeperator6"
                     BackgroundColor="{StaticResource lightGrayColor}"
                     HeightRequest="3"
                     HorizontalOptions="FillAndExpand"
@@ -213,7 +249,7 @@
 
                 <Button
                     x:Name="lblSaveDraft"
-                    Grid.Row="16"
+                    Grid.Row="19"
                     AutomationId="saveDraftButton"
                     Command="{Binding SaveDraftCommand}"
                     HorizontalOptions="EndAndExpand"

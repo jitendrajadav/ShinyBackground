@@ -179,74 +179,36 @@
 
             </ListView>
 
-            <Grid
+            <segcontrols:SegmentedControl
+                x:Name="SegControl"
                 Grid.Row="3"
                 Margin="0,0,0,5"
-                AutomationId="innerGrd"
-                ColumnSpacing="0"
-                HeightRequest="35"
-                HorizontalOptions="Center"
-                VerticalOptions="Center">
+                BackgroundColor="White"
+                HorizontalOptions="CenterAndExpand"
+                SelectedSegment="2"
+                TintColor="#4E6388"
+                ValueChanged="SegControl_ValueChanged"
+                WidthRequest="300">
+                <segcontrols:SegmentedControl.Children>
+                    <segcontrols:SegmentedControlOption
+                        HorizontalOptions="Center"
+                        MinimumWidthRequest="80"
+                        Text="Internal"
+                        WidthRequest="100" />
+                    <segcontrols:SegmentedControlOption
+                        HorizontalOptions="Center"
+                        MinimumWidthRequest="80"
+                        Text="Alphabetical"
+                        WidthRequest="100" />
+                    <segcontrols:SegmentedControlOption
+                        BackgroundColor="#4E6388"
+                        HorizontalOptions="Center"
+                        MinimumWidthRequest="80"
+                        Text="Kegs Held"
+                        WidthRequest="100" />
+                </segcontrols:SegmentedControl.Children>
+            </segcontrols:SegmentedControl>
 
-                <segcontrols:SegmentedControl
-                    x:Name="SegControl"
-                    BackgroundColor="White"
-                    SelectedSegment="2"
-                    TintColor="#4E6388"
-                    ValueChanged="SegControl_ValueChanged"
-                    WidthRequest="300">
-                    <segcontrols:SegmentedControl.Children>
-                        <segcontrols:SegmentedControlOption
-                            MinimumWidthRequest="100"
-                            Text="Internal"
-                            WidthRequest="100" />
-                        <segcontrols:SegmentedControlOption
-                            MinimumWidthRequest="100"
-                            Text="Alphabetical"
-                            WidthRequest="100" />
-                        <segcontrols:SegmentedControlOption
-                            BackgroundColor="#4E6388"
-                            MinimumWidthRequest="100"
-                            Text="Kegs Held"
-                            WidthRequest="100" />
-                    </segcontrols:SegmentedControl.Children>
-                </segcontrols:SegmentedControl>
-                <!--<Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100" />
-                    <ColumnDefinition Width="100" />
-                    <ColumnDefinition Width="100" />
-                </Grid.ColumnDefinitions>-->
-
-                <!--<Button
-                    AutomationId="internalButton"
-                    BackgroundColor="{Binding InternalBackgroundColor}"
-                    BorderColor="#4E6388"
-                    BorderWidth="1"
-                    Command="{Binding InternalCommand}"
-                    Text="{Binding Resources[menu_action_sort_internal]}"
-                    TextColor="{Binding InternalTextColor}" />
-
-                <Button
-                    Grid.Column="1"
-                    AutomationId="alphabetButton"
-                    BackgroundColor="{Binding AlphabeticalBackgroundColor}"
-                    BorderColor="#4E6388"
-                    BorderWidth="1"
-                    Command="{Binding AlphabeticalCommand}"
-                    Text="{Binding Resources[menu_action_sort_alphabetical]}"
-                    TextColor="{Binding AlphabeticalTextColor}" />
-
-                <Button
-                    Grid.Column="2"
-                    AutomationId="kegHeldButton"
-                    BackgroundColor="{Binding KegsHeldBackgroundColor}"
-                    BorderColor="#4E6388"
-                    BorderWidth="1"
-                    Command="{Binding KegsHeldCommand}"
-                    Text="{Binding Resources[menu_action_sort_kegs]}"
-                    TextColor="{Binding KegsHeldTextColor}" />-->
-
-            </Grid>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

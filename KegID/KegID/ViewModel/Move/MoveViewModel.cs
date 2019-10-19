@@ -39,7 +39,7 @@ namespace KegID.ViewModel
         public string AddKegs { get; set; } = "Add Kegs";
         public void OnAddKegsChanged()
         {
-            IsSubmitVisible = AddKegs.Contains("Item") ? true : false;
+            IsSubmitVisible = AddKegs.Contains("Item");
         }
         public bool OriginRequired { get; set; }
         public bool IsOriginRequired { get; set; } = true;
@@ -50,7 +50,8 @@ namespace KegID.ViewModel
         {
             IsSaveDraftVisible = IsSubmitVisible;
         }
-
+        public bool IsEffectiveDateAllowed { get; set; }
+        public DateTime EffectiveDateAllowed { get; set; } = DateTime.Now;
         public bool IsRequiredVisible { get; set; } = true;
         public bool OrderNumRequired { get; set; }
         public string Origin { get; set; } = "Select a location";
@@ -87,13 +88,22 @@ namespace KegID.ViewModel
             CancelCommand = new DelegateCommand(CancelCommandRecieverAsync);
             SubmitCommand = new DelegateCommand(SubmitCommandRecieverAsync);
 
-            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-            var preference = RealmDb.All<Preference>().Where(x => x.PreferenceName == "OrderNumRequired").FirstOrDefault();
-            OrderNumRequired = preference != null ? bool.Parse(preference.PreferenceValue) : false;
+            PreferenceSetting();
+        }
 
-            var RealmDb1 = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-            var preference1 = RealmDb1.All<Preference>().Where(x => x.PreferenceName == "OriginRequired").FirstOrDefault();
-            OriginRequired = preference1 != null ? bool.Parse(preference1.PreferenceValue) : false;
+        private void PreferenceSetting()
+        {
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            var preferences = RealmDb.All<Preference>().ToList();
+
+            var preferenceOrderNumRequired = preferences.Find(x => x.PreferenceName == "OrderNumRequired");
+            OrderNumRequired = preferenceOrderNumRequired != null && bool.Parse(preferenceOrderNumRequired.PreferenceValue);
+
+            var preferenceOriginRequired = preferences.Find(x => x.PreferenceName == "OriginRequired");
+            OriginRequired = preferenceOriginRequired != null && bool.Parse(preferenceOriginRequired.PreferenceValue);
+
+            var effectiveDate = preferences.Find(x => x.PreferenceName == "EffectiveDateAllowed");
+            IsEffectiveDateAllowed = effectiveDate != null && bool.Parse(effectiveDate.PreferenceValue);
         }
 
         #endregion
@@ -310,7 +320,7 @@ namespace KegID.ViewModel
             return _manifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.MOVE_MANIFEST, manifestId: ManifestId,
                         barcodeCollection: ConstantManager.Barcodes ?? new List<BarcodeModel>(), (long)location.Latitude, (long)location.Longitude, tags: Tags ?? new List<Tag>(), tagsStr: TagsStr,
                         partnerModel: ConstantManager.Partner, newPallets: new List<NewPallet>(), batches: new List<NewBatch>(),
-                        closedBatches: new List<string>(), null, validationStatus: 2, contents: Contents);
+                        closedBatches: new List<string>(), null, validationStatus: 2, EffectiveDateAllowed, contents: Contents);
         }
 
         internal void AssingScanKegsValue(List<BarcodeModel> _barcodes, List<Tag> _tags,string _contents)

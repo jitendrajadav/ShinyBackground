@@ -10,18 +10,15 @@ namespace KegID.Services
     public class ManifestManager : IManifestManager
     {
         public ManifestModel GetManifestDraft(EventTypeEnum eventTypeEnum, string manifestId, IList<BarcodeModel> barcodeCollection, long Latitude,long Longitude,
-            List<Tag> tags, string tagsStr, PartnerModel partnerModel, List<NewPallet> newPallets, List<NewBatch> batches, List<string> closedBatches, MaintenanceModel maintenanceModel, long validationStatus, string contents = "", string size = "")
+            List<Tag> tags, string tagsStr, PartnerModel partnerModel, List<NewPallet> newPallets, List<NewBatch> batches, List<string> closedBatches, MaintenanceModel maintenanceModel, long validationStatus, DateTime? EffectiveDateAllowed, string contents = "", string size = "")
         {
-            ManifestModel manifestModel = null;
             List<ManifestItem> manifestItemlst = new List<ManifestItem>();
-            ManifestItem manifestItem = null;
-
             try
             {
                 foreach (var item in barcodeCollection)
                 {
                     string barcodeId = item.Barcode;
-                    manifestItem = new ManifestItem()
+                    ManifestItem manifestItem = new ManifestItem()
                     {
                         Barcode = item.Barcode,
                         ScanDate = DateTimeOffset.UtcNow.Date,
@@ -30,7 +27,6 @@ namespace KegID.Services
                         Icon = item.Icon,
                         TagsStr = item.TagsStr ?? default,
                     };
-
                     if (item.Tags != null)
                     {
                         foreach (var tag in item.Tags)
@@ -42,13 +38,13 @@ namespace KegID.Services
                     barcodeId = string.Empty;
                 }
 
-                manifestModel = new ManifestModel()
+                ManifestModel manifestModel = new ManifestModel()
                 {
                     ManifestId = manifestId,
                     EventTypeId = (long)eventTypeEnum,
                     Latitude = Latitude,
                     Longitude = Longitude,
-                    SubmittedDate = DateTimeOffset.UtcNow.Date,
+                    SubmittedDate = EffectiveDateAllowed ?? DateTimeOffset.UtcNow.Date,
                     ShipDate = DateTimeOffset.UtcNow.Date,
 
                     SenderId = AppSettings.CompanyId,

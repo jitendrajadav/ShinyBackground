@@ -1,97 +1,95 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="KegID.Views.ManifestsView"
-             xmlns:behaviors="clr-namespace:KegID.Behaviors"
-             BackgroundColor="{StaticResource pageBGColor}"
-             xmlns:controls="clr-namespace:Plugin.CrossPlatformTintedImage.Abstractions;assembly=Plugin.CrossPlatformTintedImage.Abstractions"
-             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
-             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
-             ios:Page.UseSafeArea="true"
-             xmlns:converters="clr-namespace:KegID.Converter"
-             >
+<ContentPage
+    x:Class="KegID.Views.ManifestsView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+    xmlns:behaviors="clr-namespace:KegID.Behaviors"
+    xmlns:controls="clr-namespace:Plugin.CrossPlatformTintedImage.Abstractions;assembly=Plugin.CrossPlatformTintedImage.Abstractions"
+    xmlns:converters="clr-namespace:KegID.Converter"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    xmlns:segcontrols="clr-namespace:SegmentedControl.FormsPlugin.Abstractions;assembly=SegmentedControl.FormsPlugin.Abstractions"
+    ios:Page.UseSafeArea="true"
+    BackgroundColor="{StaticResource pageBGColor}">
+
     <ContentPage.Resources>
-        <converters:UtcToLocalDateTimeConverter x:Key="UtcToLocalDateTimeConverter"/>
+        <converters:UtcToLocalDateTimeConverter x:Key="UtcToLocalDateTimeConverter" />
     </ContentPage.Resources>
     <ContentPage.Content>
-        
+
         <Grid
+            Margin="10,0,10,0"
             AutomationId="mainGrd"
             ColumnSpacing="0"
-            RowSpacing="0"
-            Margin="10,0,10,0">
-            
+            RowSpacing="0">
+
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <Button
-                AutomationId="homeButton"
                 x:Name="lblHome"
-                Style="{StaticResource TopButtonTitleStyle}"
-                Text="{Binding Resources[button_home]}"
-                HorizontalOptions="Start"
+                AutomationId="homeButton"
                 Command="{Binding HomeCommand}"
-                />
+                HorizontalOptions="Start"
+                Style="{StaticResource TopButtonTitleStyle}"
+                Text="{Binding Resources[button_home]}" />
 
-            <Label 
+            <Label
                 AutomationId="manifestLabel"
-                Text="{Binding Resources[button_manifests]}"
+                HorizontalOptions="Center"
                 Style="{StaticResource LabelTitleStyle}"
-                TextColor="Black"
-                HorizontalOptions="Center" />
+                Text="{Binding Resources[button_manifests]}"
+                TextColor="Black" />
 
             <controls:TintedImage
-                AutomationId="searchImage"
                 x:Name="imgSearch"
-                TintColor="{StaticResource selectTextColor}"
-                HorizontalOptions="End"  
-                VerticalOptions="Center"
+                AutomationId="searchImage"
                 HeightRequest="30"
-                >
+                HorizontalOptions="End"
+                TintColor="{StaticResource selectTextColor}"
+                VerticalOptions="Center">
 
                 <controls:TintedImage.Source>
-                    <FileImageSource File="{OnPlatform Android=actionsearch.png,iOS=actionsearch.png, UWP=Assets/actionsearch.png }"/>
+                    <FileImageSource File="{OnPlatform Android=actionsearch.png, iOS=actionsearch.png, UWP=Assets/actionsearch.png}" />
                 </controls:TintedImage.Source>
 
                 <controls:TintedImage.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding Path=BindingContext.ActionSearchCommand, 
-                                                        Source={x:Reference Name=imgSearch}}"
-                                                         CommandParameter="{Binding}"/>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.ActionSearchCommand, Source={x:Reference Name=imgSearch}}" CommandParameter="{Binding}" />
 
                 </controls:TintedImage.GestureRecognizers>
 
             </controls:TintedImage>
-            
+
             <BoxView
-                AutomationId="topBarSeperatorBoxView"
-                Margin="-10,0,-10,0"
                 Grid.Row="1"
+                Margin="-10,0,-10,0"
+                AutomationId="topBarSeperatorBoxView"
                 BackgroundColor="{StaticResource lightGrayColor}"
                 HeightRequest="1"
-                VerticalOptions="Start"
-                HorizontalOptions="FillAndExpand"/>
-            
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="Start" />
+
             <ListView
-                AutomationId="manifestListView"
                 x:Name="lstManifest"
                 Grid.Row="2"
                 android:ListView.IsFastScrollEnabled="true"
-                SeparatorVisibility="Default"
-                SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
-                HasUnevenRows="True"
-                SelectionMode="None"
+                AutomationId="manifestListView"
                 CachingStrategy="RecycleElement"
-                ItemsSource="{Binding ManifestCollection}">
+                HasUnevenRows="True"
+                ItemsSource="{Binding ManifestCollection}"
+                SelectionMode="None"
+                SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
+                SeparatorVisibility="Default">
 
                 <ListView.Behaviors>
                     <behaviors:EventToCommandBehavior
-                        EventName="ItemTapped" 
                         Command="{Binding ItemTappedCommand}"
-                        EventArgsConverter="{StaticResource ItemTappedConverter}"/>
+                        EventArgsConverter="{StaticResource ItemTappedConverter}"
+                        EventName="ItemTapped" />
                 </ListView.Behaviors>
 
                 <ListView.ItemTemplate>
@@ -100,41 +98,41 @@
 
                             <Grid>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
 
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="65*"/>
-                                    <ColumnDefinition Width="35*"/>
+                                    <ColumnDefinition Width="65*" />
+                                    <ColumnDefinition Width="35*" />
                                 </Grid.ColumnDefinitions>
 
                                 <Label
                                     FontSize="{StaticResource ListViewDetailFont}"
-                                    TextColor="{StaticResource selectTextColor}"
                                     LineBreakMode="TailTruncation"
-                                    Text="{Binding OwnerName}"/>
+                                    Text="{Binding OwnerName}"
+                                    TextColor="{StaticResource selectTextColor}" />
 
                                 <Label
-                                    FontSize="{StaticResource ListViewDetailFont}"
-                                    TextColor="{StaticResource selectTextColor}"
                                     Grid.Row="1"
-                                    Text="{Binding ShipDate, Converter={StaticResource UtcToLocalDateTimeConverter}}"/>
+                                    FontSize="{StaticResource ListViewDetailFont}"
+                                    Text="{Binding ShipDate, Converter={StaticResource UtcToLocalDateTimeConverter}}"
+                                    TextColor="{StaticResource selectTextColor}" />
 
                                 <Label
-                                    FontSize="{StaticResource ListViewDetailFont}"
-                                    TextColor="{StaticResource selectTextColor}"
-                                    HorizontalOptions="End"
                                     Grid.Column="1"
-                                    Text="{Binding ManifestId, StringFormat='# {0}',Converter={StaticResource StringToLast8CharacterConverter}}"/>
+                                    FontSize="{StaticResource ListViewDetailFont}"
+                                    HorizontalOptions="End"
+                                    Text="{Binding ManifestId, StringFormat='# {0}', Converter={StaticResource StringToLast8CharacterConverter}}"
+                                    TextColor="{StaticResource selectTextColor}" />
 
                                 <Label
-                                    FontSize="{StaticResource ListViewDetailFont}"
-                                    TextColor="{StaticResource selectTextColor}"
-                                    HorizontalOptions="End"
-                                    Grid.Column="1"
                                     Grid.Row="1"
-                                    Text="{Binding SenderId}"/>
+                                    Grid.Column="1"
+                                    FontSize="{StaticResource ListViewDetailFont}"
+                                    HorizontalOptions="End"
+                                    Text="{Binding SenderId}"
+                                    TextColor="{StaticResource selectTextColor}" />
                             </Grid>
                         </ViewCell>
                     </DataTemplate>
@@ -142,51 +140,35 @@
 
             </ListView>
 
-            <Grid
-                AutomationId="innerGrd"
-                ColumnSpacing="0"
-                HorizontalOptions="Center"
-                VerticalOptions="Center"
+            <segcontrols:SegmentedControl
+                x:Name="SegControl"
                 Grid.Row="3"
-                HeightRequest="35"
-                Margin="0,0,0,5">
-                
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100"/>
-                    <ColumnDefinition Width="100"/>
-                    <ColumnDefinition Width="100"/>
-                </Grid.ColumnDefinitions>
-
-                <Button
-                    AutomationId="queuedButton"
-                    BorderWidth="1"
-                    BorderColor="#4E6388"
-                    TextColor="{Binding QueuedTextColor}"
-                    BackgroundColor="{Binding QueuedBackgroundColor}"
-                    Command="{Binding QueuedCommand}"
-                    Text="{Binding Resources[title_manifest_queued]}"/>
-
-                <Button
-                    AutomationId="draftButton"
-                    Grid.Column="1"
-                    BorderWidth="1"
-                    BorderColor="#4E6388"
-                    TextColor="{Binding DraftTextColor}"
-                    BackgroundColor="{Binding DraftBackgroundColor}"
-                    Command="{Binding DraftCommand}"
-                    Text="{Binding Resources[title_manifest_draft]}"/>
-
-                <Button
-                    AutomationId="recentButton"
-                    Grid.Column="2"
-                    BorderWidth="1"
-                    BorderColor="#4E6388"
-                    TextColor="{Binding RecentTextColor}"
-                    BackgroundColor="{Binding RecentBackgroundColor}"
-                    Command="{Binding RecentCommand}"
-                    Text="{Binding Resources[title_manifest_recent]}"/>
-
-            </Grid>
+                Margin="0,0,0,5"
+                BackgroundColor="White"
+                HorizontalOptions="CenterAndExpand"
+                SelectedSegment="1"
+                TintColor="#4E6388"
+                ValueChanged="SegControl_ValueChanged"
+                WidthRequest="300">
+                <segcontrols:SegmentedControl.Children>
+                    <segcontrols:SegmentedControlOption
+                        HorizontalOptions="Center"
+                        MinimumWidthRequest="100"
+                        Text="Queued"
+                        WidthRequest="100" />
+                    <segcontrols:SegmentedControlOption
+                        HorizontalOptions="Center"
+                        MinimumWidthRequest="100"
+                        Text="Draft"
+                        WidthRequest="100" />
+                    <segcontrols:SegmentedControlOption
+                        BackgroundColor="#4E6388"
+                        HorizontalOptions="Center"
+                        MinimumWidthRequest="100"
+                        Text="Recent"
+                        WidthRequest="100" />
+                </segcontrols:SegmentedControl.Children>
+            </segcontrols:SegmentedControl>
 
         </Grid>
     </ContentPage.Content>

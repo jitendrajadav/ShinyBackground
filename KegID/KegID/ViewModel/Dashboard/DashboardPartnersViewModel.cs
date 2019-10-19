@@ -77,7 +77,6 @@ namespace KegID.ViewModel
             AllPartners = RealmDb.All<PossessorResponseModel>().ToList();
         }
 
-
         private void TextChangedCommandRecieverAsync()
         {
             if (!string.IsNullOrEmpty(PartnerName))

@@ -42,13 +42,13 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public DelegateCommand SubmitCommand { get;}
-        public DelegateCommand BackCommand { get;}
-        public DelegateCommand BarcodeScanCommand { get;}
-        public DelegateCommand BarcodeManualCommand { get;}
-        public DelegateCommand<BarcodeModel> IconItemTappedCommand { get;}
-        public DelegateCommand<BarcodeModel> LabelItemTappedCommand { get;}
-        public DelegateCommand<BarcodeModel> DeleteItemCommand { get;}
+        public DelegateCommand SubmitCommand { get; }
+        public DelegateCommand BackCommand { get; }
+        public DelegateCommand BarcodeScanCommand { get; }
+        public DelegateCommand BarcodeManualCommand { get; }
+        public DelegateCommand<BarcodeModel> IconItemTappedCommand { get; }
+        public DelegateCommand<BarcodeModel> LabelItemTappedCommand { get; }
+        public DelegateCommand<BarcodeModel> DeleteItemCommand { get; }
 
         #endregion
 
@@ -371,7 +371,7 @@ namespace KegID.ViewModel
                 {
                     try
                     {
-                        manifestPostModel = GenerateManifest(location??new Xamarin.Essentials.Location(0,0), ManifestId);
+                        manifestPostModel = GenerateManifest(location ?? new Xamarin.Essentials.Location(0, 0), ManifestId);
 
                         var current = Connectivity.NetworkAccess;
                         if (current == NetworkAccess.Internet)
@@ -423,43 +423,43 @@ namespace KegID.ViewModel
 
         public ManifestModel GenerateManifest(Xamarin.Essentials.Location location, string manifestId = "")
         {
-                List<MaintainKeg> kegs = new List<MaintainKeg>();
-                MaintainKeg keg = null;
+            List<MaintainKeg> kegs = new List<MaintainKeg>();
+            MaintainKeg keg = null;
 
-                MaintenanceModel model = new MaintenanceModel
+            MaintenanceModel model = new MaintenanceModel
+            {
+                MaintenanceDoneRequestModel = new MaintenanceDoneRequestModel()
+            };
+
+            foreach (var item in BarcodeCollection)
+            {
+                keg = new MaintainKeg
                 {
-                    MaintenanceDoneRequestModel = new MaintenanceDoneRequestModel()
+                    Barcode = item.Barcode,
+                    ScanDate = DateTimeOffset.Now,
+                    ValidationStatus = 4
                 };
+                kegs.Add(keg);
+                model.MaintenanceDoneRequestModel.Kegs.Add(keg);
+            }
 
-                foreach (var item in BarcodeCollection)
-                {
-                    keg = new MaintainKeg
-                    {
-                        Barcode = item.Barcode,
-                        ScanDate = DateTimeOffset.Now,
-                        ValidationStatus = 4
-                    };
-                    kegs.Add(keg);
-                    model.MaintenanceDoneRequestModel.Kegs.Add(keg);
-                }
+            foreach (var item in ConstantManager.MaintainTypeCollection.Where(x => x.IsToggled == true).Select(y => y.Id).ToList())
+            {
+                model.MaintenanceDoneRequestModel.ActionsPerformed.Add(item);
+            }
 
-                foreach (var item in ConstantManager.MaintainTypeCollection.Where(x => x.IsToggled == true).Select(y => y.Id).ToList())
-                {
-                    model.MaintenanceDoneRequestModel.ActionsPerformed.Add(item);
-                }
+            model.MaintenanceDoneRequestModel.DatePerformed = DateTimeOffset.Now.AddDays(-2);
+            model.MaintenanceDoneRequestModel.LocationId = ConstantManager.Partner.PartnerId;
+            model.MaintenanceDoneRequestModel.MaintenancePostingId = _uuidManager.GetUuId();
+            model.MaintenanceDoneRequestModel.Latitude = (long)location.Latitude;
+            model.MaintenanceDoneRequestModel.Longitude = (long)location.Longitude;
+            model.MaintenanceDoneRequestModel.Notes = Notes;
+            model.MaintenanceDoneRequestModel.PartnerModel = ConstantManager.Partner;
 
-                model.MaintenanceDoneRequestModel.DatePerformed = DateTimeOffset.Now.AddDays(-2);
-                model.MaintenanceDoneRequestModel.LocationId = ConstantManager.Partner.PartnerId;
-                model.MaintenanceDoneRequestModel.MaintenancePostingId = _uuidManager.GetUuId();
-                model.MaintenanceDoneRequestModel.Latitude = (long)location.Latitude;
-                model.MaintenanceDoneRequestModel.Longitude = (long)location.Longitude;
-                model.MaintenanceDoneRequestModel.Notes = Notes;
-                model.MaintenanceDoneRequestModel.PartnerModel = ConstantManager.Partner;
-
-                return _manifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.REPAIR_MANIFEST, manifestId: !string.IsNullOrEmpty(manifestId) ? manifestId : _uuidManager.GetUuId(),
-                    barcodeCollection: BarcodeCollection, (long)location.Latitude, (long)location.Longitude, tags: ConstantManager.Tags, ConstantManager.TagsStr, partnerModel: ConstantManager.Partner,
-                                                                    newPallets: new List<NewPallet>(), batches: new List<NewBatch>(),
-                                                                    closedBatches: new List<string>(), model, validationStatus: 4, contents: "");
+            return _manifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.REPAIR_MANIFEST, manifestId: !string.IsNullOrEmpty(manifestId) ? manifestId : _uuidManager.GetUuId(),
+                barcodeCollection: BarcodeCollection, (long)location.Latitude, (long)location.Longitude, tags: ConstantManager.Tags, ConstantManager.TagsStr, partnerModel: ConstantManager.Partner,
+                                                                newPallets: new List<NewPallet>(), batches: new List<NewBatch>(),
+                                                                closedBatches: new List<string>(), model, validationStatus: 4, null, contents: "");
         }
 
         internal void AssignAddTagsValue(INavigationParameters parameters)

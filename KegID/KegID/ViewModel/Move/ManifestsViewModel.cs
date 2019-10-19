@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using KegID.LocalDb;
 using KegID.Model;
-using KegID.Services;
 using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
@@ -17,14 +15,8 @@ namespace KegID.ViewModel
     public class ManifestsViewModel : BaseViewModel
     {
         #region Properties
-
+        private List<ManifestModel> collection;
         public ObservableCollection<ManifestModel> ManifestCollection { get; set; } = new ObservableCollection<ManifestModel>();
-        public string QueuedTextColor { get; set; } = "#4E6388";
-        public string QueuedBackgroundColor { get; set; } = "Transparent";
-        public string DraftTextColor { get; set; } = "White";
-        public string DraftBackgroundColor { get; set; } = "#4E6388";
-        public string RecentTextColor { get; set; } = "#4E6388";
-        public string RecentBackgroundColor { get; set; } = "Transparent";
 
         #endregion
 
@@ -36,6 +28,8 @@ namespace KegID.ViewModel
         public DelegateCommand DraftCommand { get; }
         public DelegateCommand RecentCommand { get; }
         public DelegateCommand<ManifestModel> ItemTappedCommand { get; }
+        public DelegateCommand<object> SelectedSegmentCommand { get; }
+        public int SelectedSegment { get; private set; }
 
         #endregion
 
@@ -45,9 +39,7 @@ namespace KegID.ViewModel
         {
             HomeCommand = new DelegateCommand(HomeCommandRecieverAsync);
             ActionSearchCommand = new DelegateCommand(ActionSearchCommandRecieverAsync);
-            QueuedCommand = new DelegateCommand(QueuedCommandReciever);
-            DraftCommand = new DelegateCommand(DraftCommandReciever);
-            RecentCommand = new DelegateCommand(RecentCommandReciever);
+            SelectedSegmentCommand = new DelegateCommand<object>((seg) => SelectedSegmentCommandReciever(seg));
             ItemTappedCommand = new DelegateCommand<ManifestModel>((model) => ItemTappedCommandRecieverAsync(model));
         }
 
@@ -57,11 +49,10 @@ namespace KegID.ViewModel
 
         internal void LoadDraftManifestAsync()
         {
-            List<ManifestModel> collection;
             ManifestCollection.Clear();
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-            collection = RealmDb.All<ManifestModel>().Where(x => x.IsDraft == true && x.IsQueue == false).ToList();
-            AssignColletionToManifest(collection);
+            collection = RealmDb.All<ManifestModel>().ToList();
+            AssignColletionToManifest(collection.Where(x => x.IsDraft && !x.IsQueue).ToList());
         }
 
         private void AssignColletionToManifest(List<ManifestModel> collection)
@@ -144,57 +135,24 @@ namespace KegID.ViewModel
             await _navigationService.NavigateAsync("SearchManifestsView", animated: false);
         }
 
-        private void QueuedCommandReciever()
+        private void SelectedSegmentCommandReciever(object seg)
         {
-            List<ManifestModel> collection;
-
-            ManifestCollection.Clear();
-            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-            collection = RealmDb.All<ManifestModel>().Where(x => x.IsDraft == false && x.IsQueue == true).ToList();
-            AssignColletionToManifest(collection);
-
-            QueuedTextColor = "White";
-            QueuedBackgroundColor = "#4E6388";
-            DraftTextColor = "#4E6388";
-            DraftBackgroundColor = "Transparent";
-            RecentTextColor = "#4E6388";
-            RecentBackgroundColor = "Transparent";
-        }
-
-        private void DraftCommandReciever()
-        {
-            try
+            SelectedSegment = (int)seg;
+            if (collection.Count > 0)
             {
-                LoadDraftManifestAsync();
-
-                DraftTextColor = "White";
-                DraftBackgroundColor = "#4E6388";
-                QueuedTextColor = "#4E6388";
-                QueuedBackgroundColor = "Transparent";
-                RecentTextColor = "#4E6388";
-                RecentBackgroundColor = "Transparent";
+                switch (seg)
+                {
+                    case 0:
+                        AssignColletionToManifest(collection.Where(x => !x.IsDraft && x.IsQueue).ToList());
+                        break;
+                    case 1:
+                        AssignColletionToManifest(collection.Where(x => x.IsDraft && !x.IsQueue).ToList());
+                        break;
+                    case 2:
+                        AssignColletionToManifest(collection.Where(x => x.SubmittedDate == DateTimeOffset.UtcNow.Date && !x.IsDraft && !x.IsQueue).ToList());
+                        break;
+                }
             }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
-        }
-
-        private void RecentCommandReciever()
-        {
-            List<ManifestModel> collection;
-
-            ManifestCollection.Clear();
-            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-            collection = RealmDb.All<ManifestModel>().Where(x => x.SubmittedDate == DateTimeOffset.UtcNow.Date && x.IsDraft == false && x.IsQueue == false).ToList();
-            AssignColletionToManifest(collection);
-
-            RecentTextColor = "White";
-            RecentBackgroundColor = "#4E6388";
-            QueuedTextColor = "#4E6388";
-            QueuedBackgroundColor = "Transparent";
-            DraftTextColor = "#4E6388";
-            DraftBackgroundColor = "Transparent";
         }
 
         public override Task InitializeAsync(INavigationParameters parameters)
