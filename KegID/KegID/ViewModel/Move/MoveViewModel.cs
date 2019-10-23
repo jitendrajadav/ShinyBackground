@@ -41,8 +41,13 @@ namespace KegID.ViewModel
         {
             IsSubmitVisible = AddKegs.Contains("Item");
         }
+
         public bool OriginRequired { get; set; }
-        public bool IsOriginRequired { get; set; } = true;
+        public void OnOriginRequiredChanged()
+        {
+            IsOriginRequired = OriginRequired;
+        }
+        public bool IsOriginRequired { get; set; }
         public bool IsSaveDraftVisible { get; set; }
         public string Order { get; set; }
         public bool IsSubmitVisible { get; set; }

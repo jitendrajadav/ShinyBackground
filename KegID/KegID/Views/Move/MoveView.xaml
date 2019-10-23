@@ -67,7 +67,6 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <BoxView
@@ -163,15 +162,6 @@
                     AutomationId="effectiveDatePicker"
                     Date="{Binding EffectiveDateAllowed}"
                     IsVisible="{Binding IsEffectiveDateAllowed}" />
-
-                <!--<Label
-                    Grid.Row="8"
-                    AutomationId="requirediveDateEffectLabel"
-                    HorizontalOptions="End"
-                    IsVisible="{Binding IsRequiredVisible}"
-                    Text="(required)"
-                    TextColor="{StaticResource lightGrayColor}"
-                    VerticalOptions="Center" />-->
 
                 <BoxView
                     Grid.Row="9"

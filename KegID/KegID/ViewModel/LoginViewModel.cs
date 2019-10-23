@@ -10,6 +10,7 @@ using Realms;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -63,10 +64,7 @@ namespace KegID.ViewModel
         private void KegIDCommandReciever()
         {
             // You can remove the switch to UI Thread if you are already in the UI Thread.
-            Device.BeginInvokeOnMainThread(() =>
-            {
-                Device.OpenUri(new Uri("https://www.kegid.com/"));
-            });
+            Launcher.OpenAsync(new Uri("https://www.kegid.com/"));
         }
 
         private async void LoginCommandRecieverAsync()
@@ -74,8 +72,8 @@ namespace KegID.ViewModel
             try
             {
                 Loader.StartLoading();
-                var model = await _accountService.AuthenticateAsync(Username, Password);
-                if (model.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
+                Model.LoginResponseModel model = await _accountService.AuthenticateAsync(Username, Password);
+                if (model.Response.StatusCode == nameof(System.Net.HttpStatusCode.OK))
                 {
                     try
                     {
@@ -84,7 +82,7 @@ namespace KegID.ViewModel
                         var appDataWebServiceUrl = model.LoginModel.Preferences.Where(x => x.PreferenceName == "AppDataWebServiceUrl").Select(x => x.PreferenceValue).FirstOrDefault();
                         if (appDataWebServiceUrl != null)
                         {
-                            AppSettings.BaseURL = Configuration.DemoAPIUrl;
+                            AppSettings.BaseURL = "";
                         }
 
                         AppSettings.SessionId = model.LoginModel.SessionId;
@@ -101,14 +99,16 @@ namespace KegID.ViewModel
                     }
                     try
                     {
-                        string v = Xamarin.Essentials.AppInfo.Version.ToString();
-                        if (AppSettings.IsFreshInstall == false && AppSettings.WhatsNewVersion != v)
+                        string v = AppInfo.Version.ToString();
+                        if (!AppSettings.IsFreshInstall && AppSettings.WhatsNewVersion != v)
                         {
                             await _navigationService.NavigateAsync("../WhatIsNewView", animated: false);
                             Loader.StopLoading();
                         }
                         else
+                        {
                             await _navigationService.NavigateAsync("../MainPage", animated: false);
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -119,10 +119,7 @@ namespace KegID.ViewModel
                         if (!IsLogOut)
                         {
                             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                            await RealmDb.WriteAsync((realmDb) =>
-                            {
-                                realmDb.Add(model.LoginModel);
-                            });
+                            await RealmDb.WriteAsync((realmDb) => realmDb.Add(model.LoginModel));
                         }
                     }
                     catch (Exception ex)

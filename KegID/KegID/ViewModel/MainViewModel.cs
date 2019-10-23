@@ -81,23 +81,26 @@ namespace KegID.ViewModel
             KegsCommand = new DelegateCommand(KegsCommandRecieverAsync);
             InUsePartnerCommand = new DelegateCommand(InUsePartnerCommandRecieverAsync);
 
-            DeviceCheckIn();
             LoadMetadData();
             HandleUnsubscribeMessages();
             HandleReceivedMessages();
 
             RefreshDashboardRecieverAsync();
-            if (Xamarin.Forms.Device.RuntimePlatform != Xamarin.Forms.Device.UWP)
+            if (Device.RuntimePlatform != Device.UWP)
+            {
                 StartPrinterSearch();
+            }
 
             Connectivity.ConnectivityChanged -= Connectivity_ConnectivityChanged;
             Connectivity.ConnectivityChanged += Connectivity_ConnectivityChanged;
             APIBase = AppSettings.BaseURL.Contains("Prod") ? string.Empty : AppSettings.BaseURL;
+            DeviceCheckIn();
         }
 
         #endregion
 
         #region Methods
+
         private void Connectivity_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
         {
             CheckDraftmaniFestsAsync();
@@ -128,10 +131,7 @@ namespace KegID.ViewModel
 
         private void StartPrinterSearch()
         {
-            new Task(new Action(() =>
-            {
-                StartBluetoothDiscovery();
-            })).Start();
+            new Task(new Action(() => StartBluetoothDiscovery())).Start();
         }
 
         private void StartBluetoothDiscovery()
@@ -207,7 +207,7 @@ namespace KegID.ViewModel
 
         private void HandleReceivedMessages()
         {
-            MessagingCenter.Subscribe<InvalidServiceCall>(this, "InvalidServiceCall", message =>
+            MessagingCenter.Subscribe<InvalidServiceCall>(this, "InvalidServiceCall", _ =>
             {
                 Device.BeginInvokeOnMainThread(async () =>
                 {
@@ -219,14 +219,14 @@ namespace KegID.ViewModel
                 });
             });
 
-            MessagingCenter.Subscribe<SettingToDashboardMsg>(this, "SettingToDashboardMsg", message => {
+            MessagingCenter.Subscribe<SettingToDashboardMsg>(this, "SettingToDashboardMsg", _ => {
                 Device.BeginInvokeOnMainThread(() =>
                 {
                     RefreshDashboardRecieverAsync(true);
                 });
             });
 
-            MessagingCenter.Subscribe<CheckDraftmaniFests>(this, "CheckDraftmaniFests", message => {
+            MessagingCenter.Subscribe<CheckDraftmaniFests>(this, "CheckDraftmaniFests", _ => {
                 Device.BeginInvokeOnMainThread(() =>
                 {
                     CheckDraftmaniFestsAsync();
@@ -238,7 +238,6 @@ namespace KegID.ViewModel
         {
             Device.StartTimer(TimeSpan.FromDays(1), () =>
             {
-                // Do something
                 DeviceCheckIn();
                 return true; // True = Repeat again, False = Stop the timer
             });
@@ -254,7 +253,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync("MoveView", new NavigationParameters
+                _ = await _navigationService.NavigateAsync("MoveView", new NavigationParameters
                 {
                     { "ManifestId", _uuidManager.GetUuId() }
                 }, animated: false);

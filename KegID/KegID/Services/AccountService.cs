@@ -35,8 +35,7 @@ namespace KegID.Services
         {
             string url = string.Format(Configuration.DeviceCheckinUrl, sessionId);
             string content = JsonConvert.SerializeObject(inModel);
-            var value = await App.kegIDClient.ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Send, content, RequestType: RequestType);
-            return value;
+            return await App.kegIDClient.ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Send, content, RequestType: RequestType);
         }
     }
 }

@@ -31,8 +31,8 @@ namespace KegID.Services
                 UserId = AppSettings.UserId
             };
 
-            var value = await _accountService.DeviceCheckinAsync(deviceModel, AppSettings.SessionId, Configuration.DeviceCheckin);
-            if (value.StatusCode != HttpStatusCode.NoContent.ToString())
+            KegIDResponse value = await _accountService.DeviceCheckinAsync(deviceModel, AppSettings.SessionId, Configuration.DeviceCheckin);
+            if (value.StatusCode != nameof(HttpStatusCode.NoContent))
             {
                 var param = new NavigationParameters
                     {

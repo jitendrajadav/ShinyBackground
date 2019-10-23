@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using KegID.Model;
 using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
@@ -10,6 +9,7 @@ namespace KegID.ViewModel
     public class SearchPalletViewModel : BaseViewModel
     {
         #region Properties
+
         public string PalletBarcode { get; set; }
         public string Barcode { get; set; }
         public string LocationCreated { get; set; }
@@ -67,6 +67,7 @@ namespace KegID.ViewModel
                 Crashes.TrackError(ex);
             }
         }
+
         private async void SearchCommandRecieverAsync()
         {
             try
@@ -82,17 +83,12 @@ namespace KegID.ViewModel
             }
         }
 
-        public override Task InitializeAsync(INavigationParameters parameters)
+        public override void OnNavigatedTo(INavigationParameters parameters)
         {
             if (parameters.ContainsKey("model"))
             {
                 PartnerModel = parameters.GetValue<PartnerModel>("model");
             }
-            return base.InitializeAsync(parameters);
-        }
-
-        public override void OnNavigatedTo(INavigationParameters parameters)
-        {
             if (parameters.ContainsKey("HomeCommandRecieverAsync"))
             {
                 HomeCommandRecieverAsync();

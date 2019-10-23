@@ -21,7 +21,7 @@ namespace KegID.Services
         Task<SearchPalletModel> GetPalletSearchAsync(string sessionId, string locationId, string fromDate, string toDate, string kegs, string kegOwnerId);
         Task<KegSearchModel> GetKegSearchAsync(string sessionId, string barcode, bool includePartials);
         Task<IList<string>> GetAssetVolumeAsync(string sessionId, bool assignableOnly);
-
+        Task<IList<string>> GetOperatorsAsync(string sessionId);
         Task<KegMassUpdateKegModel> PostKegUploadAsync(KegBulkUpdateItemRequestModel model, string sessionId, string RequestType);
     }
 }

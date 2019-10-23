@@ -43,6 +43,20 @@ namespace KegID.Services
             return response;
         }
 
+        public async Task<IList<string>> GetOperatorsAsync(string sessionId)
+        {
+            IList<string> response = null;
+            try
+            {
+                string url = string.Format(Configuration.GetOperatorsUrl, sessionId);
+                var value = await App.kegIDClient.ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Get, string.Empty);
+                response = !string.IsNullOrEmpty(value.Response) ? App.kegIDClient.DeserializeObject<IList<string>>(value.Response) : new List<string>();
+            }
+            catch (System.Exception)
+            {
+            }
+            return response;
+        }
         public async Task<DeleteMaintenanceAlertResponseModel> GetDeleteMaintenanceAlertAsync(string kegId, string sessionId)
         {
             DeleteMaintenanceAlertResponseModel model = new DeleteMaintenanceAlertResponseModel
@@ -263,11 +277,11 @@ namespace KegID.Services
         public async Task<object> PostKegAsync(KegRequestModel model, string kegId, string sessionId, string RequestType)
         {
             //ManifestModelGet manifestModelGet = new ManifestModelGet();
-           
+
             // It is earlier
             //string url = string.Format(Configuration.PostKegUrl, sessionId);
             string url = string.Format(Configuration.GetKegStatusByKegIdUrl, kegId, sessionId);
-            
+
             string content = JsonConvert.SerializeObject(model);
             var value = await App.kegIDClient.ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Send, content, RequestType: RequestType);
 

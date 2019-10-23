@@ -57,7 +57,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync("KegStatusView", new NavigationParameters { { "KegStatusModel", model } }, animated: false).ConfigureAwait(false);
+                await _navigationService.NavigateAsync("KegStatusView", new NavigationParameters { { "KegStatusModel", model } }, animated: false);
             }
             catch (Exception ex)
             {

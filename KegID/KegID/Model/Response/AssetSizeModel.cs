@@ -34,4 +34,13 @@ namespace KegID.Model
         [DoNotNotify]
         public string AssetVolume { get; set; }
     }
+
+    public class OperatorModel : RealmObject
+    {
+        [PrimaryKey]
+        [DoNotNotify]
+        public string Id { get; set; } = Guid.NewGuid().ToString();
+        [DoNotNotify]
+        public string Operator { get; set; }
+    }
 }

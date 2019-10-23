@@ -52,7 +52,7 @@ namespace KegID.ViewModel
             }
         }
 
-        internal async void GetPalletSearchAsync(string partnerId,string fromDate, string toDate,string kegs,string kegOwnerId)
+        internal async void GetPalletSearchAsync(string partnerId, string fromDate, string toDate, string kegs, string kegOwnerId)
         {
             try
             {

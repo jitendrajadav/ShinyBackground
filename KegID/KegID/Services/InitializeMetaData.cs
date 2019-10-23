@@ -28,6 +28,7 @@ namespace KegID.Services
         public async Task LoadInitializeMetaData()
         {
             await LoadPartnersAsync();
+            await LoadOperators();
             await LoadMaintainTypeAsync();
             await LoadAssetSizeAsync();
             await LoadAssetTypeAsync();
@@ -37,6 +38,44 @@ namespace KegID.Services
             await LoadBrandAsync();
             await LoadBatchAsync();
             await LoadPartnerTypeAsync();
+        }
+
+        private async Task LoadOperators()
+        {
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            List<OperatorModel> operators = null;
+            try
+            {
+                var model = await _dashboardService.GetOperatorsAsync(AppSettings.SessionId);
+
+                operators = new List<OperatorModel>();
+                foreach (var item in model)
+                {
+                    operators.Add(new OperatorModel { Operator = item });
+                }
+                await RealmDb.WriteAsync((realmDb) =>
+                {
+                    foreach (var item in operators)
+                    {
+                        try
+                        {
+                            realmDb.Add(item);
+                        }
+                        catch (Exception ex)
+                        {
+                            Crashes.TrackError(ex);
+                        }
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
+            finally
+            {
+                //service = null;
+            }
         }
 
         private async Task LoadMaintainTypeAsync()
@@ -348,7 +387,7 @@ namespace KegID.Services
             {
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                 var value = await _moveService.GetPartnerTypeAsync(AppSettings.SessionId);
-                if (value.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
+                if (value.Response.StatusCode == nameof(System.Net.HttpStatusCode.OK))
                 {
                     await RealmDb.WriteAsync((realmDb) =>
                      {

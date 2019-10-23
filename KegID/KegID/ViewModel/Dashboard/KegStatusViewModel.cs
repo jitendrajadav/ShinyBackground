@@ -111,7 +111,7 @@ namespace KegID.ViewModel
                 TypeName = _typeName;
                 SizeName = _sizeName;
 
-                KegStatusResponseModel kegStatus = await _dashboardService.GetKegStatusAsync(KegId, AppSettings.SessionId).ConfigureAwait(false);
+                KegStatusResponseModel kegStatus = await _dashboardService.GetKegStatusAsync(KegId, AppSettings.SessionId);
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                 var addMaintenanceCollection = RealmDb.All<MaintainTypeReponseModel>().ToList();
                 KegHasAlert = kegStatus.MaintenanceAlerts.Count > 0 ? true : false;
@@ -324,12 +324,12 @@ namespace KegID.ViewModel
             if (parameters.ContainsKey("KegStatusModel"))
             {
                 var model = parameters.GetValue<KegPossessionResponseModel>("KegStatusModel");
-                await LoadMaintenanceHistoryAsync(model.KegId, model.Contents, model.HeldDays, model.PossessorName, model.Barcode, model.TypeName, model.SizeName).ConfigureAwait(false);
+                await LoadMaintenanceHistoryAsync(model.KegId, model.Contents, model.HeldDays, model.PossessorName, model.Barcode, model.TypeName, model.SizeName);
             }
             if (parameters.ContainsKey("KegSearchedKegStatusModel"))
             {
                 var model = parameters.GetValue<KegSearchResponseModel>("KegSearchedKegStatusModel");
-                await LoadMaintenanceHistoryAsync(model.KegId, model.Contents, 0, model?.Location?.FullName, model.Barcode, model.TypeName, model.SizeName).ConfigureAwait(false);
+                await LoadMaintenanceHistoryAsync(model.KegId, model.Contents, 0, model?.Location?.FullName, model.Barcode, model.TypeName, model.SizeName);
             }
         }
 

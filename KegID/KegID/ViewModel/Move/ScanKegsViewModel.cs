@@ -658,7 +658,16 @@ namespace KegID.ViewModel
             }
         }
 
-        public override async Task InitializeAsync(INavigationParameters parameters)
+        public override Task InitializeAsync(INavigationParameters parameters)
+        {
+            if (parameters.ContainsKey("models"))
+            {
+                AssignBarcodeScannerValue(parameters.GetValue<IList<BarcodeModel>>("models"));
+            }
+            return base.InitializeAsync(parameters);
+        }
+
+        public override async void OnNavigatedTo(INavigationParameters parameters)
         {
             switch (parameters.Keys.FirstOrDefault())
             {
@@ -668,24 +677,14 @@ namespace KegID.ViewModel
                 case "AddTags":
                     AssignAddTagsValue(parameters);
                     break;
-                case "models":
-                    AssignBarcodeScannerValue(parameters.GetValue<IList<BarcodeModel>>("models"));
-                    break;
+
                 case "AssignSizesValue":
                     AssignSizesValue(ConstantManager.VerifiedBarcodes);
                     break;
                 case "Barcode":
                     BarcodeCollection.Add(new BarcodeModel { Barcode = parameters.GetValue<string>("Barcode"), Icon = ValidationOK });
                     break;
-                default:
-                    break;
             }
-
-            //return base.InitializeAsync(parameters);
-        }
-
-        public override void OnNavigatedTo(INavigationParameters parameters)
-        {
             if (parameters.ContainsKey("DoneCommandRecieverAsync"))
             {
                 DoneCommandRecieverAsync();

@@ -120,7 +120,7 @@ namespace KegID.ViewModel
                 {
                     // Delete an object with a transaction
                     DeleteManifest(ManifestId);
-                    _ = await _navigationService.GoBackAsync(animated: false).ConfigureAwait(false);
+                    _ = await _navigationService.GoBackAsync(animated: false);
                 }
                 else
                 {
@@ -156,11 +156,11 @@ namespace KegID.ViewModel
                 }
 
                 await _navigationService.NavigateAsync("ManifestsView",
-                    new NavigationParameters { { "LoadDraftManifestAsync", "LoadDraftManifestAsync" } }, animated: false).ConfigureAwait(false);
+                    new NavigationParameters { { "LoadDraftManifestAsync", "LoadDraftManifestAsync" } }, animated: false);
             }
             else
             {
-                await _dialogService.DisplayAlertAsync("Error", "Could not save manifest.", "Ok").ConfigureAwait(false);
+                await _dialogService.DisplayAlertAsync("Error", "Could not save manifest.", "Ok");
             }
 
             manifestModel = null;
@@ -297,7 +297,7 @@ namespace KegID.ViewModel
                 }
                 else
                 {
-                    await _dialogService.DisplayAlertAsync("Error", "Batch and destination is required please select it.", "Ok").ConfigureAwait(false);
+                    await _dialogService.DisplayAlertAsync("Error", "Batch and destination is required please select it.", "Ok");
                 }
             }
             catch (Exception ex)
