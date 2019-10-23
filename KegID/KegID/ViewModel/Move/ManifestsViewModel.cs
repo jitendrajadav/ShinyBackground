@@ -15,7 +15,7 @@ namespace KegID.ViewModel
     public class ManifestsViewModel : BaseViewModel
     {
         #region Properties
-        private List<ManifestModel> collection;
+
         public ObservableCollection<ManifestModel> ManifestCollection { get; set; } = new ObservableCollection<ManifestModel>();
 
         #endregion
@@ -46,14 +46,6 @@ namespace KegID.ViewModel
         #endregion
 
         #region Methods
-
-        internal void LoadDraftManifestAsync()
-        {
-            ManifestCollection.Clear();
-            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-            collection = RealmDb.All<ManifestModel>().ToList();
-            AssignColletionToManifest(collection.Where(x => x.IsDraft && !x.IsQueue).ToList());
-        }
 
         private void AssignColletionToManifest(List<ManifestModel> collection)
         {
@@ -137,28 +129,37 @@ namespace KegID.ViewModel
 
         private void SelectedSegmentCommandReciever(object seg)
         {
+            ManifestCollection.Clear();
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            var manifest = RealmDb.All<ManifestModel>().ToList();
             SelectedSegment = (int)seg;
-            if (collection.Count > 0)
+            if (manifest.Count > 0)
             {
                 switch (seg)
                 {
                     case 0:
-                        AssignColletionToManifest(collection.Where(x => !x.IsDraft && x.IsQueue).ToList());
+                        var result = manifest.Where(x => !x.IsDraft && x.IsQueue).ToList();
+                        if (result.Count > 0)
+                        {
+                            AssignColletionToManifest(result);
+                        }
                         break;
                     case 1:
-                        AssignColletionToManifest(collection.Where(x => x.IsDraft && !x.IsQueue).ToList());
+                        result = RealmDb.All<ManifestModel>().ToList().Where(x => x.IsDraft && !x.IsQueue).ToList();
+                        if (result.Count > 0)
+                        {
+                            AssignColletionToManifest(result);
+                        }
                         break;
                     case 2:
-                        AssignColletionToManifest(collection.Where(x => x.SubmittedDate == DateTimeOffset.UtcNow.Date && !x.IsDraft && !x.IsQueue).ToList());
+                        result = RealmDb.All<ManifestModel>().ToList().Where(x => x.SubmittedDate == DateTimeOffset.UtcNow.Date && !x.IsDraft && !x.IsQueue).ToList();
+                        if (result.Count > 0)
+                        {
+                            AssignColletionToManifest(result);
+                        }
                         break;
                 }
             }
-        }
-
-        public override Task InitializeAsync(INavigationParameters parameters)
-        {
-            LoadDraftManifestAsync();
-            return base.InitializeAsync(parameters);
         }
 
         public override void OnNavigatedTo(INavigationParameters parameters)

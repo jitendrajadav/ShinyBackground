@@ -334,10 +334,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync("ManifestsView", new NavigationParameters
-                    {
-                        { "LoadDraftManifestAsync", "LoadDraftManifestAsync" }
-                    }, animated: false);
+                await _navigationService.NavigateAsync("ManifestsView", animated: false);
             }
             catch (Exception ex)
             {

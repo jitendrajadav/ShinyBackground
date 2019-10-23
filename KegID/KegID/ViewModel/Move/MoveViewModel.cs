@@ -56,7 +56,7 @@ namespace KegID.ViewModel
             IsSaveDraftVisible = IsSubmitVisible;
         }
         public bool IsEffectiveDateAllowed { get; set; }
-        public DateTime EffectiveDateAllowed { get; set; } = DateTime.Now;
+        public DateTimeOffset EffectiveDateAllowed { get; set; } = DateTimeOffset.UtcNow.Date;
         public bool IsRequiredVisible { get; set; } = true;
         public bool OrderNumRequired { get; set; }
         public string Origin { get; set; } = "Select a location";
