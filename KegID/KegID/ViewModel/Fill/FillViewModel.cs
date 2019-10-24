@@ -60,6 +60,7 @@ namespace KegID.ViewModel
         public bool IsRequiredVisible { get; set; } = true;
         public bool IsDestinationRequiredVisible { get; set; } = true;
         public bool Operator { get; set; }
+        public bool UsesSkus { get; set; }
 
         #endregion
 
@@ -103,7 +104,7 @@ namespace KegID.ViewModel
             DestinationTitle = preferenceUSER_HOME?.PreferenceValue ?? DestinationTitle;
 
             var preferenceUsesSkus = preferences.Find(x => x.PreferenceName == "UsesSkus");
-            var UsesSkus = preferenceUsesSkus != null && bool.Parse(preferenceUsesSkus.PreferenceValue);
+            UsesSkus = preferenceUsesSkus != null && bool.Parse(preferenceUsesSkus.PreferenceValue);
 
             var preferenceFillFromLocations = preferences.Find(x => x.PreferenceName == "FillFromLocations");
             var FillFromLocations = preferenceFillFromLocations != null && bool.Parse(preferenceFillFromLocations.PreferenceValue);

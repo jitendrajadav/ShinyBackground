@@ -38,6 +38,39 @@ namespace KegID.Services
             await LoadBrandAsync();
             await LoadBatchAsync();
             await LoadPartnerTypeAsync();
+            await LoadGetSkuListAsync();
+        }
+
+        private async Task LoadGetSkuListAsync()
+        {
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            try
+            {
+                var model = await _fillService.GetSkuListAsync(AppSettings.SessionId);
+
+                await RealmDb.WriteAsync((realmDb) =>
+                {
+                    foreach (var item in model.Sku)
+                    {
+                        try
+                        {
+                            realmDb.Add(item);
+                        }
+                        catch (Exception ex)
+                        {
+                            Crashes.TrackError(ex);
+                        }
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
+            finally
+            {
+                //service = null;
+            }
         }
 
         private async Task LoadOperators()

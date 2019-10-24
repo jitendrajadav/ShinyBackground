@@ -98,7 +98,7 @@ namespace KegID.ViewModel
             var preferences = RealmDb.All<Preference>().ToList();
 
             var preferenceUSER_HOME = preferences.Find(x => x.PreferenceName == "USER_HOME");
-            var USER_HOME = preferenceUSER_HOME != null && bool.Parse(preferenceUSER_HOME.PreferenceValue);
+            StockLocation.FullName = preferenceUSER_HOME?.PreferenceValue ?? StockLocation.FullName;
 
             var preferenceOperator = preferences.Find(x => x.PreferenceName == "Operator");
             Operator = preferenceOperator != null && bool.Parse(preferenceOperator.PreferenceValue);

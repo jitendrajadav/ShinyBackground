@@ -45,11 +45,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Model\Response\Fill\**" />
     <Compile Remove="PrintTemplates\**" />
-    <EmbeddedResource Remove="Model\Response\Fill\**" />
     <EmbeddedResource Remove="PrintTemplates\**" />
-    <None Remove="Model\Response\Fill\**" />
     <None Remove="PrintTemplates\**" />
   </ItemGroup>
 

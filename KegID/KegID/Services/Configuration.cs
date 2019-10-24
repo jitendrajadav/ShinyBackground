@@ -87,7 +87,7 @@
 
         public static readonly string PostBatchUrl = "Batch/?sessionId={0}";
         public static readonly string PostPalletUrl = "Pallet/?sessionId={0}";
-
+        public static readonly string GetSkuUrl = "sku/?sessionId={0}";
 
         /// <summary>
         /// Maintainenance Service Url
