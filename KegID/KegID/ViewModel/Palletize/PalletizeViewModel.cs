@@ -35,13 +35,15 @@ namespace KegID.ViewModel
         public string AddInfoTitle { get; set; } = "Add info";
         public bool IsCameraVisible { get; set; }
         public string ManifestId { get; set; }
-        public string AddKegs { get; set; } = "Add Kegs";
+        public string AddKegs { get; set; }
         public void OnAddKegsChanged()
         {
             IsSubmitVisible = AddKegs.Contains("Item") ? true : false;
         }
         public bool IsSubmitVisible { get; set; }
         public List<Tag> Tags { get; set; } = new List<Tag>();
+        public bool Operator { get; set; }
+        public string ContainerTypes { get; set; }
 
         #endregion
 
@@ -83,6 +85,7 @@ namespace KegID.ViewModel
             HandleReceivedMessages();
 
             PreferenceSetting();
+            AddKegs = string.Format("Add {0}", ContainerTypes);
         }
 
         #endregion
@@ -96,6 +99,11 @@ namespace KegID.ViewModel
 
             var preferenceUSER_HOME = preferences.Find(x => x.PreferenceName == "USER_HOME");
             var USER_HOME = preferenceUSER_HOME != null && bool.Parse(preferenceUSER_HOME.PreferenceValue);
+
+            var preferenceOperator = preferences.Find(x => x.PreferenceName == "Operator");
+            Operator = preferenceOperator != null && bool.Parse(preferenceOperator.PreferenceValue);
+
+            ContainerTypes = preferences.Find(x => x.PreferenceName == "CONTAINER_TYPES").PreferenceValue;
         }
 
         private void HandleUnsubscribeMessages()
@@ -325,7 +333,7 @@ namespace KegID.ViewModel
             else if (_barcodes.Count == 1)
                 AddKegs = string.Format("{0} Item", _barcodes.Count);
             else
-                AddKegs = "Add Kegs";
+                AddKegs = string.Format("Add {0}", ContainerTypes);
         }
 
         private async void BarcodeScanCommandReciever()
@@ -404,7 +412,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                if (AddInfoTitle == "Add info" && AddKegs == "Add Kegs")
+                if (AddInfoTitle == "Add info" && AddKegs == string.Format("Add {0}", ContainerTypes))
                 {
                     await _navigationService.GoBackAsync(animated: false);
                     IsCameraVisible = false;
@@ -431,7 +439,7 @@ namespace KegID.ViewModel
             try
             {
                 AddInfoTitle = "Add info";
-                AddKegs = "Add Kegs";
+                AddKegs = string.Format("Add {0}", ContainerTypes);
                 IsSubmitVisible = false;
                 // Update an object with a transaction
                 //using (var trans = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())

@@ -1,10 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<prism:PrismApplication xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:converter1="clr-namespace:KegID.Converter"
-             x:Class="KegID.App"
-             xmlns:prism="clr-namespace:Prism.Unity;assembly=Prism.Unity.Forms">
-    
+<prism:PrismApplication
+    x:Class="KegID.App"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converter1="clr-namespace:KegID.Converter"
+    xmlns:prism="clr-namespace:Prism.Unity;assembly=Prism.Unity.Forms">
+
     <prism:PrismApplication.Resources>
 
         <ResourceDictionary>
@@ -17,124 +18,127 @@
             <Color x:Key="pageBGColor">#FFFFFF</Color>
             <Color x:Key="bannerBGColor">#4E6388</Color>
             <Color x:Key="selectTextColor">#007AFF</Color>
-            <Color x:Key="lightGrayColor">#aaaaaa</Color>
+            <Color x:Key="lightGrayColor">#AAA</Color>
             <Color x:Key="lightGrayPlaceholderColor">#D2D0DE</Color>
             <Color x:Key="scanCounterColor">#B7EB35</Color>
             <Color x:Key="textLabelColor">#555555</Color>
             <Color x:Key="alertGoldColor">#F7D68A</Color>
 
-            <OnPlatform x:Key="AppBarButtonMargin" x:TypeArguments="Thickness" iOS="10,0,10,0" />
-            
+            <OnPlatform
+                x:Key="AppBarButtonMargin"
+                x:TypeArguments="Thickness"
+                iOS="10,0,10,0" />
+
             <converter1:SelectedItemEventArgsToSelectedItemConverter x:Key="SelectedItemConverter" />
             <converter1:ItemTappedEventArgsToSelectedItemConverter x:Key="ItemTappedConverter" />
-            <converter1:StringToLast8CharacterConverter x:Key="StringToLast8CharacterConverter"/>
-            <converter1:InvertedBooleanConverter x:Key="InvertedBooleanConverter"/>
+            <converter1:StringToLast8CharacterConverter x:Key="StringToLast8CharacterConverter" />
+            <converter1:InvertedBooleanConverter x:Key="InvertedBooleanConverter" />
 
             <Style x:Key="GirdRowSpacing" TargetType="Grid">
-                <Setter Property="RowSpacing" Value="{OnPlatform Android=0, iOS=10,UWP=10}"/>
+                <Setter Property="RowSpacing" Value="{OnPlatform Android=0, iOS=10, UWP=10}" />
             </Style>
 
             <Style x:Key="BasicEntryStyle" TargetType="Entry">
-                <Setter Property="HeightRequest" Value="{OnPlatform Android=60, iOS=50,UWP=40}"/>
+                <Setter Property="HeightRequest" Value="{OnPlatform Android=60, iOS=50, UWP=40}" />
             </Style>
-            
+
             <Style x:Key="NotesEntryStyle" TargetType="Entry">
-                <Setter Property="HeightRequest" Value="{OnPlatform Android=70, iOS=60,UWP=60}"/>
+                <Setter Property="HeightRequest" Value="{OnPlatform Android=70, iOS=60, UWP=60}" />
             </Style>
 
             <Style x:Key="BottomButtonTitleStyle" TargetType="Button">
-                <Setter Property="VerticalOptions" Value="End"/>
-                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
-                <Setter Property="TextColor" Value="White"/>
-                <Setter Property="BackgroundColor" Value="{StaticResource selectTextColor}"/>
-                <Setter Property="FontSize" Value="{OnPlatform Android=20,iOS=20,UWP=20}"/>
-                <Setter Property="HeightRequest" Value="{OnPlatform Android=70, iOS=60,UWP=60}"/>
-                <Setter Property="BorderRadius" Value="0"/>
+                <Setter Property="VerticalOptions" Value="End" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="BackgroundColor" Value="{StaticResource selectTextColor}" />
+                <Setter Property="FontSize" Value="{OnPlatform Android=20, iOS=20, UWP=20}" />
+                <Setter Property="HeightRequest" Value="{OnPlatform Android=70, iOS=60, UWP=60}" />
+                <Setter Property="BorderRadius" Value="0" />
             </Style>
 
             <Style x:Key="TopButtonTitleStyle" TargetType="Button">
-                <Setter Property="VerticalOptions" Value="Center"/>
-                <Setter Property="TextColor" Value="{StaticResource selectTextColor}"/>
-                <Setter Property="BackgroundColor" Value="Transparent"/>
-                <Setter Property="FontSize" Value="{OnPlatform Android=20,iOS=20,UWP=20}"/>
-                <Setter Property="Margin" Value="{StaticResource AppBarButtonMargin}"/>
-                <Setter Property="HorizontalOptions" Value="Start"/>
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="TextColor" Value="{StaticResource selectTextColor}" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="FontSize" Value="{OnPlatform Android=20, iOS=20, UWP=20}" />
+                <Setter Property="Margin" Value="{StaticResource AppBarButtonMargin}" />
+                <Setter Property="HorizontalOptions" Value="Start" />
             </Style>
 
             <Style x:Key="LabelTitleStyle" TargetType="Label">
-                <Setter Property="VerticalOptions" Value="Center"/>
-                <Setter Property="FontSize" Value="{OnPlatform Android=20,iOS=20,UWP=20}"/>
-                <Setter Property="Margin" Value="{StaticResource AppBarButtonMargin}"/>
-                <Setter Property="TextColor" Value="Black"/>
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="FontSize" Value="{OnPlatform Android=20, iOS=20, UWP=20}" />
+                <Setter Property="Margin" Value="{StaticResource AppBarButtonMargin}" />
+                <Setter Property="TextColor" Value="Black" />
             </Style>
-            
+
             <Style x:Key="LabelBannerStyle" TargetType="Label">
-                <Setter Property="VerticalOptions" Value="Center"/>
-                <Setter Property="FontSize" Value="{OnPlatform Android=20,iOS=20,UWP=20}"/>
-                <Setter Property="TextColor" Value="Black"/>
-                <Setter Property="HeightRequest" Value="{OnPlatform Android=50,iOS=50,UWP=50}"/>
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="FontSize" Value="{OnPlatform Android=20, iOS=20, UWP=20}" />
+                <Setter Property="TextColor" Value="Black" />
+                <Setter Property="HeightRequest" Value="{OnPlatform Android=50, iOS=50, UWP=50}" />
             </Style>
-            
+
             <Style x:Key="LabelTitleWhiteTextColorStyle" TargetType="Label">
-                <Setter Property="VerticalOptions" Value="Center"/>
-                <Setter Property="VerticalTextAlignment" Value="Center"/>
-                <Setter Property="FontSize" Value="{OnPlatform Android=20,iOS=20,UWP=20}"/>
-                <Setter Property="TextColor" Value="White"/>
-                <Setter Property="HeightRequest" Value="{OnPlatform Android=50,iOS=50,UWP=50}"/>
-                <Setter Property="HorizontalOptions" Value="Start"/>
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="VerticalTextAlignment" Value="Center" />
+                <Setter Property="FontSize" Value="{OnPlatform Android=20, iOS=20, UWP=20}" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="HeightRequest" Value="{OnPlatform Android=50, iOS=50, UWP=50}" />
+                <Setter Property="HorizontalOptions" Value="Start" />
             </Style>
 
             <Style x:Key="LabelLeftAlign" TargetType="Label">
                 <Setter Property="HorizontalTextAlignment" Value="Start" />
-                <Setter Property="VerticalOptions" Value="Center"/>
-                <Setter Property="TextColor" Value="#555555"/>
-                <Setter Property="FontSize" Value="{OnPlatform Android=18,iOS=18,UWP=18}"/>
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="TextColor" Value="#555555" />
+                <Setter Property="FontSize" Value="{OnPlatform Android=18, iOS=18, UWP=18}" />
             </Style>
 
             <Style x:Key="LabelRigthAlign" TargetType="Label">
                 <Setter Property="HorizontalTextAlignment" Value="Start" />
-                <Setter Property="VerticalTextAlignment" Value="Center"/>
-                <Setter Property="TextColor" Value="#555555"/>
+                <Setter Property="VerticalTextAlignment" Value="Center" />
+                <Setter Property="TextColor" Value="#555555" />
             </Style>
 
             <Style x:Key="LabelNormalStyle" TargetType="Label">
                 <Setter Property="HorizontalTextAlignment" Value="Start" />
-                <Setter Property="VerticalTextAlignment" Value="Center"/>
-                <Setter Property="TextColor" Value="Black"/>
-                <Setter Property="VerticalOptions" Value="Center"/>
+                <Setter Property="VerticalTextAlignment" Value="Center" />
+                <Setter Property="TextColor" Value="Black" />
+                <Setter Property="VerticalOptions" Value="Center" />
                 <!--<Setter Property="LineBreakMode" Value="NoWrap"/>-->
-                <Setter Property="FontSize" Value="{OnPlatform Android=18,iOS=18,UWP=18}"/>
+                <Setter Property="FontSize" Value="{OnPlatform Android=18, iOS=18, UWP=18}" />
             </Style>
-            
+
             <Style x:Key="LabelLargeStyle" TargetType="Label">
                 <Setter Property="HorizontalTextAlignment" Value="Start" />
-                <Setter Property="VerticalTextAlignment" Value="Center"/>
-                <Setter Property="TextColor" Value="Black"/>
-                <Setter Property="FontSize" Value="{OnPlatform Android=30, iOS=30,UWP=30}"/>
+                <Setter Property="VerticalTextAlignment" Value="Center" />
+                <Setter Property="TextColor" Value="Black" />
+                <Setter Property="FontSize" Value="{OnPlatform Android=30, iOS=30, UWP=30}" />
             </Style>
 
             <Style x:Key="ButtonNormalStyle" TargetType="Button">
-                <Setter Property="VerticalOptions" Value="Center"/>
-                <Setter Property="HorizontalOptions" Value="Start"/>
-                <Setter Property="TextColor" Value="{StaticResource selectTextColor}"/>
-                <Setter Property="FontSize" Value="{OnPlatform Android=18,iOS=18,UWP=18}"/>
-                <Setter Property="Margin" Value="10,0,0,0"/>
-                <Setter Property="BackgroundColor" Value="Transparent"/>
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="HorizontalOptions" Value="Start" />
+                <Setter Property="TextColor" Value="{StaticResource selectTextColor}" />
+                <Setter Property="FontSize" Value="{OnPlatform Android=18, iOS=18, UWP=18}" />
+                <Setter Property="Margin" Value="10,0,0,0" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
             </Style>
 
             <Style x:Key="ButtonLargeStyle" TargetType="Button">
-                <Setter Property="VerticalOptions" Value="Center"/>
-                <Setter Property="HorizontalOptions" Value="Start"/>
-                <Setter Property="TextColor" Value="{StaticResource selectTextColor}"/>
-                <Setter Property="FontSize" Value="{OnPlatform Android=40, iOS=40, UWP=40}"/>
-                <Setter Property="Margin" Value="10,0,0,0"/>
-                <Setter Property="BackgroundColor" Value="Transparent"/>
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="HorizontalOptions" Value="Start" />
+                <Setter Property="TextColor" Value="{StaticResource selectTextColor}" />
+                <Setter Property="FontSize" Value="{OnPlatform Android=40, iOS=40, UWP=40}" />
+                <Setter Property="Margin" Value="10,0,0,0" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
             </Style>
 
             <Style x:Key="ButtonRigthAlign" TargetType="Button">
-                <Setter Property="VerticalOptions" Value="Center"/>
+                <Setter Property="VerticalOptions" Value="Center" />
             </Style>
-            
+
         </ResourceDictionary>
 
     </prism:PrismApplication.Resources>

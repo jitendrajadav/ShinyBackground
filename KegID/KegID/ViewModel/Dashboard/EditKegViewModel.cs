@@ -26,6 +26,10 @@ namespace KegID.ViewModel
         public string Owner { get; set; }
         public string Size { get; set; }
         public PartnerModel PartnerModel { get; set; } = new PartnerModel();
+        public void OnPartnerModelChanged()
+        {
+            Owner = PartnerModel?.FullName;
+        }
         public string SelectedItemType { get; set; }
         public string TagsStr { get; set; }
         public List<Tag> Tags { get; set; }
@@ -185,6 +189,15 @@ namespace KegID.ViewModel
 
         public override Task InitializeAsync(INavigationParameters parameters)
         {
+            if (parameters.ContainsKey("AssignInitialValue"))
+            {
+                AssingInitialValue(parameters.GetValue<string>("KegId"), parameters.GetValue<string>("AssignInitialValue"), parameters.GetValue<string>("Owner"), parameters.GetValue<string>("TypeName"), parameters.GetValue<string>("SizeName"));
+            }
+            return base.InitializeAsync(parameters);
+        }
+
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
             switch (parameters.Keys.FirstOrDefault())
             {
                 case "model":
@@ -193,24 +206,12 @@ namespace KegID.ViewModel
                 case "SizeModel":
                     Size = parameters.GetValue<string>("SizeModel");
                     break;
-                case "AssignInitialValue":
-                    AssingInitialValue(parameters.GetValue<string>("KegId"), parameters.GetValue<string>("Barcode"), parameters.GetValue<string>("Owner"), parameters.GetValue<string>("TypeName"), parameters.GetValue<string>("SizeName"));
-                    break;
                 case "AddTags":
                     AssignAddTagsValue(ConstantManager.Tags, ConstantManager.TagsStr);
                     break;
-                default:
+                case "CancelCommandRecieverAsync":
+                    CancelCommandRecieverAsync();
                     break;
-            }
-
-            return base.InitializeAsync(parameters);
-        }
-
-        public override void OnNavigatedTo(INavigationParameters parameters)
-        {
-            if (parameters.ContainsKey("CancelCommandRecieverAsync"))
-            {
-                CancelCommandRecieverAsync();
             }
         }
 

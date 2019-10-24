@@ -30,6 +30,7 @@ namespace KegID.ViewModel
         public DelegateCommand BackCommand { get; }
         public DelegateCommand TextChangedCommand { get;}
         public DelegateCommand<object> SelectedSegmentCommand { get;}
+        public string ContainerTypes { get; set; }
 
         #endregion
 
@@ -44,8 +45,16 @@ namespace KegID.ViewModel
             SelectedSegmentCommand = new DelegateCommand<object>((seg) => SelectedSegmentCommandReciever(seg));
 
             LoadPartners();
+            PreferenceSetting();
         }
 
+        private void PreferenceSetting()
+        {
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            var preferences = RealmDb.All<Preference>().ToList();
+
+            ContainerTypes = preferences.Find(x => x.PreferenceName == "CONTAINER_TYPES").PreferenceValue;
+        }
 
         private void SelectedSegmentCommandReciever(object seg)
         {

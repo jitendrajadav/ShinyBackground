@@ -24,6 +24,7 @@ namespace KegID.ViewModel
         public PartnerModel PartnerModel { get; set; } = new PartnerModel();
         public string Notes { get; set; }
         public IList<MaintainTypeReponseModel> MaintainTypeCollection { get; set; }
+        public bool Operator { get; set; }
 
         #endregion
 
@@ -51,6 +52,18 @@ namespace KegID.ViewModel
 
             HandleUnsubscribeMessages();
             HandleReceivedMessages();
+
+            PreferenceSetting();
+        }
+
+
+        private void PreferenceSetting()
+        {
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            var preferences = RealmDb.All<Preference>().ToList();
+
+            var preferenceOperator = preferences.Find(x => x.PreferenceName == "Operator");
+            Operator = preferenceOperator != null && bool.Parse(preferenceOperator.PreferenceValue);
         }
 
         private void HandleReceivedMessages()

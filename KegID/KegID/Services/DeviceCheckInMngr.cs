@@ -15,7 +15,7 @@ namespace KegID.Services
 
         public DeviceCheckInMngr(IAccountService accountService, INavigationService navigationService)
         {
-            _navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
+            _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
             _accountService = accountService;
         }
 

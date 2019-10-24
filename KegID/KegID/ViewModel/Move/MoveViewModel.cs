@@ -25,6 +25,8 @@ namespace KegID.ViewModel
         private readonly IUuidManager _uuidManager;
         private readonly IGeolocationService _geolocationService;
 
+        public string ContainerTypes { get; set; }
+
         public string Contents { get; set; }
         public IList<BarcodeModel> Barcodes { get; set; }
         public string ManifestId { get; set; }
@@ -36,7 +38,8 @@ namespace KegID.ViewModel
         public string Destination { get; set; } = "Select a location";
         public string TagsStr { get; set; } = "Add info";
         public List<Tag> Tags { get; set; } = new List<Tag>();
-        public string AddKegs { get; set; } = "Add Kegs";
+        public string AddKegs { get; set; }
+
         public void OnAddKegsChanged()
         {
             IsSubmitVisible = AddKegs.Contains("Item");
@@ -60,6 +63,8 @@ namespace KegID.ViewModel
         public bool IsRequiredVisible { get; set; } = true;
         public bool OrderNumRequired { get; set; }
         public string Origin { get; set; } = "Select a location";
+        public bool Operator { get; set; }
+
         #endregion
 
         #region Commands
@@ -94,6 +99,7 @@ namespace KegID.ViewModel
             SubmitCommand = new DelegateCommand(SubmitCommandRecieverAsync);
 
             PreferenceSetting();
+            AddKegs = string.Format("Add {0}", ContainerTypes);
         }
 
         #endregion
@@ -113,6 +119,11 @@ namespace KegID.ViewModel
 
             var effectiveDate = preferences.Find(x => x.PreferenceName == "EffectiveDateAllowed");
             IsEffectiveDateAllowed = effectiveDate != null && bool.Parse(effectiveDate.PreferenceValue);
+
+            var preferenceOperator = preferences.Find(x => x.PreferenceName == "Operator");
+            Operator = preferenceOperator != null && bool.Parse(preferenceOperator.PreferenceValue);
+
+            ContainerTypes = preferences.Find(x => x.PreferenceName == "CONTAINER_TYPES")?.PreferenceValue;
         }
 
         private async void SubmitCommandRecieverAsync()
@@ -340,7 +351,7 @@ namespace KegID.ViewModel
                 else if (_barcodes.Count == 1)
                     AddKegs = string.Format("{0} Item", _barcodes.Count);
                 else
-                    AddKegs = "Add Kegs";
+                    AddKegs = string.Format("Add {0}", ContainerTypes);
                 //if (!IsSubmitVisible)
                 //    IsSubmitVisible = true;
             }
@@ -437,34 +448,35 @@ namespace KegID.ViewModel
         {
             try
             {
-                if (!string.IsNullOrEmpty(ConstantManager.Partner?.PartnerId))
+                if (string.IsNullOrEmpty(ConstantManager.Partner?.PartnerId))
                 {
-
-                    if (OrderNumRequired && string.IsNullOrEmpty(Order))
+                    await _dialogService.DisplayAlertAsync("Error", "Please select a destination first.", "Ok");
+                    return;
+                }
+                if (OrderNumRequired && string.IsNullOrEmpty(Order))
+                {
+                    await _dialogService.DisplayAlertAsync("Error", "Please enter order first.", "Ok");
+                    return;
+                }
+                if (OriginRequired && Origin.Contains("Select a location"))
+                {
+                    await _dialogService.DisplayAlertAsync("Error", "Please select a origin first.", "Ok");
+                    return;
+                }
+                else
+                {
+                    if (Barcodes != null)
                     {
-                        await _dialogService.DisplayAlertAsync("Error", "Please enter order first.", "Ok");
-                    }
-                    if (OriginRequired && Origin.Contains("Select a location"))
-                    {
-                        await _dialogService.DisplayAlertAsync("Error", "Please select a origin first.", "Ok");
-                    }
-                    else
-                    {
-                        if (Barcodes != null)
-                        {
-                            await _navigationService.NavigateAsync("ScanKegsView", new NavigationParameters
+                        await _navigationService.NavigateAsync("ScanKegsView", new NavigationParameters
                             {
                                 { "models", Barcodes }
                             }, animated: false);
-                        }
-                        else
-                        {
-                            await _navigationService.NavigateAsync("ScanKegsView", animated: false);
-                        }
+                    }
+                    else
+                    {
+                        await _navigationService.NavigateAsync("ScanKegsView", animated: false);
                     }
                 }
-                else
-                    await _dialogService.DisplayAlertAsync("Error", "Please select a destination first.", "Ok");
             }
             catch (Exception ex)
             {
@@ -497,7 +509,7 @@ namespace KegID.ViewModel
                 Tags = tags?.ToList();
                 TagsStr = !string.IsNullOrEmpty(tagsStr) ? tagsStr : "Add info";
                 ManifestId = !string.IsNullOrEmpty(_kegId) ? _kegId : _uuidManager.GetUuId();
-                AddKegs = !string.IsNullOrEmpty(_addKegs) ? Convert.ToUInt32(_addKegs) > 1 ? string.Format("{0} Items", _addKegs) : string.Format("{0} Item", _addKegs) : "Add Kegs";
+                AddKegs = !string.IsNullOrEmpty(_addKegs) ? Convert.ToUInt32(_addKegs) > 1 ? string.Format("{0} Items", _addKegs) : string.Format("{0} Item", _addKegs) : string.Format("Add {0}", ContainerTypes);
                 if (!string.IsNullOrEmpty(_destination))
                 {
                     Destination = _destination;
@@ -521,7 +533,7 @@ namespace KegID.ViewModel
             try
             {
                 TagsStr = "Add info";
-                AddKegs = "Add Kegs";
+                AddKegs = string.Format("Add {0}", ContainerTypes);
                 IsSaveDraftVisible = false;
                 IsSubmitVisible = false;
                 IsRequiredVisible = true;
@@ -640,7 +652,7 @@ namespace KegID.ViewModel
                 Tags = model.Tags?.ToList();
                 TagsStr = !string.IsNullOrEmpty(model.TagsStr) ? model.TagsStr : "Add info";
                 ManifestId = !string.IsNullOrEmpty(model.ManifestId) ? model.ManifestId : _uuidManager.GetUuId();
-                AddKegs = !string.IsNullOrEmpty(model.ManifestItemsCount.ToString()) ? Convert.ToUInt32(model.ManifestItemsCount.ToString()) > 1 ? string.Format("{0} Items", model.ManifestItemsCount.ToString()) : string.Format("{0} Item", model.ManifestItemsCount.ToString()) : "Add Kegs";
+                AddKegs = !string.IsNullOrEmpty(model.ManifestItemsCount.ToString()) ? Convert.ToUInt32(model.ManifestItemsCount.ToString()) > 1 ? string.Format("{0} Items", model.ManifestItemsCount.ToString()) : string.Format("{0} Item", model.ManifestItemsCount.ToString()) : string.Format("Add {0}", ContainerTypes);
                 if (!string.IsNullOrEmpty(model.OwnerName))
                 {
                     Destination = model.OwnerName;

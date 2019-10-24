@@ -59,6 +59,7 @@ namespace KegID.ViewModel
         public bool IsPalletze { get; set; } = true;
         public bool IsRequiredVisible { get; set; } = true;
         public bool IsDestinationRequiredVisible { get; set; } = true;
+        public bool Operator { get; set; }
 
         #endregion
 
@@ -99,7 +100,7 @@ namespace KegID.ViewModel
             var preferences = RealmDb.All<Preference>().ToList();
 
             var preferenceUSER_HOME = preferences.Find(x => x.PreferenceName == "USER_HOME");
-            var USER_HOME = preferenceUSER_HOME != null && bool.Parse(preferenceUSER_HOME.PreferenceValue);
+            DestinationTitle = preferenceUSER_HOME?.PreferenceValue ?? DestinationTitle;
 
             var preferenceUsesSkus = preferences.Find(x => x.PreferenceName == "UsesSkus");
             var UsesSkus = preferenceUsesSkus != null && bool.Parse(preferenceUsesSkus.PreferenceValue);
@@ -109,6 +110,9 @@ namespace KegID.ViewModel
 
             var preferenceAllowMaintenanceFill = preferences.Find(x => x.PreferenceName == "AllowMaintenanceFill");
             var AllowMaintenanceFill = preferenceAllowMaintenanceFill != null && bool.Parse(preferenceAllowMaintenanceFill.PreferenceValue);
+
+            var preferenceOperator = preferences.Find(x => x.PreferenceName == "Operator");
+            Operator = preferenceOperator != null && bool.Parse(preferenceOperator.PreferenceValue);
         }
 
         private async void CancelCommandRecieverAsync()

@@ -47,7 +47,7 @@ namespace KegID.ViewModel
         public DelegateCommand AddTagsCommand { get; }
         public DelegateCommand<BarcodeModel> LabelItemTappedCommand { get; }
         public DelegateCommand<BarcodeModel> IconItemTappedCommand { get; }
-        
+
         #endregion
 
         #region Contructor
@@ -97,7 +97,7 @@ namespace KegID.ViewModel
                             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                             RealmDb.Write(() =>
                             {
-                                var oldBarcode = BarcodeCollection.Where(x => x.Barcode == value.Barcodes.Barcode).FirstOrDefault();
+                                var oldBarcode = BarcodeCollection.FirstOrDefault(x => x.Barcode == value.Barcodes.Barcode);
                                 oldBarcode.Pallets = value.Barcodes.Pallets;
                                 oldBarcode.Kegs = value.Barcodes.Kegs;
                                 oldBarcode.Icon = value?.Barcodes?.Kegs?.Partners.Count > 1 ? _getIconByPlatform.GetIcon("validationquestion.png") : value?.Barcodes?.Kegs?.Partners?.Count == 0 ? _getIconByPlatform.GetIcon("validationerror.png") : _getIconByPlatform.GetIcon("validationok.png");

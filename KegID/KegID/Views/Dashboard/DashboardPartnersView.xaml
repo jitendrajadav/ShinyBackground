@@ -153,8 +153,14 @@
                                     Grid.Row="2"
                                     Grid.Column="1"
                                     FontSize="{StaticResource ListViewDetailFont}"
-                                    Text="{Binding KegsHeld, StringFormat='{0} Kegs'}"
-                                    TextColor="{StaticResource lightGrayColor}" />
+                                    TextColor="{StaticResource lightGrayColor}">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="{Binding KegsHeld}" />
+                                            <Span Text="{Binding ContainerTypes}" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
                             </Grid>
                         </ViewCell>
                     </DataTemplate>

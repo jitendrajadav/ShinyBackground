@@ -103,7 +103,7 @@ namespace KegID.ViewModel
 
         private void Connectivity_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
         {
-            CheckDraftmaniFestsAsync();
+            CheckDraftmaniFests();
         }
 
         private async void LoadMetadData()
@@ -229,7 +229,7 @@ namespace KegID.ViewModel
             MessagingCenter.Subscribe<CheckDraftmaniFests>(this, "CheckDraftmaniFests", _ => {
                 Device.BeginInvokeOnMainThread(() =>
                 {
-                    CheckDraftmaniFestsAsync();
+                    CheckDraftmaniFests();
                 });
             });
         }
@@ -342,16 +342,16 @@ namespace KegID.ViewModel
             }
         }
 
-        internal void CheckDraftmaniFestsAsync()
+        internal void CheckDraftmaniFests()
         {
             try
             {
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                var manifests = RealmDb.All<ManifestModel>().Where(x => x.IsDraft == true || x.IsQueue == true).ToList();
-                var pallets = RealmDb.All<PalletRequestModel>().Where(x => x.IsQueue == true).ToList();
+                var manifests = RealmDb.All<ManifestModel>().Where(x => x.IsDraft || x.IsQueue).ToList();
+                var pallets = RealmDb.All<PalletRequestModel>().Where(x => x.IsQueue).ToList();
 
-                var draft = manifests.Where(x => x.IsDraft == true).ToList();
-                var queue = manifests.Where(x => x.IsQueue == true).ToList();
+                var draft = manifests.Where(x => x.IsDraft).ToList();
+                var queue = manifests.Where(x => x.IsQueue).ToList();
                 string queueMsg = queue.Count > 1 ? "queued manifests" : "queued manifest";
                 string draftMsg = draft.Count > 1 ? "draft manifests" : "draft manifest";
                 string palletMsg = pallets.Count > 1 ? "queued pallets" : "queued pallet";
@@ -546,15 +546,10 @@ namespace KegID.ViewModel
             }
         }
 
-        public override Task InitializeAsync(INavigationParameters parameters)
+        public override void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (parameters.ContainsKey("ManifestId"))
-            {
-                _ = parameters.GetValue<string>("ManifestId");
-            }
-            CheckDraftmaniFestsAsync();
-
-            return base.InitializeAsync(parameters);
+            CheckDraftmaniFests();
+            base.OnNavigatedTo(parameters);
         }
 
         #endregion

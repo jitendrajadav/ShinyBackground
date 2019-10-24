@@ -36,7 +36,7 @@ namespace KegID.ViewModel
         public string TagsStr { get; set; }
         public string CurrentLocation { get; set; }
         public string Batch { get; set; }
-        public string MoveKeg { get; set; } = "Move keg";
+        public string MoveKeg { get; set; }
         public ObservableCollection<MaintenanceAlert> MaintenanceCollection { get; set; } = new ObservableCollection<MaintenanceAlert>();
         public MaintenanceAlert SelectedMaintenance { get; set; }
         public ObservableCollection<MaintenanceAlert> RemoveMaintenanceCollection { get; set; } = new ObservableCollection<MaintenanceAlert>();
@@ -44,6 +44,7 @@ namespace KegID.ViewModel
         public IList<KegMaintenanceHistoryResponseModel> MaintenancePerformedCollection { get; set; }
         public bool IsVisibleListView { get; set; }
         public bool KegHasAlert { get; set; }
+        public string ContainerType { get; set; }
 
         #endregion
 
@@ -75,11 +76,22 @@ namespace KegID.ViewModel
             MoveKegCommand = new DelegateCommand(MoveKegCommandRecieverAsync);
             AddAlertCommand = new DelegateCommand(AddAlertCommandRecieverAsync);
             RemoveAlertCommand = new DelegateCommand(RemoveAlertCommandRecieverAsync);
+
+            PreferenceSetting();
+            MoveKeg = "Move "+ ContainerType;
         }
 
         #endregion
 
         #region Methods
+
+        private void PreferenceSetting()
+        {
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            var preferences = RealmDb.All<Preference>().ToList();
+
+            ContainerType = preferences.Find(x => x.PreferenceName == "CONTAINER_TYPE").PreferenceValue;
+        }
 
         private async void MoveKegCommandRecieverAsync()
         {

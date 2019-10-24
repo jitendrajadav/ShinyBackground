@@ -36,6 +36,8 @@ namespace KegID.ViewModel
         public string Pallets { get; set; }
         public ObservableCollection<PalletModel> PalletCollection { get; set; } = new ObservableCollection<PalletModel>();
         public string Kegs { get; set; }
+        public string ContainerType { get; set; }
+        public string ContainerTypes { get; set; }
 
         #endregion
 
@@ -64,11 +66,22 @@ namespace KegID.ViewModel
             FillKegsCommand = new DelegateCommand(FillKegsCommandRecieverAsync);
             ItemTappedCommand = new DelegateCommand<PalletModel>(async (model) => await ItemTappedCommandRecieverAsync(model));
             DeleteItemCommand = new DelegateCommand<PalletModel>((model) => DeleteItemCommandReciever(model));
+
+            PreferenceSetting();
         }
 
         #endregion
 
         #region Methods
+
+        private void PreferenceSetting()
+        {
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            var preferences = RealmDb.All<Preference>().ToList();
+
+            ContainerType = preferences.Find(x => x.PreferenceName == "CONTAINER_TYPE").PreferenceValue;
+            ContainerTypes = preferences.Find(x => x.PreferenceName == "CONTAINER_TYPES").PreferenceValue;
+        }
 
         private void DeleteItemCommandReciever(PalletModel model)
         {
@@ -424,9 +437,9 @@ namespace KegID.ViewModel
         private void CountKegs()
         {
             if (PalletCollection.Sum(x => x.Count) > 1)
-                Kegs = string.Format("({0} Kegs)", PalletCollection.Sum(x => x.Count));
+                Kegs = string.Format("({0} {1})", PalletCollection.Sum(x => x.Count), ContainerTypes);
             else
-                Kegs = string.Format("({0} Keg)", PalletCollection.Sum(x => x.Count));
+                Kegs = string.Format("({0} {1})", PalletCollection.Sum(x => x.Count), ContainerType);
         }
 
         internal void AssignFillScanValue(IList<BarcodeModel> _barcodes, string _batchId)
@@ -453,9 +466,9 @@ namespace KegID.ViewModel
                     });
                 }
                 if (PalletCollection.Sum(x => x.Count) > 1)
-                    Kegs = string.Format("({0} Kegs)", PalletCollection.Sum(x => x.Count));
+                    Kegs = string.Format("({0} {1})", PalletCollection.Sum(x => x.Count), ContainerTypes);
                 else
-                    Kegs = string.Format("({0} Keg)", PalletCollection.Sum(x => x.Count));
+                    Kegs = string.Format("({0} {1})", PalletCollection.Sum(x => x.Count), ContainerType);
             }
             catch (Exception ex)
             {

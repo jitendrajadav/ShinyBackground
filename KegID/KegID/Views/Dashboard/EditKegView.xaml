@@ -1,183 +1,180 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="KegID.Views.EditKegView"
-             BackgroundColor="{StaticResource pageBGColor}"
-             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
-             ios:Page.UseSafeArea="true"
-             >
+<ContentPage
+    x:Class="KegID.Views.EditKegView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    ios:Page.UseSafeArea="true"
+    BackgroundColor="{StaticResource pageBGColor}">
 
     <ContentPage.Content>
 
-        <Grid
-            AutomationId="mainGrd"
-            Margin="10,0,10,0">
+        <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="40*"/>
-                <ColumnDefinition Width="60*"/>
-            </Grid.ColumnDefinitions>
-            
             <Button
-                AutomationId="cancelButton"
-                Grid.ColumnSpan="2"
                 x:Name="lblCancel"
+                AutomationId="cancelButton"
+                Command="{Binding CancelCommand}"
                 HorizontalOptions="Start"
                 Style="{StaticResource TopButtonTitleStyle}"
-                Text="{Binding Resources[dialog_print_negative]}"
-                Command="{Binding CancelCommand}"/>
+                Text="{Binding Resources[dialog_print_negative]}" />
 
-            <Label 
+            <Label
                 AutomationId="editKegLabel"
-                Grid.ColumnSpan="2"
+                HorizontalOptions="Center"
+                Style="{StaticResource LabelTitleStyle}"
                 Text="{Binding Resources[label_edit_keg]}"
                 TextColor="Black"
-                Style="{StaticResource LabelTitleStyle}"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="Center" />
+                VerticalOptions="CenterAndExpand" />
 
             <Button
-                AutomationId="saveButton"
-                Grid.ColumnSpan="2"
                 x:Name="lblSave"
+                AutomationId="saveButton"
+                Command="{Binding SaveCommand}"
                 HorizontalOptions="End"
                 Style="{StaticResource TopButtonTitleStyle}"
-                Text="{Binding Resources[button_save]}"
-                Command="{Binding SaveCommand}"/>
+                Text="{Binding Resources[button_save]}" />
 
             <BoxView
+                Grid.Row="1"
                 AutomationId="topBarSeperatorBoxView"
-                Grid.ColumnSpan="2"
-                Margin="-10,0,-10,0"
-                Grid.Row="1"
                 BackgroundColor="{StaticResource bannerBGColor}"
-                VerticalOptions="FillAndExpand"
-                HorizontalOptions="FillAndExpand"/>
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand" />
 
-            <Label 
-                AutomationId="barcodeLabel"
-                Grid.ColumnSpan="2"
+            <Label
                 Grid.Row="1"
-                Text="{Binding Barcode, StringFormat=' Barcode   {0}'}"
+                AutomationId="barcodeLabel"
                 Style="{StaticResource LabelTitleWhiteTextColorStyle}"
-                VerticalOptions="CenterAndExpand"/>
-           
-            <Label
-                AutomationId="altBarcodeLabel"
-                Style="{StaticResource LabelNormalStyle}"
-                Text="{Binding Resources[label_alt_barcode]}"
-                Grid.Row="2"/>
+                Text="{Binding Barcode, StringFormat=' Barcode   {0}'}"
+                VerticalOptions="CenterAndExpand" />
 
-            <Entry
-                AutomationId="altBarcodeEntry"
-                Text="{Binding AltBarcode}"
+            <Grid
                 Grid.Row="2"
-                Grid.Column="1"
-                Placeholder="0000-0000000"/>
+                Margin="10,0,10,0"
+                AutomationId="mainGrd">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
 
-            <Label
-                AutomationId="ownerLabel"
-                Style="{StaticResource LabelNormalStyle}"
-                Text="{Binding Resources[label_owner]}"
-                Grid.Row="3"/>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="40*" />
+                    <ColumnDefinition Width="60*" />
+                </Grid.ColumnDefinitions>
 
-            <Label
-                AutomationId="ownerValue"
-                x:Name="lblOwner"
-                Grid.Row="3"
-                HorizontalOptions="Start"
-                HorizontalTextAlignment="Start"
-                TextColor="{StaticResource selectTextColor}"
-                Style="{StaticResource LabelNormalStyle}"
-                Grid.Column="1"
-                Text="{Binding Owner}"
-                Margin="0,2">
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding Path=BindingContext.PartnerCommand, 
-                                                        Source={x:Reference Name=lblOwner}}"
-                                                         CommandParameter="{Binding}"/>
-                </Label.GestureRecognizers>
-            </Label>
+                <Label
+                    Grid.Row="2"
+                    AutomationId="altBarcodeLabel"
+                    Style="{StaticResource LabelNormalStyle}"
+                    Text="{Binding Resources[label_alt_barcode]}" />
 
-            <Label
-                AutomationId="sizeLabel"
-                Style="{StaticResource LabelNormalStyle}"
-                Text="{Binding Resources[label_size]}"
-                Grid.Row="4"/>
+                <Entry
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    AutomationId="altBarcodeEntry"
+                    Placeholder="0000-0000000"
+                    Text="{Binding AltBarcode}" />
 
-            <Label
-                AutomationId="sizeValue"
-                x:Name="lblSize"
-                HorizontalOptions="Start"
-                HorizontalTextAlignment="Start"
-                Style="{StaticResource LabelNormalStyle}"
-                Text="{Binding Size}"
-                TextColor="{StaticResource selectTextColor}"
-                Grid.Row="4"
-                Grid.Column="1"
-                Margin="0,2">
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding Path=BindingContext.SizeCommand, 
-                                                        Source={x:Reference Name=lblSize}}"
-                                                         CommandParameter="{Binding}"/>
-                </Label.GestureRecognizers>
-            </Label>
+                <Label
+                    Grid.Row="3"
+                    AutomationId="ownerLabel"
+                    Style="{StaticResource LabelNormalStyle}"
+                    Text="{Binding Resources[label_owner]}" />
 
-            <Label
-                AutomationId="typeLabel"
-                Style="{StaticResource LabelNormalStyle}"
-                Text="{Binding Resources[label_type]}"
-                Grid.Row="5"/>
+                <Label
+                    x:Name="lblOwner"
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Margin="0,2"
+                    AutomationId="ownerValue"
+                    HorizontalOptions="Start"
+                    HorizontalTextAlignment="Start"
+                    Style="{StaticResource LabelNormalStyle}"
+                    Text="{Binding Owner}"
+                    TextColor="{StaticResource selectTextColor}">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Path=BindingContext.PartnerCommand, Source={x:Reference Name=lblOwner}}" CommandParameter="{Binding}" />
+                    </Label.GestureRecognizers>
+                </Label>
 
-            <Picker
-                AutomationId="typePicker"
-                BackgroundColor="Transparent"
-                TextColor="{StaticResource selectTextColor}"
-                Grid.Row="5"
-                SelectedIndex="0"
-                Grid.Column="1"
-                SelectedItem="{Binding SelectedItemType,Mode=TwoWay}">
-                <Picker.ItemsSource>
-                    <x:Array Type="{x:Type x:String}">
-                        <x:String>Keg</x:String>
-                        <x:String>Tap Handle</x:String>
-                    </x:Array>
-                </Picker.ItemsSource>
-            </Picker>
-            
-            <Label
-                AutomationId="moreInfoLabel"
-                Style="{StaticResource LabelNormalStyle}"
-                Text="{Binding Resources[label_more_info]}"
-                Grid.Row="6"/>
+                <Label
+                    Grid.Row="4"
+                    AutomationId="sizeLabel"
+                    Style="{StaticResource LabelNormalStyle}"
+                    Text="{Binding Resources[label_size]}" />
 
-            <Label
-                AutomationId="tagsStrLabel"
-                LineBreakMode="TailTruncation"
-                x:Name="lblTagsStr"
-                HorizontalTextAlignment="Start"
-                HorizontalOptions="Start"
-                TextColor="{StaticResource selectTextColor}"
-                Style="{StaticResource LabelNormalStyle}"
-                Text="{Binding TagsStr}"
-                Grid.Row="6"
-                Grid.Column="1"
-                >
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding Path=BindingContext.AddTagsCommand, 
-                                                        Source={x:Reference Name=lblTagsStr}}"
-                                                         CommandParameter="{Binding}"/>
-                </Label.GestureRecognizers>
-            </Label>
+                <Label
+                    x:Name="lblSize"
+                    Grid.Row="4"
+                    Grid.Column="1"
+                    Margin="0,2"
+                    AutomationId="sizeValue"
+                    HorizontalOptions="Start"
+                    HorizontalTextAlignment="Start"
+                    Style="{StaticResource LabelNormalStyle}"
+                    Text="{Binding Size}"
+                    TextColor="{StaticResource selectTextColor}">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Path=BindingContext.SizeCommand, Source={x:Reference Name=lblSize}}" CommandParameter="{Binding}" />
+                    </Label.GestureRecognizers>
+                </Label>
+
+                <Label
+                    Grid.Row="5"
+                    AutomationId="typeLabel"
+                    Style="{StaticResource LabelNormalStyle}"
+                    Text="{Binding Resources[label_type]}" />
+
+                <Picker
+                    Grid.Row="5"
+                    Grid.Column="1"
+                    AutomationId="typePicker"
+                    BackgroundColor="Transparent"
+                    SelectedIndex="0"
+                    SelectedItem="{Binding SelectedItemType, Mode=TwoWay}"
+                    TextColor="{StaticResource selectTextColor}">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Keg</x:String>
+                            <x:String>Tap Handle</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+
+                <Label
+                    Grid.Row="6"
+                    AutomationId="moreInfoLabel"
+                    Style="{StaticResource LabelNormalStyle}"
+                    Text="{Binding Resources[label_more_info]}" />
+
+                <Label
+                    x:Name="lblTagsStr"
+                    Grid.Row="6"
+                    Grid.Column="1"
+                    AutomationId="tagsStrLabel"
+                    HorizontalOptions="Start"
+                    HorizontalTextAlignment="Start"
+                    LineBreakMode="TailTruncation"
+                    Style="{StaticResource LabelNormalStyle}"
+                    Text="{Binding TagsStr}"
+                    TextColor="{StaticResource selectTextColor}">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Path=BindingContext.AddTagsCommand, Source={x:Reference Name=lblTagsStr}}" CommandParameter="{Binding}" />
+                    </Label.GestureRecognizers>
+                </Label>
+
+            </Grid>
 
         </Grid>
 
