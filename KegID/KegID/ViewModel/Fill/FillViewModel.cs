@@ -40,21 +40,26 @@ namespace KegID.ViewModel
             BatchButtonTitle = NewBatchModel.BrandName + "-" + NewBatchModel.BatchCode;
             IsRequiredVisible = false;
         }
+
         public Sku Sku { get; set; }
+
         public void OnSkuChanged()
         {
             BatchButtonTitle = Sku.AssetProfileName;
             IsRequiredVisible = false;
         }
+
         public string BatchButtonTitle { get; set; } = "Select batch";
         public string SizeButtonTitle { get; set; } =  "Select size";
         public string DestinationTitle { get; set; } = "Select destination";
+
         public void OnDestinationTitleChanged()
         {
             IsDestinationRequiredVisible = false;
         }
 
         public PartnerModel PartnerModel { get; set; } = new PartnerModel();
+
         public void OnPartnerModelChanged()
         {
             DestinationTitle = PartnerModel.FullName;
@@ -66,6 +71,7 @@ namespace KegID.ViewModel
         public bool IsDestinationRequiredVisible { get; set; } = true;
         public bool Operator { get; set; }
         public bool UsesSkus { get; set; }
+        public bool FillFromLocations { get; set; }
 
         #endregion
 
@@ -111,8 +117,9 @@ namespace KegID.ViewModel
             var preferenceUsesSkus = preferences.Find(x => x.PreferenceName == "UsesSkus");
             UsesSkus = preferenceUsesSkus != null && bool.Parse(preferenceUsesSkus.PreferenceValue);
 
+            //In Fill--> Scan where we have to check while scanning where we can get default location?...
             var preferenceFillFromLocations = preferences.Find(x => x.PreferenceName == "FillFromLocations");
-            var FillFromLocations = preferenceFillFromLocations != null && bool.Parse(preferenceFillFromLocations.PreferenceValue);
+            FillFromLocations = preferenceFillFromLocations != null && bool.Parse(preferenceFillFromLocations.PreferenceValue);
 
             var preferenceAllowMaintenanceFill = preferences.Find(x => x.PreferenceName == "AllowMaintenanceFill");
             var AllowMaintenanceFill = preferenceAllowMaintenanceFill != null && bool.Parse(preferenceAllowMaintenanceFill.PreferenceValue);
@@ -333,7 +340,7 @@ namespace KegID.ViewModel
 
         private async void BatchCommandRecieverAsync()
         {
-            if (!UsesSkus)
+            if (UsesSkus)
             {
                 await _navigationService.NavigateAsync("SKUView", animated: false);
             }

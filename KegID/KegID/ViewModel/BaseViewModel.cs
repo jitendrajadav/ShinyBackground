@@ -14,13 +14,13 @@ namespace KegID.ViewModel
         protected INavigationService _navigationService { get; }
 
         public ILoader  Loader { get; set; }
+
         public LocalizedResources Resources
         {
             get;
-            private set;
         }
 
-        public BaseViewModel(INavigationService navigationService)
+        protected BaseViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
             Loader = new Loader();
