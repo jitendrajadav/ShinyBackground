@@ -5083,11 +5083,29 @@ namespace KegID {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select Sku.
+        /// </summary>
+        internal static string title_select_sku {
+            get {
+                return ResourceManager.GetString("title_select_sku", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select Volume.
         /// </summary>
         internal static string title_select_volume {
             get {
                 return ResourceManager.GetString("title_select_volume", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Sku.
+        /// </summary>
+        internal static string title_sku_add {
+            get {
+                return ResourceManager.GetString("title_sku_add", resourceCulture);
             }
         }
         

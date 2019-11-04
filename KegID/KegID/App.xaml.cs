@@ -96,6 +96,7 @@ namespace KegID
             containerRegistry.RegisterForNavigation<AddBatchView, AddBatchViewModel>();
             containerRegistry.RegisterForNavigation<AddPalletsView, AddPalletsViewModel>();
             containerRegistry.RegisterForNavigation<BatchView, BatchViewModel>();
+            containerRegistry.RegisterForNavigation<SKUView, SKUViewModel>();
 
             containerRegistry.RegisterForNavigation<BrandView, BrandViewModel>();
             containerRegistry.RegisterForNavigation<FillScanReviewView, FillScanReviewViewModel>();

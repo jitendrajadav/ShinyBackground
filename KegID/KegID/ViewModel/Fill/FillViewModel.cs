@@ -40,7 +40,12 @@ namespace KegID.ViewModel
             BatchButtonTitle = NewBatchModel.BrandName + "-" + NewBatchModel.BatchCode;
             IsRequiredVisible = false;
         }
-
+        public Sku Sku { get; set; }
+        public void OnSkuChanged()
+        {
+            BatchButtonTitle = Sku.AssetProfileName;
+            IsRequiredVisible = false;
+        }
         public string BatchButtonTitle { get; set; } = "Select batch";
         public string SizeButtonTitle { get; set; } =  "Select size";
         public string DestinationTitle { get; set; } = "Select destination";
@@ -328,7 +333,14 @@ namespace KegID.ViewModel
 
         private async void BatchCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("BatchView", animated: false);
+            if (!UsesSkus)
+            {
+                await _navigationService.NavigateAsync("SKUView", animated: false);
+            }
+            else
+            {
+                await _navigationService.NavigateAsync("BatchView", animated: false);
+            }
         }
 
         private async void SizeCommandRecieverAsync()
@@ -393,13 +405,14 @@ namespace KegID.ViewModel
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (parameters.ContainsKey("CancelCommandRecieverAsync"))
-            {
-                CancelCommandRecieverAsync();
-            }
-
             switch (parameters.Keys.FirstOrDefault())
             {
+                case "CancelCommandRecieverAsync":
+                    CancelCommandRecieverAsync();
+                    break;
+                case "SKUModel":
+                    Sku = parameters.GetValue<Sku>("SKUModel");
+                    break;
                 case "model":
                     PartnerModel = parameters.GetValue<PartnerModel>("model");
                     ConstantManager.Partner = PartnerModel;

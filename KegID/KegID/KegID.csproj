@@ -106,6 +106,9 @@
     <Compile Update="Views\Dashboard\MenuView.xaml.cs">
       <DependentUpon>MenuView.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\Fill\SKUView.xaml.cs">
+      <DependentUpon>SKUView.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\Fill\FillScanReviewView.xaml.cs">
       <DependentUpon>FillScanReviewView.xaml</DependentUpon>
     </Compile>
