@@ -194,10 +194,10 @@
       <Version>1.2.0.223</Version>
     </PackageReference>
     <PackageReference Include="Scandit.BarcodePicker.Unified">
-      <Version>5.13.0.10</Version>
+      <Version>5.13.1.10</Version>
     </PackageReference>
     <PackageReference Include="Scandit.BarcodePicker.Xamarin">
-      <Version>5.13.0.10</Version>
+      <Version>5.13.1.10</Version>
     </PackageReference>
     <PackageReference Include="SegmentedControl.FormsPlugin">
       <Version>2.0.1</Version>

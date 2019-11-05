@@ -1,338 +1,346 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
-            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-            x:Class="KegID.Views.InventoryView"
-            BackgroundColor="{StaticResource pageBGColor}"
-            BarBackgroundColor="#F1F1F1"
-            xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
-            android:TabbedPage.ToolbarPlacement="Bottom"
-            android:TabbedPage.BarItemColor="#7B7B7B"
-            android:TabbedPage.BarSelectedItemColor="Black"
-            xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
-            ios:Page.UseSafeArea="true"
-            >
+<TabbedPage
+    x:Class="KegID.Views.InventoryView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    ios:Page.UseSafeArea="true"
+    BackgroundColor="{StaticResource pageBGColor}"
+    BarBackgroundColor="#F1F1F1">
 
-        <ContentPage 
-            x:Name="cnStock"
-            Title="{Binding Resources[label_stock]}">
-           
-            <Grid
-                AutomationId="mainGrd1">
+    <ContentPage x:Name="cnStock" Title="{Binding Resources[label_stock]}">
+
+        <Grid AutomationId="mainGrd1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="9*" />
+                <RowDefinition Height="9*" />
+                <RowDefinition Height="82*" />
+            </Grid.RowDefinitions>
+
+            <Button
+                x:Name="lblHome"
+                AutomationId="homeButton"
+                Command="{Binding HomeCommand}"
+                HorizontalOptions="Start"
+                Style="{StaticResource TopButtonTitleStyle}"
+                Text="{Binding Resources[button_home]}"
+                TextColor="{StaticResource selectTextColor}">
+                <Button.Margin>
+                    <OnPlatform x:TypeArguments="Thickness">
+                        <On Platform="iOS" Value="10,20,10,0" />
+                        <On Platform="Android, WinPhone, Windows" Value="10,0,10,0" />
+                    </OnPlatform>
+                </Button.Margin>
+                <Button.VerticalOptions>
+                    <OnPlatform x:TypeArguments="LayoutOptions">
+                        <On Platform="iOS" Value="EndAndExpand" />
+                        <On Platform="Android" Value="Center" />
+                    </OnPlatform>
+                </Button.VerticalOptions>
+            </Button>
+
+            <Label
+                AutomationId="stockSummaryLabel"
+                HorizontalOptions="Center"
+                Style="{StaticResource LabelTitleStyle}"
+                Text="{Binding Resources[title_stock_summary]}"
+                TextColor="Black">
+                <Label.VerticalOptions>
+                    <OnPlatform x:TypeArguments="LayoutOptions">
+                        <On Platform="iOS" Value="EndAndExpand" />
+                        <On Platform="Android" Value="Center" />
+                    </OnPlatform>
+                </Label.VerticalOptions>
+            </Label>
+
+            <BoxView
+                Grid.Row="1"
+                AutomationId="lineSeperatorBoxView1"
+                BackgroundColor="{StaticResource bannerBGColor}"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="Center" />
+
+            <Label
+                Grid.Row="1"
+                Margin="10,0,0,0"
+                AutomationId="stockLabel"
+                HorizontalOptions="Start"
+                Style="{StaticResource LabelTitleWhiteTextColorStyle}"
+                Text="{Binding Resources[label_stock]}"
+                VerticalTextAlignment="Center" />
+
+            <Grid Grid.Row="2">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="9*"/>
-                    <RowDefinition Height="9*"/>
-                    <RowDefinition Height="82*"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <Button
-                    AutomationId="homeButton"
-                    x:Name="lblHome"
-                    HorizontalOptions="Start"
-                    Style="{StaticResource TopButtonTitleStyle}"
-                    TextColor="{StaticResource selectTextColor}"
-                    Text="{Binding Resources[button_home]}"
-                    Command="{Binding HomeCommand}">
-                    <Button.Margin>
-                        <OnPlatform x:TypeArguments="Thickness">
-                            <On Platform="iOS" Value="10,20,10,0" />
-                            <On Platform="Android, WinPhone, Windows" Value="10,0,10,0" />
-                        </OnPlatform>
-                    </Button.Margin>
-                    <Button.VerticalOptions>
-                        <OnPlatform x:TypeArguments="LayoutOptions">
-                            <On Platform="iOS" Value="EndAndExpand"/>
-                            <On Platform="Android" Value="Center"/>
-                        </OnPlatform>
-                    </Button.VerticalOptions>
-                </Button>
 
-                <Label
-                    AutomationId="stockSummaryLabel"
-                    HorizontalOptions="Center"
-                    Style="{StaticResource LabelTitleStyle}"
-                    TextColor="Black"
-                    Text="{Binding Resources[title_stock_summary]}">
-                    <Label.VerticalOptions>
-                        <OnPlatform x:TypeArguments="LayoutOptions">
-                            <On Platform="iOS" Value="EndAndExpand"/>
-                            <On Platform="Android" Value="Center"/>
-                        </OnPlatform>
-                    </Label.VerticalOptions>
-                </Label>
-
-                <BoxView
-                    AutomationId="lineSeperatorBoxView1"
-                    Grid.Row="1"
-                    BackgroundColor="{StaticResource bannerBGColor}"
-                    VerticalOptions="Center"
-                    HorizontalOptions="FillAndExpand"/>
-
-                <Label
-                    AutomationId="stockLabel"
-                    Margin="10,0,0,0"
-                    VerticalTextAlignment="Center"
-                    Grid.Row="1"
-                    HorizontalOptions="Start"
-                    Style="{StaticResource LabelTitleWhiteTextColorStyle}"
-                    Text="{Binding Resources[label_stock]}"/>
-
-                <Grid Grid.Row="2">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-
-
-                <Grid
-                    Padding="5"
-                    BackgroundColor="{StaticResource lightGrayColor}">
+                <Grid Padding="5" BackgroundColor="{StaticResource lightGrayColor}">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="45*"/>
-                        <ColumnDefinition Width="30*"/>
-                        <ColumnDefinition Width="25*"/>
+                        <ColumnDefinition Width="45*" />
+                        <ColumnDefinition Width="30*" />
+                        <ColumnDefinition Width="25*" />
                     </Grid.ColumnDefinitions>
-                    <Label
-                            Text="{Binding Resources[label_brand]}"/>
-                    <Label
-                            Grid.Column="1"
-                            Text="{Binding Resources[tag_size]}"/>
+                    <Label Text="{Binding Resources[label_brand]}" />
+                    <Label Grid.Column="1" Text="{Binding Resources[tag_size]}" />
 
-                    <Label
-                            Grid.Column="2"
-                            Text="{Binding Resources[label_quantity]}"/>
+                    <Label Grid.Column="2" Text="{Binding Resources[label_quantity]}" />
                 </Grid>
 
-         
-                    <CollectionView  
-                        AutomationId="stockInventoryListView"
-                        Margin="5,0,5,0"
-                        Grid.Row="1"
-                        SelectionMode="None"
-                        x:Name="stockInventoryListView"
-                        VerticalOptions="FillAndExpand"
-                        android:ListView.IsFastScrollEnabled="true"
-                        ItemsSource="{Binding StockInventoryCollection}"
-                        >
+
+                <CollectionView
+                    x:Name="stockInventoryListView"
+                    Grid.Row="1"
+                    Margin="5,0,5,0"
+                    android:ListView.IsFastScrollEnabled="true"
+                    AutomationId="stockInventoryListView"
+                    ItemsSource="{Binding StockInventoryCollection}"
+                    SelectionMode="None"
+                    VerticalOptions="FillAndExpand">
 
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <Frame BorderColor="LightGray" CornerRadius="0" HasShadow="False" Padding="0">
-                                <Grid 
+                            <Frame
+                                Padding="0"
+                                BorderColor="LightGray"
+                                CornerRadius="0"
+                                HasShadow="False">
+                                <Grid
                                     Padding="5,0,0,0"
                                     BackgroundColor="Transparent"
-                                    VerticalOptions="FillAndExpand"
-                                    HorizontalOptions="FillAndExpand">
+                                    HorizontalOptions="FillAndExpand"
+                                    VerticalOptions="FillAndExpand">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="45*"/>
-                                        <ColumnDefinition Width="1"/>
-                                        <ColumnDefinition Width="30*"/>
-                                        <ColumnDefinition Width="1"/>
-                                        <ColumnDefinition Width="25*"/>
+                                        <ColumnDefinition Width="45*" />
+                                        <ColumnDefinition Width="1" />
+                                        <ColumnDefinition Width="30*" />
+                                        <ColumnDefinition Width="1" />
+                                        <ColumnDefinition Width="25*" />
                                     </Grid.ColumnDefinitions>
 
-                                    <Label 
-                                            Grid.Column="0"
-                                            VerticalOptions="FillAndExpand" 
-                                            VerticalTextAlignment="Center" 
-                                            FontSize="{StaticResource ListViewTitleFont}"
-                                            Text="{Binding OwnerName}" />
-                                <Frame BorderColor="LightGray" Grid.Column="1" CornerRadius="0" HasShadow="False" Padding="0"/>
-                                <Label 
-                                            Grid.Column="2"
-                                            VerticalOptions="FillAndExpand" 
-                                            VerticalTextAlignment="Center" 
-                                            FontSize="{StaticResource ListViewTitleFont}"
-                                            Text="{Binding Size}" />
-                                <Frame BorderColor="LightGray" Grid.Column="3" CornerRadius="0" HasShadow="False" Padding="0"/>
+                                    <Label
+                                        Grid.Column="0"
+                                        FontSize="{StaticResource ListViewTitleFont}"
+                                        Text="{Binding OwnerName}"
+                                        VerticalOptions="FillAndExpand"
+                                        VerticalTextAlignment="Center" />
+                                    <Frame
+                                        Grid.Column="1"
+                                        Padding="0"
+                                        BorderColor="LightGray"
+                                        CornerRadius="0"
+                                        HasShadow="False" />
+                                    <Label
+                                        Grid.Column="2"
+                                        FontSize="{StaticResource ListViewTitleFont}"
+                                        Text="{Binding Size}"
+                                        VerticalOptions="FillAndExpand"
+                                        VerticalTextAlignment="Center" />
+                                    <Frame
+                                        Grid.Column="3"
+                                        Padding="0"
+                                        BorderColor="LightGray"
+                                        CornerRadius="0"
+                                        HasShadow="False" />
 
-                                <Label 
-                                            Margin="0,0,5,0"
-                                            Grid.Column="4"
-                                            VerticalOptions="FillAndExpand" 
-                                            VerticalTextAlignment="Center"
-                                            HorizontalTextAlignment="End"
-                                            FontSize="{StaticResource ListViewTitleFont}"
-                                            Text="{Binding Quantity}" />
+                                    <Label
+                                        Grid.Column="4"
+                                        Margin="0,0,5,0"
+                                        FontSize="{StaticResource ListViewTitleFont}"
+                                        HorizontalTextAlignment="End"
+                                        Text="{Binding Quantity}"
+                                        VerticalOptions="FillAndExpand"
+                                        VerticalTextAlignment="Center" />
                                 </Grid>
                             </Frame>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
-            </CollectionView>
-          
-                  
-                    <Grid
+                </CollectionView>
+
+
+                <Grid
                     Grid.Row="2"
                     Padding="5"
                     BackgroundColor="{StaticResource lightGrayColor}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="45*"/>
-                    <ColumnDefinition Width="30*"/>
-                    <ColumnDefinition Width="25*"/>
-                </Grid.ColumnDefinitions>
-
-                <Label
-                                        FontAttributes="Bold"
-                                        Grid.ColumnSpan="2"
-                                        Text="{Binding Resources[label_totals]}"/>
-
-                <Label
-                                        Margin="0,0,5,0"
-                                        FontAttributes="Bold"
-                                        Grid.Column="2"
-                                        HorizontalOptions="EndAndExpand"
-                                        Text="{Binding StockTotals}"/>
-            </Grid>
-          
-                </Grid>
-            </Grid>
-        </ContentPage>
-
-        <ContentPage 
-            Title="{Binding Resources[content_list_empty]}"
-            x:Name="cnEmpty">
-            <Grid
-                AutomationId="mainGrd2">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="9*"/>
-                    <RowDefinition Height="9*"/>
-                    <RowDefinition Height="82*"/>
-                </Grid.RowDefinitions>
-
-                <Button
-                    AutomationId="homeButton1"
-                    TextColor="{StaticResource selectTextColor}"
-                    Style="{StaticResource TopButtonTitleStyle}"
-                    HorizontalOptions="Start"
-                    Text="{Binding Resources[button_home]}"
-                    Command="{Binding HomeCommand}">
-                    <Button.Margin>
-                        <OnPlatform x:TypeArguments="Thickness">
-                            <On Platform="iOS" Value="10,20,10,0" />
-                            <On Platform="Android, WinPhone, Windows" Value="10,0,10,0" />
-                        </OnPlatform>
-                    </Button.Margin>
-                    <Button.VerticalOptions>
-                        <OnPlatform x:TypeArguments="LayoutOptions">
-                            <On Platform="iOS" Value="EndAndExpand"/>
-                            <On Platform="Android" Value="Center"/>
-                        </OnPlatform>
-                    </Button.VerticalOptions>
-
-                </Button>
-
-                <Label
-                    AutomationId="emptySummaryLabel"
-                    HorizontalOptions="Center"
-                    Style="{StaticResource LabelTitleStyle}"
-                    TextColor="Black"
-                    Text="{Binding Resources[title_empty_summary]}">
-                    <Label.VerticalOptions>
-                        <OnPlatform x:TypeArguments="LayoutOptions">
-                            <On Platform="iOS" Value="EndAndExpand"/>
-                            <On Platform="Android" Value="Center"/>
-                        </OnPlatform>
-                    </Label.VerticalOptions>
-
-                </Label>
-
-                <BoxView
-                    AutomationId="lineSeperatorBoxview2"
-                    Grid.Row="1"
-                    BackgroundColor="{StaticResource bannerBGColor}"
-                    VerticalOptions="Center"
-                    HorizontalOptions="FillAndExpand"/>
-
-                <Label
-                    AutomationId="listEmptyLabel"
-                    Margin="10,0,0,0"
-                    Grid.Row="1"
-                    HorizontalOptions="Start"
-                    Style="{StaticResource LabelTitleWhiteTextColorStyle}"
-                    Text="{Binding Resources[content_list_empty]}"/>
-
-            <Grid
-                Grid.Row="2">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-
-                <Grid
-                                Padding="5"
-                                BackgroundColor="{StaticResource lightGrayColor}">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="45*"/>
-                        <ColumnDefinition Width="30*"/>
-                        <ColumnDefinition Width="25*"/>
+                        <ColumnDefinition Width="45*" />
+                        <ColumnDefinition Width="30*" />
+                        <ColumnDefinition Width="25*" />
                     </Grid.ColumnDefinitions>
 
                     <Label
-                                    Text="{Binding Resources[label_brand]}"/>
+                        Grid.ColumnSpan="2"
+                        FontAttributes="Bold"
+                        Text="{Binding Resources[label_totals]}" />
 
                     <Label
-                                    Grid.Column="1"
-                                    Text="{Binding Resources[tag_size]}"/>
-
-                    <Label
-                                    Grid.Column="2"
-                                    Text="{Binding Resources[label_quantity]}"/>
+                        Grid.Column="2"
+                        Margin="0,0,5,0"
+                        FontAttributes="Bold"
+                        HorizontalOptions="EndAndExpand"
+                        Text="{Binding StockTotals}" />
                 </Grid>
-                <CollectionView 
-                    AutomationId="EmptyInventoryListView"
-                    SelectionMode="None"
-                    Margin="5,0,5,0"
-                    Grid.Row="1"
+
+            </Grid>
+        </Grid>
+    </ContentPage>
+
+    <ContentPage x:Name="cnEmpty" Title="{Binding Resources[content_list_empty]}">
+        <Grid AutomationId="mainGrd2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="9*" />
+                <RowDefinition Height="9*" />
+                <RowDefinition Height="82*" />
+            </Grid.RowDefinitions>
+
+            <Button
+                AutomationId="homeButton1"
+                Command="{Binding HomeCommand}"
+                HorizontalOptions="Start"
+                Style="{StaticResource TopButtonTitleStyle}"
+                Text="{Binding Resources[button_home]}"
+                TextColor="{StaticResource selectTextColor}">
+                <Button.Margin>
+                    <OnPlatform x:TypeArguments="Thickness">
+                        <On Platform="iOS" Value="10,20,10,0" />
+                        <On Platform="Android, WinPhone, Windows" Value="10,0,10,0" />
+                    </OnPlatform>
+                </Button.Margin>
+                <Button.VerticalOptions>
+                    <OnPlatform x:TypeArguments="LayoutOptions">
+                        <On Platform="iOS" Value="EndAndExpand" />
+                        <On Platform="Android" Value="Center" />
+                    </OnPlatform>
+                </Button.VerticalOptions>
+
+            </Button>
+
+            <Label
+                AutomationId="emptySummaryLabel"
+                HorizontalOptions="Center"
+                Style="{StaticResource LabelTitleStyle}"
+                Text="{Binding Resources[title_empty_summary]}"
+                TextColor="Black">
+                <Label.VerticalOptions>
+                    <OnPlatform x:TypeArguments="LayoutOptions">
+                        <On Platform="iOS" Value="EndAndExpand" />
+                        <On Platform="Android" Value="Center" />
+                    </OnPlatform>
+                </Label.VerticalOptions>
+
+            </Label>
+
+            <BoxView
+                Grid.Row="1"
+                AutomationId="lineSeperatorBoxview2"
+                BackgroundColor="{StaticResource bannerBGColor}"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="Center" />
+
+            <Label
+                Grid.Row="1"
+                Margin="10,0,0,0"
+                AutomationId="listEmptyLabel"
+                HorizontalOptions="Start"
+                Style="{StaticResource LabelTitleWhiteTextColorStyle}"
+                Text="{Binding Resources[content_list_empty]}" />
+
+            <Grid Grid.Row="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Grid Padding="5" BackgroundColor="{StaticResource lightGrayColor}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="45*" />
+                        <ColumnDefinition Width="30*" />
+                        <ColumnDefinition Width="25*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Text="{Binding Resources[label_brand]}" />
+
+                    <Label Grid.Column="1" Text="{Binding Resources[tag_size]}" />
+
+                    <Label Grid.Column="2" Text="{Binding Resources[label_quantity]}" />
+                </Grid>
+                <CollectionView
                     x:Name="emptyInventoryListView"
+                    Grid.Row="1"
+                    Margin="5,0,5,0"
                     android:ListView.IsFastScrollEnabled="true"
-                    VerticalOptions="FillAndExpand"
-                    ItemsSource="{Binding EmptyInventoryCollection}">
+                    AutomationId="EmptyInventoryListView"
+                    ItemsSource="{Binding EmptyInventoryCollection}"
+                    SelectionMode="None"
+                    VerticalOptions="FillAndExpand">
                     <CollectionView.ItemsLayout>
-                        <GridItemsLayout Orientation="Vertical" Span="1" VerticalItemSpacing="0"/>
+                        <GridItemsLayout
+                            Orientation="Vertical"
+                            Span="1"
+                            VerticalItemSpacing="0" />
                     </CollectionView.ItemsLayout>
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <Frame BorderColor="LightGray" CornerRadius="0" HasShadow="False" Padding="0">
-                                <Grid  
-                                    IsClippedToBounds="True"
-                                    RowSpacing="0"
+                            <Frame
+                                Padding="0"
+                                BorderColor="LightGray"
+                                CornerRadius="0"
+                                HasShadow="False">
+                                <Grid
                                     Padding="5,0,0,0"
-                                    HorizontalOptions="FillAndExpand">
+                                    HorizontalOptions="FillAndExpand"
+                                    IsClippedToBounds="True"
+                                    RowSpacing="0">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="45*"/>
-                                        <ColumnDefinition Width="1"/>
-                                        <ColumnDefinition Width="30*"/>
-                                        <ColumnDefinition Width="1"/>
-                                        <ColumnDefinition Width="25*"/>
+                                        <ColumnDefinition Width="45*" />
+                                        <ColumnDefinition Width="1" />
+                                        <ColumnDefinition Width="30*" />
+                                        <ColumnDefinition Width="1" />
+                                        <ColumnDefinition Width="25*" />
                                     </Grid.ColumnDefinitions>
 
-                                    <Label 
+                                    <Label
                                         Grid.Column="0"
-                                        VerticalOptions="FillAndExpand" 
-                                        VerticalTextAlignment="Center" 
                                         FontSize="{StaticResource ListViewTitleFont}"
-                                        Text="{Binding OwnerName}" />
+                                        Text="{Binding OwnerName}"
+                                        VerticalOptions="FillAndExpand"
+                                        VerticalTextAlignment="Center" />
 
-                                    <Frame Grid.Column="1" BorderColor="LightGray" CornerRadius="0" HasShadow="False" Padding="0" IsClippedToBounds="True"/>
+                                    <Frame
+                                        Grid.Column="1"
+                                        Padding="0"
+                                        BorderColor="LightGray"
+                                        CornerRadius="0"
+                                        HasShadow="False"
+                                        IsClippedToBounds="True" />
 
-                                    <Label 
+                                    <Label
                                         Grid.Column="2"
-                                        VerticalOptions="FillAndExpand" 
-                                        VerticalTextAlignment="Center" 
                                         FontSize="{StaticResource ListViewTitleFont}"
-                                        Text="{Binding Size}" />
+                                        Text="{Binding Size}"
+                                        VerticalOptions="FillAndExpand"
+                                        VerticalTextAlignment="Center" />
 
-                                    <Frame  Grid.Column="3" BorderColor="LightGray" Padding="0" CornerRadius="0" HasShadow="False" IsClippedToBounds="True"/>
+                                    <Frame
+                                        Grid.Column="3"
+                                        Padding="0"
+                                        BorderColor="LightGray"
+                                        CornerRadius="0"
+                                        HasShadow="False"
+                                        IsClippedToBounds="True" />
 
-                                    <Label 
-                                        Margin="0,0,5,0"
+                                    <Label
                                         Grid.Column="4"
-                                        VerticalOptions="FillAndExpand" 
-                                        VerticalTextAlignment="Center"
-                                        HorizontalTextAlignment="End"
+                                        Margin="0,0,5,0"
                                         FontSize="{StaticResource ListViewTitleFont}"
-                                        Text="{Binding Quantity}" />
+                                        HorizontalTextAlignment="End"
+                                        Text="{Binding Quantity}"
+                                        VerticalOptions="FillAndExpand"
+                                        VerticalTextAlignment="Center" />
                                 </Grid>
                             </Frame>
                         </DataTemplate>
@@ -341,29 +349,29 @@
                 </CollectionView>
                 <Grid
                     Grid.Row="2"
-                                Padding="5"
-                                BackgroundColor="{StaticResource lightGrayColor}">
+                    Padding="5"
+                    BackgroundColor="{StaticResource lightGrayColor}">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="45*"/>
-                        <ColumnDefinition Width="30*"/>
-                        <ColumnDefinition Width="25*"/>
+                        <ColumnDefinition Width="45*" />
+                        <ColumnDefinition Width="30*" />
+                        <ColumnDefinition Width="25*" />
                     </Grid.ColumnDefinitions>
 
                     <Label
-                                    FontAttributes="Bold"
-                                    Grid.ColumnSpan="2"
-                                    Text="{Binding Resources[label_totals]}"/>
+                        Grid.ColumnSpan="2"
+                        FontAttributes="Bold"
+                        Text="{Binding Resources[label_totals]}" />
 
                     <Label
-                                    FontAttributes="Bold"
-                                    Grid.Column="2"
-                                    Margin="0,0,5,0"
-                                    HorizontalOptions="EndAndExpand"
-                                    Text="{Binding EmptyTotals}"/>
+                        Grid.Column="2"
+                        Margin="0,0,5,0"
+                        FontAttributes="Bold"
+                        HorizontalOptions="EndAndExpand"
+                        Text="{Binding EmptyTotals}" />
                 </Grid>
             </Grid>
 
-            </Grid>
-        </ContentPage>
+        </Grid>
+    </ContentPage>
 
 </TabbedPage>

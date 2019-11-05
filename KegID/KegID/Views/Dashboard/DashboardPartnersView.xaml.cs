@@ -12,7 +12,14 @@ namespace KegID.Views
 	{
 		public DashboardPartnersView()
 		{
-			InitializeComponent ();
+            try
+            {
+                InitializeComponent();
+            }
+            catch (System.Exception ex)
+            {
+
+            }
             NavigationPage.SetHasNavigationBar(this, false);
         }
 

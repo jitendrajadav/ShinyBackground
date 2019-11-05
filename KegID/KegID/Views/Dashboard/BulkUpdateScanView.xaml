@@ -1,192 +1,178 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="KegID.Views.BulkUpdateScanView"
-             xmlns:behaviors="clr-namespace:KegID.Behaviors"
-             xmlns:controls="clr-namespace:Plugin.CrossPlatformTintedImage.Abstractions;assembly=Plugin.CrossPlatformTintedImage.Abstractions"
-             BackgroundColor="{StaticResource pageBGColor}"
-             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
-             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
-             ios:Page.UseSafeArea="true"
-             xmlns:local="clr-namespace:KegID.Views"
-             >
+<ContentPage
+    x:Class="KegID.Views.BulkUpdateScanView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:KegID.Behaviors"
+    xmlns:controls="clr-namespace:Plugin.CrossPlatformTintedImage.Abstractions;assembly=Plugin.CrossPlatformTintedImage.Abstractions"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    xmlns:local="clr-namespace:KegID.Views"
+    ios:Page.UseSafeArea="true"
+    BackgroundColor="{StaticResource pageBGColor}">
 
     <ContentPage.Content>
-        <Grid
-            AutomationId="mainGrd"
-            RowSpacing="0">
+        <Grid AutomationId="mainGrd" RowSpacing="0">
 
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            
+
             <Button
-                AutomationId="cancelButton"
                 x:Name="lblCancel"
+                AutomationId="cancelButton"
+                Command="{Binding CancelCommand}"
                 HorizontalOptions="Start"
                 Style="{StaticResource TopButtonTitleStyle}"
-                Text="{Binding Resources[dialog_print_negative]}"
-                Command="{Binding CancelCommand}"
-                />
+                Text="{Binding Resources[dialog_print_negative]}" />
 
             <Label
                 AutomationId="scanLabel"
                 HorizontalOptions="Center"
                 Style="{StaticResource LabelTitleStyle}"
-                Text="{Binding Resources[menu_action_scan]}"
-                />
+                Text="{Binding Resources[menu_action_scan]}" />
 
             <Button
-                AutomationId="saveButton"
                 x:Name="lblSave"
+                AutomationId="saveButton"
+                Command="{Binding SaveCommand}"
                 HorizontalOptions="End"
                 Style="{StaticResource TopButtonTitleStyle}"
-                Text="{Binding Resources[button_save]}"
-                Command="{Binding SaveCommand}"
-                />
-            
+                Text="{Binding Resources[button_save]}" />
+
             <Grid
-                AutomationId="innerGrd"
-                Margin="10"
                 Grid.Row="1"
+                Margin="10"
+                AutomationId="innerGrd"
                 RowSpacing="0">
-                
+
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="80*"/>
-                    <ColumnDefinition Width="10*"/>
-                    <ColumnDefinition Width="10*"/>
+                    <ColumnDefinition Width="80*" />
+                    <ColumnDefinition Width="10*" />
+                    <ColumnDefinition Width="10*" />
                 </Grid.ColumnDefinitions>
 
                 <BoxView
-                    AutomationId="topBarSeparator"
                     Grid.Row="0"
                     Grid.ColumnSpan="3"
+                    AutomationId="topBarSeparator"
                     BackgroundColor="{StaticResource lightGrayColor}"
                     HeightRequest="1"
-                    VerticalOptions="Start"
-                    HorizontalOptions="FillAndExpand"/>
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="Start" />
 
                 <Picker
-                    AutomationId="assetTypePicker"
                     Title="{Binding Resources[label_partnerinfo_type]}"
-                    BackgroundColor="Transparent"
-                    TextColor="{StaticResource selectTextColor}"
                     Grid.Row="1"
                     Grid.ColumnSpan="3"
+                    AutomationId="assetTypePicker"
+                    BackgroundColor="Transparent"
                     HorizontalOptions="FillAndExpand"
                     ItemsSource="{Binding AssetTypeCollection}"
-                    SelectedItem="{Binding SelectedItemType,Mode=TwoWay}">
-                </Picker>
+                    SelectedItem="{Binding SelectedItemType, Mode=TwoWay}"
+                    TextColor="{StaticResource selectTextColor}" />
 
                 <Picker
-                    AutomationId="sizePicker"
                     Title="{Binding Resources[tag_size]}"
                     Grid.Row="2"
                     Grid.ColumnSpan="3"
+                    AutomationId="sizePicker"
                     BackgroundColor="Transparent"
-                    TextColor="{StaticResource selectTextColor}"
                     HorizontalOptions="FillAndExpand"
                     ItemsSource="{Binding SizeCollection}"
-                    SelectedItem="{Binding SelectedItemSize,Mode=TwoWay}"/>
+                    SelectedItem="{Binding SelectedItemSize, Mode=TwoWay}"
+                    TextColor="{StaticResource selectTextColor}" />
 
                 <Entry
-                    AutomationId="barcodeEntry"
                     Grid.Row="3"
-                    Text="{Binding ManaulBarcode,Mode=TwoWay}"
-                    >
+                    AutomationId="barcodeEntry"
+                    Text="{Binding ManaulBarcode, Mode=TwoWay}">
                     <Entry.Behaviors>
-                        <behaviors:EventToCommandBehavior
-                        EventName="Completed"
-                      Command="{Binding BarcodeManualCommand}"/>
+                        <behaviors:EventToCommandBehavior Command="{Binding BarcodeManualCommand}" EventName="Completed" />
                     </Entry.Behaviors>
 
                 </Entry>
-               
-                <controls:TintedImage 
-                    AutomationId="cameraImage"
-                    TintColor="{StaticResource selectTextColor}"
+
+                <controls:TintedImage
                     x:Name="imgCamera"
                     Grid.Row="3"
-                    HeightRequest="30"
-                    WidthRequest="30"
                     Grid.Column="1"
-                    HorizontalOptions="Center">
+                    AutomationId="cameraImage"
+                    HeightRequest="30"
+                    HorizontalOptions="Center"
+                    TintColor="{StaticResource selectTextColor}"
+                    WidthRequest="30">
 
                     <controls:TintedImage.Source>
-                        <FileImageSource File="{OnPlatform Android=camera.png,iOS=camera.png, UWP=Assets/camera.png }"/>
+                        <FileImageSource File="{OnPlatform Android=camera.png, iOS=camera.png, UWP=Assets/camera.png}" />
                     </controls:TintedImage.Source>
 
                     <controls:TintedImage.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding Path=BindingContext.BarcodeScanCommand, 
-                                                        Source={x:Reference Name=imgCamera}}"
-                                                         CommandParameter="{Binding}"/>
+                        <TapGestureRecognizer Command="{Binding Path=BindingContext.BarcodeScanCommand, Source={x:Reference Name=imgCamera}}" CommandParameter="{Binding}" />
                     </controls:TintedImage.GestureRecognizers>
                 </controls:TintedImage>
 
                 <controls:TintedImage
-                    AutomationId="tagsImage"
-                    TintColor="{StaticResource selectTextColor}"
                     x:Name="imgTags"
                     Grid.Row="3"
                     Grid.Column="2"
+                    AutomationId="tagsImage"
                     HeightRequest="30"
-                    HorizontalOptions="Center">
+                    HorizontalOptions="Center"
+                    TintColor="{StaticResource selectTextColor}">
 
                     <controls:TintedImage.Source>
-                        <FileImageSource File="{OnPlatform Android=tags.png,iOS=tags.png, UWP=Assets/tags.png }"/>
+                        <FileImageSource File="{OnPlatform Android=tags.png, iOS=tags.png, UWP=Assets/tags.png}" />
                     </controls:TintedImage.Source>
 
                     <controls:TintedImage.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding Path=BindingContext.AddTagsCommand, 
-                                                        Source={x:Reference Name=imgTags}}"
-                                                         CommandParameter="{Binding}"/>
+                        <TapGestureRecognizer Command="{Binding Path=BindingContext.AddTagsCommand, Source={x:Reference Name=imgTags}}" CommandParameter="{Binding}" />
                     </controls:TintedImage.GestureRecognizers>
                 </controls:TintedImage>
 
                 <Label
-                    AutomationId="tagsLabel"
                     Grid.Row="4"
                     Grid.ColumnSpan="3"
+                    AutomationId="tagsLabel"
+                    FontSize="10"
                     LineBreakMode="TailTruncation"
-                    Text="{Binding TagsStr}"
-                    FontSize="10"/>
+                    Text="{Binding TagsStr}" />
 
                 <BoxView
-                    AutomationId="lineSeperator"
-                    Margin="-10,0,-10,0"
                     Grid.Row="5"
                     Grid.ColumnSpan="3"
+                    Margin="-10,0,-10,0"
+                    AutomationId="lineSeperator"
                     BackgroundColor="{StaticResource bannerBGColor}"
-                    VerticalOptions="FillAndExpand"
-                    HorizontalOptions="FillAndExpand"/>
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="FillAndExpand" />
 
                 <Label
+                    Grid.Row="5"
+                    Grid.ColumnSpan="3"
                     AutomationId="scannedLabel"
                     Style="{StaticResource LabelTitleWhiteTextColorStyle}"
-                    Grid.Row="5"
-                    Grid.ColumnSpan="3"
-                    Text="{Binding Resources[label_scanned]}"/>
+                    Text="{Binding Resources[label_scanned]}" />
 
                 <Label
-                    AutomationId="scanCountLabel"
-                    Grid.ColumnSpan="3"
                     Grid.Row="5"
-                    Style="{StaticResource LabelLargeStyle}"
-                    TextColor="{StaticResource scanCounterColor}"
-                    HorizontalOptions="End"
+                    Grid.ColumnSpan="3"
                     Margin="0,0,10,0"
-                    Text="{Binding BarcodeCollection.Count}"/>
+                    AutomationId="scanCountLabel"
+                    HorizontalOptions="End"
+                    Style="{StaticResource LabelLargeStyle}"
+                    Text="{Binding BarcodeCollection.Count}"
+                    TextColor="{StaticResource scanCounterColor}" />
 
                 <!--<ListView
                     AutomationId="barcodeListView"
@@ -205,7 +191,7 @@
                         <DataTemplate>
                             <ViewCell>
 
-                                <Grid 
+                                <Grid
                                     RowSpacing="0"
                                     ColumnSpacing="0">
 
@@ -219,22 +205,23 @@
                                         <ColumnDefinition Width="20*"/>
                                     </Grid.ColumnDefinitions>
 
-                                    <Label 
+                                    <Label
                                         Margin="0,5,0,0"
-                                        VerticalOptions="FillAndExpand" 
-                                        VerticalTextAlignment="Center" 
+                                        VerticalOptions="FillAndExpand"
+                                        VerticalTextAlignment="Center"
                                         Text="{Binding Barcode}"
                                         TextColor="Black"
                                         FontSize="{StaticResource ListViewTitleFont}">
 
                                         <Label.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding Path=BindingContext.LabelItemTappedCommand, 
+                                            <TapGestureRecognizer Command="{Binding Path=BindingContext.LabelItemTappedCommand,
                                                         Source={x:Reference Name=lstBarcode}}"
                                                          CommandParameter="{Binding}"/>
                                         </Label.GestureRecognizers>
                                     </Label>
 
-                                    --><!--<Image 
+                -->
+                <!--<Image
                                         Grid.Column="1"
                                         Grid.RowSpan="2"
                                         HeightRequest="30"
@@ -245,13 +232,13 @@
                                         Source="{Binding Icon,Mode=TwoWay}">
 
                                         <Image.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding Path=BindingContext.IconItemTappedCommand, 
+                                            <TapGestureRecognizer Command="{Binding Path=BindingContext.IconItemTappedCommand,
                                                         Source={x:Reference Name=lstBarcode}}"
                                                          CommandParameter="{Binding}"/>
                                         </Image.GestureRecognizers>
                                     </Image>-->
 
-                                    <!--<Label
+                <!--<Label
                                         Margin="0,0,0,2"
                                         LineBreakMode="TailTruncation"
                                         TextColor="{StaticResource lightGrayColor}"
@@ -259,11 +246,12 @@
                                         FontSize="{StaticResource ListViewDetailFont}"
                                         Text="{Binding TagsStr}">
                                         <Label.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding Path=BindingContext.LabelItemTappedCommand, 
+                                            <TapGestureRecognizer Command="{Binding Path=BindingContext.LabelItemTappedCommand,
                                                         Source={x:Reference Name=lstBarcode}}"
                                                          CommandParameter="{Binding}"/>
                                         </Label.GestureRecognizers>
-                                    </Label>--><!--
+                                    </Label>-->
+                <!--
                                 </Grid>
                             </ViewCell>
                         </DataTemplate>
@@ -271,9 +259,9 @@
                 </ListView>-->
 
                 <local:ScanItemView
-                    AutomationId="scanItemView"
                     Grid.Row="6"
-                    Grid.ColumnSpan="3"/>
+                    Grid.ColumnSpan="3"
+                    AutomationId="scanItemView" />
 
             </Grid>
         </Grid>

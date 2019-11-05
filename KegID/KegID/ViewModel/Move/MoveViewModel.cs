@@ -463,19 +463,16 @@ namespace KegID.ViewModel
                     await _dialogService.DisplayAlertAsync("Error", "Please select a origin first.", "Ok");
                     return;
                 }
-                else
+                else if (Barcodes != null)
                 {
-                    if (Barcodes != null)
-                    {
-                        await _navigationService.NavigateAsync("ScanKegsView", new NavigationParameters
+                    await _navigationService.NavigateAsync("ScanKegsView", new NavigationParameters
                             {
                                 { "models", Barcodes }
                             }, animated: false);
-                    }
-                    else
-                    {
-                        await _navigationService.NavigateAsync("ScanKegsView", animated: false);
-                    }
+                }
+                else
+                {
+                    await _navigationService.NavigateAsync("ScanKegsView", animated: false);
                 }
             }
             catch (Exception ex)

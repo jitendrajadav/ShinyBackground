@@ -83,107 +83,106 @@
                 </SearchBar.Behaviors>
             </SearchBar>
 
-            <ListView
+            <CollectionView
                 x:Name="lstPartners"
                 Grid.Row="2"
                 Margin="10,0,10,0"
-                android:ListView.IsFastScrollEnabled="true"
                 AutomationId="partnerListview"
-                CachingStrategy="RecycleElement"
-                HasUnevenRows="True"
                 ItemsSource="{Binding PartnerCollection}"
-                SelectionMode="None"
-                SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
-                SeparatorVisibility="Default"
+                SelectionChangedCommand="{Binding ItemTappedCommand}"
+                SelectionChangedCommandParameter="{Binding SelectedItem}"
+                SelectionMode="Single"
                 VerticalOptions="FillAndExpand">
-
-                <ListView.Behaviors>
+                <!--    -->
+                <!--<CollectionView.Behaviors>
 
                     <behaviors:EventToCommandBehavior
                         Command="{Binding ItemTappedCommand}"
                         EventArgsConverter="{StaticResource ItemTappedConverter}"
                         EventName="ItemTapped" />
 
-                </ListView.Behaviors>
+                </CollectionView.Behaviors>-->
 
-                <ListView.ItemTemplate>
+                <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <ViewCell>
-                            <Grid ColumnSpacing="0" RowSpacing="0">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
+                        <Grid ColumnSpacing="0" RowSpacing="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
 
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="85*" />
-                                    <ColumnDefinition Width="15*" />
-                                </Grid.ColumnDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="85*" />
+                                <ColumnDefinition Width="15*" />
+                            </Grid.ColumnDefinitions>
 
-                                <Label
-                                    FontSize="{StaticResource ListViewTitleFont}"
-                                    Text="{Binding Path=Location.FullName}"
-                                    TextColor="{StaticResource selectTextColor}" />
-                                <Label
-                                    Grid.Row="1"
-                                    FontSize="{StaticResource ListViewDetailFont}"
-                                    Text="{Binding Path=Location.Address}"
-                                    TextColor="{StaticResource lightGrayColor}" />
-                                <Label
-                                    Grid.Row="2"
-                                    FontSize="{StaticResource ListViewDetailFont}"
-                                    Text="{Binding Path=Location.PartnerTypeName}"
-                                    TextColor="{StaticResource lightGrayColor}" />
+                            <Label
+                                FontSize="{StaticResource ListViewTitleFont}"
+                                Text="{Binding Path=Location.FullName}"
+                                TextColor="{StaticResource selectTextColor}" />
+                            <Label
+                                Grid.Row="1"
+                                FontSize="{StaticResource ListViewDetailFont}"
+                                Text="{Binding Path=Location.Address}"
+                                TextColor="{StaticResource lightGrayColor}" />
+                            <Label
+                                Grid.Row="2"
+                                FontSize="{StaticResource ListViewDetailFont}"
+                                Text="{Binding Path=Location.PartnerTypeName}"
+                                TextColor="{StaticResource lightGrayColor}" />
 
-                                <Image
-                                    Grid.RowSpan="2"
-                                    Grid.Column="1"
-                                    HeightRequest="30"
-                                    HorizontalOptions="Center"
-                                    IsVisible="{Binding HasOverdueKegs}"
-                                    VerticalOptions="Center"
-                                    WidthRequest="30">
-                                    <Image.Source>
-                                        <FileImageSource File="{OnPlatform Android=warn.png, iOS=warn.png, UWP=Assets/warn.png}" />
-                                    </Image.Source>
-                                </Image>
+                            <Image
+                                Grid.RowSpan="2"
+                                Grid.Column="1"
+                                HeightRequest="30"
+                                HorizontalOptions="Center"
+                                IsVisible="{Binding HasOverdueKegs}"
+                                VerticalOptions="Center"
+                                WidthRequest="30">
+                                <Image.Source>
+                                    <FileImageSource File="{OnPlatform Android=warn.png, iOS=warn.png, UWP=Assets/warn.png}" />
+                                </Image.Source>
+                            </Image>
 
-                                <Label
-                                    Grid.Row="2"
-                                    Grid.Column="1"
-                                    FontSize="{StaticResource ListViewDetailFont}"
-                                    TextColor="{StaticResource lightGrayColor}">
-                                    <Label.FormattedText>
-                                        <FormattedString>
-                                            <Span Text="{Binding KegsHeld}" />
-                                            <Span Text="{Binding ContainerTypes}" />
-                                        </FormattedString>
-                                    </Label.FormattedText>
-                                </Label>
-                            </Grid>
-                        </ViewCell>
+                            <Label
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                FontSize="{StaticResource ListViewDetailFont}"
+                                TextColor="{StaticResource lightGrayColor}">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="{Binding KegsHeld}" />
+                                        <Span Text="{Binding ContainerTypes}" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </Grid>
                     </DataTemplate>
-                </ListView.ItemTemplate>
+                </CollectionView.ItemTemplate>
 
                 <!--  the "loading..." view  -->
-                <ListView.Footer>
+                <!--<CollectionView.Footer>
                     <Grid Padding="6" IsVisible="{Binding IsWorking}">
-                        <!--  set the footer to have a zero height when invisible  -->
+                -->
+                <!--  set the footer to have a zero height when invisible  -->
+                <!--
                         <Grid.Triggers>
                             <Trigger TargetType="Grid" Property="IsVisible" Value="False">
                                 <Setter Property="HeightRequest" Value="0" />
                             </Trigger>
                         </Grid.Triggers>
-                        <!--  the loading content  -->
+                -->
+                <!--  the loading content  -->
+                <!--
                         <Label
                             HorizontalOptions="Center"
                             Text="Loading..."
                             VerticalOptions="Center" />
                     </Grid>
-                </ListView.Footer>
+                </CollectionView.Footer>-->
 
-            </ListView>
+            </CollectionView>
 
             <segcontrols:SegmentedControl
                 x:Name="SegControl"
