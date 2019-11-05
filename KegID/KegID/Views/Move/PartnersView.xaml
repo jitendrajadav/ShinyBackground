@@ -1,218 +1,205 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="KegID.Views.PartnersView"
-             xmlns:behaviors="clr-namespace:KegID.Behaviors"
-             BackgroundColor="{StaticResource pageBGColor}"
-             xmlns:controls="clr-namespace:Plugin.CrossPlatformTintedImage.Abstractions;assembly=Plugin.CrossPlatformTintedImage.Abstractions"
-             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
-             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
-             ios:Page.UseSafeArea="true"
-             >
+<ContentPage
+    x:Class="KegID.Views.PartnersView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+    xmlns:behaviors="clr-namespace:KegID.Behaviors"
+    xmlns:controls="clr-namespace:Plugin.CrossPlatformTintedImage.Abstractions;assembly=Plugin.CrossPlatformTintedImage.Abstractions"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    xmlns:segcontrols="clr-namespace:SegmentedControl.FormsPlugin.Abstractions;assembly=SegmentedControl.FormsPlugin.Abstractions"
+    ios:Page.UseSafeArea="true"
+    BackgroundColor="{StaticResource pageBGColor}">
 
     <ContentPage.Content>
-        
+
         <Grid
-            RowSpacing="0"
+            AutomationId="mainGrd"
             ColumnSpacing="0"
-            AutomationId="mainGrd">
-            
+            RowSpacing="0">
+
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <Grid 
-                AutomationId="innerGrd"
-                VerticalOptions="Center"
+            <Grid
                 Margin="0,0,10,0"
+                AutomationId="innerGrd"
                 ColumnSpacing="0"
-                RowSpacing="0">
+                RowSpacing="0"
+                VerticalOptions="Center">
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-            
-                <Button
-                    AutomationId="backButton"
-                    Grid.Column="0"
-                    x:Name="lblBack"
-                    Style="{StaticResource TopButtonTitleStyle}"
-                    Text="{Binding Resources[button_back]}"
-                    HorizontalOptions="Start"
-                    Command="{Binding BackCommand}"
-                    />
 
-                <Label 
-                    AutomationId="parnterListLabel"
+                <Button
+                    x:Name="lblBack"
+                    Grid.Column="0"
+                    AutomationId="backButton"
+                    Command="{Binding BackCommand}"
+                    HorizontalOptions="Start"
+                    Style="{StaticResource TopButtonTitleStyle}"
+                    Text="{Binding Resources[button_back]}" />
+
+                <Label
                     Grid.Column="1"
-                    Text="{Binding Resources[title_partner_list]}"
+                    AutomationId="parnterListLabel"
                     FontAttributes="Bold"
-                    Style="{StaticResource LabelTitleStyle}"
-                    TextColor="Black"
                     HorizontalOptions="CenterAndExpand"
-                    />
+                    Style="{StaticResource LabelTitleStyle}"
+                    Text="{Binding Resources[title_partner_list]}"
+                    TextColor="Black" />
 
                 <controls:TintedImage
-                    AutomationId="searchImage"
-                    Grid.Column="2"
                     x:Name="imgSearch"
-                    TintColor="{StaticResource selectTextColor}"
+                    Grid.Column="2"
+                    AutomationId="searchImage"
                     HeightRequest="30"
                     HorizontalOptions="End"
-                    VerticalOptions="Center"
-                    >
+                    TintColor="{StaticResource selectTextColor}"
+                    VerticalOptions="Center">
                     <controls:TintedImage.Source>
-                        <FileImageSource File="{OnPlatform Android=actionsearch.png,iOS=actionsearch.png, UWP=Assets/actionsearch.png }"/>
+                        <FileImageSource File="{OnPlatform Android=actionsearch.png, iOS=actionsearch.png, UWP=Assets/actionsearch.png}" />
                     </controls:TintedImage.Source>
 
                     <controls:TintedImage.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding Path=BindingContext.SearchPartnerCommand, 
-                                                        Source={x:Reference Name=imgSearch}}"
-                                                            CommandParameter="{Binding}"/>
+                        <TapGestureRecognizer Command="{Binding Path=BindingContext.SearchPartnerCommand, Source={x:Reference Name=imgSearch}}" CommandParameter="{Binding}" />
 
                     </controls:TintedImage.GestureRecognizers>
                 </controls:TintedImage>
 
                 <controls:TintedImage
-                    AutomationId="addImage"
-                    Grid.Column="3"
                     x:Name="imgAdd"
-                    TintColor="{StaticResource selectTextColor}"
-                    HeightRequest="30"
+                    Grid.Column="3"
                     Margin="5,0,0,0"
+                    AutomationId="addImage"
+                    HeightRequest="30"
                     HorizontalOptions="Start"
-                    VerticalOptions="Center"
-                    >
+                    TintColor="{StaticResource selectTextColor}"
+                    VerticalOptions="Center">
                     <controls:TintedImage.Source>
-                        <FileImageSource File="{OnPlatform Android=add.png,iOS=add.png, UWP=Assets/add.png }"/>
+                        <FileImageSource File="{OnPlatform Android=add.png, iOS=add.png, UWP=Assets/add.png}" />
                     </controls:TintedImage.Source>
 
                     <controls:TintedImage.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding Path=BindingContext.AddNewPartnerCommand, 
-                                                        Source={x:Reference Name=imgAdd}}"
-                                                            CommandParameter="{Binding}"/>
+                        <TapGestureRecognizer Command="{Binding Path=BindingContext.AddNewPartnerCommand, Source={x:Reference Name=imgAdd}}" CommandParameter="{Binding}" />
 
                     </controls:TintedImage.GestureRecognizers>
                 </controls:TintedImage>
             </Grid>
 
             <BoxView
+                Grid.Row="1"
                 AutomationId="topBarSeperatorBoxView"
-                Grid.Row="1"
                 BackgroundColor="{StaticResource bannerBGColor}"
-                VerticalOptions="FillAndExpand"
-                HorizontalOptions="FillAndExpand"/>
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand" />
 
-            <SearchBar 
-                AutomationId="searchBar"
-                Margin="10,5,10,5"
-                x:Name="SearchBar" 
+            <SearchBar
+                x:Name="SearchBar"
                 Grid.Row="1"
-                Placeholder="{Binding Resources[hint_partner_name]}"
+                Margin="10,5,10,5"
+                AutomationId="searchBar"
                 BackgroundColor="White"
+                HeightRequest="{OnPlatform iOS=40,
+                                           Android=40,
+                                           UWP=40}"
+                Placeholder="{Binding Resources[hint_partner_name]}"
                 PlaceholderColor="{StaticResource lightGrayColor}"
-                Text="{Binding PartnerName}"
-                SearchCommand="{Binding TextChangedCommand}" 
+                SearchCommand="{Binding TextChangedCommand}"
                 SearchCommandParameter="{Binding Text, Source={x:Reference SearchBar}}"
-                HeightRequest="{OnPlatform iOS=40,Android=40,UWP=40}">
-                
+                Text="{Binding PartnerName}">
+
                 <SearchBar.Behaviors>
                     <behaviors:TextChangedBehavior />
                 </SearchBar.Behaviors>
-               
+
             </SearchBar>
 
             <ListView
-                AutomationId="partnerListView"
-                Margin="10,0,10,0"
                 x:Name="lstPartners"
                 Grid.Row="2"
+                Margin="10,0,10,0"
                 android:ListView.IsFastScrollEnabled="true"
-                SelectionMode="None"
-                VerticalOptions="FillAndExpand"
-                SeparatorVisibility="Default"
-                SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
-                HasUnevenRows="True"
+                AutomationId="partnerListView"
                 CachingStrategy="RecycleElement"
-                ItemsSource="{Binding PartnerCollection}">
+                HasUnevenRows="True"
+                ItemsSource="{Binding PartnerCollection}"
+                SelectionMode="None"
+                SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
+                SeparatorVisibility="Default"
+                VerticalOptions="FillAndExpand">
 
                 <ListView.Behaviors>
                     <behaviors:EventToCommandBehavior
-                        EventName="ItemTapped" 
                         Command="{Binding ItemTappedCommand}"
-                        EventArgsConverter="{StaticResource ItemTappedConverter}"/>
+                        EventArgsConverter="{StaticResource ItemTappedConverter}"
+                        EventName="ItemTapped" />
                 </ListView.Behaviors>
 
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <StackLayout
-                                Spacing="0">
-                                <Label 
+                            <StackLayout Spacing="0">
+                                <Label
                                     FontAttributes="Bold"
-                                    TextColor="{StaticResource selectTextColor}" 
-                                    Text="{Binding FullName}"
+                                    FontSize="{StaticResource ListViewTitleFont}"
                                     LineBreakMode="TailTruncation"
-                                    FontSize="{StaticResource ListViewTitleFont}"/>
-                                <Label 
+                                    Text="{Binding FullName}"
+                                    TextColor="{StaticResource selectTextColor}" />
+                                <Label
                                     Margin="0,5,0,0"
-                                    TextColor="{StaticResource lightGrayColor}" 
-                                    Text="{Binding Address}" 
                                     FontSize="{StaticResource ListViewDetailFont}"
-                                    LineBreakMode="TailTruncation"/>
-                                <Label 
-                                    TextColor="{StaticResource lightGrayColor}" 
-                                    Text="{Binding PartnerTypeName}" 
-                                    FontSize="{StaticResource ListViewDetailFont}"/>
+                                    LineBreakMode="TailTruncation"
+                                    Text="{Binding Address}"
+                                    TextColor="{StaticResource lightGrayColor}" />
+                                <Label
+                                    FontSize="{StaticResource ListViewDetailFont}"
+                                    Text="{Binding PartnerTypeName}"
+                                    TextColor="{StaticResource lightGrayColor}" />
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
-                
+
             </ListView>
 
-            <Grid
-                AutomationId="innerGrd1"
-                ColumnSpacing="0"
-                VerticalOptions="Center"
-                HorizontalOptions="Center"
+            <segcontrols:SegmentedControl
+                x:Name="SegControl"
                 Grid.Row="3"
                 Margin="0,0,0,5"
-                HeightRequest="35"
-                RowSpacing="{OnPlatform Android=0,iOS=10}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100"/>
-                    <ColumnDefinition Width="100"/>
-                </Grid.ColumnDefinitions>
-
-                <Button
-                    AutomationId="internalButton"
-                    BorderRadius="0"
-                    BorderWidth="1"
-                    BorderColor="#4E6388"
-                    BackgroundColor="{Binding InternalBackgroundColor}"
-                    TextColor="{Binding InternalTextColor}"
-                    Text="{Binding Resources[label_internal]}"
-                    Command="{Binding InternalCommand}"/>
-
-                <Button
-                    AutomationId="alphabeticalButton"
-                    BorderRadius="0"
-                    BorderWidth="1"
-                    BorderColor="#4E6388"
-                    Grid.Column="1"
-                    BackgroundColor="{Binding AlphabeticalBackgroundColor}"
-                    TextColor="{Binding AlphabeticalTextColor}"
-                    Text="{Binding Resources[menu_action_sort_alphabetical]}"
-                    Command="{Binding AlphabeticalCommand}"/>
-
-            </Grid>
+                BackgroundColor="White"
+                HorizontalOptions="CenterAndExpand"
+                SelectedSegment="0"
+                TintColor="#4E6388"
+                ValueChanged="SegControl_ValueChanged"
+                WidthRequest="300">
+                <segcontrols:SegmentedControl.Children>
+                    <segcontrols:SegmentedControlOption
+                        HorizontalOptions="Center"
+                        MinimumWidthRequest="80"
+                        Text="Internal"
+                        WidthRequest="100" />
+                    <segcontrols:SegmentedControlOption
+                        HorizontalOptions="Center"
+                        MinimumWidthRequest="80"
+                        Text="Alphabetical"
+                        WidthRequest="100" />
+                    <segcontrols:SegmentedControlOption
+                        BackgroundColor="#4E6388"
+                        HorizontalOptions="Center"
+                        MinimumWidthRequest="80"
+                        Text="Nearby"
+                        WidthRequest="100" />
+                </segcontrols:SegmentedControl.Children>
+            </segcontrols:SegmentedControl>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

@@ -2896,6 +2896,15 @@ namespace KegID {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Near by Me.
+        /// </summary>
+        internal static string menu_action_sort_nearestme {
+            get {
+                return ResourceManager.GetString("menu_action_sort_nearestme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Oldest.
         /// </summary>
         internal static string menu_action_sort_oldest {

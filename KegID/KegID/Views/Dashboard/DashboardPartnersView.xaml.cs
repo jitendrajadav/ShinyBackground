@@ -10,16 +10,9 @@ namespace KegID.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class DashboardPartnersView : ContentPage
 	{
-		public DashboardPartnersView()
-		{
-            try
-            {
-                InitializeComponent();
-            }
-            catch (System.Exception ex)
-            {
-
-            }
+        public DashboardPartnersView()
+        {
+            InitializeComponent();
             NavigationPage.SetHasNavigationBar(this, false);
         }
 

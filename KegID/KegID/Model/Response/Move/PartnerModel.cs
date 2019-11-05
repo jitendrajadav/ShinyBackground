@@ -36,6 +36,8 @@ namespace KegID.Model
         [DoNotNotify]
         public double Lon { get; set; }
         [DoNotNotify]
+        public double Distance { get; set; }
+        [DoNotNotify]
         public bool IsInternal { get; set; }
         [DoNotNotify]
         public bool IsShared { get; set; }
@@ -58,7 +60,7 @@ namespace KegID.Model
     }
 
 
-    public class PartnerResponseModel 
+    public class PartnerResponseModel
     {
         public KegIDResponse Response { get; set; }
         public IList<PartnerModel> PartnerModel { get; set; }

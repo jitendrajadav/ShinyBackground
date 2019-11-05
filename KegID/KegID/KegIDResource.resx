@@ -1827,4 +1827,7 @@
   <data name="title_sku_add" xml:space="preserve">
     <value>Add Sku</value>
   </data>
+  <data name="menu_action_sort_nearestme" xml:space="preserve">
+    <value>Near by Me</value>
+  </data>
 </root>

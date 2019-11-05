@@ -11,6 +11,7 @@ using Prism.Commands;
 using Prism.Navigation;
 using System.Threading.Tasks;
 using KegID.Common;
+using Xamarin.Essentials;
 
 namespace KegID.ViewModel
 {
@@ -19,15 +20,14 @@ namespace KegID.ViewModel
         #region Properties
 
         private readonly IMoveService _moveService;
+        private readonly IGeolocationService _geolocationService;
+
         public bool BrewerStockOn { get; set; }
         public bool IsWorking { get; set; }
-        public string InternalBackgroundColor { get; set; } = "Transparent";
-        public string InternalTextColor { get; set; } = "White";
-        public string AlphabeticalBackgroundColor { get; set; } = "Transparent";
-        public string AlphabeticalTextColor { get; set; } = "#4E6388";
         public ObservableCollection<PartnerModel> PartnerCollection { get; set; }
         public string PartnerName { get; set; }
         public string CommingFrom { get; set; }
+        public int? SelectedSegment { get; private set; }
 
         public IList<PartnerModel> AllPartners { get; set; }
 
@@ -42,24 +42,23 @@ namespace KegID.ViewModel
         public DelegateCommand AddNewPartnerCommand { get; }
         public DelegateCommand BackCommand { get; }
         public DelegateCommand TextChangedCommand { get; }
+        public DelegateCommand<object> SelectedSegmentCommand { get; }
 
         #endregion
 
         #region Constructor
 
-        public PartnersViewModel(IMoveService moveService, INavigationService navigationService) : base(navigationService)
+        public PartnersViewModel(IMoveService moveService, INavigationService navigationService, IGeolocationService geolocationService) : base(navigationService)
         {
             _moveService = moveService;
+            _geolocationService = geolocationService;
 
-            InternalCommand = new DelegateCommand(InternalCommandReciever);
-            AlphabeticalCommand = new DelegateCommand(AlphabeticalCommandReciever);
             ItemTappedCommand = new DelegateCommand<PartnerModel>((model) => ItemTappedCommandRecieverAsync(model));
             SearchPartnerCommand = new DelegateCommand(SearchPartnerCommandRecieverAsync);
             AddNewPartnerCommand = new DelegateCommand(AddNewPartnerCommandRecieverAsync);
             BackCommand = new DelegateCommand(BackCommandRecieverAsync);
             TextChangedCommand = new DelegateCommand(TextChangedCommandRecieverAsync);
-            InternalBackgroundColor = "#4E6388";
-            InternalTextColor = "White";
+            SelectedSegmentCommand = new DelegateCommand<object>((seg) => SelectedSegmentCommandReciever(seg));
         }
 
         #endregion
@@ -72,9 +71,18 @@ namespace KegID.ViewModel
             {
                 try
                 {
-                    var notNullPartners = AllPartners.Where(x => x.FullName != null).ToList();
-                    var result = notNullPartners.Where(x => x.FullName.IndexOf(PartnerName, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
-                    PartnerCollection = new ObservableCollection<PartnerModel>(result);
+                    if (SelectedSegment == 2)
+                    {
+                        var notNullPartners = AllPartners.Where(x => x.SourceKey != null).ToList();
+                        List<PartnerModel> result = notNullPartners.Where(x => x.SourceKey.IndexOf(PartnerName, StringComparison.CurrentCultureIgnoreCase) >= 0).ToList();
+                        PartnerCollection = new ObservableCollection<PartnerModel>(result);
+                    }
+                    else
+                    {
+                        var notNullPartners = AllPartners.Where(x => x.FullName != null).ToList();
+                        var result = notNullPartners.Where(x => x.FullName.IndexOf(PartnerName, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
+                        PartnerCollection = new ObservableCollection<PartnerModel>(result);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -83,10 +91,49 @@ namespace KegID.ViewModel
             }
             else
             {
-                if (InternalTextColor.Contains("White"))
-                    InternalCommandReciever();
-                else
-                    AlphabeticalCommandReciever();
+                SelectedSegmentCommandReciever(SelectedSegment);
+            }
+        }
+
+        private async void SelectedSegmentCommandReciever(object seg)
+        {
+            if (SelectedSegment != (int)seg)
+            {
+                SelectedSegment = (int)seg;
+                if (AllPartners.Count > 0)
+                {
+                    switch (seg)
+                    {
+                        case 0:
+                            if (BrewerStockOn)
+                                PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners.Where(x => x.PartnerTypeName == "Brewer - Stock").ToList());
+                            else
+                                PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners);
+                            break;
+                        case 1:
+                            if (BrewerStockOn)
+                                PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners.OrderBy(x => x.FullName).Where(x => x.PartnerTypeName == "Brewer - Stock").ToList());
+                            else
+                                PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners.OrderBy(x => x.FullName));
+                            break;
+                        case 2:
+                            var locationStart = await _geolocationService.GetLastLocationAsync();
+                            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                            using (var trans = RealmDb.BeginWrite())
+                            {
+                                foreach (var item in AllPartners)
+                                {
+                                    item.Distance = Xamarin.Essentials.Location.CalculateDistance(locationStart, item.Lat, item.Lon, DistanceUnits.Miles);
+                                }
+                                trans.Commit();
+                            }
+                            if (BrewerStockOn)
+                                PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners.OrderBy(x => x.Distance).ToList());
+                            else
+                                PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners.OrderBy(x => x.Distance).ToList());
+                            break;
+                    }
+                }
             }
         }
 
@@ -114,19 +161,10 @@ namespace KegID.ViewModel
         public async Task LoadPartnersAsync()
         {
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-
             AllPartners = RealmDb.All<PartnerModel>().Where(x=>x.PartnerId != AppSettings.CompanyId).ToList();
             try
             {
-                PartnerCollection = null;
-                if (AllPartners.Count > 0)
-                {
-                    if (BrewerStockOn)
-                        PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners.Where(x => x.PartnerTypeName == "Brewer - Stock").ToList());
-                    else
-                        PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners);
-                }
-                else
+                if (AllPartners.Count <= 0)
                 {
                     DeletePartners();
                     await LoadMetaDataPartnersAsync();
@@ -175,50 +213,6 @@ namespace KegID.ViewModel
                     trans.Commit();
                 }
                 var AllPartners = RealmDb.All<PartnerModel>().ToList();
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
-        }
-
-        private void AlphabeticalCommandReciever()
-        {
-            try
-            {
-                PartnerCollection = null;
-                if (BrewerStockOn)
-                    PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners.OrderBy(x => x.FullName).Where(x => x.PartnerTypeName == "Brewer - Stock").ToList());
-                else
-                    PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners.OrderBy(x => x.FullName));
-
-                AlphabeticalBackgroundColor = "#4E6388";
-                AlphabeticalTextColor = "White";
-
-                InternalBackgroundColor = "White";
-                InternalTextColor = "#4E6388";
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
-        }
-
-        private void InternalCommandReciever()
-        {
-            try
-            {
-                PartnerCollection = null;
-                if (BrewerStockOn)
-                    PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners.Where(x => x.PartnerTypeName == "Brewer - Stock").ToList());
-                else
-                    PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners);
-
-                InternalBackgroundColor = "#4E6388";
-                InternalTextColor = "White";
-
-                AlphabeticalBackgroundColor = "White";
-                AlphabeticalTextColor = "#4E6388";
             }
             catch (Exception ex)
             {
@@ -286,10 +280,7 @@ namespace KegID.ViewModel
 
         public override async Task InitializeAsync(INavigationParameters parameters)
         {
-            if (parameters.ContainsKey("BrewerStockOn"))
-                BrewerStockOn = true;
-            else
-                BrewerStockOn = false;
+            BrewerStockOn = parameters.ContainsKey("BrewerStockOn");
             if (parameters.ContainsKey("GoingFrom"))
             {
                 CommingFrom = parameters.GetValue<string>("GoingFrom");
