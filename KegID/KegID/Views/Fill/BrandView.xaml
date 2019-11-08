@@ -1,75 +1,68 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="KegID.Views.BrandView"
-             xmlns:behaviors="clr-namespace:KegID.Behaviors"
-             BackgroundColor="{StaticResource pageBGColor}"
-             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
-             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
-             ios:Page.UseSafeArea="true"
-             >
+<ContentPage
+    x:Class="KegID.Views.BrandView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+    xmlns:behaviors="clr-namespace:KegID.Behaviors"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    ios:Page.UseSafeArea="true"
+    BackgroundColor="{StaticResource pageBGColor}">
 
     <ContentPage.Content>
-        <Grid
-            AutomationId="mainGrd"
-            RowSpacing="0">
+        <Grid AutomationId="mainGrd" RowSpacing="0">
 
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            
+
             <Grid
-                AutomationId="innerGrd"
-                Padding="0,5"
                 Grid.Row="0"
+                Padding="0,5"
+                AutomationId="innerGrd"
                 BackgroundColor="{StaticResource selectTextColor}">
 
                 <Label
                     AutomationId="selectBrandLabel"
-                    Style="{StaticResource LabelTitleStyle}"
-                    TextColor="White"
                     HorizontalOptions="CenterAndExpand"
-                    Text="{Binding Resources[title_select_brand]}"/>
+                    Style="{StaticResource LabelTitleStyle}"
+                    Text="{Binding Resources[title_select_brand]}"
+                    TextColor="White" />
             </Grid>
-            
-            <ListView 
-                AutomationId="brandListView"
-                Margin="5,0,5,0"
-                Grid.Row="1"
+
+            <CollectionView
                 x:Name="brandListView"
-                SeparatorVisibility="Default"
+                Grid.Row="1"
+                Margin="5,0,5,0"
                 android:ListView.IsFastScrollEnabled="true"
-                SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
-                HasUnevenRows="true"
-                SelectionMode="None"
-                ItemsSource="{Binding BrandCollection}">
+                AutomationId="brandListView"
+                ItemsSource="{Binding BrandCollection}"
+                SelectionChangedCommand="{Binding ItemTappedCommand}"
+                SelectionChangedCommandParameter="{Binding SelectedItem, Source={x:Reference brandListView}}"
+                SelectionMode="Single">
 
-                <ListView.Behaviors>
-                    <behaviors:EventToCommandBehavior
-                            EventName="ItemTapped" 
-                            Command="{Binding ItemTappedCommand}"
-                            EventArgsConverter="{StaticResource ItemTappedConverter}"/>
-
-                </ListView.Behaviors>
-
-                <ListView.ItemTemplate>
+                <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <ViewCell>
-                            <StackLayout>
+                        <Frame
+                            Padding="-1,0,-1,0"
+                            BorderColor="LightGray"
+                            CornerRadius="0"
+                            HasShadow="False">
+                            <StackLayout Margin="5,0,5,0">
                                 <Label
-                                Margin="10"
-                                FontSize="{StaticResource ListViewTitleFont}"
-                                VerticalOptions="Center"
-                                TextColor="Black"
-                                Text="{Binding BrandName}"/>
+                                    Margin="10"
+                                    FontSize="{StaticResource ListViewTitleFont}"
+                                    Text="{Binding BrandName}"
+                                    TextColor="Black"
+                                    VerticalOptions="Center" />
                             </StackLayout>
-                        </ViewCell>
+                        </Frame>
                     </DataTemplate>
-                </ListView.ItemTemplate>
+                </CollectionView.ItemTemplate>
 
-            </ListView>
+            </CollectionView>
         </Grid>
     </ContentPage.Content>
-    
+
 </ContentPage>

@@ -1,115 +1,110 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="KegID.Views.BatchView"
-             xmlns:behaviors="clr-namespace:KegID.Behaviors"
-             BackgroundColor="{StaticResource pageBGColor}"
-             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
-             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
-             ios:Page.UseSafeArea="true"
-             >
+<ContentPage
+    x:Class="KegID.Views.BatchView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+    xmlns:behaviors="clr-namespace:KegID.Behaviors"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    ios:Page.UseSafeArea="true"
+    BackgroundColor="{StaticResource pageBGColor}">
 
     <ContentPage.Content>
-        
-        <Grid
-            AutomationId="mainGrd"
-            RowSpacing="0">
-            
+
+        <Grid AutomationId="mainGrd" RowSpacing="0">
+
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
             <Button
+                x:Name="lblAddBatch"
                 Margin="10,0,0,0"
                 AutomationId="addBatchButton"
-                x:Name="lblAddBatch"
-                Style="{StaticResource TopButtonTitleStyle}"
-                Text="{Binding Resources[title_batch_add]}"
                 Command="{Binding AddBatchCommand}"
-                />
+                Style="{StaticResource TopButtonTitleStyle}"
+                Text="{Binding Resources[title_batch_add]}" />
 
             <BoxView
-                AutomationId="topBarSeperatorBoxView"
                 Margin="-10,0,-10,0"
+                AutomationId="topBarSeperatorBoxView"
                 BackgroundColor="{StaticResource lightGrayPlaceholderColor}"
                 HeightRequest="1"
-                VerticalOptions="End"
-                HorizontalOptions="FillAndExpand"/>
-            
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="End" />
+
             <Grid
-                AutomationId="innerGrd"
-                Padding="0,5"
                 Grid.Row="1"
+                Padding="0,5"
+                AutomationId="innerGrd"
                 BackgroundColor="{StaticResource selectTextColor}">
 
                 <Label
                     AutomationId="selectBatchLebel"
-                    Style="{StaticResource LabelTitleStyle}"
                     HorizontalOptions="CenterAndExpand"
-                    TextColor="White"
-                    Text="{Binding Resources[title_select_batch]}"/>
+                    Style="{StaticResource LabelTitleStyle}"
+                    Text="{Binding Resources[title_select_batch]}"
+                    TextColor="White" />
             </Grid>
 
-            <ListView
-                AutomationId="batchListView"
-                Grid.Row="2"
-                Margin="10,0,10,0"
+            <CollectionView
                 x:Name="lstBatch"
-                SeparatorVisibility="Default"
+                Grid.Row="2"
                 android:ListView.IsFastScrollEnabled="true"
-                SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
-                HasUnevenRows="True"
-                SelectionMode="None"
-                CachingStrategy="RecycleElement"
+                AutomationId="batchListView"
                 ItemsSource="{Binding BatchCollection}"
-                >
+                SelectionChangedCommand="{Binding ItemTappedCommand}"
+                SelectionChangedCommandParameter="{Binding SelectedItem, Source={x:Reference lstBatch}}"
+                SelectionMode="Single">
 
-                <ListView.Behaviors>
-                    <behaviors:EventToCommandBehavior
-                    EventName="ItemTapped" 
-                    Command="{Binding ItemTappedCommand}"
-                    EventArgsConverter="{StaticResource ItemTappedConverter}"/>
-                </ListView.Behaviors>
-
-                <ListView.ItemTemplate>
+                <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <ViewCell>
-                            <Grid HeightRequest="40">
+                        <Frame
+                            Padding="-1,0,-1,0"
+                            BorderColor="LightGray"
+                            CornerRadius="0"
+                            HasShadow="False">
+                            <Grid
+                                Margin="5,0,5,0"
+                                BackgroundColor="Transparent"
+                                HeightRequest="40"
+                                HorizontalOptions="FillAndExpand"
+                                VerticalOptions="FillAndExpand">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
-                                <Label 
-                                    VerticalOptions="FillAndExpand" 
-                                    VerticalTextAlignment="Center" 
-                                    TextColor="Black"
+                                <Label
                                     FontSize="{StaticResource ListViewTitleFont}"
-                                    Text="{Binding BrandName}" />
+                                    Text="{Binding BrandName}"
+                                    TextColor="Black"
+                                    VerticalOptions="FillAndExpand"
+                                    VerticalTextAlignment="Center" />
 
-                                <Label 
+                                <Label
                                     Grid.Column="1"
-                                    TextColor="Black"
-                                    VerticalOptions="FillAndExpand" 
-                                    VerticalTextAlignment="Center" 
                                     FontSize="{StaticResource ListViewTitleFont}"
-                                    Text=" - " />
+                                    Text=" - "
+                                    TextColor="Black"
+                                    VerticalOptions="FillAndExpand"
+                                    VerticalTextAlignment="Center" />
 
-                                <Label 
+                                <Label
                                     Grid.Column="2"
-                                    VerticalOptions="FillAndExpand" 
-                                    VerticalTextAlignment="Center" 
-                                    TextColor="Black"
                                     FontSize="{StaticResource ListViewTitleFont}"
-                                    Text="{Binding BatchCode}" />
+                                    Text="{Binding BatchCode}"
+                                    TextColor="Black"
+                                    VerticalOptions="FillAndExpand"
+                                    VerticalTextAlignment="Center" />
                             </Grid>
-                        </ViewCell>
+                        </Frame>
                     </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
 
         </Grid>
     </ContentPage.Content>

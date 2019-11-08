@@ -1,61 +1,57 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage 
+<ContentPage
+    x:Class="KegID.Views.ContentTagsView"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="KegID.Views.ContentTagsView"
-    BackgroundColor="{StaticResource pageBGColor}"
     xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
     xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
     ios:Page.UseSafeArea="true"
-    >
-    
+    BackgroundColor="{StaticResource pageBGColor}">
+
     <ContentPage.Content>
-       
-        <Grid
-            AutomationId="mainGrd">
-            
+
+        <Grid AutomationId="mainGrd">
+
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <Button 
-                AutomationId="manifestButton"
+            <Button
                 x:Name="lblManifest"
-                Style="{StaticResource TopButtonTitleStyle}"
-                Text="{Binding Resources[pref_template_manifest]}"
+                AutomationId="manifestButton"
                 Command="{Binding ManifestCommand}"
-                />
-            
+                Style="{StaticResource TopButtonTitleStyle}"
+                Text="{Binding Resources[pref_template_manifest]}" />
+
             <BoxView
-                AutomationId="topBarSeperatorBoxView"
                 Grid.Row="1"
+                AutomationId="topBarSeperatorBoxView"
                 BackgroundColor="{StaticResource lightGrayPlaceholderColor}"
                 HeightRequest="1"
-                VerticalOptions="Start"
-                HorizontalOptions="FillAndExpand"/>
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="Start" />
 
-            <ListView
-                AutomationId="contentListView"
+            <CollectionView
+                x:Name="lstContent"
                 Grid.Row="2"
                 Margin="10,0,10,0"
-                x:Name="lstContent"
-                SeparatorVisibility="Default"
                 android:ListView.IsFastScrollEnabled="true"
-                SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
-                HasUnevenRows="True"
-                SelectionMode="None"
-                CachingStrategy="RecycleElement"
-                ItemsSource="{Binding ContentCollection}">
+                AutomationId="contentListView"
+                ItemsSource="{Binding ContentCollection}"
+                SelectionMode="None">
 
-                <ListView.ItemTemplate>
+                <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <TextCell Height="50" Text="{Binding}" TextColor="Black"/>
+                        <TextCell
+                            Height="50"
+                            Text="{Binding}"
+                            TextColor="Black" />
                     </DataTemplate>
-                </ListView.ItemTemplate>
+                </CollectionView.ItemTemplate>
 
-            </ListView>
+            </CollectionView>
 
         </Grid>
     </ContentPage.Content>

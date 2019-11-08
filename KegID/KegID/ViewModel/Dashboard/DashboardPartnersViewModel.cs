@@ -44,8 +44,8 @@ namespace KegID.ViewModel
             TextChangedCommand = new DelegateCommand(TextChangedCommandRecieverAsync);
             SelectedSegmentCommand = new DelegateCommand<object>((seg) => SelectedSegmentCommandReciever(seg));
 
-            LoadPartners();
             PreferenceSetting();
+            LoadPartners();
         }
 
         private void PreferenceSetting()
@@ -84,6 +84,14 @@ namespace KegID.ViewModel
         {
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             AllPartners = RealmDb.All<PossessorResponseModel>().ToList();
+            using (var trans = RealmDb.BeginWrite())
+            {
+                foreach (var item in AllPartners)
+                {
+                    item.ContainerTypes = ContainerTypes;
+                }
+                trans.Commit();
+            }
         }
 
         private void TextChangedCommandRecieverAsync()

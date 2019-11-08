@@ -1,96 +1,90 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="KegID.Views.KegSearchedListView"
-             xmlns:behaviors="clr-namespace:KegID.Behaviors"
-             BackgroundColor="{StaticResource pageBGColor}"
-             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
-             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
-             ios:Page.UseSafeArea="true"
-             >
+<ContentPage
+    x:Class="KegID.Views.KegSearchedListView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+    xmlns:behaviors="clr-namespace:KegID.Behaviors"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    ios:Page.UseSafeArea="true"
+    BackgroundColor="{StaticResource pageBGColor}">
 
     <ContentPage.Content>
-       
-        <Grid
-            AutomationId="mainGrd">
+
+        <Grid AutomationId="mainGrd">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
             <Button
-                AutomationId="searchManifestButton"
                 x:Name="lblSearchManifest"
-                Style="{StaticResource TopButtonTitleStyle}"
-                HorizontalOptions="Start"
-                Text="{Binding Resources[button_back]}"
+                AutomationId="searchManifestButton"
                 Command="{Binding KegSearchCommand}"
-                />
+                HorizontalOptions="Start"
+                Style="{StaticResource TopButtonTitleStyle}"
+                Text="{Binding Resources[button_back]}" />
 
             <Label
                 AutomationId="kegSearchLabel"
                 HorizontalOptions="Center"
                 Style="{StaticResource LabelTitleStyle}"
-                Text="{Binding Resources[title_keg_search]}"
-                />
-            
+                Text="{Binding Resources[title_keg_search]}" />
+
             <BoxView
-                AutomationId="topBarSeperatorBoxView"
                 Grid.Row="1"
+                AutomationId="topBarSeperatorBoxView"
                 BackgroundColor="{StaticResource lightGrayColor}"
                 HeightRequest="1"
-                VerticalOptions="Start"
-                HorizontalOptions="FillAndExpand"/>
-            
-            <ListView
-                AutomationId="kegSearchListView"
-                Margin="10,0,10,0"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="Start" />
+
+            <CollectionView
                 x:Name="lstKegSearch"
                 Grid.Row="2"
-                SelectionMode="None"
-                SeparatorVisibility="Default"
                 android:ListView.IsFastScrollEnabled="true"
-                SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
-                HasUnevenRows="True"
-                CachingStrategy="RecycleElement"
-                ItemsSource="{Binding KegSearchCollection}">
+                AutomationId="kegSearchListView"
+                ItemsSource="{Binding KegSearchCollection}"
+                SelectionChangedCommand="{Binding ItemTappedCommand}"
+                SelectionChangedCommandParameter="{Binding SelectedItem, Source={x:Reference lstKegSearch}}"
+                SelectionMode="Single">
 
-                <ListView.Behaviors>
-                    <behaviors:EventToCommandBehavior
-                        EventName="ItemTapped" 
-                        Command="{Binding ItemTappedCommand}"
-                        EventArgsConverter="{StaticResource ItemTappedConverter}"/>
-                </ListView.Behaviors>
 
-                <ListView.ItemTemplate>
+                <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <ViewCell>
-
-                            <Grid>
-
+                        <Frame
+                            Padding="-1,0,-1,0"
+                            BorderColor="LightGray"
+                            CornerRadius="0"
+                            HasShadow="False">
+                            <Grid
+                                Margin="5,0,5,0"
+                                BackgroundColor="Transparent"
+                                HorizontalOptions="FillAndExpand"
+                                VerticalOptions="FillAndExpand">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
 
                                 <Label
                                     FontSize="{StaticResource ListViewTitleFont}"
-                                    TextColor="{StaticResource selectTextColor}"
-                                    Text="{Binding Barcode}"/>
+                                    Text="{Binding Barcode}"
+                                    TextColor="{StaticResource selectTextColor}" />
 
                                 <Label
                                     Grid.Row="1"
                                     FontSize="{StaticResource ListViewDetailFont}"
-                                    TextColor="{StaticResource lightGrayColor}"
-                                    Text="{Binding SizeName}"/>
+                                    Text="{Binding SizeName}"
+                                    TextColor="{StaticResource lightGrayColor}" />
 
                             </Grid>
-                        </ViewCell>
+                        </Frame>
                     </DataTemplate>
-                </ListView.ItemTemplate>
+                </CollectionView.ItemTemplate>
 
-            </ListView>
+            </CollectionView>
 
         </Grid>
     </ContentPage.Content>

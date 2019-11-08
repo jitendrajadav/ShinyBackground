@@ -1,221 +1,213 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d"
-             BackgroundColor="{StaticResource pageBGColor}"
-             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
-             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
-             ios:Page.UseSafeArea="true"
-             x:Class="KegID.Views.AssetProfileView">
-    
+<ContentPage
+    x:Class="KegID.Views.AssetProfileView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    ios:Page.UseSafeArea="true"
+    BackgroundColor="{StaticResource pageBGColor}"
+    mc:Ignorable="d">
+
     <ContentPage.Content>
-        <Grid
-            AutomationId="mainGrd"
-            RowSpacing="0">
+        <Grid AutomationId="mainGrd" RowSpacing="0">
 
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <Label 
+            <Label
                 AutomationId="assingSizesLabel"
                 HorizontalOptions="Center"
                 HorizontalTextAlignment="Center"
-                Text="{Binding Resources[title_assign_sizes]}"
                 Style="{StaticResource LabelTitleStyle}"
-                TextColor="Black"/>
+                Text="{Binding Resources[title_assign_sizes]}"
+                TextColor="Black" />
 
             <Button
-                AutomationId="doneButton"
                 x:Name="lblDone"
-                HorizontalOptions="End"
-                Text="{Binding Resources[button_done]}"
-                Style="{StaticResource TopButtonTitleStyle}"
+                AutomationId="doneButton"
                 Command="{Binding DoneCommand}"
-                />
+                HorizontalOptions="End"
+                Style="{StaticResource TopButtonTitleStyle}"
+                Text="{Binding Resources[button_done]}" />
 
             <BoxView
-                AutomationId="topBarSeperatorBoxView"
                 Grid.Row="1"
+                AutomationId="topBarSeperatorBoxView"
                 BackgroundColor="{StaticResource lightGrayColor}"
                 HeightRequest="1"
-                VerticalOptions="Start"
-                HorizontalOptions="FillAndExpand"/>
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="Start" />
 
             <Grid
-                AutomationId="innerGrd"
+                Grid.Row="2"
                 Margin="10,5,0,0"
-                RowSpacing="{OnPlatform iOS=5,Android=0,UWP=0}"
-                ColumnSpacing="{OnPlatform iOS=5,Android=0,UWP=0}"
-                Grid.Row="2">
+                AutomationId="innerGrd"
+                ColumnSpacing="{OnPlatform iOS=5,
+                                           Android=0,
+                                           UWP=0}"
+                RowSpacing="{OnPlatform iOS=5,
+                                        Android=0,
+                                        UWP=0}">
 
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="20*"/>
-                    <ColumnDefinition Width="80*"/>
+                    <ColumnDefinition Width="20*" />
+                    <ColumnDefinition Width="80*" />
                 </Grid.ColumnDefinitions>
 
                 <Button
-                    AutomationId="applyToAllButton"
                     x:Name="btnApplyToAll"
-                    Style="{StaticResource TopButtonTitleStyle}"
-                    Text="{Binding Resources[title_apply_to_all]}"
                     Grid.Row="0"
                     Grid.ColumnSpan="2"
-                    Command="{Binding ApplyToAllCommand}"/>
+                    AutomationId="applyToAllButton"
+                    Command="{Binding ApplyToAllCommand}"
+                    Style="{StaticResource TopButtonTitleStyle}"
+                    Text="{Binding Resources[title_apply_to_all]}" />
 
                 <Label
+                    Grid.Row="1"
                     AutomationId="partnerTypeInfoLabel"
                     Style="{StaticResource LabelNormalStyle}"
-                    Text="{Binding Resources[label_partnerinfo_type]}"
-                    Grid.Row="1"
-                    />
+                    Text="{Binding Resources[label_partnerinfo_type]}" />
 
                 <Picker
-                    AutomationId="partnerInfoTypePicker"
-                    ItemsSource="{Binding TypeCollection}"
-                    TextColor="{StaticResource selectTextColor}"
-                    Grid.Column="1"
-                    Grid.Row="1"
                     Title="{Binding Resources[label_partnerinfo_type]}"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    AutomationId="partnerInfoTypePicker"
                     ItemDisplayBinding="{Binding AssetType}"
+                    ItemsSource="{Binding TypeCollection}"
                     SelectedItem="{Binding SelectedType}"
-                    />
+                    TextColor="{StaticResource selectTextColor}" />
 
                 <Label
+                    Grid.Row="2"
                     AutomationId="tagLabel"
                     Style="{StaticResource LabelNormalStyle}"
-                    Text="{Binding Resources[tag_size]}"
-                    Grid.Row="2"
-                    />
+                    Text="{Binding Resources[tag_size]}" />
 
                 <Picker
-                    AutomationId="tagPicker"
-                    ItemsSource="{Binding SizeCollection}"
-                    TextColor="{StaticResource selectTextColor}"
-                    Grid.Column="1"
-                    Grid.Row="2"
                     Title="{Binding Resources[tag_size]}"
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    AutomationId="tagPicker"
                     ItemDisplayBinding="{Binding AssetSize}"
+                    ItemsSource="{Binding SizeCollection}"
                     SelectedItem="{Binding SelectedSize}"
-                    />
+                    TextColor="{StaticResource selectTextColor}" />
 
                 <Label
+                    Grid.Row="3"
                     AutomationId="ownerLabel"
                     Style="{StaticResource LabelNormalStyle}"
-                    Text="{Binding Resources[title_owner]}"
-                    Grid.Row="3"
-                    />
+                    Text="{Binding Resources[title_owner]}" />
 
                 <Picker
-                    AutomationId="ownerPicker"
-                    ItemsSource="{Binding OwnerCollection}"
-                    TextColor="{StaticResource selectTextColor}"
-                    Grid.Column="1"
-                    Grid.Row="3"
                     Title="{Binding Resources[title_owner]}"
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    AutomationId="ownerPicker"
                     ItemDisplayBinding="{Binding FullName}"
+                    ItemsSource="{Binding OwnerCollection}"
                     SelectedItem="{Binding SelectedOwner}"
-                    />
+                    TextColor="{StaticResource selectTextColor}" />
 
                 <BoxView
-                    AutomationId="lineSeperator1"
-                    Margin="-10,0,-10,0"
                     Grid.Row="4"
                     Grid.ColumnSpan="2"
+                    Margin="-10,0,-10,0"
+                    AutomationId="lineSeperator1"
                     BackgroundColor="{StaticResource bannerBGColor}"
-                    VerticalOptions="FillAndExpand"
-                    HorizontalOptions="FillAndExpand"/>
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="FillAndExpand" />
 
                 <Label
-                    AutomationId="unknownScanLabel"
-                    HorizontalOptions="Start"
-                    TextColor="White"
-                    Grid.Column="0"
                     Grid.Row="4"
-                    FontSize="30"
-                    Margin="15,0,0,0"
-                    VerticalOptions="Center"
+                    Grid.Column="0"
                     Grid.ColumnSpan="2"
-                    Text="{Binding Resources[title_unknown_scans]}"/>
+                    Margin="15,0,0,0"
+                    AutomationId="unknownScanLabel"
+                    FontSize="30"
+                    HorizontalOptions="Start"
+                    Text="{Binding Resources[title_unknown_scans]}"
+                    TextColor="White"
+                    VerticalOptions="Center" />
 
-                <ListView
-                    AutomationId="maintenanceListView"
-                    Margin="10,0,10,0"
+                <CollectionView
                     x:Name="lstMaintenaceAlert"
                     Grid.Row="5"
                     Grid.ColumnSpan="2"
-                    SelectionMode="None"
-                    SeparatorVisibility="Default"
                     android:ListView.IsFastScrollEnabled="true"
-                    SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
-                    HasUnevenRows="True"
-                    CachingStrategy="RecycleElement"
-                    ItemsSource="{Binding MaintenaceCollection}">
+                    AutomationId="maintenanceListView"
+                    ItemsSource="{Binding MaintenaceCollection}"
+                    SelectionMode="None">
 
-                    <ListView.ItemTemplate>
+                    <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <ViewCell>
-                                <Grid 
-                                    RowSpacing="0"
-                                    ColumnSpacing="0">
+                            <Frame
+                                Padding="-1,0,-1,0"
+                                BorderColor="LightGray"
+                                CornerRadius="0"
+                                HasShadow="False">
+                                <Grid
+                                    Margin="5,0,5,0"
+                                    ColumnSpacing="0"
+                                    RowSpacing="0">
 
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
 
                                     <Label
-                                        Style="{StaticResource LabelNormalStyle}"
-                                        Text="{Binding BarcodeId}"
                                         Grid.Row="0"
-                                        />
+                                        Style="{StaticResource LabelNormalStyle}"
+                                        Text="{Binding BarcodeId}" />
 
                                     <Picker
-                                        ItemsSource="{Binding UTypeCollection}"
-                                        TextColor="{StaticResource selectTextColor}"
-                                        Grid.Row="1"
                                         Title="{Binding Resources[label_partnerinfo_type]}"
+                                        Grid.Row="1"
                                         ItemDisplayBinding="{Binding AssetType}"
+                                        ItemsSource="{Binding UTypeCollection}"
                                         SelectedItem="{Binding SelectedUType}"
-                                        />
+                                        TextColor="{StaticResource selectTextColor}" />
 
                                     <Picker
-                                        ItemsSource="{Binding USizeCollection}"
-                                        TextColor="{StaticResource selectTextColor}"
-                                        Grid.Row="2"
                                         Title="{Binding Resources[tag_size]}"
+                                        Grid.Row="2"
                                         ItemDisplayBinding="{Binding AssetSize}"
+                                        ItemsSource="{Binding USizeCollection}"
                                         SelectedItem="{Binding SelectedUSize}"
-                                        />
+                                        TextColor="{StaticResource selectTextColor}" />
 
                                     <Picker
-                                        ItemsSource="{Binding UOwnerCollection}"
-                                        TextColor="{StaticResource selectTextColor}"
-                                        Grid.Row="3"
                                         Title="{Binding Resources[title_owner]}"
+                                        Grid.Row="3"
                                         ItemDisplayBinding="{Binding FullName}"
+                                        ItemsSource="{Binding UOwnerCollection}"
                                         SelectedItem="{Binding SelectedUOwner}"
-                                        />
+                                        TextColor="{StaticResource selectTextColor}" />
                                 </Grid>
-                            </ViewCell>
+                            </Frame>
                         </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
 
             </Grid>
 

@@ -290,23 +290,18 @@
                         Text="Remove alert"
                         TextColor="{StaticResource lightGrayColor}" />
 
-                    <ListView
+                    <CollectionView
                         x:Name="lstBarcode"
                         Grid.Row="20"
                         Grid.ColumnSpan="2"
-                        Margin="0,0,0,10"
                         android:ListView.IsFastScrollEnabled="true"
                         AutomationId="maintenancePerformedListView"
-                        CachingStrategy="RecycleElement"
-                        HasUnevenRows="True"
                         IsVisible="{Binding IsVisibleListView}"
                         ItemsSource="{Binding MaintenancePerformedCollection}"
                         SelectionMode="None"
-                        SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
-                        SeparatorVisibility="Default"
                         VerticalOptions="FillAndExpand">
 
-                        <ListView.Header>
+                        <CollectionView.Header>
                             <Grid
                                 BackgroundColor="{StaticResource lightGrayColor}"
                                 ColumnSpacing="0"
@@ -330,16 +325,20 @@
                                     Text="{Binding Resources[label_maintenance_performed]}"
                                     TextColor="Black" />
                             </Grid>
-                        </ListView.Header>
+                        </CollectionView.Header>
 
-                        <ListView.ItemTemplate>
+                        <CollectionView.ItemTemplate>
                             <DataTemplate>
-                                <ViewCell>
-
+                                <Frame
+                                    Padding="-1,0,-1,0"
+                                    BorderColor="LightGray"
+                                    CornerRadius="0"
+                                    HasShadow="False">
                                     <Grid
-                                        Margin="2,0,2,0"
-                                        ColumnSpacing="0"
-                                        RowSpacing="0">
+                                        Margin="5,0,5,0"
+                                        BackgroundColor="Transparent"
+                                        HorizontalOptions="FillAndExpand"
+                                        VerticalOptions="FillAndExpand">
 
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="30*" />
@@ -361,11 +360,10 @@
                                             VerticalOptions="FillAndExpand"
                                             VerticalTextAlignment="Center" />
                                     </Grid>
-
-                                </ViewCell>
+                                </Frame>
                             </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
                 </Grid>
             </ScrollView>
         </Grid>

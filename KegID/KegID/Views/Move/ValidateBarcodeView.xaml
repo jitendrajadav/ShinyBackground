@@ -1,67 +1,52 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<popup:PopupPage 
-            xmlns="http://xamarin.com/schemas/2014/forms"
-            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-            x:Class="KegID.Views.ValidateBarcodeView"
-            xmlns:popup="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
-            xmlns:behaviors="clr-namespace:KegID.Behaviors"
-            xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"        
-            xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
-            ios:Page.UseSafeArea="true"
-            >
+<popup:PopupPage
+    x:Class="KegID.Views.ValidateBarcodeView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    xmlns:popup="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+    ios:Page.UseSafeArea="true">
 
-    <StackLayout 
+    <StackLayout
+        Padding="20,50,20,50"
         AutomationId="mainStackLayout"
-        VerticalOptions="Center" 
         HorizontalOptions="FillAndExpand"
-        Padding="20, 50, 20, 50">
-        
+        VerticalOptions="Center">
+
         <Label
             AutomationId="multiKegsLabel"
             BackgroundColor="White"
-            Text="{Binding MultipleKegsTitle}"/>
-        
-        <StackLayout
-            AutomationId="innerStackLayout"
-            BackgroundColor="White">
-            
-            <ListView
-                AutomationId="partnerListView"
+            Text="{Binding MultipleKegsTitle}" />
+
+        <StackLayout AutomationId="innerStackLayout" BackgroundColor="White">
+
+            <CollectionView
                 x:Name="lstValidateBarcode"
                 Grid.Row="1"
-                SeparatorVisibility="Default"
-                SelectionMode="None"
                 android:ListView.IsFastScrollEnabled="true"
-                SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
-                HasUnevenRows="True"
-                CachingStrategy="RecycleElement"
-                ItemsSource="{Binding PartnerCollection}">
+                AutomationId="partnerListView"
+                ItemsSource="{Binding PartnerCollection}"
+                SelectionChangedCommand="{Binding ItemTappedCommand}"
+                SelectionChangedCommandParameter="{Binding SelectedItem, Source={x:Reference lstValidateBarcode}}"
+                SelectionMode="Single">
 
-                <ListView.Behaviors>
-                    <behaviors:EventToCommandBehavior
-                            EventName="ItemTapped" 
-                            Command="{Binding ItemTappedCommand}"
-                            EventArgsConverter="{StaticResource ItemTappedConverter}"/>
-
-                </ListView.Behaviors>
-
-                <ListView.ItemTemplate>
+                <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <TextCell Height="40" Text="{Binding FullName}"/>
+                        <TextCell Height="40" Text="{Binding FullName}" />
                     </DataTemplate>
-                </ListView.ItemTemplate>
+                </CollectionView.ItemTemplate>
 
-            </ListView>
+            </CollectionView>
         </StackLayout>
 
         <Button
-            AutomationId="cancelButton"
             x:Name="lblCancel"
-            Text="Close" 
-            Style="{StaticResource BottomButtonTitleStyle}"
+            AutomationId="cancelButton"
             Command="{Binding CancelCommand}"
-            />
+            Style="{StaticResource BottomButtonTitleStyle}"
+            Text="Close" />
 
     </StackLayout>
-    
+
 </popup:PopupPage>

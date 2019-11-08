@@ -20,6 +20,8 @@ namespace KegID.Model
         public string KegAgeStatus { get; set; }
         [DoNotNotify]
         public string Icon { get; set; }
+        [DoNotNotify]
+        public string ContainerTypes { get; set; }
     }
 
     public class PossessorLocation : RealmObject
@@ -74,7 +76,7 @@ namespace KegID.Model
         public long CompanyNo { get; set; }
     }
 
-    public class PossessorModel 
+    public class PossessorModel
     {
         public KegIDResponse Response { get; set; }
         public IList<PossessorResponseModel> PossessorResponseModel { get; set; }

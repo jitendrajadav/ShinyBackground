@@ -1,78 +1,71 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="KegID.Views.SizeView"
-             xmlns:behaviors="clr-namespace:KegID.Behaviors"
-             BackgroundColor="{StaticResource pageBGColor}"
-             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
-             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
-             ios:Page.UseSafeArea="true"
-             >
+<ContentPage
+    x:Class="KegID.Views.SizeView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+    xmlns:behaviors="clr-namespace:KegID.Behaviors"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    ios:Page.UseSafeArea="true"
+    BackgroundColor="{StaticResource pageBGColor}">
 
     <ContentPage.Content>
-        
-        <Grid
-            AutomationId="mainGrd">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            
-        <Grid
-            AutomationId="innerGrd"
-            Grid.Row="0"
-            Padding="0,5,0,5"
-            BackgroundColor="{StaticResource selectTextColor}">
 
-            <Label
-                AutomationId="selectSizeLabel"
-                Style="{StaticResource LabelTitleStyle}"
-                TextColor="White"
-                HorizontalOptions="CenterAndExpand"
-                Text="{Binding Resources[title_select_size]}"/>
-        </Grid>
-        
-        <ListView 
-            AutomationId="sizeListView"
-            Margin="10,0,10,0"
-            Grid.Row="1"
-            SelectionMode="None"
-            x:Name="sizeListView"
-            SeparatorVisibility="Default"
-            android:ListView.IsFastScrollEnabled="true"
-            SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
-            HasUnevenRows="true"
-            ItemsSource="{Binding SizeCollection}"
-            >
-            
-            <ListView.Behaviors>
-                <behaviors:EventToCommandBehavior
-                            EventName="ItemTapped" 
-                            Command="{Binding ItemTappedCommand}"
-                            EventArgsConverter="{StaticResource ItemTappedConverter}"/>
-            </ListView.Behaviors>
-            
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        
-                        <StackLayout>
-                            <Label
-                                HeightRequest="50"
-                                Margin="10,0,0,0"
-                                FontSize="{StaticResource ListViewTitleFont}"
-                                VerticalTextAlignment="Center"
-                                VerticalOptions="Center"
-                                TextColor="Black"
-                                Text="{Binding}"/>
-                        </StackLayout>
-                        
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+        <Grid AutomationId="mainGrd">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid
+                Grid.Row="0"
+                Padding="0,5,0,5"
+                AutomationId="innerGrd"
+                BackgroundColor="{StaticResource selectTextColor}">
+
+                <Label
+                    AutomationId="selectSizeLabel"
+                    HorizontalOptions="CenterAndExpand"
+                    Style="{StaticResource LabelTitleStyle}"
+                    Text="{Binding Resources[title_select_size]}"
+                    TextColor="White" />
+            </Grid>
+
+            <CollectionView
+                x:Name="sizeListView"
+                Grid.Row="1"
+                Margin="10,0,10,0"
+                android:ListView.IsFastScrollEnabled="true"
+                AutomationId="sizeListView"
+                ItemsSource="{Binding SizeCollection}"
+                SelectionChangedCommand="{Binding ItemTappedCommand}"
+                SelectionChangedCommandParameter="{Binding SelectedItem, Source={x:Reference sizeListView}}"
+                SelectionMode="Single">
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame
+                            Padding="-1,0,-1,0"
+                            BorderColor="LightGray"
+                            CornerRadius="0"
+                            HasShadow="False">
+                            <StackLayout Margin="5,0,5,0">
+                                <Label
+                                    Margin="10,0,0,0"
+                                    FontSize="{StaticResource ListViewTitleFont}"
+                                    HeightRequest="50"
+                                    Text="{Binding}"
+                                    TextColor="Black"
+                                    VerticalOptions="Center"
+                                    VerticalTextAlignment="Center" />
+                            </StackLayout>
+
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </Grid>
 
     </ContentPage.Content>
-    
+
 </ContentPage>

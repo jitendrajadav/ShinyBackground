@@ -73,30 +73,25 @@
                 HorizontalOptions="FillAndExpand"
                 VerticalOptions="Start" />
 
-            <ListView
+            <CollectionView
                 x:Name="lstManifest"
                 Grid.Row="2"
                 android:ListView.IsFastScrollEnabled="true"
                 AutomationId="manifestListView"
-                CachingStrategy="RecycleElement"
-                HasUnevenRows="True"
                 ItemsSource="{Binding ManifestCollection}"
-                SelectionMode="None"
-                SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
-                SeparatorVisibility="Default">
+                SelectionChangedCommand="{Binding ItemTappedCommand}"
+                SelectionChangedCommandParameter="{Binding SelectedItem, Source={x:Reference lstManifest}}"
+                SelectionMode="Single">
 
-                <ListView.Behaviors>
-                    <behaviors:EventToCommandBehavior
-                        Command="{Binding ItemTappedCommand}"
-                        EventArgsConverter="{StaticResource ItemTappedConverter}"
-                        EventName="ItemTapped" />
-                </ListView.Behaviors>
-
-                <ListView.ItemTemplate>
+                <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <ViewCell>
+                        <Frame
+                            Padding="-1,0,-1,0"
+                            BorderColor="LightGray"
+                            CornerRadius="0"
+                            HasShadow="False">
 
-                            <Grid>
+                            <Grid Margin="5,0,5,0">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
@@ -134,11 +129,11 @@
                                     Text="{Binding SenderId}"
                                     TextColor="{StaticResource selectTextColor}" />
                             </Grid>
-                        </ViewCell>
+                        </Frame>
                     </DataTemplate>
-                </ListView.ItemTemplate>
+                </CollectionView.ItemTemplate>
 
-            </ListView>
+            </CollectionView>
 
             <segcontrols:SegmentedControl
                 x:Name="SegControl"

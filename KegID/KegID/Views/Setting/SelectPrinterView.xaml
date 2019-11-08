@@ -1,97 +1,91 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="KegID.Views.SelectPrinterView"
-             xmlns:behaviors="clr-namespace:KegID.Behaviors"
-             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
-             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
-             ios:Page.UseSafeArea="true"
-             Title="Select a printer">
-    
+<ContentPage
+    x:Class="KegID.Views.SelectPrinterView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+    xmlns:behaviors="clr-namespace:KegID.Behaviors"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    Title="Select a printer"
+    ios:Page.UseSafeArea="true">
+
     <ContentPage.Content>
-        
+
         <Grid
+            Margin="10,0,10,0"
             AutomationId="mainGrd"
-            ColumnSpacing="0"
-            Margin="10,0,10,0">
+            ColumnSpacing="0">
 
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <Button
-                AutomationId="backButton"
                 x:Name="lblBack"
-                Style="{StaticResource TopButtonTitleStyle}"
-                HorizontalOptions="Start"
-                Text="{Binding Resources[dialog_print_negative]}"
+                AutomationId="backButton"
                 Command="{Binding BackCommand}"
-                />
-            
+                HorizontalOptions="Start"
+                Style="{StaticResource TopButtonTitleStyle}"
+                Text="{Binding Resources[dialog_print_negative]}" />
+
             <Label
                 AutomationId="labelMsgLabel"
-                HorizontalOptions="Center"
                 FontSize="Medium"
+                HorizontalOptions="Center"
                 Style="{StaticResource LabelTitleStyle}"
-                Text="{Binding LabelMsg}"
-                />
-            
+                Text="{Binding LabelMsg}" />
+
             <BoxView
-                AutomationId="lineSeperator1"
-                Margin="-10,0,-10,0"
                 Grid.Row="1"
+                Margin="-10,0,-10,0"
+                AutomationId="lineSeperator1"
                 BackgroundColor="Black"
                 HeightRequest="1"
-                VerticalOptions="Start"
-                HorizontalOptions="FillAndExpand"/>
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="Start" />
 
-            <ListView
-                AutomationId="printerListView"
-                Margin="10,0,10,0"
+            <CollectionView
                 x:Name="lstPrinters"
                 Grid.Row="2"
-                SelectionMode="None"
                 android:ListView.IsFastScrollEnabled="true"
-                VerticalOptions="FillAndExpand"
-                SeparatorVisibility="Default"
-                SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
-                HasUnevenRows="True"
-                CachingStrategy="RecycleElement"
-                ItemsSource="{Binding PrinterList}">
+                AutomationId="printerListView"
+                ItemsSource="{Binding PrinterList}"
+                SelectionChangedCommand="{Binding ItemTappedCommand}"
+                SelectionChangedCommandParameter="{Binding SelectedItem, Source={x:Reference lstPrinters}}"
+                SelectionMode="Single"
+                VerticalOptions="FillAndExpand">
 
-                <ListView.Behaviors>
-                    <behaviors:EventToCommandBehavior
-                        EventName="ItemTapped" 
-                        Command="{Binding ItemTappedCommand}"
-                        EventArgsConverter="{StaticResource ItemTappedConverter}"/>
-                </ListView.Behaviors>
-
-                <ListView.ItemTemplate>
+                <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <ViewCell Height="40">
+                        <Frame
+                            Padding="-1,0,-1,0"
+                            BorderColor="LightGray"
+                            CornerRadius="0"
+                            HasShadow="False">
                             <StackLayout
+                                Margin="5,0,5,0"
                                 Orientation="Horizontal"
                                 Spacing="0">
-                                <Label 
+                                <Label
                                     FontAttributes="Bold"
-                                    Text="{Binding Address}"
+                                    FontSize="{StaticResource ListViewTitleFont}"
                                     LineBreakMode="TailTruncation"
-                                    FontSize="{StaticResource ListViewTitleFont}"/>
-                                
-                                <Label 
-                                    FontAttributes="Bold"
-                                    Text="{Binding FriendlyName}"
-                                    LineBreakMode="TailTruncation"
-                                    FontSize="{StaticResource ListViewTitleFont}"/>
-                                
-                            </StackLayout>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
+                                    Text="{Binding Address}" />
 
-            </ListView>
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="{StaticResource ListViewTitleFont}"
+                                    LineBreakMode="TailTruncation"
+                                    Text="{Binding FriendlyName}" />
+
+                            </StackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+            </CollectionView>
 
         </Grid>
 

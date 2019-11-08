@@ -1,64 +1,55 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="KegID.Views.VolumeView"
-             xmlns:behaviors="clr-namespace:KegID.Behaviors"
-             BackgroundColor="{StaticResource pageBGColor}"
-             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
-             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
-             ios:Page.UseSafeArea="true"
-             >
+<ContentPage
+    x:Class="KegID.Views.VolumeView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+    xmlns:behaviors="clr-namespace:KegID.Behaviors"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    ios:Page.UseSafeArea="true"
+    BackgroundColor="{StaticResource pageBGColor}">
 
     <ContentPage.Content>
-        
-        <Grid
-            AutomationId="mainGrd">
+
+        <Grid AutomationId="mainGrd">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
             <Grid
-                AutomationId="innerGrd"
                 Grid.Row="0"
                 Padding="0,5"
+                AutomationId="innerGrd"
                 BackgroundColor="{StaticResource selectTextColor}">
 
                 <Label
                     AutomationId="volumeLabel"
-                    Style="{StaticResource LabelTitleStyle}"
-                    TextColor="White"
                     HorizontalOptions="CenterAndExpand"
-                    Text="{Binding Resources[title_select_volume]}"/>
+                    Style="{StaticResource LabelTitleStyle}"
+                    Text="{Binding Resources[title_select_volume]}"
+                    TextColor="White" />
             </Grid>
-            
-            <ListView 
-                AutomationId="volumeListView"
-                Margin="10,0,10,0"
-                Grid.Row="1"
+
+            <CollectionView
                 x:Name="volumeListView"
-                SeparatorVisibility="Default"
+                Grid.Row="1"
+                Margin="10,0,10,0"
                 android:ListView.IsFastScrollEnabled="true"
-                SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
-                HasUnevenRows="true"
-                SelectionMode="None"
-                ItemsSource="{Binding VolumeCollection}">
+                AutomationId="volumeListView"
+                ItemsSource="{Binding VolumeCollection}"
+                SelectionChangedCommand="{Binding ItemTappedCommand}"
+                SelectionChangedCommandParameter="{Binding SelectedItem, Source={x:Reference volumeListView}}"
+                SelectionMode="Single">
 
-                <ListView.Behaviors>
-                    <behaviors:EventToCommandBehavior
-                            EventName="ItemTapped" 
-                            Command="{Binding ItemTappedCommand}"
-                            EventArgsConverter="{StaticResource ItemTappedConverter}"/>
-                </ListView.Behaviors>
-
-                <ListView.ItemTemplate>
+                <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <TextCell Height="40" Text="{Binding}"/>
+                        <TextCell Height="40" Text="{Binding}" />
                     </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-            
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
         </Grid>
     </ContentPage.Content>
-    
+
 </ContentPage>

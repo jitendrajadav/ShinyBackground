@@ -1,110 +1,100 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="KegID.Views.SearchPartnersView"
-             xmlns:behaviors="clr-namespace:KegID.Behaviors"
-             BackgroundColor="{StaticResource pageBGColor}"
-             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
-             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
-             ios:Page.UseSafeArea="true"
-             >
+<ContentPage
+    x:Class="KegID.Views.SearchPartnersView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+    xmlns:behaviors="clr-namespace:KegID.Behaviors"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    ios:Page.UseSafeArea="true"
+    BackgroundColor="{StaticResource pageBGColor}">
 
     <ContentPage.Content>
-       
-        <Grid
-            AutomationId="mainGrd"
-            >
-           
+
+        <Grid AutomationId="mainGrd">
+
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <Button 
-                AutomationId="backButton"
+            <Button
                 x:Name="lblBackPartners"
-                Style="{StaticResource TopButtonTitleStyle}"
-                Text="{Binding Resources[title_partner_list]}"
-                HorizontalOptions="Start"
+                AutomationId="backButton"
                 Command="{Binding BackPartnersCommand}"
-                />
+                HorizontalOptions="Start"
+                Style="{StaticResource TopButtonTitleStyle}"
+                Text="{Binding Resources[title_partner_list]}" />
 
-            <Label 
+            <Label
                 AutomationId="parnterListLabel"
-                Text="{Binding Resources[title_partner_list]}"
                 FontAttributes="Bold"
-                Style="{StaticResource LabelTitleStyle}"
-                TextColor="Black"
                 HorizontalOptions="CenterAndExpand"
-                />
+                Style="{StaticResource LabelTitleStyle}"
+                Text="{Binding Resources[title_partner_list]}"
+                TextColor="Black" />
 
             <BoxView
-                AutomationId="topBarSeperatorBoxView"
+                Grid.Row="1"
                 Margin="-10,0,-10,0"
-                Grid.Row="1"
+                AutomationId="topBarSeperatorBoxView"
                 BackgroundColor="{StaticResource bannerBGColor}"
-                VerticalOptions="FillAndExpand"
-                HorizontalOptions="FillAndExpand"/>
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand" />
 
-            <SearchBar 
-                AutomationId="searchBar"
-                Margin="10,5,10,5"
-                x:Name="SearchBar" 
+            <SearchBar
+                x:Name="SearchBar"
                 Grid.Row="1"
+                Margin="10,5,10,5"
+                AutomationId="searchBar"
                 BackgroundColor="White"
-                PlaceholderColor="{StaticResource lightGrayColor}"
-                Text="{Binding PartnerSearch}"
-                SearchCommand="{Binding PartnerSearchCommand}" 
                 HeightRequest="40"
-                SearchCommandParameter="{Binding Text, Source={x:Reference SearchBar}}"/>
+                PlaceholderColor="{StaticResource lightGrayColor}"
+                SearchCommand="{Binding PartnerSearchCommand}"
+                SearchCommandParameter="{Binding Text, Source={x:Reference SearchBar}}"
+                Text="{Binding PartnerSearch}" />
 
-            <ListView
-                Margin="10,0,10,0"
-                AutomationId="partnerListView"
+            <CollectionView
                 x:Name="lstSearchPartners"
                 Grid.Row="2"
-                SelectionMode="None"
-                SeparatorVisibility="Default"
+                Margin="10,0,10,0"
                 android:ListView.IsFastScrollEnabled="true"
-                SeparatorColor="{StaticResource lightGrayPlaceholderColor}"
-                HasUnevenRows="True"
-                CachingStrategy="RecycleElement"
-                ItemsSource="{Binding PartnerSearchCollection}">
+                AutomationId="partnerListView"
+                ItemsSource="{Binding PartnerSearchCollection}"
+                SelectionChangedCommand="{Binding ItemTappedCommand}"
+                SelectionChangedCommandParameter="{Binding SelectedItem, Source={x:Reference lstSearchPartners}}"
+                SelectionMode="Single">
 
-                <ListView.Behaviors>
-                    <behaviors:EventToCommandBehavior
-                        EventName="ItemTapped" 
-                        Command="{Binding ItemTappedCommand}"
-                        EventArgsConverter="{StaticResource ItemTappedConverter}"/>
-                </ListView.Behaviors>
-
-                <ListView.ItemTemplate>
+                <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <ViewCell>
-                            
-                            <StackLayout>
-                               
-                                <Label 
-                                    TextColor="{StaticResource selectTextColor}" 
-                                    Text="{Binding FullName}"
-                                    FontSize="{StaticResource ListViewTitleFont}"/>
-                              
-                                <Label 
-                                    TextColor="{StaticResource lightGrayColor}"
-                                    Text="{Binding Address}" 
-                                    FontSize="{StaticResource ListViewDetailFont}"/>
-                               
-                                <Label 
-                                    TextColor="{StaticResource lightGrayColor}" 
-                                    Text="{Binding PartnerTypeName}" 
-                                    FontSize="{StaticResource ListViewDetailFont}"/>
-                            </StackLayout>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
+                        <Frame
+                            Padding="-1,0,-1,0"
+                            BorderColor="LightGray"
+                            CornerRadius="0"
+                            HasShadow="False">
+                            <StackLayout Margin="5,0,5,0">
 
-            </ListView>
+                                <Label
+                                    FontSize="{StaticResource ListViewTitleFont}"
+                                    Text="{Binding FullName}"
+                                    TextColor="{StaticResource selectTextColor}" />
+
+                                <Label
+                                    FontSize="{StaticResource ListViewDetailFont}"
+                                    Text="{Binding Address}"
+                                    TextColor="{StaticResource lightGrayColor}" />
+
+                                <Label
+                                    FontSize="{StaticResource ListViewDetailFont}"
+                                    Text="{Binding PartnerTypeName}"
+                                    TextColor="{StaticResource lightGrayColor}" />
+                            </StackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+            </CollectionView>
 
         </Grid>
     </ContentPage.Content>
