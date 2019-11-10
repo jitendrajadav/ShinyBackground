@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace KegID.Services
 {
-    public static class ConstantManager 
+    public static class ConstantManager
     {
         public static IDiscoveredPrinter PrinterSetting { get; set; }
         public static string IPAddr { get; set; }
@@ -17,7 +17,7 @@ namespace KegID.Services
         public static PartnerModel Partner { get; set; }
         public static List<Tag> Tags { get; set; }
         public static string TagsStr { get; set; }
-        public static IList<MaintainTypeReponseModel> MaintainTypeCollection { get; set; }
+        //public static IList<MaintainTypeReponseModel> MaintainTypeCollection { get; set; }
         public static string Contents { get; set; }
         public static string DBPartnerId { get; set; }
     }

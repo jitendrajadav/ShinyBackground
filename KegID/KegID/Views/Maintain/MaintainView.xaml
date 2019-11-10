@@ -4,6 +4,7 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+    xmlns:behaviors="clr-namespace:KegID.Behaviors"
     xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
     Title="Maintenance Items"
     ios:Page.UseSafeArea="true"
@@ -68,9 +69,8 @@
                     x:Name="lstMaintainType"
                     Grid.Row="0"
                     Grid.ColumnSpan="2"
-                    android:ListView.IsFastScrollEnabled="true"
                     AutomationId="maintenanceListView"
-                    ItemsSource="{Binding MaintainTypeCollection}"
+                    ItemsSource="{Binding MaintainTypeCollection, Mode=TwoWay}"
                     SelectionChangedCommand="{Binding ItemTappedCommand}"
                     SelectionChangedCommandParameter="{Binding SelectedItem, Source={x:Reference lstMaintainType}}"
                     SelectionMode="Single">
@@ -82,11 +82,7 @@
                                 BorderColor="LightGray"
                                 CornerRadius="0"
                                 HasShadow="False">
-                                <Grid
-                                    Margin="5,0,5,0"
-                                    BackgroundColor="Transparent"
-                                    HorizontalOptions="FillAndExpand"
-                                    VerticalOptions="FillAndExpand">
+                                <Grid Margin="5,0,5,0" HeightRequest="40">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
@@ -96,14 +92,15 @@
                                         Grid.Row="0"
                                         Grid.Column="0"
                                         HeightRequest="30"
-                                        IsToggled="{Binding IsToggled}"
+                                        IsToggled="{Binding IsToggled, Mode=TwoWay}"
                                         OnColor="#4CD864"
                                         VerticalOptions="Center" />
 
                                     <Label
                                         Grid.Column="1"
                                         FontSize="{StaticResource TitleFont}"
-                                        Text="{Binding Name}" />
+                                        Text="{Binding Name}"
+                                        VerticalTextAlignment="Center" />
                                 </Grid>
                             </Frame>
                         </DataTemplate>

@@ -36,7 +36,6 @@
             <CollectionView
                 x:Name="lstContent"
                 Grid.Row="2"
-                Margin="10,0,10,0"
                 android:ListView.IsFastScrollEnabled="true"
                 AutomationId="contentListView"
                 ItemsSource="{Binding ContentCollection}"
@@ -44,10 +43,18 @@
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <TextCell
-                            Height="50"
-                            Text="{Binding}"
-                            TextColor="Black" />
+                        <Frame
+                            Padding="-1,0,-1,0"
+                            BorderColor="LightGray"
+                            CornerRadius="0"
+                            HasShadow="False">
+                            <Label
+                                Margin="20,0,5,0"
+                                HeightRequest="40"
+                                Text="{Binding}"
+                                TextColor="Black"
+                                VerticalTextAlignment="Center" />
+                        </Frame>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
 

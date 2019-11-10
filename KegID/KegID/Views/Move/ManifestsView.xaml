@@ -76,7 +76,6 @@
             <CollectionView
                 x:Name="lstManifest"
                 Grid.Row="2"
-                android:ListView.IsFastScrollEnabled="true"
                 AutomationId="manifestListView"
                 ItemsSource="{Binding ManifestCollection}"
                 SelectionChangedCommand="{Binding ItemTappedCommand}"

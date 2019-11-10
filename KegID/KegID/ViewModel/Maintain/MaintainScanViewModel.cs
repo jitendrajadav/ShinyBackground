@@ -37,6 +37,7 @@ namespace KegID.ViewModel
         private IList<MaintainTypeReponseModel> MaintainTypeReponseModel { get; set; }
         public string ManaulBarcode { get; set; }
         public ObservableCollection<BarcodeModel> BarcodeCollection { get; set; } = new ObservableCollection<BarcodeModel>();
+        private IList<MaintainTypeReponseModel> SelectedMaintainenace { get; set; }
 
         #endregion
 
@@ -443,7 +444,7 @@ namespace KegID.ViewModel
                 model.MaintenanceDoneRequestModel.Kegs.Add(keg);
             }
 
-            foreach (var item in ConstantManager.MaintainTypeCollection.Where(x => x.IsToggled == true).Select(y => y.Id).ToList())
+            foreach (var item in SelectedMaintainenace.Where(x => x.IsToggled).Select(y => y.Id).ToList())
             {
                 model.MaintenanceDoneRequestModel.ActionsPerformed.Add(item);
             }
@@ -555,6 +556,7 @@ namespace KegID.ViewModel
                 Notes = parameters.GetValue<string>("Notes");
                 ConstantManager.Partner = parameters.GetValue<PartnerModel>("PartnerModel");
                 var value = parameters.GetValue<ManifestModel>("ManifestModel");
+                SelectedMaintainenace = parameters.GetValue<List<MaintainTypeReponseModel>>("selectedMaintenance");
 
                 if (value != null)
                 {

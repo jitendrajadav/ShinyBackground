@@ -1,14 +1,13 @@
 ﻿using KegID.LocalDb;
 using KegID.Messages;
 using KegID.Model;
-using KegID.Services;
 using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
 using Realms;
 using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -23,7 +22,7 @@ namespace KegID.ViewModel
         private ManifestModel ManifestModel;
         public PartnerModel PartnerModel { get; set; } = new PartnerModel();
         public string Notes { get; set; }
-        public IList<MaintainTypeReponseModel> MaintainTypeCollection { get; set; }
+        public ObservableCollection<MaintenanceTypeModel> MaintainTypeCollection { get; set; } = new ObservableCollection<MaintenanceTypeModel>();
         public bool Operator { get; set; }
 
         #endregion
@@ -33,7 +32,7 @@ namespace KegID.ViewModel
         public DelegateCommand HomeCommand { get; }
         public DelegateCommand NextCommand { get; }
         public DelegateCommand PartnerCommand { get; }
-        public DelegateCommand<MaintainTypeReponseModel> ItemTappedCommand { get; }
+        public DelegateCommand<MaintenanceTypeModel> ItemTappedCommand { get; }
 
         #endregion
 
@@ -46,10 +45,7 @@ namespace KegID.ViewModel
             PartnerCommand = new DelegateCommand(PartnerCommandRecieverAsync);
             NextCommand = new DelegateCommand(NextCommandRecieverAsync);
             PartnerModel.FullName = "Select a location";
-            ItemTappedCommand = new DelegateCommand<MaintainTypeReponseModel>((model) => ItemTappedCommandReciever(model));
-
-            LoadMaintenanceTypeAsync();
-
+            ItemTappedCommand = new DelegateCommand<MaintenanceTypeModel>((model) => ItemTappedCommandReciever(model));
             HandleUnsubscribeMessages();
             HandleReceivedMessages();
 
@@ -86,9 +82,11 @@ namespace KegID.ViewModel
 
         #region Methods
 
-        private void ItemTappedCommandReciever(MaintainTypeReponseModel model)
+        private void ItemTappedCommandReciever(MaintenanceTypeModel model)
         {
-            model.IsToggled = !model.IsToggled;
+            MaintainTypeCollection
+                .Where(x => x.Id == model.Id)
+                .FirstOrDefault(x => x.IsToggled = !model.IsToggled);
         }
 
         public void LoadMaintenanceTypeAsync()
@@ -96,10 +94,16 @@ namespace KegID.ViewModel
             try
             {
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                var result = RealmDb.All<MaintainTypeReponseModel>().ToList();
+                var result = RealmDb.All<MaintainTypeReponseModel>();
 
-                ConstantManager.MaintainTypeCollection = result.Where(x => x.ActivationMethod == "ReverseOnly").OrderBy(x => x.Name).ToList();
-                MaintainTypeCollection = ConstantManager.MaintainTypeCollection;
+                //ConstantManager.MaintainTypeCollection = result.Where(x => x.ActivationMethod == "ReverseOnly").OrderBy(x => x.Name).ToList();
+
+                foreach (var item in result.Where(x => x.ActivationMethod == "ReverseOnly").OrderBy(x => x.Name).ToList())
+                {
+                    MaintainTypeCollection.Add(new MaintenanceTypeModel { ActivationMethod = item.ActivationMethod, DefectType = item.DefectType, DeletedDate = item.DeletedDate, Description = item.Description, Id = item.Id, InUse = item.InUse, IsAction = item.IsAction, IsAlert = item.IsAlert, IsToggled = item.IsToggled, Name = item.Name });
+                }
+
+                //MaintainTypeCollection = result.Where(x => x.ActivationMethod == "ReverseOnly").OrderBy(x => x.Name).ToList();//ConstantManager.MaintainTypeCollection;
             }
             catch (Exception ex)
             {
@@ -128,19 +132,22 @@ namespace KegID.ViewModel
         {
             try
             {
-                var flag = ConstantManager.MaintainTypeCollection.Where(x => x.IsToggled == true).ToList();
-                if (flag.Count > 0)
+                var selectedMaintenance = MaintainTypeCollection.Where(x => x.IsToggled).ToList();
+                if (selectedMaintenance.Count > 0)
                 {
                     await _navigationService.NavigateAsync("MaintainScanView",
                         new NavigationParameters
                         {
                             { "Notes", Notes },
                             { "PartnerModel", PartnerModel},
-                            { "ManifestModel", ManifestModel }
+                            { "ManifestModel", ManifestModel },
+                            { "selectedMaintenance", selectedMaintenance }
                         }, animated: false);
                 }
                 else
+                {
                     await _dialogService.DisplayAlertAsync("Error", "Please select at least one maintenance item to perform.", "Ok");
+                }
             }
             catch (Exception ex)
             {
@@ -191,13 +198,19 @@ namespace KegID.ViewModel
                 var maintenance = RealmDb.All<MaintainTypeReponseModel>().ToList();
 
                 ManifestModel = manifestModel;
-                MaintainTypeCollection = maintenance.Where(x => x.ActivationMethod == "ReverseOnly").OrderBy(x => x.Name).ToList();
+                //MaintainTypeCollection = maintenance.Where(x => x.ActivationMethod == "ReverseOnly").OrderBy(x => x.Name).ToList();
+
+                foreach (var item in maintenance.Where(x => x.ActivationMethod == "ReverseOnly").OrderBy(x => x.Name).ToList())
+                {
+                    MaintainTypeCollection.Add(new MaintenanceTypeModel { ActivationMethod = item.ActivationMethod, DefectType = item.DefectType, DeletedDate = item.DeletedDate, Description = item.Description, Id = item.Id, InUse = item.InUse, IsAction = item.IsAction, IsAlert = item.IsAlert, IsToggled = item.IsToggled, Name = item.Name });
+                }
+
                 foreach (var item in manifestModel.MaintenanceModels.MaintenanceDoneRequestModel.ActionsPerformed)
                 {
                     var result = maintenance.Find(x => x.Id == item);
                     if (result != null)
                     {
-                        MaintainTypeCollection.Where(x=>x.Id == result.Id).FirstOrDefault().IsToggled = true;
+                        MaintainTypeCollection.FirstOrDefault(x => x.Id == result.Id).IsToggled = true;
                     }
                 }
                 Notes = manifestModel?.MaintenanceModels?.MaintenanceDoneRequestModel?.Notes;

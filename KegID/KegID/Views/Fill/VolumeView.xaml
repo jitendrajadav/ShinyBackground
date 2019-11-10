@@ -34,7 +34,6 @@
             <CollectionView
                 x:Name="volumeListView"
                 Grid.Row="1"
-                Margin="10,0,10,0"
                 android:ListView.IsFastScrollEnabled="true"
                 AutomationId="volumeListView"
                 ItemsSource="{Binding VolumeCollection}"
@@ -44,7 +43,17 @@
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <TextCell Height="40" Text="{Binding}" />
+                        <Frame
+                            Padding="-1,0,-1,0"
+                            BorderColor="LightGray"
+                            CornerRadius="0"
+                            HasShadow="False">
+                            <Label
+                                Margin="20,0,5,0"
+                                HeightRequest="40"
+                                Text="{Binding}"
+                                VerticalTextAlignment="Center" />
+                        </Frame>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>

@@ -1,10 +1,9 @@
-﻿using Realms;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace KegID.Model
 {
-    public class MaintainTypeReponseModel : RealmObject
+    public class MaintenanceTypeModel
     {
         public long Id { get; set; }
         public string Name { get; set; }
@@ -17,11 +16,5 @@ namespace KegID.Model
         public bool InUse { get; set; }
         public bool IsToggled { get; set; }
         public List<string> ActivationPartnerTypes { get; }
-    }
-
-    public class MaintainTypeModel
-    {
-        public KegIDResponse Response { get; set; }
-        public IList<MaintainTypeReponseModel> MaintainTypeReponseModel { get; set; }
     }
 }

@@ -33,7 +33,17 @@
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <TextCell Height="40" Text="{Binding FullName}" />
+                        <Frame
+                            Padding="-1,0,-1,0"
+                            BorderColor="LightGray"
+                            CornerRadius="0"
+                            HasShadow="False">
+                            <Label
+                                Margin="20,0,5,0"
+                                HeightRequest="40"
+                                Text="{Binding FullName}"
+                                VerticalTextAlignment="Center" />
+                        </Frame>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
 

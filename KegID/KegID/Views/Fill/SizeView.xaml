@@ -34,7 +34,6 @@
             <CollectionView
                 x:Name="sizeListView"
                 Grid.Row="1"
-                Margin="10,0,10,0"
                 android:ListView.IsFastScrollEnabled="true"
                 AutomationId="sizeListView"
                 ItemsSource="{Binding SizeCollection}"
