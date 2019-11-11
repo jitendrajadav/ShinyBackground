@@ -272,9 +272,42 @@ namespace KegID.ViewModel
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (parameters.ContainsKey("BackCommandRecieverAsync"))
+            switch (parameters.Keys.FirstOrDefault())
             {
-                BackCommandRecieverAsync();
+                case "partnerModel":
+                    PartnerModel partner = parameters.GetValue<PartnerModel>("partnerModel");
+                    PartnerCollection.Add(new PartnerModel
+                    {
+                        Address = partner.Address,
+                        Address1 = partner.Address1,
+                        City = partner.City,
+                        CompanyNo = partner.CompanyNo,
+                        Country = partner.Country,
+                        Distance = partner.Distance,
+                        FullName = partner.FullName,
+                        IsActive = partner.IsActive,
+                        IsInternal = partner.IsInternal,
+                        IsShared = partner.IsShared,
+                        Lat = partner.Lat,
+                        LocationCode = partner.LocationCode,
+                        LocationStatus = partner.LocationStatus,
+                        Lon = partner.Lon,
+                        MasterCompanyId = partner.MasterCompanyId,
+                        ParentPartnerId = partner.ParentPartnerId,
+                        ParentPartnerName = partner.ParentPartnerName,
+                        PartnerId = partner.PartnerId,
+                        PartnershipIsActive = partner.PartnershipIsActive,
+                        PartnerTypeCode = partner.PartnerTypeCode,
+                        PartnerTypeName = partner.PartnerTypeName,
+                        PhoneNumber = partner.PhoneNumber,
+                        PostalCode = partner.PostalCode,
+                        SourceKey = partner.SourceKey,
+                        State = partner.State
+                    });
+                    break;
+                case "BackCommandRecieverAsync":
+                    BackCommandRecieverAsync();
+                    break;
             }
         }
 
@@ -286,8 +319,6 @@ namespace KegID.ViewModel
                 CommingFrom = parameters.GetValue<string>("GoingFrom");
             }
             await LoadPartnersAsync();
-
-            //return base.InitializeAsync(parameters);
         }
 
         #endregion

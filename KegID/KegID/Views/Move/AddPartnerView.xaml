@@ -1,217 +1,210 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="KegID.Views.AddPartnerView"
-             BackgroundColor="{StaticResource pageBGColor}"
-             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
-             ios:Page.UseSafeArea="true"
-             >
+<ContentPage
+    x:Class="KegID.Views.AddPartnerView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    ios:Page.UseSafeArea="true"
+    BackgroundColor="{StaticResource pageBGColor}">
 
     <ContentPage.Content>
-        
-        <ScrollView
-            AutomationId="scrollView">
-          
+
+        <ScrollView AutomationId="scrollView">
+
             <Grid
+                Margin="10,0,10,0"
                 AutomationId="mainGrd"
-                RowSpacing="3"
-                Margin="10,0,10,0">
+                RowSpacing="3">
 
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <Button
-                    AutomationId="cancelButton"
                     x:Name="lblCancel"
+                    AutomationId="cancelButton"
+                    Command="{Binding CalcelCommand}"
                     HorizontalOptions="Start"
                     Style="{StaticResource TopButtonTitleStyle}"
-                    Text="{Binding Resources[dialog_print_negative]}"
-                    Command="{Binding CalcelCommand}"
-                    />
+                    Text="{Binding Resources[dialog_print_negative]}" />
 
                 <Label
                     AutomationId="addPartnerLabel"
-                    Style="{StaticResource LabelTitleStyle}"
-                    TextColor="Black"
                     HorizontalOptions="Center"
-                    Text="{Binding Resources[title_add_partner]}"/>
+                    Style="{StaticResource LabelTitleStyle}"
+                    Text="{Binding Resources[title_add_partner]}"
+                    TextColor="Black" />
 
                 <Button
-                    AutomationId="submitButton"
                     x:Name="lblSubmit"
-                    Text="{Binding Resources[menu_action_submit]}"
+                    AutomationId="submitButton"
+                    Command="{Binding SubmitCommand}"
                     HorizontalOptions="End"
                     Style="{StaticResource TopButtonTitleStyle}"
-                    Command="{Binding SubmitCommand}"
-                    />
+                    Text="{Binding Resources[menu_action_submit]}" />
 
                 <BoxView
-                    AutomationId="topBarSeperatorBoxView"
-                    Margin="-10,0,-10,0"
                     Grid.Row="1"
+                    Margin="-10,0,-10,0"
+                    AutomationId="topBarSeperatorBoxView"
                     BackgroundColor="{StaticResource lightGrayPlaceholderColor}"
                     HeightRequest="1"
-                    VerticalOptions="Start"
-                    HorizontalOptions="FillAndExpand"/>
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="Start" />
 
                 <Entry
-                    AutomationId="companyNameEntry"
                     Grid.Row="2"
+                    AutomationId="companyNameEntry"
                     Placeholder="{Binding Resources[hint_company_name]}"
                     PlaceholderColor="{StaticResource lightGrayPlaceholderColor}"
-                    Text="{Binding PartnerName}"/>
+                    Text="{Binding PartnerName}" />
 
                 <StackLayout
+                    Grid.Row="3"
                     AutomationId="stackLayout"
-                    Orientation="Horizontal"
-                    Grid.Row="3">
+                    Orientation="Horizontal">
 
                     <Label
                         AutomationId="sharedLabel"
                         Style="{StaticResource LabelNormalStyle}"
-                        TextColor="{StaticResource textLabelColor}"
-                        Text="{Binding Resources[lable_shared]}"/>
+                        Text="{Binding Resources[lable_shared]}"
+                        TextColor="{StaticResource textLabelColor}" />
 
                     <Switch
                         AutomationId="sharedSwitch"
-                        OnColor="#4CD864"
-                        IsToggled="{Binding IsSharedOn}"/>
+                        IsToggled="{Binding IsSharedOn}"
+                        OnColor="#4CD864" />
 
                     <Label
                         AutomationId="sortInternalLabel"
-                        TextColor="{StaticResource textLabelColor}"
                         Style="{StaticResource LabelNormalStyle}"
-                        Text="{Binding Resources[menu_action_sort_internal]}"/>
+                        Text="{Binding Resources[menu_action_sort_internal]}"
+                        TextColor="{StaticResource textLabelColor}" />
 
                     <Switch
                         AutomationId="sortInternalSwitch"
-                        OnColor="#4CD864"
-                        IsToggled="{Binding IsInternalOn}"/>
+                        IsToggled="{Binding IsInternalOn}"
+                        OnColor="#4CD864" />
 
                 </StackLayout>
 
                 <Label
-                    AutomationId="typeLabel"
-                    TextColor="{StaticResource textLabelColor}"
-                    Style="{StaticResource LabelNormalStyle}"
                     Grid.Row="4"
-                    Text="{Binding Resources[label_type]}"/>
+                    AutomationId="typeLabel"
+                    Style="{StaticResource LabelNormalStyle}"
+                    Text="{Binding Resources[label_type]}"
+                    TextColor="{StaticResource textLabelColor}" />
 
                 <Picker
-                    AutomationId="partnerTypePicker"
-                    Margin="60,0,0,0"
-                    HorizontalOptions="FillAndExpand"
-                    Grid.Row="4"
-                    ItemsSource="{Binding PartnerTypeCollectioin}"
-                    TextColor="{StaticResource selectTextColor}"
-                    ItemDisplayBinding="{Binding Name}"
                     Title="Select a type"
-                    SelectedItem="{Binding SelectedPartnerType}"/>
+                    Grid.Row="4"
+                    Margin="60,0,0,0"
+                    AutomationId="partnerTypePicker"
+                    HorizontalOptions="FillAndExpand"
+                    ItemDisplayBinding="{Binding Name}"
+                    ItemsSource="{Binding PartnerTypeCollectioin}"
+                    SelectedItem="{Binding SelectedPartnerType}"
+                    TextColor="{StaticResource selectTextColor}" />
 
                 <Label
-                    AutomationId="shippingAddressLabel"
-                    TextColor="{StaticResource textLabelColor}"
-                    Style="{StaticResource LabelNormalStyle}"
                     Grid.Row="5"
-                    Text="{Binding Resources[label_shipping_address]}"/>
+                    AutomationId="shippingAddressLabel"
+                    Style="{StaticResource LabelNormalStyle}"
+                    Text="{Binding Resources[label_shipping_address]}"
+                    TextColor="{StaticResource textLabelColor}" />
 
                 <Label
-                    AutomationId="shippingAddressValue"
-                    LineBreakMode="TailTruncation"
-                    Margin="10"
                     x:Name="lblShipigAddress"
                     Grid.Row="6"
+                    Margin="10"
+                    AutomationId="shippingAddressValue"
+                    LineBreakMode="TailTruncation"
                     Style="{StaticResource LabelNormalStyle}"
-                    TextColor="{StaticResource selectTextColor}"
-                    Text="{Binding ShippingAddress}">
-                    
+                    Text="{Binding ShippingAddress}"
+                    TextColor="{StaticResource selectTextColor}">
+
                     <Label.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding Path=BindingContext.ShippingAddressCommand, 
-                                                        Source={x:Reference Name=lblShipigAddress}}"
-                                                         CommandParameter="{Binding}"/>
+                        <TapGestureRecognizer Command="{Binding Path=BindingContext.ShippingAddressCommand, Source={x:Reference Name=lblShipigAddress}}" CommandParameter="{Binding}" />
                     </Label.GestureRecognizers>
                 </Label>
 
                 <Label
-                    AutomationId="billingAddressLabel"
-                    TextColor="{StaticResource textLabelColor}"
-                    Style="{StaticResource LabelNormalStyle}"
                     Grid.Row="7"
-                    Text="{Binding Resources[label_billing_address]}"/>
+                    AutomationId="billingAddressLabel"
+                    Style="{StaticResource LabelNormalStyle}"
+                    Text="{Binding Resources[label_billing_address]}"
+                    TextColor="{StaticResource textLabelColor}" />
 
                 <Label
+                    x:Name="lblBillingAddress"
+                    Grid.Row="8"
+                    Margin="10"
                     AutomationId="billingAddressValue"
                     LineBreakMode="TailTruncation"
-                    Margin="10"
-                    x:Name="lblBillingAddress"
                     Style="{StaticResource LabelNormalStyle}"
-                    Grid.Row="8"
-                    TextColor="{StaticResource selectTextColor}"
-                    Text="{Binding BillingAddress}">
-                    
+                    Text="{Binding BillingAddress}"
+                    TextColor="{StaticResource selectTextColor}">
+
                     <Label.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding Path=BindingContext.BillingAddressCommand, 
-                                                        Source={x:Reference Name=lblBillingAddress}}"
-                                                         CommandParameter="{Binding}"/>
+                        <TapGestureRecognizer Command="{Binding Path=BindingContext.BillingAddressCommand, Source={x:Reference Name=lblBillingAddress}}" CommandParameter="{Binding}" />
                     </Label.GestureRecognizers>
                 </Label>
 
                 <Entry
-                    AutomationId="contactnameEntry"
                     Grid.Row="9"
-                    Text="{Binding ContactName}"
+                    AutomationId="contactnameEntry"
+                    Placeholder="{Binding Resources[label_contact_name]}"
                     PlaceholderColor="{StaticResource lightGrayPlaceholderColor}"
-                    Placeholder="{Binding Resources[label_contact_name]}"/>
+                    Text="{Binding ContactName}" />
 
                 <Entry
-                    AutomationId="phoneEntry"
                     Grid.Row="10"
-                    Text="{Binding Phone}"
+                    AutomationId="phoneEntry"
+                    Placeholder="{Binding Resources[hint_contact_phone]}"
                     PlaceholderColor="{StaticResource lightGrayPlaceholderColor}"
-                    Placeholder="{Binding Resources[hint_contact_phone]}"/>
+                    Text="{Binding Phone}" />
 
                 <Entry
-                    AutomationId="contatctEmailEntry"
                     Grid.Row="11"
-                    Text="{Binding ContactEmail}"
+                    AutomationId="contatctEmailEntry"
+                    Placeholder="{Binding Resources[hint_contact_email]}"
                     PlaceholderColor="{StaticResource lightGrayPlaceholderColor}"
-                    Placeholder="{Binding Resources[hint_contact_email]}"/>
+                    Text="{Binding ContactEmail}" />
 
                 <Entry
-                    AutomationId="accountNumberEntry"
                     Grid.Row="12"
-                    Text="{Binding AccountNumber}"
+                    AutomationId="accountNumberEntry"
+                    Placeholder="{Binding Resources[label_accountnum]}"
                     PlaceholderColor="{StaticResource lightGrayPlaceholderColor}"
-                    Placeholder="{Binding Resources[label_accountnum]}"/>
+                    Text="{Binding AccountNumber}" />
 
                 <Entry
-                    AutomationId="referenceEntry"
                     Grid.Row="13"
-                    Text="{Binding ReferenceKey}"
+                    AutomationId="referenceEntry"
+                    Placeholder="{Binding Resources[hint_reference]}"
                     PlaceholderColor="{StaticResource lightGrayPlaceholderColor}"
-                    Placeholder="{Binding Resources[hint_reference]}"/>
+                    Text="{Binding ReferenceKey}" />
 
                 <Entry
-                    AutomationId="notesEntry"
                     Grid.Row="14"
-                    Text="{Binding Notes}"
+                    AutomationId="notesEntry"
+                    Placeholder="{Binding Resources[hint_enter_notes_here]}"
                     PlaceholderColor="{StaticResource lightGrayPlaceholderColor}"
-                    Placeholder="{Binding Resources[hint_enter_notes_here]}"/>
+                    Text="{Binding Notes}" />
 
             </Grid>
 

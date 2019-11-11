@@ -54,8 +54,8 @@ namespace KegID.ViewModel
         public string SmsAddress { get; set; }
         public string PTTimeZone { get; set; }
         public string Website { get; set; }
-        public string ShippingAddress { get; set; }
-        public string BillingAddress { get; set; }
+        public string ShippingAddress { get; set; } = "Edit address";
+        public string BillingAddress { get; set; } = "Edit address";
         public IList<PartnerTypeModel> PartnerTypeCollectioin { get; set; }
         public PartnerTypeModel SelectedPartnerType { get; set; }
         public PartnerInfoResponseModel PartnerInfoModel { get; set; }
@@ -282,20 +282,8 @@ namespace KegID.ViewModel
 
         public override Task InitializeAsync(INavigationParameters parameters)
         {
-            switch (parameters.Keys.FirstOrDefault())
-            {
-                case "EditAddress":
-                    if (parameters.GetValue<bool>("IsShipping"))
-                        ShipAddress = parameters.GetValue<Address>("EditAddress");
-                    else
-                        BillAddress = parameters.GetValue<Address>("EditAddress");
-                    break;
-                case "PartnerInfoModel":
-                    AssignValueAddress(parameters);
-                    break;
-                default:
-                    break;
-            }
+            if (parameters.ContainsKey("PartnerInfoModel"))
+                AssignValueAddress(parameters);
 
             return base.InitializeAsync(parameters);
         }
@@ -319,9 +307,17 @@ namespace KegID.ViewModel
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (parameters.ContainsKey("CalcelCommandRecieverAsync"))
+            switch (parameters.Keys.FirstOrDefault())
             {
-                CalcelCommandRecieverAsync();
+                case "EditAddress":
+                    if (parameters.GetValue<bool>("IsShipping"))
+                        ShipAddress = parameters.GetValue<Address>("EditAddress");
+                    else
+                        BillAddress = parameters.GetValue<Address>("EditAddress");
+                    break;
+                case "CalcelCommandRecieverAsync":
+                    CalcelCommandRecieverAsync();
+                    break;
             }
         }
 

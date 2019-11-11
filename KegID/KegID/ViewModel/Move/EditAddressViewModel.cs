@@ -123,10 +123,7 @@ namespace KegID.ViewModel
                     Country = Country
                 };
 
-                if (AddressTitle.Contains("Shipping"))
-                    IsShipping = true;
-                else
-                    IsShipping = false;
+                IsShipping = AddressTitle.Contains("Shipping");
                 await _navigationService.GoBackAsync(new NavigationParameters
                         {
                             { "EditAddress", address },{ "IsShipping", IsShipping }
