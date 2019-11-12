@@ -61,7 +61,7 @@ namespace KegID.ViewModel
                             }, animated: false);
         }
 
-        private void ShareCommandRecieverAsync()
+        public void ShareCommandRecieverAsync()
         {
             var share = DependencyService.Get<IShareFile>();
 
