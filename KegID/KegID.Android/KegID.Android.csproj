@@ -132,7 +132,7 @@
       <Version>2.0.1</Version>
     </PackageReference>
     <PackageReference Include="Xam.Plugins.Settings">
-      <Version>4.0.0.10-beta</Version>
+      <Version>4.1.0-beta</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Android.CirclePageIndicator">
       <Version>1.0.3</Version>
