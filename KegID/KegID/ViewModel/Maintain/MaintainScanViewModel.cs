@@ -34,10 +34,10 @@ namespace KegID.ViewModel
         private readonly IManifestManager _manifestManager;
         private readonly IGeolocationService _geolocationService;
 
-        private IList<MaintainTypeReponseModel> MaintainTypeReponseModel { get; set; }
+        //private IList<MaintainTypeReponseModel> MaintainTypeReponseModel { get; set; }
         public string ManaulBarcode { get; set; }
         public ObservableCollection<BarcodeModel> BarcodeCollection { get; set; } = new ObservableCollection<BarcodeModel>();
-        private IList<MaintainTypeReponseModel> SelectedMaintainenace { get; set; }
+        private IList<MaintenanceTypeModel> SelectedMaintainenace { get; set; }
 
         #endregion
 
@@ -71,7 +71,7 @@ namespace KegID.ViewModel
             IconItemTappedCommand = new DelegateCommand<BarcodeModel>((model) => IconItemTappedCommandRecieverAsync(model));
             DeleteItemCommand = new DelegateCommand<BarcodeModel>((model) => DeleteItemCommandReciever(model));
 
-            LoadMaintenanceType();
+            //LoadMaintenanceType();
             HandleReceivedMessages();
         }
 
@@ -119,18 +119,18 @@ namespace KegID.ViewModel
             });
         }
 
-        private void LoadMaintenanceType()
-        {
-            try
-            {
-                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                MaintainTypeReponseModel = RealmDb.All<MaintainTypeReponseModel>().ToList();
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
-        }
+        //private void LoadMaintenanceType()
+        //{
+        //    try
+        //    {
+        //        var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+        //        MaintainTypeReponseModel = RealmDb.All<MaintainTypeReponseModel>().ToList();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Crashes.TrackError(ex);
+        //    }
+        //}
 
         internal async Task AssignValidatedValueAsync(Partner model)
         {
@@ -269,7 +269,10 @@ namespace KegID.ViewModel
                               {
                                 {
                                     "BarcodeModel", BarcodeCollection
-                                }
+                                },
+                                  {
+                                      "SelectedMaintainenace",SelectedMaintainenace
+                                  }
                               }, animated: false);
         }
 
@@ -556,7 +559,7 @@ namespace KegID.ViewModel
                 Notes = parameters.GetValue<string>("Notes");
                 ConstantManager.Partner = parameters.GetValue<PartnerModel>("PartnerModel");
                 var value = parameters.GetValue<ManifestModel>("ManifestModel");
-                SelectedMaintainenace = parameters.GetValue<List<MaintainTypeReponseModel>>("selectedMaintenance");
+                SelectedMaintainenace = parameters.GetValue<List<MaintenanceTypeModel>>("selectedMaintenance");
 
                 if (value != null)
                 {

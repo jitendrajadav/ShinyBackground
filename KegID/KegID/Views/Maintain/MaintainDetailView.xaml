@@ -1,319 +1,312 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="KegID.Views.MaintainDetailView"
-             BackgroundColor="{StaticResource pageBGColor}"
-             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
-             ios:Page.UseSafeArea="true"
-             >
+<ContentPage
+    x:Class="KegID.Views.MaintainDetailView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    ios:Page.UseSafeArea="true"
+    BackgroundColor="{StaticResource pageBGColor}">
 
     <ContentPage.Content>
-        
-        <Grid
-            AutomationId="mainGrd">
+
+        <Grid AutomationId="mainGrd">
 
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
             <Button
-                AutomationId="homeButton"
                 x:Name="lblHome"
-                Style="{StaticResource TopButtonTitleStyle}"
-                Text="{Binding Resources[button_home]}"
+                AutomationId="homeButton"
                 Command="{Binding HomeCommand}"
-                />
-
-            <Label 
-                AutomationId="maintenanceLabel"
-                Text="{Binding Resources[title_maintenance]}"
-                Style="{StaticResource LabelTitleStyle}"
-                HorizontalOptions="Center" />
-
-            <BoxView
-                AutomationId="toBarSeperatorBoxView"
-                Margin="-10,0,-10,0"
-                Grid.Row="1"
-                BackgroundColor="{StaticResource bannerBGColor}"
-                VerticalOptions="FillAndExpand"
-                HorizontalOptions="FillAndExpand"/>
-
-            <Label 
-                AutomationId="trackingNumberLabel"
-                Grid.Row="1"
-                Margin="10,0,0,0"
-                Style="{StaticResource LabelTitleWhiteTextColorStyle}"
-                Text="{Binding TrackingNo,StringFormat='Tracking #: {0}',Converter={StaticResource StringToLast8CharacterConverter}}"
-                />
+                Style="{StaticResource TopButtonTitleStyle}"
+                Text="{Binding Resources[button_home]}" />
 
             <Label
+                AutomationId="maintenanceLabel"
+                HorizontalOptions="Center"
+                Style="{StaticResource LabelTitleStyle}"
+                Text="{Binding Resources[title_maintenance]}" />
+
+            <BoxView
+                Grid.Row="1"
+                Margin="-10,0,-10,0"
+                AutomationId="toBarSeperatorBoxView"
+                BackgroundColor="{StaticResource bannerBGColor}"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand" />
+
+            <Label
+                Grid.Row="1"
+                Margin="10,0,0,0"
+                AutomationId="trackingNumberLabel"
+                Style="{StaticResource LabelTitleWhiteTextColorStyle}"
+                Text="{Binding TrackingNo, StringFormat='Tracking #: {0}', Converter={StaticResource StringToLast8CharacterConverter}}" />
+
+            <Label
+                Grid.Row="2"
                 Margin="10,0,0,0"
                 AutomationId="toLabel"
-                Grid.Row="2"
-                Text="{Binding Resources[label_to]}"
                 Style="{StaticResource LabelNormalStyle}"
-                />
-            
-            <Label 
-                AutomationId="stockLocationLabel"
-                Margin="20,0,0,0"
+                Text="{Binding Resources[label_to]}" />
+
+            <Label
                 Grid.Row="3"
-                Text="{Binding StockLocation}"
+                Margin="20,0,0,0"
+                AutomationId="stockLocationLabel"
                 Style="{StaticResource LabelNormalStyle}"
-                />
-            
+                Text="{Binding StockLocation}" />
+
             <Grid
-                AutomationId="innerGrd"
                 x:Name="maintenancePerformed"
+                Grid.Row="4"
                 Margin="10,0,10,0"
-                RowSpacing="0"
+                AutomationId="innerGrd"
                 ColumnSpacing="0"
-                Grid.Row="4">
-                
+                RowSpacing="0">
+
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
                 <BoxView
-                    AutomationId="lineSeperator1"
                     Grid.Row="0"
                     Grid.ColumnSpan="3"
+                    AutomationId="lineSeperator1"
                     BackgroundColor="Black"
                     HeightRequest="1"
-                    VerticalOptions="Start"
-                    HorizontalOptions="FillAndExpand"/>
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="Start" />
 
                 <BoxView
-                    AutomationId="lineSeperator2"
                     Grid.Row="0"
                     Grid.RowSpan="5"
+                    AutomationId="lineSeperator2"
                     BackgroundColor="Black"
-                    WidthRequest="1"
+                    HorizontalOptions="Start"
                     VerticalOptions="FillAndExpand"
-                    HorizontalOptions="Start"/>
+                    WidthRequest="1" />
 
                 <BoxView
-                    AutomationId="lineSeperator3"
                     Grid.Row="4"
                     Grid.ColumnSpan="3"
+                    AutomationId="lineSeperator3"
                     BackgroundColor="Black"
                     HeightRequest="1"
-                    VerticalOptions="Start"
-                    HorizontalOptions="FillAndExpand"/>
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="Start" />
 
                 <BoxView
-                    AutomationId="lineSeperator4"
                     Grid.Row="0"
-                    Grid.Column="2"
                     Grid.RowSpan="5"
+                    Grid.Column="2"
+                    AutomationId="lineSeperator4"
                     BackgroundColor="Black"
-                    WidthRequest="1"
+                    HorizontalOptions="Start"
                     VerticalOptions="FillAndExpand"
-                    HorizontalOptions="Start"/>
+                    WidthRequest="1" />
 
                 <Label
-                    AutomationId="maintenancePerformedLabel"
-                    Grid.Column="1"
                     Grid.Row="1"
+                    Grid.Column="1"
+                    AutomationId="maintenancePerformedLabel"
                     BackgroundColor="LightGray"
                     HorizontalOptions="FillAndExpand"
                     HorizontalTextAlignment="Center"
-                    VerticalTextAlignment="Center"
                     Style="{StaticResource LabelNormalStyle}"
-                    Text="{Binding Resources[label_maintenance_performed]}"/>
-              
+                    Text="{Binding Resources[label_maintenance_performed]}"
+                    VerticalTextAlignment="Center" />
+
                 <BoxView
-                    AutomationId="lineSeperator5"
                     x:Name="myBox"
                     Grid.Row="2"
                     Grid.ColumnSpan="3"
+                    AutomationId="lineSeperator5"
                     BackgroundColor="Black"
                     HeightRequest="1"
-                    VerticalOptions="Start"
-                    HorizontalOptions="FillAndExpand"/>
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="Start" />
 
                 <StackLayout
-                    AutomationId="stackLayout"
-                    Spacing="0"
-                    Grid.Row="3"
-                    HorizontalOptions="FillAndExpand"
                     x:Name="maintenancePerformedStack"
-                    Grid.Column="1"/>
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    AutomationId="stackLayout"
+                    HorizontalOptions="FillAndExpand"
+                    Spacing="0" />
 
             </Grid>
 
             <Grid
-                AutomationId="subInnerGrd"
                 x:Name="grdContent"
+                Grid.Row="5"
                 Margin="10,10,10,0"
-                RowSpacing="0"
+                AutomationId="subInnerGrd"
                 ColumnSpacing="0"
-                Grid.Row="5">
-                
+                RowSpacing="0">
+
                 <Grid.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding Path=BindingContext.GridTappedCommand, 
-                                                        Source={x:Reference Name=grdContent}}"
-                                                         CommandParameter="{Binding}"/>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.GridTappedCommand, Source={x:Reference Name=grdContent}}" CommandParameter="{Binding}" />
                 </Grid.GestureRecognizers>
-                
+
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="70*"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="30*"/>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="70*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="30*" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
                 <BoxView
-                    AutomationId="lineSeperator6"
                     Grid.Row="0"
                     Grid.ColumnSpan="5"
+                    AutomationId="lineSeperator6"
                     BackgroundColor="Black"
                     HeightRequest="1"
-                    VerticalOptions="Start"
-                    HorizontalOptions="FillAndExpand"/>
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="Start" />
 
                 <BoxView
-                    AutomationId="lineSeperator7"
                     Grid.Row="0"
                     Grid.RowSpan="7"
+                    AutomationId="lineSeperator7"
                     BackgroundColor="Black"
-                    WidthRequest="1"
+                    HorizontalOptions="Start"
                     VerticalOptions="FillAndExpand"
-                    HorizontalOptions="Start"/>
+                    WidthRequest="1" />
 
                 <BoxView
-                    AutomationId="lineSeperator8"
                     Grid.Row="6"
                     Grid.ColumnSpan="5"
+                    AutomationId="lineSeperator8"
                     BackgroundColor="Black"
                     HeightRequest="1"
-                    VerticalOptions="End"
-                    HorizontalOptions="FillAndExpand"/>
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="End" />
 
                 <BoxView
-                    AutomationId="lineSeperator9"
                     Grid.Row="0"
-                    Grid.Column="4"
                     Grid.RowSpan="7"
+                    Grid.Column="4"
+                    AutomationId="lineSeperator9"
                     BackgroundColor="Black"
-                    WidthRequest="1"
+                    HorizontalOptions="End"
                     VerticalOptions="FillAndExpand"
-                    HorizontalOptions="End"/>
+                    WidthRequest="1" />
 
                 <Label
-                    AutomationId="tagSizeLabel"
+                    Grid.Row="1"
                     Grid.Column="1"
-                    Grid.Row="1"
+                    AutomationId="tagSizeLabel"
                     BackgroundColor="LightGray"
                     HorizontalOptions="FillAndExpand"
                     HorizontalTextAlignment="Center"
-                    VerticalTextAlignment="Center"
-                    VerticalOptions="FillAndExpand"
                     Style="{StaticResource LabelNormalStyle}"
-                    Text="{Binding Resources[tag_size]}"/>
+                    Text="{Binding Resources[tag_size]}"
+                    VerticalOptions="FillAndExpand"
+                    VerticalTextAlignment="Center" />
 
                 <Label
-                    AutomationId="qtyLabel"
-                    Grid.Column="3"
                     Grid.Row="1"
+                    Grid.Column="3"
+                    AutomationId="qtyLabel"
                     BackgroundColor="LightGray"
                     HorizontalOptions="FillAndExpand"
                     HorizontalTextAlignment="Center"
-                    VerticalTextAlignment="Center"
-                    VerticalOptions="FillAndExpand"
                     Style="{StaticResource LabelNormalStyle}"
-                    Text="{Binding Resources[label_quantity]}"/>
+                    Text="{Binding Resources[label_quantity]}"
+                    VerticalOptions="FillAndExpand"
+                    VerticalTextAlignment="Center" />
 
                 <BoxView
-                    AutomationId="lineSeperator10"
                     Grid.Row="2"
                     Grid.ColumnSpan="5"
+                    AutomationId="lineSeperator10"
                     BackgroundColor="Black"
                     HeightRequest="1"
-                    VerticalOptions="Start"
-                    HorizontalOptions="FillAndExpand"/>
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="Start" />
 
                 <Label
-                    AutomationId="doubelDashLabel"
-                    Grid.Column="1"
                     Grid.Row="3"
-                    Style="{StaticResource LabelNormalStyle}"
+                    Grid.Column="1"
                     Margin="5,0,0,0"
-                    Text="--"/>
+                    AutomationId="doubelDashLabel"
+                    Style="{StaticResource LabelNormalStyle}"
+                    Text="--" />
 
                 <BoxView
-                    AutomationId="lineSeperator11"
                     Grid.Row="1"
-                    Grid.Column="2"
                     Grid.RowSpan="5"
+                    Grid.Column="2"
+                    AutomationId="lineSeperator11"
                     BackgroundColor="Black"
-                    WidthRequest="1"
+                    HorizontalOptions="Start"
                     VerticalOptions="FillAndExpand"
-                    HorizontalOptions="Start"/>
+                    WidthRequest="1" />
 
                 <Label
-                    AutomationId="itemCountLabel"
-                    Grid.Column="3"
                     Grid.Row="3"
+                    Grid.Column="3"
                     Margin="0,0,5,0"
+                    AutomationId="itemCountLabel"
                     HorizontalOptions="End"
                     Style="{StaticResource LabelNormalStyle}"
-                    TextColor="{StaticResource selectTextColor}"
-                    Text="{Binding ItemCount}"/>
+                    Text="{Binding ItemCount}"
+                    TextColor="{StaticResource selectTextColor}" />
 
                 <BoxView
-                    AutomationId="lineSeperator12"
                     Grid.Row="4"
                     Grid.ColumnSpan="5"
+                    AutomationId="lineSeperator12"
                     BackgroundColor="Black"
                     HeightRequest="1"
-                    VerticalOptions="Start"
-                    HorizontalOptions="FillAndExpand"/>
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="Start" />
 
                 <Label
-                    AutomationId="totalLabel"
-                    Margin="5,0,0,0"
-                    Grid.Column="1"
                     Grid.Row="5"
-                    Style="{StaticResource LabelNormalStyle}"
+                    Grid.Column="1"
+                    Margin="5,0,0,0"
+                    AutomationId="totalLabel"
                     FontAttributes="Bold"
-                    Text="{Binding Resources[label_total]}"/>
+                    Style="{StaticResource LabelNormalStyle}"
+                    Text="{Binding Resources[label_total]}" />
 
                 <Label
-                    AutomationId="itemCount1Label"
-                    Margin="0,0,5,0"
-                    HorizontalOptions="End"
-                    TextColor="{StaticResource selectTextColor}"
                     Grid.Row="5"
                     Grid.Column="3"
+                    Margin="0,0,5,0"
+                    AutomationId="itemCount1Label"
+                    HorizontalOptions="End"
                     Style="{StaticResource LabelNormalStyle}"
-                    Text="{Binding ItemCount}"/>
+                    Text="{Binding ItemCount}"
+                    TextColor="{StaticResource selectTextColor}" />
 
             </Grid>
 
