@@ -7,7 +7,7 @@ using Xamarin.Forms.Xaml;
 namespace KegID.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class InventoryView : TabbedPage, INavigationAware
+    public partial class InventoryView : TabbedPage, IInitialize
     {
         public InventoryView()
         {
@@ -15,16 +15,7 @@ namespace KegID.Views
             NavigationPage.SetHasNavigationBar(this, false);
         }
 
-        public void OnNavigatedFrom(INavigationParameters parameters)
-        {
-        }
-
-        public void OnNavigatedTo(INavigationParameters parameters)
-        {
-
-        }
-
-        public void OnNavigatingTo(INavigationParameters parameters)
+        public void Initialize(INavigationParameters parameters)
         {
             CurrentPage = Children[Convert.ToInt32(parameters["currentPage"])];
         }

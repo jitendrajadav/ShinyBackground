@@ -1,7 +1,5 @@
-﻿using KegID.LocalDb;
-using KegID.Model;
+﻿using KegID.Model;
 using Prism.Navigation;
-using Realms;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -21,10 +19,6 @@ namespace KegID.Views
 
         public void GenerateDynamicMaintenancePerformed(IList<MaintenanceTypeModel> list)
         {
-            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-            var Maintainitems = RealmDb.All<MaintainTypeReponseModel>().ToList();
-
-
             var items = list;
             try
             {

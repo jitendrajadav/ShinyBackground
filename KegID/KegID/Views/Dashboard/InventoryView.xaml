@@ -5,11 +5,18 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
     xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    android:TabbedPage.BarItemColor="#66FFFFFF"
+    android:TabbedPage.BarSelectedItemColor="White"
+    android:TabbedPage.ToolbarPlacement="Bottom"
     ios:Page.UseSafeArea="true"
     BackgroundColor="{StaticResource pageBGColor}"
-    BarBackgroundColor="#F1F1F1">
+    BarBackgroundColor="#2196F3"
+    BarTextColor="White">
 
-    <ContentPage x:Name="cnStock" Title="{Binding Resources[label_stock]}">
+    <ContentPage
+        x:Name="cnStock"
+        Title="{Binding Resources[label_stock]}"
+        IconImageSource="actionaccept.png">
 
         <Grid AutomationId="mainGrd1">
             <Grid.RowDefinitions>
@@ -188,7 +195,10 @@
         </Grid>
     </ContentPage>
 
-    <ContentPage x:Name="cnEmpty" Title="{Binding Resources[content_list_empty]}">
+    <ContentPage
+        x:Name="cnEmpty"
+        Title="{Binding Resources[content_list_empty]}"
+        IconImageSource="actionaccept.png">
         <Grid AutomationId="mainGrd2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="9*" />

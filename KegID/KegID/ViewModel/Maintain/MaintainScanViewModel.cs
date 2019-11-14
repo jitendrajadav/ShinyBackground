@@ -34,7 +34,6 @@ namespace KegID.ViewModel
         private readonly IManifestManager _manifestManager;
         private readonly IGeolocationService _geolocationService;
 
-        //private IList<MaintainTypeReponseModel> MaintainTypeReponseModel { get; set; }
         public string ManaulBarcode { get; set; }
         public ObservableCollection<BarcodeModel> BarcodeCollection { get; set; } = new ObservableCollection<BarcodeModel>();
         private IList<MaintenanceTypeModel> SelectedMaintainenace { get; set; }
@@ -118,19 +117,6 @@ namespace KegID.ViewModel
                 });
             });
         }
-
-        //private void LoadMaintenanceType()
-        //{
-        //    try
-        //    {
-        //        var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-        //        MaintainTypeReponseModel = RealmDb.All<MaintainTypeReponseModel>().ToList();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Crashes.TrackError(ex);
-        //    }
-        //}
 
         internal async Task AssignValidatedValueAsync(Partner model)
         {
@@ -270,9 +256,9 @@ namespace KegID.ViewModel
                                 {
                                     "BarcodeModel", BarcodeCollection
                                 },
-                                  {
-                                      "SelectedMaintainenace",SelectedMaintainenace
-                                  }
+                                {
+                                    "SelectedMaintainenace",SelectedMaintainenace
+                                }
                               }, animated: false);
         }
 
