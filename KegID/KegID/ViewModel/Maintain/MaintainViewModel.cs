@@ -96,14 +96,10 @@ namespace KegID.ViewModel
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                 var result = RealmDb.All<MaintainTypeReponseModel>();
 
-                //ConstantManager.MaintainTypeCollection = result.Where(x => x.ActivationMethod == "ReverseOnly").OrderBy(x => x.Name).ToList();
-
                 foreach (var item in result.Where(x => x.ActivationMethod == "ReverseOnly").OrderBy(x => x.Name).ToList())
                 {
                     MaintainTypeCollection.Add(new MaintenanceTypeModel { ActivationMethod = item.ActivationMethod, DefectType = item.DefectType, DeletedDate = item.DeletedDate, Description = item.Description, Id = item.Id, InUse = item.InUse, IsAction = item.IsAction, IsAlert = item.IsAlert, IsToggled = item.IsToggled, Name = item.Name });
                 }
-
-                //MaintainTypeCollection = result.Where(x => x.ActivationMethod == "ReverseOnly").OrderBy(x => x.Name).ToList();//ConstantManager.MaintainTypeCollection;
             }
             catch (Exception ex)
             {
@@ -198,8 +194,6 @@ namespace KegID.ViewModel
                 var maintenance = RealmDb.All<MaintainTypeReponseModel>().ToList();
 
                 ManifestModel = manifestModel;
-                //MaintainTypeCollection = maintenance.Where(x => x.ActivationMethod == "ReverseOnly").OrderBy(x => x.Name).ToList();
-
                 foreach (var item in maintenance.Where(x => x.ActivationMethod == "ReverseOnly").OrderBy(x => x.Name).ToList())
                 {
                     MaintainTypeCollection.Add(new MaintenanceTypeModel { ActivationMethod = item.ActivationMethod, DefectType = item.DefectType, DeletedDate = item.DeletedDate, Description = item.Description, Id = item.Id, InUse = item.InUse, IsAction = item.IsAction, IsAlert = item.IsAlert, IsToggled = item.IsToggled, Name = item.Name });

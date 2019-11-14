@@ -13,10 +13,9 @@ namespace KegID
     {
         public async Task RunCounter(CancellationToken token, IList<string> _barcode,string _page)
         {
-            await Task.Run(async () => {
-
+            await Task.Run(async () =>
+            {
                 await ValidateBarcodeInsertIntoLocalDB(_barcode, _page);
-
             }, token);
         }
 
@@ -60,8 +59,6 @@ namespace KegID
                                     Barcodes = validateBarcodeModel
                                 };
                                 MessagingCenter.Send(bulkUpdateScanMessage, "BulkUpdateScanMessage");
-                                break;
-                            default:
                                 break;
                         }
                     });

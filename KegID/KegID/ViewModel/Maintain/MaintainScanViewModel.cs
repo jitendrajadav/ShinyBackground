@@ -70,7 +70,6 @@ namespace KegID.ViewModel
             IconItemTappedCommand = new DelegateCommand<BarcodeModel>((model) => IconItemTappedCommandRecieverAsync(model));
             DeleteItemCommand = new DelegateCommand<BarcodeModel>((model) => DeleteItemCommandReciever(model));
 
-            //LoadMaintenanceType();
             HandleReceivedMessages();
         }
 
@@ -529,8 +528,6 @@ namespace KegID.ViewModel
                     break;
                 case "Notes":
                     AssignMaintenanceViewValue(parameters);
-                    break;
-                default:
                     break;
             }
 

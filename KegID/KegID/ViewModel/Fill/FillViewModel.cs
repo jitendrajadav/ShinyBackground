@@ -4,6 +4,7 @@ using KegID.Messages;
 using KegID.Model;
 using KegID.Services;
 using Microsoft.AppCenter.Crashes;
+using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
@@ -71,7 +72,7 @@ namespace KegID.ViewModel
         public bool IsDestinationRequiredVisible { get; set; } = true;
         public bool Operator { get; set; }
         public bool UsesSkus { get; set; }
-        public bool FillFromLocations { get; set; }
+        public IList<string> FillFromLocations { get; set; }
 
         #endregion
 
@@ -119,7 +120,7 @@ namespace KegID.ViewModel
 
             //In Fill--> Scan where we have to check while scanning where we can get default location?...
             var preferenceFillFromLocations = preferences.Find(x => x.PreferenceName == "FillFromLocations");
-            FillFromLocations = preferenceFillFromLocations != null && bool.Parse(preferenceFillFromLocations.PreferenceValue);
+            FillFromLocations = preferenceFillFromLocations != null ? JsonConvert.DeserializeObject<IList<string>>(preferenceFillFromLocations.PreferenceValue) : null;
 
             var preferenceAllowMaintenanceFill = preferences.Find(x => x.PreferenceName == "AllowMaintenanceFill");
             var AllowMaintenanceFill = preferenceAllowMaintenanceFill != null && bool.Parse(preferenceAllowMaintenanceFill.PreferenceValue);
@@ -308,7 +309,8 @@ namespace KegID.ViewModel
                             {"PartnerModel",PartnerModel },
                             {"SizeButtonTitle",SizeButtonTitle },
                             {"ManifestId",ManifestId },
-                            { "Barcodes",ConstantManager.Barcodes}
+                            { "Barcodes",ConstantManager.Barcodes},
+                            { "FillFromLocations",FillFromLocations}
                         }, animated: false);
                     }
                 }

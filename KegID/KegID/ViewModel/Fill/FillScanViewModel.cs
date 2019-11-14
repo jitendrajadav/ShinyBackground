@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using KegID.Common;
 using KegID.LocalDb;
 using KegID.Messages;
 using KegID.Model;
@@ -45,6 +46,7 @@ namespace KegID.ViewModel
         public bool IsPalletze { get; set; } = true;
         public ObservableCollection<BarcodeModel> BarcodeCollection { get; set; } = new ObservableCollection<BarcodeModel>();
         public List<Tag> Tags { get; set; } = new List<Tag>();
+        public IList<string> FillFromLocations { get; set; }
 
         #endregion
 
@@ -126,7 +128,15 @@ namespace KegID.ViewModel
                             {
                                 Crashes.TrackError(ex);
                             }
-                        };
+                        }
+
+                        foreach (var item in FillFromLocations)
+                        {
+                            if (item != message.Barcodes.Kegs.Locations.FirstOrDefault().EntityId)
+                            {
+                                // needs to remove scan item and show alert message.
+                            }
+                        }
                     }
                 });
             });
@@ -162,6 +172,7 @@ namespace KegID.ViewModel
                 IsPalletze = parameters.GetValue<bool>("IsPalletze");
                 Title = parameters.GetValue<string>("Title");
                 ManifestId = parameters.GetValue<string>("ManifestId");
+                FillFromLocations = parameters.GetValue<IList<string>>("FillFromLocations");
                 foreach (var item in parameters.GetValue<IList<BarcodeModel>>("Barcodes"))
                 {
                     BarcodeCollection.Add(item);
