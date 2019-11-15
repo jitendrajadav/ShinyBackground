@@ -73,6 +73,7 @@ namespace KegID.ViewModel
         public bool Operator { get; set; }
         public bool UsesSkus { get; set; }
         public IList<string> FillFromLocations { get; set; }
+        public bool AllowMaintenanceFill { get; set; }
 
         #endregion
 
@@ -123,7 +124,7 @@ namespace KegID.ViewModel
             FillFromLocations = preferenceFillFromLocations != null ? JsonConvert.DeserializeObject<IList<string>>(preferenceFillFromLocations.PreferenceValue) : null;
 
             var preferenceAllowMaintenanceFill = preferences.Find(x => x.PreferenceName == "AllowMaintenanceFill");
-            var AllowMaintenanceFill = preferenceAllowMaintenanceFill != null && bool.Parse(preferenceAllowMaintenanceFill.PreferenceValue);
+            AllowMaintenanceFill = preferenceAllowMaintenanceFill != null && bool.Parse(preferenceAllowMaintenanceFill.PreferenceValue);
 
             var preferenceOperator = preferences.Find(x => x.PreferenceName == "Operator");
             Operator = preferenceOperator != null && bool.Parse(preferenceOperator.PreferenceValue);
@@ -305,12 +306,13 @@ namespace KegID.ViewModel
                         {
                             { "IsPalletze",IsPalletze},
                             { "Title","Filling " + SizeButtonTitle + " kegs with " + BatchButtonTitle + " " + DestinationTitle},
-                            {"NewBatchModel",NewBatchModel },
-                            {"PartnerModel",PartnerModel },
-                            {"SizeButtonTitle",SizeButtonTitle },
-                            {"ManifestId",ManifestId },
+                            { "NewBatchModel",NewBatchModel },
+                            { "PartnerModel",PartnerModel },
+                            { "SizeButtonTitle",SizeButtonTitle },
+                            { "ManifestId",ManifestId },
                             { "Barcodes",ConstantManager.Barcodes},
-                            { "FillFromLocations",FillFromLocations}
+                            { "FillFromLocations",FillFromLocations},
+                            { "AllowMaintenanceFill",AllowMaintenanceFill }
                         }, animated: false);
                     }
                 }
