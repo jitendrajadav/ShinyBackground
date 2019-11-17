@@ -47,6 +47,7 @@ namespace KegID.ViewModel
         public List<Tag> Tags { get; set; } = new List<Tag>();
         public IList<string> FillFromLocations { get; set; }
         public bool AllowMaintenanceFill { get; set; }
+        public bool Lastbadscan { get; set; }
 
         #endregion
 
@@ -96,6 +97,7 @@ namespace KegID.ViewModel
         private void DeleteItemCommandReciever(BarcodeModel model)
         {
             BarcodeCollection.Remove(model);
+            Lastbadscan = false;
         }
 
         private void HandleUnSubscirbeMessages()
@@ -146,6 +148,7 @@ namespace KegID.ViewModel
                         if (AllowMaintenanceFill && message.Barcodes.Kegs.MaintenanceItems.Count > 0)
                         {
                             //needs to check if any bed scan is there needs to stay here not to go away until user remove this scan manually.
+                            Lastbadscan = true;
                             _ = _dialogService.DisplayAlertAsync("Alert", "There is a kegs with maintenance pleaser remove scan", "Ok");
                         }
                     }
@@ -398,46 +401,53 @@ namespace KegID.ViewModel
         {
             try
             {
-                bool isNew = BarcodeCollection.ToList().Any(x => x.Barcode == ManaulBarcode);
-
-                BarcodeModel model = null;
-                if (!isNew)
+                if (!Lastbadscan)
                 {
-                    try
+                    bool isNew = BarcodeCollection.ToList().Any(x => x.Barcode == ManaulBarcode);
+
+                    BarcodeModel model = null;
+                    if (!isNew)
                     {
-                        model = new BarcodeModel
+                        try
                         {
-                            Barcode = ManaulBarcode,
-                            TagsStr = TagsStr,
-                            Icon = Cloud,
-                            Page = nameof(ViewTypeEnum.FillScanView),
-                            Contents = Tags.Count > 2 ? Tags?[2]?.Name ?? string.Empty : string.Empty
-                        };
-                        if (ConstantManager.Tags != null)
-                        {
-                            foreach (var item in ConstantManager.Tags)
-                                model.Tags.Add(item);
+                            model = new BarcodeModel
+                            {
+                                Barcode = ManaulBarcode,
+                                TagsStr = TagsStr,
+                                Icon = Cloud,
+                                Page = nameof(ViewTypeEnum.FillScanView),
+                                Contents = Tags.Count > 2 ? Tags?[2]?.Name ?? string.Empty : string.Empty
+                            };
+                            if (ConstantManager.Tags != null)
+                            {
+                                foreach (var item in ConstantManager.Tags)
+                                    model.Tags.Add(item);
+                            }
+                            BarcodeCollection.Add(model);
                         }
-                        BarcodeCollection.Add(model);
-                    }
 
-                    catch (Exception ex)
-                    {
-                        Crashes.TrackError(ex);
-                    }
-
-                    var current = Connectivity.NetworkAccess;
-                    if (current == NetworkAccess.Internet)
-                    {
-                        var message = new StartLongRunningTaskMessage
+                        catch (Exception ex)
                         {
-                            Barcode = new List<string>() { ManaulBarcode },
-                            PageName = nameof(ViewTypeEnum.FillScanView)
-                        };
-                        MessagingCenter.Send(message, "StartLongRunningTaskMessage");
-                    }
+                            Crashes.TrackError(ex);
+                        }
 
-                    ManaulBarcode = string.Empty;
+                        var current = Connectivity.NetworkAccess;
+                        if (current == NetworkAccess.Internet)
+                        {
+                            var message = new StartLongRunningTaskMessage
+                            {
+                                Barcode = new List<string>() { ManaulBarcode },
+                                PageName = nameof(ViewTypeEnum.FillScanView)
+                            };
+                            MessagingCenter.Send(message, "StartLongRunningTaskMessage");
+                        }
+
+                        ManaulBarcode = string.Empty;
+                    }
+                }
+                else
+                {
+                    _ = _dialogService.DisplayAlertAsync("Alert", "There is a kegs with maintenance pleaser remove scan", "Ok");
                 }
             }
             catch (Exception ex)
@@ -488,7 +498,13 @@ namespace KegID.ViewModel
 
         private async void PrintCommandRecieverAsync()
         {
-            await ValidateBarcode();
+            if (!Lastbadscan)
+            {
+                await ValidateBarcode();
+            }
+            {
+                _ = _dialogService.DisplayAlertAsync("Alert", "There is a kegs with maintenance pleaser remove scan", "Ok");
+            }
         }
 
         private async Task ValidateBarcode()
@@ -605,13 +621,20 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.GoBackAsync(new NavigationParameters
+                if (!Lastbadscan)
+                {
+                    await _navigationService.GoBackAsync(new NavigationParameters
                 {
                     { "BarcodeCollection", BarcodeCollection },
                     { "BatchId", BatchId },
                     { "ManifestId", ManifestId },
 
                 }, animated: false);
+                }
+                else
+                {
+                    _ = _dialogService.DisplayAlertAsync("Alert", "There is a kegs with maintenance pleaser remove scan", "Ok");
+                }
             }
             catch (Exception ex)
             {
@@ -664,10 +687,17 @@ namespace KegID.ViewModel
         {
             try
             {
-                await _navigationService.NavigateAsync("AddTagsView", new NavigationParameters
+                if (!Lastbadscan)
+                {
+                    await _navigationService.NavigateAsync("AddTagsView", new NavigationParameters
                     {
                         {"viewTypeEnum",ViewTypeEnum.FillScanView }
                     }, animated: false);
+                }
+                else
+                {
+                    _ = _dialogService.DisplayAlertAsync("Alert", "There is a kegs with maintenance pleaser remove scan", "Ok");
+                }
             }
             catch (Exception ex)
             {
