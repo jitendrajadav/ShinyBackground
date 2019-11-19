@@ -156,14 +156,14 @@ namespace KegID.ViewModel
                     List<string> closedBatches = new List<string>();
                     List<NewPallet> newPallets = new List<NewPallet>();
                     NewPallet newPallet = null;
-                    List<TItem> palletItems = new List<TItem>();
-                    TItem palletItem = null;
+                    List<ManifestTItem> palletItems = new List<ManifestTItem>();
+                ManifestTItem palletItem = null;
 
                     foreach (var pallet in PalletCollection)
                     {
                         foreach (var item in pallet.Barcode)
                         {
-                            palletItem = new TItem
+                            palletItem = new ManifestTItem
                             {
                                 Barcode = item.Barcode,
                                 ScanDate = DateTimeOffset.UtcNow.Date,

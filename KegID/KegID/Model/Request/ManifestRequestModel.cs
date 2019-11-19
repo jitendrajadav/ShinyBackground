@@ -61,7 +61,7 @@ namespace KegID.Model
     public class NewPallet : RealmObject
     {
         [DoNotNotify]
-        public IList<TItem> PalletItems { get; }
+        public IList<ManifestTItem> PalletItems { get; }
         [DoNotNotify]
         public string PalletId { get; set; }
         [DoNotNotify]
@@ -70,6 +70,8 @@ namespace KegID.Model
         public DateTimeOffset BuildDate { get; set; }
         [DoNotNotify]
         public string Barcode { get; set; }
+        [DoNotNotify]
+        public string BarcodeFormat { get; set; }
         [DoNotNotify]
         public string StockLocation { get; set; }
         [DoNotNotify]
@@ -98,7 +100,7 @@ namespace KegID.Model
         public string Name { get; set; }
     }
 
-    public class GeneralTag 
+    public class GeneralTag
     {
         public string Property { get; set; }
         public string Value { get; set; }

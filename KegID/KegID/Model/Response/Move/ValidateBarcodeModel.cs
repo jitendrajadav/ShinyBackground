@@ -21,9 +21,19 @@ namespace KegID.Model
         [DoNotNotify]
         public DateTimeOffset ShipDate { get; set; }
         [DoNotNotify]
+        public string OriginId { get; set; }
+        [DoNotNotify]
         public string SenderId { get; set; }
         [DoNotNotify]
+        public string DestinationId { get; set; }
+        [DoNotNotify]
         public string ReceiverId { get; set; }
+        [DoNotNotify]
+        public string Gs1Gsin { get; set; }
+        [DoNotNotify]
+        public bool IsSendManifest { get; set; }
+        [DoNotNotify]
+        public DateTimeOffset EffectiveDate { get; set; }
         [DoNotNotify]
         public string OwnerName { get; set; }
         [DoNotNotify]
@@ -31,7 +41,7 @@ namespace KegID.Model
         [DoNotNotify]
         public IList<BarcodeModel> BarcodeModels { get;}
         [DoNotNotify]
-        public IList<ManifestItem> ManifestItems { get; }
+        public IList<ManifestTItem> ManifestItems { get; }
         [DoNotNotify]
         public IList<NewPallet> NewPallets { get; }
         [DoNotNotify]
@@ -41,7 +51,15 @@ namespace KegID.Model
         [DoNotNotify]
         public string TagsStr { get; set; }
         [DoNotNotify]
+        public string KegOrderId { get; set; }
+        [DoNotNotify]
+        public DateTimeOffset PostedDate { get; set; }
+        [DoNotNotify]
+        public string SourceKey { get; set; }
+        [DoNotNotify]
         public IList<string> ClosedBatches { get; }
+        [DoNotNotify]
+        public NewBatch NewBatch { get; set; }
         [DoNotNotify]
         public IList<NewBatch> NewBatches { get; }
         [DoNotNotify]
@@ -52,6 +70,34 @@ namespace KegID.Model
         public string Size { get; set; }
     }
 
+    public class ManifestTItem : RealmObject
+    {
+        [DoNotNotify]
+        public string Barcode { get; set; }
+        [DoNotNotify]
+        public DateTimeOffset ScanDate { get; set; }
+        [DoNotNotify]
+        public IList<Tag> Tags { get; }
+        [DoNotNotify]
+        public string Contents { get; set; }
+        [DoNotNotify]
+        public string KegId { get; set; }
+        [DoNotNotify]
+        public string PalletId { get; set; }
+        [DoNotNotify]
+        public string HeldOnPalletId { get; set; }
+        [DoNotNotify]
+        public string SkuId { get; set; }
+        [DoNotNotify]
+        public string BatchId { get; set; }
+        [DoNotNotify]
+        public string AssetProfileId { get; set; }
+        [DoNotNotify]
+        public string Icon { get; set; }
+        [DoNotNotify]
+        public string TagsStr { get; set; }
+
+    }
     public class BarcodeModel : RealmObject
     {
         [DoNotNotify]

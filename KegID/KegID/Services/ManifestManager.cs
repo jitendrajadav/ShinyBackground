@@ -12,17 +12,17 @@ namespace KegID.Services
         public ManifestModel GetManifestDraft(EventTypeEnum eventTypeEnum, string manifestId, IList<BarcodeModel> barcodeCollection, long Latitude,long Longitude,
             List<Tag> tags, string tagsStr, PartnerModel partnerModel, List<NewPallet> newPallets, List<NewBatch> batches, List<string> closedBatches, MaintenanceModel maintenanceModel, long validationStatus, DateTimeOffset? EffectiveDateAllowed, string contents = "", string size = "")
         {
-            List<ManifestItem> manifestItemlst = new List<ManifestItem>();
+            List<ManifestTItem> manifestItems = new List<ManifestTItem>();
             try
             {
                 foreach (var item in barcodeCollection)
                 {
                     string barcodeId = item.Barcode;
-                    ManifestItem manifestItem = new ManifestItem()
+                    ManifestTItem manifestItem = new ManifestTItem()
                     {
                         Barcode = item.Barcode,
                         ScanDate = DateTimeOffset.UtcNow.Date,
-                        ValidationStatus = validationStatus,
+                        //ValidationStatus = validationStatus,
                         KegId = item.Kegs?.Partners?.FirstOrDefault()?.Kegs?.FirstOrDefault().KegId ?? default,
                         Icon = item.Icon,
                         TagsStr = item.TagsStr ?? default,
@@ -34,7 +34,7 @@ namespace KegID.Services
                             manifestItem.Tags.Add(tag);
                         }
                     }
-                    manifestItemlst.Add(manifestItem);
+                    manifestItems.Add(manifestItem);
                     barcodeId = string.Empty;
                 }
 
@@ -57,7 +57,7 @@ namespace KegID.Services
                     //NewBatches = batches,
                     //Tags = tags.ToList(),
                     //ClosedBatches = closedBatches
-                    ManifestItemsCount = manifestItemlst.Count,
+                    ManifestItemsCount = manifestItems.Count,
                     TagsStr = tagsStr,
                     Size = size
                 };
@@ -65,7 +65,7 @@ namespace KegID.Services
                 foreach (var item in barcodeCollection)
                     manifestModel.BarcodeModels.Add(item);
 
-                foreach (var item in manifestItemlst)
+                foreach (var item in manifestItems)
                     manifestModel.ManifestItems.Add(item);
 
                 foreach (var item in newPallets)
