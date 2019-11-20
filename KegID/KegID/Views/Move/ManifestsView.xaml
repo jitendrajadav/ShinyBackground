@@ -18,7 +18,6 @@
     <ContentPage.Content>
 
         <Grid
-            Margin="10,0,10,0"
             AutomationId="mainGrd"
             ColumnSpacing="0"
             RowSpacing="0">
@@ -32,6 +31,7 @@
 
             <Button
                 x:Name="lblHome"
+                Margin="10,0,0,0"
                 AutomationId="homeButton"
                 Command="{Binding HomeCommand}"
                 HorizontalOptions="Start"
@@ -47,6 +47,7 @@
 
             <controls:TintedImage
                 x:Name="imgSearch"
+                Margin="0,0,10,0"
                 AutomationId="searchImage"
                 HeightRequest="30"
                 HorizontalOptions="End"

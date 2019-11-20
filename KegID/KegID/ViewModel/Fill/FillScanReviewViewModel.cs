@@ -320,7 +320,7 @@ namespace KegID.ViewModel
         public ManifestModel GenerateManifest(Xamarin.Essentials.Location location, List<NewPallet> newPallets, List<string> closedBatches)
         {
             return _manifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.FILL_MANIFEST, manifestId: TrackingNumber,
-                        Barcodes, (long)location.Latitude, (long)location.Longitude, tags: new List<Tag>(), tagsStr: default,
+                        Barcodes, (long)location.Latitude, (long)location.Longitude,string.Empty,string.Empty, tags: new List<Tag>(), tagsStr: default,
                         partnerModel: ConstantManager.Partner, newPallets, batches: new List<NewBatch>(),
                         closedBatches, null, validationStatus: 4, null, contents: Contents);
         }

@@ -9,7 +9,7 @@ namespace KegID.Services
 {
     public class ManifestManager : IManifestManager
     {
-        public ManifestModel GetManifestDraft(EventTypeEnum eventTypeEnum, string manifestId, IList<BarcodeModel> barcodeCollection, long Latitude,long Longitude,
+        public ManifestModel GetManifestDraft(EventTypeEnum eventTypeEnum, string manifestId, IList<BarcodeModel> barcodeCollection, long Latitude, long Longitude, string OriginId,string OrderId,
             List<Tag> tags, string tagsStr, PartnerModel partnerModel, List<NewPallet> newPallets, List<NewBatch> batches, List<string> closedBatches, MaintenanceModel maintenanceModel, long validationStatus, DateTimeOffset? EffectiveDateAllowed, string contents = "", string size = "")
         {
             List<ManifestTItem> manifestItems = new List<ManifestTItem>();
@@ -22,10 +22,10 @@ namespace KegID.Services
                     {
                         Barcode = item.Barcode,
                         ScanDate = DateTimeOffset.UtcNow.Date,
-                        //ValidationStatus = validationStatus,
                         KegId = item.Kegs?.Partners?.FirstOrDefault()?.Kegs?.FirstOrDefault().KegId ?? default,
                         Icon = item.Icon,
                         TagsStr = item.TagsStr ?? default,
+                        Contents = contents,
                     };
                     if (item.Tags != null)
                     {
@@ -44,22 +44,20 @@ namespace KegID.Services
                     EventTypeId = (long)eventTypeEnum,
                     Latitude = Latitude,
                     Longitude = Longitude,
-                    SubmittedDate = EffectiveDateAllowed ?? DateTimeOffset.UtcNow.Date,
+                    SubmittedDate = DateTimeOffset.UtcNow.Date,
                     ShipDate = DateTimeOffset.UtcNow.Date,
-
                     SenderId = AppSettings.CompanyId,
                     ReceiverId = partnerModel?.PartnerId,
-                    //DestinationName = partnerModel.FullName,
-                    //DestinationTypeCode = partnerModel.LocationCode,
+                    DestinationId = partnerModel?.PartnerId,
+                    EffectiveDate = EffectiveDateAllowed ?? DateTimeOffset.UtcNow.Date,
+                    OriginId = OriginId,
                     OwnerName = partnerModel?.FullName,
-                    //ManifestItems= manifestItemlst,
-                    //NewPallets = newPallets,
-                    //NewBatches = batches,
-                    //Tags = tags.ToList(),
-                    //ClosedBatches = closedBatches
                     ManifestItemsCount = manifestItems.Count,
                     TagsStr = tagsStr,
-                    Size = size
+                    Size = size,
+                    KegOrderId = OrderId,
+                    PostedDate = DateTimeOffset.UtcNow.Date,
+                    SourceKey = partnerModel.SourceKey
                 };
 
                 foreach (var item in barcodeCollection)
@@ -75,9 +73,7 @@ namespace KegID.Services
                     manifestModel.NewBatches.Add(item);
 
                 if (maintenanceModel != null)
-                {
                     manifestModel.MaintenanceModels = maintenanceModel;
-                }
 
                 if (tags != null)
                 {

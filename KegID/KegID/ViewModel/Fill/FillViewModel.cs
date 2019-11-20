@@ -257,7 +257,7 @@ namespace KegID.ViewModel
             };
 
             return _manifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.FILL_MANIFEST, manifestId: ManifestId,
-                        barcodeCollection: ConstantManager.Barcodes ?? new List<BarcodeModel>(), (long)location.Latitude, (long)location.Longitude, tags: new List<Tag>(), tagsStr: "",
+                        barcodeCollection: ConstantManager.Barcodes ?? new List<BarcodeModel>(), (long)location.Latitude, (long)location.Longitude, string.Empty,string.Empty, tags: new List<Tag>(), tagsStr: "",
                         partnerModel: ConstantManager.Partner, newPallets: newPallets ?? new List<NewPallet>(), batches: newBatches,
                         closedBatches: new List<string>(), null, validationStatus: 4, null, contents: SizeButtonTitle, size: SizeButtonTitle);
         }

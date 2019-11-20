@@ -217,7 +217,7 @@ namespace KegID.ViewModel
                     try
                     {
                     model = _manifestManager.GetManifestDraft(EventTypeEnum.FILL_MANIFEST, ManifestId ?? PalletCollection.FirstOrDefault().ManifestId,
-                    barcodes, location != null ? (long)location.Latitude : 0, location != null ? (long)location.Longitude : 0, tags, string.Empty, partnerModel, newPallets, new List<NewBatch>(), closedBatches, null, 4, null);
+                    barcodes, location != null ? (long)location.Latitude : 0, location != null ? (long)location.Longitude : 0,string.Empty,string.Empty, tags, string.Empty, partnerModel, newPallets, new List<NewBatch>(), closedBatches, null, 4, null);
                     }
                     catch (Exception ex)
                     {

@@ -63,6 +63,10 @@ namespace KegID.ViewModel
         public bool IsRequiredVisible { get; set; } = true;
         public bool OrderNumRequired { get; set; }
         public string Origin { get; set; } = "Select a location";
+        public void OnOriginChanged()
+        {
+            IsOriginRequired = false;
+        }
         public bool Operator { get; set; }
 
         #endregion
@@ -334,7 +338,7 @@ namespace KegID.ViewModel
         public ManifestModel GenerateManifest(Xamarin.Essentials.Location location)
         {
             return _manifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.MOVE_MANIFEST, manifestId: ManifestId,
-                        barcodeCollection: ConstantManager.Barcodes ?? new List<BarcodeModel>(), (long)location.Latitude, (long)location.Longitude, tags: Tags ?? new List<Tag>(), tagsStr: TagsStr,
+                        barcodeCollection: ConstantManager.Barcodes ?? new List<BarcodeModel>(), (long)location.Latitude, (long)location.Longitude, Origin,Order, tags: Tags ?? new List<Tag>(), tagsStr: TagsStr,
                         partnerModel: ConstantManager.Partner, newPallets: new List<NewPallet>(), batches: new List<NewBatch>(),
                         closedBatches: new List<string>(), null, validationStatus: 2, EffectiveDateAllowed, contents: Contents);
         }
@@ -653,6 +657,8 @@ namespace KegID.ViewModel
                 if (!string.IsNullOrEmpty(model.OwnerName))
                 {
                     Destination = model.OwnerName;
+                    Origin = model.OriginId;
+                    Order = model.KegOrderId;
                     ConstantManager.Partner = new PartnerModel
                     {
                         PartnerId = model.ReceiverId,
