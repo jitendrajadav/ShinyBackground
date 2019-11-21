@@ -1,0 +1,34 @@
+{
+  "images": [
+    {
+      "appearances": [],
+      "scale": "1x",
+      "idiom": "universal",
+      "filename": "KegID_logoneg_rgb.png"
+    },
+    {
+      "appearances": [],
+      "scale": "2x",
+      "idiom": "universal",
+      "filename": "KegID_logoneg_rgb1.png"
+    },
+    {
+      "appearances": [],
+      "scale": "3x",
+      "idiom": "universal",
+      "filename": "KegID_logoneg_rgb2.png"
+    },
+    {
+      "appearances": [],
+      "idiom": "universal",
+      "filename": "KegID_logo_pantone.pdf"
+    }
+  ],
+  "properties": {
+    "template-rendering-intent": "template"
+  },
+  "info": {
+    "version": 1,
+    "author": ""
+  }
+}
