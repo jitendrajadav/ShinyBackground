@@ -274,13 +274,29 @@ namespace KegID.Services
             return model;
         }
 
-        public async Task<object> PostKegAsync(KegRequestModel model, string kegId, string sessionId, string RequestType)
+        public async Task<object> PostKegStatusAsync(KegRequestModel model, string kegId, string sessionId, string RequestType)
         {
             //ManifestModelGet manifestModelGet = new ManifestModelGet();
 
             // It is earlier
             //string url = string.Format(Configuration.PostKegUrl, sessionId);
             string url = string.Format(Configuration.GetKegStatusByKegIdUrl, kegId, sessionId);
+
+            string content = JsonConvert.SerializeObject(model);
+            var value = await App.kegIDClient.ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Send, content, RequestType: RequestType);
+
+            //manifestModelGet = !string.IsNullOrEmpty(value.Response) ? DeserializeObject<ManifestModelGet>(value.Response, GetJsonSetting()) : new ManifestModelGet();
+            //manifestModelGet.StatusCode = value.StatusCode;
+            //return manifestModelGet;
+            return null;
+        }
+
+        public async Task<object> PostKegAsync(KegRequestModel model, string kegId, string sessionId, string RequestType)
+        {
+            //ManifestModelGet manifestModelGet = new ManifestModelGet();
+
+            // It is earlier
+            string url = string.Format(Configuration.PostKegUrl, sessionId);
 
             string content = JsonConvert.SerializeObject(model);
             var value = await App.kegIDClient.ExecuteServiceCall<KegIDResponse>(url, HttpMethodType.Send, content, RequestType: RequestType);

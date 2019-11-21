@@ -111,7 +111,7 @@ namespace KegID.ViewModel
                     Colors = ""
                 };
 
-                var Result = await _dashboardService.PostKegAsync(model, KegId, AppSettings.SessionId, Configuration.Keg);
+                var Result = await _dashboardService.PostKegStatusAsync(model, KegId, AppSettings.SessionId, Configuration.Keg);
             }
             catch (Exception ex)
             {

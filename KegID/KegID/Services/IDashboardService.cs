@@ -15,7 +15,8 @@ namespace KegID.Services
         Task<KegMaintenanceHistoryModel> GetKegMaintenanceHistoryAsync(string kegId, string sessionId);
         Task<MaintenanceAlertModel> GetKegMaintenanceAlertAsync(string kegId, string sessionId);
         Task<DeleteMaintenanceAlertResponseModel> GetDeleteMaintenanceAlertAsync(string kegId, string sessionId);
-        Task<object> PostKegAsync(KegRequestModel model, string kegId,string sessionId, string RequestType);
+        Task<object> PostKegStatusAsync(KegRequestModel model, string kegId,string sessionId, string RequestType);
+        Task<object> PostKegAsync(KegRequestModel model, string kegId, string sessionId, string RequestType);
         Task<AddMaintenanceAlertModel> PostMaintenanceAlertAsync(AddMaintenanceAlertRequestModel model, string sessionId, string RequestType);
         Task<AddMaintenanceAlertModel> PostMaintenanceDeleteAlertUrlAsync(DeleteMaintenanceAlertRequestModel model, string sessionId, string RequestType);
         Task<SearchPalletModel> GetPalletSearchAsync(string sessionId, string locationId, string fromDate, string toDate, string kegs, string kegOwnerId);

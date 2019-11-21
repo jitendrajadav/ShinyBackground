@@ -14,7 +14,7 @@ using KegID.LocalDb;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
-using Acr.UserDialogs;
+using KegID.Common;
 
 namespace KegID.ViewModel
 {
@@ -24,6 +24,7 @@ namespace KegID.ViewModel
 
         private readonly IPageDialogService _dialogService;
         private readonly IGetIconByPlatform _getIconByPlatform;
+        private readonly IDashboardService _dashboardService;
 
         private const string Maintenace = "maintenace.png";
         private const string ValidationOK = "validationok.png";
@@ -52,10 +53,11 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public ScanKegsViewModel(INavigationService navigationService, IPageDialogService dialogService,IGetIconByPlatform getIconByPlatform) : base(navigationService)
+        public ScanKegsViewModel(INavigationService navigationService, IPageDialogService dialogService,IGetIconByPlatform getIconByPlatform,IDashboardService dashboardService) : base(navigationService)
         {
             _dialogService = dialogService;
             _getIconByPlatform = getIconByPlatform;
+            _dashboardService = dashboardService;
 
             DoneCommand = new DelegateCommand(DoneCommandRecieverAsync);
             BarcodeScanCommand = new DelegateCommand(BarcodeScanCommandReciever);
@@ -164,7 +166,6 @@ namespace KegID.ViewModel
             }
             return model;
         }
-
 
         private async void LabelItemTappedCommandRecieverAsync(BarcodeModel model)
         {
@@ -431,6 +432,37 @@ namespace KegID.ViewModel
                 var current = Connectivity.NetworkAccess;
                 if (current == NetworkAccess.Internet)
                 {
+                    //var KegModel = new KegRequestModel
+                    //{
+                    //    KegId = KegId,
+                    //    Barcode = ManaulBarcode,
+                    //    OwnerId =  PartnerModel.PartnerId,
+                    //    AltBarcode = Barcode,
+                    //    Notes = "",
+                    //    ReferenceKey = "",
+                    //    ProfileId = "",
+                    //    AssetType = SelectedItemType,
+                    //    AssetSize = Size,
+                    //    AssetVolume = "",
+                    //    AssetDescription = "",
+                    //    OwnerSkuId = "",
+                    //    FixedContents = "",
+                    //    Tags = Tags,
+                    //    MaintenanceAlertIds = new List<string>(),
+                    //    LessorId = "",
+                    //    PurchaseDate = DateTimeOffset.Now,
+                    //    PurchasePrice = 0,
+                    //    PurchaseOrder = "",
+                    //    ManufacturerName = "",
+                    //    ManufacturerId = "",
+                    //    ManufactureLocation = "",
+                    //    ManufactureDate = DateTimeOffset.Now,
+                    //    Material = "",
+                    //    Markings = "",
+                    //    Colors = ""
+                    //};
+                    //var kegStatusResponse = await _dashboardService.PostKegAsync(KegModel, KegId, AppSettings.SessionId, Configuration.Keg);
+
                     var message = new StartLongRunningTaskMessage
                     {
                         Barcode = new List<string>() { ManaulBarcode },
