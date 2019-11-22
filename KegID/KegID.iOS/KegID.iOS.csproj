@@ -29,7 +29,7 @@
     <MtouchDebug>true</MtouchDebug>
     <MtouchProfiling>false</MtouchProfiling>
     <IOSDebugOverWiFi>false</IOSDebugOverWiFi>
-    <CodesignKey>iPhone Developer: jitendra.jadav@slg.com (3SGCHM877Y)</CodesignKey>
+    <CodesignKey>iPhone Developer</CodesignKey>
     <SolutionDir>..\</SolutionDir>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
@@ -57,7 +57,7 @@
     <MtouchDebug>true</MtouchDebug>
     <CodesignEntitlements>
     </CodesignEntitlements>
-    <CodesignProvision>KegIDBeta</CodesignProvision>
+    <CodesignProvision>iOS Team Provisioning Profile: com.anotherroundapps.KegIDBeta</CodesignProvision>
     <MtouchLink>None</MtouchLink>
     <CodesignExtraArgs>
     </CodesignExtraArgs>
@@ -74,10 +74,10 @@
     <WarningLevel>4</WarningLevel>
     <MtouchArch>ARM64</MtouchArch>
     <ConsolePause>false</ConsolePause>
-    <CodesignKey>iPhone Distribution</CodesignKey>
+    <CodesignKey>Apple Development: Jitendra Jadav (M69K4M7A85)</CodesignKey>
     <CodesignEntitlements>
     </CodesignEntitlements>
-    <CodesignProvision />
+    <CodesignProvision>iOS Team Provisioning Profile: com.anotherroundapps.KegIDBeta</CodesignProvision>
     <MtouchUseLlvm>true</MtouchUseLlvm>
     <SolutionDir>..\</SolutionDir>
     <CodesignExtraArgs />
@@ -496,5 +496,9 @@
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon20.png">
       <Visible>false</Visible>
     </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon-1.appiconset\Contents.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <ITunesArtwork Include="iTunesArtwork" />
   </ItemGroup>
 </Project>
