@@ -11,7 +11,6 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
-using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
@@ -53,7 +52,7 @@ namespace KegID.ViewModel
             Password = "beer2keg";
 #endif
             BgImage = _getIconByPlatform.GetIcon("kegbg.png");
-            APIBase = AppSettings.BaseURL.Contains("Prod") ? string.Empty : AppSettings.BaseURL;
+            APIBase = ConstantManager.BaseUrl.Contains("Prod") ? string.Empty : ConstantManager.BaseUrl;
         }
 
         #endregion
@@ -82,7 +81,7 @@ namespace KegID.ViewModel
                         var appDataWebServiceUrl = model.LoginModel.Preferences.Where(x => x.PreferenceName == "AppDataWebServiceUrl").Select(x => x.PreferenceValue).FirstOrDefault();
                         if (appDataWebServiceUrl != null)
                         {
-                            AppSettings.BaseURL = "";
+                            ConstantManager.BaseUrl = "";
                         }
 
                         AppSettings.SessionId = model.LoginModel.SessionId;
@@ -99,8 +98,8 @@ namespace KegID.ViewModel
                     }
                     try
                     {
-                        string v = AppInfo.Version.ToString();
-                        if (!AppSettings.IsFreshInstall && AppSettings.WhatsNewVersion != v)
+                        var versionUpdated = VersionTracking.CurrentVersion.CompareTo(VersionTracking.PreviousVersion);
+                        if (versionUpdated > 0 && VersionTracking.PreviousVersion != null && VersionTracking.IsFirstLaunchForCurrentVersion)
                         {
                             await _navigationService.NavigateAsync("../WhatIsNewView", animated: false);
                             Loader.StopLoading();
@@ -149,8 +148,6 @@ namespace KegID.ViewModel
             {
                 IsLogOut = true;
                 AppSettings.RemoveUserData();
-                AppSettings.IsFreshInstall = false;
-                AppSettings.WhatsNewVersion = null;
             }
             else
                 IsLogOut = false;

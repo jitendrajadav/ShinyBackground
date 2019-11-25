@@ -328,11 +328,7 @@ namespace KegID.Common
 
             set => Settings.AddOrUpdateValue(nameof(SessionId), value);
         }
-        public static string BaseURL
-        {
-            get => Settings.GetValueOrDefault(nameof(BaseURL), string.Empty);
-            set => Settings.AddOrUpdateValue(nameof(BaseURL), value);
-        }
+
         public static string CompanyId
         {
             get => Settings.GetValueOrDefault(nameof(CompanyId), string.Empty);
@@ -407,23 +403,11 @@ namespace KegID.Common
             set => Settings.AddOrUpdateValue(nameof(HasBooking), value);
         }
 
-        public static bool IsFreshInstall
-        {
-            get => Settings.GetValueOrDefault(nameof(IsFreshInstall), true);
-            set => Settings.AddOrUpdateValue(nameof(IsFreshInstall), value);
-        }
-
-        public static string WhatsNewVersion
-        {
-            get => Settings.GetValueOrDefault(nameof(WhatsNewVersion), null);
-            set => Settings.AddOrUpdateValue(nameof(WhatsNewVersion), value);
-        }
-
-        public static bool IsMetaDataLoaded
-        {
-            get => Settings.GetValueOrDefault(nameof(IsMetaDataLoaded), false);
-            set => Settings.AddOrUpdateValue(nameof(IsMetaDataLoaded), value);
-        }
+        //public static bool IsMetaDataLoaded
+        //{
+        //    get => Settings.GetValueOrDefault(nameof(IsMetaDataLoaded), false);
+        //    set => Settings.AddOrUpdateValue(nameof(IsMetaDataLoaded), value);
+        //}
 
         public static bool PrintEveryManifest
         {

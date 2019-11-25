@@ -93,7 +93,7 @@ namespace KegID.ViewModel
 
             Connectivity.ConnectivityChanged -= Connectivity_ConnectivityChanged;
             Connectivity.ConnectivityChanged += Connectivity_ConnectivityChanged;
-            APIBase = AppSettings.BaseURL.Contains("Prod") ? string.Empty : AppSettings.BaseURL;
+            APIBase = ConstantManager.BaseUrl.Contains("Prod") ? string.Empty : ConstantManager.BaseUrl;
             DeviceCheckIn();
         }
 
@@ -108,7 +108,7 @@ namespace KegID.ViewModel
 
         private async void LoadMetadData()
         {
-            if (!AppSettings.IsMetaDataLoaded)
+            if (VersionTracking.IsFirstLaunchForCurrentVersion)
             {
                 try
                 {
@@ -123,7 +123,7 @@ namespace KegID.ViewModel
                 }
                 finally
                 {
-                    AppSettings.IsMetaDataLoaded = true;
+                    //AppSettings.IsMetaDataLoaded = true;
                     Loader.StopLoading();
                 }
             }

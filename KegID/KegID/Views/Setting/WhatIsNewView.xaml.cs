@@ -3,6 +3,7 @@ using Xamarin.Forms.Xaml;
 using System;
 using KegID.Messages;
 using Microsoft.AppCenter.Crashes;
+using Xamarin.Essentials;
 
 namespace KegID.Views
 {
@@ -33,7 +34,7 @@ namespace KegID.Views
                 // You can remove the switch to UI Thread if you are already in the UI Thread.
                 Device.BeginInvokeOnMainThread(() =>
                 {
-                    Device.OpenUri(new Uri("https://www.slg.com/kegfleet/"));
+                    Launcher.OpenAsync(new Uri("https://www.slg.com/kegfleet/"));
                 });
             }
             catch (Exception ex)

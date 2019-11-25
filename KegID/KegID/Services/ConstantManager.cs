@@ -17,8 +17,8 @@ namespace KegID.Services
         public static PartnerModel Partner { get; set; }
         public static List<Tag> Tags { get; set; }
         public static string TagsStr { get; set; }
-        //public static IList<MaintainTypeReponseModel> MaintainTypeCollection { get; set; }
         public static string Contents { get; set; }
         public static string DBPartnerId { get; set; }
+        public static string BaseUrl { get; set; }
     }
 }

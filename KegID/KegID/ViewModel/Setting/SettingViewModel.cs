@@ -1,11 +1,11 @@
 ﻿using System;
 using KegID.Common;
 using KegID.Messages;
-using KegID.Services;
 using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -150,9 +150,9 @@ namespace KegID.ViewModel
             string mWebRoot = string.Empty;
             try
             {
-                if (AppSettings.BaseURL.Contains("https://api.kegid.com/api/"))
+                if (Preferences.Get("BaseURL", "BaseURL").Contains("https://api.kegid.com/api/"))
                     mWebRoot = "https://www.kegid.com";
-                else if (AppSettings.BaseURL.Contains("https://stageapi.kegid.com/api/"))
+                else if (Preferences.Get("BaseURL", "BaseURL").Contains("https://stageapi.kegid.com/api/"))
                     mWebRoot = "https://stage.kegid.com";
                 else
                     mWebRoot = "https://test.kegid.com";
@@ -162,7 +162,7 @@ namespace KegID.ViewModel
                 // You can remove the switch to UI Thread if you are already in the UI Thread.
                 Device.BeginInvokeOnMainThread(() =>
                 {
-                    Device.OpenUri(new Uri(mWebRoot + "/Account/Login/ZendeskSingleSignOnMobile?sessionid="+AppSettings.SessionId));
+                    Launcher.OpenAsync(new Uri(mWebRoot + "/Account/Login/ZendeskSingleSignOnMobile?sessionid="+AppSettings.SessionId));
                 });
             }
             catch (Exception ex)

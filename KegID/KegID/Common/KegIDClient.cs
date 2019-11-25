@@ -1,5 +1,6 @@
 ﻿using KegID.Messages;
 using KegID.Model;
+using KegID.Services;
 using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -145,7 +146,7 @@ namespace KegID.Common
         public async Task<KegIDResponse> ExecuteServiceCall<T>(string url, HttpMethodType httpMethodType, string content, string RequestType = "")
         {
             KegIDResponse kegIDResponse = new KegIDResponse();
-            string ServiceUrl = AppSettings.BaseURL + url;
+            string ServiceUrl = ConstantManager.BaseUrl + url;
             var current = Connectivity.NetworkAccess;
             if (current == NetworkAccess.Internet)
             {

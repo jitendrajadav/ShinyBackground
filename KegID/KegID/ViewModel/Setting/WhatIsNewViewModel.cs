@@ -1,5 +1,4 @@
-﻿using KegID.Common;
-using KegID.Messages;
+﻿using KegID.Messages;
 using Prism.Navigation;
 using System.Collections.Generic;
 using Xamarin.Forms;
@@ -43,17 +42,8 @@ namespace KegID.ViewModel
             {
                 Device.BeginInvokeOnMainThread(async () =>
                 {
-                    if (!AppSettings.IsFreshInstall && !AppSettings.WhatsNewVersion.Equals(Xamarin.Essentials.AppInfo.VersionString))
-                    {
-                        AppSettings.IsFreshInstall = false;
-                        AppSettings.WhatsNewVersion = Xamarin.Essentials.AppInfo.Version.ToString();
                         // If it is Android or iOS
                         await _navigationService.NavigateAsync("../MainPage", animated: false);
-                    }
-                    else
-                    {
-                        await _navigationService.GoBackAsync(animated: false);
-                    }
                 });
             });
         }

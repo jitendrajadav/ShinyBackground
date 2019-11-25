@@ -17,6 +17,7 @@ using Microsoft.AppCenter.Distribute;
 using System;
 using System.Threading.Tasks;
 using KegID.DependencyServices;
+using Xamarin.Essentials;
 
 namespace KegID
 {
@@ -30,15 +31,17 @@ namespace KegID
         public static KegIDClient kegIDClient;
 
         public App(IPlatformInitializer initializer = null) : base(initializer) { }
+
         protected override async void OnInitialized()
         {
             InitializeComponent();
 
+            Xamarin.Essentials.VersionTracking.Track();
 #if DEBUG
             //HotReloader.Current.Run(this);
-            AppSettings.BaseURL = Configuration.TestAPIUrl;
+            ConstantManager.BaseUrl = Configuration.TestAPIUrl;
 #elif RELEASE
-            AppSettings.BaseURL = Configuration.ProdAPIUrl;
+            ConstantManager.BaseUrl = Configuration.ProdAPIUrl;
 #endif
 
             serviceProvider = new ServiceCollection()
@@ -58,17 +61,21 @@ namespace KegID
                     break;
             }
 
-
-            if (!string.IsNullOrEmpty(AppSettings.SessionId))
+            var versionUpdated = VersionTracking.CurrentVersion.CompareTo(VersionTracking.PreviousVersion);
+            if (VersionTracking.IsFirstLaunchEver)
+            {
+                await NavigationService.NavigateAsync("NavigationPage/LoginView");
+            }
+            else if (versionUpdated > 0 && VersionTracking.IsFirstLaunchForCurrentVersion && VersionTracking.PreviousVersion != null)
+            {
+                await NavigationService.NavigateAsync("NavigationPage/WhatIsNewView");
+            }
+            else
             {
                 if (TargetIdiom.Tablet == Xamarin.Forms.Device.Idiom)
                     await NavigationService.NavigateAsync("NavigationPage/MainPageTablet");
                 else
                     await NavigationService.NavigateAsync("NavigationPage/MainPage");
-            }
-            else
-            {
-                await NavigationService.NavigateAsync("NavigationPage/LoginView");
             }
         }
 
