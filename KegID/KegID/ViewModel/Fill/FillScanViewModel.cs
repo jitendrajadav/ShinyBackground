@@ -502,6 +502,7 @@ namespace KegID.ViewModel
             {
                 await ValidateBarcode();
             }
+            else
             {
                 _ = _dialogService.DisplayAlertAsync("Alert", "There is a kegs with maintenance pleaser remove scan", "Ok");
             }
@@ -526,8 +527,7 @@ namespace KegID.ViewModel
                             new Task(new Action(() =>
                             {
                                 PrintPallet();
-                            }
-                                )).Start();
+                            })).Start();
 
                             await _navigationService.GoBackAsync(new NavigationParameters
                                     {
