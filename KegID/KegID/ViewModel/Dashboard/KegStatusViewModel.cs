@@ -25,6 +25,7 @@ namespace KegID.ViewModel
 
         public LocationInfo Posision { get; set; }
         public List<MaintenanceAlert> Alerts { get; set; }
+        public string AltBarcode { get; set; }
         public string Owner { get; set; }
         public string SizeName { get; set; }
         public string TypeName { get; set; }
@@ -350,6 +351,14 @@ namespace KegID.ViewModel
             if (parameters.ContainsKey("KegsCommandRecieverAsync"))
             {
                 KegsCommandRecieverAsync();
+            }
+            else if (parameters.ContainsKey("TagsStr"))
+            {
+                TagsStr = parameters.GetValue<string>("TagsStr");
+                Owner = parameters.GetValue<string>("Owner");
+                SizeName = parameters.GetValue<string>("Size");
+                TypeName = parameters.GetValue<string>("Type");
+                AltBarcode = parameters.GetValue<string>("AltBarcode");
             }
         }
 

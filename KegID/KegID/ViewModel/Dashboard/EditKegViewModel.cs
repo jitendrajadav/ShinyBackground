@@ -31,7 +31,8 @@ namespace KegID.ViewModel
             Owner = PartnerModel?.FullName;
         }
         public string SelectedItemType { get; set; }
-        public string TagsStr { get; set; }
+        public string TagsStr { get; set; } = "Add info";
+        public string AltBarcode { get; set; }
         public List<Tag> Tags { get; set; }
 
         #endregion
@@ -86,7 +87,7 @@ namespace KegID.ViewModel
                     KegId = KegId,
                     Barcode = Barcode,
                     OwnerId = PartnerModel.PartnerId,
-                    AltBarcode = Barcode,
+                    AltBarcode = AltBarcode,
                     Notes = "",
                     ReferenceKey = "",
                     ProfileId = "",
@@ -112,6 +113,14 @@ namespace KegID.ViewModel
                 };
 
                 var Result = await _dashboardService.PostKegStatusAsync(model, KegId, AppSettings.SessionId, Configuration.Keg);
+                await _navigationService.GoBackAsync(new NavigationParameters
+                    {
+                        { "TagsStr", TagsStr },
+                        { "Owner", Owner },
+                        { "Size",  Size},
+                        { "Type",SelectedItemType},
+                        { "AltBarcode",AltBarcode}
+                    }, animated: false);
             }
             catch (Exception ex)
             {
