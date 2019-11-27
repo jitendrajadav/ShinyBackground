@@ -304,7 +304,7 @@ namespace KegID.Services
             //manifestModelGet = !string.IsNullOrEmpty(value.Response) ? DeserializeObject<ManifestModelGet>(value.Response, GetJsonSetting()) : new ManifestModelGet();
             //manifestModelGet.StatusCode = value.StatusCode;
             //return manifestModelGet;
-            return null;
+            return value;
         }
 
         public async Task<KegMassUpdateKegModel> PostKegUploadAsync(KegBulkUpdateItemRequestModel inModel, string sessionId, string RequestType)

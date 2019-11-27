@@ -12,6 +12,7 @@ using Prism.Commands;
 using Prism.Navigation;
 using Realms;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -28,7 +29,7 @@ namespace KegID.ViewModel
         private readonly IInitializeMetaData _initializeMetaData;
         private readonly IDashboardService _dashboardService;
         private readonly IUuidManager _uuidManager;
-        ConnectionType connetionType;
+        private ConnectionType connetionType;
 
         public string Stock { get; set; } = "0";
         public string Empty { get; set; } = "0";
@@ -39,6 +40,7 @@ namespace KegID.ViewModel
         public string DraftmaniFests { get; set; }
         public bool IsVisibleDraftmaniFestsLabel { get; set; }
         public string APIBase { get; set; }
+        public double KegRefresh { get; set; }
 
         #endregion
 
@@ -81,6 +83,7 @@ namespace KegID.ViewModel
             KegsCommand = new DelegateCommand(KegsCommandRecieverAsync);
             InUsePartnerCommand = new DelegateCommand(InUsePartnerCommandRecieverAsync);
 
+            PreferenceSetting();
             LoadMetadData();
             HandleUnsubscribeMessages();
             HandleReceivedMessages();
@@ -100,6 +103,14 @@ namespace KegID.ViewModel
         #endregion
 
         #region Methods
+
+        private void PreferenceSetting()
+        {
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            var preferences = RealmDb.All<Preference>().ToList();
+
+            KegRefresh = Convert.ToDouble(preferences.Find(x => x.PreferenceName == "KEG_REFRESH")?.PreferenceValue);
+        }
 
         private void Connectivity_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
         {
@@ -247,6 +258,45 @@ namespace KegID.ViewModel
             {
                 await _deviceCheckInMngr.DeviceCheckInAync();
             }
+
+            Device.StartTimer(TimeSpan.FromMilliseconds(KegRefresh), () =>
+            {
+                var model = new KegRequestModel
+                {
+                    KegId = string.Empty,
+                    Barcode = string.Empty,
+                    OwnerId = ConstantManager.Partner?.PartnerId,
+                    AltBarcode = string.Empty,
+                    Notes = "",
+                    ReferenceKey = "",
+                    ProfileId = "",
+                    AssetType = string.Empty,
+                    AssetSize = string.Empty,
+                    AssetVolume = "",
+                    AssetDescription = "",
+                    OwnerSkuId = "",
+                    FixedContents = "",
+                    Tags = new List<Tag>(),
+                    MaintenanceAlertIds = new List<string>(),
+                    LessorId = "",
+                    PurchaseDate = DateTimeOffset.Now,
+                    PurchasePrice = 0,
+                    PurchaseOrder = "",
+                    ManufacturerName = "",
+                    ManufacturerId = "",
+                    ManufactureLocation = "",
+                    ManufactureDate = DateTimeOffset.Now,
+                    Material = "",
+                    Markings = "",
+                    Colors = ""
+                };
+
+                Task.Factory.StartNew(async () =>
+                {
+                    var value = await _dashboardService.PostKegAsync(model, string.Empty, AppSettings.SessionId, Configuration.Keg);
+                });
+                return true; // True = Repeat again, False = Stop the timer
+            });
         }
 
         private async void MoveCommandRecieverAsync()
