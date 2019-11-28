@@ -73,7 +73,7 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public AddPartnerViewModel(IMoveService moveService, INavigationService navigationService, IPageDialogService dialogService, IUuidManager uuidManager) : base(navigationService)
+        public AddPartnerViewModel(INavigationService navigationService, IMoveService moveService, IPageDialogService dialogService, IUuidManager uuidManager) : base(navigationService)
         {
             _dialogService = dialogService;
             _moveService = moveService;

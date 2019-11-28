@@ -48,7 +48,7 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public PartnersViewModel(IMoveService moveService, INavigationService navigationService, IGeolocationService geolocationService) : base(navigationService)
+        public PartnersViewModel(INavigationService navigationService, IMoveService moveService, IGeolocationService geolocationService) : base(navigationService)
         {
             _moveService = moveService;
             _geolocationService = geolocationService;

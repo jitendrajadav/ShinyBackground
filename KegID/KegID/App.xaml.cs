@@ -39,7 +39,7 @@ namespace KegID
             Xamarin.Essentials.VersionTracking.Track();
 #if DEBUG
             //HotReloader.Current.Run(this);
-            ConstantManager.BaseUrl = Configuration.TestAPIUrl;
+            ConstantManager.BaseUrl = Configuration.StageAPIUrl;
 #elif RELEASE
             ConstantManager.BaseUrl = Configuration.ProdAPIUrl;
 #endif

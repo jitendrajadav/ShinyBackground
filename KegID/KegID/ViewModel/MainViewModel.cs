@@ -295,7 +295,7 @@ namespace KegID.ViewModel
                 {
                     var value = await _dashboardService.PostKegAsync(model, string.Empty, AppSettings.SessionId, Configuration.Keg);
                 });
-                return true; // True = Repeat again, False = Stop the timer
+                return false; // True = Repeat again, False = Stop the timer
             });
         }
 

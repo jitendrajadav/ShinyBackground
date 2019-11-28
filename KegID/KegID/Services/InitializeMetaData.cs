@@ -12,10 +12,10 @@ namespace KegID.Services
 {
     public class InitializeMetaData : IInitializeMetaData
     {
-        private IMoveService _moveService { get; set; }
-        private IMaintainService _maintainService { get; set; }
-        private IDashboardService _dashboardService { get; set; }
-        private IFillService _fillService { get; set; }
+        private IMoveService _moveService { get; }
+        private IMaintainService _maintainService { get; }
+        private IDashboardService _dashboardService { get; }
+        private IFillService _fillService { get; }
 
         public InitializeMetaData(IMoveService moveService, IDashboardService dashboardService, IMaintainService maintainService, IFillService fillService)
         {
@@ -182,15 +182,15 @@ namespace KegID.Services
                 var value = await _moveService.GetPartnersListAsync(AppSettings.SessionId);
                 if (value.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
                 {
-                    var Partners = value.PartnerModel.Where(x => x.FullName != string.Empty).ToList();
+                    var Partners = value.PartnerModel.Where(x => !string.IsNullOrEmpty(x.FullName)).ToList();
 
-                    RealmDb.Write(() =>
+                   await RealmDb.WriteAsync((realmDb) =>
                      {
                          foreach (var item in Partners)
                          {
                              try
                              {
-                                 RealmDb.Add(item);
+                                 realmDb.Add(item);
                              }
                              catch (Exception ex)
                              {
@@ -446,180 +446,21 @@ namespace KegID.Services
 
         public void DeleteInitializeMetaData()
         {
-            DeleteMaintainType();
-            DeleteBatch();
-            DeletePartners();
-            DeleteBrand();
-            DeleteDashboardPartners();
-            DeleteAssetSize();
-            DeleteAssetType();
-            DeleteAssetVolume();
-            DeleteOwner();
-            DeletePartnerType();
-        }
-
-        private void DeleteMaintainType()
-        {
             try
             {
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                 using (var trans = RealmDb.BeginWrite())
                 {
                     RealmDb.RemoveAll<MaintainTypeReponseModel>();
-                    trans.Commit();
-                }
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
-        }
-
-        private void DeleteBatch()
-        {
-            try
-            {
-                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                using (var trans = RealmDb.BeginWrite())
-                {
-                    RealmDb.RemoveAll<NewBatch>();
-                    trans.Commit();
-                }
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
-        }
-
-        private void DeletePartners()
-        {
-            try
-            {
-                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                using (var trans = RealmDb.BeginWrite())
-                {
-                    RealmDb.RemoveAll<PartnerModel>();
-                    trans.Commit();
-                }
-                var AllPartners = RealmDb.All<PartnerModel>().ToList();
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
-        }
-
-        private void DeleteBrand()
-        {
-            try
-            {
-                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                using (var trans = RealmDb.BeginWrite())
-                {
-                    RealmDb.RemoveAll<BrandModel>();
-                    trans.Commit();
-                }
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
-        }
-
-        private void DeleteDashboardPartners()
-        {
-            try
-            {
-                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                using (var trans = RealmDb.BeginWrite())
-                {
-                    RealmDb.RemoveAll<PossessorResponseModel>();
-                    trans.Commit();
-                }
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
-        }
-
-        private void DeleteAssetSize()
-        {
-            try
-            {
-                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                using (var trans = RealmDb.BeginWrite())
-                {
-                    RealmDb.RemoveAll<AssetSizeModel>();
-                    trans.Commit();
-                }
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
-        }
-
-        private void DeleteAssetType()
-        {
-            try
-            {
-                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                using (var trans = RealmDb.BeginWrite())
-                {
-                    RealmDb.RemoveAll<AssetTypeModel>();
-                    trans.Commit();
-                }
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
-        }
-
-        private void DeleteAssetVolume()
-        {
-            try
-            {
-                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                using (var trans = RealmDb.BeginWrite())
-                {
-                    RealmDb.RemoveAll<AssetVolumeModel>();
-                    trans.Commit();
-                }
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
-        }
-
-        private void DeleteOwner()
-        {
-            try
-            {
-                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                using (var trans = RealmDb.BeginWrite())
-                {
-                    RealmDb.RemoveAll<OwnerModel>();
-                    trans.Commit();
-                }
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
-        }
-
-        private void DeletePartnerType()
-        {
-            try
-            {
-                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                using (var trans = RealmDb.BeginWrite())
-                {
                     RealmDb.RemoveAll<PartnerTypeModel>();
+                    RealmDb.RemoveAll<OwnerModel>();
+                    RealmDb.RemoveAll<AssetVolumeModel>();
+                    RealmDb.RemoveAll<AssetTypeModel>();
+                    RealmDb.RemoveAll<AssetSizeModel>();
+                    RealmDb.RemoveAll<PossessorResponseModel>();
+                    RealmDb.RemoveAll<BrandModel>();
+                    RealmDb.RemoveAll<PartnerModel>();
+                    RealmDb.RemoveAll<NewBatch>();
                     trans.Commit();
                 }
             }
