@@ -17,7 +17,6 @@ namespace KegID.ViewModel
         #region Properties
 
         private readonly IPageDialogService _dialogService;
-        private readonly IDashboardService _dashboardService;
         public string KegId { get; set; }
         public string Barcode { get; set; }
         public string TypeName { get; set; }
@@ -42,19 +41,18 @@ namespace KegID.ViewModel
         public DelegateCommand CancelCommand { get; }
         public DelegateCommand SaveCommand { get; }
         public DelegateCommand PartnerCommand { get; }
-        public DelegateCommand SizeCommand { get;}
-        public DelegateCommand AddTagsCommand { get;}
+        public DelegateCommand SizeCommand { get; }
+        public DelegateCommand AddTagsCommand { get; }
 
         #endregion
 
         #region Contructor
 
-        public EditKegViewModel(IDashboardService dashboardService, INavigationService navigationService, IPageDialogService dialogService) : base(navigationService)
+        public EditKegViewModel(INavigationService navigationService, IPageDialogService dialogService) : base(navigationService)
         {
             _dialogService = dialogService;
-            _dashboardService = dashboardService;
             CancelCommand = new DelegateCommand(CancelCommandRecieverAsync);
-            SaveCommand = new DelegateCommand(SaveCommandRecieverAsync);
+            SaveCommand = new DelegateCommand(async () => await RunSafe(SaveCommandRecieverAsync()));
             PartnerCommand = new DelegateCommand(PartnerCommandRecieverAsync);
             SizeCommand = new DelegateCommand(SizeCommandRecieverAsync);
             AddTagsCommand = new DelegateCommand(AddTagsCommandRecieverAsync);
@@ -78,7 +76,7 @@ namespace KegID.ViewModel
             }
         }
 
-        private async void SaveCommandRecieverAsync()
+        private async Task SaveCommandRecieverAsync()
         {
             try
             {
@@ -112,7 +110,7 @@ namespace KegID.ViewModel
                     Colors = ""
                 };
 
-                var Result = await _dashboardService.PostKegStatusAsync(model, KegId, AppSettings.SessionId, Configuration.Keg);
+                var Result = await ApiManager.PostKegStatus(model, KegId, AppSettings.SessionId);
                 await _navigationService.GoBackAsync(new NavigationParameters
                     {
                         { "TagsStr", TagsStr },
@@ -167,7 +165,7 @@ namespace KegID.ViewModel
             }
         }
 
-        internal void AssingInitialValue(string _kegId,string _barcode, string _owner, string _typeName, string _sizeName)
+        internal void AssingInitialValue(string _kegId, string _barcode, string _owner, string _typeName, string _sizeName)
         {
             try
             {

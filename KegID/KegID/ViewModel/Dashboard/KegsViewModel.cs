@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Acr.UserDialogs;
 using KegID.Common;
 using KegID.Model;
 using KegID.Services;
 using Microsoft.AppCenter.Crashes;
+using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
 
@@ -14,7 +17,6 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        private readonly IDashboardService _dashboardService;
         public string KegsTitle { get; set; }
         public IList<KegPossessionResponseModel> KegPossessionCollection { get; set; }
 
@@ -29,9 +31,8 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public KegsViewModel(IDashboardService dashboardService, INavigationService navigationService) : base(navigationService)
+        public KegsViewModel(INavigationService navigationService) : base(navigationService)
         {
-            _dashboardService = dashboardService;
             PartnerInfoCommand = new DelegateCommand(PartnerInfoCommandRecieverAsync);
             ItemTappedCommand = new DelegateCommand<KegPossessionResponseModel>((model) => ItemTappedCommandRecieverAsync(model));
             LoadKegPossessionAsync();
@@ -69,10 +70,16 @@ namespace KegID.ViewModel
         {
             try
             {
-                Loader.StartLoading();
-                var value = await _dashboardService.GetKegPossessionAsync(AppSettings.SessionId, ConstantManager.DBPartnerId);
-                KegPossessionCollection = value.KegPossessionResponseModel;
-                KegsTitle = KegPossessionCollection.FirstOrDefault()?.PossessorName;
+                UserDialogs.Instance.ShowLoading("Loading");
+                var response = await ApiManager.GetKegPossession(AppSettings.SessionId, ConstantManager.DBPartnerId);
+                if (response.IsSuccessStatusCode)
+                {
+                    var json = await response.Content.ReadAsStringAsync();
+                    var data = await Task.Run(() => JsonConvert.DeserializeObject<IList<KegPossessionResponseModel>>(json, GetJsonSetting()));
+
+                    KegPossessionCollection = data;
+                    KegsTitle = KegPossessionCollection.FirstOrDefault()?.PossessorName;
+                }
             }
             catch (Exception ex)
             {
@@ -80,7 +87,7 @@ namespace KegID.ViewModel
             }
             finally
             {
-                Loader.StopLoading();
+                UserDialogs.Instance.HideLoading();
             }
         }
 

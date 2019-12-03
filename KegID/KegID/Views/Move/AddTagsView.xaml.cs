@@ -381,10 +381,10 @@ namespace KegID.Views
                 }
                 ConstantManager.Tags = tags;
                 ConstantManager.TagsStr = tagsStr;
-                INavigation currentNavigationProxy = PrismApplicationBase.Current.MainPage.Navigation;
-                var binding = currentNavigationProxy.NavigationStack.LastOrDefault()?.BindingContext;
-                ((AddTagsViewModel)binding).Barcode = barcodeModel?.Barcode ?? "";
-                ((AddTagsViewModel)binding).SaveCommand.Execute();
+                //INavigation currentNavigationProxy = PrismApplicationBase.Current.MainPage.Navigation;
+                //var binding = currentNavigationProxy.NavigationStack.LastOrDefault()?.BindingContext;
+                ((AddTagsViewModel)BindingContext).Barcode = barcodeModel?.Barcode ?? "";
+                ((AddTagsViewModel)BindingContext).SaveCommand.Execute();
             }
             catch (Exception ex)
             {

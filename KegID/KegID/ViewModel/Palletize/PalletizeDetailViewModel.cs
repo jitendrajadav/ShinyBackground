@@ -11,6 +11,7 @@ using KegID.Model;
 using KegID.Model.PrintPDF;
 using KegID.Services;
 using Microsoft.AppCenter.Crashes;
+using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
 using Xamarin.Forms;
@@ -22,7 +23,6 @@ namespace KegID.ViewModel
         #region Properties
 
         private Model.PrintPDF.Pallet PalletPrintModels = null;
-        private readonly IMoveService _moveService;
         private SearchPalletResponseModel Model { get; set; }
         public List<string> Barcodes { get; private set; }
         private readonly IUuidManager _uuidManager;
@@ -50,9 +50,8 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public PalletizeDetailViewModel(IMoveService moveService, INavigationService navigationService, IUuidManager uuidManager) : base(navigationService)
+        public PalletizeDetailViewModel(INavigationService navigationService, IUuidManager uuidManager) : base(navigationService)
         {
-            _moveService = moveService;
             _uuidManager = uuidManager;
 
             HomeCommand = new DelegateCommand(HomeCommandRecieverAsync);
@@ -143,7 +142,7 @@ namespace KegID.ViewModel
 
             try
             {
-                string filePath = share.SafeHTMLToPDF(output, "Pallet",1);
+                string filePath = share.SafeHTMLToPDF(output, "Pallet", 1);
                 share.ShareLocalFile(filePath, "Please check Pallet PDF", null);
             }
             catch (Exception ex)
@@ -236,8 +235,12 @@ namespace KegID.ViewModel
         {
             try
             {
-                var manifest = await _moveService.GetManifestAsync(AppSettings.SessionId, model.PalletId);
-
+                var response = await ApiManager.GetManifest(model.PalletId, AppSettings.SessionId);
+                if (response.IsSuccessStatusCode)
+                {
+                    var json = await response.Content.ReadAsStringAsync();
+                    var data = await Task.Run(() => JsonConvert.DeserializeObject<ManifestResponseModel>(json, GetJsonSetting()));
+                }
                 Model = model;
                 IsFromDashboard = v;
                 ManifestId = model.Barcode;

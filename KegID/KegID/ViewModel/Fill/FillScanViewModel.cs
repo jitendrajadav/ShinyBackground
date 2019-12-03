@@ -57,10 +57,10 @@ namespace KegID.ViewModel
         public DelegateCommand BarcodeScanCommand { get; }
         public DelegateCommand AddTagsCommand { get; }
         public DelegateCommand PrintCommand { get; }
-        public DelegateCommand IsPalletVisibleCommand { get;}
-        public DelegateCommand SubmitCommand { get;}
+        public DelegateCommand IsPalletVisibleCommand { get; }
+        public DelegateCommand SubmitCommand { get; }
         public DelegateCommand BarcodeManualCommand { get; }
-        public DelegateCommand<BarcodeModel> IconItemTappedCommand { get;}
+        public DelegateCommand<BarcodeModel> IconItemTappedCommand { get; }
         public DelegateCommand<BarcodeModel> LabelItemTappedCommand { get; }
         public DelegateCommand<BarcodeModel> DeleteItemCommand { get; }
 
@@ -206,7 +206,7 @@ namespace KegID.ViewModel
                     ConstantManager.Barcodes = BarcodeCollection;
                     ConstantManager.Tags = Tags;
                     var formsNav = ((Prism.Common.IPageAware)_navigationService).Page;
-                    var page = formsNav.Navigation.NavigationStack[formsNav.Navigation.NavigationStack.Count-2];
+                    var page = formsNav.Navigation.NavigationStack[formsNav.Navigation.NavigationStack.Count - 2];
                     (page?.BindingContext as INavigationAware)?.OnNavigatedTo(new NavigationParameters
                     {
                         { "Barcodes", BarcodeCollection },{ "BatchId", BatchId }

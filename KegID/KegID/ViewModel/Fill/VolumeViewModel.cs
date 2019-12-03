@@ -19,7 +19,7 @@ namespace KegID.ViewModel
         #region Commands
 
         public DelegateCommand<string> ItemTappedCommand { get; }
-        
+
         #endregion
 
         #region Constructor
@@ -34,6 +34,7 @@ namespace KegID.ViewModel
         #endregion
 
         #region Methods
+
         private void LoadAssetVolumeAsync()
         {
             try

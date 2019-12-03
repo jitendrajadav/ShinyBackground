@@ -51,30 +51,52 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Common\KegIDClient.cs" />
+    <Compile Remove="Services\DashboardService.cs" />
+    <Compile Remove="Services\FillService.cs" />
+    <Compile Remove="Services\IDashboardService.cs" />
+    <Compile Remove="Services\IMaintainService.cs" />
+    <Compile Remove="Services\IMoveService.cs" />
+    <Compile Remove="Services\IPalletizeService.cs" />
+    <Compile Remove="Services\MaintainService.cs" />
+    <Compile Remove="Services\MoveService.cs" />
+    <Compile Remove="Services\PalletizeService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Acr.UserDialogs" Version="7.0.35" />
     <PackageReference Include="CarouselView.FormsPlugin" Version="5.2.0" />
     <PackageReference Include="Forms9Patch" Version="2.1.2" />
+    <PackageReference Include="fusillade" Version="2.0.5" />
     <PackageReference Include="LinkOS_Xamarin_SDK" Version="1.2.0" />
     <PackageReference Include="Microsoft.AppCenter.Analytics" Version="2.6.2" />
     <PackageReference Include="Microsoft.AppCenter.Crashes" Version="2.6.2" />
     <PackageReference Include="Microsoft.AppCenter.Distribute" Version="2.6.2" />
+    <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.6.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Primitives" Version="3.0.1" />
     <PackageReference Include="Microsoft.Net.Http" Version="2.2.29" />
+    <PackageReference Include="modernhttpclient" Version="2.4.2" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="Plugin.CrossPlatformTintedImage" Version="1.0.0" />
+    <PackageReference Include="Polly" Version="7.2.0" />
     <PackageReference Include="Prism.Forms" Version="7.2.0.1422" />
     <PackageReference Include="Prism.Plugin.Popups" Version="7.2.0.759" />
     <PackageReference Include="Prism.Unity.Forms" Version="7.2.0.1422" />
 
     <PackageReference Include="PropertyChanged.Fody" Version="3.1.3" />
+
+    <PackageReference Include="Punchclock" Version="3.1.1" />
     <PackageReference Include="Realm" Version="4.2.0" />
+    <PackageReference Include="Refit" Version="5.0.23" />
     <PackageReference Include="Rg.Plugins.Popup" Version="1.2.0.223" />
     <PackageReference Include="Scandit.BarcodePicker.Unified" Version="5.13.3.10" />
     <PackageReference Include="SegmentedControl.FormsPlugin" Version="2.0.1" />
     <PackageReference Include="System.Diagnostics.Debug" Version="4.3.0" />
     <PackageReference Include="System.Diagnostics.Tools" Version="4.3.0" />
     <PackageReference Include="System.Diagnostics.Tracing" Version="4.3.0" />
+    <PackageReference Include="Xam.Plugin.Connectivity" Version="4.0.0.190-beta" />
     <PackageReference Include="Xam.Plugins.Settings" Version="4.1.0-beta" />
     <PackageReference Include="Xamarin.Essentials" Version="1.3.1" />
     <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.11.982" />

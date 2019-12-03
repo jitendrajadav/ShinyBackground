@@ -17,9 +17,9 @@ namespace KegID.Services
         CancellationTokenSource cts;
         public Location location = null;
 
-        public GeolocationService()
-        {
-        }
+        //public GeolocationService()
+        //{
+        //}
 
         public string LastLocation
         {

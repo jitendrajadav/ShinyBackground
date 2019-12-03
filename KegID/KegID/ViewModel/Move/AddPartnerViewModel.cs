@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Acr.UserDialogs;
 using KegID.Common;
 using KegID.LocalDb;
 using KegID.Model;
@@ -19,7 +20,6 @@ namespace KegID.ViewModel
         #region Properties
 
         private readonly IPageDialogService _dialogService;
-        private readonly IMoveService _moveService;
         private readonly IUuidManager _uuidManager;
 
         public bool IsInternalOn { get; set; }
@@ -65,22 +65,21 @@ namespace KegID.ViewModel
         #region Commands
 
         public DelegateCommand CalcelCommand { get; }
-        public DelegateCommand SubmitCommand { get;}
+        public DelegateCommand SubmitCommand { get; }
         public DelegateCommand ShippingAddressCommand { get; }
-        public DelegateCommand BillingAddressCommand { get;}
+        public DelegateCommand BillingAddressCommand { get; }
 
         #endregion
 
         #region Constructor
 
-        public AddPartnerViewModel(INavigationService navigationService, IMoveService moveService, IPageDialogService dialogService, IUuidManager uuidManager) : base(navigationService)
+        public AddPartnerViewModel(INavigationService navigationService, IPageDialogService dialogService, IUuidManager uuidManager) : base(navigationService)
         {
             _dialogService = dialogService;
-            _moveService = moveService;
             _uuidManager = uuidManager;
 
             CalcelCommand = new DelegateCommand(CalcelCommandRecieverAsync);
-            SubmitCommand = new DelegateCommand(SubmitCommandRecieverAsync);
+            SubmitCommand = new DelegateCommand(async () => await RunSafe(SubmitCommandRecieverAsync()));
             ShippingAddressCommand = new DelegateCommand(ShippingAddressCommandRecieverAsync);
             BillingAddressCommand = new DelegateCommand(BillingAddressCommandRecieverAsync);
 
@@ -159,7 +158,7 @@ namespace KegID.ViewModel
             }
         }
 
-        private async void SubmitCommandRecieverAsync()
+        private async Task SubmitCommandRecieverAsync()
         {
             NewPartnerRequestModel newPartnerRequestModel = new NewPartnerRequestModel
             {
@@ -192,10 +191,9 @@ namespace KegID.ViewModel
 
             try
             {
-                Loader.StartLoading();
-                var result = await _moveService.PostNewPartnerAsync(newPartnerRequestModel, AppSettings.SessionId, RequestType: Configuration.NewPartner);
-
-                if (result != null)
+                UserDialogs.Instance.ShowLoading("Loading");
+                var respose = await ApiManager.PostNewPartner(newPartnerRequestModel, AppSettings.SessionId);
+                if (respose.IsSuccessStatusCode)
                 {
                     try
                     {
@@ -241,11 +239,11 @@ namespace KegID.ViewModel
             }
             catch (Exception ex)
             {
-                 Crashes.TrackError(ex);
+                Crashes.TrackError(ex);
             }
             finally
             {
-                Loader.StopLoading();
+                UserDialogs.Instance.HideLoading();
             }
         }
 
@@ -276,7 +274,7 @@ namespace KegID.ViewModel
             }
             catch (Exception ex)
             {
-                 Crashes.TrackError(ex);
+                Crashes.TrackError(ex);
             }
         }
 

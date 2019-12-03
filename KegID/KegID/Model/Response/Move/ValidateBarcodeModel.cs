@@ -119,7 +119,7 @@ namespace KegID.Model
         [DoNotNotify]
         public Kegs Kegs { get; set; }
         [DoNotNotify]
-        public Pallets Pallets { get; set; }
+        public BPallets Pallets { get; set; }
         [DoNotNotify]
         public KegIDResponse Response { get; set; }
 
@@ -140,6 +140,8 @@ namespace KegID.Model
         public IList<MaintenanceItem> MaintenanceItems { get; }
         [DoNotNotify]
         public IList<SkUs> SkUs { get; }
+        [DoNotNotify]
+        public IList<Profile> Profiles { get; }
     }
 
     public class Location : RealmObject
@@ -227,7 +229,7 @@ namespace KegID.Model
         [DoNotNotify]
         public string LocationStatus { get; set; }
         [DoNotNotify]
-        public long? CompanyNo { get; set; }
+        public int CompanyNo { get; set; }
     }
 
     public class Keg : RealmObject
@@ -302,15 +304,19 @@ namespace KegID.Model
         public string Barcode { get; set; }
     }
 
-    public class Pallets : RealmObject
+    public class BPallets : RealmObject
     {
         [DoNotNotify]
         public IList<string> Contents { get; }
         [DoNotNotify]
-        public IList<string> PurplePallets { get; }
+        public IList<string> Pallets { get; }
+        [DoNotNotify]
+        public IList<string> MaintenanceItems { get; }
         [DoNotNotify]
         public IList<string> Companies { get; }
         [DoNotNotify]
         public IList<string> Skus { get; }
+        [DoNotNotify]
+        public IList<string> Profiles { get; }
     }
 }

@@ -32,10 +32,7 @@ namespace KegID.Views
             try
             {
                 // You can remove the switch to UI Thread if you are already in the UI Thread.
-                Device.BeginInvokeOnMainThread(() =>
-                {
-                    Launcher.OpenAsync(new Uri("https://www.slg.com/kegfleet/"));
-                });
+                Device.BeginInvokeOnMainThread(() => Launcher.OpenAsync(new Uri("https://www.slg.com/kegfleet/")));
             }
             catch (Exception ex)
             {

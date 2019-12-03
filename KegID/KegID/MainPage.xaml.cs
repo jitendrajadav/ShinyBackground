@@ -1,6 +1,4 @@
-﻿using Microsoft.AppCenter.Crashes;
-using System;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace KegID
@@ -10,15 +8,8 @@ namespace KegID
     {
         public MainPage()
         {
-            try
-            {
-                InitializeComponent();
-                NavigationPage.SetHasNavigationBar(this, false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            InitializeComponent();
+            NavigationPage.SetHasNavigationBar(this, false);
         }
     }
 }

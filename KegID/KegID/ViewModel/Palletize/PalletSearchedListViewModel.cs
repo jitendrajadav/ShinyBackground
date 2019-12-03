@@ -1,7 +1,8 @@
-﻿using KegID.Common;
+﻿using Acr.UserDialogs;
+using KegID.Common;
 using KegID.Model;
-using KegID.Services;
 using Microsoft.AppCenter.Crashes;
+using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
 using System;
@@ -14,7 +15,6 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        private readonly IDashboardService _dashboardService;
         public IList<SearchPalletResponseModel> PalletSearchCollection { get; set; }
 
         #endregion
@@ -22,16 +22,14 @@ namespace KegID.ViewModel
         #region Commands
 
         public DelegateCommand BackCommand { get; }
-        public DelegateCommand<SearchPalletResponseModel> ItemTappedCommand { get;}
+        public DelegateCommand<SearchPalletResponseModel> ItemTappedCommand { get; }
 
         #endregion
 
         #region Contructor
 
-        public PalletSearchedListViewModel(IDashboardService dashboardService, INavigationService navigationService) : base(navigationService)
+        public PalletSearchedListViewModel(INavigationService navigationService) : base(navigationService)
         {
-            _dashboardService = dashboardService;
-
             BackCommand = new DelegateCommand(BackCommandRecieverAsync);
             ItemTappedCommand = new DelegateCommand<SearchPalletResponseModel>((model) => ItemTappedCommandRecieverAsync(model));
         }
@@ -52,14 +50,20 @@ namespace KegID.ViewModel
             }
         }
 
-        internal async void GetPalletSearchAsync(string partnerId, string fromDate, string toDate, string kegs, string kegOwnerId)
+        internal async Task GetPalletSearchAsync(string partnerId, string fromDate, string toDate, string kegs, string kegOwnerId)
         {
             try
             {
-                Loader.StartLoading();
+                UserDialogs.Instance.ShowLoading("Loading");
                 //needs to assing partnerId??string.Empty once backend is ready...
-                var value = await _dashboardService.GetPalletSearchAsync(AppSettings.SessionId, string.Empty, fromDate, toDate, kegs, kegOwnerId);
-                PalletSearchCollection = value.SearchPalletResponseModel;
+                var response = await ApiManager.GetPalletSearch(AppSettings.SessionId, string.Empty, fromDate, toDate, kegs, kegOwnerId);
+                if (response.IsSuccessStatusCode)
+                {
+                    var json = await response.Content.ReadAsStringAsync();
+                    var data = await Task.Run(() => JsonConvert.DeserializeObject<IList<SearchPalletResponseModel>>(json, GetJsonSetting()));
+
+                    PalletSearchCollection = data;
+                }
             }
             catch (Exception ex)
             {
@@ -67,7 +71,7 @@ namespace KegID.ViewModel
             }
             finally
             {
-                Loader.StopLoading();
+                UserDialogs.Instance.HideLoading();
             }
         }
 
@@ -86,14 +90,14 @@ namespace KegID.ViewModel
             }
         }
 
-        public override Task InitializeAsync(INavigationParameters parameters)
+        public override async Task InitializeAsync(INavigationParameters parameters)
         {
             if (parameters.ContainsKey("GetPalletSearchAsync"))
             {
-                GetPalletSearchAsync(parameters.GetValue<string>("GetPalletSearchAsync"), parameters.GetValue<string>("FromDate"), parameters.GetValue<string>("ToDate"), string.Empty, string.Empty);
+                await RunSafe(GetPalletSearchAsync(parameters.GetValue<string>("GetPalletSearchAsync"), parameters.GetValue<string>("FromDate"), parameters.GetValue<string>("ToDate"), string.Empty, string.Empty));
             }
 
-            return base.InitializeAsync(parameters);
+            //return base.InitializeAsync(parameters);
         }
 
         public override void OnNavigatedTo(INavigationParameters parameters)

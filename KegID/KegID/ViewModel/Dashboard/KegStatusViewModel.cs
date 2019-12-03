@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Acr.UserDialogs;
 using KegID.Common;
 using KegID.LocalDb;
 using KegID.Model;
 using KegID.Services;
 using Microsoft.AppCenter.Crashes;
+using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
@@ -19,7 +21,6 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        private readonly IDashboardService _dashboardService;
         private readonly IPageDialogService _dialogService;
         private readonly IUuidManager _uuidManager;
 
@@ -63,11 +64,9 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public KegStatusViewModel(IDashboardService dashboardService, INavigationService navigationService, IPageDialogService dialogService, IUuidManager uuidManager) : base(navigationService)
+        public KegStatusViewModel(INavigationService navigationService, IPageDialogService dialogService, IUuidManager uuidManager) : base(navigationService)
         {
-            //_navigationService = navigationService ?? throw new ArgumentNullException("navigationService");
             _dialogService = dialogService;
-            _dashboardService = dashboardService;
             _uuidManager = uuidManager;
 
             KegsCommand = new DelegateCommand(KegsCommandRecieverAsync);
@@ -75,8 +74,8 @@ namespace KegID.ViewModel
             InvalidToolsCommand = new DelegateCommand(InvalidToolsCommandRecieverAsync);
             CurrentLocationCommand = new DelegateCommand(CurrentLocationCommandRecieverAsync);
             MoveKegCommand = new DelegateCommand(MoveKegCommandRecieverAsync);
-            AddAlertCommand = new DelegateCommand(AddAlertCommandRecieverAsync);
-            RemoveAlertCommand = new DelegateCommand(RemoveAlertCommandRecieverAsync);
+            AddAlertCommand = new DelegateCommand(async() => await RunSafe(AddAlertCommandRecieverAsync()));
+            RemoveAlertCommand = new DelegateCommand(async () => await RunSafe(RemoveAlertCommandRecieverAsync()));
 
             PreferenceSetting();
             MoveKeg = "Move "+ ContainerType;
@@ -115,7 +114,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                Loader.StartLoading();
+                UserDialogs.Instance.ShowLoading("Loading");
                 KegId = _kegId;
                 Contents = string.IsNullOrEmpty(_contents) ? "--" : _contents;
                 HeldDays = _heldDays;
@@ -124,43 +123,52 @@ namespace KegID.ViewModel
                 TypeName = _typeName;
                 SizeName = _sizeName;
 
-                KegStatusResponseModel kegStatus = await _dashboardService.GetKegStatusAsync(KegId, AppSettings.SessionId);
-                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                var addMaintenanceCollection = RealmDb.All<MaintainTypeReponseModel>().ToList();
-                KegHasAlert = kegStatus.MaintenanceAlerts.Count > 0 ? true : false;
-                Alerts = kegStatus.MaintenanceAlerts;
-                try
+                var kegStatusResponse = await ApiManager.GetKegStatus(KegId, AppSettings.SessionId);
+                if (kegStatusResponse.IsSuccessStatusCode)
                 {
-                    foreach (var item in addMaintenanceCollection)
+                    var response = await kegStatusResponse.Content.ReadAsStringAsync();
+                    var model = await Task.Run(() => JsonConvert.DeserializeObject<KegStatusResponseModel>(response, GetJsonSetting()));
+
+                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                    var addMaintenanceCollection = RealmDb.All<MaintainTypeReponseModel>().ToList();
+                    KegHasAlert = model.MaintenanceAlerts.Count > 0 ? true : false;
+                    Alerts = model.MaintenanceAlerts;
+                    try
                     {
-                        var flag = kegStatus.MaintenanceAlerts.Find(x => x.Id == item.Id);
-                        if (flag == null)
-                            MaintenanceCollection.Add(new MaintenanceAlert { Id = (int)item.Id, ActivationMethod = item.ActivationMethod, AssetSize = "", AssetType = "", Barcode = Barcode, DefectType = item.DefectType.ToString(), DueDate = DateTimeOffset.Now, IsActivated = false, KegId = _kegId, LocationId = kegStatus.Location.PartnerId, LocationName = kegStatus.Owner.FullName, Message = "", Name = item.Name, OwnerId = kegStatus.Pallet?.OwnerId, OwnerName = kegStatus.Pallet?.OwnerName, PalletBarcode = kegStatus.Pallet?.Barcode, PalletId = kegStatus.Pallet?.PalletId, TypeId = kegStatus.TypeId, TypeName = kegStatus.TypeName });
+                        foreach (var item in addMaintenanceCollection)
+                        {
+                            var flag = model.MaintenanceAlerts.Find(x => x.Id == item.Id);
+                            if (flag == null)
+                                MaintenanceCollection.Add(new MaintenanceAlert { Id = (int)item.Id, ActivationMethod = item.ActivationMethod, AssetSize = "", AssetType = "", Barcode = Barcode, DefectType = item.DefectType.ToString(), DueDate = DateTimeOffset.Now, IsActivated = false, KegId = _kegId, LocationId = model.Location.PartnerId, LocationName = model.Owner.FullName, Message = "", Name = item.Name, OwnerId = model.Pallet?.OwnerId, OwnerName = model.Pallet?.OwnerName, PalletBarcode = model.Pallet?.Barcode, PalletId = model.Pallet?.PalletId, TypeId = model.TypeId, TypeName = model.TypeName });
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Crashes.TrackError(ex);
+                    }
+
+                    RemoveMaintenanceCollection = new ObservableCollection<MaintenanceAlert>(model.MaintenanceAlerts);
+                    Owner = model.Owner.FullName;
+                    Batch = model.Batch == string.Empty ? "--" : model.Batch;
+                    Posision = new LocationInfo
+                    {
+                        Address = model.Location.Address,
+                        Label = model.Location.City,
+                        Lat = model.Location.Lat,
+                        Lon = model.Location.Lon
+                    };
+
+                    var kegMaintenaceResponse = await ApiManager.GetKegMaintenanceHistory(KegId, AppSettings.SessionId);
+                    if (kegMaintenaceResponse.IsSuccessStatusCode)
+                    {
+                        var kegResponse = await kegMaintenaceResponse.Content.ReadAsStringAsync();
+                        var kegModel = await Task.Run(() => JsonConvert.DeserializeObject<IList<KegMaintenanceHistoryResponseModel>>(kegResponse, GetJsonSetting()));
+
+                        MaintenancePerformedCollection = kegModel;
+
+                        IsVisibleListView = kegModel.Count > 0;
                     }
                 }
-                catch (Exception ex)
-                {
-                    Crashes.TrackError(ex);
-                }
-
-                RemoveMaintenanceCollection = new ObservableCollection<MaintenanceAlert>(kegStatus.MaintenanceAlerts);
-                Owner = kegStatus.Owner.FullName;
-                Batch = kegStatus.Batch == string.Empty ? "--" : kegStatus.Batch;
-                Posision = new LocationInfo
-                {
-                    Address = kegStatus.Location.Address,
-                    Label = kegStatus.Location.City,
-                    Lat = kegStatus.Location.Lat,
-                    Lon = kegStatus.Location.Lon
-                };
-
-                var value = await _dashboardService.GetKegMaintenanceHistoryAsync(KegId, AppSettings.SessionId);
-                MaintenancePerformedCollection = value.KegMaintenanceHistoryResponseModel;
-
-                if (value.KegMaintenanceHistoryResponseModel.Count > 0)
-                    IsVisibleListView = true;
-                else
-                    IsVisibleListView = false;
             }
             catch (Exception ex)
             {
@@ -168,7 +176,7 @@ namespace KegID.ViewModel
             }
             finally
             {
-                Loader.StopLoading();
+                UserDialogs.Instance.HideLoading();
             }
         }
 
@@ -242,7 +250,7 @@ namespace KegID.ViewModel
             }
         }
 
-        private async void AddAlertCommandRecieverAsync()
+        private async Task AddAlertCommandRecieverAsync()
         {
             if (SelectedMaintenance != null)
             {
@@ -259,14 +267,17 @@ namespace KegID.ViewModel
 
                 try
                 {
-                    Loader.StartLoading();
-                    var result = await _dashboardService.PostMaintenanceAlertAsync(model, AppSettings.SessionId, Configuration.PostedMaintenanceAlert);
+                    UserDialogs.Instance.ShowLoading("Loading");
+                    var postMaintenaceAlertResponse = await ApiManager.PostMaintenanceAlert(model, AppSettings.SessionId);
 
-                    if (result.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
+                    if (postMaintenaceAlertResponse.IsSuccessStatusCode)
                     {
+                        var response = await postMaintenaceAlertResponse.Content.ReadAsStringAsync();
+                        var alertModel = await Task.Run(() => JsonConvert.DeserializeObject<IList<AddMaintenanceAlertResponseModel>>(response, GetJsonSetting()));
+
                         await _dialogService.DisplayAlertAsync("Alert", "Alert adedd successfuly", "Ok");
 
-                        foreach (var item in result.AddMaintenanceAlertResponseModel)
+                        foreach (var item in alertModel)
                         {
                             var removal = MaintenanceCollection.Where(x => x.Id == item.MaintenanceType.Id).FirstOrDefault();
                             if (removal != null)
@@ -283,18 +294,18 @@ namespace KegID.ViewModel
                 }
                 finally
                 {
-                    Loader.StopLoading();
+                    UserDialogs.Instance.HideLoading();
                     SelectedMaintenance = null;
                 }
             }
         }
 
-        private async void RemoveAlertCommandRecieverAsync()
+        private async Task RemoveAlertCommandRecieverAsync()
         {
             if (RemoveSelecetedMaintenance != null)
             {
                 var neededTypes = RemoveMaintenanceCollection.Where(x => x.Id == RemoveSelecetedMaintenance.Id).Select(x => x.Id).FirstOrDefault();
-                Loader.StartLoading();
+                UserDialogs.Instance.ShowLoading("Loading");
                 var model = new DeleteMaintenanceAlertRequestModel
                 {
                     KegId = KegId,
@@ -302,13 +313,16 @@ namespace KegID.ViewModel
                 };
                 try
                 {
-                    var result = await _dashboardService.PostMaintenanceDeleteAlertUrlAsync(model, AppSettings.SessionId, Configuration.DeleteTypeMaintenanceAlert);
-                    if (result.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
+                    var result = await ApiManager.PostMaintenanceDeleteAlertUrl(model, AppSettings.SessionId);
+                    if (result.IsSuccessStatusCode)
                     {
-                        Loader.StopLoading();
+                        var response = await result.Content.ReadAsStringAsync();
+                        var deleteModel = await Task.Run(() => JsonConvert.DeserializeObject<IList<AddMaintenanceAlertResponseModel>>(response, GetJsonSetting()));
+
+                        UserDialogs.Instance.HideLoading();
                         await _dialogService.DisplayAlertAsync("Alert", "Alert removed successfuly", "Ok");
 
-                        foreach (var item in result.AddMaintenanceAlertResponseModel)
+                        foreach (var item in deleteModel)
                         {
                             var removedItem = RemoveMaintenanceCollection.Where(x => x.Id != item.MaintenanceType.Id).First();
                             if (removedItem != null)
@@ -326,7 +340,7 @@ namespace KegID.ViewModel
                 }
                 finally
                 {
-                    Loader.StopLoading();
+                    UserDialogs.Instance.HideLoading();
                     RemoveSelecetedMaintenance = null;
                 }
             }

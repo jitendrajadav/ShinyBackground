@@ -1,16 +1,21 @@
-﻿using KegID.Common;
+﻿using Acr.UserDialogs;
+using KegID.Common;
 using KegID.LocalDb;
+using KegID.Model;
 using KegID.Services;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
+using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
 using Realms;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
@@ -19,13 +24,13 @@ namespace KegID.ViewModel
         #region Properties
 
         private readonly IPageDialogService _dialogService;
-        private readonly IAccountService _accountService;
         private readonly IGetIconByPlatform _getIconByPlatform;
 
         public string Username { get; set; }
         public string Password { get; set; }
         public string BgImage { get; set; }
         public string APIBase { get; set; }
+        public double KegRefresh { get; set; }
 
         #endregion
 
@@ -39,13 +44,12 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public LoginViewModel(IAccountService accountService, INavigationService navigationService, IPageDialogService dialogService, IGetIconByPlatform getIconByPlatform) : base(navigationService)
+        public LoginViewModel(INavigationService navigationService, IPageDialogService dialogService, IGetIconByPlatform getIconByPlatform) : base(navigationService)
         {
             _dialogService = dialogService;
-            _accountService = accountService;
             _getIconByPlatform = getIconByPlatform;
 
-            LoginCommand = new DelegateCommand(LoginCommandRecieverAsync);
+            LoginCommand = new DelegateCommand(async () => await RunSafe(LoginCommandRecieverAsync()));
             KegIDCommand = new DelegateCommand(KegIDCommandReciever);
 #if DEBUG
             Username = "test@kegid.com";//"demo@kegid.com";
@@ -66,31 +70,37 @@ namespace KegID.ViewModel
             Launcher.OpenAsync(new Uri("https://www.kegid.com/"));
         }
 
-        private async void LoginCommandRecieverAsync()
+        private async Task LoginCommandRecieverAsync()
         {
             try
             {
-                Loader.StartLoading();
-                Model.LoginResponseModel model = await _accountService.AuthenticateAsync(Username, Password);
-                if (model.Response.StatusCode == nameof(System.Net.HttpStatusCode.OK))
+                UserDialogs.Instance.ShowLoading("Loading");
+
+                var loginResponse = await ApiManager.GetAuthenticate(Username, Password);
+                if (loginResponse.IsSuccessStatusCode)
                 {
+                    var response = await loginResponse.Content.ReadAsStringAsync();
+                    var model = await Task.Run(() => JsonConvert.DeserializeObject<LoginModel>(response, GetJsonSetting()));
                     try
                     {
-                        var overDues = model.LoginModel.Preferences.Where(x => x.PreferenceName == "OVERDUE_DAYS").Select(x => x.PreferenceValue).FirstOrDefault();
-                        var atRisk = model.LoginModel.Preferences.Where(x => x.PreferenceName == "AT_RISK_DAYS").Select(x => x.PreferenceValue).FirstOrDefault();
-                        var appDataWebServiceUrl = model.LoginModel.Preferences.Where(x => x.PreferenceName == "AppDataWebServiceUrl").Select(x => x.PreferenceValue).FirstOrDefault();
+                        var overDues = model.Preferences.Where(x => x.PreferenceName == "OVERDUE_DAYS").Select(x => x.PreferenceValue).FirstOrDefault();
+                        var atRisk = model.Preferences.Where(x => x.PreferenceName == "AT_RISK_DAYS").Select(x => x.PreferenceValue).FirstOrDefault();
+                        var appDataWebServiceUrl = model.Preferences.Where(x => x.PreferenceName == "AppDataWebServiceUrl").Select(x => x.PreferenceValue).FirstOrDefault();
                         if (appDataWebServiceUrl != null)
                         {
                             ConstantManager.BaseUrl = "";
                         }
+                        AppSettings.SessionId = model.SessionId;
+                        AppSettings.CompanyId = model.CompanyId;
+                        AppSettings.MasterCompanyId = model.MasterCompanyId;
+                        AppSettings.UserId = model.UserId;
+                        AppSettings.SessionExpires = model.SessionExpires;
+                        AppSettings.Overdue_days = !string.IsNullOrEmpty(overDues) ? long.Parse(overDues) : 0;
+                        AppSettings.At_risk_days = !string.IsNullOrEmpty(atRisk) ? long.Parse(atRisk) : 0;
 
-                        AppSettings.SessionId = model.LoginModel.SessionId;
-                        AppSettings.CompanyId = model.LoginModel.CompanyId;
-                        AppSettings.MasterCompanyId = model.LoginModel.MasterCompanyId;
-                        AppSettings.UserId = model.LoginModel.UserId;
-                        AppSettings.SessionExpires = model.LoginModel.SessionExpires;
-                        AppSettings.Overdue_days = !string.IsNullOrEmpty(overDues) ? Convert.ToInt64(overDues) : 0;
-                        AppSettings.At_risk_days = !string.IsNullOrEmpty(atRisk) ? Convert.ToInt64(atRisk) : 0;
+                        KegRefresh = Convert.ToDouble(model.Preferences.ToList().Find(x => x.PreferenceName == "KEG_REFRESH")?.PreferenceValue);
+
+                        DeviceCheckIn();
                     }
                     catch (Exception ex)
                     {
@@ -102,7 +112,7 @@ namespace KegID.ViewModel
                         if (versionUpdated > 0 && VersionTracking.PreviousVersion != null && VersionTracking.IsFirstLaunchForCurrentVersion)
                         {
                             await _navigationService.NavigateAsync("../WhatIsNewView", animated: false);
-                            Loader.StopLoading();
+                            UserDialogs.Instance.HideLoading();
                         }
                         else
                         {
@@ -118,7 +128,7 @@ namespace KegID.ViewModel
                         if (!IsLogOut)
                         {
                             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                            await RealmDb.WriteAsync((realmDb) => realmDb.Add(model.LoginModel));
+                            await RealmDb.WriteAsync((realmDb) => realmDb.Add(model));
                         }
                     }
                     catch (Exception ex)
@@ -128,7 +138,7 @@ namespace KegID.ViewModel
                 }
                 else
                 {
-                    Loader.StopLoading();
+                    UserDialogs.Instance.HideLoading();
                     await _dialogService.DisplayAlertAsync("Error", "Error while login please check", "Ok");
                 }
             }
@@ -142,6 +152,77 @@ namespace KegID.ViewModel
             }
         }
 
+        private async void DeviceCheckIn()
+        {
+            Device.StartTimer(TimeSpan.FromDays(1), () =>
+            {
+                DeviceCheckIn();
+                return true; // True = Repeat again, False = Stop the timer
+            });
+
+            var current = Connectivity.NetworkAccess;
+            if (current == NetworkAccess.Internet)
+            {
+                DeviceCheckinRequestModel deviceModel = new DeviceCheckinRequestModel
+                {
+                    AppVersion = AppInfo.VersionString,
+                    DeviceId = DeviceInfo.Manufacturer,
+                    DeviceModel = DeviceInfo.Model,
+                    OS = DeviceInfo.VersionString,
+                    PushToken = "",
+                    UserId = AppSettings.UserId
+                };
+                var deviceCheckInResponse = await ApiManager.PostDeviceCheckin(deviceModel, AppSettings.SessionId);
+                if (!deviceCheckInResponse.IsSuccessStatusCode)
+                {
+                    var param = new NavigationParameters
+                    {
+                        { "IsLogOut",true}
+                    };
+                    await _navigationService.NavigateAsync("/NavigationPage/LoginView", param);
+                }
+
+                Device.StartTimer(TimeSpan.FromMilliseconds(KegRefresh), () =>
+                {
+                    var model = new KegRequestModel
+                    {
+                        KegId = string.Empty,
+                        Barcode = string.Empty,
+                        OwnerId = ConstantManager.Partner?.PartnerId,
+                        AltBarcode = string.Empty,
+                        Notes = "",
+                        ReferenceKey = "",
+                        ProfileId = "",
+                        AssetType = string.Empty,
+                        AssetSize = string.Empty,
+                        AssetVolume = "",
+                        AssetDescription = "",
+                        OwnerSkuId = "",
+                        FixedContents = "",
+                        Tags = new List<Tag>(),
+                        MaintenanceAlertIds = new List<string>(),
+                        LessorId = "",
+                        PurchaseDate = DateTimeOffset.Now,
+                        PurchasePrice = 0,
+                        PurchaseOrder = "",
+                        ManufacturerName = "",
+                        ManufacturerId = "",
+                        ManufactureLocation = "",
+                        ManufactureDate = DateTimeOffset.Now,
+                        Material = "",
+                        Markings = "",
+                        Colors = ""
+                    };
+
+                    Task.Factory.StartNew(async () =>
+                    {
+                        var value = await ApiManager.PostKeg(model, string.Empty, AppSettings.SessionId);
+                    });
+                    return false; // True = Repeat again, False = Stop the timer
+                });
+            }
+        }
+
         public override Task InitializeAsync(INavigationParameters parameters)
         {
             if (parameters.ContainsKey("IsLogOut"))
@@ -150,11 +231,12 @@ namespace KegID.ViewModel
                 AppSettings.RemoveUserData();
             }
             else
-                IsLogOut = false;
+            { IsLogOut = false; }
 
             return base.InitializeAsync(parameters);
+
+            #endregion
         }
 
-        #endregion
     }
 }

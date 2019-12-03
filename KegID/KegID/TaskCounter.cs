@@ -2,6 +2,8 @@
 using KegID.Messages;
 using KegID.Model;
 using KegID.Services;
+using KegID.ViewModel;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,9 +11,14 @@ using Xamarin.Forms;
 
 namespace KegID
 {
-    public class TaskCounter
+    public class TaskCounter : BaseViewModel
     {
-        public async Task RunCounter(CancellationToken token, IList<string> _barcode,string _page)
+        public TaskCounter() : base(null)
+        {
+
+        }
+
+        public async Task RunCounter(CancellationToken token, IList<string> _barcode, string _page)
         {
             await Task.Run(async () =>
             {
@@ -21,47 +28,53 @@ namespace KegID
 
         public async Task ValidateBarcodeInsertIntoLocalDB(IList<string> _barcodeId, string _page)
         {
-            IMoveService _moveService = new MoveService();
+            //IMoveService _moveService = new MoveService();
 
             foreach (var item in _barcodeId)
             {
-                BarcodeModel validateBarcodeModel = await _moveService.GetValidateBarcodeAsync(AppSettings.SessionId, item);
-                validateBarcodeModel.Barcode = item;
-                if (validateBarcodeModel.Kegs != null)
+                var response = await ApiManager.GetValidateBarcode(item, AppSettings.SessionId);
+                if (response.IsSuccessStatusCode)
                 {
-                    Device.BeginInvokeOnMainThread(() =>
+                    var json = await response.Content.ReadAsStringAsync();
+                    var data = await Task.Run(() => JsonConvert.DeserializeObject<BarcodeModel>(json, GetJsonSetting()));
+
+                    data.Barcode = item;
+                    if (data.Kegs != null)
                     {
-                        switch (_page)
+                        Device.BeginInvokeOnMainThread(() =>
                         {
-                            case "ScanKegsView":
-                                ScanKegsMessage scanKegsMessage = new ScanKegsMessage
-                                {
-                                    Barcodes = validateBarcodeModel
-                                };
-                                MessagingCenter.Send(scanKegsMessage, "ScanKegsMessage");
-                                break;
-                            case "FillScanView":
-                                MessagingCenter.Send(new FillScanMessage
-                                {
-                                    Barcodes = validateBarcodeModel
-                                }, "FillScanMessage");
-                                break;
-                            case "MaintainScanView":
-                                MaintainScanMessage maintainScanMessage = new MaintainScanMessage
-                                {
-                                    Barcodes = validateBarcodeModel
-                                };
-                                MessagingCenter.Send(maintainScanMessage, "MaintainScanMessage");
-                                break;
-                            case "BulkUpdateScanView":
-                                BulkUpdateScanMessage bulkUpdateScanMessage = new BulkUpdateScanMessage
-                                {
-                                    Barcodes = validateBarcodeModel
-                                };
-                                MessagingCenter.Send(bulkUpdateScanMessage, "BulkUpdateScanMessage");
-                                break;
-                        }
-                    });
+                            switch (_page)
+                            {
+                                case "ScanKegsView":
+                                    ScanKegsMessage scanKegsMessage = new ScanKegsMessage
+                                    {
+                                        Barcodes = data
+                                    };
+                                    MessagingCenter.Send(scanKegsMessage, "ScanKegsMessage");
+                                    break;
+                                case "FillScanView":
+                                    MessagingCenter.Send(new FillScanMessage
+                                    {
+                                        Barcodes = data
+                                    }, "FillScanMessage");
+                                    break;
+                                case "MaintainScanView":
+                                    MaintainScanMessage maintainScanMessage = new MaintainScanMessage
+                                    {
+                                        Barcodes = data
+                                    };
+                                    MessagingCenter.Send(maintainScanMessage, "MaintainScanMessage");
+                                    break;
+                                case "BulkUpdateScanView":
+                                    BulkUpdateScanMessage bulkUpdateScanMessage = new BulkUpdateScanMessage
+                                    {
+                                        Barcodes = data
+                                    };
+                                    MessagingCenter.Send(bulkUpdateScanMessage, "BulkUpdateScanMessage");
+                                    break;
+                            }
+                        });
+                    }
                 }
             }
         }

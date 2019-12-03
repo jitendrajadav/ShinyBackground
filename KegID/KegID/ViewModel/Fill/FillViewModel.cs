@@ -51,7 +51,7 @@ namespace KegID.ViewModel
         }
 
         public string BatchButtonTitle { get; set; } = "Select batch";
-        public string SizeButtonTitle { get; set; } =  "Select size";
+        public string SizeButtonTitle { get; set; } = "Select size";
         public string DestinationTitle { get; set; } = "Select destination";
 
         public void OnDestinationTitleChanged()
@@ -80,7 +80,7 @@ namespace KegID.ViewModel
         #region Commands
 
         public DelegateCommand BatchCommand { get; }
-        public DelegateCommand SizeCommand { get;}
+        public DelegateCommand SizeCommand { get; }
         public DelegateCommand DestinationCommand { get; }
         public DelegateCommand NextCommand { get; }
         public DelegateCommand CancelCommand { get; }
@@ -257,7 +257,7 @@ namespace KegID.ViewModel
             };
 
             return _manifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.FILL_MANIFEST, manifestId: ManifestId,
-                        barcodeCollection: ConstantManager.Barcodes ?? new List<BarcodeModel>(), (long)location.Latitude, (long)location.Longitude, string.Empty,string.Empty, tags: new List<Tag>(), tagsStr: "",
+                        barcodeCollection: ConstantManager.Barcodes ?? new List<BarcodeModel>(), (long)location.Latitude, (long)location.Longitude, string.Empty, string.Empty, tags: new List<Tag>(), tagsStr: "",
                         partnerModel: ConstantManager.Partner, newPallets: newPallets ?? new List<NewPallet>(), batches: newBatches,
                         closedBatches: new List<string>(), null, validationStatus: 4, null, contents: SizeButtonTitle, size: SizeButtonTitle);
         }

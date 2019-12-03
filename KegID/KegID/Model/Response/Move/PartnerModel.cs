@@ -56,7 +56,7 @@ namespace KegID.Model
         [DoNotNotify]
         public string LocationStatus { get; set; }
         [DoNotNotify]
-        public long? CompanyNo { get; set; }
+        public int CompanyNo { get; set; }
     }
 
 

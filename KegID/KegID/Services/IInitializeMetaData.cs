@@ -6,6 +6,5 @@ namespace KegID.Services
     {
         Task LoadInitializeMetaData();
         void DeleteInitializeMetaData();
-
     }
 }

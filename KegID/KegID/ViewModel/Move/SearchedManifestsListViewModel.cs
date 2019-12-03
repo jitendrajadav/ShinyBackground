@@ -1,7 +1,8 @@
-﻿using KegID.Common;
+﻿using Acr.UserDialogs;
+using KegID.Common;
 using KegID.Model;
-using KegID.Services;
 using Microsoft.AppCenter.Crashes;
+using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
 using System;
@@ -14,7 +15,6 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        private readonly IMoveService _moveService;
         public IList<ManifestSearchResponseModel> SearchManifestsCollection { get; set; }
 
         #endregion
@@ -28,10 +28,9 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public SearchedManifestsListViewModel(IMoveService moveService, INavigationService navigationService) : base(navigationService)
+        public SearchedManifestsListViewModel(INavigationService navigationService) : base(navigationService)
         {
-            _moveService = moveService;
-            ItemTappedCommand = new DelegateCommand<ManifestSearchResponseModel>((model) => ItemTappedCommandRecieverAsync(model));
+            ItemTappedCommand = new DelegateCommand<ManifestSearchResponseModel>(async (model) => await RunSafe(ItemTappedCommandRecieverAsync(model)));
             SearchManifestsCommand = new DelegateCommand(SearchManifestsCommandRecieverAsync);
         }
 
@@ -51,29 +50,32 @@ namespace KegID.ViewModel
             }
         }
 
-        private async void ItemTappedCommandRecieverAsync(ManifestSearchResponseModel model)
+        private async Task ItemTappedCommandRecieverAsync(ManifestSearchResponseModel model)
         {
             try
             {
-                Loader.StartLoading();
+                UserDialogs.Instance.ShowLoading("Loading");
 
-                var manifest = await _moveService.GetManifestAsync(AppSettings.SessionId, model.ManifestId);
-                if (manifest.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
+                var response = await ApiManager.GetManifest(model.ManifestId, AppSettings.SessionId);
+                if (response.IsSuccessStatusCode)
                 {
-                    Loader.StopLoading();
+                    var json = await response.Content.ReadAsStringAsync();
+                    var data = await Task.Run(() => JsonConvert.DeserializeObject<ManifestResponseModel>(json, GetJsonSetting()));
+
+                    UserDialogs.Instance.HideLoading();
                     await _navigationService.NavigateAsync("ManifestDetailView", new NavigationParameters
                     {
-                        { "manifest", manifest }
+                        { "manifest", data }
                     }, animated: false);
                 }
             }
             catch (Exception ex)
             {
-                 Crashes.TrackError(ex);
+                Crashes.TrackError(ex);
             }
             finally
             {
-                Loader.StopLoading();
+                UserDialogs.Instance.HideLoading();
             }
         }
 

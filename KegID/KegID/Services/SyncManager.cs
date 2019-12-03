@@ -2,7 +2,9 @@
 using KegID.LocalDb;
 using KegID.Messages;
 using KegID.Model;
+using KegID.ViewModel;
 using Microsoft.AppCenter.Crashes;
+using Prism.Navigation;
 using Realms;
 using System;
 using System.Linq;
@@ -11,8 +13,13 @@ using Xamarin.Forms;
 
 namespace KegID.Services
 {
-    public class SyncManager : ISyncManager
+    public class SyncManager : BaseViewModel, ISyncManager
     {
+        public SyncManager() : base(null)
+        {
+
+        }
+
         public void NotifyConnectivityChanged()
         {
             // Register for connectivity changes, be sure to unsubscribe when finished
@@ -28,11 +35,11 @@ namespace KegID.Services
             if (current == NetworkAccess.Internet)
             {
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                var value = RealmDb.All<ManifestModel>().Where(x => x.IsQueue == true).ToList();
+                var value = RealmDb.All<ManifestModel>().Where(x => x.IsQueue).ToList();
 
                 if (value.Count > 0)
                 {
-                    IMoveService _moveService = new MoveService();
+                    //IMoveService _moveService = new MoveService();
 
                     try
                     {
@@ -41,8 +48,8 @@ namespace KegID.Services
                             switch ((EventTypeEnum)item.EventTypeId)
                             {
                                 case EventTypeEnum.MOVE_MANIFEST:
-                                    var resultMoveManifest = await _moveService.PostManifestAsync(item, AppSettings.SessionId, Configuration.NewManifest);
-                                    if (resultMoveManifest.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
+                                    var response = await ApiManager.PostManifest(item, AppSettings.SessionId);
+                                    if (response.IsSuccessStatusCode)
                                         AddorUpdateManifestOffline(item, false);
                                     break;
                                 case EventTypeEnum.SHIP_MANIFEST:
@@ -50,8 +57,8 @@ namespace KegID.Services
                                 case EventTypeEnum.RECEIVE_MANIFEST:
                                     break;
                                 case EventTypeEnum.FILL_MANIFEST:
-                                    var resultFillManifest = await _moveService.PostManifestAsync(item, AppSettings.SessionId, Configuration.NewManifest);
-                                    if (resultFillManifest.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
+                                    response = await ApiManager.PostManifest(item, AppSettings.SessionId);
+                                    if (response.IsSuccessStatusCode)
                                         AddorUpdateManifestOffline(item, false);
                                     break;
                                 case EventTypeEnum.PALLETIZE_MANIFEST:
@@ -60,9 +67,9 @@ namespace KegID.Services
                                 case EventTypeEnum.RETURN_MANIFEST:
                                     break;
                                 case EventTypeEnum.REPAIR_MANIFEST:
-                                    IMaintainService _maintainService = new MaintainService();
-                                    KegIDResponse resultRepairManifest = await _maintainService.PostMaintenanceDoneAsync(item.MaintenanceModels.MaintenanceDoneRequestModel, AppSettings.SessionId, Configuration.PostedMaintenanceDone);
-                                    if (resultRepairManifest.StatusCode == System.Net.HttpStatusCode.NoContent.ToString())
+                                    //IMaintainService _maintainService = new MaintainService();
+                                    response = await ApiManager.PostMaintenanceDone(item.MaintenanceModels.MaintenanceDoneRequestModel, AppSettings.SessionId);
+                                    if (response.IsSuccessStatusCode)
                                         AddorUpdateManifestOffline(item, false);
                                     break;
                                 case EventTypeEnum.COLLECT_MANIFEST:
@@ -90,11 +97,11 @@ namespace KegID.Services
 
                 if (pallets.Count > 0)
                 {
-                    IPalletizeService _palletizeService = new PalletizeService();
+                    //IPalletizeService _palletizeService = new PalletizeService();
 
                     foreach (var pallet in pallets)
                     {
-                        var result = await _palletizeService.PostPalletAsync(pallet, AppSettings.SessionId, Configuration.NewPallet);
+                        var response = await ApiManager.PostPallet(pallet, AppSettings.SessionId);
                         AddorUpdatePalletsOffline(pallet,false);
                     }
 
@@ -132,7 +139,7 @@ namespace KegID.Services
             {
                 try
                 {
-                    
+
                     var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                     RealmDb.Write(() =>
                     {
@@ -171,6 +178,5 @@ namespace KegID.Services
                 }
             }
         }
-
     }
 }

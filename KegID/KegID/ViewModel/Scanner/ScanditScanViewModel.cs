@@ -1,4 +1,5 @@
-﻿using KegID.Common;
+﻿using Acr.UserDialogs;
+using KegID.Common;
 using KegID.Converter;
 using KegID.Messages;
 using KegID.Model;
@@ -109,7 +110,10 @@ namespace KegID.ViewModel
                     }
                     try
                     {
-                        Loader.Toast("Last scan: " + message);
+                        var toastConfig = new ToastConfig("Last scan: " + message);
+                        toastConfig.SetDuration(3000);
+                        toastConfig.SetBackgroundColor(System.Drawing.Color.FromArgb(12, 131, 193));
+                        UserDialogs.Instance.Toast(toastConfig);
                     }
                     catch { }
                 }
@@ -285,11 +289,6 @@ namespace KegID.ViewModel
             }
 
             return base.InitializeAsync(parameters);
-        }
-
-        public override void OnNavigatedFrom(INavigationParameters parameters)
-        {
-            base.OnNavigatedFrom(parameters);
         }
 
         #endregion

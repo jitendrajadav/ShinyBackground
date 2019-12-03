@@ -1,4 +1,5 @@
-﻿using KegID.Common;
+﻿using Acr.UserDialogs;
+using KegID.Common;
 using KegID.LocalDb;
 using KegID.Messages;
 using KegID.Model;
@@ -23,7 +24,6 @@ namespace KegID.ViewModel
         #region Properties
 
         private const string Cloud = "collectionscloud.png";
-        private readonly IDashboardService _dashboardService;
         private readonly IGetIconByPlatform _getIconByPlatform;
         private readonly IUuidManager _uuidManager;
         private readonly IPageDialogService _dialogService;
@@ -40,6 +40,7 @@ namespace KegID.ViewModel
         #endregion
 
         #region Commands
+
         public DelegateCommand CancelCommand { get; }
         public DelegateCommand SaveCommand { get; }
         public DelegateCommand BarcodeScanCommand { get; }
@@ -52,9 +53,8 @@ namespace KegID.ViewModel
 
         #region Contructor
 
-        public BulkUpdateScanViewModel(IDashboardService dashboardService, INavigationService navigationService, IGetIconByPlatform getIconByPlatform, IUuidManager uuidManager, IPageDialogService dialogService) : base(navigationService)
+        public BulkUpdateScanViewModel(INavigationService navigationService, IGetIconByPlatform getIconByPlatform, IUuidManager uuidManager, IPageDialogService dialogService) : base(navigationService)
         {
-            _dashboardService = dashboardService;
             _getIconByPlatform = getIconByPlatform;
             _uuidManager = uuidManager;
             _dialogService = dialogService;
@@ -62,7 +62,7 @@ namespace KegID.ViewModel
             AddTagsCommand = new DelegateCommand(AddTagsCommandRecieverAsync);
             BarcodeManualCommand = new DelegateCommand(BarcodeManualCommandRecieverAsync);
             BarcodeScanCommand = new DelegateCommand(BarcodeScanCommandRecieverAsync);
-            SaveCommand = new DelegateCommand(SaveCommandRecieverAsync);
+            SaveCommand = new DelegateCommand(async () => await RunSafe(SaveCommandRecieverAsync()));
             CancelCommand = new DelegateCommand(CancelCommandRecieverAsync);
             LabelItemTappedCommand = new DelegateCommand<BarcodeModel>((model) => LabelItemTappedCommandRecieverAsync(model));
             IconItemTappedCommand = new DelegateCommand<BarcodeModel>((model) => IconItemTappedCommandRecieverAsync(model));
@@ -246,7 +246,7 @@ namespace KegID.ViewModel
                         Barcode = ManaulBarcode,
                         TagsStr = TagsStr,
                         Icon = _getIconByPlatform.GetIcon(Cloud),
-                        Page = ViewTypeEnum.BulkUpdateScanView.ToString(),
+                        Page = nameof(ViewTypeEnum.BulkUpdateScanView),
                         Contents = SelectedItemType
                     };
 
@@ -264,7 +264,7 @@ namespace KegID.ViewModel
                         var message = new StartLongRunningTaskMessage
                         {
                             Barcode = new List<string>() { ManaulBarcode },
-                            PageName = ViewTypeEnum.BulkUpdateScanView.ToString()
+                            PageName = nameof(ViewTypeEnum.BulkUpdateScanView)
                         };
                         MessagingCenter.Send(message, "StartLongRunningTaskMessage");
                     }
@@ -293,17 +293,17 @@ namespace KegID.ViewModel
             }
         }
 
-        private async void SaveCommandRecieverAsync()
+        private async Task SaveCommandRecieverAsync()
         {
             try
             {
                 if (BarcodeCollection.Count > 0)
                 {
-                    Loader.StartLoading();
+                    UserDialogs.Instance.ShowLoading("Loading");
                     var model = new KegBulkUpdateItemRequestModel();
                     var MassUpdateKegKegs = new List<MassUpdateKeg>();
                     MassUpdateKeg MassUpdateKeg = null;
-                    var val = await _dashboardService.GetAssetVolumeAsync(AppSettings.SessionId, false);
+                    var val = await ApiManager.GetAssetVolume(AppSettings.SessionId, false);
                     foreach (var item in BarcodeCollection)
                     {
                         MassUpdateKeg = new MassUpdateKeg
@@ -322,8 +322,8 @@ namespace KegID.ViewModel
                     }
                     model.Kegs = MassUpdateKegKegs;
 
-                    var value = await _dashboardService.PostKegUploadAsync(model, AppSettings.SessionId, Configuration.MassUpdateKegList);
-                    if (value.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
+                    var value = await ApiManager.PostKegUpload(model, AppSettings.SessionId);
+                    if (value.IsSuccessStatusCode)
                     {
                         await _navigationService.GoBackAsync(new NavigationParameters
                         {
@@ -342,7 +342,7 @@ namespace KegID.ViewModel
             }
             finally
             {
-                Loader.StopLoading();
+                UserDialogs.Instance.HideLoading();
             }
         }
 

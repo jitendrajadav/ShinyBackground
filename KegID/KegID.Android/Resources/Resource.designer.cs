@@ -10153,6 +10153,7 @@ namespace KegID.Droid
 			global::Microsoft.AppCenter.Distribute.Resource.String.appcenter_distribute_update_failed_dialog_message = global::KegID.Droid.Resource.String.appcenter_distribute_update_failed_dialog_message;
 			global::Microsoft.AppCenter.Distribute.Resource.String.appcenter_distribute_update_failed_dialog_reinstall = global::KegID.Droid.Resource.String.appcenter_distribute_update_failed_dialog_reinstall;
 			global::Microsoft.AppCenter.Distribute.Resource.String.appcenter_distribute_update_failed_dialog_title = global::KegID.Droid.Resource.String.appcenter_distribute_update_failed_dialog_title;
+			global::ModernHttpClient.Resource.String.library_name = global::KegID.Droid.Resource.String.library_name;
 			global::Prism.Resource.Animation.abc_fade_in = global::KegID.Droid.Resource.Animation.abc_fade_in;
 			global::Prism.Resource.Animation.abc_fade_out = global::KegID.Droid.Resource.Animation.abc_fade_out;
 			global::Prism.Resource.Animation.abc_grow_fade_in_from_bottom = global::KegID.Droid.Resource.Animation.abc_grow_fade_in_from_bottom;

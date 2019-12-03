@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Acr.UserDialogs;
 using KegID.Common;
 using KegID.Model;
 using KegID.Services;
 using Microsoft.AppCenter.Crashes;
+using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
 
@@ -13,7 +16,6 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        private readonly IMoveService _moveService;
         public string BackPartners { get; set; }
         public string PartnerSearch { get; set; }
         public IList<PartnerModel> PartnerSearchCollection { get; set; }
@@ -30,13 +32,11 @@ namespace KegID.ViewModel
 
         #region Contructor
 
-        public SearchPartnersViewModel(IMoveService moveService, INavigationService navigationService) : base(navigationService)
+        public SearchPartnersViewModel(INavigationService navigationService) : base(navigationService)
         {
-            _moveService = moveService;
-
             BackPartners = "< Partners";
             BackPartnersCommand = new DelegateCommand(BackPartnersCommandRecieverAsync);
-            PartnerSearchCommand = new DelegateCommand(PartnerSearchCommandRecieverAsync);
+            PartnerSearchCommand = new DelegateCommand(async () => await RunSafe(PartnerSearchCommandRecieverAsync()));
             ItemTappedCommand = new DelegateCommand<PartnerModel>((model) => ItemTappedCommandRecieverAsync(model));
         }
 
@@ -44,19 +44,20 @@ namespace KegID.ViewModel
 
         #region Methods
 
-        private async void PartnerSearchCommandRecieverAsync()
+        private async Task PartnerSearchCommandRecieverAsync()
         {
             if (!string.IsNullOrEmpty(PartnerSearch))
             {
-               try
+                try
                 {
-                    Loader.StartLoading();
-                    var value = await _moveService.GetPartnerSearchAsync(AppSettings.SessionId, PartnerSearch, false, true);
-
-
-                    if (value.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
+                    UserDialogs.Instance.ShowLoading("Loading");
+                    var response = await ApiManager.GetPartnerSearch(AppSettings.SessionId, PartnerSearch, false, true);
+                    if (response.IsSuccessStatusCode)
                     {
-                        PartnerSearchCollection = value.PartnerModel;
+                        var json = await response.Content.ReadAsStringAsync();
+                        var data = await Task.Run(() => JsonConvert.DeserializeObject<IList<PartnerModel>>(json, GetJsonSetting()));
+
+                        PartnerSearchCollection = data;
                     }
                 }
                 catch (Exception ex)
@@ -65,7 +66,7 @@ namespace KegID.ViewModel
                 }
                 finally
                 {
-                    Loader.StopLoading();
+                    UserDialogs.Instance.HideLoading();
                 }
             }
         }

@@ -133,9 +133,6 @@ namespace KegID.Views
                             valueEntry.IsToggled = Convert.ToBoolean(tag.DefaultValue);
                         }
                         break;
-
-                    default:
-                        break;
                 }
 
                 Grid.SetColumn(labelTitle, 0);
@@ -148,7 +145,7 @@ namespace KegID.Views
 
         protected override bool OnBackButtonPressed()
         {
-            (Application.Current.MainPage.Navigation.NavigationStack.Last()?.BindingContext as INavigationAware)?.OnNavigatedTo(new NavigationParameters
+            (BindingContext as INavigationAware)?.OnNavigatedTo(new NavigationParameters
                     {
                         { "CancelCommandRecievierAsync", "CancelCommandRecievierAsync" }
                     });
@@ -171,7 +168,7 @@ namespace KegID.Views
                     if (child.GetType() == typeof(Label))
                         name = ((Label)child).Text;
 
-                    var tag = preferenceValue.Tags.Where(x => x.Name == name).FirstOrDefault();
+                    var tag = preferenceValue.Tags.FirstOrDefault(x => x.Name == name);
 
                     if (tag.Required)
                     {
@@ -197,7 +194,7 @@ namespace KegID.Views
                 Application.Current.MainPage.DisplayAlert("Warning", "Required tag missing\n", "Ok");
             }
             else
-                ((ViewModel.AddBatchViewModel)((BindableObject)sender).BindingContext).DoneCommand.Execute();
+                ((ViewModel.AddBatchViewModel)BindingContext).DoneCommand.Execute();
         }
     }
 }

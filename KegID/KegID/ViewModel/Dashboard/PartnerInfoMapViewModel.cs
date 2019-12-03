@@ -27,8 +27,8 @@ namespace KegID.ViewModel
             }
             catch (Exception ex)
             {
-                 Crashes.TrackError(ex);
-            }            
+                Crashes.TrackError(ex);
+            }
         }
 
         #endregion

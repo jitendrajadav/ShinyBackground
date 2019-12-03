@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Acr.UserDialogs;
 using KegID.Common;
 using KegID.LocalDb;
 using KegID.Messages;
@@ -28,7 +29,6 @@ namespace KegID.ViewModel
         public string Notes { get; private set; }
         private string ManifestId;
 
-        private readonly IMaintainService _maintainService;
         private readonly IGetIconByPlatform _getIconByPlatform;
         private readonly IUuidManager _uuidManager;
         private readonly IManifestManager _manifestManager;
@@ -54,15 +54,14 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public MaintainScanViewModel(IMaintainService maintainService, INavigationService navigationService, IGetIconByPlatform getIconByPlatform, IUuidManager uuidManager, IManifestManager manifestManager, IGeolocationService geolocationService) : base(navigationService)
+        public MaintainScanViewModel(INavigationService navigationService, IGetIconByPlatform getIconByPlatform, IUuidManager uuidManager, IManifestManager manifestManager, IGeolocationService geolocationService) : base(navigationService)
         {
-            _maintainService = maintainService;
             _getIconByPlatform = getIconByPlatform;
             _uuidManager = uuidManager;
             _manifestManager = manifestManager;
             _geolocationService = geolocationService;
 
-            SubmitCommand = new DelegateCommand(SubmitCommandRecieverAsync);
+            SubmitCommand = new DelegateCommand(async () => await RunSafe(SubmitCommandRecieverAsync()));
             BackCommand = new DelegateCommand(BackCommandRecieverAsync);
             BarcodeScanCommand = new DelegateCommand(BarcodeScanCommandRecieverAsync);
             BarcodeManualCommand = new DelegateCommand(BarcodeManualCommandRecieverAsync);
@@ -342,11 +341,11 @@ namespace KegID.ViewModel
             }
         }
 
-        public async void SubmitCommandRecieverAsync()
+        public async Task SubmitCommandRecieverAsync()
         {
             try
             {
-                Loader.StartLoading();
+                UserDialogs.Instance.ShowLoading("Loading");
 
                 var location = await _geolocationService.GetLastLocationAsync();
 
@@ -365,7 +364,7 @@ namespace KegID.ViewModel
                         var current = Connectivity.NetworkAccess;
                         if (current == NetworkAccess.Internet)
                         {
-                            KegIDResponse kegIDResponse = await _maintainService.PostMaintenanceDoneAsync(manifestPostModel.MaintenanceModels.MaintenanceDoneRequestModel, AppSettings.SessionId, Configuration.PostedMaintenanceDone);
+                            var response = await ApiManager.PostMaintenanceDone(manifestPostModel.MaintenanceModels.MaintenanceDoneRequestModel, AppSettings.SessionId);
                             try
                             {
                                 AddorUpdateManifestOffline(manifestPostModel, false);
@@ -406,7 +405,7 @@ namespace KegID.ViewModel
             }
             finally
             {
-                Loader.StopLoading();
+                UserDialogs.Instance.HideLoading();
             }
         }
 
@@ -446,7 +445,7 @@ namespace KegID.ViewModel
             model.MaintenanceDoneRequestModel.PartnerModel = ConstantManager.Partner;
 
             return _manifestManager.GetManifestDraft(eventTypeEnum: EventTypeEnum.REPAIR_MANIFEST, manifestId: !string.IsNullOrEmpty(manifestId) ? manifestId : _uuidManager.GetUuId(),
-                barcodeCollection: BarcodeCollection, (long)location.Latitude, (long)location.Longitude, string.Empty,string.Empty, tags: ConstantManager.Tags, ConstantManager.TagsStr, partnerModel: ConstantManager.Partner,
+                barcodeCollection: BarcodeCollection, (long)location.Latitude, (long)location.Longitude, string.Empty, string.Empty, tags: ConstantManager.Tags, ConstantManager.TagsStr, partnerModel: ConstantManager.Partner,
                                                                 newPallets: new List<NewPallet>(), batches: new List<NewBatch>(),
                                                                 closedBatches: new List<string>(), model, validationStatus: 4, null, contents: "");
         }

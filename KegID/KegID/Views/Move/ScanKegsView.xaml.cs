@@ -47,7 +47,7 @@ namespace KegID.Views
 
         protected override bool OnBackButtonPressed()
         {
-            (Application.Current.MainPage.Navigation.NavigationStack.Last()?.BindingContext as INavigationAware)?.OnNavigatedTo(new NavigationParameters
+            (BindingContext as INavigationAware)?.OnNavigatedTo(new NavigationParameters
                     {
                         { "DoneCommandRecieverAsync", "DoneCommandRecieverAsync" }
                     });
@@ -59,47 +59,18 @@ namespace KegID.Views
             if (e.PropertyName == Forms9Patch.SinglePicker.SelectedItemProperty.PropertyName)
             {
                 _singlePickerButton.HtmlText = (_singlePicker.SelectedItem as string) ?? "select content";
-                _singlePickerButton.TextColor = _singlePicker.SelectedItem == null ? Color.DarkGray : Color.Blue;
+                _singlePickerButton.TextColor = _singlePicker.SelectedItem == null ? Color.DarkGray : Color.DarkGray;
             }
         }
 
         private void _singlePickerButton_Clicked(object sender, System.EventArgs e)
         {
-            var doneButton = new Forms9Patch.Button
-            {
-                BackgroundColor = Color.Blue,
-                TextColor = Color.White,
-                OutlineColor = Color.White,
-                OutlineRadius = 4,
-                OutlineWidth = 1,
-                Text = "Done",
-                HorizontalOptions = LayoutOptions.End,
-            };
-            var cancelButton = new Forms9Patch.Button
-            {
-                BackgroundColor = Color.Black,
-                TextColor = Color.White,
-                OutlineColor = Color.White,
-                OutlineRadius = 4,
-                OutlineWidth = 1,
-                Text = "Cancel",
-                HorizontalOptions = LayoutOptions.EndAndExpand,
-            };
-            var buttonBar = new StackLayout
-            {
-                Orientation = StackOrientation.Horizontal,
-                Children =
-                {
-                    cancelButton, doneButton
-                }
-            };
             var bubbleContent = new StackLayout
             {
                 WidthRequest = 300,
                 HeightRequest = 300,
                 Children =
                 {
-                    buttonBar,
                     _singlePicker
                 }
             };
@@ -107,15 +78,7 @@ namespace KegID.Views
             {
                 PointerDirection = Forms9Patch.PointerDirection.Vertical,
                 Content = bubbleContent,
-                BackgroundColor = Color.Black,
-            };
-
-            var selectedItemAtStart = _singlePicker.SelectedItem;
-            doneButton.Clicked += async (s, args) => await bubblePopup.CancelAsync();
-            cancelButton.Clicked += async (s, args) =>
-            {
-                _singlePicker.SelectedItem = selectedItemAtStart;
-                await bubblePopup.CancelAsync();
+                BackgroundColor = Color.WhiteSmoke,
             };
 
             bubblePopup.IsVisible = true;

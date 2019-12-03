@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Acr.UserDialogs;
 using KegID.Common;
 using KegID.DependencyServices;
 using KegID.Model;
 using KegID.Services;
 using Microsoft.AppCenter.Crashes;
+using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
 using Xamarin.Essentials;
@@ -17,7 +19,6 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        private readonly IDashboardService _dashboardService;
         string translatedNumber;
         public string KegsHeld { get; set; }
         public string Contact { get; set; }
@@ -45,9 +46,8 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public PartnerInfoViewModel(IDashboardService dashboardService, INavigationService navigationService) : base(navigationService)
+        public PartnerInfoViewModel(INavigationService navigationService) : base(navigationService)
         {
-            _dashboardService = dashboardService;
             PartnersCommand = new DelegateCommand(PartnersCommandRecieverAsync);
             EditCommand = new DelegateCommand(EditCommandRecieverAsync);
             KegsCommand = new DelegateCommand(KegsCommandRecieverAsync);
@@ -105,13 +105,19 @@ namespace KegID.ViewModel
         {
             try
             {
-                Loader.StartLoading();
+                UserDialogs.Instance.ShowLoading("Loading");
 
-                PartnerInfoModel = await _dashboardService.GetPartnerInfoAsync(AppSettings.SessionId, ConstantManager.DBPartnerId);
-                KegsHeld = PartnerInfoModel.KegsHeld.ToString();
-                Notes = PartnerInfoModel.Notes;
-                Ref = PartnerInfoModel.ReferenceKey;
-                ContactEmail = PartnerInfoModel.ContactEmail;
+                var response = await ApiManager.GetPartnerInfo(AppSettings.SessionId, ConstantManager.DBPartnerId);
+                if (response.IsSuccessStatusCode)
+                {
+                    var json = await response.Content.ReadAsStringAsync();
+                    var data = await Task.Run(() => JsonConvert.DeserializeObject<PartnerInfoResponseModel>(json, GetJsonSetting()));
+                    PartnerInfoModel = data;
+                    KegsHeld = PartnerInfoModel.KegsHeld.ToString();
+                    Notes = PartnerInfoModel.Notes;
+                    Ref = PartnerInfoModel.ReferenceKey;
+                    ContactEmail = PartnerInfoModel.ContactEmail;
+                }
             }
             catch (Exception ex)
             {
@@ -119,7 +125,7 @@ namespace KegID.ViewModel
             }
             finally
             {
-                Loader.StopLoading();
+                UserDialogs.Instance.HideLoading();
             }
         }
 

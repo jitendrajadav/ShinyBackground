@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Realms;
+using System;
 using System.Collections.Generic;
 
 namespace KegID.Model
 {
-    public class KegSearchResponseModel 
+    public class KegSearchResponseModel
     {
         public string KegId { get; set; }
         public KegSearchLocation Owner { get; set; }
@@ -97,7 +98,7 @@ namespace KegID.Model
         public DateTimeOffset CreateDate { get; set; }
     }
 
-    public class Profile
+    public class Profile : RealmObject
     {
         public string ProfileId { get; set; }
         public string OwnerId { get; set; }
@@ -115,7 +116,7 @@ namespace KegID.Model
         public string SourceSystem { get; set; }
     }
 
-    public class KegSearchModel 
+    public class KegSearchModel
     {
         public KegIDResponse Response { get; set; }
         public IList<KegSearchResponseModel> KegSearchResponseModel { get; set; }

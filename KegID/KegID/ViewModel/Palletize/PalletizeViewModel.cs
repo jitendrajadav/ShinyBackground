@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Acr.UserDialogs;
 using KegID.Common;
 using KegID.LocalDb;
 using KegID.Messages;
@@ -23,7 +24,6 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        private readonly IPalletizeService _palletizeService;
         private readonly IPageDialogService _dialogService;
         private readonly IZebraPrinterManager _zebraPrinterManager;
         private readonly IUuidManager _uuidManager;
@@ -62,10 +62,9 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public PalletizeViewModel(IPalletizeService palletizeService, INavigationService navigationService, IZebraPrinterManager zebraPrinterManager, IUuidManager uuidManager, ICalcCheckDigitMngr calcCheckDigitMngr, IPageDialogService dialogService) : base(navigationService)
+        public PalletizeViewModel(INavigationService navigationService, IZebraPrinterManager zebraPrinterManager, IUuidManager uuidManager, ICalcCheckDigitMngr calcCheckDigitMngr, IPageDialogService dialogService) : base(navigationService)
         {
             _dialogService = dialogService;
-            _palletizeService = palletizeService;
             _zebraPrinterManager = zebraPrinterManager;
             _uuidManager = uuidManager;
             _calcCheckDigitMngr = calcCheckDigitMngr;
@@ -77,7 +76,7 @@ namespace KegID.ViewModel
             AddKegsCommand = new DelegateCommand(AddKegsCommandRecieverAsync);
             IsPalletVisibleCommand = new DelegateCommand(IsPalletVisibleCommandReciever);
             BarcodeScanCommand = new DelegateCommand(BarcodeScanCommandReciever);
-            SubmitCommand = new DelegateCommand(SubmitCommandRecieverAsync);
+            SubmitCommand = new DelegateCommand(async () => await RunSafe(SubmitCommandRecieverAsync()));
 
             StockLocation.FullName = "Barcode Brewing";
             TargetLocation.FullName = "None";
@@ -158,7 +157,7 @@ namespace KegID.ViewModel
             }
             catch (Exception ex)
             {
-                 Crashes.TrackError(ex);
+                Crashes.TrackError(ex);
             }
             finally
             {
@@ -193,7 +192,7 @@ namespace KegID.ViewModel
             return _ = seconds + (minutes * 60) + (hours * 3600);
         }
 
-        private async void SubmitCommandRecieverAsync()
+        private async Task SubmitCommandRecieverAsync()
         {
             List<PalletItem> palletItems = new List<PalletItem>();
             PalletItem pallet = null;
@@ -203,7 +202,7 @@ namespace KegID.ViewModel
 
             try
             {
-                Loader.StartLoading();
+                UserDialogs.Instance.ShowLoading("Loading");
 
                 foreach (var item in barCodeCollection)
                 {
@@ -253,7 +252,7 @@ namespace KegID.ViewModel
                     PalletId = palletRequestModel.PalletId,
                     PalletItems = palletItems,
                     ReferenceKey = string.Empty,
-                    StockLocation = new Owner { FullName = StockLocation.FullName , PartnerTypeName = StockLocation.PartnerTypeName },
+                    StockLocation = new Owner { FullName = StockLocation.FullName, PartnerTypeName = StockLocation.PartnerTypeName },
                     TargetLocation = new Model.PrintPDF.TargetLocation { },
                     Tags = ConstantManager.Tags,
                 };
@@ -261,7 +260,7 @@ namespace KegID.ViewModel
                 var current = Connectivity.NetworkAccess;
                 if (current == NetworkAccess.Internet)
                 {
-                    var value = await _palletizeService.PostPalletAsync(palletRequestModel, AppSettings.SessionId, Configuration.NewPallet);
+                    var response = await ApiManager.PostPallet(palletRequestModel, AppSettings.SessionId);
                 }
                 else
                 {
@@ -294,7 +293,7 @@ namespace KegID.ViewModel
             }
             finally
             {
-                Loader.StopLoading();
+                UserDialogs.Instance.HideLoading();
                 palletItems = null;
                 pallet = null;
                 barCodeCollection = null;
@@ -306,7 +305,7 @@ namespace KegID.ViewModel
         public void PrintPallet()
         {
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-            var brandCode = RealmDb.All<BrandModel>().Where(x=>x.BrandName == ConstantManager.Contents).FirstOrDefault();
+            var brandCode = RealmDb.All<BrandModel>().Where(x => x.BrandName == ConstantManager.Contents).FirstOrDefault();
             try
             {
                 var addresss = StockLocation;

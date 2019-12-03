@@ -6,20 +6,16 @@ namespace KegID.Services
     {
         public string GetIcon(string image)
         {
-            string value = string.Empty;
             switch (Device.RuntimePlatform)
             {
                 case Device.iOS:
-                    value = image;
-                    break;
+                    return image;
                 case Device.Android:
-                    value = image;
-                    break;
+                    return image;
                 case Device.UWP:
-                    value = "Assets/" + image;
-                    break;
+                    return "Assets/" + image;
             }
-            return value;
+            return string.Empty;
         }
 
     }

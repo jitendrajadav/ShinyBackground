@@ -1,10 +1,11 @@
 ﻿using KegID.Common;
 using KegID.Model;
-using KegID.Services;
 using Microsoft.AppCenter.Crashes;
+using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
 
@@ -14,7 +15,6 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        private readonly IMoveService _moveService;
         public bool IsManifestDestination { get; set; }
         public string TrackingNumber { get; set; }
         public string Barcode { get; set; }
@@ -37,29 +37,33 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public SearchManifestsViewModel(IMoveService moveService, INavigationService navigationService) : base(navigationService)
+        public SearchManifestsViewModel(INavigationService navigationService) : base(navigationService)
         {
-            _moveService = moveService;
-
             ManifestsCommand = new DelegateCommand(ManifestsCommandRecieverAsync);
             ManifestSenderCommand = new DelegateCommand(ManifestSenderCommandRecieverAsync);
             ManifestDestinationCommand = new DelegateCommand(ManifestDestinationCommandRecieverAsync);
-            SearchCommand = new DelegateCommand(SearchCommandRecieverAsync);
+            SearchCommand = new DelegateCommand(async () => await RunSafe(SearchCommandRecieverAsync()));
         }
 
         #endregion
 
         #region Methods
 
-        private async void SearchCommandRecieverAsync()
+        private async Task SearchCommandRecieverAsync()
         {
             try
             {
-                var value = await _moveService.GetManifestSearchAsync(AppSettings.SessionId, TrackingNumber, Barcode, ManifestSender, ManifestDestination, Referencekey, FromDate.ToString("MM/dd/yyyy", CultureInfo.CreateSpecificCulture("en-US")), ToDate.ToString("MM/dd/yyyy", CultureInfo.CreateSpecificCulture("en-US")));
-                await _navigationService.NavigateAsync("SearchedManifestsListView", new NavigationParameters
+                var response = await ApiManager.GetManifestSearch(AppSettings.SessionId, TrackingNumber, Barcode, ManifestSender, ManifestDestination, Referencekey, FromDate.ToString("MM/dd/yyyy", CultureInfo.CreateSpecificCulture("en-US")), ToDate.ToString("MM/dd/yyyy", CultureInfo.CreateSpecificCulture("en-US")));
+                if (response.IsSuccessStatusCode)
+                {
+                    var json = await response.Content.ReadAsStringAsync();
+                    var data = await Task.Run(() => JsonConvert.DeserializeObject<IList<ManifestSearchResponseModel>>(json, GetJsonSetting()));
+
+                    await _navigationService.NavigateAsync("SearchedManifestsListView", new NavigationParameters
                     {
-                        { "SearchManifestsCollection", value.ManifestSearchResponseModel }
+                        { "SearchManifestsCollection", data }
                     }, animated: false);
+                }
             }
             catch (Exception ex)
             {

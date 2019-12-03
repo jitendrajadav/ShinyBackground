@@ -1,102 +1,101 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="KegID.Views.AddTagsView"
-             BackgroundColor="{StaticResource pageBGColor}"
-             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
-             ios:Page.UseSafeArea="true"
-             >
+<ContentPage
+    x:Class="KegID.Views.AddTagsView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    ios:Page.UseSafeArea="true"
+    BackgroundColor="{StaticResource pageBGColor}">
 
     <ContentPage.Content>
-        
-        <Grid
-            AutomationId="mainGrd">
-            
+
+        <Grid AutomationId="mainGrd">
+
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="20*"/>
-                <ColumnDefinition Width="60*"/>
-                <ColumnDefinition Width="13*"/>
+                <ColumnDefinition Width="20*" />
+                <ColumnDefinition Width="60*" />
+                <ColumnDefinition Width="13*" />
             </Grid.ColumnDefinitions>
-            
-            <Label 
-                AutomationId="addTagsLabel"
+
+            <Label
                 Grid.ColumnSpan="3"
-                Text="{Binding Resources[title_add_tags]}"
+                AutomationId="addTagsLabel"
+                HorizontalOptions="CenterAndExpand"
                 Style="{StaticResource LabelTitleStyle}"
-                TextColor="Black"
-                HorizontalOptions="CenterAndExpand" />
+                Text="{Binding Resources[title_add_tags]}"
+                TextColor="Black" />
 
             <Button
-                AutomationId="saveButton"
                 Grid.ColumnSpan="3"
-                Style="{StaticResource TopButtonTitleStyle}"
+                AutomationId="saveButton"
+                Clicked="SaveTagsClickedAsync"
                 HorizontalOptions="End"
-                Text="{Binding Resources[button_save]}"
-                Clicked="SaveTagsClickedAsync"/>
+                Style="{StaticResource TopButtonTitleStyle}"
+                Text="{Binding Resources[button_save]}" />
 
             <BoxView
-                AutomationId="topBarSeperatorBoxView"
                 Grid.Row="1"
                 Grid.ColumnSpan="3"
+                AutomationId="topBarSeperatorBoxView"
                 BackgroundColor="{StaticResource bannerBGColor}"
-                VerticalOptions="FillAndExpand"
-                HorizontalOptions="FillAndExpand"/>
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand" />
 
             <Label
-                AutomationId="sortNameLabel"
-                Margin="10,0,0,0"
-                Text="{Binding Resources[menu_action_sort_name]}"
-                Style="{StaticResource LabelTitleStyle}"
-                HorizontalOptions="Center"
-                TextColor="White"
-                Grid.Row="1"/>
-            
-            <Label
-                AutomationId="valueLabel"
-                Margin="0,0,0,0"
-                Text="Value"
-                Style="{StaticResource LabelTitleStyle}"
                 Grid.Row="1"
+                Margin="10,0,0,0"
+                AutomationId="sortNameLabel"
                 HorizontalOptions="Center"
-                TextColor="White"
-                Grid.Column="1"/>
+                Style="{StaticResource LabelTitleStyle}"
+                Text="{Binding Resources[menu_action_sort_name]}"
+                TextColor="White" />
+
+            <Label
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="0,0,0,0"
+                AutomationId="valueLabel"
+                HorizontalOptions="Center"
+                Style="{StaticResource LabelTitleStyle}"
+                Text="Value"
+                TextColor="White" />
 
             <Button
-                AutomationId="plusButton"
-                VerticalOptions="CenterAndExpand"
-                HorizontalOptions="StartAndExpand"
-                Text="+"
-                BackgroundColor="Transparent"
-                TextColor="White"
                 Grid.Row="1"
                 Grid.Column="2"
+                AutomationId="plusButton"
+                BackgroundColor="Transparent"
+                Clicked="OnAddTagsClicked"
                 FontSize="30"
-                Clicked="OnAddTagsClicked"/>
+                HorizontalOptions="StartAndExpand"
+                Text="+"
+                TextColor="White"
+                VerticalOptions="CenterAndExpand" />
 
             <Grid
-                AutomationId="innerGrd"
-                Margin="10,0,10,0"
-                Grid.ColumnSpan="3"
+                x:Name="grdTag"
                 Grid.Row="2"
-                RowSpacing="0"
-                x:Name="grdTag">
-                
+                Grid.ColumnSpan="3"
+                Margin="10,0,10,0"
+                AutomationId="innerGrd"
+                RowSpacing="0">
+
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                
+
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="35*"/>
-                    <ColumnDefinition Width="55*"/>
-                    <ColumnDefinition Width="10*"/>
+                    <ColumnDefinition Width="35*" />
+                    <ColumnDefinition Width="55*" />
+                    <ColumnDefinition Width="10*" />
                 </Grid.ColumnDefinitions>
             </Grid>
         </Grid>

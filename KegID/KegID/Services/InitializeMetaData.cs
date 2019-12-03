@@ -1,7 +1,9 @@
 ﻿using KegID.Common;
 using KegID.LocalDb;
 using KegID.Model;
+using KegID.ViewModel;
 using Microsoft.AppCenter.Crashes;
+using Newtonsoft.Json;
 using Realms;
 using System;
 using System.Collections.Generic;
@@ -10,19 +12,19 @@ using System.Threading.Tasks;
 
 namespace KegID.Services
 {
-    public class InitializeMetaData : IInitializeMetaData
+    public class InitializeMetaData : BaseViewModel, IInitializeMetaData
     {
-        private IMoveService _moveService { get; }
-        private IMaintainService _maintainService { get; }
-        private IDashboardService _dashboardService { get; }
-        private IFillService _fillService { get; }
+        //private IMoveService _moveService { get; }
+        //private IMaintainService _maintainService { get; }
+        //private IDashboardService _dashboardService { get; }
+        //private IFillService _fillService { get; }
 
-        public InitializeMetaData(IMoveService moveService, IDashboardService dashboardService, IMaintainService maintainService, IFillService fillService)
+        public InitializeMetaData(/*IMoveService moveService*//*, IDashboardService dashboardService*//*, IMaintainService maintainService*//*, IFillService fillService*/) : base(null)
         {
-            _moveService = moveService;
-            _maintainService = maintainService;
-            _dashboardService = dashboardService;
-            _fillService = fillService;
+            //_moveService = moveService;
+            //_maintainService = maintainService;
+            //_dashboardService = dashboardService;
+            //_fillService = fillService;
         }
 
         public async Task LoadInitializeMetaData()
@@ -46,22 +48,28 @@ namespace KegID.Services
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             try
             {
-                var model = await _fillService.GetSkuListAsync(AppSettings.SessionId);
-
-                await RealmDb.WriteAsync((realmDb) =>
+                var response = await ApiManager.GetSkuList(AppSettings.SessionId);
+                if (response.IsSuccessStatusCode)
                 {
-                    foreach (var item in model.Sku)
+                    var json = await response.Content.ReadAsStringAsync();
+                    var data = await Task.Run(() => JsonConvert.DeserializeObject<IList<Sku>>(json, GetJsonSetting()));
+
+                    await RealmDb.WriteAsync((realmDb) =>
                     {
-                        try
+                        foreach (var item in data)
                         {
-                            realmDb.Add(item);
+                            try
+                            {
+                                realmDb.Add(item);
+                            }
+                            catch (Exception ex)
+                            {
+                                Crashes.TrackError(ex);
+                            }
                         }
-                        catch (Exception ex)
-                        {
-                            Crashes.TrackError(ex);
-                        }
-                    }
-                });
+                    });
+                }
+
             }
             catch (Exception ex)
             {
@@ -79,27 +87,32 @@ namespace KegID.Services
             List<OperatorModel> operators = null;
             try
             {
-                var model = await _dashboardService.GetOperatorsAsync(AppSettings.SessionId);
+                var result = await ApiManager.GetOperators(AppSettings.SessionId);
+                if (result.IsSuccessStatusCode)
+                {
+                    var response = await result.Content.ReadAsStringAsync();
+                    var model = await Task.Run(() => JsonConvert.DeserializeObject<IList<string>>(response, GetJsonSetting()));
 
-                operators = new List<OperatorModel>();
-                foreach (var item in model)
-                {
-                    operators.Add(new OperatorModel { Operator = item });
-                }
-                await RealmDb.WriteAsync((realmDb) =>
-                {
-                    foreach (var item in operators)
+                    operators = new List<OperatorModel>();
+                    foreach (var item in model)
                     {
-                        try
-                        {
-                            realmDb.Add(item);
-                        }
-                        catch (Exception ex)
-                        {
-                            Crashes.TrackError(ex);
-                        }
+                        operators.Add(new OperatorModel { Operator = item });
                     }
-                });
+                    await RealmDb.WriteAsync((realmDb) =>
+                    {
+                        foreach (var item in operators)
+                        {
+                            try
+                            {
+                                realmDb.Add(item);
+                            }
+                            catch (Exception ex)
+                            {
+                                Crashes.TrackError(ex);
+                            }
+                        }
+                    });
+                }
             }
             catch (Exception ex)
             {
@@ -115,23 +128,29 @@ namespace KegID.Services
         {
             try
             {
-                var maintenance = await _maintainService.GetMaintainTypeAsync(AppSettings.SessionId);
-                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-
-                await RealmDb.WriteAsync((realmDb) =>
+                var response = await ApiManager.GetMaintainType(AppSettings.SessionId);
+                if (response.IsSuccessStatusCode)
                 {
-                    foreach (var item in maintenance.MaintainTypeReponseModel)
+                    var json = await response.Content.ReadAsStringAsync();
+                    var data = await Task.Run(() => JsonConvert.DeserializeObject<IList<MaintainTypeReponseModel>>(json, GetJsonSetting()));
+
+                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+
+                    await RealmDb.WriteAsync((realmDb) =>
                     {
-                        try
+                        foreach (var item in data)
                         {
-                            realmDb.Add(item);
+                            try
+                            {
+                                realmDb.Add(item);
+                            }
+                            catch (Exception ex)
+                            {
+                                Crashes.TrackError(ex);
+                            }
                         }
-                        catch (Exception ex)
-                        {
-                            Crashes.TrackError(ex);
-                        }
-                    }
-                });
+                    });
+                }
             }
             catch (Exception ex)
             {
@@ -145,10 +164,13 @@ namespace KegID.Services
             {
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
 
-                var value = await _fillService.GetBatchListAsync(AppSettings.SessionId);
-                if (value.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
+                var response = await ApiManager.GetBatchList(AppSettings.SessionId);
+                if (response.IsSuccessStatusCode)
                 {
-                    var batches = value.BatchModel.Where(p => p.BrandName != string.Empty).OrderBy(x => x.BrandName).ToList();
+                    var json = await response.Content.ReadAsStringAsync();
+                    var data = await Task.Run(() => JsonConvert.DeserializeObject<IList<NewBatch>>(json, GetJsonSetting()));
+
+                    var batches = data.Where(p => !string.IsNullOrEmpty(p.BrandName)).OrderBy(x => x.BrandName).ToList();
                     await RealmDb.WriteAsync((realmDb) =>
                     {
                         foreach (var item in batches)
@@ -179,25 +201,28 @@ namespace KegID.Services
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             try
             {
-                var value = await _moveService.GetPartnersListAsync(AppSettings.SessionId);
-                if (value.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
+                var response = await ApiManager.GetPartnersList(AppSettings.SessionId);
+                if (response.IsSuccessStatusCode)
                 {
-                    var Partners = value.PartnerModel.Where(x => !string.IsNullOrEmpty(x.FullName)).ToList();
+                    var json = await response.Content.ReadAsStringAsync();
+                    var data = await Task.Run(() => JsonConvert.DeserializeObject<IList<PartnerModel>>(json,GetJsonSetting()));
 
-                   await RealmDb.WriteAsync((realmDb) =>
-                     {
-                         foreach (var item in Partners)
-                         {
-                             try
-                             {
-                                 realmDb.Add(item);
-                             }
-                             catch (Exception ex)
-                             {
-                                 Crashes.TrackError(ex);
-                             }
-                         }
-                     });
+                    var Partners = data.Where(x => !string.IsNullOrEmpty(x.FullName)).ToList();
+
+                    await RealmDb.WriteAsync((realmDb) =>
+                      {
+                          foreach (var item in Partners)
+                          {
+                              try
+                              {
+                                  realmDb.Add(item);
+                              }
+                              catch (Exception ex)
+                              {
+                                  Crashes.TrackError(ex);
+                              }
+                          }
+                      });
                 }
             }
             catch (Exception ex)
@@ -211,17 +236,19 @@ namespace KegID.Services
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             try
             {
-                var value = await _moveService.GetBrandListAsync(AppSettings.SessionId);
-
-                if (value.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
+                var response = await ApiManager.GetBrandList(AppSettings.SessionId);
+                if (response.IsSuccessStatusCode)
                 {
-                    value.BrandModel.Insert(0, new BrandModel { BrandName = "Add", BrandCode = "Add", BrandId = Guid.NewGuid().ToString() });
-                    value.BrandModel.Insert(1, new BrandModel { BrandName = "'\"'", BrandCode = "'\"'", BrandId = Guid.NewGuid().ToString() });
-                    value.BrandModel.Move(value.BrandModel.Where(x => x.BrandName == "Empty").FirstOrDefault(), 2);
+                    var json = await response.Content.ReadAsStringAsync();
+                    var data = await Task.Run(() => JsonConvert.DeserializeObject<IList<BrandModel>>(json, GetJsonSetting()));
+
+                    data.Insert(0, new BrandModel { BrandName = "Add", BrandCode = "Add", BrandId = Guid.NewGuid().ToString() });
+                    data.Insert(1, new BrandModel { BrandName = "'\"'", BrandCode = "'\"'", BrandId = Guid.NewGuid().ToString() });
+                    data.Move(data.Where(x => x.BrandName == "Empty").FirstOrDefault(), 2);
 
                     await RealmDb.WriteAsync((realmDb) =>
                      {
-                         foreach (var item in value.BrandModel)
+                         foreach (var item in data)
                          {
                              try
                              {
@@ -246,10 +273,12 @@ namespace KegID.Services
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             try
             {
-                var value = await _dashboardService.GetDashboardPartnersListAsync(AppSettings.CompanyId, AppSettings.SessionId);
-                if (value.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
+                var result = await ApiManager.GetDashboardPartnersList(AppSettings.CompanyId, AppSettings.SessionId);
+                if (result.IsSuccessStatusCode)
                 {
-                    var partners = value.PossessorResponseModel.Where(x => x.Location.FullName != string.Empty).ToList();
+                    var response = await result.Content.ReadAsStringAsync();
+                    var model = await Task.Run(() => JsonConvert.DeserializeObject<IList<PossessorResponseModel>>(response, GetJsonSetting()));
+                    var partners = model.Where(x => !string.IsNullOrEmpty(x.Location.FullName)).ToList();
                     await RealmDb.WriteAsync((realmDb) =>
                      {
                          foreach (var item in partners)
@@ -278,26 +307,32 @@ namespace KegID.Services
             List<AssetSizeModel> assetSizeModel = null;
             try
             {
-                var model = await _moveService.GetAssetSizeAsync(AppSettings.SessionId, false);
-                assetSizeModel = new List<AssetSizeModel>();
-                foreach (var item in model)
+                var response = await ApiManager.GetAssetSize(AppSettings.SessionId, false);
+                if (response.IsSuccessStatusCode)
                 {
-                    assetSizeModel.Add(new AssetSizeModel { AssetSize = item });
-                }
-                await RealmDb.WriteAsync((realmDb) =>
-                 {
-                     foreach (var item in assetSizeModel)
+                    var json = await response.Content.ReadAsStringAsync();
+                    var data = await Task.Run(() => JsonConvert.DeserializeObject<IList<string>>(json, GetJsonSetting()));
+
+                    assetSizeModel = new List<AssetSizeModel>();
+                    foreach (var item in data)
+                    {
+                        assetSizeModel.Add(new AssetSizeModel { AssetSize = item });
+                    }
+                    await RealmDb.WriteAsync((realmDb) =>
                      {
-                         try
+                         foreach (var item in assetSizeModel)
                          {
-                             realmDb.Add(item);
+                             try
+                             {
+                                 realmDb.Add(item);
+                             }
+                             catch (Exception ex)
+                             {
+                                 Crashes.TrackError(ex);
+                             }
                          }
-                         catch (Exception ex)
-                         {
-                             Crashes.TrackError(ex);
-                         }
-                     }
-                 });
+                     });
+                }
             }
             catch (Exception ex)
             {
@@ -314,27 +349,33 @@ namespace KegID.Services
             List<AssetTypeModel> assetTypeModels = null;
             try
             {
-                var model = await _moveService.GetAssetTypeAsync(AppSettings.SessionId, false);
-                assetTypeModels = new List<AssetTypeModel>();
-                foreach (var item in model)
+                var response = await ApiManager.GetAssetType(AppSettings.SessionId, false);
+                if (response.IsSuccessStatusCode)
                 {
-                    assetTypeModels.Add(new AssetTypeModel { AssetType = item });
-                }
+                    var json = await response.Content.ReadAsStringAsync();
+                    var data = await Task.Run(() => JsonConvert.DeserializeObject<IList<string>>(json, GetJsonSetting()));
 
-                await RealmDb.WriteAsync((realmDb) =>
-                 {
-                     foreach (var item in assetTypeModels)
+                    assetTypeModels = new List<AssetTypeModel>();
+                    foreach (var item in data)
+                    {
+                        assetTypeModels.Add(new AssetTypeModel { AssetType = item });
+                    }
+
+                    await RealmDb.WriteAsync((realmDb) =>
                      {
-                         try
+                         foreach (var item in assetTypeModels)
                          {
-                             realmDb.Add(item);
+                             try
+                             {
+                                 realmDb.Add(item);
+                             }
+                             catch (Exception ex)
+                             {
+                                 Crashes.TrackError(ex);
+                             }
                          }
-                         catch (Exception ex)
-                         {
-                             Crashes.TrackError(ex);
-                         }
-                     }
-                 });
+                     });
+                }
             }
             catch (Exception ex)
             {
@@ -352,27 +393,32 @@ namespace KegID.Services
             List<AssetVolumeModel> assetVolumeModel = null;
             try
             {
-                var model = await _dashboardService.GetAssetVolumeAsync(AppSettings.SessionId, false);
-
-                assetVolumeModel = new List<AssetVolumeModel>();
-                foreach (var item in model)
+                var result = await ApiManager.GetAssetVolume(AppSettings.SessionId, false);
+                if (result.IsSuccessStatusCode)
                 {
-                    assetVolumeModel.Add(new AssetVolumeModel { AssetVolume = item });
-                }
-                await RealmDb.WriteAsync((realmDb) =>
-                 {
-                     foreach (var item in assetVolumeModel)
+                    var response = await result.Content.ReadAsStringAsync();
+                    var model = await Task.Run(() => JsonConvert.DeserializeObject<IList<string>>(response, GetJsonSetting()));
+
+                    assetVolumeModel = new List<AssetVolumeModel>();
+                    foreach (var item in model)
+                    {
+                        assetVolumeModel.Add(new AssetVolumeModel { AssetVolume = item });
+                    }
+                    await RealmDb.WriteAsync((realmDb) =>
                      {
-                         try
+                         foreach (var item in assetVolumeModel)
                          {
-                             realmDb.Add(item);
+                             try
+                             {
+                                 realmDb.Add(item);
+                             }
+                             catch (Exception ex)
+                             {
+                                 Crashes.TrackError(ex);
+                             }
                          }
-                         catch (Exception ex)
-                         {
-                             Crashes.TrackError(ex);
-                         }
-                     }
-                 });
+                     });
+                }
             }
             catch (Exception ex)
             {
@@ -389,10 +435,15 @@ namespace KegID.Services
             try
             {
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                var value = await _moveService.GetOwnerAsync(AppSettings.SessionId);
-                await RealmDb.WriteAsync((realmDb) =>
+                var response = await ApiManager.GetOwner(AppSettings.SessionId);
+                if (response.IsSuccessStatusCode)
+                {
+                    var json = await response.Content.ReadAsStringAsync();
+                    var data = await Task.Run(() => JsonConvert.DeserializeObject<IList<OwnerModel>>(json, GetJsonSetting()));
+
+                    await RealmDb.WriteAsync((realmDb) =>
                  {
-                     foreach (var item in value.OwnerModel)
+                     foreach (var item in data)
                      {
                          try
                          {
@@ -404,6 +455,7 @@ namespace KegID.Services
                          }
                      }
                  });
+                }
             }
             catch (Exception ex)
             {
@@ -419,12 +471,14 @@ namespace KegID.Services
             try
             {
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                var value = await _moveService.GetPartnerTypeAsync(AppSettings.SessionId);
-                if (value.Response.StatusCode == nameof(System.Net.HttpStatusCode.OK))
+                var response = await ApiManager.GetPartnerType(AppSettings.SessionId);
+                if (response.IsSuccessStatusCode)
                 {
+                    var json = await response.Content.ReadAsStringAsync();
+                    var data = await Task.Run(() => JsonConvert.DeserializeObject<IList<PartnerTypeModel>>(json, GetJsonSetting()));
                     await RealmDb.WriteAsync((realmDb) =>
                      {
-                         foreach (var item in value.PartnerTypeModel)
+                         foreach (var item in data)
                          {
                              try
                              {

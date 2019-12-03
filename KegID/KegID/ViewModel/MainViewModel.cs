@@ -1,4 +1,5 @@
-﻿using KegID.Common;
+﻿using Acr.UserDialogs;
+using KegID.Common;
 using KegID.DependencyServices;
 using KegID.LocalDb;
 using KegID.Messages;
@@ -8,6 +9,7 @@ using KegID.Views;
 using LinkOS.Plugin;
 using LinkOS.Plugin.Abstractions;
 using Microsoft.AppCenter.Crashes;
+using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
 using Realms;
@@ -25,9 +27,7 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        private readonly IDeviceCheckInMngr _deviceCheckInMngr;
         private readonly IInitializeMetaData _initializeMetaData;
-        private readonly IDashboardService _dashboardService;
         private readonly IUuidManager _uuidManager;
         private ConnectionType connetionType;
 
@@ -40,7 +40,6 @@ namespace KegID.ViewModel
         public string DraftmaniFests { get; set; }
         public bool IsVisibleDraftmaniFestsLabel { get; set; }
         public string APIBase { get; set; }
-        public double KegRefresh { get; set; }
 
         #endregion
 
@@ -63,11 +62,9 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public MainViewModel(INavigationService navigationService, IDeviceCheckInMngr deviceCheckInMngr, IInitializeMetaData initializeMetaData, IDashboardService dashboardService, IUuidManager uuidManager) : base(navigationService)
+        public MainViewModel(INavigationService navigationService, IInitializeMetaData initializeMetaData, IUuidManager uuidManager) : base(navigationService)
         {
-            _deviceCheckInMngr = deviceCheckInMngr;
             _initializeMetaData = initializeMetaData;
-            _dashboardService = dashboardService;
             _uuidManager = uuidManager;
 
             MoveCommand = new DelegateCommand(MoveCommandRecieverAsync);
@@ -83,12 +80,11 @@ namespace KegID.ViewModel
             KegsCommand = new DelegateCommand(KegsCommandRecieverAsync);
             InUsePartnerCommand = new DelegateCommand(InUsePartnerCommandRecieverAsync);
 
-            PreferenceSetting();
             LoadMetadData();
             HandleUnsubscribeMessages();
             HandleReceivedMessages();
 
-            RefreshDashboardRecieverAsync();
+            RefreshDashboardReciever();
             if (Device.RuntimePlatform != Device.UWP)
             {
                 StartPrinterSearch();
@@ -97,19 +93,16 @@ namespace KegID.ViewModel
             Connectivity.ConnectivityChanged -= Connectivity_ConnectivityChanged;
             Connectivity.ConnectivityChanged += Connectivity_ConnectivityChanged;
             APIBase = ConstantManager.BaseUrl.Contains("Prod") ? string.Empty : ConstantManager.BaseUrl;
-            DeviceCheckIn();
+
         }
 
         #endregion
 
         #region Methods
 
-        private void PreferenceSetting()
+        private async void RefreshDashboardReciever()
         {
-            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-            var preferences = RealmDb.All<Preference>().ToList();
-
-            KegRefresh = Convert.ToDouble(preferences.Find(x => x.PreferenceName == "KEG_REFRESH")?.PreferenceValue);
+            await RunSafe(RefreshDashboardRecieverAsync());
         }
 
         private void Connectivity_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
@@ -123,7 +116,7 @@ namespace KegID.ViewModel
             {
                 try
                 {
-                    Loader.StartLoading("Wait while downloading metadata...");
+                    UserDialogs.Instance.ShowLoading("Wait while downloading metadata...");
 
                     _initializeMetaData.DeleteInitializeMetaData();
                     await _initializeMetaData.LoadInitializeMetaData();
@@ -135,7 +128,7 @@ namespace KegID.ViewModel
                 finally
                 {
                     //AppSettings.IsMetaDataLoaded = true;
-                    Loader.StopLoading();
+                    UserDialogs.Instance.HideLoading();
                 }
             }
         }
@@ -231,10 +224,7 @@ namespace KegID.ViewModel
             });
 
             MessagingCenter.Subscribe<SettingToDashboardMsg>(this, "SettingToDashboardMsg", _ => {
-                Device.BeginInvokeOnMainThread(() =>
-                {
-                    RefreshDashboardRecieverAsync(true);
-                });
+                Device.BeginInvokeOnMainThread(async () => await RunSafe(RefreshDashboardRecieverAsync(true)));
             });
 
             MessagingCenter.Subscribe<CheckDraftmaniFests>(this, "CheckDraftmaniFests", _ => {
@@ -242,60 +232,6 @@ namespace KegID.ViewModel
                 {
                     CheckDraftmaniFests();
                 });
-            });
-        }
-
-        private async void DeviceCheckIn()
-        {
-            Device.StartTimer(TimeSpan.FromDays(1), () =>
-            {
-                DeviceCheckIn();
-                return true; // True = Repeat again, False = Stop the timer
-            });
-
-            var current = Connectivity.NetworkAccess;
-            if (current == NetworkAccess.Internet)
-            {
-                await _deviceCheckInMngr.DeviceCheckInAync();
-            }
-
-            Device.StartTimer(TimeSpan.FromMilliseconds(KegRefresh), () =>
-            {
-                var model = new KegRequestModel
-                {
-                    KegId = string.Empty,
-                    Barcode = string.Empty,
-                    OwnerId = ConstantManager.Partner?.PartnerId,
-                    AltBarcode = string.Empty,
-                    Notes = "",
-                    ReferenceKey = "",
-                    ProfileId = "",
-                    AssetType = string.Empty,
-                    AssetSize = string.Empty,
-                    AssetVolume = "",
-                    AssetDescription = "",
-                    OwnerSkuId = "",
-                    FixedContents = "",
-                    Tags = new List<Tag>(),
-                    MaintenanceAlertIds = new List<string>(),
-                    LessorId = "",
-                    PurchaseDate = DateTimeOffset.Now,
-                    PurchasePrice = 0,
-                    PurchaseOrder = "",
-                    ManufacturerName = "",
-                    ManufacturerId = "",
-                    ManufactureLocation = "",
-                    ManufactureDate = DateTimeOffset.Now,
-                    Material = "",
-                    Markings = "",
-                    Colors = ""
-                };
-
-                Task.Factory.StartNew(async () =>
-                {
-                    var value = await _dashboardService.PostKegAsync(model, string.Empty, AppSettings.SessionId, Configuration.Keg);
-                });
-                return false; // True = Repeat again, False = Stop the timer
             });
         }
 
@@ -557,21 +493,26 @@ namespace KegID.ViewModel
             }
         }
 
-        public async void RefreshDashboardRecieverAsync(bool refresh = false)
+        public async Task RefreshDashboardRecieverAsync(bool refresh = false)
         {
-            DashboardResponseModel Result;
             try
             {
                 if (refresh)
                     await _navigationService.ClearPopupStackAsync(animated: false);
-                Result = await _dashboardService.GetDeshboardDetailAsync(AppSettings.SessionId);
-                Stock = Result.Stock.ToString("0,0", CultureInfo.InvariantCulture);
-                Empty = Result.Empty.ToString("0,0", CultureInfo.InvariantCulture);
-                InUse = Result.InUse.ToString("0,0", CultureInfo.InvariantCulture);
-                var total = Result.Stock + Result.Empty + Result.InUse;
-                Total = total.ToString("0,0", CultureInfo.InvariantCulture);
-                AverageCycle = Result.AverageCycle.ToString() + " days";
-                Atriskegs = Result.InactiveKegs.ToString();
+                var result = await ApiManager.GetDeshboardDetail(AppSettings.SessionId);
+                if (result.IsSuccessStatusCode)
+                {
+                    var response = await result.Content.ReadAsStringAsync();
+                    var model = await Task.Run(() => JsonConvert.DeserializeObject<DashboardResponseModel>(response, GetJsonSetting()));
+
+                    Stock = model.Stock.ToString("0,0", CultureInfo.InvariantCulture);
+                    Empty = model.Empty.ToString("0,0", CultureInfo.InvariantCulture);
+                    InUse = model.InUse.ToString("0,0", CultureInfo.InvariantCulture);
+                    var total = model.Stock + model.Empty + model.InUse;
+                    Total = total.ToString("0,0", CultureInfo.InvariantCulture);
+                    AverageCycle = model.AverageCycle.ToString() + " days";
+                    Atriskegs = model.InactiveKegs.ToString();
+                }
             }
             catch (Exception ex)
             {
@@ -579,8 +520,6 @@ namespace KegID.ViewModel
             }
             finally
             {
-                Result = null;
-                Loader.StopLoading();
             }
         }
 

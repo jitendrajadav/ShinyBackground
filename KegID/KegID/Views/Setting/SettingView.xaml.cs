@@ -9,14 +9,8 @@ namespace KegID.Views
     {
         public SettingView()
         {
-            try
-            {
-                InitializeComponent();
-                NavigationPage.SetHasNavigationBar(this, false);
-            }
-            catch (System.Exception ex)
-            {
-            }
+            InitializeComponent();
+            NavigationPage.SetHasNavigationBar(this, false);
         }
     }
 }

@@ -240,7 +240,7 @@ namespace KegID.Views
 
         protected override bool OnBackButtonPressed()
         {
-            (Application.Current.MainPage.Navigation.NavigationStack.Last()?.BindingContext as INavigationAware)?.OnNavigatedTo(new NavigationParameters
+            (BindingContext as INavigationAware)?.OnNavigatedTo(new NavigationParameters
                     {
                         { "GoBackMethod", "GoBackMethod" }
                     });

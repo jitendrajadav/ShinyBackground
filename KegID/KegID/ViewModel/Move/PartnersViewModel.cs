@@ -12,6 +12,8 @@ using Prism.Navigation;
 using System.Threading.Tasks;
 using KegID.Common;
 using Xamarin.Essentials;
+using Newtonsoft.Json;
+using Acr.UserDialogs;
 
 namespace KegID.ViewModel
 {
@@ -19,7 +21,6 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        private readonly IMoveService _moveService;
         private readonly IGeolocationService _geolocationService;
 
         public bool BrewerStockOn { get; set; }
@@ -48,9 +49,8 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public PartnersViewModel(INavigationService navigationService, IMoveService moveService, IGeolocationService geolocationService) : base(navigationService)
+        public PartnersViewModel(INavigationService navigationService, IGeolocationService geolocationService) : base(navigationService)
         {
-            _moveService = moveService;
             _geolocationService = geolocationService;
 
             ItemTappedCommand = new DelegateCommand<PartnerModel>((model) => ItemTappedCommandRecieverAsync(model));
@@ -167,7 +167,7 @@ namespace KegID.ViewModel
                 if (AllPartners.Count <= 0)
                 {
                     DeletePartners();
-                    await LoadMetaDataPartnersAsync();
+                    await RunSafe(LoadMetaDataPartnersAsync());
                     await LoadPartnersAsync();
                 }
             }
@@ -177,7 +177,7 @@ namespace KegID.ViewModel
             }
             finally
             {
-                Loader.StopLoading();
+                UserDialogs.Instance.HideLoading();
             }
         }
 
@@ -186,10 +186,12 @@ namespace KegID.ViewModel
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             try
             {
-                var value = await _moveService.GetPartnersListAsync(AppSettings.SessionId);
-                if (value.Response.StatusCode == System.Net.HttpStatusCode.OK.ToString())
+                var response = await ApiManager.GetPartnersList(AppSettings.SessionId);
+                if (response.IsSuccessStatusCode)
                 {
-                    var Partners = value.PartnerModel.Where(x => x.FullName != string.Empty).ToList();
+                    var json = await response.Content.ReadAsStringAsync();
+                    var data = await Task.Run(() => JsonConvert.DeserializeObject<IList<PartnerModel>>(json, GetJsonSetting()));
+                    var Partners = data.Where(x => !string.IsNullOrEmpty(x.FullName)).ToList();
 
                     if (BrewerStockOn)
                         PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners.Where(x => x.PartnerTypeName == "Brewer - Stock").ToList());

@@ -23,7 +23,6 @@ namespace KegID.Common
             }
         }
 
-
         public static readonly BindableProperty NullableDateProperty =
         BindableProperty.Create(nameof(NullableDate), typeof(DateTimeOffset?), typeof(NullableDatePicker), null, defaultBindingMode: BindingMode.TwoWay);
 
@@ -45,10 +44,9 @@ namespace KegID.Common
             else
             {
                 Format = PlaceHolder;
-
             }
-
         }
+
         protected override void OnBindingContextChanged()
         {
             base.OnBindingContextChanged();
@@ -73,7 +71,7 @@ namespace KegID.Common
                 Date = NullableDate.Value.Date;
                 if (Date.ToString(_originalFormat) == DateTimeOffset.Now.ToString(_originalFormat))
                 {
-                    //this code was done because when date selected is the actual date the"DateProperty" does not raise  
+                    //this code was done because when date selected is the actual date the"DateProperty" does not raise
                     UpdateDate();
                 }
             }
@@ -84,12 +82,11 @@ namespace KegID.Common
             NullableDate = null;
             UpdateDate();
         }
+
         public void AssignValue()
         {
             NullableDate = Date;
             UpdateDate();
-
         }
     }
-
 }

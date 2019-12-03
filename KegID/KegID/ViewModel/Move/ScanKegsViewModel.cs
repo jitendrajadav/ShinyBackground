@@ -14,7 +14,7 @@ using KegID.LocalDb;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
-using KegID.Common;
+using Acr.UserDialogs;
 
 namespace KegID.ViewModel
 {
@@ -24,7 +24,6 @@ namespace KegID.ViewModel
 
         private readonly IPageDialogService _dialogService;
         private readonly IGetIconByPlatform _getIconByPlatform;
-        private readonly IDashboardService _dashboardService;
 
         private const string Maintenace = "maintenace.png";
         private const string ValidationOK = "validationok.png";
@@ -53,11 +52,10 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public ScanKegsViewModel(INavigationService navigationService, IPageDialogService dialogService,IGetIconByPlatform getIconByPlatform,IDashboardService dashboardService) : base(navigationService)
+        public ScanKegsViewModel(INavigationService navigationService, IPageDialogService dialogService, IGetIconByPlatform getIconByPlatform) : base(navigationService)
         {
             _dialogService = dialogService;
             _getIconByPlatform = getIconByPlatform;
-            _dashboardService = dashboardService;
 
             DoneCommand = new DelegateCommand(DoneCommandRecieverAsync);
             BarcodeScanCommand = new DelegateCommand(BarcodeScanCommandReciever);
@@ -157,12 +155,12 @@ namespace KegID.ViewModel
             }
             catch (Exception ex)
             {
-                 Crashes.TrackError(ex);
+                Crashes.TrackError(ex);
                 return null;
             }
             finally
             {
-                Loader.StopLoading();
+                UserDialogs.Instance.HideLoading();
             }
             return model;
         }
@@ -392,29 +390,28 @@ namespace KegID.ViewModel
             try
             {
                 var isNew = BarcodeCollection.Where(x => x.Barcode == ManaulBarcode).FirstOrDefault();
-                    UpdateTagsStr();
-                    BarcodeModel model = new BarcodeModel()
-                    {
-                        Barcode = ManaulBarcode,
-                        TagsStr = TagsStr,
-                        Icon = _getIconByPlatform.GetIcon(Cloud),
-                        Page = ViewTypeEnum.ScanKegsView.ToString(),
-                        Contents = SelectedBrand
-                    };
-
-                    if (ConstantManager.Tags != null)
-                    {
-                        foreach (var item in ConstantManager.Tags)
-                            model.Tags.Add(item);
-                    }
-
+                UpdateTagsStr();
+                BarcodeModel model = new BarcodeModel()
+                {
+                    Barcode = ManaulBarcode,
+                    TagsStr = TagsStr,
+                    Icon = _getIconByPlatform.GetIcon(Cloud),
+                    Page = ViewTypeEnum.ScanKegsView.ToString(),
+                    Contents = SelectedBrand
+                };
 
                 if (ConstantManager.Tags != null)
                 {
                     foreach (var item in ConstantManager.Tags)
                         model.Tags.Add(item);
                 }
-                if (isNew==null)
+
+                if (ConstantManager.Tags != null)
+                {
+                    foreach (var item in ConstantManager.Tags)
+                        model.Tags.Add(item);
+                }
+                if (isNew == null)
                 {
                     BarcodeCollection.Add(model);
                 }
@@ -466,7 +463,7 @@ namespace KegID.ViewModel
                     var message = new StartLongRunningTaskMessage
                     {
                         Barcode = new List<string>() { ManaulBarcode },
-                        PageName = ViewTypeEnum.ScanKegsView.ToString()
+                        PageName = nameof(ViewTypeEnum.ScanKegsView)
                     };
                     MessagingCenter.Send(message, "StartLongRunningTaskMessage");
                 }
@@ -561,7 +558,7 @@ namespace KegID.ViewModel
 
         internal async Task AssignValidatedValueAsync(Partner model)
         {
-            IList<Partner> selecetdPertner = BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).Select(x=>x.Kegs.Partners).FirstOrDefault();
+            IList<Partner> selecetdPertner = BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).Select(x => x.Kegs.Partners).FirstOrDefault();
             Partner unusedPartner = null;
 
             foreach (var item in selecetdPertner)

@@ -1,8 +1,9 @@
-﻿using KegID.Common;
+﻿using Acr.UserDialogs;
+using KegID.Common;
 using KegID.LocalDb;
 using KegID.Model;
-using KegID.Services;
 using Microsoft.AppCenter.Crashes;
+using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
 using Realms;
@@ -18,7 +19,6 @@ namespace KegID.ViewModel
         #region Properties
 
         public int CurrentPage { get; internal set; }
-        private readonly IDashboardService _dashboardService;
         private bool isNavigated;
         public IList<InventoryResponseModel> StockInventoryCollection { get; set; }
         public IList<InventoryResponseModel> EmptyInventoryCollection { get; set; }
@@ -35,9 +35,8 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public InventoryViewModel(IDashboardService dashboardService, INavigationService navigationService) : base(navigationService)
+        public InventoryViewModel(INavigationService navigationService) : base(navigationService)
         {
-            _dashboardService = dashboardService;
             HomeCommand = new DelegateCommand(HomeCommandRecieverAsync);
         }
 
@@ -57,26 +56,31 @@ namespace KegID.ViewModel
             }
         }
 
-        public async void InventoryCommandRecieverAsync()
+        public async Task InventoryCommandRecieverAsync()
         {
-            InventoryDetailModel model = null;
             try
             {
-                model = await _dashboardService.GetInventoryAsync(AppSettings.SessionId);
-                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                RealmDb.Write(()=>
+                var response = await ApiManager.GetInventory(AppSettings.SessionId);
+                if (response.IsSuccessStatusCode)
                 {
-                    foreach (var item in model.InventoryResponseModel)
+                    var json = await response.Content.ReadAsStringAsync();
+                    var data = await Task.Run(() => JsonConvert.DeserializeObject<IList<InventoryResponseModel>>(json, GetJsonSetting()));
+
+                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                    RealmDb.Write(() =>
                     {
-                        RealmDb.Add(item);
-                    }
-                });
+                        foreach (var item in data)
+                        {
+                            RealmDb.Add(item);
+                        }
+                    });
 
-                StockInventoryCollection = model.InventoryResponseModel.Where(x => x.Status != "Empty").ToList();
-                EmptyInventoryCollection = model.InventoryResponseModel.Where(x => x.Status == "Empty").ToList();
+                    StockInventoryCollection = data.Where(x => x.Status != "Empty").ToList();
+                    EmptyInventoryCollection = data.Where(x => x.Status == "Empty").ToList();
 
-                StockTotals = StockInventoryCollection.Sum(x => x.Quantity);
-                EmptyTotals = EmptyInventoryCollection.Sum(x => x.Quantity);
+                    StockTotals = StockInventoryCollection.Sum(x => x.Quantity);
+                    EmptyTotals = EmptyInventoryCollection.Sum(x => x.Quantity);
+                }
             }
             catch (Exception ex)
             {
@@ -84,12 +88,11 @@ namespace KegID.ViewModel
             }
             finally
             {
-                model = null;
-                Loader.StopLoading();
+                UserDialogs.Instance.HideLoading();
             }
         }
 
-        internal void InitialAssignValueAsync(int currentPage)
+        internal async Task InitialAssignValueAsync(int currentPage)
         {
             try
             {
@@ -106,7 +109,7 @@ namespace KegID.ViewModel
                 }
                 else
                 {
-                    InventoryCommandRecieverAsync();
+                   await RunSafe(InventoryCommandRecieverAsync());
                 }
             }
             catch (Exception ex)
@@ -115,18 +118,18 @@ namespace KegID.ViewModel
             }
         }
 
-        public override Task InitializeAsync(INavigationParameters parameters)
+        public override async Task InitializeAsync(INavigationParameters parameters)
         {
             if (!isNavigated)
             {
                 if (parameters.ContainsKey("currentPage"))
                 {
-                    InitialAssignValueAsync(parameters.GetValue<int>("currentPage"));
+                   await InitialAssignValueAsync(parameters.GetValue<int>("currentPage"));
                     isNavigated = true;
                 }
             }
 
-            return base.InitializeAsync(parameters);
+            //return base.InitializeAsync(parameters);
         }
 
         public override void OnNavigatedFrom(INavigationParameters parameters)

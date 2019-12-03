@@ -17,7 +17,7 @@ namespace KegID.Views
 
         protected override bool OnBackButtonPressed()
         {
-            (Application.Current.MainPage.Navigation.NavigationStack.Last()?.BindingContext as INavigationAware)?.OnNavigatedTo(new NavigationParameters
+            (BindingContext as INavigationAware)?.OnNavigatedTo(new NavigationParameters
                     {
                         { "HomeCommandRecieverAsync", "HomeCommandRecieverAsync" }
                     });
@@ -26,7 +26,7 @@ namespace KegID.Views
 
         private void SegControl_ValueChanged(object sender, SegmentedControl.FormsPlugin.Abstractions.ValueChangedEventArgs e)
         {
-            ((ManifestsViewModel)Prism.PrismApplicationBase.Current.MainPage.Navigation.NavigationStack.LastOrDefault()?.BindingContext).SelectedSegmentCommand.Execute(e.NewValue);
+            ((ManifestsViewModel)BindingContext).SelectedSegmentCommand.Execute(e.NewValue);
         }
     }
 }
