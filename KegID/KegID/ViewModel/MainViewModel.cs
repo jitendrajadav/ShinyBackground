@@ -83,7 +83,7 @@ namespace KegID.ViewModel
             HandleUnsubscribeMessages();
             HandleReceivedMessages();
 
-            RefreshDashboardReciever();
+            RefreshDashboardRecieverAsync();
             if (Device.RuntimePlatform != Device.UWP)
             {
                 StartPrinterSearch();
@@ -98,11 +98,6 @@ namespace KegID.ViewModel
         #endregion
 
         #region Methods
-
-        private async void RefreshDashboardReciever()
-        {
-            await RunSafe(RefreshDashboardRecieverAsync());
-        }
 
         private void Connectivity_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
         {
@@ -492,7 +487,7 @@ namespace KegID.ViewModel
             }
         }
 
-        public async Task RefreshDashboardRecieverAsync(bool refresh = false)
+        public async void RefreshDashboardRecieverAsync(bool refresh = false)
         {
             try
             {
