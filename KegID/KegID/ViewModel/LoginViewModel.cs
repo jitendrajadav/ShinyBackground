@@ -49,7 +49,7 @@ namespace KegID.ViewModel
             _dialogService = dialogService;
             _getIconByPlatform = getIconByPlatform;
 
-            LoginCommand = new DelegateCommand(async () => await RunSafe(LoginCommandRecieverAsync()));
+            LoginCommand = new DelegateCommand(async () => await RunSafe(LoginCommandRecieverAsync(), true, "Login"));
             KegIDCommand = new DelegateCommand(KegIDCommandReciever);
 #if DEBUG
             Username = "test@kegid.com";//"demo@kegid.com";
@@ -74,8 +74,6 @@ namespace KegID.ViewModel
         {
             try
             {
-                UserDialogs.Instance.ShowLoading("Loading");
-
                 var loginResponse = await ApiManager.GetAuthenticate(Username, Password);
                 if (loginResponse.IsSuccessStatusCode)
                 {
@@ -100,7 +98,7 @@ namespace KegID.ViewModel
 
                         KegRefresh = Convert.ToDouble(model.Preferences.ToList().Find(x => x.PreferenceName == "KEG_REFRESH")?.PreferenceValue);
 
-                        DeviceCheckIn();
+                        await RunSafe(DeviceCheckIn());
                     }
                     catch (Exception ex)
                     {
@@ -112,7 +110,6 @@ namespace KegID.ViewModel
                         if (versionUpdated > 0 && VersionTracking.PreviousVersion != null && VersionTracking.IsFirstLaunchForCurrentVersion)
                         {
                             await _navigationService.NavigateAsync("../WhatIsNewView", animated: false);
-                            UserDialogs.Instance.HideLoading();
                         }
                         else
                         {
@@ -138,7 +135,6 @@ namespace KegID.ViewModel
                 }
                 else
                 {
-                    UserDialogs.Instance.HideLoading();
                     await _dialogService.DisplayAlertAsync("Error", "Error while login please check", "Ok");
                 }
             }
@@ -152,11 +148,11 @@ namespace KegID.ViewModel
             }
         }
 
-        private async void DeviceCheckIn()
+        private async Task DeviceCheckIn()
         {
             Device.StartTimer(TimeSpan.FromDays(1), () =>
             {
-                DeviceCheckIn();
+                Func<Task> value = async () => await RunSafe(DeviceCheckIn());
                 return true; // True = Repeat again, False = Stop the timer
             });
 

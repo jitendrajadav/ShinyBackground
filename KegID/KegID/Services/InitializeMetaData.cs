@@ -14,33 +14,25 @@ namespace KegID.Services
 {
     public class InitializeMetaData : BaseViewModel, IInitializeMetaData
     {
-        //private IMoveService _moveService { get; }
-        //private IMaintainService _maintainService { get; }
-        //private IDashboardService _dashboardService { get; }
-        //private IFillService _fillService { get; }
 
-        public InitializeMetaData(/*IMoveService moveService*//*, IDashboardService dashboardService*//*, IMaintainService maintainService*//*, IFillService fillService*/) : base(null)
+        public InitializeMetaData() : base(null)
         {
-            //_moveService = moveService;
-            //_maintainService = maintainService;
-            //_dashboardService = dashboardService;
-            //_fillService = fillService;
         }
 
         public async Task LoadInitializeMetaData()
         {
-            await LoadPartnersAsync();
-            await LoadOperators();
-            await LoadMaintainTypeAsync();
-            await LoadAssetSizeAsync();
-            await LoadAssetTypeAsync();
-            await LoadAssetVolumeAsync();
-            await LoadOwnerAsync();
-            await LoadDashboardPartnersAsync();
-            await LoadBrandAsync();
-            await LoadBatchAsync();
-            await LoadPartnerTypeAsync();
-            await LoadGetSkuListAsync();
+            await RunSafe(LoadPartnersAsync());
+            await RunSafe(LoadOperators());
+            await RunSafe(LoadMaintainTypeAsync());
+            await RunSafe(LoadAssetSizeAsync());
+            await RunSafe(LoadAssetTypeAsync());
+            await RunSafe(LoadAssetVolumeAsync());
+            await RunSafe(LoadOwnerAsync());
+            await RunSafe(LoadDashboardPartnersAsync());
+            await RunSafe(LoadBrandAsync());
+            await RunSafe(LoadBatchAsync());
+            await RunSafe(LoadPartnerTypeAsync());
+            await RunSafe(LoadGetSkuListAsync());
         }
 
         private async Task LoadGetSkuListAsync()
