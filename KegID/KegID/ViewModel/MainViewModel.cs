@@ -217,9 +217,7 @@ namespace KegID.ViewModel
                 });
             });
 
-            MessagingCenter.Subscribe<SettingToDashboardMsg>(this, "SettingToDashboardMsg", _ => {
-                Device.BeginInvokeOnMainThread(async () => await RunSafe(RefreshDashboardRecieverAsync(true)));
-            });
+            MessagingCenter.Subscribe<SettingToDashboardMsg>(this, "SettingToDashboardMsg", _ => Device.BeginInvokeOnMainThread(()=>RefreshDashboardRecieverAsync(true)));
 
             MessagingCenter.Subscribe<CheckDraftmaniFests>(this, "CheckDraftmaniFests", _ => {
                 Device.BeginInvokeOnMainThread(() =>
