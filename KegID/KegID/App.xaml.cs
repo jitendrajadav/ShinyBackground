@@ -9,7 +9,6 @@ using Prism;
 using KegID.Services;
 using Xamarin.Forms;
 using Prism.Plugin.Popups;
-using Scandit.BarcodePicker.Unified;
 using Microsoft.AppCenter.Distribute;
 using System;
 using System.Threading.Tasks;
@@ -21,9 +20,6 @@ namespace KegID
 {
     public partial class App : PrismApplication
     {
-        public const string appAndroidKey = "AQv7w5KBBqf8AtyImS1bVZclZ7c8B2+dMUFvZdxwZiBtT+jDD3rYlmBxC5EqKzdBWGlPxPFpBSZ4OGzKP1u/AldmFlQJQ17YaDnlcqtFbFandXpkbWryUsF3/Soeeb/yGS+eTsBKU/cSDEKHKzikBBVQYuZdfYxou8Nj4nMnBH1AWqHnq96P3EhKEL82Gplglc6DoVWHWO/pJtc52dTRLriz2gjmikEZ2t3ktsqcigBeA4M7AwkteR1iBCY795oqgnacZtm+3+yQO1Z1XSWqDkMWv/gGPa62Gu/mpZ46EK4oXkaFdxxmAg8IG7uDvLOc4EyYETa/tMZS8eBTLjbIikZTBNuWIHLpcyjyrsb4t2XlPc9W1UFKR8dxXYtU2HWXlBL4+ECS+Ma3o+cZCZlUf25TnZ+JXX0vIY8ETDRMjcYMbp5oBzHta+0RIHDcTrfSzl3Ye/7W5RWawMd0CNIQT0zg+6twEeOXAfR3kVPgVbHFNh8+2Gw+mir1c2jJKKq6beLRaK/y3PyYO6OFRqppKyxjG7Q7nY48Khy7zMkTG647CwYlKlT8Ipuj+eTBuwaq9IM7OiL1BT397tm8WGkeyMI7TlPvRRNPJLuiiLOC+w8U9auU8lUdqaGOrLegDzqvKoY/oH3jD/9I7uY850XbBK/UODW+SgMZdar6H1zs/a8lyQlRBWciEmR6aujG/9w83aVmbIjVn7s1POoGGA6aJwZTgml7Pj4bZOaPuAH9Jd8naQnt2V7jNJ9vP8y/Mot1N/24trAaxsfOHWIbyd8bmEwGCTInNE311JsYOQXPH6yDrX0iP9Fz8MvX7VA=";
-        public const string appiOSKey= "AfZLcFjmRttIKSgzrTsvZw0OHeoICxs+IzO9Pg1aN8CUY8E1Z0MAn45SJfUGK87Wh0BYqftD6k1gSltf02cobChLzolPYriTmguX/JExthMvWtJ0yETXKQpzBuPofaSpInozs9oUmwzANmdGCgPpvCz2IURgWo3zmR+2sfZJ+/r4mT3BN84LmBNpecZkv2yXhv9qXf69wkqAoNqXEOa8q8BWFqT6h982b8ZVLbW+NhBFv8atAVLgLFYZbI17CFzCAoBhJCIIM1be0R/EWiHHJkVuU53vSNtkSLrVgglb5NMOKjTegI0hqEca3g+VTPms6j3/DsdwOGXZfg4fvRGNky1Pkh3FOcP250pLl+ew6BJwt15+9u6arSB0CN+c4ZgzLvkT7V+Xkn8rN6VAgLvLEPS+A+SONdjlJboQbXE8mWEKBJ1tmc8/62cRhSB0u0FdisIefUmTyx44kml8rDIrLKgwCf/bv6sWMuMo8gvyN72JWFtHm3jkTQ69M5F4hcTHvtvF6e15NM++1jmncBHuuqtRAwe8UokSiodH1nDMiVwLDWO3pgsLNH5H+U7Gi3OunUkUyQVFgvsxUTTSheH3RSkfndvisePsV1UKtJWTxM8qWUrZtB+hPyOLEWt7dUJOsTNSySb2BeLGaWwD8f3AS51tuBAbMLjFY3iFfqfH6I3mnSRxQM3J9w2cIpeISyrzsdtrSOrj/2QUr2EyrmzjZNhgUEt4I4XqesfFGgxLnUwNww8wDHGAWJs+rGi8vrytJWjrHfINYlPbIv0jSQYX0bMBB/FOIfohuTnMwZI4myACRG8gB2KhBiUE";
-
         public static string CurrentLanguage = "EN";
         public App(IPlatformInitializer initializer = null) : base(initializer) { }
 
@@ -37,15 +33,6 @@ namespace KegID
 #elif RELEASE
             ConstantManager.BaseUrl = Configuration.ProdApiUrl;
 #endif
-            switch (Xamarin.Forms.Device.RuntimePlatform)
-            {
-                case Xamarin.Forms.Device.Android:
-                    ScanditService.ScanditLicense.AppKey = appAndroidKey;
-                    break;
-                case Xamarin.Forms.Device.iOS:
-                    ScanditService.ScanditLicense.AppKey = appiOSKey;
-                    break;
-            }
 
             var versionUpdated = VersionTracking.CurrentVersion.CompareTo(VersionTracking.PreviousVersion);
             if (string.IsNullOrEmpty(AppSettings.UserId))

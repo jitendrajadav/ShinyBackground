@@ -497,7 +497,7 @@ namespace KegID.ViewModel
             }
         }
 
-        public override void OnNavigatedTo(INavigationParameters parameters)
+        public override async void OnNavigatedTo(INavigationParameters parameters)
         {
             if (parameters.ContainsKey("FillKegsCommandRecieverAsync"))
             {
@@ -510,7 +510,7 @@ namespace KegID.ViewModel
                     AssignFillScanValue(parameters.GetValue<IList<BarcodeModel>>("Barcodes"), parameters.GetValue<string>("BatchId"));
                     break;
                 case "SubmitCommandRecieverAsync":
-                    SubmitCommandRecieverAsync();
+                   await SubmitCommandRecieverAsync();
                     break;
                 case "AssignValueToAddPalletAsync":
                     AssignValueToAddPalletAsync(parameters.GetValue<string>("AssignValueToAddPalletAsync"), parameters.GetValue<IList<BarcodeModel>>("BarcodesCollection"));

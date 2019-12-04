@@ -17,7 +17,7 @@ namespace KegID.Droid.DependencyServices
 {
     /// <summary>
     /// Implementation for Feature
-    /// </summary> 
+    /// </summary>
     public class ShareFileImplementation : IShareFile
     {
         public string SafeHTMLToPDF(string html, string filename,int flag)
@@ -26,7 +26,7 @@ namespace KegID.Droid.DependencyServices
             int height = 0;
 
             Android.Webkit.WebView webpage = null;
-            var dir = new Java.IO.File(Android.OS.Environment.ExternalStorageDirectory.AbsolutePath + "/KegIdFiles/");
+            var dir = new Java.IO.File(Android.OS.Environment.DirectoryDocuments + "/KegIdFiles/");
             var file = new Java.IO.File(dir + "/" + filename + ".pdf");
 
             if (!dir.Exists())
@@ -142,7 +142,7 @@ namespace KegID.Droid.DependencyServices
 
             try
             {
-                var localFolder = Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads).AbsolutePath;
+                var localFolder = Android.OS.Environment.DirectoryDocuments;
                 localPath = Path.Combine(localFolder, fileName);
                 System.IO.File.WriteAllBytes(localPath, bytes); // write to local storage
 
@@ -184,7 +184,7 @@ namespace KegID.Droid.DependencyServices
         {
             PdfDocument document = new PdfDocument();
             PdfDocument.Page page = document.StartPage(new PdfDocument.PageInfo.Builder(width, height, 1).Create());
-             
+
             myWebview.Draw(page.Canvas);
             document.FinishPage(page);
             Stream filestream = new MemoryStream();

@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
 using Realms;
+using Scandit.BarcodePicker.Unified;
 using System;
 using System.Globalization;
 using System.Linq;
@@ -78,21 +79,6 @@ namespace KegID.ViewModel
             PartnerCommand = new DelegateCommand(PartnerCommandRecieverAsync);
             KegsCommand = new DelegateCommand(KegsCommandRecieverAsync);
             InUsePartnerCommand = new DelegateCommand(InUsePartnerCommandRecieverAsync);
-
-            LoadMetadData();
-            HandleUnsubscribeMessages();
-            HandleReceivedMessages();
-
-            RefreshDashboardRecieverAsync();
-            if (Device.RuntimePlatform != Device.UWP)
-            {
-                StartPrinterSearch();
-            }
-
-            Connectivity.ConnectivityChanged -= Connectivity_ConnectivityChanged;
-            Connectivity.ConnectivityChanged += Connectivity_ConnectivityChanged;
-            APIBase = ConstantManager.BaseUrl.Contains("Prod") ? string.Empty : ConstantManager.BaseUrl;
-
         }
 
         #endregion
@@ -531,6 +517,34 @@ namespace KegID.ViewModel
         {
             CheckDraftmaniFests();
             base.OnNavigatedTo(parameters);
+        }
+
+        public override Task InitializeAsync(INavigationParameters parameters)
+        {
+            LoadMetadData();
+            HandleUnsubscribeMessages();
+            HandleReceivedMessages();
+
+            RefreshDashboardRecieverAsync();
+            if (Device.RuntimePlatform != Device.UWP)
+            {
+                StartPrinterSearch();
+            }
+
+            Connectivity.ConnectivityChanged -= Connectivity_ConnectivityChanged;
+            Connectivity.ConnectivityChanged += Connectivity_ConnectivityChanged;
+            APIBase = ConstantManager.BaseUrl.Contains("Prod") ? string.Empty : ConstantManager.BaseUrl;
+
+            switch (Device.RuntimePlatform)
+            {
+                case Device.Android:
+                    ScanditService.ScanditLicense.AppKey = Resources["scanditAndroidKey"];
+                    break;
+                case Device.iOS:
+                    ScanditService.ScanditLicense.AppKey = Resources["scanditiOSKey"];
+                    break;
+            }
+            return base.InitializeAsync(parameters);
         }
 
         #endregion
