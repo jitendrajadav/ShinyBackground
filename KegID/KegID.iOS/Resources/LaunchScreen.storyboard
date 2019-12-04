@@ -4,6 +4,7 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -18,14 +19,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="23" image="kegidlogo.png" misplaced="YES">
-                                <rect key="frame" x="12" y="13" width="390" height="710"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="23" image="kegidlogo.png" clipsSubviews="YES" adjustsImageSizeForAccessibilityContentSizeCategory="YES">
+                                <rect key="frame" x="8" y="12" width="359" height="643"/>
                                 <rect key="contentStretch" x="0.0" y="0.0" width="0.0" height="0.0"/>
                                 <constraints>
                                     <constraint id="268" firstAttribute="width" constant="390"/>
                                     <constraint id="269" firstAttribute="height" constant="710"/>
                                     <constraint id="960" firstAttribute="height" constant="710"/>
                                     <constraint id="961" firstAttribute="width" constant="390"/>
+                                    <constraint id="2809" firstAttribute="width" secondItem="23" secondAttribute="height" multiplier="177:317"/>
                                 </constraints>
                                 <color key="tintColor" colorSpace="calibratedWhite" white="1" alpha="1"/>
                             </imageView>
@@ -34,9 +36,9 @@
                         <constraints>
                             <constraint firstItem="23" firstAttribute="centerY" secondItem="yd7-JS-zBw" secondAttribute="centerY" priority="1" id="39"/>
                             <constraint firstItem="23" firstAttribute="centerX" secondItem="yd7-JS-zBw" secondAttribute="centerX" priority="1" id="41"/>
-                            <constraint id="1205" firstItem="Y8P-hJ-Z43" firstAttribute="bottom" secondItem="23" secondAttribute="top" constant="7"/>
-                            <constraint id="1206" firstAttribute="leadingMargin" secondItem="23" secondAttribute="leading" constant="8"/>
-                            <constraint id="1207" firstItem="23" firstAttribute="trailing" secondItem="yd7-JS-zBw" secondAttribute="trailingMargin" constant="8"/>
+                            <constraint id="1205" firstItem="Y8P-hJ-Z43" firstAttribute="bottom" secondItem="23" secondAttribute="top" constant="8"/>
+                            <constraint id="1206" firstAttribute="leading" secondItem="yd7-JS-zBw" secondAttribute="leadingMargin" constant="-8" firstItem="23"/>
+                            <constraint id="1207" firstAttribute="trailingMargin" secondItem="23" secondAttribute="trailing" constant="-8"/>
                         </constraints>
                         <color key="tintColor" colorSpace="calibratedRGB" red="0.0392156862745098" green="0.37647058823529411" blue="1" alpha="1"/>
                     </view>
