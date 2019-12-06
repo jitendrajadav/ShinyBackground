@@ -10,9 +10,12 @@ using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
 using Realms;
+using Refit;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -140,7 +143,8 @@ namespace KegID.ViewModel
             }
             catch (Exception ex)
             {
-                Crashes.TrackError(ex);
+                Debug.WriteLine(ex.Message);
+                await _dialogService.DisplayAlertAsync("Error", AsyncErrorHandler.Message + "\n\nError while login please check", "Ok");
             }
             finally
             {

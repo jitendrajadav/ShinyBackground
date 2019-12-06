@@ -6,7 +6,7 @@
     <ProjectGuid>{667AE4D8-14A0-4C8F-82F3-59DE3B35E1AB}</ProjectGuid>
     <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
-    <RootNamespace>KegID.Droid</RootNamespace>
+    <RootNamespace>KegID.Android</RootNamespace>
     <AssemblyName>KegID.Android</AssemblyName>
     <TargetFrameworkVersion>v10.0</TargetFrameworkVersion>
     <AndroidApplication>True</AndroidApplication>
@@ -21,6 +21,7 @@
     <SolutionDir>..\</SolutionDir>
     <AndroidEnableMultiDex>true</AndroidEnableMultiDex>
     <JavaMaximumHeapSize>3G</JavaMaximumHeapSize>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -38,6 +39,10 @@
     <SolutionDir>..\</SolutionDir>
     <EnableProguard>false</EnableProguard>
     <AndroidHttpClientHandlerType>Xamarin.Android.Net.AndroidClientHandler</AndroidHttpClientHandlerType>
+    <AotAssemblies>false</AotAssemblies>
+    <EnableLLVM>false</EnableLLVM>
+    <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
+    <BundleAssemblies>false</BundleAssemblies>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>false</DebugSymbols>
@@ -48,11 +53,11 @@
     <WarningLevel>4</WarningLevel>
     <AndroidManagedSymbols>true</AndroidManagedSymbols>
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
-    <AndroidSupportedAbis />
-    <JavaMaximumHeapSize>2G</JavaMaximumHeapSize>
+    <AndroidSupportedAbis>armeabi-v7a;x86;x86_64;arm64-v8a</AndroidSupportedAbis>
+    <JavaMaximumHeapSize>5G</JavaMaximumHeapSize>
     <AndroidEnableSGenConcurrent>false</AndroidEnableSGenConcurrent>
     <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
-    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
+    <AndroidLinkMode>Full</AndroidLinkMode>
     <SolutionDir>..\</SolutionDir>
     <AotAssemblies>false</AotAssemblies>
     <EnableLLVM>false</EnableLLVM>
@@ -61,7 +66,6 @@
     <AndroidLinkTool>r8</AndroidLinkTool>
     <MandroidI18n />
     <AndroidDexTool>d8</AndroidDexTool>
-    <AndroidPackageFormat>apk</AndroidPackageFormat>
     <AndroidCreatePackagePerAbi>false</AndroidCreatePackagePerAbi>
     <AndroidUseAapt2>false</AndroidUseAapt2>
   </PropertyGroup>
@@ -521,14 +525,4 @@
     <AndroidResource Include="Resources\drawable\icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
-  <Target Name="ReplaceRefAssemblies" AfterTargets="_ResolveAssemblies">
-    <ItemGroup>
-      <ResolvedAssembliesFixedWindows Include="@(ResolvedAssemblies-&gt;Replace('\ref\','\lib\'))" />
-      <ResolvedAssembliesFixedUnix Include="@(ResolvedAssemblies-&gt;Replace('/ref/','/lib/'))" />
-      <ResolvedAssembliesFixed Include="@(ResolvedAssembliesFixedWindows)" Condition="@(ResolvedAssembliesFixedWindows) != @(ResolvedAssemblies)" />
-      <ResolvedAssembliesFixed Include="@(ResolvedAssembliesFixedUnix)" Condition="@(ResolvedAssembliesFixedUnix) != @(ResolvedAssemblies)" />
-      <ResolvedAssemblies Condition="'@(ResolvedAssembliesFixed-&gt;Count())' &gt; 0" Remove="@(ResolvedAssemblies)" />
-      <ResolvedAssemblies Include="@(ResolvedAssembliesFixed)" />
-    </ItemGroup>
-  </Target>
 </Project>

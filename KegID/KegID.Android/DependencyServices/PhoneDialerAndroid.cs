@@ -13,7 +13,7 @@ namespace KegID.Droid.DependencyServices
     {
         public Task<bool> DialAsync(string number)
         {
-            var context = Android.App.Application.Context;
+            var context = global::Android.App.Application.Context;
             if (context == null)
                 return Task.FromResult(false);
 

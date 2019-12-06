@@ -11,31 +11,29 @@ namespace KegID.Droid.DependencyServices
     {
         public UniqueIdentifierValue GetUniqueIdentifier()
         {
-            var context = Android.App.Application.Context;
+            var context = global::Android.App.Application.Context;
             var name = context.PackageManager.GetPackageInfo(context.PackageName, 0).VersionName;
             var code = context.PackageManager.GetPackageInfo(context.PackageName, 0).VersionCode;
 
-            UniqueIdentifierValue _UniqueIdentifier = new UniqueIdentifierValue
+            return new UniqueIdentifierValue
             {
-                Serial = Android.OS.Build.Serial,
-                Model = Android.OS.Build.Model,
-                Manufacturer = Android.OS.Build.Manufacturer,
-                Product = Android.OS.Build.Product,
-                User = Android.OS.Build.User,
-                Id = Android.OS.Build.Id,
-                Device = Android.OS.Build.Device,
-                Host = Android.OS.Build.Host,
-                Display = Android.OS.Build.Display,
+                Serial = global::Android.OS.Build.Serial,
+                Model = global::Android.OS.Build.Model,
+                Manufacturer = global::Android.OS.Build.Manufacturer,
+                Product = global::Android.OS.Build.Product,
+                User = global::Android.OS.Build.User,
+                Id = global::Android.OS.Build.Id,
+                Device = global::Android.OS.Build.Device,
+                Host = global::Android.OS.Build.Host,
+                Display = global::Android.OS.Build.Display,
                 AppVersion = name,
-                OS = Android.OS.Build.Board
+                OS = global::Android.OS.Build.Board
             };
-
-            return _UniqueIdentifier;
         }
 
         public string AppVersion()
         {
-            var context = Android.App.Application.Context;
+            var context = global::Android.App.Application.Context;
             var name = context.PackageManager.GetPackageInfo(context.PackageName, 0).VersionName;
             var code = context.PackageManager.GetPackageInfo(context.PackageName, 0).VersionCode;
 
@@ -44,7 +42,7 @@ namespace KegID.Droid.DependencyServices
 
         public string AppName()
         {
-            var context = Android.App.Application.Context.PackageName;
+            var context = global::Android.App.Application.Context.PackageName;
             return context;
         }
 

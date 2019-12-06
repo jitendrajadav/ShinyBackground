@@ -25,8 +25,8 @@ namespace KegID.Droid.DependencyServices
             int width = 0;
             int height = 0;
 
-            Android.Webkit.WebView webpage = null;
-            var dir = new Java.IO.File(Android.OS.Environment.DirectoryDocuments + "/KegIdFiles/");
+            global::Android.Webkit.WebView webpage = null;
+            var dir = new Java.IO.File(global::Android.OS.Environment.DirectoryDocuments + "/KegIdFiles/");
             var file = new Java.IO.File(dir + "/" + filename + ".pdf");
 
             if (!dir.Exists())
@@ -41,7 +41,7 @@ namespace KegID.Droid.DependencyServices
 
             if (webpage == null)
             {
-                webpage = new Android.Webkit.WebView(CrossCurrentActivity.Current.AppContext);
+                webpage = new global::Android.Webkit.WebView(CrossCurrentActivity.Current.AppContext);
             }
 
             if (flag == 0)
@@ -81,7 +81,7 @@ namespace KegID.Droid.DependencyServices
                 if (!localFilePath.StartsWith("file://"))
                     localFilePath = string.Format("file://{0}", localFilePath);
 
-                var fileUri = Android.Net.Uri.Parse(localFilePath);
+                var fileUri = global::Android.Net.Uri.Parse(localFilePath);
 
                 var intent = new Intent();
                 intent.SetFlags(ActivityFlags.ClearTop);
@@ -94,7 +94,7 @@ namespace KegID.Droid.DependencyServices
                 var chooserIntent = Intent.CreateChooser(intent, title);
                 chooserIntent.SetFlags(ActivityFlags.ClearTop);
                 chooserIntent.SetFlags(ActivityFlags.NewTask);
-                Android.App.Application.Context.StartActivity(chooserIntent);
+                global::Android.App.Application.Context.StartActivity(chooserIntent);
             }
             catch (Exception ex)
             {
@@ -142,7 +142,7 @@ namespace KegID.Droid.DependencyServices
 
             try
             {
-                var localFolder = Android.OS.Environment.DirectoryDocuments;
+                var localFolder = global::Android.OS.Environment.DirectoryDocuments;
                 localPath = Path.Combine(localFolder, fileName);
                 System.IO.File.WriteAllBytes(localPath, bytes); // write to local storage
 
@@ -180,7 +180,7 @@ namespace KegID.Droid.DependencyServices
             }
         }
 
-        public override void OnPageFinished(Android.Webkit.WebView myWebview, string url)
+        public override void OnPageFinished(global::Android.Webkit.WebView myWebview, string url)
         {
             PdfDocument document = new PdfDocument();
             PdfDocument.Page page = document.StartPage(new PdfDocument.PageInfo.Builder(width, height, 1).Create());

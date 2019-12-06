@@ -14,7 +14,7 @@ namespace KegID.Droid.DependencyServices
 {
     public class PrinterDiscoveryImplementation : IPrinterDiscovery
     {
-        readonly Context context = Android.App.Application.Context;
+        readonly Context context = global::Android.App.Application.Context;
         public PrinterDiscoveryImplementation()
         {
 

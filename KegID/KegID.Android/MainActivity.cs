@@ -28,8 +28,8 @@ namespace KegID.Droid
         {
             base.Window.RequestFeature(WindowFeatures.ActionBar);
 
-            TabLayoutResource = Resource.Layout.Tabbar;
-            ToolbarResource = Resource.Layout.Toolbar;
+            TabLayoutResource = Android.Resource.Layout.Tabbar;
+            ToolbarResource = Android.Resource.Layout.Toolbar;
 
             base.OnCreate(bundle);
             myActivity = this;

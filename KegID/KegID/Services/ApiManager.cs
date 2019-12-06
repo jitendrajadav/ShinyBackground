@@ -83,6 +83,7 @@ namespace KegID.Services
             .Handle<WebException>()
             .Or<ApiException>()
             .Or<TaskCanceledException>()
+            .Or<ValidationApiException>()
             .WaitAndRetryAsync
             (
                 retryCount: 1,

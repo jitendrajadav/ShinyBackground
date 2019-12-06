@@ -22,7 +22,7 @@ namespace KegID.Droid.DependencyServices
         public Task<bool> VerifyStoragePermissions()
         {
             // Check if we have write permission
-            Permission permission = Android.Support.V4.Content.ContextCompat.CheckSelfPermission(CrossCurrentActivity.Current.AppContext, Manifest.Permission.WriteExternalStorage);
+            Permission permission = global::Android.Support.V4.Content.ContextCompat.CheckSelfPermission(CrossCurrentActivity.Current.AppContext, Manifest.Permission.WriteExternalStorage);
 
             if (permission != Permission.Granted)
             {

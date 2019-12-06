@@ -24,17 +24,17 @@ namespace KegID.Droid.Renderers
         {
             base.OnElementChanged(e);
 
-            this.SetNativeControl(new Android.Widget.EditText(Context));
+            SetNativeControl(new EditText(Context));
             if (Control == null || e.NewElement == null)
                 return;
 
-            var entry = (NullableDatePicker)this.Element;
+            var entry = Element;
 
-            this.Control.Click += OnPickerClick;
-            this.Control.Text = !entry.NullableDate.HasValue ? entry.PlaceHolder : Element.Date.ToString(Element.Format);
-            this.Control.KeyListener = null;
-            this.Control.FocusChange += OnPickerFocusChange;
-            this.Control.Enabled = Element.IsEnabled;
+            Control.Click += OnPickerClick;
+            Control.Text = !entry.NullableDate.HasValue ? entry.PlaceHolder : Element.Date.ToString(Element.Format);
+            Control.KeyListener = null;
+            Control.FocusChange += OnPickerFocusChange;
+            Control.Enabled = Element.IsEnabled;
 
         }
 
@@ -42,11 +42,11 @@ namespace KegID.Droid.Renderers
         {
             if (e.PropertyName == Xamarin.Forms.DatePicker.DateProperty.PropertyName || e.PropertyName == Xamarin.Forms.DatePicker.FormatProperty.PropertyName)
             {
-                var entry = (NullableDatePicker)this.Element;
+                var entry = Element;
 
-                if (this.Element.Format == entry.PlaceHolder)
+                if (Element.Format == entry.PlaceHolder)
                 {
-                    this.Control.Text = entry.PlaceHolder;
+                    Control.Text = entry.PlaceHolder;
                     return;
                 }
             }
@@ -54,7 +54,7 @@ namespace KegID.Droid.Renderers
             base.OnElementPropertyChanged(sender, e);
         }
 
-        void OnPickerFocusChange(object sender, Android.Views.View.FocusChangeEventArgs e)
+        void OnPickerFocusChange(object sender, FocusChangeEventArgs e)
         {
             if (e.HasFocus)
             {
@@ -66,8 +66,8 @@ namespace KegID.Droid.Renderers
         {
             if (Control != null)
             {
-                this.Control.Click -= OnPickerClick;
-                this.Control.FocusChange -= OnPickerFocusChange;
+                Control.Click -= OnPickerClick;
+                Control.FocusChange -= OnPickerFocusChange;
 
                 if (_dialog != null)
                 {
@@ -87,13 +87,13 @@ namespace KegID.Droid.Renderers
 
         void SetDate(DateTimeOffset date)
         {
-            this.Control.Text = date.ToString(Element.Format);
+            Control.Text = date.ToString(Element.Format);
             Element.Date = date.Date;
         }
 
         private void ShowDatePicker()
         {
-            CreateDatePickerDialog(this.Element.Date.Year, this.Element.Date.Month - 1, this.Element.Date.Day);
+            CreateDatePickerDialog(Element.Date.Year, Element.Date.Month - 1, Element.Date.Day);
             _dialog.Show();
         }
 
@@ -111,16 +111,15 @@ namespace KegID.Droid.Renderers
 
             _dialog.SetButton("Done", (sender, e) =>
             {
-                this.Element.Format = this.Element._originalFormat;
+                Element.Format = Element._originalFormat;
                 SetDate(_dialog.DatePicker.DateTime);
-                this.Element.AssignValue();
+                Element.AssignValue();
             });
             _dialog.SetButton2("Clear", (sender, e) =>
             {
-                this.Element.CleanDate();
-                Control.Text = this.Element.Format;
+                Element.CleanDate();
+                Control.Text = Element.Format;
             });
         }
     }
-
 }

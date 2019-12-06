@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Prism.Mvvm;
 using Prism.Navigation;
+using Refit;
 
 namespace KegID.ViewModel
 {
@@ -54,13 +55,30 @@ namespace KegID.ViewModel
 
                 await task;
             }
+            catch (TaskCanceledException tce)
+            {
+                Debug.WriteLine(tce.ToString());
+            }
+            catch (ValidationApiException vae)
+            {
+                Debug.WriteLine(vae.ToString());
+                // handle validation here by using validationException.Content,
+                // which is type of ProblemDetails according to RFC 7807
+
+                // If the response contains additional properties on the problem details,
+                // they will be added to the validationException.Content.Extensions collection.
+            }
+            catch (ApiException ae)
+            {
+                Debug.WriteLine(ae.ToString());
+                // other exception handling
+            }
             catch (Exception e)
             {
                 IsBusy = false;
                 UserDialogs.Instance.HideLoading();
                 Debug.WriteLine(e.ToString());
                 await Prism.PrismApplicationBase.Current.MainPage.DisplayAlert("Eror", "Check your internet connection", "Ok");
-
             }
             finally
             {
@@ -122,6 +140,5 @@ namespace KegID.ViewModel
 
             }
         }
-
     }
 }
