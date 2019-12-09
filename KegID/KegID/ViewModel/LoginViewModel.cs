@@ -52,7 +52,7 @@ namespace KegID.ViewModel
             _dialogService = dialogService;
             _getIconByPlatform = getIconByPlatform;
 
-            LoginCommand = new DelegateCommand(async () => await RunSafe(LoginCommandRecieverAsync(), true, "Login"));
+            LoginCommand = new DelegateCommand(async () => await RunSafe(LoginCommandRecieverAsync()));
             KegIDCommand = new DelegateCommand(KegIDCommandReciever);
 #if DEBUG
             Username = "test@kegid.com";//"demo@kegid.com";
@@ -77,6 +77,7 @@ namespace KegID.ViewModel
         {
             try
             {
+                UserDialogs.Instance.ShowLoading("Loging");
                 var loginResponse = await ApiManager.GetAuthenticate(Username, Password);
                 if (loginResponse.IsSuccessStatusCode)
                 {
@@ -100,11 +101,12 @@ namespace KegID.ViewModel
                         AppSettings.At_risk_days = !string.IsNullOrEmpty(atRisk) ? long.Parse(atRisk) : 0;
 
                         KegRefresh = Convert.ToDouble(model.Preferences.ToList().Find(x => x.PreferenceName == "KEG_REFRESH")?.PreferenceValue);
-
+                        UserDialogs.Instance.HideLoading();
                         await RunSafe(DeviceCheckIn());
                     }
                     catch (Exception ex)
                     {
+                        UserDialogs.Instance.HideLoading();
                         Crashes.TrackError(ex);
                     }
                     try
@@ -143,6 +145,7 @@ namespace KegID.ViewModel
             }
             catch (Exception ex)
             {
+                UserDialogs.Instance.HideLoading();
                 Debug.WriteLine(ex.Message);
                 await _dialogService.DisplayAlertAsync("Error", AsyncErrorHandler.Message + "\n\nError while login please check", "Ok");
             }

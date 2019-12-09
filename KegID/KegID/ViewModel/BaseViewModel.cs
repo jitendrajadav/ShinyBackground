@@ -43,35 +43,14 @@ namespace KegID.ViewModel
             Resources = new LocalizedResources(typeof(KegIDResource), App.CurrentLanguage);
         }
 
-        public async Task RunSafe(Task task, bool ShowLoading = true, string loadinMessage = null)
+        public async Task RunSafe(Task task/*, bool ShowLoading = true, string loadinMessage = null*/)
         {
             try
             {
                 if (IsBusy) return;
-
                 IsBusy = true;
-
-                if (ShowLoading) UserDialogs.Instance.ShowLoading(loadinMessage ?? "Loading");
-
+                //if (ShowLoading) UserDialogs.Instance.ShowLoading(loadinMessage ?? "Loading");
                 await task;
-            }
-            catch (TaskCanceledException tce)
-            {
-                Debug.WriteLine(tce.ToString());
-            }
-            catch (ValidationApiException vae)
-            {
-                Debug.WriteLine(vae.ToString());
-                // handle validation here by using validationException.Content,
-                // which is type of ProblemDetails according to RFC 7807
-
-                // If the response contains additional properties on the problem details,
-                // they will be added to the validationException.Content.Extensions collection.
-            }
-            catch (ApiException ae)
-            {
-                Debug.WriteLine(ae.ToString());
-                // other exception handling
             }
             catch (Exception e)
             {
@@ -83,10 +62,9 @@ namespace KegID.ViewModel
             finally
             {
                 IsBusy = false;
-                if (ShowLoading) UserDialogs.Instance.HideLoading();
+                //if (ShowLoading) UserDialogs.Instance.HideLoading();
             }
         }
-
 
         public virtual void OnNavigatedFrom(INavigationParameters parameters)
         {
