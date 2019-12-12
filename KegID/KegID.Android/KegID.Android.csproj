@@ -45,7 +45,7 @@
     <BundleAssemblies>false</BundleAssemblies>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugSymbols>false</DebugSymbols>
+    <DebugSymbols>true</DebugSymbols>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release</OutputPath>
@@ -55,7 +55,7 @@
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
     <AndroidSupportedAbis>armeabi-v7a;x86;x86_64;arm64-v8a</AndroidSupportedAbis>
     <JavaMaximumHeapSize>5G</JavaMaximumHeapSize>
-    <AndroidEnableSGenConcurrent>false</AndroidEnableSGenConcurrent>
+    <AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
     <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
     <AndroidLinkMode>SdkOnly</AndroidLinkMode>
     <SolutionDir>..\</SolutionDir>
@@ -63,14 +63,12 @@
     <EnableLLVM>false</EnableLLVM>
     <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
     <BundleAssemblies>false</BundleAssemblies>
-    <AndroidLinkTool>r8</AndroidLinkTool>
     <MandroidI18n />
-    <AndroidDexTool>d8</AndroidDexTool>
     <AndroidCreatePackagePerAbi>false</AndroidCreatePackagePerAbi>
-    <AndroidUseAapt2>false</AndroidUseAapt2>
+    <AndroidUseAapt2>true</AndroidUseAapt2>
     <AndroidEnableMultiDex>true</AndroidEnableMultiDex>
     <AndroidEnableDesugar>true</AndroidEnableDesugar>
-    <AndroidEnableProguard>true</AndroidEnableProguard>
+    <AndroidDexTool>dx</AndroidDexTool>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mono.Android" />
@@ -228,13 +226,13 @@
       <Version>2.4.11.982</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms">
-      <Version>4.3.0.991221</Version>
+      <Version>4.4.0.991265</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms.Maps">
-      <Version>4.3.0.991221</Version>
+      <Version>4.4.0.991265</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms.Visual.Material">
-      <Version>4.3.0.991221</Version>
+      <Version>4.4.0.991265</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
