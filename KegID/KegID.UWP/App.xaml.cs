@@ -46,7 +46,7 @@ namespace KegID.UWP
                 List<Assembly> assembliesToInclude = new List<Assembly>
                 {
                     typeof(CarouselViewRenderer).GetTypeInfo().Assembly,
-                    typeof(Forms9Patch.UWP.Settings).GetTypeInfo().Assembly,
+                    //typeof(Forms9Patch.UWP.Settings).GetTypeInfo().Assembly,
                     typeof(SegmentedControlRenderer).GetTypeInfo().Assembly
                 };
                 Xamarin.Forms.Forms.Init(e, assembliesToInclude);
@@ -54,7 +54,7 @@ namespace KegID.UWP
                 TintedImageRenderer.Init();
                 FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
                 Rg.Plugins.Popup.Popup.Init();
-                Forms9Patch.UWP.Settings.Initialize(this);
+                //Forms9Patch.UWP.Settings.Initialize(this);
                 //SegmentedControlRenderer.Init();
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {

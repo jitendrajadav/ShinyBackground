@@ -9,8 +9,15 @@ namespace KegID.Views
 	{
         public LoginView()
         {
-            InitializeComponent();
-            NavigationPage.SetHasNavigationBar(this, false);
-        }
+			//try
+			//{
+				InitializeComponent();
+				NavigationPage.SetHasNavigationBar(this, false);
+			//}
+			//catch (System.Exception ex)
+			//{
+
+			//}
+		}
 	}
 }

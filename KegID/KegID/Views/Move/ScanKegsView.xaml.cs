@@ -14,10 +14,10 @@ namespace KegID.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class ScanKegsView : ContentPage
 	{
-        Forms9Patch.SinglePicker _singlePicker = new Forms9Patch.SinglePicker
-        {
-            BackgroundColor = Color.White,
-        };
+        //Forms9Patch.SinglePicker _singlePicker = new Forms9Patch.SinglePicker
+        //{
+        //    BackgroundColor = Color.White,
+        //};
 
         public List<string> LoadBrandAsync()
         {
@@ -41,8 +41,8 @@ namespace KegID.Views
 		{
 			InitializeComponent ();
             NavigationPage.SetHasNavigationBar(this, false);
-            _singlePicker.ItemsSource = LoadBrandAsync();
-            _singlePicker.PropertyChanged += OnSinglePickerPropertyChanged;
+            //_singlePicker.ItemsSource = LoadBrandAsync();
+            //_singlePicker.PropertyChanged += OnSinglePickerPropertyChanged;
         }
 
         protected override bool OnBackButtonPressed()
@@ -54,34 +54,34 @@ namespace KegID.Views
             return true;
         }
 
-        private void OnSinglePickerPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == Forms9Patch.SinglePicker.SelectedItemProperty.PropertyName)
-            {
-                _singlePickerButton.HtmlText = (_singlePicker.SelectedItem as string) ?? "select content";
-                _singlePickerButton.TextColor = _singlePicker.SelectedItem == null ? Color.DarkGray : Color.DarkGray;
-            }
-        }
+        //private void OnSinglePickerPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        //{
+        //    if (e.PropertyName == Forms9Patch.SinglePicker.SelectedItemProperty.PropertyName)
+        //    {
+        //        _singlePickerButton.HtmlText = (_singlePicker.SelectedItem as string) ?? "select content";
+        //        _singlePickerButton.TextColor = _singlePicker.SelectedItem == null ? Color.DarkGray : Color.DarkGray;
+        //    }
+        //}
 
-        private void _singlePickerButton_Clicked(object sender, System.EventArgs e)
-        {
-            var bubbleContent = new StackLayout
-            {
-                WidthRequest = 300,
-                HeightRequest = 300,
-                Children =
-                {
-                    _singlePicker
-                }
-            };
-            var bubblePopup = new Forms9Patch.BubblePopup(_singlePickerButton)
-            {
-                PointerDirection = Forms9Patch.PointerDirection.Vertical,
-                Content = bubbleContent,
-                BackgroundColor = Color.WhiteSmoke,
-            };
+        //private void _singlePickerButton_Clicked(object sender, System.EventArgs e)
+        //{
+        //    var bubbleContent = new StackLayout
+        //    {
+        //        WidthRequest = 300,
+        //        HeightRequest = 300,
+        //        Children =
+        //        {
+        //            _singlePicker
+        //        }
+        //    };
+        //    var bubblePopup = new Forms9Patch.BubblePopup(_singlePickerButton)
+        //    {
+        //        PointerDirection = Forms9Patch.PointerDirection.Vertical,
+        //        Content = bubbleContent,
+        //        BackgroundColor = Color.WhiteSmoke,
+        //    };
 
-            bubblePopup.IsVisible = true;
-        }
+        //    bubblePopup.IsVisible = true;
+        //}
     }
 }

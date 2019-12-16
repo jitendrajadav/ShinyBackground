@@ -5,7 +5,6 @@ using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
-using CarouselView.FormsPlugin.Android;
 using KegID.Droid.Services;
 using KegID.Messages;
 using Microsoft.AppCenter.Crashes;
@@ -38,7 +37,6 @@ namespace KegID.Droid
             Forms.Init(this, bundle);
             FormsMaterial.Init(this, bundle);
             UserDialogs.Init(this);
-            CarouselViewRenderer.Init();
             Rg.Plugins.Popup.Popup.Init(this, bundle);
             try
             {
@@ -52,7 +50,7 @@ namespace KegID.Droid
             TintedImageRenderer.Init();
             Xamarin.Essentials.Platform.Init(this, bundle);
             CrossCurrentActivity.Current.Init(this, bundle);
-            Forms9Patch.Droid.Settings.Initialize(this);
+            //Forms9Patch.Droid.Settings.Initialize(this);
             SegmentedControlRenderer.Init();
             try
             {

@@ -15,6 +15,7 @@ using Prism.Navigation;
 using Realms;
 using Scandit.BarcodePicker.Unified;
 using System;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -31,15 +32,11 @@ namespace KegID.ViewModel
         private readonly IUuidManager _uuidManager;
         private ConnectionType connetionType;
 
-        public string Stock { get; set; } = "0";
-        public string Empty { get; set; } = "0";
-        public string  InUse { get; set; } = "0";
-        public string Total { get; set; } = "0";
-        public string AverageCycle { get; set; } = "0 day";
-        public string Atriskegs { get; set; } = "0";
         public string DraftmaniFests { get; set; }
         public bool IsVisibleDraftmaniFestsLabel { get; set; }
         public string APIBase { get; set; }
+
+        public ObservableCollection<Dashboard> Dashboards { get; set; } = new ObservableCollection<Dashboard>();
 
         #endregion
 
@@ -206,10 +203,7 @@ namespace KegID.ViewModel
             MessagingCenter.Subscribe<SettingToDashboardMsg>(this, "SettingToDashboardMsg", _ => Device.BeginInvokeOnMainThread(()=>RefreshDashboardRecieverAsync(true)));
 
             MessagingCenter.Subscribe<CheckDraftmaniFests>(this, "CheckDraftmaniFests", _ => {
-                Device.BeginInvokeOnMainThread(() =>
-                {
-                    CheckDraftmaniFests();
-                });
+                Device.BeginInvokeOnMainThread(() => CheckDraftmaniFests());
             });
         }
 
@@ -329,21 +323,15 @@ namespace KegID.ViewModel
                         {
                             if (queue.Count > 0)
                             {
-                                if (pallets.Count > 0)
-                                {
-                                    DraftmaniFests = string.Format("{0} " + draftMsg + ", {1} " + queueMsg + ", {2} " + palletMsg, draft.Count, queue.Count, pallets.Count);
-                                }
-                                else
-                                    DraftmaniFests = string.Format("{0} " + draftMsg + ", {1} " + queueMsg, draft.Count, queue.Count);
+                                DraftmaniFests = pallets.Count > 0
+                                    ? string.Format("{0} " + draftMsg + ", {1} " + queueMsg + ", {2} " + palletMsg, draft.Count, queue.Count, pallets.Count)
+                                    : string.Format("{0} " + draftMsg + ", {1} " + queueMsg, draft.Count, queue.Count);
                             }
                             else
                             {
-                                if (pallets.Count > 0)
-                                {
-                                    DraftmaniFests = string.Format("{0} " + draftMsg + ", {1} " + palletMsg, draft.Count, pallets.Count);
-                                }
-                                else
-                                    DraftmaniFests = string.Format("{0} " + draftMsg, draft.Count);
+                                DraftmaniFests = pallets.Count > 0
+                                    ? string.Format("{0} " + draftMsg + ", {1} " + palletMsg, draft.Count, pallets.Count)
+                                    : string.Format("{0} " + draftMsg, draft.Count);
                             }
                         }
                         else if (queue.Count > 0)
@@ -375,33 +363,24 @@ namespace KegID.ViewModel
                         {
                             if (queue.Count > 0)
                             {
-                                if (pallets.Count > 0)
-                                {
-                                    DraftmaniFests = string.Format("Lost communication with KegID.com, {0} " + draftMsg + ", {1} " + queueMsg + ", {2} " + palletMsg, draft.Count, queue.Count, pallets.Count);
-                                }
-                                else
-                                    DraftmaniFests = string.Format("Lost communication with KegID.com, {0} " + draftMsg + ", {1} " + queueMsg, draft.Count, queue.Count);
+                                DraftmaniFests = pallets.Count > 0
+                                    ? string.Format("Lost communication with KegID.com, {0} " + draftMsg + ", {1} " + queueMsg + ", {2} " + palletMsg, draft.Count, queue.Count, pallets.Count)
+                                    : string.Format("Lost communication with KegID.com, {0} " + draftMsg + ", {1} " + queueMsg, draft.Count, queue.Count);
                             }
                             else
                             {
-                                if (pallets.Count > 0)
-                                {
-                                    DraftmaniFests = string.Format("Lost communication with KegID.com, {0} " + draftMsg + ", {1} " + palletMsg, draft.Count, pallets.Count);
-                                }
-                                else
-                                    DraftmaniFests = string.Format("Lost communication with KegID.com, {0} " + draftMsg, draft.Count);
+                                DraftmaniFests = pallets.Count > 0
+                                    ? string.Format("Lost communication with KegID.com, {0} " + draftMsg + ", {1} " + palletMsg, draft.Count, pallets.Count)
+                                    : string.Format("Lost communication with KegID.com, {0} " + draftMsg, draft.Count);
                             }
                         }
                         else
                         {
                             if (queue.Count > 0)
                             {
-                                if (pallets.Count > 0)
-                                {
-                                    DraftmaniFests = string.Format("Lost communication with KegID.com, {0} " + queueMsg + ", {1} " + palletMsg, queue.Count, pallets.Count);
-                                }
-                                else
-                                    DraftmaniFests = string.Format("Lost communication with KegID.com, {0} " + queueMsg , queue.Count);
+                                DraftmaniFests = pallets.Count > 0
+                                    ? string.Format("Lost communication with KegID.com, {0} " + queueMsg + ", {1} " + palletMsg, queue.Count, pallets.Count)
+                                    : string.Format("Lost communication with KegID.com, {0} " + queueMsg , queue.Count);
                             }
                         }
 
@@ -483,13 +462,13 @@ namespace KegID.ViewModel
                     var response = await result.Content.ReadAsStringAsync();
                     var model = await Task.Run(() => JsonConvert.DeserializeObject<DashboardResponseModel>(response, GetJsonSetting()));
 
-                    Stock = model.Stock.ToString("0,0", CultureInfo.InvariantCulture);
-                    Empty = model.Empty.ToString("0,0", CultureInfo.InvariantCulture);
-                    InUse = model.InUse.ToString("0,0", CultureInfo.InvariantCulture);
+                    Dashboards.LastOrDefault().Stock = model.Stock.ToString("0,0", CultureInfo.InvariantCulture);
+                    Dashboards.LastOrDefault().Empty = model.Empty.ToString("0,0", CultureInfo.InvariantCulture);
+                    Dashboards.LastOrDefault().InUse = model.InUse.ToString("0,0", CultureInfo.InvariantCulture);
                     var total = model.Stock + model.Empty + model.InUse;
-                    Total = total.ToString("0,0", CultureInfo.InvariantCulture);
-                    AverageCycle = model.AverageCycle.ToString() + " days";
-                    Atriskegs = model.InactiveKegs.ToString();
+                    Dashboards.LastOrDefault().Total = total.ToString("0,0", CultureInfo.InvariantCulture);
+                    Dashboards.LastOrDefault().AverageCycle = model.AverageCycle.ToString() + " days";
+                    Dashboards.LastOrDefault().Atriskegs = model.InactiveKegs.ToString();
                 }
             }
             catch (Exception ex)
@@ -515,6 +494,19 @@ namespace KegID.ViewModel
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
+            if (Dashboards.Count == 0)
+            {
+                Dashboards.Add(new Dashboard());
+                Dashboards.Add(new Dashboard()
+                {
+                    Stock = "0",
+                    Empty = "0",
+                    InUse = "0",
+                    Total = "0",
+                    AverageCycle = "0 day",
+                    Atriskegs = "0"
+                });
+            }
             CheckDraftmaniFests();
             base.OnNavigatedTo(parameters);
         }

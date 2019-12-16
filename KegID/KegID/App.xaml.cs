@@ -26,6 +26,10 @@ namespace KegID
         protected override async void OnInitialized()
         {
             InitializeComponent();
+            Xamarin.Forms.Device.SetFlags(new[] {
+                "CarouselView_Experimental",
+                "IndicatorView_Experimental"
+            });
             Xamarin.Essentials.VersionTracking.Track();
 #if DEBUG
             //HotReloader.Current.Run(this);
@@ -59,6 +63,7 @@ namespace KegID
 
             containerRegistry.RegisterForNavigation<LoginView, LoginViewModel>();
             containerRegistry.RegisterForNavigation<MainPage, MainViewModel>();
+            //containerRegistry.RegisterForNavigation<MenuView, MainViewModel>();
             containerRegistry.RegisterForNavigation<MainPageTablet, MainViewModel>();
 
             containerRegistry.RegisterForNavigation<ScanditScanView, ScanditScanViewModel>();
@@ -105,7 +110,6 @@ namespace KegID
             containerRegistry.RegisterForNavigation<ScanInfoView, ScanInfoViewModel>();
             containerRegistry.RegisterForNavigation<ScanKegsView, ScanKegsViewModel>();
             containerRegistry.RegisterForNavigation<AssetProfileView, AssetProfileViewModel>();
-
 
             containerRegistry.RegisterForNavigation<SearchedManifestsListView, SearchedManifestsListViewModel>();
             containerRegistry.RegisterForNavigation<SearchManifestsView, SearchManifestsViewModel>();
@@ -181,7 +185,6 @@ namespace KegID
 
         protected override void OnResume()
         {
-
         }
 
         private bool OnReleaseAvailable(ReleaseDetails releaseDetails)
@@ -208,7 +211,7 @@ namespace KegID
             answer.ContinueWith((task) =>
             {
                 // If mandatory or if answer was positive
-                if (releaseDetails.MandatoryUpdate || (task as Task<bool>).Result)
+                if (releaseDetails.MandatoryUpdate || (task as Task<bool>)?.Result == true)
                 {
                     // Notify SDK that user selected update
                     Distribute.NotifyUpdateAction(UpdateAction.Update);

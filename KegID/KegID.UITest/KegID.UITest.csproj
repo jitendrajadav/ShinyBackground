@@ -54,9 +54,6 @@
     <PackageReference Include="Refit">
       <Version>5.0.23</Version>
     </PackageReference>
-    <PackageReference Include="System.Reactive.Linq">
-      <Version>4.3.1</Version>
-    </PackageReference>
     <PackageReference Include="Xamarin.UITest" Version="3.0.5" />
     <PackageReference Include="NUnitTestAdapter" Version="2.2.0" />
   </ItemGroup>

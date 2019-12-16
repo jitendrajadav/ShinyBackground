@@ -1,5 +1,4 @@
-﻿using CarouselView.FormsPlugin.iOS;
-using Foundation;
+﻿using Foundation;
 using KegID.iOS.Services;
 using KegID.Messages;
 using Microsoft.AppCenter.Crashes;
@@ -41,14 +40,12 @@ namespace KegID.iOS
         {
             Forms.Init();
             FormsMaterial.Init();
-            //Forms.SetFlags("CollectionView_Experimental");
-            CarouselViewRenderer.Init();
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
             Xamarin.FormsMaps.Init();
             Rg.Plugins.Popup.Popup.Init();
             TintedImageRenderer.Init();
             UIApplication.SharedApplication.SetMinimumBackgroundFetchInterval(UIApplication.BackgroundFetchIntervalMinimum);
-            Forms9Patch.iOS.Settings.Initialize(this);
+            //Forms9Patch.iOS.Settings.Initialize(this);
             SegmentedControlRenderer.Init();
             Distribute.DontCheckForUpdatesInDebug();
 

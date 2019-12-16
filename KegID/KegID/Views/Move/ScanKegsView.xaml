@@ -3,10 +3,8 @@
     x:Class="KegID.Views.ScanKegsView"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
     xmlns:behaviors="clr-namespace:KegID.Behaviors"
     xmlns:controls="clr-namespace:Plugin.CrossPlatformTintedImage.Abstractions;assembly=Plugin.CrossPlatformTintedImage.Abstractions"
-    xmlns:forms9="clr-namespace:Forms9Patch;assembly=Forms9Patch"
     xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
     xmlns:local="clr-namespace:KegID.Views"
     ios:Page.UseSafeArea="true"
@@ -103,14 +101,14 @@
                     </controls:TintedImage.GestureRecognizers>
                 </controls:TintedImage>
 
-                <forms9:Button
+                <!--<forms9:Button
                     x:Name="_singlePickerButton"
                     Grid.Row="1"
                     Grid.Column="0"
                     BorderRadius="5"
                     BorderWidth="1"
                     Clicked="_singlePickerButton_Clicked"
-                    HtmlText="{Binding Resources[hint_select_content]}" />
+                    HtmlText="{Binding Resources[hint_select_content]}" />-->
 
                 <Entry
                     Grid.Row="1"

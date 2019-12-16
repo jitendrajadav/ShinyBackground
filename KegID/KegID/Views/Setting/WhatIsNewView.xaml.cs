@@ -40,11 +40,6 @@ namespace KegID.Views
             }
         }
 
-        void Handle_PositionSelected(object sender, CarouselView.FormsPlugin.Abstractions.PositionSelectedEventArgs e)
-        {
-            btnNavigation.Text = e.NewValue == 3 ? "Got It." : "Next >";
-        }
-
         public void NavigationCommand(object sender, EventArgs e)
         {
             if (myCarouselViewCtrl.Position == 3)
@@ -56,6 +51,11 @@ namespace KegID.Views
             }
             else
                 myCarouselViewCtrl.Position++;
+        }
+
+        private void myCarouselViewCtrl_CurrentItemChanged(object sender, CurrentItemChangedEventArgs e)
+        {
+            btnNavigation.Text = ((Xamarin.Forms.CarouselView)sender).Position == 3 ? "Got It." : "Next >";
         }
     }
 }

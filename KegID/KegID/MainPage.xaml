@@ -3,12 +3,933 @@
     x:Class="KegID.MainPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:controls="clr-namespace:CarouselView.FormsPlugin.Abstractions;assembly=CarouselView.FormsPlugin.Abstractions"
+    xmlns:controls="clr-namespace:KegID.Common"
     xmlns:cvt="clr-namespace:Plugin.CrossPlatformTintedImage.Abstractions;assembly=Plugin.CrossPlatformTintedImage.Abstractions"
     xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
-    xmlns:views="clr-namespace:KegID.Views"
+    x:Name="mainPage"
     ios:Page.UseSafeArea="true"
     BackgroundColor="{StaticResource pageBGColor}">
+
+    <ContentPage.Resources>
+
+        <DataTemplate x:Key="MenuTemplate">
+            <AbsoluteLayout
+                AbsoluteLayout.LayoutFlags="All"
+                AutomationId="absoluteLayout"
+                BackgroundColor="#424D5F"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand">
+
+                <Image
+                    AbsoluteLayout.LayoutBounds="1, 1, 3, 1"
+                    AbsoluteLayout.LayoutFlags="All"
+                    Aspect="AspectFill"
+                    AutomationId="kegbgImage">
+                    <Image.Source>
+                        <FileImageSource File="{OnPlatform Android=kegbg.png, iOS=kegbg.png, UWP=Assets/kegbg.png}" />
+                    </Image.Source>
+                </Image>
+
+                <Grid
+                    AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                    AbsoluteLayout.LayoutFlags="All"
+                    AutomationId="mainGrd"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="FillAndExpand">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Grid
+                        x:Name="grdMove"
+                        Grid.Row="0"
+                        Margin="10,10,10,10"
+                        AutomationId="innerGrd1">
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding BindingContext.MoveCommand, Source={x:Reference mainPage}}" CommandParameter="{Binding}" />
+                        </Grid.GestureRecognizers>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="20*" />
+                            <ColumnDefinition Width="88*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <BoxView
+                            Grid.Row="0"
+                            Grid.ColumnSpan="4"
+                            AutomationId="boxView1"
+                            BackgroundColor="White"
+                            HeightRequest="1"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="Start" />
+
+                        <BoxView
+                            Grid.Row="0"
+                            Grid.RowSpan="3"
+                            AutomationId="boxView2"
+                            BackgroundColor="White"
+                            HorizontalOptions="Start"
+                            VerticalOptions="FillAndExpand"
+                            WidthRequest="1" />
+
+                        <BoxView
+                            Grid.Row="2"
+                            Grid.ColumnSpan="4"
+                            AutomationId="boxView3"
+                            BackgroundColor="White"
+                            HeightRequest="1"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="End" />
+
+                        <BoxView
+                            Grid.Row="0"
+                            Grid.RowSpan="3"
+                            Grid.Column="3"
+                            AutomationId="boxView4"
+                            BackgroundColor="White"
+                            HorizontalOptions="End"
+                            VerticalOptions="FillAndExpand"
+                            WidthRequest="1" />
+
+                        <Image
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            AutomationId="kegImage"
+                            HeightRequest="50"
+                            WidthRequest="40">
+                            <Image.Source>
+                                <FileImageSource File="{OnPlatform Android=newkeg.png, iOS=newkeg.png, UWP=Assets/newkeg.png}" />
+                            </Image.Source>
+                        </Image>
+
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            Margin="10,0,0,0"
+                            AutomationId="kegLabel"
+                            FontSize="40"
+                            HorizontalOptions="Start"
+                            Text="{Binding Resources[button_move_kegs]}"
+                            TextColor="White"
+                            VerticalOptions="CenterAndExpand" />
+
+                    </Grid>
+
+                    <Grid
+                        x:Name="grdFill"
+                        Grid.Row="1"
+                        Margin="10,0,10,10"
+                        AutomationId="innerGrd2">
+
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Path=BindingContext.FillCommand, Source={x:Reference mainPage}}" CommandParameter="{Binding}" />
+                        </Grid.GestureRecognizers>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="20*" />
+                            <ColumnDefinition Width="88*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <BoxView
+                            Grid.Row="0"
+                            Grid.ColumnSpan="4"
+                            AutomationId="boxView5"
+                            BackgroundColor="White"
+                            HeightRequest="1"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="Start" />
+
+                        <BoxView
+                            Grid.Row="0"
+                            Grid.RowSpan="3"
+                            AutomationId="boxView6"
+                            BackgroundColor="White"
+                            HorizontalOptions="Start"
+                            VerticalOptions="FillAndExpand"
+                            WidthRequest="1" />
+
+                        <BoxView
+                            Grid.Row="2"
+                            Grid.ColumnSpan="4"
+                            AutomationId="boxView7"
+                            BackgroundColor="White"
+                            HeightRequest="1"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="End" />
+
+                        <BoxView
+                            Grid.Row="0"
+                            Grid.RowSpan="3"
+                            Grid.Column="3"
+                            AutomationId="boxView8"
+                            BackgroundColor="White"
+                            HorizontalOptions="End"
+                            VerticalOptions="FillAndExpand"
+                            WidthRequest="1" />
+
+                        <Image
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            AutomationId="fillImage"
+                            HeightRequest="50"
+                            WidthRequest="40">
+                            <Image.Source>
+                                <FileImageSource File="{OnPlatform Android=fillkegs.png, iOS=fillkegs.png, UWP=Assets/fillkegs.png}" />
+                            </Image.Source>
+                        </Image>
+
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            Margin="10,0,0,0"
+                            AutomationId="fillLabel"
+                            FontSize="40"
+                            HorizontalOptions="Start"
+                            Text="{Binding Resources[button_fill_kegs]}"
+                            TextColor="White"
+                            VerticalOptions="CenterAndExpand" />
+                    </Grid>
+
+                    <Grid
+                        x:Name="grdPalletize"
+                        Grid.Row="2"
+                        Margin="10,0,10,10"
+                        AutomationId="innerGrd3">
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Path=BindingContext.PalletizeCommand, Source={x:Reference mainPage}}" CommandParameter="{Binding}" />
+                        </Grid.GestureRecognizers>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="20*" />
+                            <ColumnDefinition Width="88*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <BoxView
+                            Grid.Row="0"
+                            Grid.ColumnSpan="4"
+                            AutomationId="boxView9"
+                            BackgroundColor="White"
+                            HeightRequest="1"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="Start" />
+
+                        <BoxView
+                            Grid.Row="0"
+                            Grid.RowSpan="3"
+                            AutomationId="boxView10"
+                            BackgroundColor="White"
+                            HorizontalOptions="Start"
+                            VerticalOptions="FillAndExpand"
+                            WidthRequest="1" />
+
+                        <BoxView
+                            Grid.Row="2"
+                            Grid.ColumnSpan="4"
+                            AutomationId="boxView11"
+                            BackgroundColor="White"
+                            HeightRequest="1"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="End" />
+
+                        <BoxView
+                            Grid.Row="0"
+                            Grid.RowSpan="3"
+                            Grid.Column="3"
+                            AutomationId="boxView12"
+                            BackgroundColor="White"
+                            HorizontalOptions="End"
+                            VerticalOptions="FillAndExpand"
+                            WidthRequest="1" />
+
+                        <Image
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            AutomationId="palletImage"
+                            HeightRequest="50"
+                            WidthRequest="40">
+                            <Image.Source>
+                                <FileImageSource File="{OnPlatform Android=pallet.png, iOS=pallet.png, UWP=Assets/pallet.png}" />
+                            </Image.Source>
+                        </Image>
+
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            Margin="10,0,0,0"
+                            AutomationId="palletLabel"
+                            FontSize="40"
+                            HorizontalOptions="Start"
+                            Text="{Binding Resources[button_build_pallet]}"
+                            TextColor="White"
+                            VerticalOptions="CenterAndExpand" />
+                    </Grid>
+
+                    <Grid
+                        x:Name="grdMaintain"
+                        Grid.Row="3"
+                        Margin="10,0,10,10"
+                        AutomationId="innerGrd4">
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Path=BindingContext.MaintainCommand, Source={x:Reference mainPage}}" CommandParameter="{Binding}" />
+                        </Grid.GestureRecognizers>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="20*" />
+                            <ColumnDefinition Width="88*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <BoxView
+                            Grid.Row="0"
+                            Grid.ColumnSpan="4"
+                            AutomationId="boxView13"
+                            BackgroundColor="White"
+                            HeightRequest="1"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="Start" />
+
+                        <BoxView
+                            Grid.Row="0"
+                            Grid.RowSpan="3"
+                            AutomationId="boxView14"
+                            BackgroundColor="White"
+                            HorizontalOptions="Start"
+                            VerticalOptions="FillAndExpand"
+                            WidthRequest="1" />
+
+                        <BoxView
+                            Grid.Row="2"
+                            Grid.ColumnSpan="4"
+                            AutomationId="boxView15"
+                            BackgroundColor="White"
+                            HeightRequest="1"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="End" />
+
+                        <BoxView
+                            Grid.Row="0"
+                            Grid.RowSpan="3"
+                            Grid.Column="3"
+                            AutomationId="boxView16"
+                            BackgroundColor="White"
+                            HorizontalOptions="End"
+                            VerticalOptions="FillAndExpand"
+                            WidthRequest="1" />
+
+                        <Image
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            AutomationId="repairImage"
+                            HeightRequest="50"
+                            WidthRequest="40">
+                            <Image.Source>
+                                <FileImageSource File="{OnPlatform Android=repair.png, iOS=repair.png, UWP=Assets/repair.png}" />
+                            </Image.Source>
+                        </Image>
+
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            Margin="10,0,0,0"
+                            AutomationId="repairLabel"
+                            FontSize="40"
+                            HorizontalOptions="Start"
+                            Text="{Binding Resources[button_maintain_kegs]}"
+                            TextColor="White"
+                            VerticalOptions="CenterAndExpand" />
+                    </Grid>
+
+                    <Label
+                        Grid.Row="4"
+                        HorizontalOptions="CenterAndExpand"
+                        Text="{Binding APIBase}"
+                        TextColor="White"
+                        VerticalOptions="CenterAndExpand" />
+
+                </Grid>
+            </AbsoluteLayout>
+
+        </DataTemplate>
+
+        <DataTemplate x:Key="DashTemplate">
+            <Grid AutomationId="mainGrd" RowSpacing="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Grid
+                    Grid.Row="0"
+                    Margin="10,50,10,10"
+                    AutomationId="innerGrd1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid
+                        Grid.Row="0"
+                        AutomationId="subInnerGrd1"
+                        ColumnSpacing="0"
+                        RowSpacing="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="5" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <BoxView
+                            Grid.Row="0"
+                            Grid.ColumnSpan="6"
+                            AutomationId="topLineBoxView"
+                            BackgroundColor="Gray"
+                            HeightRequest="1"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="Start" />
+
+                        <BoxView
+                            Grid.Row="0"
+                            Grid.RowSpan="9"
+                            AutomationId="leftLineBoxView"
+                            BackgroundColor="Gray"
+                            HorizontalOptions="Start"
+                            VerticalOptions="FillAndExpand"
+                            WidthRequest="1" />
+
+                        <BoxView
+                            Grid.Row="1"
+                            Grid.RowSpan="8"
+                            Grid.Column="1"
+                            AutomationId="dummyLefLineBoxView"
+                            BackgroundColor="#E6E6E6"
+                            HorizontalOptions="Start"
+                            VerticalOptions="FillAndExpand"
+                            WidthRequest="5" />
+
+                        <BoxView
+                            Grid.Row="8"
+                            Grid.ColumnSpan="6"
+                            AutomationId="rightLineBoxView"
+                            BackgroundColor="Gray"
+                            HeightRequest="1"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="End" />
+
+                        <BoxView
+                            Grid.Row="0"
+                            Grid.RowSpan="9"
+                            Grid.Column="5"
+                            AutomationId="bottomLineBoxView"
+                            BackgroundColor="Gray"
+                            HorizontalOptions="End"
+                            VerticalOptions="FillAndExpand"
+                            WidthRequest="1" />
+
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            AutomationId="stockLabel"
+                            BackgroundColor="#E6E6E6"
+                            FontSize="Medium"
+                            Style="{StaticResource LabelRigthAlign}"
+                            Text="{Binding Resources[label_stock]}"
+                            VerticalOptions="FillAndExpand" />
+
+                        <BoxView
+                            Grid.Row="0"
+                            Grid.RowSpan="9"
+                            Grid.Column="3"
+                            AutomationId="lineSeperatorBoxView1"
+                            BackgroundColor="Gray"
+                            HorizontalOptions="Start"
+                            VerticalOptions="FillAndExpand"
+                            WidthRequest="1" />
+
+                        <Label
+                            x:Name="lblInventory"
+                            Grid.Row="1"
+                            Grid.Column="4"
+                            Margin="0,5,2,5"
+                            AutomationId="inventoryLabel"
+                            BackgroundColor="Transparent"
+                            FontSize="Medium"
+                            HorizontalOptions="End"
+                            Text="{Binding Stock, Mode=TwoWay}"
+                            TextColor="#4E6388">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Path=BindingContext.StockCommand, Source={x:Reference mainPage}}" CommandParameter="{Binding}" />
+                            </Label.GestureRecognizers>
+                        </Label>
+
+                        <BoxView
+                            Grid.Row="2"
+                            Grid.ColumnSpan="6"
+                            AutomationId="lineSeperatorBoxView2"
+                            BackgroundColor="Gray"
+                            HeightRequest="1"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="Start" />
+
+                        <Label
+                            Grid.Row="3"
+                            Grid.Column="2"
+                            AutomationId="emptiesLabel"
+                            BackgroundColor="#E6E6E6"
+                            FontSize="Medium"
+                            Style="{StaticResource LabelRigthAlign}"
+                            Text="{Binding Resources[label_empties]}"
+                            VerticalOptions="FillAndExpand" />
+
+                        <Label
+                            x:Name="lblEmpty"
+                            Grid.Row="3"
+                            Grid.Column="4"
+                            Margin="0,5,2,5"
+                            AutomationId="emptyValue"
+                            BackgroundColor="Transparent"
+                            FontSize="Medium"
+                            HorizontalOptions="End"
+                            Text="{Binding Empty, Mode=TwoWay}"
+                            TextColor="#4E6388">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Path=BindingContext.EmptyCommand, Source={x:Reference mainPage}}" CommandParameter="{Binding}" />
+                            </Label.GestureRecognizers>
+                        </Label>
+
+                        <BoxView
+                            Grid.Row="4"
+                            Grid.ColumnSpan="6"
+                            AutomationId="lineSeperatorBoxView3"
+                            BackgroundColor="Gray"
+                            HeightRequest="1"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="Start" />
+
+                        <Label
+                            Grid.Row="5"
+                            Grid.Column="2"
+                            AutomationId="inUseLable"
+                            BackgroundColor="#E6E6E6"
+                            FontSize="Medium"
+                            Style="{StaticResource LabelRigthAlign}"
+                            Text="{Binding Resources[label_inuse]}"
+                            VerticalOptions="FillAndExpand" />
+
+                        <Label
+                            x:Name="lblInUse"
+                            Grid.Row="5"
+                            Grid.Column="4"
+                            Margin="0,5,2,5"
+                            AutomationId="inUseValue"
+                            BackgroundColor="Transparent"
+                            FontSize="Medium"
+                            HorizontalOptions="End"
+                            Text="{Binding InUse, Mode=TwoWay}"
+                            TextColor="#4E6388">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Path=BindingContext.InUsePartnerCommand, Source={x:Reference mainPage}}" CommandParameter="{Binding}" />
+                            </Label.GestureRecognizers>
+                        </Label>
+
+                        <BoxView
+                            Grid.Row="6"
+                            Grid.ColumnSpan="6"
+                            AutomationId="lineSeperatorBoxView4"
+                            BackgroundColor="Gray"
+                            HeightRequest="1"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="Start" />
+
+                        <Label
+                            Grid.Row="7"
+                            Grid.Column="2"
+                            AutomationId="totalLabel"
+                            BackgroundColor="#E6E6E6"
+                            FontSize="Medium"
+                            Style="{StaticResource LabelRigthAlign}"
+                            Text="{Binding Resources[label_total]}"
+                            VerticalOptions="FillAndExpand" />
+
+                        <Label
+                            Grid.Row="7"
+                            Grid.Column="4"
+                            Margin="0,5,2,5"
+                            AutomationId="totalValue"
+                            BackgroundColor="Transparent"
+                            FontSize="Medium"
+                            HorizontalOptions="End"
+                            HorizontalTextAlignment="End"
+                            Text="{Binding Total, Mode=TwoWay}"
+                            TextColor="#555555"
+                            VerticalOptions="Center" />
+
+                    </Grid>
+
+                    <Grid
+                        Grid.Column="1"
+                        AutomationId="subInnerGrd2"
+                        ColumnSpacing="0"
+                        RowSpacing="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <BoxView
+                            Grid.Row="0"
+                            Grid.ColumnSpan="3"
+                            AutomationId="rightTopLineBoxView"
+                            BackgroundColor="Gray"
+                            HeightRequest="1"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="Start" />
+
+                        <BoxView
+                            Grid.Row="0"
+                            Grid.RowSpan="9"
+                            AutomationId="rightLeftLineBoxView"
+                            BackgroundColor="Gray"
+                            HorizontalOptions="Start"
+                            VerticalOptions="FillAndExpand"
+                            WidthRequest="1" />
+
+                        <BoxView
+                            Grid.Row="8"
+                            Grid.ColumnSpan="3"
+                            AutomationId="rightRightLineBoxView"
+                            BackgroundColor="Gray"
+                            HeightRequest="1"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="End" />
+
+                        <BoxView
+                            Grid.Row="0"
+                            Grid.RowSpan="9"
+                            Grid.Column="2"
+                            AutomationId="rightBottonLineBoxView"
+                            BackgroundColor="Gray"
+                            HorizontalOptions="End"
+                            VerticalOptions="FillAndExpand"
+                            WidthRequest="1" />
+
+                        <BoxView
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Margin="0,0,1,0"
+                            AutomationId="topLineBoxView"
+                            BackgroundColor="#E6E6E6"
+                            HeightRequest="5"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="Start" />
+
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Margin="0,5,1,5"
+                            AutomationId="avgCycleLabel"
+                            BackgroundColor="#E6E6E6"
+                            FontSize="Medium"
+                            HorizontalTextAlignment="Center"
+                            Style="{StaticResource LabelLeftAlign}"
+                            Text="{Binding Resources[label_average_cycle]}"
+                            VerticalOptions="FillAndExpand" />
+
+                        <BoxView
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Margin="0,0,1,0"
+                            AutomationId="topLineBoxView"
+                            BackgroundColor="#E6E6E6"
+                            HeightRequest="5"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="End" />
+
+                        <BoxView
+                            Grid.Row="2"
+                            Grid.ColumnSpan="3"
+                            AutomationId="lineSeperator5"
+                            BackgroundColor="Gray"
+                            HeightRequest="1"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="Start" />
+
+                        <Label
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            Margin="0,5,0,5"
+                            AutomationId="avgCybleValue"
+                            FontSize="Medium"
+                            HorizontalOptions="Center"
+                            Style="{StaticResource LabelLeftAlign}"
+                            Text="{Binding AverageCycle, Mode=TwoWay}"
+                            VerticalOptions="FillAndExpand" />
+
+
+                        <BoxView
+                            Grid.Row="4"
+                            Grid.ColumnSpan="3"
+                            AutomationId="lineSeperatorBoxView6"
+                            BackgroundColor="Gray"
+                            HeightRequest="1"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="Start" />
+
+                        <BoxView
+                            Grid.Row="5"
+                            Grid.Column="1"
+                            Margin="0,0,1,0"
+                            AutomationId="topLineBoxView"
+                            BackgroundColor="#E6E6E6"
+                            HeightRequest="5"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="Start" />
+
+                        <Label
+                            Grid.Row="5"
+                            Grid.Column="1"
+                            Margin="0,5,1,5"
+                            AutomationId="overDueLabel"
+                            BackgroundColor="#E6E6E6"
+                            FontSize="Medium"
+                            HorizontalTextAlignment="Center"
+                            Style="{StaticResource LabelLeftAlign}"
+                            Text="{Binding Resources[label_overdue]}"
+                            VerticalOptions="FillAndExpand" />
+
+                        <BoxView
+                            Grid.Row="5"
+                            Grid.Column="1"
+                            Margin="0,0,1,0"
+                            AutomationId="topLineBoxView"
+                            BackgroundColor="#E6E6E6"
+                            HeightRequest="5"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="End" />
+
+                        <BoxView
+                            Grid.Row="6"
+                            Grid.ColumnSpan="3"
+                            AutomationId="lineSeperatorBoxView7"
+                            BackgroundColor="Gray"
+                            HeightRequest="1"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="Start" />
+
+
+                        <Label
+                            Grid.Row="7"
+                            Grid.Column="1"
+                            Margin="0,5,2,5"
+                            AutomationId="atRiskKegsValue"
+                            FontSize="Medium"
+                            HorizontalTextAlignment="Center"
+                            Style="{StaticResource LabelLeftAlign}"
+                            Text="{Binding Atriskegs, Mode=TwoWay}"
+                            VerticalOptions="FillAndExpand" />
+
+                    </Grid>
+
+                </Grid>
+
+                <Grid
+                    Grid.Row="1"
+                    Margin="20,10,10,100"
+                    AutomationId="innerGrd2"
+                    VerticalOptions="End">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="50" />
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="40" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="40" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Image
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Aspect="AspectFit"
+                        AutomationId="manifestImage"
+                        HeightRequest="35"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        WidthRequest="35">
+                        <Image.Source>
+                            <FileImageSource File="{OnPlatform Android=manifests.png, iOS=manifests.png, UWP=Assets/manifests.png}" />
+                        </Image.Source>
+                    </Image>
+
+
+                    <Label
+                        x:Name="lblManifest"
+                        Grid.Column="1"
+                        AutomationId="manifestLabel"
+                        Style="{StaticResource LabelNormalStyle}"
+                        Text="{Binding Resources[button_manifests]}"
+                        TextColor="#4E6388">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Path=BindingContext.ManifestCommand, Source={x:Reference mainPage}}" CommandParameter="{Binding}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+
+                    <Image
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Aspect="AspectFit"
+                        AutomationId="palletImage"
+                        HeightRequest="35"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        WidthRequest="35">
+                        <Image.Source>
+                            <FileImageSource File="{OnPlatform Android=pallet.png, iOS=pallet.png, UWP=Assets/pallet.png}" />
+                        </Image.Source>
+                    </Image>
+
+
+                    <Label
+                        x:Name="lblPallets"
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        AutomationId="palletLabel"
+                        Style="{StaticResource LabelNormalStyle}"
+                        Text="{Binding Resources[button_pallets]}"
+                        TextColor="#4E6388">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Path=BindingContext.PalletsCommand, Source={x:Reference mainPage}}" CommandParameter="{Binding}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+
+                    <Image
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        Aspect="AspectFit"
+                        AutomationId="partnerImage"
+                        HeightRequest="35"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        WidthRequest="35">
+                        <Image.Source>
+                            <FileImageSource File="{OnPlatform Android=partners.png, iOS=partners.png, UWP=Assets/partners.png}" />
+                        </Image.Source>
+                    </Image>
+
+                    <Label
+                        x:Name="lblPartners"
+                        Grid.Column="3"
+                        AutomationId="partnerLabel"
+                        Style="{StaticResource LabelNormalStyle}"
+                        Text="{Binding Resources[button_partners]}"
+                        TextColor="#4E6388">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Path=BindingContext.PartnerCommand, Source={x:Reference mainPage}}" CommandParameter="{Binding}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+
+                    <Image
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Aspect="AspectFit"
+                        AutomationId="moveImage"
+                        HeightRequest="35"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        WidthRequest="35">
+                        <Image.Source>
+                            <FileImageSource File="{OnPlatform Android=movekegs.png, iOS=movekegs.png, UWP=Assets/movekegs.png}" />
+                        </Image.Source>
+                    </Image>
+
+                    <Label
+                        x:Name="lblKegs"
+                        Grid.Row="1"
+                        Grid.Column="3"
+                        AutomationId="kegsLabel"
+                        Style="{StaticResource LabelNormalStyle}"
+                        Text="{Binding Resources[button_kegs]}"
+                        TextColor="#4E6388">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Path=BindingContext.KegsCommand, Source={x:Reference mainPage}}" CommandParameter="{Binding}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </Grid>
+
+            </Grid>
+
+        </DataTemplate>
+
+        <controls:ManuDataTemplateSelector
+            x:Key="MenuSelector"
+            Dashboard="{StaticResource DashTemplate}"
+            Menu="{StaticResource MenuTemplate}" />
+    </ContentPage.Resources>
+
     <Grid AutomationId="mainGrd" RowSpacing="0">
 
         <Grid.RowDefinitions>
@@ -57,20 +978,22 @@
             HorizontalOptions="FillAndExpand"
             VerticalOptions="Start" />
 
-        <controls:CarouselViewControl
-            x:Name="myDashboard"
+        <CarouselView
+            x:Name="TheCarousel"
             Grid.Row="2"
             AutomationId="carouselMain"
-            ShowArrows="True"
-            ShowIndicators="true">
+            ItemTemplate="{StaticResource MenuSelector}"
+            ItemsSource="{Binding Dashboards}" />
 
-            <controls:CarouselViewControl.ItemsSource>
-                <x:Array Type="{x:Type View}">
-                    <views:MenuView />
-                    <views:DashboardView />
-                </x:Array>
-            </controls:CarouselViewControl.ItemsSource>
-        </controls:CarouselViewControl>
+        <IndicatorView
+            Grid.Row="2"
+            Margin="0,0,0,20"
+            HorizontalOptions="Center"
+            IndicatorColor="LightGray"
+            IndicatorSize="12"
+            ItemsSourceBy="TheCarousel"
+            SelectedIndicatorColor="Black"
+            VerticalOptions="End" />
 
         <Label
             Grid.Row="3"
