@@ -1,5 +1,4 @@
-﻿using CarouselView.FormsPlugin.UWP;
-using Plugin.CrossPlatformTintedImage.UWP;
+﻿using Plugin.CrossPlatformTintedImage.UWP;
 using SegmentedControl.FormsPlugin.UWP;
 using System;
 using System.Collections.Generic;
@@ -42,10 +41,8 @@ namespace KegID.UWP
                 rootFrame = new Frame();
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
-                //Xamarin.Forms.Forms.SetFlags("CollectionView_Experimental");
                 List<Assembly> assembliesToInclude = new List<Assembly>
                 {
-                    typeof(CarouselViewRenderer).GetTypeInfo().Assembly,
                     //typeof(Forms9Patch.UWP.Settings).GetTypeInfo().Assembly,
                     typeof(SegmentedControlRenderer).GetTypeInfo().Assembly
                 };
@@ -55,7 +52,6 @@ namespace KegID.UWP
                 FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
                 Rg.Plugins.Popup.Popup.Init();
                 //Forms9Patch.UWP.Settings.Initialize(this);
-                //SegmentedControlRenderer.Init();
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
                     //TODO: Load state from previously suspended application

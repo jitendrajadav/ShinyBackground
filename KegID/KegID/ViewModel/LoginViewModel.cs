@@ -141,6 +141,7 @@ namespace KegID.ViewModel
                 else
                 {
                     await _dialogService.DisplayAlertAsync("Error", "Error while login please check", "Ok");
+                    UserDialogs.Instance.HideLoading();
                 }
             }
             catch (Exception ex)
