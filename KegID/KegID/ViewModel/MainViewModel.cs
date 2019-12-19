@@ -89,24 +89,13 @@ namespace KegID.ViewModel
 
         private async void LoadMetadData()
         {
-            if (VersionTracking.IsFirstLaunchForCurrentVersion)
+            if (VersionTracking.IsFirstLaunchForCurrentVersion && (!(bool)Application.Current.Properties["OnSleep"]))
             {
-                try
-                {
-                    UserDialogs.Instance.ShowLoading("Wait while downloading metadata...");
+                UserDialogs.Instance.ShowLoading("Wait while downloading meta data...");
 
-                    _initializeMetaData.DeleteInitializeMetaData();
-                    await _initializeMetaData.LoadInitializeMetaData();
-                }
-                catch (Exception ex)
-                {
-                    Crashes.TrackError(ex);
-                }
-                finally
-                {
-                    //AppSettings.IsMetaDataLoaded = true;
-                    UserDialogs.Instance.HideLoading();
-                }
+                _initializeMetaData.DeleteInitializeMetaData();
+                await _initializeMetaData.LoadInitializeMetaData();
+                UserDialogs.Instance.HideLoading();
             }
         }
 

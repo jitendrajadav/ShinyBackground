@@ -27,7 +27,7 @@ namespace KegID.Behaviors
             AssociatedObject = null;
         }
 
-        void OnBindingContextChanged(object sender, EventArgs e)
+        public void OnBindingContextChanged(object sender, EventArgs e)
         {
             OnBindingContextChanged();
         }

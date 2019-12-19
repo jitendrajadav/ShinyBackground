@@ -150,6 +150,7 @@ namespace KegID
 
         protected async override void OnStart()
         {
+            Application.Current.Properties["OnSleep"] = false;
             await Distribute.SetEnabledAsync(true);
             // In this example OnReleaseAvailable is a method name in same class
             Distribute.ReleaseAvailable = OnReleaseAvailable;
@@ -180,11 +181,12 @@ namespace KegID
 
         protected override void OnSleep ()
 		{
-            //serviceProvider.Dispose();
+            Application.Current.Properties["OnSleep"] = true;
         }
 
         protected override void OnResume()
         {
+            Application.Current.Properties["OnSleep"] = false;
         }
 
         private bool OnReleaseAvailable(ReleaseDetails releaseDetails)

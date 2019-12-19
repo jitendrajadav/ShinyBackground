@@ -8,10 +8,10 @@ namespace KegID.Localization
 {
     public class LocalizedResources : INotifyPropertyChanged
     {
-        const string DEFAULT_LANGUAGE = "en";
+        public const string DEFAULT_LANGUAGE = "en";
 
-        readonly ResourceManager ResourceManager;
-        CultureInfo CurrentCultureInfo;
+        public readonly ResourceManager ResourceManager;
+        public CultureInfo CurrentCultureInfo;
 
         public string this[string key]
         {
