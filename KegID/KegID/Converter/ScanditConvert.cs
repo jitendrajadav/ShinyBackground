@@ -20,6 +20,7 @@ namespace KegID.Converter
             { "Sym_FiveDigitAddOn", new Symbology[] { Symbology.FiveDigitAddOn } },
             { "Sym_Code11", new Symbology[] { Symbology.Code11 } },
             { "Sym_Code25", new Symbology[] { Symbology.Code25 } },
+            { "Sym_Code32", new Symbology[] { Symbology.Code32 } },
             { "Sym_Code39", new Symbology[] { Symbology.Code39 } },
             { "Sym_Code93", new Symbology[] { Symbology.Code93 } },
             { "Sym_Code128", new Symbology[] { Symbology.Code128 } },
@@ -31,6 +32,7 @@ namespace KegID.Converter
             { "Sym_Codabar", new Symbology[] { Symbology.Codabar } },
             { "Sym_Qr", new Symbology[] { Symbology.Qr } },
             { "Sym_DataMatrix", new Symbology[] { Symbology.DataMatrix } },
+            { AppSettings.DpmModeString, null },
             { "Sym_Pdf417", new Symbology[] { Symbology.Pdf417 } },
             { "Sym_MicroPdf417", new Symbology[] { Symbology.MicroPdf417 } },
             { "Sym_Aztec", new Symbology[] { Symbology.Aztec } },
@@ -39,6 +41,7 @@ namespace KegID.Converter
             { "Sym_Kix", new Symbology[] { Symbology.Kix } },
             { "Sym_DotCode", new Symbology[] { Symbology.DotCode } },
             { "Sym_MicroQR", new Symbology[] { Symbology.MicroQr } },
+            { "Sym_Lapa4sc", new Symbology[] { Symbology.LAPA4SC } }
         };
 
         // Associates the key (string) for permanent storage with the text displayed in the GUI
@@ -50,6 +53,7 @@ namespace KegID.Converter
             { "Sym_FiveDigitAddOn", "Five-Digit-Add-On" },
             { "Sym_Code11", "Code 11" },
             { "Sym_Code25", "Code 25" },
+            { "Sym_Code32", "Code 32" },
             { "Sym_Code39", "Code 39" },
             { "Sym_Code93", "Code 93" },
             { "Sym_Code128", "Code 128" },
@@ -63,6 +67,7 @@ namespace KegID.Converter
             { "Inv_Sym_Qr", "Color-inverted QR Code" },
             { "Sym_DataMatrix", "Data Matrix" },
             { "Inv_Sym_DataMatrix", "Color-Inverted Data Matrix" },
+            { AppSettings.DpmModeString, "DPM Mode" },
             { "Sym_Pdf417", "PDF417" },
             { "Sym_MicroPdf417", "MicroPDF417" },
             { "Sym_Aztec", "Aztec Code" },
@@ -71,6 +76,7 @@ namespace KegID.Converter
             { "Sym_Kix", "KIX" },
             { "Sym_DotCode", "DotCode" },
             { "Sym_MicroQR", "MicroQr" },
+            { "Sym_Lapa4sc", "Lapa4sc" }
         };
 
         // Associates an index with the storage key (string)
@@ -175,6 +181,7 @@ namespace KegID.Converter
             "Sym_Interleaved2Of5", "Sym_Qr", "Sym_DataMatrix", AppSettings.BeepString,
             AppSettings.TorchButtonString
         };
+
 
     }
 }

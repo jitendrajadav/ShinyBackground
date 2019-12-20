@@ -63,6 +63,10 @@ namespace KegID.Common
         public const string MsiPlesseyChecksumString_Mod1010 = "Mod 1010";
         public const string MsiPlesseyChecksumString_Mod1110 = "Mod 1110";
 
+        // DPM Mode
+        public const string DpmModeString = "Sym_DPM_Mode";
+        public const string DataMatrixString = "Sym_DataMatrix";
+
         // Feedback
         public const string BeepString = "Overlay_BeepEnabled";
         public const string VibrateString = "Overlay_VibrateEnabled";
@@ -109,6 +113,16 @@ namespace KegID.Common
         public const string GuiStyleString_Laser = "Overlay_GuiStyle_Laser";
         public const string GuiStyleString_None = "Overlay_GuiStyle_None";
         public const string GuiStyleString_LocationsOnly = "Overlay_GuiStyle_LocationsOnly";
+
+        public static bool isDpmMode(string symbology)
+        {
+            return symbology == DpmModeString;
+        }
+
+        public static bool isDataMatrix(string symbology)
+        {
+            return symbology == DataMatrixString;
+        }
 
         public static bool hasInvertedSymbology(string symbology)
         {

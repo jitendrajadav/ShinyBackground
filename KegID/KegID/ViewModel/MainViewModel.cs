@@ -6,8 +6,6 @@ using KegID.Messages;
 using KegID.Model;
 using KegID.Services;
 using KegID.Views;
-using LinkOS.Plugin;
-using LinkOS.Plugin.Abstractions;
 using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
 using Prism.Commands;
@@ -21,6 +19,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
+using Zebra.Sdk.Printer.Discovery;
 
 namespace KegID.ViewModel
 {
@@ -99,74 +98,91 @@ namespace KegID.ViewModel
             }
         }
 
-        private void StartPrinterSearch()
+        private async void StartPrinterSearch()
         {
-            new Task(new Action(() => StartBluetoothDiscovery())).Start();
-        }
-
-        private void StartBluetoothDiscovery()
-        {
-            IDiscoveryEventHandler bthandler = DiscoveryHandlerFactory.Current.GetInstance();
-            bthandler.OnDiscoveryError += DiscoveryHandler_OnDiscoveryError;
-            bthandler.OnDiscoveryFinished += DiscoveryHandler_OnDiscoveryFinished;
-            bthandler.OnFoundPrinter += DiscoveryHandler_OnFoundPrinter;
-            connetionType = ConnectionType.Bluetooth;
-            System.Diagnostics.Debug.WriteLine("Starting Bluetooth Discovery");
-            DependencyService.Get<IPrinterDiscovery>().FindBluetoothPrinters(bthandler);
-        }
-
-        private void DiscoveryHandler_OnFoundPrinter(object sender, IDiscoveredPrinter discoveredPrinter)
-        {
-            Device.BeginInvokeOnMainThread(() =>
+            //new Task(new Action(() => StartBluetoothDiscovery())).Start();
+            DiscoveryHandlerImplementation discoveryHandler = new DiscoveryHandlerImplementation();
+            await Task.Factory.StartNew(() =>
             {
-                if (discoveredPrinter.Address == AppSettings.PrinterAddress)
+                try
                 {
-                    ConstantManager.PrinterSetting = discoveredPrinter;
+                    DependencyService.Get<IConnectionManager>().FindBluetoothPrinters(discoveryHandler);
+                }
+                catch (NotImplementedException)
+                {
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Error", "Bluetooth discovery not supported on this platform", "OK");
+                    });
                 }
             });
         }
 
-        private void StartNetworkDiscovery()
-        {
-            try
-            {
-                IDiscoveryEventHandler nwhandler = DiscoveryHandlerFactory.Current.GetInstance();
-                nwhandler.OnDiscoveryError += DiscoveryHandler_OnDiscoveryError;
-                nwhandler.OnDiscoveryFinished += DiscoveryHandler_OnDiscoveryFinished;
-                nwhandler.OnFoundPrinter += DiscoveryHandler_OnFoundPrinter;
-                connetionType = ConnectionType.Network;
-                System.Diagnostics.Debug.WriteLine("Starting Network Discovery");
-                NetworkDiscoverer.Current.LocalBroadcast(nwhandler);
-            }
-            catch (Exception e)
-            {
-                System.Diagnostics.Debug.WriteLine("Network Exception: " + e.Message);
-            }
-        }
+        //private void StartBluetoothDiscovery()
+        //{
+        //    DiscoveryEventHandler bthandler = DiscoveryHandlerFactory.Current.GetInstance();
+        //    bthandler.OnDiscoveryError += DiscoveryHandler_OnDiscoveryError;
+        //    bthandler.OnDiscoveryFinished += DiscoveryHandler_OnDiscoveryFinished;
+        //    bthandler.OnFoundPrinter += DiscoveryHandler_OnFoundPrinter;
+        //    connetionType = ConnectionType.Bluetooth;
+        //    System.Diagnostics.Debug.WriteLine("Starting Bluetooth Discovery");
+        //    DependencyService.Get<IPrinterDiscovery>().FindBluetoothPrinters(bthandler);
+        //}
 
-        private void DiscoveryHandler_OnDiscoveryFinished(object sender)
-        {
-            if (connetionType == ConnectionType.USB)
-            {
-                StartBluetoothDiscovery();
-            }
-            else if (connetionType == ConnectionType.Bluetooth)
-            {
-                StartNetworkDiscovery();
-            }
-        }
+        //private void DiscoveryHandler_OnFoundPrinter(object sender, DiscoveredPrinter discoveredPrinter)
+        //{
+        //    Device.BeginInvokeOnMainThread(() =>
+        //    {
+        //        if (discoveredPrinter.Address == AppSettings.PrinterAddress)
+        //        {
+        //            ConstantManager.PrinterSetting = discoveredPrinter;
+        //        }
+        //    });
+        //}
 
-        private void DiscoveryHandler_OnDiscoveryError(object sender, string message)
-        {
-            if (connetionType == ConnectionType.USB)
-            {
-                StartBluetoothDiscovery();
-            }
-            else if (connetionType == ConnectionType.Bluetooth)
-            {
-                StartNetworkDiscovery();
-            }
-        }
+        //private void StartNetworkDiscovery()
+        //{
+        //    try
+        //    {
+        //        //NetworkDiscoveryHandler discoveryHandler = new NetworkDiscoveryHandler();
+        //        Zebra.Sdk.Printer.Discovery.DiscoveryHandlerLinkOsOnly discoveredPrinterNetwork = new DiscoveryHandlerLinkOsOnly();
+        //        DiscoveryHandler nwhandler = new DiscoveryHandler();
+        //        nwhandler.OnDiscoveryError += DiscoveryHandler_OnDiscoveryError;
+        //        nwhandler.OnDiscoveryFinished += DiscoveryHandler_OnDiscoveryFinished;
+        //        nwhandler.OnFoundPrinter += DiscoveryHandler_OnFoundPrinter;
+        //        connetionType = ConnectionType.Network;
+        //        System.Diagnostics.Debug.WriteLine("Starting Network Discovery");
+        //        NetworkDiscoverer.LocalBroadcast(nwhandler);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        System.Diagnostics.Debug.WriteLine("Network Exception: " + e.Message);
+        //    }
+        //}
+
+        //private void DiscoveryHandler_OnDiscoveryFinished(object sender)
+        //{
+        //    if (connetionType == ConnectionType.USB)
+        //    {
+        //        StartBluetoothDiscovery();
+        //    }
+        //    else if (connetionType == ConnectionType.Bluetooth)
+        //    {
+        //        StartNetworkDiscovery();
+        //    }
+        //}
+
+        //private void DiscoveryHandler_OnDiscoveryError(object sender, string message)
+        //{
+        //    if (connetionType == ConnectionType.USB)
+        //    {
+        //        StartBluetoothDiscovery();
+        //    }
+        //    else if (connetionType == ConnectionType.Bluetooth)
+        //    {
+        //        StartNetworkDiscovery();
+        //    }
+        //}
 
         private void HandleUnsubscribeMessages()
         {
@@ -529,5 +545,40 @@ namespace KegID.ViewModel
         }
 
         #endregion
+
+        private class DiscoveryHandlerImplementation : DiscoveryHandler
+        {
+
+            //private DiscoveryDemoPage discoveryDemoPage;
+
+            public DiscoveryHandlerImplementation(/*DiscoveryDemoPage discoveryDemoPage*/)
+            {
+                //this.discoveryDemoPage = discoveryDemoPage;
+            }
+
+            public void DiscoveryError(string message)
+            {
+                Device.BeginInvokeOnMainThread(async () => {
+                    await Application.Current.MainPage.DisplayAlert("Discovery Error", message, "OK");
+                });
+            }
+
+            public void DiscoveryFinished()
+            {
+                Device.BeginInvokeOnMainThread(() => {
+                    //discoveryDemoPage.SetInputEnabled(true);
+                });
+            }
+
+            public void FoundPrinter(DiscoveredPrinter printer)
+            {
+                Device.BeginInvokeOnMainThread(() => {
+                    if (printer.Address == AppSettings.PrinterAddress)
+                    {
+                        ConstantManager.PrinterSetting = printer;
+                    }
+                });
+            }
+        }
     }
 }

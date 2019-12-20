@@ -28,7 +28,8 @@ namespace KegID
             InitializeComponent();
             Xamarin.Forms.Device.SetFlags(new[] {
                 "CarouselView_Experimental",
-                "IndicatorView_Experimental"
+                "IndicatorView_Experimental",
+                "SwipeView_Experimental"
             });
             Xamarin.Essentials.VersionTracking.Track();
 #if DEBUG

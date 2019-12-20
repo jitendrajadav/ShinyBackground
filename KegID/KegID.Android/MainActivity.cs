@@ -1,9 +1,12 @@
 ﻿using Acr.UserDialogs;
+using Android;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.V4.App;
+using Android.Support.V4.Content;
 using Android.Views;
 using KegID.Droid.Services;
 using KegID.Messages;
@@ -21,6 +24,8 @@ namespace KegID.Droid
     [Activity(Label = "KegID", Icon = "@drawable/icon", Theme = "@style/MainTheme.Base", MainLauncher = false, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, LaunchMode = LaunchMode.SingleTop)]
     public class MainActivity : Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
+        public const int AccessCoarseLocationPermissionRequestCode = 0;
+
         private static Activity myActivity;
 
         protected override void OnCreate(Bundle bundle)
@@ -62,7 +67,41 @@ namespace KegID.Droid
             }
 
             WireUpLongRunningTask();
+            GetAccessCoarseLocationPermission();
         }
+
+        private void GetAccessCoarseLocationPermission()
+        {
+            if (ContextCompat.CheckSelfPermission(this, Manifest.Permission.AccessCoarseLocation) == Permission.Granted)
+            {
+                return;
+            }
+
+            if (ActivityCompat.ShouldShowRequestPermissionRationale(this, Manifest.Permission.AccessCoarseLocation))
+            {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.SetTitle("Permission Required")
+                    .SetMessage("Zebra Developer Demos requires permission to access your location in order to perform Bluetooth discovery. Please accept this permission to allow Bluetooth discovery to function properly.")
+                    .SetPositiveButton("OK", OnPermissionRequiredDialogOkClicked)
+                    .SetCancelable(false)
+                    .Show();
+
+                return;
+            }
+
+            RequestAccessCoarseLocationPermission();
+        }
+
+        private void OnPermissionRequiredDialogOkClicked(object sender, DialogClickEventArgs e)
+        {
+            RequestAccessCoarseLocationPermission();
+        }
+
+        private void RequestAccessCoarseLocationPermission()
+        {
+            ActivityCompat.RequestPermissions(this, new string[] { Manifest.Permission.AccessCoarseLocation }, AccessCoarseLocationPermissionRequestCode);
+        }
+
         public static Activity GetActivity()
         {
             return myActivity;

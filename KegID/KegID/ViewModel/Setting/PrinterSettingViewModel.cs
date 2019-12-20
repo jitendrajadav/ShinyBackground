@@ -2,10 +2,10 @@
 using System.Threading.Tasks;
 using KegID.Common;
 using KegID.Services;
-using LinkOS.Plugin.Abstractions;
 using Prism.Commands;
 using Prism.Navigation;
 using Xamarin.Essentials;
+using Zebra.Sdk.Printer.Discovery;
 
 namespace KegID.ViewModel
 {
@@ -125,7 +125,7 @@ namespace KegID.ViewModel
         {
             if (parameters.ContainsKey("IDiscoveredPrinter"))
             {
-                var printer = parameters.GetValue<IDiscoveredPrinter>("IDiscoveredPrinter");
+                var printer = parameters.GetValue<DiscoveredPrinter>("IDiscoveredPrinter");
                 SelectedPrinter = printer.Address;
                 AppSettings.FriendlyLbl = SelectedPrinter;
                 AppSettings.PrinterAddress = SelectedPrinter;

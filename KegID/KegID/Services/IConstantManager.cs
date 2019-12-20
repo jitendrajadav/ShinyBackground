@@ -1,12 +1,12 @@
 ﻿using KegID.Model;
-using LinkOS.Plugin.Abstractions;
 using System.Collections.Generic;
+using Zebra.Sdk.Printer.Discovery;
 
 namespace KegID.Services
 {
     public interface IConstantManager
     {
-        IDiscoveredPrinter PrinterSetting { get; set; }
+        DiscoveredPrinter PrinterSetting { get; set; }
         string IPAddr { get; set; }
         bool IsIPAddr { get; set; }
         string SelectedPrinter { get; set; }

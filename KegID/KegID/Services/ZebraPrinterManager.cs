@@ -1,19 +1,35 @@
-﻿using LinkOS.Plugin;
-using LinkOS.Plugin.Abstractions;
-using Microsoft.AppCenter.Crashes;
+﻿using Microsoft.AppCenter.Crashes;
 using Prism.Services;
 using System;
 using System.Text;
+using System.Threading.Tasks;
 using Xamarin.Forms;
+using Zebra.Sdk.Comm;
+using Zebra.Sdk.Printer;
+using Zebra.Sdk.Printer.Discovery;
 
 namespace KegID.Services
 {
     public class ZebraPrinterManager: IZebraPrinterManager
     {
-        private readonly IPageDialogService _dialogService;
-        public static IDiscoveredPrinter myPrinter;
+        public enum ConnectionType
+        {
+            Network,
+            Bluetooth,
+            UsbDirect,
+            UsbDriver
+        }
 
-        public string TestPrint { get; set; } = "^XA^FO17,16^GB379,371,8^FS^FT65,255^A0N,135,134^FDTEST^FS^XZ";
+        private readonly IPageDialogService _dialogService;
+        public static DiscoveredPrinter myPrinter;
+
+        public string TestPrint { get; set; } = @"^XA
+                                              ^FO17,16
+                                              ^GB379,371,8^FS
+                                              ^FT65,255
+                                              ^A0N,135,134
+                                              ^FDTEST^FS
+                                              ^XZ";
 
         #region ZPL Printer fill pallet format
 
@@ -39,10 +55,10 @@ namespace KegID.Services
                              ^PW sets the width of the label (in dots)
                              ^MNN sets the printer in continuous mode (variable length receipts only make sense with variably sized labels)
                              ^LL sets the length of the label (we calculate this value at the end of the routine)
-                             ^LH sets the reference axis for printing. 
+                             ^LH sets the reference axis for printing.
                                 You will notice we change this positioning of the 'Y' axis (length) as we build up the label. Once the positioning is changed, all new fields drawn on the label are rendered as if '0' is the new home position
                              ^FO sets the origin of the field relative to Label Home ^LH
-                             ^A sets font information 
+                             ^A sets font information
                              ^FD is a field description
                              ^GB is graphic boxes (or lines)
                              ^B sets barcode information
@@ -290,28 +306,62 @@ namespace KegID.Services
             _dialogService = dialogService;
         }
 
-        public void SendZplPalletAsync(string header, string ipAddr)
+        public async void SendZplPalletAsync(string header, string ipAddr)
         {
-            IConnection connection = null;
+            Connection connection = null;
             try
             {
                 if (!string.IsNullOrEmpty(ipAddr))
                 {
-                    connection = ConnectionBuilder.Current.Build("TCP:" + ipAddr + ":9100"); 
+                    connection = new TcpConnection(ipAddr, 9100);
+                                    //ConnectionBuilder.Current.Build("TCP:" + ipAddr + ":9100");
                 }
                 else
                 {
                     myPrinter = ConstantManager.PrinterSetting;
-                    connection = myPrinter.Connection;
-                }
-                connection.Open();
-                IZebraPrinter printer = ZebraPrinterFactory.Current.GetInstance(connection);
-                if ((!CheckPrinterLanguage(connection)) || (!PreCheckPrinterStatus(printer)))
-                {
-                    return;
+                    connection = myPrinter.GetConnection();
                 }
 
-                connection.Write(GetBytes(header));
+                await Task.Run(async () => {
+                    try
+                    {
+                        //await DisplayConnectionStatusAsync("Connecting...", Color.Goldenrod, 1500);
+
+                        connection.Open();
+
+                        //await DisplayConnectionStatusAsync("Connected", Color.Green, 1500);
+                        //await DisplayConnectionStatusAsync("Determining printer language...", Color.Goldenrod, 1500);
+
+                        PrinterLanguage printerLanguage = ZebraPrinterFactory.GetInstance(connection).PrinterControlLanguage;
+                        //await DisplayConnectionStatusAsync("Printer language: " + printerLanguage.ToString(), Color.Blue, 1500);
+
+                        //UpdateConnectionStatus("Sending data...", Color.Goldenrod);
+
+                        connection.Write(GetTestLabelBytes(printerLanguage, header));
+
+                        await Task.Delay(1000);
+                    }
+                    catch (Exception e)
+                    {
+                        //await DisplayConnectionStatusAsync($"Error: {e.Message}", Color.Red, 3000);
+                        // Connection Exceptions and issues are caught here
+                        Device.BeginInvokeOnMainThread(async () =>
+                        {
+                            await _dialogService.DisplayAlertAsync("Error", $"Error: {e.Message}", "Ok");
+                        });
+                    }
+                    finally
+                    {
+                        try
+                        {
+                            connection?.Close();
+
+                            //await DisplayConnectionStatusAsync("Disconnecting...", Color.Goldenrod, 1000);
+                            //UpdateConnectionStatus("Not connected", Color.Red);
+                        }
+                        catch (ConnectionException) { }
+                    }
+                });
             }
             catch (Exception ex)
             {
@@ -322,59 +372,22 @@ namespace KegID.Services
                 });
                     Crashes.TrackError(ex);
             }
-            finally
-            {
-                if ((connection != null) && (connection.IsConnected))
-                    connection.Close();
-            }
         }
 
-        private byte[] GetBytes(string str)
+        private byte[] GetTestLabelBytes(PrinterLanguage printerLanguage, string str)
         {
-            byte[] bytes = new byte[str.Length];
-            bytes = Encoding.UTF8.GetBytes(str);
-            return bytes;
-        }
-
-        public bool CheckPrinterLanguage(IConnection connection)
-        {
-            if (!connection.IsConnected)
-                connection.Open();
-            //  Check the current printer language
-            byte[] response = connection.SendAndWaitForResponse(GetBytes("! U1 getvar \"device.languages\"\r\n"), 500, 100);
-            string language = Encoding.UTF8.GetString(response, 0, response.Length);
-            if (language.Contains("line_print"))
+            if (printerLanguage == PrinterLanguage.ZPL)
             {
-                Application.Current.MainPage.DisplayAlert("Switching printer to ZPL Control Language.", "Notification", "Ok");
+                return Encoding.UTF8.GetBytes(str);
             }
-            // printer is already in zpl mode
-            else if (language.Contains("zpl"))
+            else if (printerLanguage == PrinterLanguage.CPCL || printerLanguage == PrinterLanguage.LINE_PRINT)
             {
-                return true;
+                return Encoding.UTF8.GetBytes(str);
             }
-
-            //  Set the printer command languege
-            connection.Write(GetBytes("! U1 setvar \"device.languages\" \"zpl\"\r\n"));
-            response = connection.SendAndWaitForResponse(GetBytes("! U1 getvar \"device.languages\"\r\n"), 500, 100);
-            language = Encoding.UTF8.GetString(response, 0, response.Length);
-            if (!language.Contains("zpl"))
+            else
             {
-                Application.Current.MainPage.DisplayAlert("Printer language not set. Not a ZPL printer.", "Ok", "Ok");
-                return false;
+                throw new ZebraPrinterLanguageUnknownException();
             }
-            return true;
-        }
-
-        public bool PreCheckPrinterStatus(IZebraPrinter printer)
-        {
-            // Check the printer status
-            IPrinterStatus status = printer.CurrentStatus;
-            if (!status.IsReadyToPrint)
-            {
-                Application.Current.MainPage.DisplayAlert("Unable to print. Printer is " + status.Status, "test", "test");
-                return false;
-            }
-            return true;
         }
     }
 }

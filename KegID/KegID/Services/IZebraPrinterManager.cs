@@ -1,5 +1,4 @@
-﻿using LinkOS.Plugin.Abstractions;
-using System;
+﻿using System;
 
 namespace KegID.Services
 {
@@ -8,7 +7,5 @@ namespace KegID.Services
         String PalletHeader { get; set; }
         String TestPrint { get; set; }
         void SendZplPalletAsync(string header, string ipAddr);
-        bool CheckPrinterLanguage(IConnection connection);
-        bool PreCheckPrinterStatus(IZebraPrinter printer);
     }
 }
