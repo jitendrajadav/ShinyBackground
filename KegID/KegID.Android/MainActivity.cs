@@ -38,33 +38,18 @@ namespace KegID.Droid
             base.OnCreate(bundle);
             myActivity = this;
 
-            //Forms.SetFlags("FastRenderers_Experimental");
             Forms.Init(this, bundle);
             FormsMaterial.Init(this, bundle);
             UserDialogs.Init(this);
             Rg.Plugins.Popup.Popup.Init(this, bundle);
-            try
-            {
-                FFImageLoading.Forms.Platform.CachedImageRenderer.Init(true);
-            }
-            catch (Exception)
-            {
-
-            }
+            FFImageLoading.Forms.Platform.CachedImageRenderer.Init(true);
             Xamarin.FormsMaps.Init(this, bundle);
             TintedImageRenderer.Init();
             Xamarin.Essentials.Platform.Init(this, bundle);
             CrossCurrentActivity.Current.Init(this, bundle);
             //Forms9Patch.Droid.Settings.Initialize(this);
             SegmentedControlRenderer.Init();
-            try
-            {
-                LoadApplication(new App(new AndroidInitializer()));
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            LoadApplication(new App(new AndroidInitializer()));
 
             WireUpLongRunningTask();
             GetAccessCoarseLocationPermission();

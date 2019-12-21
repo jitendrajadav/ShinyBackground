@@ -5,7 +5,6 @@ using KegID.LocalDb;
 using KegID.Messages;
 using KegID.Model;
 using KegID.Services;
-using KegID.Views;
 using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
 using Prism.Commands;
@@ -29,7 +28,6 @@ namespace KegID.ViewModel
 
         private readonly IInitializeMetaData _initializeMetaData;
         private readonly IUuidManager _uuidManager;
-        private ConnectionType connetionType;
 
         public string DraftmaniFests { get; set; }
         public bool IsVisibleDraftmaniFestsLabel { get; set; }
@@ -98,9 +96,8 @@ namespace KegID.ViewModel
             }
         }
 
-        private async void StartPrinterSearch()
+        private async Task StartPrinterSearch()
         {
-            //new Task(new Action(() => StartBluetoothDiscovery())).Start();
             DiscoveryHandlerImplementation discoveryHandler = new DiscoveryHandlerImplementation();
             await Task.Factory.StartNew(() =>
             {
@@ -117,72 +114,6 @@ namespace KegID.ViewModel
                 }
             });
         }
-
-        //private void StartBluetoothDiscovery()
-        //{
-        //    DiscoveryEventHandler bthandler = DiscoveryHandlerFactory.Current.GetInstance();
-        //    bthandler.OnDiscoveryError += DiscoveryHandler_OnDiscoveryError;
-        //    bthandler.OnDiscoveryFinished += DiscoveryHandler_OnDiscoveryFinished;
-        //    bthandler.OnFoundPrinter += DiscoveryHandler_OnFoundPrinter;
-        //    connetionType = ConnectionType.Bluetooth;
-        //    System.Diagnostics.Debug.WriteLine("Starting Bluetooth Discovery");
-        //    DependencyService.Get<IPrinterDiscovery>().FindBluetoothPrinters(bthandler);
-        //}
-
-        //private void DiscoveryHandler_OnFoundPrinter(object sender, DiscoveredPrinter discoveredPrinter)
-        //{
-        //    Device.BeginInvokeOnMainThread(() =>
-        //    {
-        //        if (discoveredPrinter.Address == AppSettings.PrinterAddress)
-        //        {
-        //            ConstantManager.PrinterSetting = discoveredPrinter;
-        //        }
-        //    });
-        //}
-
-        //private void StartNetworkDiscovery()
-        //{
-        //    try
-        //    {
-        //        //NetworkDiscoveryHandler discoveryHandler = new NetworkDiscoveryHandler();
-        //        Zebra.Sdk.Printer.Discovery.DiscoveryHandlerLinkOsOnly discoveredPrinterNetwork = new DiscoveryHandlerLinkOsOnly();
-        //        DiscoveryHandler nwhandler = new DiscoveryHandler();
-        //        nwhandler.OnDiscoveryError += DiscoveryHandler_OnDiscoveryError;
-        //        nwhandler.OnDiscoveryFinished += DiscoveryHandler_OnDiscoveryFinished;
-        //        nwhandler.OnFoundPrinter += DiscoveryHandler_OnFoundPrinter;
-        //        connetionType = ConnectionType.Network;
-        //        System.Diagnostics.Debug.WriteLine("Starting Network Discovery");
-        //        NetworkDiscoverer.LocalBroadcast(nwhandler);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        System.Diagnostics.Debug.WriteLine("Network Exception: " + e.Message);
-        //    }
-        //}
-
-        //private void DiscoveryHandler_OnDiscoveryFinished(object sender)
-        //{
-        //    if (connetionType == ConnectionType.USB)
-        //    {
-        //        StartBluetoothDiscovery();
-        //    }
-        //    else if (connetionType == ConnectionType.Bluetooth)
-        //    {
-        //        StartNetworkDiscovery();
-        //    }
-        //}
-
-        //private void DiscoveryHandler_OnDiscoveryError(object sender, string message)
-        //{
-        //    if (connetionType == ConnectionType.USB)
-        //    {
-        //        StartBluetoothDiscovery();
-        //    }
-        //    else if (connetionType == ConnectionType.Bluetooth)
-        //    {
-        //        StartNetworkDiscovery();
-        //    }
-        //}
 
         private void HandleUnsubscribeMessages()
         {
@@ -516,7 +447,7 @@ namespace KegID.ViewModel
             base.OnNavigatedTo(parameters);
         }
 
-        public override Task InitializeAsync(INavigationParameters parameters)
+        public override async Task InitializeAsync(INavigationParameters parameters)
         {
             LoadMetadData();
             HandleUnsubscribeMessages();
@@ -525,7 +456,7 @@ namespace KegID.ViewModel
             RefreshDashboardRecieverAsync();
             if (Device.RuntimePlatform != Device.UWP)
             {
-                StartPrinterSearch();
+               await StartPrinterSearch();
             }
 
             Connectivity.ConnectivityChanged -= Connectivity_ConnectivityChanged;
@@ -541,7 +472,6 @@ namespace KegID.ViewModel
                     ScanditService.ScanditLicense.AppKey = Resources["scanditiOSKey"];
                     break;
             }
-            return base.InitializeAsync(parameters);
         }
 
         #endregion
