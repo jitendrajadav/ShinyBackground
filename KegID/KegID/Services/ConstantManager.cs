@@ -6,6 +6,10 @@ namespace KegID.Services
 {
     public static class ConstantManager
     {
+        public static readonly string StageApiUrl = "https://stageapi.kegid.com/api/";
+        public static readonly string TestApiUrl = "https://testapi.kegid.com/api/";
+        public static readonly string ProdApiUrl = "https://api.kegid.com/api/";
+
         public static DiscoveredPrinter PrinterSetting { get; set; }
         public static string IPAddr { get; set; }
         public static LocationInfo Position { get; set; }

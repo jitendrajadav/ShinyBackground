@@ -29,9 +29,9 @@ namespace KegID
             VersionTracking.Track();
 #if DEBUG
             //HotReloader.Current.Run(this);
-            ConstantManager.BaseUrl = Configuration.ProdApiUrl;
+            ConstantManager.BaseUrl = ConstantManager.ProdApiUrl;
 #elif RELEASE
-            ConstantManager.BaseUrl = Configuration.ProdApiUrl;
+            ConstantManager.BaseUrl = ConstantManager.ProdApiUrl;
 #endif
 
             var versionUpdated = VersionTracking.CurrentVersion.CompareTo(VersionTracking.PreviousVersion);
@@ -49,13 +49,6 @@ namespace KegID
                     await NavigationService.NavigateAsync("NavigationPage/MainPageTablet");
                 else
                     await NavigationService.NavigateAsync("NavigationPage/MainPage");
-            }
-
-            switch (Xamarin.Forms.Device.RuntimePlatform)
-            {
-                case Xamarin.Forms.Device.Android:
-                    var permission = await DependencyService.Get<IPermission>().VerifyStoragePermissions();
-                    break;
             }
         }
 
@@ -157,12 +150,12 @@ namespace KegID
             var _syncManager = Container.Resolve<SyncManager>();
             _syncManager.NotifyConnectivityChanged();
 
-            //switch (Xamarin.Forms.Device.RuntimePlatform)
-            //{
-            //    case Xamarin.Forms.Device.Android:
-            //        var permission = await DependencyService.Get<IPermission>().VerifyStoragePermissions();
-            //        break;
-            //}
+            switch (Xamarin.Forms.Device.RuntimePlatform)
+            {
+                case Xamarin.Forms.Device.Android:
+                    var permission = await DependencyService.Get<IPermission>().VerifyStoragePermissions();
+                    break;
+            }
         }
 
         protected override void OnSleep ()

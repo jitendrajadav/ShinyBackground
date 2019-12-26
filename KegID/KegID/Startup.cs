@@ -1,9 +1,7 @@
 ﻿using KegID.Delegates;
-using KegID.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Prism.DryIoc;
 using Shiny;
-using Shiny.Jobs;
 using Shiny.Prism;
 
 namespace KegID

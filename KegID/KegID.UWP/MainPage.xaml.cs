@@ -17,11 +17,11 @@ namespace KegID.UWP
             InitializeComponent();
             SetupAdditionalEncodingProviders();
             Xamarin.FormsMaps.Init(AppSettings.BingMapsApiKey);
-            LoadApplication(new KegID.App(new UwpInitializer()));
+            LoadApplication(new KegID.App());
         }
 
-        // setup additional encoding providers using reflection. In your own application, it's typically sufficient to just 
-        // call Encoding.RegisterProvider(CodePagesEncodingProvider.Instance). We use reflection to make this also work with 
+        // setup additional encoding providers using reflection. In your own application, it's typically sufficient to just
+        // call Encoding.RegisterProvider(CodePagesEncodingProvider.Instance). We use reflection to make this also work with
         // older .NET versions that don't yet have the functionality.
         private void SetupAdditionalEncodingProviders()
         {
