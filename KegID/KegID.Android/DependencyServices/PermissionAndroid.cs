@@ -9,10 +9,10 @@ using Plugin.CurrentActivity;
 [assembly: Xamarin.Forms.Dependency(typeof(PermissionAndroid))]
 namespace KegID.Droid.DependencyServices
 {
-    class PermissionAndroid : IPermission
+    public class PermissionAndroid : IPermission
     {
         // Storage Permissions
-        private static readonly int REQUEST_EXTERNAL_STORAGE = 1;
+        private const int REQUEST_EXTERNAL_STORAGE = 1;
         private static readonly string[] PERMISSIONS_STORAGE =
             {
                 Manifest.Permission.ReadExternalStorage,

@@ -8,7 +8,7 @@ using Xamarin.Forms;
 [assembly: Dependency(typeof(XsltContent))]
 namespace KegID.Droid.DependencyServices
 {
-    internal class XsltContent : IXsltContent
+    public class XsltContent : IXsltContent
     {
         public string GetXsltContent(string filename)
         {

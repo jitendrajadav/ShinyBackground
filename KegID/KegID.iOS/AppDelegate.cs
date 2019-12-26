@@ -1,7 +1,6 @@
 ﻿using Foundation;
 using KegID.iOS.Services;
 using KegID.Messages;
-using Microsoft.AppCenter.Crashes;
 using Plugin.CrossPlatformTintedImage.iOS;
 using Prism;
 using Prism.Ioc;
@@ -47,28 +46,28 @@ namespace KegID.iOS
             UIApplication.SharedApplication.SetMinimumBackgroundFetchInterval(UIApplication.BackgroundFetchIntervalMinimum);
             //Forms9Patch.iOS.Settings.Initialize(this);
             SegmentedControlRenderer.Init();
+            Shiny.iOSShinyHost.Init(new Startup());
             Distribute.DontCheckForUpdatesInDebug();
 
-            try
-            {
-                LoadApplication(new App(new IOSInitializer()));
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            LoadApplication(new App(new IOSInitializer()));
             WireUpLongRunningTask();
 
             return base.FinishedLaunching(app, options);
         }
+
+        public override void PerformFetch(UIApplication application, Action<UIBackgroundFetchResult> completionHandler)
+    => Shiny.Jobs.JobManager.OnBackgroundFetch(completionHandler);
+
         void WireUpLongRunningTask()
         {
-            MessagingCenter.Subscribe<StartLongRunningTaskMessage>(this, "StartLongRunningTaskMessage", async message => {
+            MessagingCenter.Subscribe<StartLongRunningTaskMessage>(this, "StartLongRunningTaskMessage", async message =>
+            {
                 longRunningTaskExample = new iOSLongRunningTaskExample();
                 await longRunningTaskExample.Start(message);
             });
 
-            MessagingCenter.Subscribe<StopLongRunningTaskMessage>(this, "StopLongRunningTaskMessage", message => {
+            MessagingCenter.Subscribe<StopLongRunningTaskMessage>(this, "StopLongRunningTaskMessage", message =>
+            {
                 longRunningTaskExample.Stop();
             });
         }
@@ -78,7 +77,6 @@ namespace KegID.iOS
     {
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-
         }
     }
 }

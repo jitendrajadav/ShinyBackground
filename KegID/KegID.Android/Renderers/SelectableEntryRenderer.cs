@@ -12,8 +12,8 @@ namespace KegID.Droid.Renderers
     {
         public SelectableEntryRenderer(Context context) : base(context)
         {
-
         }
+
         protected override void OnElementChanged(ElementChangedEventArgs<Entry> e)
         {
             base.OnElementChanged(e);

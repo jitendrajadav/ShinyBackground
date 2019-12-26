@@ -15,6 +15,9 @@ using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
 using Acr.UserDialogs;
+using System.Threading;
+using KegID.Common;
+using Newtonsoft.Json;
 
 namespace KegID.ViewModel
 {
@@ -136,7 +139,6 @@ namespace KegID.ViewModel
                 });
             });
         }
-
 
         public void LoadBrand()
         {
@@ -460,12 +462,39 @@ namespace KegID.ViewModel
                     //};
                     //var kegStatusResponse = await _dashboardService.PostKegAsync(KegModel, KegId, AppSettings.SessionId, Configuration.Keg);
 
-                    var message = new StartLongRunningTaskMessage
+                    //var message = new StartLongRunningTaskMessage
+                    //{
+                    //    Barcode = new List<string>() { ManaulBarcode },
+                    //    PageName = nameof(ViewTypeEnum.ScanKegsView)
+                    //};
+                    //MessagingCenter.Send(message, "StartLongRunningTaskMessage");
+
+                    // IJobManager can and should be injected into your viewmodel code
+                    Shiny.ShinyHost.Resolve<Shiny.Jobs.IJobManager>().RunTask("MoveJob", async _ =>
                     {
-                        Barcode = new List<string>() { ManaulBarcode },
-                        PageName = nameof(ViewTypeEnum.ScanKegsView)
-                    };
-                    MessagingCenter.Send(message, "StartLongRunningTaskMessage");
+                        // your code goes here - async stuff is welcome (and necessary)
+                       var response = await ApiManager.GetValidateBarcode(ManaulBarcode, AppSettings.SessionId);
+                        if (response.IsSuccessStatusCode)
+                        {
+                            var json = await response.Content.ReadAsStringAsync();
+                            var data = await Task.Run(() => JsonConvert.DeserializeObject<BarcodeModel>(json, GetJsonSetting()));
+
+                            if (data.Kegs != null)
+                            {
+                                using (var db = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
+                                {
+                                    var oldBarcode = BarcodeCollection.Where(x => x.Barcode == data.Barcode).FirstOrDefault();
+                                    oldBarcode.Pallets = data.Pallets;
+                                    oldBarcode.Kegs = data.Kegs;
+                                    oldBarcode.Icon = data?.Kegs?.Partners.Count > 1 ? _getIconByPlatform.GetIcon("validationquestion.png") : data?.Kegs?.Partners?.Count == 0 ? _getIconByPlatform.GetIcon("validationerror.png") : _getIconByPlatform.GetIcon("validationok.png");
+                                    if (oldBarcode.Icon == "validationerror.png")
+                                        Vibration.Vibrate();
+                                    oldBarcode.IsScanned = true;
+                                    db.Commit();
+                                }
+                            }
+                        }
+                    });
                 }
 
                 ManaulBarcode = string.Empty;

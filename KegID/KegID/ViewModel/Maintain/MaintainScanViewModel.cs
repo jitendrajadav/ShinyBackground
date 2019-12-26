@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Acr.UserDialogs;
 using KegID.Common;
+using KegID.Delegates;
 using KegID.LocalDb;
 using KegID.Messages;
 using KegID.Model;
@@ -13,12 +14,14 @@ using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
 using Realms;
+using Shiny;
+using Shiny.Locations;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
-    public class MaintainScanViewModel : BaseViewModel
+    public class MaintainScanViewModel : BaseViewModel, IDestructible
     {
         #region Properties
 
@@ -32,8 +35,10 @@ namespace KegID.ViewModel
         private readonly IGetIconByPlatform _getIconByPlatform;
         private readonly IUuidManager _uuidManager;
         private readonly IManifestManager _manifestManager;
-        private readonly IGeolocationService _geolocationService;
-
+        //private readonly IGeolocationService _geolocationService;
+        private readonly IGpsListener _gpsListener;
+        private readonly IGpsManager _gpsManager;
+        public Position LocationMessage { get; set; }
         public string ManaulBarcode { get; set; }
         public ObservableCollection<BarcodeModel> BarcodeCollection { get; set; } = new ObservableCollection<BarcodeModel>();
         private IList<MaintenanceTypeModel> SelectedMaintainenace { get; set; }
@@ -54,12 +59,15 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public MaintainScanViewModel(INavigationService navigationService, IGetIconByPlatform getIconByPlatform, IUuidManager uuidManager, IManifestManager manifestManager, IGeolocationService geolocationService) : base(navigationService)
+        public MaintainScanViewModel(INavigationService navigationService, IGetIconByPlatform getIconByPlatform, IUuidManager uuidManager, IManifestManager manifestManager, IGpsManager gpsManager, IGpsListener gpsListener) : base(navigationService)
         {
             _getIconByPlatform = getIconByPlatform;
             _uuidManager = uuidManager;
             _manifestManager = manifestManager;
-            _geolocationService = geolocationService;
+            //_geolocationService = geolocationService;
+            _gpsManager = gpsManager;
+            _gpsListener = gpsListener;
+            _gpsListener.OnReadingReceived += OnReadingReceived;
 
             SubmitCommand = new DelegateCommand(async () => await RunSafe(SubmitCommandRecieverAsync()));
             BackCommand = new DelegateCommand(BackCommandRecieverAsync);
@@ -75,6 +83,12 @@ namespace KegID.ViewModel
         #endregion
 
         #region Methods
+
+        void OnReadingReceived(object sender, GpsReadingEventArgs e)
+        {
+            LocationMessage = e.Reading.Position;
+            //= $"{e.Reading.Position.Latitude}, {e.Reading.Position.Longitude}";
+        }
 
         private void DeleteItemCommandReciever(BarcodeModel model)
         {
@@ -347,7 +361,7 @@ namespace KegID.ViewModel
             {
                 UserDialogs.Instance.ShowLoading("Loading");
 
-                var location = await _geolocationService.GetLastLocationAsync();
+                //var location = await _geolocationService.GetLastLocationAsync();
 
                 ManifestModel manifestPostModel = null;
 
@@ -359,7 +373,7 @@ namespace KegID.ViewModel
                 {
                     try
                     {
-                        manifestPostModel = GenerateManifest(location ?? new Xamarin.Essentials.Location(0, 0), ManifestId);
+                        manifestPostModel = GenerateManifest(LocationMessage ?? new Position(0, 0), ManifestId);
 
                         var current = Connectivity.NetworkAccess;
                         if (current == NetworkAccess.Internet)
@@ -409,7 +423,7 @@ namespace KegID.ViewModel
             }
         }
 
-        public ManifestModel GenerateManifest(Xamarin.Essentials.Location location, string manifestId = "")
+        public ManifestModel GenerateManifest(Position location, string manifestId = "")
         {
             List<MaintainKeg> kegs = new List<MaintainKeg>();
             MaintainKeg keg = null;
@@ -498,8 +512,21 @@ namespace KegID.ViewModel
             MessagingCenter.Send(message, "MaintainDTToMaintMsg");
         }
 
-        public override void OnNavigatedTo(INavigationParameters parameters)
+        public override async void OnNavigatedTo(INavigationParameters parameters)
         {
+            if (_gpsManager.IsListening)
+            {
+                await _gpsManager.StopListener();
+            }
+
+            await _gpsManager.StartListener(new GpsRequest
+            {
+                UseBackground = true,
+                Priority = GpsPriority.Highest,
+                Interval = TimeSpan.FromSeconds(5),
+                ThrottledInterval = TimeSpan.FromSeconds(3) //Should be lower than Interval
+            });
+
             if (parameters.ContainsKey("BackCommandRecieverAsync"))
             {
                 BackCommandRecieverAsync();
@@ -556,6 +583,11 @@ namespace KegID.ViewModel
             {
                 Crashes.TrackError(ex);
             }
+        }
+
+        public void Destroy()
+        {
+            _gpsListener.OnReadingReceived -= OnReadingReceived;
         }
 
         #endregion

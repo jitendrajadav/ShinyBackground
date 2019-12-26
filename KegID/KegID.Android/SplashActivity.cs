@@ -22,7 +22,7 @@ namespace KegID.Droid
         protected override void OnResume()
         {
             base.OnResume();
-            Task startupWork = new Task(() => { SimulateStartup(); });
+            Task startupWork = new Task(() => SimulateStartup());
             startupWork.Start();
         }
 
@@ -34,6 +34,5 @@ namespace KegID.Droid
             Log.Debug(TAG, "Startup work is finished - starting MainActivity.");
             StartActivity(new Intent(Application.Context, typeof(MainActivity)));
         }
-
     }
 }

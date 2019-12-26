@@ -14,14 +14,19 @@ using KegID.Common;
 using Xamarin.Essentials;
 using Newtonsoft.Json;
 using Acr.UserDialogs;
+using KegID.Delegates;
+using Shiny.Locations;
+using Shiny;
 
 namespace KegID.ViewModel
 {
-    public class PartnersViewModel : BaseViewModel
+    public class PartnersViewModel : BaseViewModel, IDestructible
     {
         #region Properties
 
-        private readonly IGeolocationService _geolocationService;
+        //private readonly IGeolocationService _geolocationService;
+        private readonly IGpsListener _gpsListener;
+        private readonly IGpsManager _gpsManager;
 
         public bool BrewerStockOn { get; set; }
         public bool IsWorking { get; set; }
@@ -31,7 +36,7 @@ namespace KegID.ViewModel
         public int? SelectedSegment { get; private set; }
 
         public IList<PartnerModel> AllPartners { get; set; }
-
+        public Position LocationMessage { get; set; }
         #endregion
 
         #region Commands
@@ -49,9 +54,12 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public PartnersViewModel(INavigationService navigationService, IGeolocationService geolocationService) : base(navigationService)
+        public PartnersViewModel(INavigationService navigationService, IGpsManager gpsManager, IGpsListener gpsListener) : base(navigationService)
         {
-            _geolocationService = geolocationService;
+            //_geolocationService = geolocationService;
+            _gpsManager = gpsManager;
+            _gpsListener = gpsListener;
+            _gpsListener.OnReadingReceived += OnReadingReceived;
 
             ItemTappedCommand = new DelegateCommand<PartnerModel>((model) => ItemTappedCommandRecieverAsync(model));
             SearchPartnerCommand = new DelegateCommand(SearchPartnerCommandRecieverAsync);
@@ -64,6 +72,12 @@ namespace KegID.ViewModel
         #endregion
 
         #region Methods
+
+        void OnReadingReceived(object sender, GpsReadingEventArgs e)
+        {
+            LocationMessage = e.Reading.Position;
+            //= $"{e.Reading.Position.Latitude}, {e.Reading.Position.Longitude}";
+        }
 
         private void TextChangedCommandRecieverAsync()
         {
@@ -95,7 +109,7 @@ namespace KegID.ViewModel
             }
         }
 
-        private async void SelectedSegmentCommandReciever(object seg)
+        private void SelectedSegmentCommandReciever(object seg)
         {
             if (SelectedSegment != (int)seg)
             {
@@ -117,13 +131,13 @@ namespace KegID.ViewModel
                                 PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners.OrderBy(x => x.FullName));
                             break;
                         case 2:
-                            var locationStart = await _geolocationService.GetLastLocationAsync();
+                            //var locationStart = await _geolocationService.GetLastLocationAsync();
                             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                             using (var trans = RealmDb.BeginWrite())
                             {
                                 foreach (var item in AllPartners)
                                 {
-                                    item.Distance = Xamarin.Essentials.Location.CalculateDistance(locationStart, item.Lat, item.Lon, DistanceUnits.Miles);
+                                    item.Distance = Xamarin.Essentials.Location.CalculateDistance(new Xamarin.Essentials.Location(LocationMessage.Latitude, LocationMessage.Latitude), item.Lat, item.Lon, DistanceUnits.Miles);
                                 }
                                 trans.Commit();
                             }
@@ -272,8 +286,21 @@ namespace KegID.ViewModel
             }
         }
 
-        public override void OnNavigatedTo(INavigationParameters parameters)
+        public override async void OnNavigatedTo(INavigationParameters parameters)
         {
+            if (_gpsManager.IsListening)
+            {
+                await _gpsManager.StopListener();
+            }
+
+            await _gpsManager.StartListener(new GpsRequest
+            {
+                UseBackground = true,
+                Priority = GpsPriority.Highest,
+                Interval = TimeSpan.FromSeconds(5),
+                ThrottledInterval = TimeSpan.FromSeconds(3) //Should be lower than Interval
+            });
+
             switch (parameters.Keys.FirstOrDefault())
             {
                 case "partnerModel":
@@ -321,6 +348,11 @@ namespace KegID.ViewModel
                 CommingFrom = parameters.GetValue<string>("GoingFrom");
             }
             await LoadPartnersAsync();
+        }
+
+        public void Destroy()
+        {
+            _gpsListener.OnReadingReceived -= OnReadingReceived;
         }
 
         #endregion

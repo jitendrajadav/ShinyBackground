@@ -9,7 +9,7 @@ using KegID.Droid.DependencyServices;
 [assembly: Xamarin.Forms.Dependency(typeof(PhoneDialerAndroid))]
 namespace KegID.Droid.DependencyServices
 {
-    class PhoneDialerAndroid : IDialer
+    public class PhoneDialerAndroid : IDialer
     {
         public Task<bool> DialAsync(string number)
         {

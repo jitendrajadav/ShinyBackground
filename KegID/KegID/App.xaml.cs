@@ -3,9 +3,8 @@ using KegID.ViewModel;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
-using Prism.Unity;
+using Prism.DryIoc;
 using Prism.Ioc;
-using Prism;
 using KegID.Services;
 using Xamarin.Forms;
 using Prism.Plugin.Popups;
@@ -21,20 +20,16 @@ namespace KegID
     public partial class App : PrismApplication
     {
         public static string CurrentLanguage = "EN";
-        public App(IPlatformInitializer initializer = null) : base(initializer) { }
+        protected override IContainerExtension CreateContainerExtension() => PrismContainerExtension.Current;
 
         protected override async void OnInitialized()
         {
             InitializeComponent();
-            Xamarin.Forms.Device.SetFlags(new[] {
-                "CarouselView_Experimental",
-                "IndicatorView_Experimental",
-                "SwipeView_Experimental"
-            });
-            Xamarin.Essentials.VersionTracking.Track();
+            Xamarin.Forms.Device.SetFlags(new[] {"CarouselView_Experimental", "IndicatorView_Experimental", "SwipeView_Experimental"});
+            VersionTracking.Track();
 #if DEBUG
             //HotReloader.Current.Run(this);
-            ConstantManager.BaseUrl = Configuration.TestApiUrl;
+            ConstantManager.BaseUrl = Configuration.ProdApiUrl;
 #elif RELEASE
             ConstantManager.BaseUrl = Configuration.ProdApiUrl;
 #endif
@@ -55,6 +50,13 @@ namespace KegID
                 else
                     await NavigationService.NavigateAsync("NavigationPage/MainPage");
             }
+
+            switch (Xamarin.Forms.Device.RuntimePlatform)
+            {
+                case Xamarin.Forms.Device.Android:
+                    var permission = await DependencyService.Get<IPermission>().VerifyStoragePermissions();
+                    break;
+            }
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -64,7 +66,6 @@ namespace KegID
 
             containerRegistry.RegisterForNavigation<LoginView, LoginViewModel>();
             containerRegistry.RegisterForNavigation<MainPage, MainViewModel>();
-            //containerRegistry.RegisterForNavigation<MenuView, MainViewModel>();
             containerRegistry.RegisterForNavigation<MainPageTablet, MainViewModel>();
 
             containerRegistry.RegisterForNavigation<ScanditScanView, ScanditScanViewModel>();
@@ -131,22 +132,13 @@ namespace KegID
             containerRegistry.RegisterPopupNavigationService();
 
             //Services Register
-            //containerRegistry.Register<IAccountService, AccountService>();
-            //containerRegistry.Register<IDashboardService, DashboardService>();
-            //containerRegistry.Register<IMoveService, MoveService>();
-            //containerRegistry.Register<IFillService, FillService>();
-            //containerRegistry.Register<IPalletizeService, PalletizeService>();
-            //containerRegistry.Register<IMaintainService, MaintainService>();
             containerRegistry.Register<IInitializeMetaData, InitializeMetaData>();
             containerRegistry.Register<IZebraPrinterManager, ZebraPrinterManager>();
-            //containerRegistry.Register<ILoader, Loader>();
             containerRegistry.Register<IManifestManager, ManifestManager>();
             containerRegistry.Register<IGetIconByPlatform, GetIconByPlatform>();
             containerRegistry.Register<ISyncManager, SyncManager>();
             containerRegistry.Register<IUuidManager, UuidManager>();
             containerRegistry.Register<ICalcCheckDigitMngr, CalcCheckDigitMngr>();
-            //containerRegistry.Register<IDeviceCheckInMngr, DeviceCheckInMngr>();
-            containerRegistry.Register<IGeolocationService, GeolocationService>();
         }
 
         protected async override void OnStart()
@@ -165,19 +157,12 @@ namespace KegID
             var _syncManager = Container.Resolve<SyncManager>();
             _syncManager.NotifyConnectivityChanged();
 
-            try
-            {
-                var _geolocationService = Container.Resolve<GeolocationService>();
-                await _geolocationService.InitCurrentLocationAsync();
-            }
-            catch { }
-
-            switch (Xamarin.Forms.Device.RuntimePlatform)
-            {
-                case Xamarin.Forms.Device.Android:
-                    var permission = await DependencyService.Get<IPermission>().VerifyStoragePermissions();
-                    break;
-            }
+            //switch (Xamarin.Forms.Device.RuntimePlatform)
+            //{
+            //    case Xamarin.Forms.Device.Android:
+            //        var permission = await DependencyService.Get<IPermission>().VerifyStoragePermissions();
+            //        break;
+            //}
         }
 
         protected override void OnSleep ()

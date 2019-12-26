@@ -14,7 +14,6 @@ namespace KegID.Android.Renderers
 {
     public class SignaturePadRenderer : ViewRenderer<SignaturePad, FrameLayout>
     {
-
         private Paint paint = new Paint();
         private global::Android.Graphics.Path path = new global::Android.Graphics.Path();
         private float previousX;

@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using KegID.DependencyServices;
 using KegID.Services;
-using KegID.Views;
 using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
@@ -20,7 +19,6 @@ namespace KegID.ViewModel
         #region Propreties
 
         private readonly IPageDialogService _dialogService;
-        ConnectionType connetionType;
         public string LabelMsg { get; set; } = "Discovering Printers...";
         public ObservableCollection<DiscoveredPrinter> discoveredPrinters { get; set; } = new ObservableCollection<DiscoveredPrinter>();
         public string FriendlyLbl { get; set; }

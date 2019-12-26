@@ -7,6 +7,7 @@ namespace KegID.Common
     public static class AsyncErrorHandler
     {
         public static string Message { get; set; }
+
         public static void HandleException(Exception ex)
         {
             Message = ex.Message;

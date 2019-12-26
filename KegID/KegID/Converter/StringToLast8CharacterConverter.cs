@@ -10,7 +10,6 @@ namespace KegID.Converter
     {
         public static StringToLast8CharacterConverter Instance { get; } = new StringToLast8CharacterConverter();
 
-
         /// <summary>
         /// Init this instance.
         /// </summary>
@@ -34,5 +33,4 @@ namespace KegID.Converter
             throw new NotImplementedException();
         }
     }
-
 }

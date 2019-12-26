@@ -4,7 +4,6 @@ using KegID.Messages;
 using KegID.Model;
 using KegID.ViewModel;
 using Microsoft.AppCenter.Crashes;
-using Prism.Navigation;
 using Realms;
 using System;
 using System.Linq;
@@ -39,8 +38,6 @@ namespace KegID.Services
 
                 if (value.Count > 0)
                 {
-                    //IMoveService _moveService = new MoveService();
-
                     try
                     {
                         foreach (var item in value)
@@ -67,7 +64,6 @@ namespace KegID.Services
                                 case EventTypeEnum.RETURN_MANIFEST:
                                     break;
                                 case EventTypeEnum.REPAIR_MANIFEST:
-                                    //IMaintainService _maintainService = new MaintainService();
                                     response = await ApiManager.PostMaintenanceDone(item.MaintenanceModels.MaintenanceDoneRequestModel, AppSettings.SessionId);
                                     if (response.IsSuccessStatusCode)
                                         AddorUpdateManifestOffline(item, false);
@@ -75,8 +71,6 @@ namespace KegID.Services
                                 case EventTypeEnum.COLLECT_MANIFEST:
                                     break;
                                 case EventTypeEnum.ARCHIVE_MANIFEST:
-                                    break;
-                                default:
                                     break;
                             }
                         }
@@ -93,16 +87,14 @@ namespace KegID.Services
                     }
                 }
 
-                var pallets = RealmDb.All<PalletRequestModel>().Where(x => x.IsQueue == true).ToList();
+                var pallets = RealmDb.All<PalletRequestModel>().Where(x => x.IsQueue).ToList();
 
                 if (pallets.Count > 0)
                 {
-                    //IPalletizeService _palletizeService = new PalletizeService();
-
                     foreach (var pallet in pallets)
                     {
                         var response = await ApiManager.PostPallet(pallet, AppSettings.SessionId);
-                        AddorUpdatePalletsOffline(pallet,false);
+                        AddorUpdatePalletsOffline(pallet);
                     }
 
                     CheckDraftmaniFests checkDraftmaniFests = new CheckDraftmaniFests
@@ -139,7 +131,6 @@ namespace KegID.Services
             {
                 try
                 {
-
                     var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                     RealmDb.Write(() =>
                     {
@@ -157,7 +148,7 @@ namespace KegID.Services
             }
         }
 
-        private void AddorUpdatePalletsOffline(PalletRequestModel palletRequestModel, bool queue)
+        private void AddorUpdatePalletsOffline(PalletRequestModel palletRequestModel)
         {
             string palletId = palletRequestModel.PalletId;
             var isNew = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).Find<PalletRequestModel>(palletId);

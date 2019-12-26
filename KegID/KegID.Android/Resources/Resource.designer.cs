@@ -9871,6 +9871,469 @@ namespace KegID.Android
 			global::SegmentedControl.FormsPlugin.Android.Resource.Styleable.ViewStubCompat_android_id = global::KegID.Android.Resource.Styleable.ViewStubCompat_android_id;
 			global::SegmentedControl.FormsPlugin.Android.Resource.Styleable.ViewStubCompat_android_inflatedId = global::KegID.Android.Resource.Styleable.ViewStubCompat_android_inflatedId;
 			global::SegmentedControl.FormsPlugin.Android.Resource.Styleable.ViewStubCompat_android_layout = global::KegID.Android.Resource.Styleable.ViewStubCompat_android_layout;
+			global::Shiny.Resource.Attribute.alpha = global::KegID.Android.Resource.Attribute.alpha;
+			global::Shiny.Resource.Attribute.coordinatorLayoutStyle = global::KegID.Android.Resource.Attribute.coordinatorLayoutStyle;
+			global::Shiny.Resource.Attribute.font = global::KegID.Android.Resource.Attribute.font;
+			global::Shiny.Resource.Attribute.fontProviderAuthority = global::KegID.Android.Resource.Attribute.fontProviderAuthority;
+			global::Shiny.Resource.Attribute.fontProviderCerts = global::KegID.Android.Resource.Attribute.fontProviderCerts;
+			global::Shiny.Resource.Attribute.fontProviderFetchStrategy = global::KegID.Android.Resource.Attribute.fontProviderFetchStrategy;
+			global::Shiny.Resource.Attribute.fontProviderFetchTimeout = global::KegID.Android.Resource.Attribute.fontProviderFetchTimeout;
+			global::Shiny.Resource.Attribute.fontProviderPackage = global::KegID.Android.Resource.Attribute.fontProviderPackage;
+			global::Shiny.Resource.Attribute.fontProviderQuery = global::KegID.Android.Resource.Attribute.fontProviderQuery;
+			global::Shiny.Resource.Attribute.fontStyle = global::KegID.Android.Resource.Attribute.fontStyle;
+			global::Shiny.Resource.Attribute.fontVariationSettings = global::KegID.Android.Resource.Attribute.fontVariationSettings;
+			global::Shiny.Resource.Attribute.fontWeight = global::KegID.Android.Resource.Attribute.fontWeight;
+			global::Shiny.Resource.Attribute.keylines = global::KegID.Android.Resource.Attribute.keylines;
+			global::Shiny.Resource.Attribute.layout_anchor = global::KegID.Android.Resource.Attribute.layout_anchor;
+			global::Shiny.Resource.Attribute.layout_anchorGravity = global::KegID.Android.Resource.Attribute.layout_anchorGravity;
+			global::Shiny.Resource.Attribute.layout_behavior = global::KegID.Android.Resource.Attribute.layout_behavior;
+			global::Shiny.Resource.Attribute.layout_dodgeInsetEdges = global::KegID.Android.Resource.Attribute.layout_dodgeInsetEdges;
+			global::Shiny.Resource.Attribute.layout_insetEdge = global::KegID.Android.Resource.Attribute.layout_insetEdge;
+			global::Shiny.Resource.Attribute.layout_keyline = global::KegID.Android.Resource.Attribute.layout_keyline;
+			global::Shiny.Resource.Attribute.statusBarBackground = global::KegID.Android.Resource.Attribute.statusBarBackground;
+			global::Shiny.Resource.Attribute.ttcIndex = global::KegID.Android.Resource.Attribute.ttcIndex;
+			global::Shiny.Resource.Color.notification_action_color_filter = global::KegID.Android.Resource.Color.notification_action_color_filter;
+			global::Shiny.Resource.Color.notification_icon_bg_color = global::KegID.Android.Resource.Color.notification_icon_bg_color;
+			global::Shiny.Resource.Color.notification_material_background_media_default_color = global::KegID.Android.Resource.Color.notification_material_background_media_default_color;
+			global::Shiny.Resource.Color.primary_text_default_material_dark = global::KegID.Android.Resource.Color.primary_text_default_material_dark;
+			global::Shiny.Resource.Color.ripple_material_light = global::KegID.Android.Resource.Color.ripple_material_light;
+			global::Shiny.Resource.Color.secondary_text_default_material_dark = global::KegID.Android.Resource.Color.secondary_text_default_material_dark;
+			global::Shiny.Resource.Color.secondary_text_default_material_light = global::KegID.Android.Resource.Color.secondary_text_default_material_light;
+			global::Shiny.Resource.Dimension.compat_button_inset_horizontal_material = global::KegID.Android.Resource.Dimension.compat_button_inset_horizontal_material;
+			global::Shiny.Resource.Dimension.compat_button_inset_vertical_material = global::KegID.Android.Resource.Dimension.compat_button_inset_vertical_material;
+			global::Shiny.Resource.Dimension.compat_button_padding_horizontal_material = global::KegID.Android.Resource.Dimension.compat_button_padding_horizontal_material;
+			global::Shiny.Resource.Dimension.compat_button_padding_vertical_material = global::KegID.Android.Resource.Dimension.compat_button_padding_vertical_material;
+			global::Shiny.Resource.Dimension.compat_control_corner_material = global::KegID.Android.Resource.Dimension.compat_control_corner_material;
+			global::Shiny.Resource.Dimension.compat_notification_large_icon_max_height = global::KegID.Android.Resource.Dimension.compat_notification_large_icon_max_height;
+			global::Shiny.Resource.Dimension.compat_notification_large_icon_max_width = global::KegID.Android.Resource.Dimension.compat_notification_large_icon_max_width;
+			global::Shiny.Resource.Dimension.notification_action_icon_size = global::KegID.Android.Resource.Dimension.notification_action_icon_size;
+			global::Shiny.Resource.Dimension.notification_action_text_size = global::KegID.Android.Resource.Dimension.notification_action_text_size;
+			global::Shiny.Resource.Dimension.notification_big_circle_margin = global::KegID.Android.Resource.Dimension.notification_big_circle_margin;
+			global::Shiny.Resource.Dimension.notification_content_margin_start = global::KegID.Android.Resource.Dimension.notification_content_margin_start;
+			global::Shiny.Resource.Dimension.notification_large_icon_height = global::KegID.Android.Resource.Dimension.notification_large_icon_height;
+			global::Shiny.Resource.Dimension.notification_large_icon_width = global::KegID.Android.Resource.Dimension.notification_large_icon_width;
+			global::Shiny.Resource.Dimension.notification_main_column_padding_top = global::KegID.Android.Resource.Dimension.notification_main_column_padding_top;
+			global::Shiny.Resource.Dimension.notification_media_narrow_margin = global::KegID.Android.Resource.Dimension.notification_media_narrow_margin;
+			global::Shiny.Resource.Dimension.notification_right_icon_size = global::KegID.Android.Resource.Dimension.notification_right_icon_size;
+			global::Shiny.Resource.Dimension.notification_right_side_padding_top = global::KegID.Android.Resource.Dimension.notification_right_side_padding_top;
+			global::Shiny.Resource.Dimension.notification_small_icon_background_padding = global::KegID.Android.Resource.Dimension.notification_small_icon_background_padding;
+			global::Shiny.Resource.Dimension.notification_small_icon_size_as_large = global::KegID.Android.Resource.Dimension.notification_small_icon_size_as_large;
+			global::Shiny.Resource.Dimension.notification_subtext_size = global::KegID.Android.Resource.Dimension.notification_subtext_size;
+			global::Shiny.Resource.Dimension.notification_top_pad = global::KegID.Android.Resource.Dimension.notification_top_pad;
+			global::Shiny.Resource.Dimension.notification_top_pad_large_text = global::KegID.Android.Resource.Dimension.notification_top_pad_large_text;
+			global::Shiny.Resource.Dimension.subtitle_corner_radius = global::KegID.Android.Resource.Dimension.subtitle_corner_radius;
+			global::Shiny.Resource.Dimension.subtitle_outline_width = global::KegID.Android.Resource.Dimension.subtitle_outline_width;
+			global::Shiny.Resource.Dimension.subtitle_shadow_offset = global::KegID.Android.Resource.Dimension.subtitle_shadow_offset;
+			global::Shiny.Resource.Dimension.subtitle_shadow_radius = global::KegID.Android.Resource.Dimension.subtitle_shadow_radius;
+			global::Shiny.Resource.Drawable.notification_action_background = global::KegID.Android.Resource.Drawable.notification_action_background;
+			global::Shiny.Resource.Drawable.notification_bg = global::KegID.Android.Resource.Drawable.notification_bg;
+			global::Shiny.Resource.Drawable.notification_bg_low = global::KegID.Android.Resource.Drawable.notification_bg_low;
+			global::Shiny.Resource.Drawable.notification_bg_low_normal = global::KegID.Android.Resource.Drawable.notification_bg_low_normal;
+			global::Shiny.Resource.Drawable.notification_bg_low_pressed = global::KegID.Android.Resource.Drawable.notification_bg_low_pressed;
+			global::Shiny.Resource.Drawable.notification_bg_normal = global::KegID.Android.Resource.Drawable.notification_bg_normal;
+			global::Shiny.Resource.Drawable.notification_bg_normal_pressed = global::KegID.Android.Resource.Drawable.notification_bg_normal_pressed;
+			global::Shiny.Resource.Drawable.notification_icon_background = global::KegID.Android.Resource.Drawable.notification_icon_background;
+			global::Shiny.Resource.Drawable.notification_template_icon_bg = global::KegID.Android.Resource.Drawable.notification_template_icon_bg;
+			global::Shiny.Resource.Drawable.notification_template_icon_low_bg = global::KegID.Android.Resource.Drawable.notification_template_icon_low_bg;
+			global::Shiny.Resource.Drawable.notification_tile_bg = global::KegID.Android.Resource.Drawable.notification_tile_bg;
+			global::Shiny.Resource.Drawable.notify_panel_notification_icon_bg = global::KegID.Android.Resource.Drawable.notify_panel_notification_icon_bg;
+			global::Shiny.Resource.Id.action0 = global::KegID.Android.Resource.Id.action0;
+			global::Shiny.Resource.Id.actions = global::KegID.Android.Resource.Id.actions;
+			global::Shiny.Resource.Id.action_container = global::KegID.Android.Resource.Id.action_container;
+			global::Shiny.Resource.Id.action_divider = global::KegID.Android.Resource.Id.action_divider;
+			global::Shiny.Resource.Id.action_image = global::KegID.Android.Resource.Id.action_image;
+			global::Shiny.Resource.Id.action_text = global::KegID.Android.Resource.Id.action_text;
+			global::Shiny.Resource.Id.all = global::KegID.Android.Resource.Id.all;
+			global::Shiny.Resource.Id.async = global::KegID.Android.Resource.Id.async;
+			global::Shiny.Resource.Id.blocking = global::KegID.Android.Resource.Id.blocking;
+			global::Shiny.Resource.Id.bottom = global::KegID.Android.Resource.Id.bottom;
+			global::Shiny.Resource.Id.cancel_action = global::KegID.Android.Resource.Id.cancel_action;
+			global::Shiny.Resource.Id.center = global::KegID.Android.Resource.Id.center;
+			global::Shiny.Resource.Id.center_horizontal = global::KegID.Android.Resource.Id.center_horizontal;
+			global::Shiny.Resource.Id.center_vertical = global::KegID.Android.Resource.Id.center_vertical;
+			global::Shiny.Resource.Id.chronometer = global::KegID.Android.Resource.Id.chronometer;
+			global::Shiny.Resource.Id.clip_horizontal = global::KegID.Android.Resource.Id.clip_horizontal;
+			global::Shiny.Resource.Id.clip_vertical = global::KegID.Android.Resource.Id.clip_vertical;
+			global::Shiny.Resource.Id.end = global::KegID.Android.Resource.Id.end;
+			global::Shiny.Resource.Id.end_padder = global::KegID.Android.Resource.Id.end_padder;
+			global::Shiny.Resource.Id.fill = global::KegID.Android.Resource.Id.fill;
+			global::Shiny.Resource.Id.fill_horizontal = global::KegID.Android.Resource.Id.fill_horizontal;
+			global::Shiny.Resource.Id.fill_vertical = global::KegID.Android.Resource.Id.fill_vertical;
+			global::Shiny.Resource.Id.forever = global::KegID.Android.Resource.Id.forever;
+			global::Shiny.Resource.Id.icon = global::KegID.Android.Resource.Id.icon;
+			global::Shiny.Resource.Id.icon_group = global::KegID.Android.Resource.Id.icon_group;
+			global::Shiny.Resource.Id.info = global::KegID.Android.Resource.Id.info;
+			global::Shiny.Resource.Id.italic = global::KegID.Android.Resource.Id.italic;
+			global::Shiny.Resource.Id.left = global::KegID.Android.Resource.Id.left;
+			global::Shiny.Resource.Id.line1 = global::KegID.Android.Resource.Id.line1;
+			global::Shiny.Resource.Id.line3 = global::KegID.Android.Resource.Id.line3;
+			global::Shiny.Resource.Id.media_actions = global::KegID.Android.Resource.Id.media_actions;
+			global::Shiny.Resource.Id.none = global::KegID.Android.Resource.Id.none;
+			global::Shiny.Resource.Id.normal = global::KegID.Android.Resource.Id.normal;
+			global::Shiny.Resource.Id.notification_background = global::KegID.Android.Resource.Id.notification_background;
+			global::Shiny.Resource.Id.notification_main_column = global::KegID.Android.Resource.Id.notification_main_column;
+			global::Shiny.Resource.Id.notification_main_column_container = global::KegID.Android.Resource.Id.notification_main_column_container;
+			global::Shiny.Resource.Id.right = global::KegID.Android.Resource.Id.right;
+			global::Shiny.Resource.Id.right_icon = global::KegID.Android.Resource.Id.right_icon;
+			global::Shiny.Resource.Id.right_side = global::KegID.Android.Resource.Id.right_side;
+			global::Shiny.Resource.Id.start = global::KegID.Android.Resource.Id.start;
+			global::Shiny.Resource.Id.status_bar_latest_event_content = global::KegID.Android.Resource.Id.status_bar_latest_event_content;
+			global::Shiny.Resource.Id.tag_transition_group = global::KegID.Android.Resource.Id.tag_transition_group;
+			global::Shiny.Resource.Id.tag_unhandled_key_event_manager = global::KegID.Android.Resource.Id.tag_unhandled_key_event_manager;
+			global::Shiny.Resource.Id.tag_unhandled_key_listeners = global::KegID.Android.Resource.Id.tag_unhandled_key_listeners;
+			global::Shiny.Resource.Id.text = global::KegID.Android.Resource.Id.text;
+			global::Shiny.Resource.Id.text2 = global::KegID.Android.Resource.Id.text2;
+			global::Shiny.Resource.Id.time = global::KegID.Android.Resource.Id.time;
+			global::Shiny.Resource.Id.title = global::KegID.Android.Resource.Id.title;
+			global::Shiny.Resource.Id.top = global::KegID.Android.Resource.Id.top;
+			global::Shiny.Resource.Integer.cancel_button_image_alpha = global::KegID.Android.Resource.Integer.cancel_button_image_alpha;
+			global::Shiny.Resource.Integer.status_bar_notification_info_maxnum = global::KegID.Android.Resource.Integer.status_bar_notification_info_maxnum;
+			global::Shiny.Resource.Layout.notification_action = global::KegID.Android.Resource.Layout.notification_action;
+			global::Shiny.Resource.Layout.notification_action_tombstone = global::KegID.Android.Resource.Layout.notification_action_tombstone;
+			global::Shiny.Resource.Layout.notification_media_action = global::KegID.Android.Resource.Layout.notification_media_action;
+			global::Shiny.Resource.Layout.notification_media_cancel_action = global::KegID.Android.Resource.Layout.notification_media_cancel_action;
+			global::Shiny.Resource.Layout.notification_template_big_media = global::KegID.Android.Resource.Layout.notification_template_big_media;
+			global::Shiny.Resource.Layout.notification_template_big_media_custom = global::KegID.Android.Resource.Layout.notification_template_big_media_custom;
+			global::Shiny.Resource.Layout.notification_template_big_media_narrow = global::KegID.Android.Resource.Layout.notification_template_big_media_narrow;
+			global::Shiny.Resource.Layout.notification_template_big_media_narrow_custom = global::KegID.Android.Resource.Layout.notification_template_big_media_narrow_custom;
+			global::Shiny.Resource.Layout.notification_template_custom_big = global::KegID.Android.Resource.Layout.notification_template_custom_big;
+			global::Shiny.Resource.Layout.notification_template_icon_group = global::KegID.Android.Resource.Layout.notification_template_icon_group;
+			global::Shiny.Resource.Layout.notification_template_lines_media = global::KegID.Android.Resource.Layout.notification_template_lines_media;
+			global::Shiny.Resource.Layout.notification_template_media = global::KegID.Android.Resource.Layout.notification_template_media;
+			global::Shiny.Resource.Layout.notification_template_media_custom = global::KegID.Android.Resource.Layout.notification_template_media_custom;
+			global::Shiny.Resource.Layout.notification_template_part_chronometer = global::KegID.Android.Resource.Layout.notification_template_part_chronometer;
+			global::Shiny.Resource.Layout.notification_template_part_time = global::KegID.Android.Resource.Layout.notification_template_part_time;
+			global::Shiny.Resource.String.status_bar_notification_info_overflow = global::KegID.Android.Resource.String.status_bar_notification_info_overflow;
+			global::Shiny.Resource.Style.TextAppearance_Compat_Notification = global::KegID.Android.Resource.Style.TextAppearance_Compat_Notification;
+			global::Shiny.Resource.Style.TextAppearance_Compat_Notification_Info = global::KegID.Android.Resource.Style.TextAppearance_Compat_Notification_Info;
+			global::Shiny.Resource.Style.TextAppearance_Compat_Notification_Info_Media = global::KegID.Android.Resource.Style.TextAppearance_Compat_Notification_Info_Media;
+			global::Shiny.Resource.Style.TextAppearance_Compat_Notification_Line2 = global::KegID.Android.Resource.Style.TextAppearance_Compat_Notification_Line2;
+			global::Shiny.Resource.Style.TextAppearance_Compat_Notification_Line2_Media = global::KegID.Android.Resource.Style.TextAppearance_Compat_Notification_Line2_Media;
+			global::Shiny.Resource.Style.TextAppearance_Compat_Notification_Media = global::KegID.Android.Resource.Style.TextAppearance_Compat_Notification_Media;
+			global::Shiny.Resource.Style.TextAppearance_Compat_Notification_Time = global::KegID.Android.Resource.Style.TextAppearance_Compat_Notification_Time;
+			global::Shiny.Resource.Style.TextAppearance_Compat_Notification_Time_Media = global::KegID.Android.Resource.Style.TextAppearance_Compat_Notification_Time_Media;
+			global::Shiny.Resource.Style.TextAppearance_Compat_Notification_Title = global::KegID.Android.Resource.Style.TextAppearance_Compat_Notification_Title;
+			global::Shiny.Resource.Style.TextAppearance_Compat_Notification_Title_Media = global::KegID.Android.Resource.Style.TextAppearance_Compat_Notification_Title_Media;
+			global::Shiny.Resource.Style.Widget_Compat_NotificationActionContainer = global::KegID.Android.Resource.Style.Widget_Compat_NotificationActionContainer;
+			global::Shiny.Resource.Style.Widget_Compat_NotificationActionText = global::KegID.Android.Resource.Style.Widget_Compat_NotificationActionText;
+			global::Shiny.Resource.Style.Widget_Support_CoordinatorLayout = global::KegID.Android.Resource.Style.Widget_Support_CoordinatorLayout;
+			global::Shiny.Resource.Styleable.ColorStateListItem = global::KegID.Android.Resource.Styleable.ColorStateListItem;
+			global::Shiny.Resource.Styleable.ColorStateListItem_alpha = global::KegID.Android.Resource.Styleable.ColorStateListItem_alpha;
+			global::Shiny.Resource.Styleable.ColorStateListItem_android_alpha = global::KegID.Android.Resource.Styleable.ColorStateListItem_android_alpha;
+			global::Shiny.Resource.Styleable.ColorStateListItem_android_color = global::KegID.Android.Resource.Styleable.ColorStateListItem_android_color;
+			global::Shiny.Resource.Styleable.CoordinatorLayout = global::KegID.Android.Resource.Styleable.CoordinatorLayout;
+			global::Shiny.Resource.Styleable.CoordinatorLayout_keylines = global::KegID.Android.Resource.Styleable.CoordinatorLayout_keylines;
+			global::Shiny.Resource.Styleable.CoordinatorLayout_Layout = global::KegID.Android.Resource.Styleable.CoordinatorLayout_Layout;
+			global::Shiny.Resource.Styleable.CoordinatorLayout_Layout_android_layout_gravity = global::KegID.Android.Resource.Styleable.CoordinatorLayout_Layout_android_layout_gravity;
+			global::Shiny.Resource.Styleable.CoordinatorLayout_Layout_layout_anchor = global::KegID.Android.Resource.Styleable.CoordinatorLayout_Layout_layout_anchor;
+			global::Shiny.Resource.Styleable.CoordinatorLayout_Layout_layout_anchorGravity = global::KegID.Android.Resource.Styleable.CoordinatorLayout_Layout_layout_anchorGravity;
+			global::Shiny.Resource.Styleable.CoordinatorLayout_Layout_layout_behavior = global::KegID.Android.Resource.Styleable.CoordinatorLayout_Layout_layout_behavior;
+			global::Shiny.Resource.Styleable.CoordinatorLayout_Layout_layout_dodgeInsetEdges = global::KegID.Android.Resource.Styleable.CoordinatorLayout_Layout_layout_dodgeInsetEdges;
+			global::Shiny.Resource.Styleable.CoordinatorLayout_Layout_layout_insetEdge = global::KegID.Android.Resource.Styleable.CoordinatorLayout_Layout_layout_insetEdge;
+			global::Shiny.Resource.Styleable.CoordinatorLayout_Layout_layout_keyline = global::KegID.Android.Resource.Styleable.CoordinatorLayout_Layout_layout_keyline;
+			global::Shiny.Resource.Styleable.CoordinatorLayout_statusBarBackground = global::KegID.Android.Resource.Styleable.CoordinatorLayout_statusBarBackground;
+			global::Shiny.Resource.Styleable.FontFamily = global::KegID.Android.Resource.Styleable.FontFamily;
+			global::Shiny.Resource.Styleable.FontFamilyFont = global::KegID.Android.Resource.Styleable.FontFamilyFont;
+			global::Shiny.Resource.Styleable.FontFamilyFont_android_font = global::KegID.Android.Resource.Styleable.FontFamilyFont_android_font;
+			global::Shiny.Resource.Styleable.FontFamilyFont_android_fontStyle = global::KegID.Android.Resource.Styleable.FontFamilyFont_android_fontStyle;
+			global::Shiny.Resource.Styleable.FontFamilyFont_android_fontVariationSettings = global::KegID.Android.Resource.Styleable.FontFamilyFont_android_fontVariationSettings;
+			global::Shiny.Resource.Styleable.FontFamilyFont_android_fontWeight = global::KegID.Android.Resource.Styleable.FontFamilyFont_android_fontWeight;
+			global::Shiny.Resource.Styleable.FontFamilyFont_android_ttcIndex = global::KegID.Android.Resource.Styleable.FontFamilyFont_android_ttcIndex;
+			global::Shiny.Resource.Styleable.FontFamilyFont_font = global::KegID.Android.Resource.Styleable.FontFamilyFont_font;
+			global::Shiny.Resource.Styleable.FontFamilyFont_fontStyle = global::KegID.Android.Resource.Styleable.FontFamilyFont_fontStyle;
+			global::Shiny.Resource.Styleable.FontFamilyFont_fontVariationSettings = global::KegID.Android.Resource.Styleable.FontFamilyFont_fontVariationSettings;
+			global::Shiny.Resource.Styleable.FontFamilyFont_fontWeight = global::KegID.Android.Resource.Styleable.FontFamilyFont_fontWeight;
+			global::Shiny.Resource.Styleable.FontFamilyFont_ttcIndex = global::KegID.Android.Resource.Styleable.FontFamilyFont_ttcIndex;
+			global::Shiny.Resource.Styleable.FontFamily_fontProviderAuthority = global::KegID.Android.Resource.Styleable.FontFamily_fontProviderAuthority;
+			global::Shiny.Resource.Styleable.FontFamily_fontProviderCerts = global::KegID.Android.Resource.Styleable.FontFamily_fontProviderCerts;
+			global::Shiny.Resource.Styleable.FontFamily_fontProviderFetchStrategy = global::KegID.Android.Resource.Styleable.FontFamily_fontProviderFetchStrategy;
+			global::Shiny.Resource.Styleable.FontFamily_fontProviderFetchTimeout = global::KegID.Android.Resource.Styleable.FontFamily_fontProviderFetchTimeout;
+			global::Shiny.Resource.Styleable.FontFamily_fontProviderPackage = global::KegID.Android.Resource.Styleable.FontFamily_fontProviderPackage;
+			global::Shiny.Resource.Styleable.FontFamily_fontProviderQuery = global::KegID.Android.Resource.Styleable.FontFamily_fontProviderQuery;
+			global::Shiny.Resource.Styleable.GradientColor = global::KegID.Android.Resource.Styleable.GradientColor;
+			global::Shiny.Resource.Styleable.GradientColorItem = global::KegID.Android.Resource.Styleable.GradientColorItem;
+			global::Shiny.Resource.Styleable.GradientColorItem_android_color = global::KegID.Android.Resource.Styleable.GradientColorItem_android_color;
+			global::Shiny.Resource.Styleable.GradientColorItem_android_offset = global::KegID.Android.Resource.Styleable.GradientColorItem_android_offset;
+			global::Shiny.Resource.Styleable.GradientColor_android_centerColor = global::KegID.Android.Resource.Styleable.GradientColor_android_centerColor;
+			global::Shiny.Resource.Styleable.GradientColor_android_centerX = global::KegID.Android.Resource.Styleable.GradientColor_android_centerX;
+			global::Shiny.Resource.Styleable.GradientColor_android_centerY = global::KegID.Android.Resource.Styleable.GradientColor_android_centerY;
+			global::Shiny.Resource.Styleable.GradientColor_android_endColor = global::KegID.Android.Resource.Styleable.GradientColor_android_endColor;
+			global::Shiny.Resource.Styleable.GradientColor_android_endX = global::KegID.Android.Resource.Styleable.GradientColor_android_endX;
+			global::Shiny.Resource.Styleable.GradientColor_android_endY = global::KegID.Android.Resource.Styleable.GradientColor_android_endY;
+			global::Shiny.Resource.Styleable.GradientColor_android_gradientRadius = global::KegID.Android.Resource.Styleable.GradientColor_android_gradientRadius;
+			global::Shiny.Resource.Styleable.GradientColor_android_startColor = global::KegID.Android.Resource.Styleable.GradientColor_android_startColor;
+			global::Shiny.Resource.Styleable.GradientColor_android_startX = global::KegID.Android.Resource.Styleable.GradientColor_android_startX;
+			global::Shiny.Resource.Styleable.GradientColor_android_startY = global::KegID.Android.Resource.Styleable.GradientColor_android_startY;
+			global::Shiny.Resource.Styleable.GradientColor_android_tileMode = global::KegID.Android.Resource.Styleable.GradientColor_android_tileMode;
+			global::Shiny.Resource.Styleable.GradientColor_android_type = global::KegID.Android.Resource.Styleable.GradientColor_android_type;
+			global::Shiny.Locations.Resource.Attribute.alpha = global::KegID.Android.Resource.Attribute.alpha;
+			global::Shiny.Locations.Resource.Attribute.buttonSize = global::KegID.Android.Resource.Attribute.buttonSize;
+			global::Shiny.Locations.Resource.Attribute.circleCrop = global::KegID.Android.Resource.Attribute.circleCrop;
+			global::Shiny.Locations.Resource.Attribute.colorScheme = global::KegID.Android.Resource.Attribute.colorScheme;
+			global::Shiny.Locations.Resource.Attribute.coordinatorLayoutStyle = global::KegID.Android.Resource.Attribute.coordinatorLayoutStyle;
+			global::Shiny.Locations.Resource.Attribute.font = global::KegID.Android.Resource.Attribute.font;
+			global::Shiny.Locations.Resource.Attribute.fontProviderAuthority = global::KegID.Android.Resource.Attribute.fontProviderAuthority;
+			global::Shiny.Locations.Resource.Attribute.fontProviderCerts = global::KegID.Android.Resource.Attribute.fontProviderCerts;
+			global::Shiny.Locations.Resource.Attribute.fontProviderFetchStrategy = global::KegID.Android.Resource.Attribute.fontProviderFetchStrategy;
+			global::Shiny.Locations.Resource.Attribute.fontProviderFetchTimeout = global::KegID.Android.Resource.Attribute.fontProviderFetchTimeout;
+			global::Shiny.Locations.Resource.Attribute.fontProviderPackage = global::KegID.Android.Resource.Attribute.fontProviderPackage;
+			global::Shiny.Locations.Resource.Attribute.fontProviderQuery = global::KegID.Android.Resource.Attribute.fontProviderQuery;
+			global::Shiny.Locations.Resource.Attribute.fontStyle = global::KegID.Android.Resource.Attribute.fontStyle;
+			global::Shiny.Locations.Resource.Attribute.fontVariationSettings = global::KegID.Android.Resource.Attribute.fontVariationSettings;
+			global::Shiny.Locations.Resource.Attribute.fontWeight = global::KegID.Android.Resource.Attribute.fontWeight;
+			global::Shiny.Locations.Resource.Attribute.imageAspectRatio = global::KegID.Android.Resource.Attribute.imageAspectRatio;
+			global::Shiny.Locations.Resource.Attribute.imageAspectRatioAdjust = global::KegID.Android.Resource.Attribute.imageAspectRatioAdjust;
+			global::Shiny.Locations.Resource.Attribute.keylines = global::KegID.Android.Resource.Attribute.keylines;
+			global::Shiny.Locations.Resource.Attribute.layout_anchor = global::KegID.Android.Resource.Attribute.layout_anchor;
+			global::Shiny.Locations.Resource.Attribute.layout_anchorGravity = global::KegID.Android.Resource.Attribute.layout_anchorGravity;
+			global::Shiny.Locations.Resource.Attribute.layout_behavior = global::KegID.Android.Resource.Attribute.layout_behavior;
+			global::Shiny.Locations.Resource.Attribute.layout_dodgeInsetEdges = global::KegID.Android.Resource.Attribute.layout_dodgeInsetEdges;
+			global::Shiny.Locations.Resource.Attribute.layout_insetEdge = global::KegID.Android.Resource.Attribute.layout_insetEdge;
+			global::Shiny.Locations.Resource.Attribute.layout_keyline = global::KegID.Android.Resource.Attribute.layout_keyline;
+			global::Shiny.Locations.Resource.Attribute.scopeUris = global::KegID.Android.Resource.Attribute.scopeUris;
+			global::Shiny.Locations.Resource.Attribute.statusBarBackground = global::KegID.Android.Resource.Attribute.statusBarBackground;
+			global::Shiny.Locations.Resource.Attribute.ttcIndex = global::KegID.Android.Resource.Attribute.ttcIndex;
+			global::Shiny.Locations.Resource.Color.common_google_signin_btn_text_dark = global::KegID.Android.Resource.Color.common_google_signin_btn_text_dark;
+			global::Shiny.Locations.Resource.Color.common_google_signin_btn_text_dark_default = global::KegID.Android.Resource.Color.common_google_signin_btn_text_dark_default;
+			global::Shiny.Locations.Resource.Color.common_google_signin_btn_text_dark_disabled = global::KegID.Android.Resource.Color.common_google_signin_btn_text_dark_disabled;
+			global::Shiny.Locations.Resource.Color.common_google_signin_btn_text_dark_focused = global::KegID.Android.Resource.Color.common_google_signin_btn_text_dark_focused;
+			global::Shiny.Locations.Resource.Color.common_google_signin_btn_text_dark_pressed = global::KegID.Android.Resource.Color.common_google_signin_btn_text_dark_pressed;
+			global::Shiny.Locations.Resource.Color.common_google_signin_btn_text_light = global::KegID.Android.Resource.Color.common_google_signin_btn_text_light;
+			global::Shiny.Locations.Resource.Color.common_google_signin_btn_text_light_default = global::KegID.Android.Resource.Color.common_google_signin_btn_text_light_default;
+			global::Shiny.Locations.Resource.Color.common_google_signin_btn_text_light_disabled = global::KegID.Android.Resource.Color.common_google_signin_btn_text_light_disabled;
+			global::Shiny.Locations.Resource.Color.common_google_signin_btn_text_light_focused = global::KegID.Android.Resource.Color.common_google_signin_btn_text_light_focused;
+			global::Shiny.Locations.Resource.Color.common_google_signin_btn_text_light_pressed = global::KegID.Android.Resource.Color.common_google_signin_btn_text_light_pressed;
+			global::Shiny.Locations.Resource.Color.common_google_signin_btn_tint = global::KegID.Android.Resource.Color.common_google_signin_btn_tint;
+			global::Shiny.Locations.Resource.Color.notification_action_color_filter = global::KegID.Android.Resource.Color.notification_action_color_filter;
+			global::Shiny.Locations.Resource.Color.notification_icon_bg_color = global::KegID.Android.Resource.Color.notification_icon_bg_color;
+			global::Shiny.Locations.Resource.Color.notification_material_background_media_default_color = global::KegID.Android.Resource.Color.notification_material_background_media_default_color;
+			global::Shiny.Locations.Resource.Color.primary_text_default_material_dark = global::KegID.Android.Resource.Color.primary_text_default_material_dark;
+			global::Shiny.Locations.Resource.Color.ripple_material_light = global::KegID.Android.Resource.Color.ripple_material_light;
+			global::Shiny.Locations.Resource.Color.secondary_text_default_material_dark = global::KegID.Android.Resource.Color.secondary_text_default_material_dark;
+			global::Shiny.Locations.Resource.Color.secondary_text_default_material_light = global::KegID.Android.Resource.Color.secondary_text_default_material_light;
+			global::Shiny.Locations.Resource.Dimension.compat_button_inset_horizontal_material = global::KegID.Android.Resource.Dimension.compat_button_inset_horizontal_material;
+			global::Shiny.Locations.Resource.Dimension.compat_button_inset_vertical_material = global::KegID.Android.Resource.Dimension.compat_button_inset_vertical_material;
+			global::Shiny.Locations.Resource.Dimension.compat_button_padding_horizontal_material = global::KegID.Android.Resource.Dimension.compat_button_padding_horizontal_material;
+			global::Shiny.Locations.Resource.Dimension.compat_button_padding_vertical_material = global::KegID.Android.Resource.Dimension.compat_button_padding_vertical_material;
+			global::Shiny.Locations.Resource.Dimension.compat_control_corner_material = global::KegID.Android.Resource.Dimension.compat_control_corner_material;
+			global::Shiny.Locations.Resource.Dimension.compat_notification_large_icon_max_height = global::KegID.Android.Resource.Dimension.compat_notification_large_icon_max_height;
+			global::Shiny.Locations.Resource.Dimension.compat_notification_large_icon_max_width = global::KegID.Android.Resource.Dimension.compat_notification_large_icon_max_width;
+			global::Shiny.Locations.Resource.Dimension.notification_action_icon_size = global::KegID.Android.Resource.Dimension.notification_action_icon_size;
+			global::Shiny.Locations.Resource.Dimension.notification_action_text_size = global::KegID.Android.Resource.Dimension.notification_action_text_size;
+			global::Shiny.Locations.Resource.Dimension.notification_big_circle_margin = global::KegID.Android.Resource.Dimension.notification_big_circle_margin;
+			global::Shiny.Locations.Resource.Dimension.notification_content_margin_start = global::KegID.Android.Resource.Dimension.notification_content_margin_start;
+			global::Shiny.Locations.Resource.Dimension.notification_large_icon_height = global::KegID.Android.Resource.Dimension.notification_large_icon_height;
+			global::Shiny.Locations.Resource.Dimension.notification_large_icon_width = global::KegID.Android.Resource.Dimension.notification_large_icon_width;
+			global::Shiny.Locations.Resource.Dimension.notification_main_column_padding_top = global::KegID.Android.Resource.Dimension.notification_main_column_padding_top;
+			global::Shiny.Locations.Resource.Dimension.notification_media_narrow_margin = global::KegID.Android.Resource.Dimension.notification_media_narrow_margin;
+			global::Shiny.Locations.Resource.Dimension.notification_right_icon_size = global::KegID.Android.Resource.Dimension.notification_right_icon_size;
+			global::Shiny.Locations.Resource.Dimension.notification_right_side_padding_top = global::KegID.Android.Resource.Dimension.notification_right_side_padding_top;
+			global::Shiny.Locations.Resource.Dimension.notification_small_icon_background_padding = global::KegID.Android.Resource.Dimension.notification_small_icon_background_padding;
+			global::Shiny.Locations.Resource.Dimension.notification_small_icon_size_as_large = global::KegID.Android.Resource.Dimension.notification_small_icon_size_as_large;
+			global::Shiny.Locations.Resource.Dimension.notification_subtext_size = global::KegID.Android.Resource.Dimension.notification_subtext_size;
+			global::Shiny.Locations.Resource.Dimension.notification_top_pad = global::KegID.Android.Resource.Dimension.notification_top_pad;
+			global::Shiny.Locations.Resource.Dimension.notification_top_pad_large_text = global::KegID.Android.Resource.Dimension.notification_top_pad_large_text;
+			global::Shiny.Locations.Resource.Dimension.subtitle_corner_radius = global::KegID.Android.Resource.Dimension.subtitle_corner_radius;
+			global::Shiny.Locations.Resource.Dimension.subtitle_outline_width = global::KegID.Android.Resource.Dimension.subtitle_outline_width;
+			global::Shiny.Locations.Resource.Dimension.subtitle_shadow_offset = global::KegID.Android.Resource.Dimension.subtitle_shadow_offset;
+			global::Shiny.Locations.Resource.Dimension.subtitle_shadow_radius = global::KegID.Android.Resource.Dimension.subtitle_shadow_radius;
+			global::Shiny.Locations.Resource.Drawable.common_full_open_on_phone = global::KegID.Android.Resource.Drawable.common_full_open_on_phone;
+			global::Shiny.Locations.Resource.Drawable.common_google_signin_btn_icon_dark = global::KegID.Android.Resource.Drawable.common_google_signin_btn_icon_dark;
+			global::Shiny.Locations.Resource.Drawable.common_google_signin_btn_icon_dark_focused = global::KegID.Android.Resource.Drawable.common_google_signin_btn_icon_dark_focused;
+			global::Shiny.Locations.Resource.Drawable.common_google_signin_btn_icon_dark_normal = global::KegID.Android.Resource.Drawable.common_google_signin_btn_icon_dark_normal;
+			global::Shiny.Locations.Resource.Drawable.common_google_signin_btn_icon_dark_normal_background = global::KegID.Android.Resource.Drawable.common_google_signin_btn_icon_dark_normal_background;
+			global::Shiny.Locations.Resource.Drawable.common_google_signin_btn_icon_disabled = global::KegID.Android.Resource.Drawable.common_google_signin_btn_icon_disabled;
+			global::Shiny.Locations.Resource.Drawable.common_google_signin_btn_icon_light = global::KegID.Android.Resource.Drawable.common_google_signin_btn_icon_light;
+			global::Shiny.Locations.Resource.Drawable.common_google_signin_btn_icon_light_focused = global::KegID.Android.Resource.Drawable.common_google_signin_btn_icon_light_focused;
+			global::Shiny.Locations.Resource.Drawable.common_google_signin_btn_icon_light_normal = global::KegID.Android.Resource.Drawable.common_google_signin_btn_icon_light_normal;
+			global::Shiny.Locations.Resource.Drawable.common_google_signin_btn_icon_light_normal_background = global::KegID.Android.Resource.Drawable.common_google_signin_btn_icon_light_normal_background;
+			global::Shiny.Locations.Resource.Drawable.common_google_signin_btn_text_dark = global::KegID.Android.Resource.Drawable.common_google_signin_btn_text_dark;
+			global::Shiny.Locations.Resource.Drawable.common_google_signin_btn_text_dark_focused = global::KegID.Android.Resource.Drawable.common_google_signin_btn_text_dark_focused;
+			global::Shiny.Locations.Resource.Drawable.common_google_signin_btn_text_dark_normal = global::KegID.Android.Resource.Drawable.common_google_signin_btn_text_dark_normal;
+			global::Shiny.Locations.Resource.Drawable.common_google_signin_btn_text_dark_normal_background = global::KegID.Android.Resource.Drawable.common_google_signin_btn_text_dark_normal_background;
+			global::Shiny.Locations.Resource.Drawable.common_google_signin_btn_text_disabled = global::KegID.Android.Resource.Drawable.common_google_signin_btn_text_disabled;
+			global::Shiny.Locations.Resource.Drawable.common_google_signin_btn_text_light = global::KegID.Android.Resource.Drawable.common_google_signin_btn_text_light;
+			global::Shiny.Locations.Resource.Drawable.common_google_signin_btn_text_light_focused = global::KegID.Android.Resource.Drawable.common_google_signin_btn_text_light_focused;
+			global::Shiny.Locations.Resource.Drawable.common_google_signin_btn_text_light_normal = global::KegID.Android.Resource.Drawable.common_google_signin_btn_text_light_normal;
+			global::Shiny.Locations.Resource.Drawable.common_google_signin_btn_text_light_normal_background = global::KegID.Android.Resource.Drawable.common_google_signin_btn_text_light_normal_background;
+			global::Shiny.Locations.Resource.Drawable.googleg_disabled_color_18 = global::KegID.Android.Resource.Drawable.googleg_disabled_color_18;
+			global::Shiny.Locations.Resource.Drawable.googleg_standard_color_18 = global::KegID.Android.Resource.Drawable.googleg_standard_color_18;
+			global::Shiny.Locations.Resource.Drawable.notification_action_background = global::KegID.Android.Resource.Drawable.notification_action_background;
+			global::Shiny.Locations.Resource.Drawable.notification_bg = global::KegID.Android.Resource.Drawable.notification_bg;
+			global::Shiny.Locations.Resource.Drawable.notification_bg_low = global::KegID.Android.Resource.Drawable.notification_bg_low;
+			global::Shiny.Locations.Resource.Drawable.notification_bg_low_normal = global::KegID.Android.Resource.Drawable.notification_bg_low_normal;
+			global::Shiny.Locations.Resource.Drawable.notification_bg_low_pressed = global::KegID.Android.Resource.Drawable.notification_bg_low_pressed;
+			global::Shiny.Locations.Resource.Drawable.notification_bg_normal = global::KegID.Android.Resource.Drawable.notification_bg_normal;
+			global::Shiny.Locations.Resource.Drawable.notification_bg_normal_pressed = global::KegID.Android.Resource.Drawable.notification_bg_normal_pressed;
+			global::Shiny.Locations.Resource.Drawable.notification_icon_background = global::KegID.Android.Resource.Drawable.notification_icon_background;
+			global::Shiny.Locations.Resource.Drawable.notification_template_icon_bg = global::KegID.Android.Resource.Drawable.notification_template_icon_bg;
+			global::Shiny.Locations.Resource.Drawable.notification_template_icon_low_bg = global::KegID.Android.Resource.Drawable.notification_template_icon_low_bg;
+			global::Shiny.Locations.Resource.Drawable.notification_tile_bg = global::KegID.Android.Resource.Drawable.notification_tile_bg;
+			global::Shiny.Locations.Resource.Drawable.notify_panel_notification_icon_bg = global::KegID.Android.Resource.Drawable.notify_panel_notification_icon_bg;
+			global::Shiny.Locations.Resource.Id.action0 = global::KegID.Android.Resource.Id.action0;
+			global::Shiny.Locations.Resource.Id.actions = global::KegID.Android.Resource.Id.actions;
+			global::Shiny.Locations.Resource.Id.action_container = global::KegID.Android.Resource.Id.action_container;
+			global::Shiny.Locations.Resource.Id.action_divider = global::KegID.Android.Resource.Id.action_divider;
+			global::Shiny.Locations.Resource.Id.action_image = global::KegID.Android.Resource.Id.action_image;
+			global::Shiny.Locations.Resource.Id.action_text = global::KegID.Android.Resource.Id.action_text;
+			global::Shiny.Locations.Resource.Id.adjust_height = global::KegID.Android.Resource.Id.adjust_height;
+			global::Shiny.Locations.Resource.Id.adjust_width = global::KegID.Android.Resource.Id.adjust_width;
+			global::Shiny.Locations.Resource.Id.all = global::KegID.Android.Resource.Id.all;
+			global::Shiny.Locations.Resource.Id.async = global::KegID.Android.Resource.Id.async;
+			global::Shiny.Locations.Resource.Id.auto = global::KegID.Android.Resource.Id.auto;
+			global::Shiny.Locations.Resource.Id.blocking = global::KegID.Android.Resource.Id.blocking;
+			global::Shiny.Locations.Resource.Id.bottom = global::KegID.Android.Resource.Id.bottom;
+			global::Shiny.Locations.Resource.Id.cancel_action = global::KegID.Android.Resource.Id.cancel_action;
+			global::Shiny.Locations.Resource.Id.center = global::KegID.Android.Resource.Id.center;
+			global::Shiny.Locations.Resource.Id.center_horizontal = global::KegID.Android.Resource.Id.center_horizontal;
+			global::Shiny.Locations.Resource.Id.center_vertical = global::KegID.Android.Resource.Id.center_vertical;
+			global::Shiny.Locations.Resource.Id.chronometer = global::KegID.Android.Resource.Id.chronometer;
+			global::Shiny.Locations.Resource.Id.clip_horizontal = global::KegID.Android.Resource.Id.clip_horizontal;
+			global::Shiny.Locations.Resource.Id.clip_vertical = global::KegID.Android.Resource.Id.clip_vertical;
+			global::Shiny.Locations.Resource.Id.dark = global::KegID.Android.Resource.Id.dark;
+			global::Shiny.Locations.Resource.Id.end = global::KegID.Android.Resource.Id.end;
+			global::Shiny.Locations.Resource.Id.end_padder = global::KegID.Android.Resource.Id.end_padder;
+			global::Shiny.Locations.Resource.Id.fill = global::KegID.Android.Resource.Id.fill;
+			global::Shiny.Locations.Resource.Id.fill_horizontal = global::KegID.Android.Resource.Id.fill_horizontal;
+			global::Shiny.Locations.Resource.Id.fill_vertical = global::KegID.Android.Resource.Id.fill_vertical;
+			global::Shiny.Locations.Resource.Id.forever = global::KegID.Android.Resource.Id.forever;
+			global::Shiny.Locations.Resource.Id.icon = global::KegID.Android.Resource.Id.icon;
+			global::Shiny.Locations.Resource.Id.icon_group = global::KegID.Android.Resource.Id.icon_group;
+			global::Shiny.Locations.Resource.Id.icon_only = global::KegID.Android.Resource.Id.icon_only;
+			global::Shiny.Locations.Resource.Id.info = global::KegID.Android.Resource.Id.info;
+			global::Shiny.Locations.Resource.Id.italic = global::KegID.Android.Resource.Id.italic;
+			global::Shiny.Locations.Resource.Id.left = global::KegID.Android.Resource.Id.left;
+			global::Shiny.Locations.Resource.Id.light = global::KegID.Android.Resource.Id.light;
+			global::Shiny.Locations.Resource.Id.line1 = global::KegID.Android.Resource.Id.line1;
+			global::Shiny.Locations.Resource.Id.line3 = global::KegID.Android.Resource.Id.line3;
+			global::Shiny.Locations.Resource.Id.media_actions = global::KegID.Android.Resource.Id.media_actions;
+			global::Shiny.Locations.Resource.Id.none = global::KegID.Android.Resource.Id.none;
+			global::Shiny.Locations.Resource.Id.normal = global::KegID.Android.Resource.Id.normal;
+			global::Shiny.Locations.Resource.Id.notification_background = global::KegID.Android.Resource.Id.notification_background;
+			global::Shiny.Locations.Resource.Id.notification_main_column = global::KegID.Android.Resource.Id.notification_main_column;
+			global::Shiny.Locations.Resource.Id.notification_main_column_container = global::KegID.Android.Resource.Id.notification_main_column_container;
+			global::Shiny.Locations.Resource.Id.right = global::KegID.Android.Resource.Id.right;
+			global::Shiny.Locations.Resource.Id.right_icon = global::KegID.Android.Resource.Id.right_icon;
+			global::Shiny.Locations.Resource.Id.right_side = global::KegID.Android.Resource.Id.right_side;
+			global::Shiny.Locations.Resource.Id.standard = global::KegID.Android.Resource.Id.standard;
+			global::Shiny.Locations.Resource.Id.start = global::KegID.Android.Resource.Id.start;
+			global::Shiny.Locations.Resource.Id.status_bar_latest_event_content = global::KegID.Android.Resource.Id.status_bar_latest_event_content;
+			global::Shiny.Locations.Resource.Id.tag_transition_group = global::KegID.Android.Resource.Id.tag_transition_group;
+			global::Shiny.Locations.Resource.Id.tag_unhandled_key_event_manager = global::KegID.Android.Resource.Id.tag_unhandled_key_event_manager;
+			global::Shiny.Locations.Resource.Id.tag_unhandled_key_listeners = global::KegID.Android.Resource.Id.tag_unhandled_key_listeners;
+			global::Shiny.Locations.Resource.Id.text = global::KegID.Android.Resource.Id.text;
+			global::Shiny.Locations.Resource.Id.text2 = global::KegID.Android.Resource.Id.text2;
+			global::Shiny.Locations.Resource.Id.time = global::KegID.Android.Resource.Id.time;
+			global::Shiny.Locations.Resource.Id.title = global::KegID.Android.Resource.Id.title;
+			global::Shiny.Locations.Resource.Id.top = global::KegID.Android.Resource.Id.top;
+			global::Shiny.Locations.Resource.Id.wide = global::KegID.Android.Resource.Id.wide;
+			global::Shiny.Locations.Resource.Integer.cancel_button_image_alpha = global::KegID.Android.Resource.Integer.cancel_button_image_alpha;
+			global::Shiny.Locations.Resource.Integer.google_play_services_version = global::KegID.Android.Resource.Integer.google_play_services_version;
+			global::Shiny.Locations.Resource.Integer.status_bar_notification_info_maxnum = global::KegID.Android.Resource.Integer.status_bar_notification_info_maxnum;
+			global::Shiny.Locations.Resource.Layout.notification_action = global::KegID.Android.Resource.Layout.notification_action;
+			global::Shiny.Locations.Resource.Layout.notification_action_tombstone = global::KegID.Android.Resource.Layout.notification_action_tombstone;
+			global::Shiny.Locations.Resource.Layout.notification_media_action = global::KegID.Android.Resource.Layout.notification_media_action;
+			global::Shiny.Locations.Resource.Layout.notification_media_cancel_action = global::KegID.Android.Resource.Layout.notification_media_cancel_action;
+			global::Shiny.Locations.Resource.Layout.notification_template_big_media = global::KegID.Android.Resource.Layout.notification_template_big_media;
+			global::Shiny.Locations.Resource.Layout.notification_template_big_media_custom = global::KegID.Android.Resource.Layout.notification_template_big_media_custom;
+			global::Shiny.Locations.Resource.Layout.notification_template_big_media_narrow = global::KegID.Android.Resource.Layout.notification_template_big_media_narrow;
+			global::Shiny.Locations.Resource.Layout.notification_template_big_media_narrow_custom = global::KegID.Android.Resource.Layout.notification_template_big_media_narrow_custom;
+			global::Shiny.Locations.Resource.Layout.notification_template_custom_big = global::KegID.Android.Resource.Layout.notification_template_custom_big;
+			global::Shiny.Locations.Resource.Layout.notification_template_icon_group = global::KegID.Android.Resource.Layout.notification_template_icon_group;
+			global::Shiny.Locations.Resource.Layout.notification_template_lines_media = global::KegID.Android.Resource.Layout.notification_template_lines_media;
+			global::Shiny.Locations.Resource.Layout.notification_template_media = global::KegID.Android.Resource.Layout.notification_template_media;
+			global::Shiny.Locations.Resource.Layout.notification_template_media_custom = global::KegID.Android.Resource.Layout.notification_template_media_custom;
+			global::Shiny.Locations.Resource.Layout.notification_template_part_chronometer = global::KegID.Android.Resource.Layout.notification_template_part_chronometer;
+			global::Shiny.Locations.Resource.Layout.notification_template_part_time = global::KegID.Android.Resource.Layout.notification_template_part_time;
+			global::Shiny.Locations.Resource.String.common_google_play_services_enable_button = global::KegID.Android.Resource.String.common_google_play_services_enable_button;
+			global::Shiny.Locations.Resource.String.common_google_play_services_enable_text = global::KegID.Android.Resource.String.common_google_play_services_enable_text;
+			global::Shiny.Locations.Resource.String.common_google_play_services_enable_title = global::KegID.Android.Resource.String.common_google_play_services_enable_title;
+			global::Shiny.Locations.Resource.String.common_google_play_services_install_button = global::KegID.Android.Resource.String.common_google_play_services_install_button;
+			global::Shiny.Locations.Resource.String.common_google_play_services_install_text = global::KegID.Android.Resource.String.common_google_play_services_install_text;
+			global::Shiny.Locations.Resource.String.common_google_play_services_install_title = global::KegID.Android.Resource.String.common_google_play_services_install_title;
+			global::Shiny.Locations.Resource.String.common_google_play_services_notification_channel_name = global::KegID.Android.Resource.String.common_google_play_services_notification_channel_name;
+			global::Shiny.Locations.Resource.String.common_google_play_services_notification_ticker = global::KegID.Android.Resource.String.common_google_play_services_notification_ticker;
+			global::Shiny.Locations.Resource.String.common_google_play_services_unknown_issue = global::KegID.Android.Resource.String.common_google_play_services_unknown_issue;
+			global::Shiny.Locations.Resource.String.common_google_play_services_unsupported_text = global::KegID.Android.Resource.String.common_google_play_services_unsupported_text;
+			global::Shiny.Locations.Resource.String.common_google_play_services_update_button = global::KegID.Android.Resource.String.common_google_play_services_update_button;
+			global::Shiny.Locations.Resource.String.common_google_play_services_update_text = global::KegID.Android.Resource.String.common_google_play_services_update_text;
+			global::Shiny.Locations.Resource.String.common_google_play_services_update_title = global::KegID.Android.Resource.String.common_google_play_services_update_title;
+			global::Shiny.Locations.Resource.String.common_google_play_services_updating_text = global::KegID.Android.Resource.String.common_google_play_services_updating_text;
+			global::Shiny.Locations.Resource.String.common_google_play_services_wear_update_text = global::KegID.Android.Resource.String.common_google_play_services_wear_update_text;
+			global::Shiny.Locations.Resource.String.common_open_on_phone = global::KegID.Android.Resource.String.common_open_on_phone;
+			global::Shiny.Locations.Resource.String.common_signin_button_text = global::KegID.Android.Resource.String.common_signin_button_text;
+			global::Shiny.Locations.Resource.String.common_signin_button_text_long = global::KegID.Android.Resource.String.common_signin_button_text_long;
+			global::Shiny.Locations.Resource.String.status_bar_notification_info_overflow = global::KegID.Android.Resource.String.status_bar_notification_info_overflow;
+			global::Shiny.Locations.Resource.Style.TextAppearance_Compat_Notification = global::KegID.Android.Resource.Style.TextAppearance_Compat_Notification;
+			global::Shiny.Locations.Resource.Style.TextAppearance_Compat_Notification_Info = global::KegID.Android.Resource.Style.TextAppearance_Compat_Notification_Info;
+			global::Shiny.Locations.Resource.Style.TextAppearance_Compat_Notification_Info_Media = global::KegID.Android.Resource.Style.TextAppearance_Compat_Notification_Info_Media;
+			global::Shiny.Locations.Resource.Style.TextAppearance_Compat_Notification_Line2 = global::KegID.Android.Resource.Style.TextAppearance_Compat_Notification_Line2;
+			global::Shiny.Locations.Resource.Style.TextAppearance_Compat_Notification_Line2_Media = global::KegID.Android.Resource.Style.TextAppearance_Compat_Notification_Line2_Media;
+			global::Shiny.Locations.Resource.Style.TextAppearance_Compat_Notification_Media = global::KegID.Android.Resource.Style.TextAppearance_Compat_Notification_Media;
+			global::Shiny.Locations.Resource.Style.TextAppearance_Compat_Notification_Time = global::KegID.Android.Resource.Style.TextAppearance_Compat_Notification_Time;
+			global::Shiny.Locations.Resource.Style.TextAppearance_Compat_Notification_Time_Media = global::KegID.Android.Resource.Style.TextAppearance_Compat_Notification_Time_Media;
+			global::Shiny.Locations.Resource.Style.TextAppearance_Compat_Notification_Title = global::KegID.Android.Resource.Style.TextAppearance_Compat_Notification_Title;
+			global::Shiny.Locations.Resource.Style.TextAppearance_Compat_Notification_Title_Media = global::KegID.Android.Resource.Style.TextAppearance_Compat_Notification_Title_Media;
+			global::Shiny.Locations.Resource.Style.Widget_Compat_NotificationActionContainer = global::KegID.Android.Resource.Style.Widget_Compat_NotificationActionContainer;
+			global::Shiny.Locations.Resource.Style.Widget_Compat_NotificationActionText = global::KegID.Android.Resource.Style.Widget_Compat_NotificationActionText;
+			global::Shiny.Locations.Resource.Style.Widget_Support_CoordinatorLayout = global::KegID.Android.Resource.Style.Widget_Support_CoordinatorLayout;
+			global::Shiny.Locations.Resource.Styleable.ColorStateListItem = global::KegID.Android.Resource.Styleable.ColorStateListItem;
+			global::Shiny.Locations.Resource.Styleable.ColorStateListItem_alpha = global::KegID.Android.Resource.Styleable.ColorStateListItem_alpha;
+			global::Shiny.Locations.Resource.Styleable.ColorStateListItem_android_alpha = global::KegID.Android.Resource.Styleable.ColorStateListItem_android_alpha;
+			global::Shiny.Locations.Resource.Styleable.ColorStateListItem_android_color = global::KegID.Android.Resource.Styleable.ColorStateListItem_android_color;
+			global::Shiny.Locations.Resource.Styleable.CoordinatorLayout = global::KegID.Android.Resource.Styleable.CoordinatorLayout;
+			global::Shiny.Locations.Resource.Styleable.CoordinatorLayout_keylines = global::KegID.Android.Resource.Styleable.CoordinatorLayout_keylines;
+			global::Shiny.Locations.Resource.Styleable.CoordinatorLayout_Layout = global::KegID.Android.Resource.Styleable.CoordinatorLayout_Layout;
+			global::Shiny.Locations.Resource.Styleable.CoordinatorLayout_Layout_android_layout_gravity = global::KegID.Android.Resource.Styleable.CoordinatorLayout_Layout_android_layout_gravity;
+			global::Shiny.Locations.Resource.Styleable.CoordinatorLayout_Layout_layout_anchor = global::KegID.Android.Resource.Styleable.CoordinatorLayout_Layout_layout_anchor;
+			global::Shiny.Locations.Resource.Styleable.CoordinatorLayout_Layout_layout_anchorGravity = global::KegID.Android.Resource.Styleable.CoordinatorLayout_Layout_layout_anchorGravity;
+			global::Shiny.Locations.Resource.Styleable.CoordinatorLayout_Layout_layout_behavior = global::KegID.Android.Resource.Styleable.CoordinatorLayout_Layout_layout_behavior;
+			global::Shiny.Locations.Resource.Styleable.CoordinatorLayout_Layout_layout_dodgeInsetEdges = global::KegID.Android.Resource.Styleable.CoordinatorLayout_Layout_layout_dodgeInsetEdges;
+			global::Shiny.Locations.Resource.Styleable.CoordinatorLayout_Layout_layout_insetEdge = global::KegID.Android.Resource.Styleable.CoordinatorLayout_Layout_layout_insetEdge;
+			global::Shiny.Locations.Resource.Styleable.CoordinatorLayout_Layout_layout_keyline = global::KegID.Android.Resource.Styleable.CoordinatorLayout_Layout_layout_keyline;
+			global::Shiny.Locations.Resource.Styleable.CoordinatorLayout_statusBarBackground = global::KegID.Android.Resource.Styleable.CoordinatorLayout_statusBarBackground;
+			global::Shiny.Locations.Resource.Styleable.FontFamily = global::KegID.Android.Resource.Styleable.FontFamily;
+			global::Shiny.Locations.Resource.Styleable.FontFamilyFont = global::KegID.Android.Resource.Styleable.FontFamilyFont;
+			global::Shiny.Locations.Resource.Styleable.FontFamilyFont_android_font = global::KegID.Android.Resource.Styleable.FontFamilyFont_android_font;
+			global::Shiny.Locations.Resource.Styleable.FontFamilyFont_android_fontStyle = global::KegID.Android.Resource.Styleable.FontFamilyFont_android_fontStyle;
+			global::Shiny.Locations.Resource.Styleable.FontFamilyFont_android_fontVariationSettings = global::KegID.Android.Resource.Styleable.FontFamilyFont_android_fontVariationSettings;
+			global::Shiny.Locations.Resource.Styleable.FontFamilyFont_android_fontWeight = global::KegID.Android.Resource.Styleable.FontFamilyFont_android_fontWeight;
+			global::Shiny.Locations.Resource.Styleable.FontFamilyFont_android_ttcIndex = global::KegID.Android.Resource.Styleable.FontFamilyFont_android_ttcIndex;
+			global::Shiny.Locations.Resource.Styleable.FontFamilyFont_font = global::KegID.Android.Resource.Styleable.FontFamilyFont_font;
+			global::Shiny.Locations.Resource.Styleable.FontFamilyFont_fontStyle = global::KegID.Android.Resource.Styleable.FontFamilyFont_fontStyle;
+			global::Shiny.Locations.Resource.Styleable.FontFamilyFont_fontVariationSettings = global::KegID.Android.Resource.Styleable.FontFamilyFont_fontVariationSettings;
+			global::Shiny.Locations.Resource.Styleable.FontFamilyFont_fontWeight = global::KegID.Android.Resource.Styleable.FontFamilyFont_fontWeight;
+			global::Shiny.Locations.Resource.Styleable.FontFamilyFont_ttcIndex = global::KegID.Android.Resource.Styleable.FontFamilyFont_ttcIndex;
+			global::Shiny.Locations.Resource.Styleable.FontFamily_fontProviderAuthority = global::KegID.Android.Resource.Styleable.FontFamily_fontProviderAuthority;
+			global::Shiny.Locations.Resource.Styleable.FontFamily_fontProviderCerts = global::KegID.Android.Resource.Styleable.FontFamily_fontProviderCerts;
+			global::Shiny.Locations.Resource.Styleable.FontFamily_fontProviderFetchStrategy = global::KegID.Android.Resource.Styleable.FontFamily_fontProviderFetchStrategy;
+			global::Shiny.Locations.Resource.Styleable.FontFamily_fontProviderFetchTimeout = global::KegID.Android.Resource.Styleable.FontFamily_fontProviderFetchTimeout;
+			global::Shiny.Locations.Resource.Styleable.FontFamily_fontProviderPackage = global::KegID.Android.Resource.Styleable.FontFamily_fontProviderPackage;
+			global::Shiny.Locations.Resource.Styleable.FontFamily_fontProviderQuery = global::KegID.Android.Resource.Styleable.FontFamily_fontProviderQuery;
+			global::Shiny.Locations.Resource.Styleable.GradientColor = global::KegID.Android.Resource.Styleable.GradientColor;
+			global::Shiny.Locations.Resource.Styleable.GradientColorItem = global::KegID.Android.Resource.Styleable.GradientColorItem;
+			global::Shiny.Locations.Resource.Styleable.GradientColorItem_android_color = global::KegID.Android.Resource.Styleable.GradientColorItem_android_color;
+			global::Shiny.Locations.Resource.Styleable.GradientColorItem_android_offset = global::KegID.Android.Resource.Styleable.GradientColorItem_android_offset;
+			global::Shiny.Locations.Resource.Styleable.GradientColor_android_centerColor = global::KegID.Android.Resource.Styleable.GradientColor_android_centerColor;
+			global::Shiny.Locations.Resource.Styleable.GradientColor_android_centerX = global::KegID.Android.Resource.Styleable.GradientColor_android_centerX;
+			global::Shiny.Locations.Resource.Styleable.GradientColor_android_centerY = global::KegID.Android.Resource.Styleable.GradientColor_android_centerY;
+			global::Shiny.Locations.Resource.Styleable.GradientColor_android_endColor = global::KegID.Android.Resource.Styleable.GradientColor_android_endColor;
+			global::Shiny.Locations.Resource.Styleable.GradientColor_android_endX = global::KegID.Android.Resource.Styleable.GradientColor_android_endX;
+			global::Shiny.Locations.Resource.Styleable.GradientColor_android_endY = global::KegID.Android.Resource.Styleable.GradientColor_android_endY;
+			global::Shiny.Locations.Resource.Styleable.GradientColor_android_gradientRadius = global::KegID.Android.Resource.Styleable.GradientColor_android_gradientRadius;
+			global::Shiny.Locations.Resource.Styleable.GradientColor_android_startColor = global::KegID.Android.Resource.Styleable.GradientColor_android_startColor;
+			global::Shiny.Locations.Resource.Styleable.GradientColor_android_startX = global::KegID.Android.Resource.Styleable.GradientColor_android_startX;
+			global::Shiny.Locations.Resource.Styleable.GradientColor_android_startY = global::KegID.Android.Resource.Styleable.GradientColor_android_startY;
+			global::Shiny.Locations.Resource.Styleable.GradientColor_android_tileMode = global::KegID.Android.Resource.Styleable.GradientColor_android_tileMode;
+			global::Shiny.Locations.Resource.Styleable.GradientColor_android_type = global::KegID.Android.Resource.Styleable.GradientColor_android_type;
+			global::Shiny.Locations.Resource.Styleable.LoadingImageView = global::KegID.Android.Resource.Styleable.LoadingImageView;
+			global::Shiny.Locations.Resource.Styleable.LoadingImageView_circleCrop = global::KegID.Android.Resource.Styleable.LoadingImageView_circleCrop;
+			global::Shiny.Locations.Resource.Styleable.LoadingImageView_imageAspectRatio = global::KegID.Android.Resource.Styleable.LoadingImageView_imageAspectRatio;
+			global::Shiny.Locations.Resource.Styleable.LoadingImageView_imageAspectRatioAdjust = global::KegID.Android.Resource.Styleable.LoadingImageView_imageAspectRatioAdjust;
+			global::Shiny.Locations.Resource.Styleable.SignInButton = global::KegID.Android.Resource.Styleable.SignInButton;
+			global::Shiny.Locations.Resource.Styleable.SignInButton_buttonSize = global::KegID.Android.Resource.Styleable.SignInButton_buttonSize;
+			global::Shiny.Locations.Resource.Styleable.SignInButton_colorScheme = global::KegID.Android.Resource.Styleable.SignInButton_colorScheme;
+			global::Shiny.Locations.Resource.Styleable.SignInButton_scopeUris = global::KegID.Android.Resource.Styleable.SignInButton_scopeUris;
 			global::Xamarin.Essentials.Resource.Attribute.alpha = global::KegID.Android.Resource.Attribute.alpha;
 			global::Xamarin.Essentials.Resource.Attribute.coordinatorLayoutStyle = global::KegID.Android.Resource.Attribute.coordinatorLayoutStyle;
 			global::Xamarin.Essentials.Resource.Attribute.font = global::KegID.Android.Resource.Attribute.font;
@@ -20806,145 +21269,148 @@ namespace KegID.Android
 			public const int common_google_play_services_install_title = 2131558469;
 			
 			// aapt resource value: 0x7F0D0046
-			public const int common_google_play_services_notification_ticker = 2131558470;
+			public const int common_google_play_services_notification_channel_name = 2131558470;
 			
 			// aapt resource value: 0x7F0D0047
-			public const int common_google_play_services_unknown_issue = 2131558471;
+			public const int common_google_play_services_notification_ticker = 2131558471;
 			
 			// aapt resource value: 0x7F0D0048
-			public const int common_google_play_services_unsupported_text = 2131558472;
+			public const int common_google_play_services_unknown_issue = 2131558472;
 			
 			// aapt resource value: 0x7F0D0049
-			public const int common_google_play_services_update_button = 2131558473;
+			public const int common_google_play_services_unsupported_text = 2131558473;
 			
 			// aapt resource value: 0x7F0D004A
-			public const int common_google_play_services_update_text = 2131558474;
+			public const int common_google_play_services_update_button = 2131558474;
 			
 			// aapt resource value: 0x7F0D004B
-			public const int common_google_play_services_update_title = 2131558475;
+			public const int common_google_play_services_update_text = 2131558475;
 			
 			// aapt resource value: 0x7F0D004C
-			public const int common_google_play_services_updating_text = 2131558476;
+			public const int common_google_play_services_update_title = 2131558476;
 			
 			// aapt resource value: 0x7F0D004D
-			public const int common_google_play_services_wear_update_text = 2131558477;
+			public const int common_google_play_services_updating_text = 2131558477;
 			
 			// aapt resource value: 0x7F0D004E
-			public const int common_open_on_phone = 2131558478;
+			public const int common_google_play_services_wear_update_text = 2131558478;
 			
 			// aapt resource value: 0x7F0D004F
-			public const int common_signin_button_text = 2131558479;
+			public const int common_open_on_phone = 2131558479;
 			
 			// aapt resource value: 0x7F0D0050
-			public const int common_signin_button_text_long = 2131558480;
+			public const int common_signin_button_text = 2131558480;
 			
 			// aapt resource value: 0x7F0D0051
-			public const int fab_transformation_scrim_behavior = 2131558481;
+			public const int common_signin_button_text_long = 2131558481;
 			
 			// aapt resource value: 0x7F0D0052
-			public const int fab_transformation_sheet_behavior = 2131558482;
+			public const int fab_transformation_scrim_behavior = 2131558482;
 			
 			// aapt resource value: 0x7F0D0053
-			public const int hide_bottom_view_on_scroll_behavior = 2131558483;
+			public const int fab_transformation_sheet_behavior = 2131558483;
 			
 			// aapt resource value: 0x7F0D0054
-			public const int library_name = 2131558484;
+			public const int hide_bottom_view_on_scroll_behavior = 2131558484;
 			
 			// aapt resource value: 0x7F0D0055
-			public const int mr_button_content_description = 2131558485;
+			public const int library_name = 2131558485;
 			
 			// aapt resource value: 0x7F0D0056
-			public const int mr_cast_button_connected = 2131558486;
+			public const int mr_button_content_description = 2131558486;
 			
 			// aapt resource value: 0x7F0D0057
-			public const int mr_cast_button_connecting = 2131558487;
+			public const int mr_cast_button_connected = 2131558487;
 			
 			// aapt resource value: 0x7F0D0058
-			public const int mr_cast_button_disconnected = 2131558488;
+			public const int mr_cast_button_connecting = 2131558488;
 			
 			// aapt resource value: 0x7F0D0059
-			public const int mr_cast_dialog_title_view_placeholder = 2131558489;
+			public const int mr_cast_button_disconnected = 2131558489;
 			
 			// aapt resource value: 0x7F0D005A
-			public const int mr_chooser_searching = 2131558490;
+			public const int mr_cast_dialog_title_view_placeholder = 2131558490;
 			
 			// aapt resource value: 0x7F0D005B
-			public const int mr_chooser_title = 2131558491;
+			public const int mr_chooser_searching = 2131558491;
 			
 			// aapt resource value: 0x7F0D005C
-			public const int mr_controller_album_art = 2131558492;
+			public const int mr_chooser_title = 2131558492;
 			
 			// aapt resource value: 0x7F0D005D
-			public const int mr_controller_casting_screen = 2131558493;
+			public const int mr_controller_album_art = 2131558493;
 			
 			// aapt resource value: 0x7F0D005E
-			public const int mr_controller_close_description = 2131558494;
+			public const int mr_controller_casting_screen = 2131558494;
 			
 			// aapt resource value: 0x7F0D005F
-			public const int mr_controller_collapse_group = 2131558495;
+			public const int mr_controller_close_description = 2131558495;
 			
 			// aapt resource value: 0x7F0D0060
-			public const int mr_controller_disconnect = 2131558496;
+			public const int mr_controller_collapse_group = 2131558496;
 			
 			// aapt resource value: 0x7F0D0061
-			public const int mr_controller_expand_group = 2131558497;
+			public const int mr_controller_disconnect = 2131558497;
 			
 			// aapt resource value: 0x7F0D0062
-			public const int mr_controller_no_info_available = 2131558498;
+			public const int mr_controller_expand_group = 2131558498;
 			
 			// aapt resource value: 0x7F0D0063
-			public const int mr_controller_no_media_selected = 2131558499;
+			public const int mr_controller_no_info_available = 2131558499;
 			
 			// aapt resource value: 0x7F0D0064
-			public const int mr_controller_pause = 2131558500;
+			public const int mr_controller_no_media_selected = 2131558500;
 			
 			// aapt resource value: 0x7F0D0065
-			public const int mr_controller_play = 2131558501;
+			public const int mr_controller_pause = 2131558501;
 			
 			// aapt resource value: 0x7F0D0066
-			public const int mr_controller_stop = 2131558502;
+			public const int mr_controller_play = 2131558502;
 			
 			// aapt resource value: 0x7F0D0067
-			public const int mr_controller_stop_casting = 2131558503;
+			public const int mr_controller_stop = 2131558503;
 			
 			// aapt resource value: 0x7F0D0068
-			public const int mr_controller_volume_slider = 2131558504;
+			public const int mr_controller_stop_casting = 2131558504;
 			
 			// aapt resource value: 0x7F0D0069
-			public const int mr_dialog_device_header = 2131558505;
+			public const int mr_controller_volume_slider = 2131558505;
 			
 			// aapt resource value: 0x7F0D006A
-			public const int mr_dialog_route_header = 2131558506;
+			public const int mr_dialog_device_header = 2131558506;
 			
 			// aapt resource value: 0x7F0D006B
-			public const int mr_system_route_name = 2131558507;
+			public const int mr_dialog_route_header = 2131558507;
 			
 			// aapt resource value: 0x7F0D006C
-			public const int mr_user_route_category_name = 2131558508;
+			public const int mr_system_route_name = 2131558508;
 			
 			// aapt resource value: 0x7F0D006D
-			public const int mtrl_chip_close_icon_content_description = 2131558509;
+			public const int mr_user_route_category_name = 2131558509;
 			
 			// aapt resource value: 0x7F0D006E
-			public const int password_toggle_content_description = 2131558510;
+			public const int mtrl_chip_close_icon_content_description = 2131558510;
 			
 			// aapt resource value: 0x7F0D006F
-			public const int path_password_eye = 2131558511;
+			public const int password_toggle_content_description = 2131558511;
 			
 			// aapt resource value: 0x7F0D0070
-			public const int path_password_eye_mask_strike_through = 2131558512;
+			public const int path_password_eye = 2131558512;
 			
 			// aapt resource value: 0x7F0D0071
-			public const int path_password_eye_mask_visible = 2131558513;
+			public const int path_password_eye_mask_strike_through = 2131558513;
 			
 			// aapt resource value: 0x7F0D0072
-			public const int path_password_strike_through = 2131558514;
+			public const int path_password_eye_mask_visible = 2131558514;
 			
 			// aapt resource value: 0x7F0D0073
-			public const int search_menu_title = 2131558515;
+			public const int path_password_strike_through = 2131558515;
 			
 			// aapt resource value: 0x7F0D0074
-			public const int status_bar_notification_info_overflow = 2131558516;
+			public const int search_menu_title = 2131558516;
+			
+			// aapt resource value: 0x7F0D0075
+			public const int status_bar_notification_info_overflow = 2131558517;
 			
 			static String()
 			{

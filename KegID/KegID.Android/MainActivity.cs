@@ -10,13 +10,9 @@ using Android.Support.V4.Content;
 using Android.Views;
 using KegID.Droid.Services;
 using KegID.Messages;
-using Microsoft.AppCenter.Crashes;
 using Plugin.CrossPlatformTintedImage.Android;
 using Plugin.CurrentActivity;
-using Prism;
-using Prism.Ioc;
 using SegmentedControl.FormsPlugin.Android;
-using System;
 using Xamarin.Forms;
 
 namespace KegID.Droid
@@ -38,7 +34,6 @@ namespace KegID.Droid
             base.OnCreate(bundle);
             myActivity = this;
 
-            Forms.Init(this, bundle);
             FormsMaterial.Init(this, bundle);
             UserDialogs.Init(this);
             Rg.Plugins.Popup.Popup.Init(this, bundle);
@@ -49,7 +44,8 @@ namespace KegID.Droid
             CrossCurrentActivity.Current.Init(this, bundle);
             //Forms9Patch.Droid.Settings.Initialize(this);
             SegmentedControlRenderer.Init();
-            LoadApplication(new App(new AndroidInitializer()));
+            Forms.Init(this, bundle);
+            LoadApplication(new App());
 
             WireUpLongRunningTask();
             GetAccessCoarseLocationPermission();
@@ -92,7 +88,7 @@ namespace KegID.Droid
             return myActivity;
         }
 
-        void WireUpLongRunningTask()
+        private void WireUpLongRunningTask()
         {
             MessagingCenter.Subscribe<StartLongRunningTaskMessage>(this, "StartLongRunningTaskMessage", message =>
             {
@@ -102,7 +98,7 @@ namespace KegID.Droid
                 StartService(intent);
             });
 
-            MessagingCenter.Subscribe<StopLongRunningTaskMessage>(this, "StopLongRunningTaskMessage", message =>
+            MessagingCenter.Subscribe<StopLongRunningTaskMessage>(this, "StopLongRunningTaskMessage", _ =>
             {
                 var intent = new Intent(this, typeof(LongRunningTaskService));
                 StopService(intent);
@@ -112,14 +108,8 @@ namespace KegID.Droid
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
         {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
-    }
-
-    public class AndroidInitializer : IPlatformInitializer
-    {
-        public void RegisterTypes(IContainerRegistry containerRegistry)
-        {
-
+            Shiny.AndroidShinyHost.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 }

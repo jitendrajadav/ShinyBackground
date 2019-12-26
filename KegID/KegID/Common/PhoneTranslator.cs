@@ -47,6 +47,5 @@ namespace KegID.Common
             }
             return null;
         }
-
     }
 }

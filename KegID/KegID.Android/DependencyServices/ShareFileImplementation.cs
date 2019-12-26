@@ -136,7 +136,7 @@ namespace KegID.Droid.DependencyServices
         /// <returns>The file.</returns>
         /// <param name="fileName">File name.</param>
         /// <param name="bytes">Bytes.</param>
-        private string WriteFile(string fileName, byte[] bytes)
+        public string WriteFile(string fileName, byte[] bytes)
         {
             string localPath = "";
 
@@ -158,7 +158,7 @@ namespace KegID.Droid.DependencyServices
         }
     }
 
-    internal class WebViewCallBack : WebViewClient
+    public class WebViewCallBack : WebViewClient
     {
         readonly int width = 0;
         readonly int height = 0;

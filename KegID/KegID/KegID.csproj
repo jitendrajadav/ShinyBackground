@@ -55,9 +55,12 @@
 
   <ItemGroup>
     <Compile Remove="Common\KegIDClient.cs" />
+    <Compile Remove="Services\BackgroundJob.cs" />
     <Compile Remove="Services\DashboardService.cs" />
     <Compile Remove="Services\FillService.cs" />
+    <Compile Remove="Services\GeolocationService.cs" />
     <Compile Remove="Services\IDashboardService.cs" />
+    <Compile Remove="Services\IGeolocationService.cs" />
     <Compile Remove="Services\IMaintainService.cs" />
     <Compile Remove="Services\IMoveService.cs" />
     <Compile Remove="Services\IPalletizeService.cs" />
@@ -90,6 +93,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="Plugin.CrossPlatformTintedImage" Version="1.0.0" />
     <PackageReference Include="Polly" Version="7.2.0" />
+    <PackageReference Include="Prism.DryIoc.Forms.Extended" Version="7.2.0.702" />
     <PackageReference Include="Prism.Forms" Version="7.2.0.1422" />
     <PackageReference Include="Prism.Plugin.Popups" Version="7.2.0.759" />
     <PackageReference Include="Prism.Unity.Forms" Version="7.2.0.1422" />
@@ -100,6 +104,9 @@
     <PackageReference Include="Rg.Plugins.Popup" Version="1.2.0.223" />
     <PackageReference Include="Scandit.BarcodePicker.Unified" Version="5.13.3.10" />
     <PackageReference Include="SegmentedControl.FormsPlugin" Version="2.0.1" />
+    <PackageReference Include="Shiny.Core" Version="1.0.0.531-beta" />
+    <PackageReference Include="Shiny.Locations" Version="1.0.0.531-beta" />
+    <PackageReference Include="Shiny.Prism" Version="7.2.0.799-pre" />
     <PackageReference Include="Splat" Version="9.3.3" />
     <PackageReference Include="Xam.Plugin.Connectivity" Version="4.0.0.190-beta" />
     <PackageReference Include="Xam.Plugins.Settings" Version="4.1.0-beta" />
@@ -110,7 +117,6 @@
     <PackageReference Include="Xamarin.Forms.Visual.Material" Version="4.4.0.991265" />
     <PackageReference Include="Xamarin.HotReload" Version="1.5.3" />
     <PackageReference Include="Zebra.Printer.SDK" Version="2.15.2634" />
-
   </ItemGroup>
 
   <ItemGroup>

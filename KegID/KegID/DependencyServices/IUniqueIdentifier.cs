@@ -1,15 +1,15 @@
-﻿using KegID.Model;
+﻿//using KegID.Model;
 
-namespace KegID.DependencyServices
-{
-    public interface IUniqueIdentifier
-    {
-        UniqueIdentifierValue GetUniqueIdentifier();
+//namespace KegID.DependencyServices
+//{
+//    public interface IUniqueIdentifier
+//    {
+//        UniqueIdentifierValue GetUniqueIdentifier();
 
-        string AppVersion();
+//        string AppVersion();
 
-        string AppName();
+//        string AppName();
 
-        string AppPackageCreationDate();
-    }
-}
+//        string AppPackageCreationDate();
+//    }
+//}

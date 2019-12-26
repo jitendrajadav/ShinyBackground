@@ -1,9 +1,12 @@
-﻿using KegID.Model;
+﻿using KegID.Delegates;
+using KegID.Model;
 using KegID.Services;
 using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
+using Shiny;
+using Shiny.Locations;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,7 +14,7 @@ using Xamarin.Essentials;
 
 namespace KegID.ViewModel
 {
-    public class EditAddressViewModel : BaseViewModel
+    public class EditAddressViewModel : BaseViewModel, IDestructible
     {
         #region Properties
 
@@ -24,7 +27,9 @@ namespace KegID.ViewModel
         public string State { get; set; }
         public string PostalCode { get; set; }
         public string Country { get; set; }
-
+        private readonly IGpsListener _gpsListener;
+        private readonly IGpsManager _gpsManager;
+        public Position LocationMessage { get; set; }
         #endregion
 
         #region Commands
@@ -32,16 +37,20 @@ namespace KegID.ViewModel
         public DelegateCommand BackCommand { get; }
         public DelegateCommand DoneCommand { get; }
         public DelegateCommand GetCurrentLocationCommand { get; }
-        private readonly IGeolocationService _geolocationService;
+        //private readonly IGeolocationService _geolocationService;
         private readonly IPageDialogService _dialogService;
 
         #endregion
 
         #region Constructor
 
-        public EditAddressViewModel(INavigationService navigationService,IGeolocationService geolocationService, IPageDialogService dialogService) : base(navigationService)
+        public EditAddressViewModel(INavigationService navigationService, IGpsManager gpsManager, IGpsListener gpsListener, IPageDialogService dialogService) : base(navigationService)
         {
-            _geolocationService = geolocationService;
+            //_geolocationService = geolocationService;
+            _gpsManager = gpsManager;
+            _gpsListener = gpsListener;
+            _gpsListener.OnReadingReceived += OnReadingReceived;
+
             _dialogService = dialogService;
 
             BackCommand = new DelegateCommand(BackCommandRecieverAsync);
@@ -53,15 +62,21 @@ namespace KegID.ViewModel
 
         #region Methods
 
+        void OnReadingReceived(object sender, GpsReadingEventArgs e)
+        {
+            LocationMessage = e.Reading.Position;
+            //= $"{e.Reading.Position.Latitude}, {e.Reading.Position.Longitude}";
+        }
+
         private async void GetCurrentLocationCommandRecieverAsync()
         {
             try
             {
-                var location = await _geolocationService.GetLastLocationAsync();
+                //var location = await _geolocationService.GetLastLocationAsync();
 
-                if (location != null)
+                if (LocationMessage != null)
                 {
-                    var placemarks = await Geocoding.GetPlacemarksAsync(location.Latitude, location.Longitude);
+                    var placemarks = await Geocoding.GetPlacemarksAsync(LocationMessage.Latitude, LocationMessage.Longitude);
 
                     var placemark = placemarks?.FirstOrDefault();
                     if (placemark != null)
@@ -170,12 +185,30 @@ namespace KegID.ViewModel
             return base.InitializeAsync(parameters);
         }
 
-        public override void OnNavigatedTo(INavigationParameters parameters)
+        public override async void OnNavigatedTo(INavigationParameters parameters)
         {
+            if (_gpsManager.IsListening)
+            {
+                await _gpsManager.StopListener();
+            }
+
+            await _gpsManager.StartListener(new GpsRequest
+            {
+                UseBackground = true,
+                Priority = GpsPriority.Highest,
+                Interval = TimeSpan.FromSeconds(5),
+                ThrottledInterval = TimeSpan.FromSeconds(3) //Should be lower than Interval
+            });
+
             if (parameters.ContainsKey("BackCommandRecieverAsync"))
             {
                 BackCommandRecieverAsync();
             }
+        }
+
+        public void Destroy()
+        {
+            _gpsListener.OnReadingReceived -= OnReadingReceived;
         }
 
         #endregion

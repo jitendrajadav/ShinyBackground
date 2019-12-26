@@ -2,13 +2,18 @@
 using Android.App;
 using Android.Runtime;
 using Plugin.CurrentActivity;
+using Shiny;
 
 namespace KegID.Droid
 {
-    public class MainApplication : Application
+#if DEBUG
+    [Application(Debuggable = true)]
+#else
+[Application(Debuggable = false)]
+#endif
+    public class MainApplication : ShinyAndroidApplication<Startup>
     {
-        public MainApplication(IntPtr handle, JniHandleOwnership transer)
-        : base(handle, transer)
+        public MainApplication(IntPtr handle, JniHandleOwnership transer) : base(handle, transer)
         {
         }
 
@@ -16,6 +21,7 @@ namespace KegID.Droid
         {
             base.OnCreate();
             CrossCurrentActivity.Current.Init(this);
+            //Shiny.AndroidShinyHost.Init(this, new Startup());
         }
     }
 }

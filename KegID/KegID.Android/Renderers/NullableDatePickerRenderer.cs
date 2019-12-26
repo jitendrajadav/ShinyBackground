@@ -17,7 +17,6 @@ namespace KegID.Droid.Renderers
 
         public NullableDatePickerRenderer(Context context) : base(context)
         {
-
         }
 
         protected override void OnElementChanged(ElementChangedEventArgs<NullableDatePicker> e)
@@ -35,7 +34,6 @@ namespace KegID.Droid.Renderers
             Control.KeyListener = null;
             Control.FocusChange += OnPickerFocusChange;
             Control.Enabled = Element.IsEnabled;
-
         }
 
         protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -54,7 +52,7 @@ namespace KegID.Droid.Renderers
             base.OnElementPropertyChanged(sender, e);
         }
 
-        void OnPickerFocusChange(object sender, FocusChangeEventArgs e)
+        private void OnPickerFocusChange(object sender, FocusChangeEventArgs e)
         {
             if (e.HasFocus)
             {
@@ -80,12 +78,12 @@ namespace KegID.Droid.Renderers
             base.Dispose(disposing);
         }
 
-        void OnPickerClick(object sender, EventArgs e)
+        private void OnPickerClick(object sender, EventArgs e)
         {
             ShowDatePicker();
         }
 
-        void SetDate(DateTimeOffset date)
+        private void SetDate(DateTimeOffset date)
         {
             Control.Text = date.ToString(Element.Format);
             Element.Date = date.Date;
@@ -97,7 +95,7 @@ namespace KegID.Droid.Renderers
             _dialog.Show();
         }
 
-        void CreateDatePickerDialog(int year, int month, int day)
+        private void CreateDatePickerDialog(int year, int month, int day)
         {
             NullableDatePicker view = Element;
             _dialog = new DatePickerDialog(Context, (o, e) =>

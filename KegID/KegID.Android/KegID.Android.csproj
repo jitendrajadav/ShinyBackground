@@ -49,7 +49,7 @@
     <AndroidDexTool>dx</AndroidDexTool>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
+    <DebugSymbols>false</DebugSymbols>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release</OutputPath>
@@ -61,7 +61,7 @@
     <JavaMaximumHeapSize>2G</JavaMaximumHeapSize>
     <AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
     <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
-    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
+    <AndroidLinkMode>Full</AndroidLinkMode>
     <SolutionDir>..\</SolutionDir>
     <AotAssemblies>false</AotAssemblies>
     <EnableLLVM>false</EnableLLVM>
@@ -70,12 +70,13 @@
     <MandroidI18n />
     <AndroidCreatePackagePerAbi>false</AndroidCreatePackagePerAbi>
     <AndroidUseAapt2>true</AndroidUseAapt2>
-    <AndroidEnableMultiDex>true</AndroidEnableMultiDex>
+    <AndroidEnableMultiDex>false</AndroidEnableMultiDex>
     <AndroidEnableDesugar>true</AndroidEnableDesugar>
     <AndroidDexTool>d8</AndroidDexTool>
     <AndroidLinkTool>r8</AndroidLinkTool>
     <AndroidHttpClientHandlerType>Xamarin.Android.Net.AndroidClientHandler</AndroidHttpClientHandlerType>
     <AndroidPackageFormat>aab</AndroidPackageFormat>
+    <AndroidLinkSkip>Xamarin.Forms.Platform.Android;Xamarin.Forms.Platform;Xamarin.Forms.Core;Xamarin.Forms.Xaml;FormsViewGroup;Shiny.Core;</AndroidLinkSkip>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mono.Android" />
@@ -102,6 +103,7 @@
     <PackageReference Include="Plugin.CrossPlatformTintedImage" Version="1.0.0" />
     <PackageReference Include="Plugin.CurrentActivity" Version="2.1.0.4" />
     <PackageReference Include="Polly" Version="7.2.0" />
+    <PackageReference Include="Prism.DryIoc.Forms.Extended" Version="7.2.0.702" />
     <PackageReference Include="Prism.Forms" Version="7.2.0.1422" />
     <PackageReference Include="Prism.Plugin.Popups" Version="7.2.0.759" />
     <PackageReference Include="Prism.Unity.Forms" Version="7.2.0.1422" />
@@ -112,6 +114,8 @@
     <PackageReference Include="Scandit.BarcodePicker.Unified" Version="5.13.3.10" />
     <PackageReference Include="Scandit.BarcodePicker.Xamarin" Version="5.13.3.10" />
     <PackageReference Include="SegmentedControl.FormsPlugin" Version="2.0.1" />
+    <PackageReference Include="Shiny.Core" Version="1.0.0.531-beta" />
+    <PackageReference Include="Shiny.Prism" Version="7.2.0.799-pre" />
     <PackageReference Include="Splat" Version="9.3.3" />
     <PackageReference Include="Xam.Plugin.Connectivity" Version="4.0.0.190-beta" />
     <PackageReference Include="Xam.Plugins.Settings" Version="4.1.0-beta" />
@@ -126,13 +130,10 @@
     <PackageReference Include="Xamarin.Forms" Version="4.4.0.991265" />
     <PackageReference Include="Xamarin.Forms.Maps" Version="4.4.0.991265" />
     <PackageReference Include="Xamarin.Forms.Visual.Material" Version="4.4.0.991265" />
-    <PackageReference Include="Zebra.Printer.SDK">
-      <Version>2.15.2634</Version>
-    </PackageReference>
+    <PackageReference Include="Zebra.Printer.SDK" Version="2.15.2634" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DependencyServices\AndroidCloseApplication.cs" />
-    <Compile Include="DependencyServices\AndroidUniqueIdentifier.cs" />
     <Compile Include="DependencyServices\ConnectionManagerImplementation.cs" />
     <Compile Include="DependencyServices\PermissionAndroid.cs" />
     <Compile Include="DependencyServices\PhoneDialerAndroid.cs" />
@@ -150,7 +151,7 @@
     <Compile Include="SplashActivity.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="proguard_custom.cfg" />
+    <ProguardConfiguration Include="proguard.cfg" />
     <None Include="Resources\AboutResources.txt" />
   </ItemGroup>
   <ItemGroup>

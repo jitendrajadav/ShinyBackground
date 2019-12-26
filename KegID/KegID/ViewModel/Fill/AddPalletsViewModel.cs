@@ -16,18 +16,22 @@ using Realms;
 using KegID.LocalDb;
 using Xamarin.Essentials;
 using Acr.UserDialogs;
+using Shiny.Locations;
+using KegID.Delegates;
+using Shiny;
 
 namespace KegID.ViewModel
 {
-    public class AddPalletsViewModel : BaseViewModel
+    public class AddPalletsViewModel : BaseViewModel, IDestructible
     {
         #region Properties
 
         private readonly IPageDialogService _dialogService;
         private readonly IManifestManager _manifestManager;
         private readonly IUuidManager _uuidManager;
-        private readonly IGeolocationService _geolocationService;
-
+        //private readonly IGeolocationService _geolocationService;
+        private readonly IGpsListener _gpsListener;
+        private readonly IGpsManager _gpsManager;
         public string ManifestId { get; set; }
         public NewBatch BatchModel { get; private set; }
         public string SizeButtonTitle { get; private set; }
@@ -38,6 +42,8 @@ namespace KegID.ViewModel
         public string Kegs { get; set; }
         public string ContainerType { get; set; }
         public string ContainerTypes { get; set; }
+
+        public Position LocationMessage { get; set; }
 
         #endregion
 
@@ -53,12 +59,14 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public AddPalletsViewModel(INavigationService navigationService, IPageDialogService dialogService, IManifestManager manifestManager, IUuidManager uuidManager, IGeolocationService geolocationService) : base(navigationService)
+        public AddPalletsViewModel(INavigationService navigationService, IPageDialogService dialogService, IManifestManager manifestManager, IUuidManager uuidManager, IGpsManager gpsManager, IGpsListener gpsListener) : base(navigationService)
         {
             _dialogService = dialogService;
             _manifestManager = manifestManager;
             _uuidManager = uuidManager;
-            _geolocationService = geolocationService;
+            _gpsManager = gpsManager;
+            _gpsListener = gpsListener;
+            _gpsListener.OnReadingReceived += OnReadingReceived;
 
             SubmitCommand = new DelegateCommand(async()=> await RunSafe(SubmitCommandRecieverAsync()));
             FillScanCommand = new DelegateCommand(FillScanCommandRecieverAsync);
@@ -72,6 +80,12 @@ namespace KegID.ViewModel
         #endregion
 
         #region Methods
+
+        void OnReadingReceived(object sender, GpsReadingEventArgs e)
+        {
+            LocationMessage = e.Reading.Position;
+             //= $"{e.Reading.Position.Latitude}, {e.Reading.Position.Longitude}";
+        }
 
         private void PreferenceSetting()
         {
@@ -119,7 +133,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                var location = await _geolocationService.GetLastLocationAsync();
+                //var location = await _geolocationService.GetLastLocationAsync();
                     var barcodes = ConstantManager.Barcodes;
                     var tags = ConstantManager.Tags;
                     var partnerModel = ConstantManager.Partner;
@@ -216,7 +230,7 @@ namespace KegID.ViewModel
                     try
                     {
                     model = _manifestManager.GetManifestDraft(EventTypeEnum.FILL_MANIFEST, ManifestId ?? PalletCollection.FirstOrDefault().ManifestId,
-                    barcodes, location != null ? (long)location.Latitude : 0, location != null ? (long)location.Longitude : 0,string.Empty,string.Empty, tags, string.Empty, partnerModel, newPallets, new List<NewBatch>(), closedBatches, null, 4, null);
+                    barcodes, LocationMessage != null ? (long)LocationMessage.Latitude : 0, LocationMessage != null ? (long)LocationMessage.Longitude : 0,string.Empty,string.Empty, tags, string.Empty, partnerModel, newPallets, new List<NewBatch>(), closedBatches, null, 4, null);
                     }
                     catch (Exception ex)
                     {
@@ -499,6 +513,19 @@ namespace KegID.ViewModel
 
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
+            if (_gpsManager.IsListening)
+            {
+                await _gpsManager.StopListener();
+            }
+
+            await _gpsManager.StartListener(new GpsRequest
+            {
+                UseBackground = true,
+                Priority = GpsPriority.Highest,
+                Interval = TimeSpan.FromSeconds(5),
+                ThrottledInterval = TimeSpan.FromSeconds(3) //Should be lower than Interval
+            });
+
             if (parameters.ContainsKey("FillKegsCommandRecieverAsync"))
             {
                 FillKegsCommandRecieverAsync();
@@ -546,10 +573,15 @@ namespace KegID.ViewModel
             {
                 AssignInitValue(parameters);
             }
+
             return base.InitializeAsync(parameters);
+        }
+
+        public void Destroy()
+        {
+            _gpsListener.OnReadingReceived -= OnReadingReceived;
         }
 
         #endregion
     }
-
 }

@@ -55,7 +55,7 @@ namespace KegID.ViewModel
             LoginCommand = new DelegateCommand(async () => await RunSafe(LoginCommandRecieverAsync()));
             KegIDCommand = new DelegateCommand(KegIDCommandReciever);
 #if DEBUG
-            Username = "test@kegid.com";//"demo@kegid.com";
+            Username = "demo@kegid.com"; //"test@kegid.com";//
             Password = "beer2keg";
 #endif
             BgImage = _getIconByPlatform.GetIcon("kegbg.png");
