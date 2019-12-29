@@ -88,7 +88,7 @@ namespace KegID.ViewModel
                         var appDataWebServiceUrl = model.Preferences.Where(x => x.PreferenceName == "AppDataWebServiceUrl").Select(x => x.PreferenceValue).FirstOrDefault();
                         if (appDataWebServiceUrl != null)
                         {
-                            ConstantManager.BaseUrl = "";
+                            ConstantManager.BaseUrl = ConstantManager.BaseUrl;// appDataWebServiceUrl;
                         }
                         AppSettings.SessionId = model.SessionId;
                         AppSettings.CompanyId = model.CompanyId;
@@ -100,7 +100,7 @@ namespace KegID.ViewModel
 
                         KegRefresh = Convert.ToDouble(model.Preferences.ToList().Find(x => x.PreferenceName == "KEG_REFRESH")?.PreferenceValue);
                         UserDialogs.Instance.HideLoading();
-                        await RunSafe(DeviceCheckIn());
+                        await RunSafe(DeviceCheckIn()).ConfigureAwait(false);
                     }
                     catch (Exception ex)
                     {
@@ -112,11 +112,11 @@ namespace KegID.ViewModel
                         var versionUpdated = VersionTracking.CurrentVersion.CompareTo(VersionTracking.PreviousVersion);
                         if (versionUpdated > 0 && VersionTracking.PreviousVersion != null && VersionTracking.IsFirstLaunchForCurrentVersion)
                         {
-                            await _navigationService.NavigateAsync("../WhatIsNewView", animated: false);
+                            await _navigationService.NavigateAsync("../WhatIsNewView", animated: false).ConfigureAwait(false);
                         }
                         else
                         {
-                            await _navigationService.NavigateAsync("../MainPage", animated: false);
+                            await _navigationService.NavigateAsync("../MainPage", animated: false).ConfigureAwait(false);
                         }
                     }
                     catch (Exception ex)
@@ -128,7 +128,7 @@ namespace KegID.ViewModel
                         if (!IsLogOut)
                         {
                             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                            await RealmDb.WriteAsync((realmDb) => realmDb.Add(model));
+                            await RealmDb.WriteAsync((realmDb) => realmDb.Add(model)).ConfigureAwait(false);
                         }
                     }
                     catch (Exception ex)

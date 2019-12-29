@@ -21,18 +21,18 @@ namespace KegID.Services
 
         public async Task LoadInitializeMetaData()
         {
-            await RunSafe(LoadPartnersAsync());
-            await RunSafe(LoadOperators());
-            await RunSafe(LoadMaintainTypeAsync());
-            await RunSafe(LoadAssetSizeAsync());
-            await RunSafe(LoadAssetTypeAsync());
-            await RunSafe(LoadAssetVolumeAsync());
-            await RunSafe(LoadOwnerAsync());
-            await RunSafe(LoadDashboardPartnersAsync());
-            await RunSafe(LoadBrandAsync());
-            await RunSafe(LoadBatchAsync());
-            await RunSafe(LoadPartnerTypeAsync());
-            await RunSafe(LoadGetSkuListAsync());
+            await LoadPartnersAsync().ConfigureAwait(false);
+            await LoadOperators().ConfigureAwait(false);
+            await LoadMaintainTypeAsync().ConfigureAwait(false);
+            await LoadAssetSizeAsync().ConfigureAwait(false);
+            await LoadAssetTypeAsync().ConfigureAwait(false);
+            await LoadAssetVolumeAsync().ConfigureAwait(false);
+            await LoadOwnerAsync().ConfigureAwait(false);
+            await LoadDashboardPartnersAsync().ConfigureAwait(false);
+            await LoadBrandAsync().ConfigureAwait(false);
+            await LoadBatchAsync().ConfigureAwait(false);
+            await LoadPartnerTypeAsync().ConfigureAwait(false);
+            await LoadGetSkuListAsync().ConfigureAwait(false);
         }
 
         private async Task LoadGetSkuListAsync()

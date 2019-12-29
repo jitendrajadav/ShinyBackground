@@ -15,7 +15,6 @@ using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
 using Acr.UserDialogs;
-using System.Threading;
 using KegID.Common;
 using Newtonsoft.Json;
 
@@ -470,20 +469,20 @@ namespace KegID.ViewModel
                     //MessagingCenter.Send(message, "StartLongRunningTaskMessage");
 
                     // IJobManager can and should be injected into your viewmodel code
-                    Shiny.ShinyHost.Resolve<Shiny.Jobs.IJobManager>().RunTask("MoveJob", async _ =>
+                    Shiny.ShinyHost.Resolve<Shiny.Jobs.IJobManager>().RunTask("MoveJob"+ManaulBarcode, async _ =>
                     {
                         // your code goes here - async stuff is welcome (and necessary)
                        var response = await ApiManager.GetValidateBarcode(ManaulBarcode, AppSettings.SessionId);
                         if (response.IsSuccessStatusCode)
                         {
-                            var json = await response.Content.ReadAsStringAsync();
-                            var data = await Task.Run(() => JsonConvert.DeserializeObject<BarcodeModel>(json, GetJsonSetting()));
+                            var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            var data = await Task.Run(() => JsonConvert.DeserializeObject<BarcodeModel>(json, GetJsonSetting())).ConfigureAwait(false);
 
                             if (data.Kegs != null)
                             {
                                 using (var db = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
                                 {
-                                    var oldBarcode = BarcodeCollection.Where(x => x.Barcode == data.Barcode).FirstOrDefault();
+                                    var oldBarcode = BarcodeCollection.FirstOrDefault(x => x.Barcode == data.Kegs.Partners?.FirstOrDefault().Kegs?.FirstOrDefault().Barcode);
                                     oldBarcode.Pallets = data.Pallets;
                                     oldBarcode.Kegs = data.Kegs;
                                     oldBarcode.Icon = data?.Kegs?.Partners.Count > 1 ? _getIconByPlatform.GetIcon("validationquestion.png") : data?.Kegs?.Partners?.Count == 0 ? _getIconByPlatform.GetIcon("validationerror.png") : _getIconByPlatform.GetIcon("validationok.png");

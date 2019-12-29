@@ -9,7 +9,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Prism.Mvvm;
 using Prism.Navigation;
-using Refit;
 
 namespace KegID.ViewModel
 {

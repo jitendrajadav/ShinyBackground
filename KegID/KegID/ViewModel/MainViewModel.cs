@@ -84,14 +84,14 @@ namespace KegID.ViewModel
             CheckDraftmaniFests();
         }
 
-        private async void LoadMetadData()
+        private async Task LoadMetadData()
         {
             if (VersionTracking.IsFirstLaunchForCurrentVersion && (!(bool)Application.Current.Properties["OnSleep"]))
             {
-                UserDialogs.Instance.ShowLoading("Wait while downloading meta data...");
+                UserDialogs.Instance.ShowLoading("Wait while downloading meta-data...");
 
                 _initializeMetaData.DeleteInitializeMetaData();
-                await _initializeMetaData.LoadInitializeMetaData();
+                await RunSafe(_initializeMetaData.LoadInitializeMetaData()).ConfigureAwait(false);
                 UserDialogs.Instance.HideLoading();
             }
         }
@@ -138,9 +138,7 @@ namespace KegID.ViewModel
 
             MessagingCenter.Subscribe<SettingToDashboardMsg>(this, "SettingToDashboardMsg", _ => Device.BeginInvokeOnMainThread(()=>RefreshDashboardRecieverAsync(true)));
 
-            MessagingCenter.Subscribe<CheckDraftmaniFests>(this, "CheckDraftmaniFests", _ => {
-                Device.BeginInvokeOnMainThread(() => CheckDraftmaniFests());
-            });
+            MessagingCenter.Subscribe<CheckDraftmaniFests>(this, "CheckDraftmaniFests", _ => Device.BeginInvokeOnMainThread(() => CheckDraftmaniFests()));
         }
 
         private async void MoveCommandRecieverAsync()
@@ -449,14 +447,14 @@ namespace KegID.ViewModel
 
         public override async Task InitializeAsync(INavigationParameters parameters)
         {
-            LoadMetadData();
+            await LoadMetadData().ConfigureAwait(false);
             HandleUnsubscribeMessages();
             HandleReceivedMessages();
 
             RefreshDashboardRecieverAsync();
             if (Device.RuntimePlatform != Device.UWP)
             {
-               await StartPrinterSearch();
+                await StartPrinterSearch().ConfigureAwait(false);
             }
 
             Connectivity.ConnectivityChanged -= Connectivity_ConnectivityChanged;
@@ -488,9 +486,9 @@ namespace KegID.ViewModel
 
             public void DiscoveryError(string message)
             {
-                Device.BeginInvokeOnMainThread(async () => {
-                    await Application.Current.MainPage.DisplayAlert("Discovery Error", message, "OK");
-                });
+                //Device.BeginInvokeOnMainThread(async () => {
+                //    await Application.Current.MainPage.DisplayAlert("Discovery Error", message, "OK");
+                //});
             }
 
             public void DiscoveryFinished()

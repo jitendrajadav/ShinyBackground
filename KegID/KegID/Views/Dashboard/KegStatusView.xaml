@@ -6,6 +6,7 @@
     xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
     xmlns:controls="clr-namespace:Plugin.CrossPlatformTintedImage.Abstractions;assembly=Plugin.CrossPlatformTintedImage.Abstractions"
     xmlns:converters="clr-namespace:KegID.Converter"
+    xmlns:forms9="clr-namespace:Forms9Patch;assembly=Forms9Patch"
     xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
     ios:Page.UseSafeArea="true"
     BackgroundColor="{StaticResource pageBGColor}">
@@ -258,7 +259,7 @@
                         Text="{Binding MoveKeg}"
                         TextColor="{StaticResource selectTextColor}" />
 
-                    <!--<forms9:Button
+                    <forms9:Button
                         x:Name="addAlertPickerButton"
                         Grid.Row="19"
                         Grid.Column="0"
@@ -272,9 +273,9 @@
                         SelectedFontColor="{StaticResource lightGrayColor}"
                         SelectedTextColor="{StaticResource lightGrayColor}"
                         Text="Add alert"
-                        TextColor="{StaticResource lightGrayColor}" />-->
+                        TextColor="{StaticResource lightGrayColor}" />
 
-                    <!--<forms9:Button
+                    <forms9:Button
                         x:Name="removeAlertPickerButton"
                         Grid.Row="19"
                         Grid.Column="1"
@@ -287,7 +288,7 @@
                         SelectedFontColor="{StaticResource lightGrayColor}"
                         SelectedTextColor="{StaticResource lightGrayColor}"
                         Text="Remove alert"
-                        TextColor="{StaticResource lightGrayColor}" />-->
+                        TextColor="{StaticResource lightGrayColor}" />
 
                     <CollectionView
                         x:Name="lstBarcode"

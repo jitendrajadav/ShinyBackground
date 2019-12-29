@@ -45,7 +45,7 @@ namespace KegID.UWP
                 rootFrame.NavigationFailed += OnNavigationFailed;
                 List<Assembly> assembliesToInclude = new List<Assembly>
                 {
-                    //typeof(Forms9Patch.UWP.Settings).GetTypeInfo().Assembly,
+                    typeof(Forms9Patch.UWP.Settings).GetTypeInfo().Assembly,
                     typeof(SegmentedControlRenderer).GetTypeInfo().Assembly
                 };
                 Xamarin.Forms.Forms.Init(e, assembliesToInclude);
@@ -53,7 +53,7 @@ namespace KegID.UWP
                 TintedImageRenderer.Init();
                 FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
                 Rg.Plugins.Popup.Popup.Init();
-                //Forms9Patch.UWP.Settings.Initialize(this);
+                Forms9Patch.UWP.Settings.Initialize(this);
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
                     //TODO: Load state from previously suspended application

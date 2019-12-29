@@ -42,7 +42,7 @@ namespace KegID.Droid
             TintedImageRenderer.Init();
             Xamarin.Essentials.Platform.Init(this, bundle);
             CrossCurrentActivity.Current.Init(this, bundle);
-            //Forms9Patch.Droid.Settings.Initialize(this);
+            Forms9Patch.Droid.Settings.Initialize(this);
             SegmentedControlRenderer.Init();
             Forms.Init(this, bundle);
             LoadApplication(new App());

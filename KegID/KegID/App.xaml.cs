@@ -29,9 +29,9 @@ namespace KegID
             VersionTracking.Track();
 #if DEBUG
             //HotReloader.Current.Run(this);
-            ConstantManager.BaseUrl = ConstantManager.ProdApiUrl;
+            ConstantManager.BaseUrl = ConstantManager.TestApiUrl;
 #elif RELEASE
-            ConstantManager.BaseUrl = ConstantManager.ProdApiUrl;
+            ConstantManager.BaseUrl = ConstantManager.TestApiUrl;
 #endif
 
             var versionUpdated = VersionTracking.CurrentVersion.CompareTo(VersionTracking.PreviousVersion);

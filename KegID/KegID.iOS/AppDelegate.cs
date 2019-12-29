@@ -9,6 +9,7 @@ using UIKit;
 using Xamarin.Forms;
 using Microsoft.AppCenter.Distribute;
 using SegmentedControl.FormsPlugin.iOS;
+using Shiny;
 
 namespace KegID.iOS
 {
@@ -37,6 +38,9 @@ namespace KegID.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
+            // this needs to be loaded before EVERYTHING
+            iOSShinyHost.Init(new Startup());
+
             Forms.Init();
             FormsMaterial.Init();
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
@@ -44,12 +48,12 @@ namespace KegID.iOS
             Rg.Plugins.Popup.Popup.Init();
             TintedImageRenderer.Init();
             UIApplication.SharedApplication.SetMinimumBackgroundFetchInterval(UIApplication.BackgroundFetchIntervalMinimum);
-            //Forms9Patch.iOS.Settings.Initialize(this);
+            Forms9Patch.iOS.Settings.Initialize(this);
             SegmentedControlRenderer.Init();
-            Shiny.iOSShinyHost.Init(new Startup());
+
             Distribute.DontCheckForUpdatesInDebug();
 
-            LoadApplication(new App(new IOSInitializer()));
+            LoadApplication(new App());
             WireUpLongRunningTask();
 
             return base.FinishedLaunching(app, options);

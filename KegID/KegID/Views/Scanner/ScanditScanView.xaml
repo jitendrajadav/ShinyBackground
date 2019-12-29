@@ -1,41 +1,41 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="KegID.Views.ScanditScanView"
-             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
-             ios:Page.UseSafeArea="true"
-             >
-    
+<ContentPage
+    x:Class="KegID.Views.ScanditScanView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    ios:Page.UseSafeArea="true">
+
     <ContentPage.Content>
 
-        <Grid 
+        <Grid
             AutomationId="mainGrd"
-            HorizontalOptions="FillAndExpand" 
+            HorizontalOptions="FillAndExpand"
             VerticalOptions="FillAndExpand">
 
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <Label
-                AutomationId="buttonTextLabel"
                 Grid.Row="1"
-                VerticalOptions="End"
+                AutomationId="buttonTextLabel"
                 BackgroundColor="Transparent"
-                Text="{Binding BottonText,Mode=TwoWay}"/>
-            
+                Text="{Binding BottonText, Mode=TwoWay}"
+                VerticalOptions="End" />
+
             <Button
-                AutomationId="doneButton"
                 Grid.Row="2"
-                HorizontalOptions="FillAndExpand"
+                AutomationId="doneButton"
                 BackgroundColor="White"
                 Command="{Binding DoneCommand}"
                 HeightRequest="50"
-                VerticalOptions="End"
-                Text="Done"/>
+                HorizontalOptions="FillAndExpand"
+                Text="Done"
+                VerticalOptions="End" />
         </Grid>
     </ContentPage.Content>
-    
+
 </ContentPage>

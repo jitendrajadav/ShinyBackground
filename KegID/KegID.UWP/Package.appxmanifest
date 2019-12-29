@@ -45,12 +45,4 @@
     <DeviceCapability Name="webcam" />
     <DeviceCapability Name="microphone" />
   </Capabilities>
-  <Extensions>
-    <Extension Category="windows.activatableClass.inProcessServer">
-      <InProcessServer>
-        <Path>VideoInputRT.dll</Path>
-        <ActivatableClass ActivatableClassId="VideoInputRT.FrameAccess" ThreadingModel="both" />
-      </InProcessServer>
-    </Extension>
-  </Extensions>
 </Package>
