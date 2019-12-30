@@ -19,7 +19,7 @@ namespace KegID.iOS
     [Register("AppDelegate")]
     public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
     {
-        iOSLongRunningTaskExample longRunningTaskExample;
+        //iOSLongRunningTaskExample longRunningTaskExample;
         public static Action BackgroundSessionCompletionHandler;
 
         public override void HandleEventsForBackgroundUrl(UIApplication application, string sessionIdentifier, Action completionHandler)
@@ -47,14 +47,14 @@ namespace KegID.iOS
             Xamarin.FormsMaps.Init();
             Rg.Plugins.Popup.Popup.Init();
             TintedImageRenderer.Init();
-            UIApplication.SharedApplication.SetMinimumBackgroundFetchInterval(UIApplication.BackgroundFetchIntervalMinimum);
+            //UIApplication.SharedApplication.SetMinimumBackgroundFetchInterval(UIApplication.BackgroundFetchIntervalMinimum);
             Forms9Patch.iOS.Settings.Initialize(this);
             SegmentedControlRenderer.Init();
 
             Distribute.DontCheckForUpdatesInDebug();
 
             LoadApplication(new App());
-            WireUpLongRunningTask();
+            //WireUpLongRunningTask();
 
             return base.FinishedLaunching(app, options);
         }
@@ -62,25 +62,25 @@ namespace KegID.iOS
         public override void PerformFetch(UIApplication application, Action<UIBackgroundFetchResult> completionHandler)
     => Shiny.Jobs.JobManager.OnBackgroundFetch(completionHandler);
 
-        void WireUpLongRunningTask()
-        {
-            MessagingCenter.Subscribe<StartLongRunningTaskMessage>(this, "StartLongRunningTaskMessage", async message =>
-            {
-                longRunningTaskExample = new iOSLongRunningTaskExample();
-                await longRunningTaskExample.Start(message);
-            });
+        //void WireUpLongRunningTask()
+        //{
+        //    MessagingCenter.Subscribe<StartLongRunningTaskMessage>(this, "StartLongRunningTaskMessage", async message =>
+        //    {
+        //        longRunningTaskExample = new iOSLongRunningTaskExample();
+        //        await longRunningTaskExample.Start(message);
+        //    });
 
-            MessagingCenter.Subscribe<StopLongRunningTaskMessage>(this, "StopLongRunningTaskMessage", message =>
-            {
-                longRunningTaskExample.Stop();
-            });
-        }
+        //    MessagingCenter.Subscribe<StopLongRunningTaskMessage>(this, "StopLongRunningTaskMessage", message =>
+        //    {
+        //        longRunningTaskExample.Stop();
+        //    });
+        //}
     }
 
-    public class IOSInitializer : IPlatformInitializer
-    {
-        public void RegisterTypes(IContainerRegistry containerRegistry)
-        {
-        }
-    }
+    //public class IOSInitializer : IPlatformInitializer
+    //{
+    //    public void RegisterTypes(IContainerRegistry containerRegistry)
+    //    {
+    //    }
+    //}
 }

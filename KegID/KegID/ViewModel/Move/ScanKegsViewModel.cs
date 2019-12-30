@@ -475,8 +475,8 @@ namespace KegID.ViewModel
                        var response = await ApiManager.GetValidateBarcode(ManaulBarcode, AppSettings.SessionId);
                         if (response.IsSuccessStatusCode)
                         {
-                            var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            var data = await Task.Run(() => JsonConvert.DeserializeObject<BarcodeModel>(json, GetJsonSetting())).ConfigureAwait(false);
+                            var json = await response.Content.ReadAsStringAsync();
+                            var data = await Task.Run(() => JsonConvert.DeserializeObject<BarcodeModel>(json, GetJsonSetting()));
 
                             if (data.Kegs != null)
                             {

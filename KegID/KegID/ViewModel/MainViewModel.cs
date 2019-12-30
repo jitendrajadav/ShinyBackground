@@ -91,7 +91,7 @@ namespace KegID.ViewModel
                 UserDialogs.Instance.ShowLoading("Wait while downloading meta-data...");
 
                 _initializeMetaData.DeleteInitializeMetaData();
-                await RunSafe(_initializeMetaData.LoadInitializeMetaData()).ConfigureAwait(false);
+                await RunSafe(_initializeMetaData.LoadInitializeMetaData());
                 UserDialogs.Instance.HideLoading();
             }
         }
@@ -426,7 +426,7 @@ namespace KegID.ViewModel
             }
         }
 
-        public override async void OnNavigatedTo(INavigationParameters parameters)
+        public override void OnNavigatedTo(INavigationParameters parameters)
         {
             if (Dashboards.Count == 0)
             {
@@ -442,8 +442,7 @@ namespace KegID.ViewModel
                 });
             }
             CheckDraftmaniFests();
-            await LoadMetadData().ConfigureAwait(false);
-            //base.OnNavigatedTo(parameters);
+            base.OnNavigatedTo(parameters);
         }
 
         public override async Task InitializeAsync(INavigationParameters parameters)
@@ -454,7 +453,7 @@ namespace KegID.ViewModel
             RefreshDashboardRecieverAsync();
             if (Device.RuntimePlatform != Device.UWP)
             {
-                await StartPrinterSearch().ConfigureAwait(false);
+                await StartPrinterSearch();
             }
 
             Connectivity.ConnectivityChanged -= Connectivity_ConnectivityChanged;
@@ -470,18 +469,15 @@ namespace KegID.ViewModel
                     ScanditService.ScanditLicense.AppKey = Resources["scanditiOSKey"];
                     break;
             }
+            await LoadMetadData();
         }
 
         #endregion
 
         private class DiscoveryHandlerImplementation : DiscoveryHandler
         {
-
-            //private DiscoveryDemoPage discoveryDemoPage;
-
-            public DiscoveryHandlerImplementation(/*DiscoveryDemoPage discoveryDemoPage*/)
+            public DiscoveryHandlerImplementation()
             {
-                //this.discoveryDemoPage = discoveryDemoPage;
             }
 
             public void DiscoveryError(string message)

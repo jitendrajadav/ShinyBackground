@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using KegID.DependencyServices;
 using KegID.Common;
 using Xamarin.Essentials;
+using Prism.Logging;
 
 namespace KegID
 {
@@ -25,30 +26,41 @@ namespace KegID
         protected override async void OnInitialized()
         {
             InitializeComponent();
-            Xamarin.Forms.Device.SetFlags(new[] {"CarouselView_Experimental", "IndicatorView_Experimental", "SwipeView_Experimental"});
-            VersionTracking.Track();
+            try
+            {
+                TaskScheduler.UnobservedTaskException += (sender, e) => {
+                    Logger.Log(e.Exception.ToString(), Category.Exception, Priority.High);
+                };
+
+                Xamarin.Forms.Device.SetFlags(new[] { "CarouselView_Experimental", "IndicatorView_Experimental", "SwipeView_Experimental" });
+                VersionTracking.Track();
 #if DEBUG
-            //HotReloader.Current.Run(this);
-            ConstantManager.BaseUrl = ConstantManager.TestApiUrl;
+                //HotReloader.Current.Run(this);
+                ConstantManager.BaseUrl = ConstantManager.TestApiUrl;
 #elif RELEASE
             ConstantManager.BaseUrl = ConstantManager.TestApiUrl;
 #endif
 
-            var versionUpdated = VersionTracking.CurrentVersion.CompareTo(VersionTracking.PreviousVersion);
-            if (string.IsNullOrEmpty(AppSettings.UserId))
-            {
-                await NavigationService.NavigateAsync("NavigationPage/LoginView");
-            }
-            else if (versionUpdated > 0 && VersionTracking.IsFirstLaunchForCurrentVersion && VersionTracking.PreviousVersion != null)
-            {
-                await NavigationService.NavigateAsync("NavigationPage/WhatIsNewView");
-            }
-            else
-            {
-                if (TargetIdiom.Tablet == Xamarin.Forms.Device.Idiom)
-                    await NavigationService.NavigateAsync("NavigationPage/MainPageTablet");
+                var versionUpdated = VersionTracking.CurrentVersion.CompareTo(VersionTracking.PreviousVersion);
+                if (string.IsNullOrEmpty(AppSettings.UserId))
+                {
+                    await NavigationService.NavigateAsync("NavigationPage/LoginView");
+                }
+                else if (versionUpdated > 0 && VersionTracking.IsFirstLaunchForCurrentVersion && VersionTracking.PreviousVersion != null)
+                {
+                    await NavigationService.NavigateAsync("NavigationPage/WhatIsNewView");
+                }
                 else
-                    await NavigationService.NavigateAsync("NavigationPage/MainPage");
+                {
+                    if (TargetIdiom.Tablet == Xamarin.Forms.Device.Idiom)
+                        await NavigationService.NavigateAsync("NavigationPage/MainPageTablet");
+                    else
+                        await NavigationService.NavigateAsync("NavigationPage/MainPage");
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.Log(e.ToString(), Category.Exception, Priority.High);
             }
         }
 
@@ -139,12 +151,12 @@ namespace KegID
             switch (Xamarin.Forms.Device.RuntimePlatform)
             {
                 case Xamarin.Forms.Device.Android:
-                    var permission = await DependencyService.Get<IPermission>().VerifyStoragePermissions().ConfigureAwait(true);
+                    var permission = await DependencyService.Get<IPermission>().VerifyStoragePermissions();
                     break;
             }
 
             Application.Current.Properties["OnSleep"] = false;
-            await Distribute.SetEnabledAsync(true).ConfigureAwait(false);
+            await Distribute.SetEnabledAsync(true);
             // In this example OnReleaseAvailable is a method name in same class
             Distribute.ReleaseAvailable = OnReleaseAvailable;
 

@@ -21,18 +21,18 @@ namespace KegID.Services
 
         public async Task LoadInitializeMetaData()
         {
-            await LoadPartnersAsync().ConfigureAwait(false);
-            await LoadOperators().ConfigureAwait(false);
-            await LoadMaintainTypeAsync().ConfigureAwait(false);
-            await LoadAssetSizeAsync().ConfigureAwait(false);
-            await LoadAssetTypeAsync().ConfigureAwait(false);
-            await LoadAssetVolumeAsync().ConfigureAwait(false);
-            await LoadOwnerAsync().ConfigureAwait(false);
-            await LoadDashboardPartnersAsync().ConfigureAwait(false);
-            await LoadBrandAsync().ConfigureAwait(false);
-            await LoadBatchAsync().ConfigureAwait(false);
-            await LoadPartnerTypeAsync().ConfigureAwait(false);
-            await LoadGetSkuListAsync().ConfigureAwait(false);
+            await LoadBatchAsync();
+            await LoadPartnersAsync();
+            await LoadOperators();
+            await LoadMaintainTypeAsync();
+            await LoadAssetSizeAsync();
+            await LoadAssetTypeAsync();
+            await LoadAssetVolumeAsync();
+            await LoadOwnerAsync();
+            await LoadDashboardPartnersAsync();
+            await LoadBrandAsync();
+            await LoadPartnerTypeAsync();
+            await LoadGetSkuListAsync();
         }
 
         private async Task LoadGetSkuListAsync()
@@ -183,9 +183,6 @@ namespace KegID.Services
             {
                 Crashes.TrackError(ex);
             }
-            finally
-            {
-            }
         }
 
         private async Task LoadPartnersAsync()
@@ -232,11 +229,12 @@ namespace KegID.Services
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync();
-                    var data = await Task.Run(() => JsonConvert.DeserializeObject<IList<BrandModel>>(json, GetJsonSetting()));
 
+                     var data = JsonConvert.DeserializeObject<IList<BrandModel>>(json, GetJsonSetting());
+                         //data = await Task.Run(() => JsonConvert.DeserializeObject<IList<BrandModel>>(json, GetJsonSetting()));
                     data.Insert(0, new BrandModel { BrandName = "Add", BrandCode = "Add", BrandId = Guid.NewGuid().ToString() });
                     data.Insert(1, new BrandModel { BrandName = "'\"'", BrandCode = "'\"'", BrandId = Guid.NewGuid().ToString() });
-                    data.Move(data.Where(x => x.BrandName == "Empty").FirstOrDefault(), 2);
+                    data.Move(data.FirstOrDefault(x => x.BrandName == "Empty"), 2);
 
                     await RealmDb.WriteAsync((realmDb) =>
                      {

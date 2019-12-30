@@ -1,5 +1,4 @@
-﻿//using SQLite.Net.Attributes;
-using PropertyChanged;
+﻿using PropertyChanged;
 using Realms;
 using System;
 using System.Collections.Generic;
@@ -33,21 +32,21 @@ namespace KegID.Model
         [DoNotNotify]
         public string BrandName { get; set; }
         [DoNotNotify]
-        public DateTimeOffset BrewDate { get; set; }
+        public DateTimeOffset? BrewDate { get; set; }
         [DoNotNotify]
-        public DateTimeOffset PackageDate { get; set; }
+        public DateTimeOffset? PackageDate { get; set; }
         [DoNotNotify]
-        public DateTimeOffset BestBeforeDate { get; set; }
+        public DateTimeOffset? BestBeforeDate { get; set; }
         [DoNotNotify]
         public string BrewedVolume { get; set; }
         [DoNotNotify]
         public string BrewedVolumeUom { get; set; }
         [DoNotNotify]
-        public long PackagedVolume { get; set; }
+        public long? PackagedVolume { get; set; }
         [DoNotNotify]
         public string PackagedVolumeUom { get; set; }
         [DoNotNotify]
-        public DateTimeOffset CompletedDate { get; set; }
+        public DateTimeOffset? CompletedDate { get; set; }
         [DoNotNotify]
         public bool IsCompleted { get; set; }
         [DoNotNotify]

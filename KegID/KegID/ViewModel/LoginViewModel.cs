@@ -100,7 +100,7 @@ namespace KegID.ViewModel
 
                         KegRefresh = Convert.ToDouble(model.Preferences.ToList().Find(x => x.PreferenceName == "KEG_REFRESH")?.PreferenceValue);
                         UserDialogs.Instance.HideLoading();
-                        await RunSafe(DeviceCheckIn()).ConfigureAwait(false);
+                        await RunSafe(DeviceCheckIn());
                     }
                     catch (Exception ex)
                     {
@@ -112,11 +112,11 @@ namespace KegID.ViewModel
                         var versionUpdated = VersionTracking.CurrentVersion.CompareTo(VersionTracking.PreviousVersion);
                         if (versionUpdated > 0 && VersionTracking.PreviousVersion != null && VersionTracking.IsFirstLaunchForCurrentVersion)
                         {
-                            await _navigationService.NavigateAsync("../WhatIsNewView", animated: false).ConfigureAwait(false);
+                            await _navigationService.NavigateAsync("../WhatIsNewView", animated: false);
                         }
                         else
                         {
-                            await _navigationService.NavigateAsync("../MainPage", animated: false).ConfigureAwait(false);
+                          await _navigationService.NavigateAsync("../MainPage", animated: false);
                         }
                     }
                     catch (Exception ex)
@@ -128,7 +128,7 @@ namespace KegID.ViewModel
                         if (!IsLogOut)
                         {
                             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                            await RealmDb.WriteAsync((realmDb) => realmDb.Add(model)).ConfigureAwait(false);
+                            await RealmDb.WriteAsync((realmDb) => realmDb.Add(model));
                         }
                     }
                     catch (Exception ex)
