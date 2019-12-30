@@ -25,8 +25,9 @@ namespace KegID
 
         protected override async void OnInitialized()
         {
-            VersionTracking.Track();
             InitializeComponent();
+
+            VersionTracking.Track();
             Xamarin.Forms.Device.SetFlags(new[] { "CarouselView_Experimental", "IndicatorView_Experimental", "SwipeView_Experimental" });
 
             try
@@ -38,7 +39,7 @@ namespace KegID
                 //HotReloader.Current.Run(this);
                 ConstantManager.BaseUrl = ConstantManager.TestApiUrl;
 #elif RELEASE
-            ConstantManager.BaseUrl = ConstantManager.TestApiUrl;
+                ConstantManager.BaseUrl = ConstantManager.TestApiUrl;
 #endif
 
                 var versionUpdated = VersionTracking.CurrentVersion.CompareTo(VersionTracking.PreviousVersion);
