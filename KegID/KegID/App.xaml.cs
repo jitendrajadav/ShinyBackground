@@ -25,15 +25,15 @@ namespace KegID
 
         protected override async void OnInitialized()
         {
+            VersionTracking.Track();
             InitializeComponent();
+            Xamarin.Forms.Device.SetFlags(new[] { "CarouselView_Experimental", "IndicatorView_Experimental", "SwipeView_Experimental" });
+
             try
             {
                 TaskScheduler.UnobservedTaskException += (sender, e) => {
                     Logger.Log(e.Exception.ToString(), Category.Exception, Priority.High);
                 };
-
-                Xamarin.Forms.Device.SetFlags(new[] { "CarouselView_Experimental", "IndicatorView_Experimental", "SwipeView_Experimental" });
-                VersionTracking.Track();
 #if DEBUG
                 //HotReloader.Current.Run(this);
                 ConstantManager.BaseUrl = ConstantManager.TestApiUrl;

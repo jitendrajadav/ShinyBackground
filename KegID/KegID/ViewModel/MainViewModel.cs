@@ -476,10 +476,6 @@ namespace KegID.ViewModel
 
         private class DiscoveryHandlerImplementation : DiscoveryHandler
         {
-            public DiscoveryHandlerImplementation()
-            {
-            }
-
             public void DiscoveryError(string message)
             {
                 //Device.BeginInvokeOnMainThread(async () => {

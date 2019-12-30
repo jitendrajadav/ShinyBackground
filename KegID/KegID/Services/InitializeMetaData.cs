@@ -230,8 +230,7 @@ namespace KegID.Services
                 {
                     var json = await response.Content.ReadAsStringAsync();
 
-                     var data = JsonConvert.DeserializeObject<IList<BrandModel>>(json, GetJsonSetting());
-                         //data = await Task.Run(() => JsonConvert.DeserializeObject<IList<BrandModel>>(json, GetJsonSetting()));
+                    var data = JsonConvert.DeserializeObject<IList<BrandModel>>(json, GetJsonSetting());
                     data.Insert(0, new BrandModel { BrandName = "Add", BrandCode = "Add", BrandId = Guid.NewGuid().ToString() });
                     data.Insert(1, new BrandModel { BrandName = "'\"'", BrandCode = "'\"'", BrandId = Guid.NewGuid().ToString() });
                     data.Move(data.FirstOrDefault(x => x.BrandName == "Empty"), 2);

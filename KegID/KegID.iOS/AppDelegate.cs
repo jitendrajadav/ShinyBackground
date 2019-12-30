@@ -1,9 +1,5 @@
 ﻿using Foundation;
-using KegID.iOS.Services;
-using KegID.Messages;
 using Plugin.CrossPlatformTintedImage.iOS;
-using Prism;
-using Prism.Ioc;
 using System;
 using UIKit;
 using Xamarin.Forms;
@@ -60,7 +56,9 @@ namespace KegID.iOS
         }
 
         public override void PerformFetch(UIApplication application, Action<UIBackgroundFetchResult> completionHandler)
-    => Shiny.Jobs.JobManager.OnBackgroundFetch(completionHandler);
+        {
+            Shiny.Jobs.JobManager.OnBackgroundFetch(completionHandler);
+        }
 
         //void WireUpLongRunningTask()
         //{
