@@ -426,7 +426,7 @@ namespace KegID.ViewModel
             }
         }
 
-        public override void OnNavigatedTo(INavigationParameters parameters)
+        public override async void OnNavigatedTo(INavigationParameters parameters)
         {
             if (Dashboards.Count == 0)
             {
@@ -442,12 +442,12 @@ namespace KegID.ViewModel
                 });
             }
             CheckDraftmaniFests();
-            base.OnNavigatedTo(parameters);
+            await LoadMetadData().ConfigureAwait(false);
+            //base.OnNavigatedTo(parameters);
         }
 
         public override async Task InitializeAsync(INavigationParameters parameters)
         {
-            await LoadMetadData().ConfigureAwait(false);
             HandleUnsubscribeMessages();
             HandleReceivedMessages();
 

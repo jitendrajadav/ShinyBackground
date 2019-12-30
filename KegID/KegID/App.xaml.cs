@@ -153,7 +153,7 @@ namespace KegID
             switch (Xamarin.Forms.Device.RuntimePlatform)
             {
                 case Xamarin.Forms.Device.Android:
-                    var permission = await DependencyService.Get<IPermission>().VerifyStoragePermissions();
+                    var permission = await DependencyService.Get<IPermission>().VerifyStoragePermissions().ConfigureAwait(true);
                     break;
             }
         }

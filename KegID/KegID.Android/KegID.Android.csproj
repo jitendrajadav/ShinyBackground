@@ -115,7 +115,7 @@
     <PackageReference Include="Scandit.BarcodePicker.Xamarin" Version="5.13.3.10" />
     <PackageReference Include="SegmentedControl.FormsPlugin" Version="2.0.1" />
     <PackageReference Include="Shiny.Core" Version="1.0.0.531-beta" />
-    <PackageReference Include="Shiny.Prism" Version="7.2.0.799-pre" />
+    <PackageReference Include="Shiny.Prism" Version="7.2.0.844-pre" />
     <PackageReference Include="Shiny.Locations" Version="1.0.0.531-beta" />
     <PackageReference Include="Splat" Version="9.3.4" />
     <PackageReference Include="Xam.Plugin.Connectivity" Version="4.0.0.190-beta" />
@@ -132,7 +132,7 @@
     <PackageReference Include="Xamarin.Forms.Maps" Version="4.4.0.991265" />
     <PackageReference Include="Xamarin.Forms.Visual.Material" Version="4.4.0.991265" />
     <PackageReference Include="Zebra.Printer.SDK" Version="2.15.2634" />
-    <PackageReference Include="Forms9Patch" Version="2.2.0"/>
+    <PackageReference Include="Forms9Patch" Version="2.2.0" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DependencyServices\AndroidCloseApplication.cs" />
