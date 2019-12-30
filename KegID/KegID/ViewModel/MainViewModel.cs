@@ -86,7 +86,7 @@ namespace KegID.ViewModel
 
         private async Task LoadMetadData()
         {
-            if (VersionTracking.IsFirstLaunchForCurrentVersion && (!(bool)Application.Current.Properties["OnSleep"]))
+            if (VersionTracking.IsFirstLaunchForCurrentVersion && (Application.Current.Properties.ContainsKey("OnSleep") && (!(bool)Application.Current.Properties["OnSleep"])))
             {
                 UserDialogs.Instance.ShowLoading("Wait while downloading meta-data...");
 

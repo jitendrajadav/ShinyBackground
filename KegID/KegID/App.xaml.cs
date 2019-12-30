@@ -136,8 +136,15 @@ namespace KegID
 
         protected async override void OnStart()
         {
+            switch (Xamarin.Forms.Device.RuntimePlatform)
+            {
+                case Xamarin.Forms.Device.Android:
+                    var permission = await DependencyService.Get<IPermission>().VerifyStoragePermissions().ConfigureAwait(true);
+                    break;
+            }
+
             Application.Current.Properties["OnSleep"] = false;
-            await Distribute.SetEnabledAsync(true);
+            await Distribute.SetEnabledAsync(true).ConfigureAwait(false);
             // In this example OnReleaseAvailable is a method name in same class
             Distribute.ReleaseAvailable = OnReleaseAvailable;
 
@@ -149,13 +156,6 @@ namespace KegID
 
             var _syncManager = Container.Resolve<SyncManager>();
             _syncManager.NotifyConnectivityChanged();
-
-            switch (Xamarin.Forms.Device.RuntimePlatform)
-            {
-                case Xamarin.Forms.Device.Android:
-                    var permission = await DependencyService.Get<IPermission>().VerifyStoragePermissions().ConfigureAwait(true);
-                    break;
-            }
         }
 
         protected override void OnSleep ()

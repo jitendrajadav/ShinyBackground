@@ -4,6 +4,7 @@ using KegID.Model;
 using KegID.ViewModel;
 using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
+using Prism.Navigation;
 using Realms;
 using System;
 using System.Collections.Generic;
@@ -14,8 +15,7 @@ namespace KegID.Services
 {
     public class InitializeMetaData : BaseViewModel, IInitializeMetaData
     {
-
-        public InitializeMetaData() : base(null)
+        public InitializeMetaData(INavigationService navigationService) : base(navigationService)
         {
         }
 
