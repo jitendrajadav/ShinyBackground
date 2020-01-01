@@ -132,7 +132,7 @@
     <PackageReference Include="Xamarin.Forms.Maps" Version="4.4.0.991265" />
     <PackageReference Include="Xamarin.Forms.Visual.Material" Version="4.4.0.991265" />
     <PackageReference Include="Zebra.Printer.SDK" Version="2.15.2634" />
-    <PackageReference Include="Forms9Patch" Version="2.2.0" />
+    <PackageReference Include="Forms9Patch" Version="2.2.1" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DependencyServices\AndroidCloseApplication.cs" />
@@ -422,6 +422,9 @@
     </AndroidResource>
     <None Include="FodyWeavers.xml" />
     <AndroidResource Include="Resources\drawable\icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\xml\provider_paths.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

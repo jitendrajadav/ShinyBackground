@@ -86,8 +86,9 @@ namespace KegID.ViewModel
 
         private async Task LoadMetadData()
         {
-            if (VersionTracking.IsFirstLaunchForCurrentVersion && (Application.Current.Properties.ContainsKey("OnSleep") && (!(bool)Application.Current.Properties["OnSleep"])))
+            if (!AppSettings.IsMetaDataLoaded)
             {
+                AppSettings.IsMetaDataLoaded = true;
                 UserDialogs.Instance.ShowLoading("Wait while downloading meta-data...");
 
                 _initializeMetaData.DeleteInitializeMetaData();
@@ -426,7 +427,7 @@ namespace KegID.ViewModel
             }
         }
 
-        public override void OnNavigatedTo(INavigationParameters parameters)
+        public override async void OnNavigatedTo(INavigationParameters parameters)
         {
             if (Dashboards.Count == 0)
             {
@@ -442,6 +443,7 @@ namespace KegID.ViewModel
                 });
             }
             CheckDraftmaniFests();
+            await LoadMetadData();
             base.OnNavigatedTo(parameters);
         }
 
@@ -469,7 +471,6 @@ namespace KegID.ViewModel
                     ScanditService.ScanditLicense.AppKey = Resources["scanditiOSKey"];
                     break;
             }
-            await LoadMetadData();
         }
 
         #endregion

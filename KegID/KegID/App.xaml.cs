@@ -32,7 +32,8 @@ namespace KegID
 
             try
             {
-                TaskScheduler.UnobservedTaskException += (sender, e) => {
+                TaskScheduler.UnobservedTaskException += (sender, e) =>
+                {
                     Logger.Log(e.Exception.ToString(), Category.Exception, Priority.High);
                 };
 #if DEBUG
@@ -41,6 +42,13 @@ namespace KegID
 #elif RELEASE
                 ConstantManager.BaseUrl = ConstantManager.TestApiUrl;
 #endif
+
+                switch (Xamarin.Forms.Device.RuntimePlatform)
+                {
+                    case Xamarin.Forms.Device.Android:
+                        var permission = await DependencyService.Get<IPermission>().VerifyStoragePermissions();
+                        break;
+                }
 
                 var versionUpdated = VersionTracking.CurrentVersion.CompareTo(VersionTracking.PreviousVersion);
                 if (string.IsNullOrEmpty(AppSettings.UserId))
@@ -149,14 +157,6 @@ namespace KegID
 
         protected async override void OnStart()
         {
-            switch (Xamarin.Forms.Device.RuntimePlatform)
-            {
-                case Xamarin.Forms.Device.Android:
-                    var permission = await DependencyService.Get<IPermission>().VerifyStoragePermissions();
-                    break;
-            }
-
-            Application.Current.Properties["OnSleep"] = false;
             await Distribute.SetEnabledAsync(true);
             // In this example OnReleaseAvailable is a method name in same class
             Distribute.ReleaseAvailable = OnReleaseAvailable;
@@ -173,12 +173,10 @@ namespace KegID
 
         protected override void OnSleep ()
 		{
-            Application.Current.Properties["OnSleep"] = true;
         }
 
         protected override void OnResume()
         {
-            Application.Current.Properties["OnSleep"] = false;
         }
 
         private bool OnReleaseAvailable(ReleaseDetails releaseDetails)

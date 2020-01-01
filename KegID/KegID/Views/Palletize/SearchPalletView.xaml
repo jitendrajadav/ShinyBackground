@@ -1,154 +1,148 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="KegID.Views.SearchPalletView"
-             BackgroundColor="{StaticResource pageBGColor}"
-             xmlns:behaviors="clr-namespace:KegID.Behaviors"
-             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
-             ios:Page.UseSafeArea="true"
-             xmlns:converters="clr-namespace:KegID.Converter"
-             >
-  <ContentPage.Resources>
-    <converters:UtcToLocalDateTimeConverter x:Key="UtcToLocalDateTimeConverter"/>
-  </ContentPage.Resources>
+<ContentPage
+    x:Class="KegID.Views.SearchPalletView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:KegID.Behaviors"
+    xmlns:converters="clr-namespace:KegID.Converter"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    ios:Page.UseSafeArea="true"
+    BackgroundColor="{StaticResource pageBGColor}">
+    <ContentPage.Resources>
+        <converters:UtcToLocalDateTimeConverter x:Key="UtcToLocalDateTimeConverter" />
+    </ContentPage.Resources>
     <ContentPage.Content>
         <ScrollView>
-            <Grid
-                AutomationId="mainGrd">
-            
+            <Grid AutomationId="mainGrd">
+
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
                 <Button
-                    AutomationId="homeButton"
                     x:Name="lblHome"
+                    AutomationId="homeButton"
+                    Command="{Binding HomeCommand}"
                     HorizontalOptions="Start"
                     Style="{StaticResource TopButtonTitleStyle}"
-                    Text="{Binding Resources[button_home]}"
-                    Command="{Binding HomeCommand}"
-                    />
+                    Text="{Binding Resources[button_home]}" />
 
                 <Label
                     AutomationId="palletsSearchLabel"
                     HorizontalOptions="Center"
                     Style="{StaticResource LabelTitleStyle}"
-                    Text="{Binding Resources[title_pallet_list]}"
-                    />
+                    Text="{Binding Resources[title_pallet_list]}" />
 
                 <Grid
-                    AutomationId="innerGrd"
                     Grid.Row="1"
+                    AutomationId="innerGrd"
                     BackgroundColor="#E6E6E6">
-                
+
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                
+
                     <BoxView
-                        AutomationId="topBarSeperatorBoxView"
                         Grid.Row="0"
                         Grid.ColumnSpan="2"
+                        AutomationId="topBarSeperatorBoxView"
                         BackgroundColor="{StaticResource lightGrayColor}"
                         HeightRequest="1"
-                        VerticalOptions="Start"
-                        HorizontalOptions="FillAndExpand"/>
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="Start" />
 
                     <Entry
+                        Grid.Row="1"
+                        Grid.ColumnSpan="2"
+                        Margin="0,10"
                         AutomationId="palletBarcodeEntry"
                         BackgroundColor="White"
-                        Margin="0,10"
-                        Text="{Binding PalletBarcode,Mode=TwoWay}"
                         Placeholder="{Binding Resources[hint_scan_pallet]}"
-                        Grid.Row="1"
-                        Grid.ColumnSpan="2"/>
-                
-                    <Entry
-                        AutomationId="barcodeEntry"
-                        BackgroundColor="White"
-                        Margin="0,10"
-                        Text="{Binding Barcode,Mode=TwoWay}"
-                        Placeholder="{Binding Resources[hint_scan]}"
-                        Grid.Row="2"
-                        Grid.ColumnSpan="2"/>
+                        Text="{Binding PalletBarcode, Mode=TwoWay}" />
 
                     <Entry
+                        Grid.Row="2"
+                        Grid.ColumnSpan="2"
+                        Margin="0,10"
+                        AutomationId="barcodeEntry"
+                        BackgroundColor="White"
+                        Placeholder="{Binding Resources[hint_scan]}"
+                        Text="{Binding Barcode, Mode=TwoWay}" />
+
+                    <Entry
+                        Grid.Row="3"
+                        Grid.ColumnSpan="2"
+                        Margin="0,10"
                         AutomationId="locationCreatedEntry"
                         BackgroundColor="White"
-                        Margin="0,10"
-                        Text="{Binding LocationCreated,Mode=TwoWay}"
                         Placeholder="{Binding Resources[hint_location_created]}"
-                        Grid.Row="3"
-                        Grid.ColumnSpan="2">
-                    
+                        Text="{Binding LocationCreated, Mode=TwoWay}">
+
                         <Entry.Behaviors>
-                            <behaviors:EventToCommandBehavior
-                            EventName="Focused"
-                          Command="{Binding LocationCreatedCommand}"/>
+                            <behaviors:EventToCommandBehavior Command="{Binding LocationCreatedCommand}" EventName="Focused" />
                         </Entry.Behaviors>
                     </Entry>
-                
+
                     <StackLayout
-                        AutomationId="fromStackLayout"
-                        Margin="10,0,0,0"
                         Grid.Row="4"
+                        Margin="10,0,0,0"
+                        AutomationId="fromStackLayout"
                         Orientation="Horizontal">
 
                         <Label
                             AutomationId="fromDateLabel"
                             Style="{StaticResource LabelNormalStyle}"
-                            Text="{Binding Resources[hint_fromdate]}"/>
+                            Text="{Binding Resources[hint_fromdate]}" />
 
-                    <DatePicker
-                        AutomationId="fromDatePicker"
-                        HorizontalOptions="FillAndExpand"
-                        Date="{Binding FromDate, Converter={StaticResource UtcToLocalDateTimeConverter}}"
-                        Margin="5,0,0,0"/>
-                </StackLayout>
+                        <DatePicker
+                            Margin="5,0,0,0"
+                            AutomationId="fromDatePicker"
+                            Date="{Binding FromDate, Converter={StaticResource UtcToLocalDateTimeConverter}}"
+                            HorizontalOptions="FillAndExpand" />
+                    </StackLayout>
 
 
                     <StackLayout
-                        AutomationId="toStackLayout"
                         Grid.Row="4"
                         Grid.Column="1"
+                        AutomationId="toStackLayout"
                         Orientation="Horizontal">
 
                         <Label
                             AutomationId="toDateLabel"
                             Style="{StaticResource LabelNormalStyle}"
-                            Text="{Binding Resources[hint_todate]}"/>
+                            Text="{Binding Resources[hint_todate]}" />
 
 
-                    <DatePicker
-                        AutomationId="toDatePicker"
-                        HorizontalOptions="FillAndExpand"
-                        Date="{Binding ToDate, Converter={StaticResource UtcToLocalDateTimeConverter}}"
-                        Margin="5,0,0,0"/>
-                </StackLayout>
+                        <DatePicker
+                            Margin="5,0,0,0"
+                            AutomationId="toDatePicker"
+                            Date="{Binding ToDate, Converter={StaticResource UtcToLocalDateTimeConverter}}"
+                            HorizontalOptions="FillAndExpand" />
+                    </StackLayout>
 
-             
+
                     <Button
-                        AutomationId="searchButton"
-                        Margin="10"
-                        Grid.Row="5"
                         x:Name="lblSearch"
+                        Grid.Row="5"
                         Grid.Column="1"
+                        Margin="10"
+                        AutomationId="searchButton"
+                        Command="{Binding SearchCommand}"
                         HorizontalOptions="End"
-                        VerticalOptions="Start"
                         Style="{StaticResource TopButtonTitleStyle}"
                         Text="{Binding Resources[menu_action_search]}"
-                        Command="{Binding SearchCommand}"
-                        />
+                        VerticalOptions="Start" />
 
                 </Grid>
 

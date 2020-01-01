@@ -99,7 +99,6 @@ namespace KegID.ViewModel
                         AppSettings.At_risk_days = !string.IsNullOrEmpty(atRisk) ? long.Parse(atRisk) : 0;
 
                         KegRefresh = Convert.ToDouble(model.Preferences.ToList().Find(x => x.PreferenceName == "KEG_REFRESH")?.PreferenceValue);
-                        UserDialogs.Instance.HideLoading();
                         await RunSafe(DeviceCheckIn());
                     }
                     catch (Exception ex)
@@ -110,18 +109,20 @@ namespace KegID.ViewModel
                     try
                     {
                         var versionUpdated = VersionTracking.CurrentVersion.CompareTo(VersionTracking.PreviousVersion);
+                        UserDialogs.Instance.HideLoading();
                         if (versionUpdated > 0 && VersionTracking.PreviousVersion != null && VersionTracking.IsFirstLaunchForCurrentVersion)
                         {
                             await _navigationService.NavigateAsync("../WhatIsNewView", animated: false);
                         }
                         else
                         {
-                          await _navigationService.NavigateAsync("../MainPage", animated: false);
+                            await _navigationService.NavigateAsync("../MainPage", animated: false);
                         }
                     }
                     catch (Exception ex)
                     {
                         Crashes.TrackError(ex);
+                        UserDialogs.Instance.HideLoading();
                     }
                     try
                     {
@@ -134,6 +135,7 @@ namespace KegID.ViewModel
                     catch (Exception ex)
                     {
                         Crashes.TrackError(ex);
+                        UserDialogs.Instance.HideLoading();
                     }
                 }
                 else

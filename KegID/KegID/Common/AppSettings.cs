@@ -246,21 +246,18 @@ namespace KegID.Common
         public static string B2cClientId
         {
             get => Settings.GetValueOrDefault(nameof(B2cClientId), DefaultB2cClientId);
-
             set => Settings.AddOrUpdateValue(nameof(B2cClientId), value);
         }
 
         public static string B2cTenant
         {
             get => Settings.GetValueOrDefault(nameof(B2cTenant), DefaultB2cTenant);
-
             set => Settings.AddOrUpdateValue(nameof(B2cTenant), value);
         }
 
         public static string B2cPolicy
         {
             get => Settings.GetValueOrDefault(nameof(B2cPolicy), DefaultB2cPolicy);
-
             set => Settings.AddOrUpdateValue(nameof(B2cPolicy), value);
         }
 
@@ -268,49 +265,42 @@ namespace KegID.Common
         public static string BookingEndpoint
         {
             get => Settings.GetValueOrDefault(nameof(BookingEndpoint), DefaultBookingEndpoint);
-
             set => Settings.AddOrUpdateValue(nameof(BookingEndpoint), value);
         }
 
         public static string HotelsEndpoint
         {
             get => Settings.GetValueOrDefault(nameof(HotelsEndpoint), DefaultHotelsEndpoint);
-
             set => Settings.AddOrUpdateValue(nameof(HotelsEndpoint), value);
         }
 
         public static string SuggestionsEndpoint
         {
             get => Settings.GetValueOrDefault(nameof(SuggestionsEndpoint), DefaultSuggestionsEndpoint);
-
             set => Settings.AddOrUpdateValue(nameof(SuggestionsEndpoint), value);
         }
 
         public static string NotificationsEndpoint
         {
             get => Settings.GetValueOrDefault(nameof(NotificationsEndpoint), DefaultNotificationsEndpoint);
-
             set => Settings.AddOrUpdateValue(nameof(NotificationsEndpoint), value);
         }
 
         public static string ImagesBaseUri
         {
             get => Settings.GetValueOrDefault(nameof(ImagesBaseUri), DefaultImagesBaseUri);
-
             set => Settings.AddOrUpdateValue(nameof(ImagesBaseUri), value);
         }
 
         public static string SkypeBotId
         {
             get => Settings.GetValueOrDefault(nameof(SkypeBotId), DefaultSkypeBotId);
-
             set => Settings.AddOrUpdateValue(nameof(SkypeBotId), value);
         }
 
         public static string FacebookBotId
         {
             get => Settings.GetValueOrDefault(nameof(FacebookBotId), DefaultFacebookBotId);
-
             set => Settings.AddOrUpdateValue(nameof(FacebookBotId), value);
         }
 
@@ -318,95 +308,84 @@ namespace KegID.Common
         public static string BingMapsApiKey
         {
             get => Settings.GetValueOrDefault(nameof(BingMapsApiKey), DefaultBingMapsApiKey);
-
             set => Settings.AddOrUpdateValue(nameof(BingMapsApiKey), value);
         }
 
         public static string SettingsFileUrl
         {
             get => Settings.GetValueOrDefault(nameof(SettingsFileUrl), DefaultSettingsFileUrl);
-
             set => Settings.AddOrUpdateValue(nameof(SettingsFileUrl), value);
         }
 
         public static string FallbackMapsLocation
         {
             get => Settings.GetValueOrDefault(nameof(FallbackMapsLocation), DefaultFallbackMapsLocation);
-
             set => Settings.AddOrUpdateValue(nameof(FallbackMapsLocation), value);
         }
 
         public static string SessionId
         {
             get => Settings.GetValueOrDefault(nameof(SessionId), string.Empty);
-
             set => Settings.AddOrUpdateValue(nameof(SessionId), value);
         }
 
         public static string CompanyId
         {
             get => Settings.GetValueOrDefault(nameof(CompanyId), string.Empty);
-
             set => Settings.AddOrUpdateValue(nameof(CompanyId), value);
         }
 
         public static string MasterCompanyId
         {
             get => Settings.GetValueOrDefault(nameof(MasterCompanyId), string.Empty);
-
             set => Settings.AddOrUpdateValue(nameof(MasterCompanyId), value);
         }
+
         public static string UserId
         {
             get => Settings.GetValueOrDefault(nameof(UserId), string.Empty);
-
             set => Settings.AddOrUpdateValue(nameof(UserId), value);
         }
+
         public static string SessionExpires
         {
             get => Settings.GetValueOrDefault(nameof(SessionExpires), string.Empty);
-
             set => Settings.AddOrUpdateValue(nameof(SessionExpires), value);
         }
+
         public static long Overdue_days
         {
             get => Settings.GetValueOrDefault(nameof(Overdue_days), 0);
-
             set => Settings.AddOrUpdateValue(nameof(Overdue_days), value);
         }
 
         public static long At_risk_days
         {
             get => Settings.GetValueOrDefault(nameof(At_risk_days), 0);
-
             set => Settings.AddOrUpdateValue(nameof(At_risk_days), value);
         }
 
         public static string MobileCenterAnalyticsAndroid
         {
             get => Settings.GetValueOrDefault(nameof(MobileCenterAnalyticsAndroid), DefaultMobileCenterAnalyticsAndroid);
-
             set => Settings.AddOrUpdateValue(nameof(MobileCenterAnalyticsAndroid), value);
         }
 
         public static string MobileCenterAnalyticsIos
         {
             get => Settings.GetValueOrDefault(nameof(MobileCenterAnalyticsIos), DefaultMobileCenterAnalyticsIos);
-
             set => Settings.AddOrUpdateValue(nameof(MobileCenterAnalyticsIos), value);
         }
 
         public static string MobileCenterAnalyticsWindows
         {
             get => Settings.GetValueOrDefault(nameof(MobileCenterAnalyticsWindows), DefaultMobileCenterAnalyticsWindows);
-
             set => Settings.AddOrUpdateValue(nameof(MobileCenterAnalyticsWindows), value);
         }
 
         public static bool UseFakes
         {
             get => Settings.GetValueOrDefault(nameof(UseFakes), DefaultUseFakes);
-
             set => Settings.AddOrUpdateValue(nameof(UseFakes), value);
         }
 
@@ -417,11 +396,11 @@ namespace KegID.Common
             set => Settings.AddOrUpdateValue(nameof(HasBooking), value);
         }
 
-        //public static bool IsMetaDataLoaded
-        //{
-        //    get => Settings.GetValueOrDefault(nameof(IsMetaDataLoaded), false);
-        //    set => Settings.AddOrUpdateValue(nameof(IsMetaDataLoaded), value);
-        //}
+        public static bool IsMetaDataLoaded
+        {
+            get => Settings.GetValueOrDefault(nameof(IsMetaDataLoaded), false);
+            set => Settings.AddOrUpdateValue(nameof(IsMetaDataLoaded), value);
+        }
 
         public static bool PrintEveryManifest
         {
@@ -521,6 +500,7 @@ namespace KegID.Common
         public static void RemoveUserData()
         {
             Settings.Remove(nameof(SessionId));
+            Settings.AddOrUpdateValue(nameof(IsMetaDataLoaded), false);
             Settings.Clear();
         }
     }

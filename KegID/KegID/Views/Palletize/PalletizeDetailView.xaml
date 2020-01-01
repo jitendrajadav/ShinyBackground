@@ -1,392 +1,386 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="KegID.Views.PalletizeDetailView"
-             BackgroundColor="{StaticResource pageBGColor}"
-             xmlns:controls="clr-namespace:Plugin.CrossPlatformTintedImage.Abstractions;assembly=Plugin.CrossPlatformTintedImage.Abstractions"
-             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
-             ios:Page.UseSafeArea="true"
-             xmlns:converters="clr-namespace:KegID.Converter"
-             >
-  <ContentPage.Resources>
-    <converters:UtcToLocalDateTimeConverter x:Key="UtcToLocalDateTimeConverter"/>
-  </ContentPage.Resources>
+<ContentPage
+    x:Class="KegID.Views.PalletizeDetailView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Plugin.CrossPlatformTintedImage.Abstractions;assembly=Plugin.CrossPlatformTintedImage.Abstractions"
+    xmlns:converters="clr-namespace:KegID.Converter"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    ios:Page.UseSafeArea="true"
+    BackgroundColor="{StaticResource pageBGColor}">
+    <ContentPage.Resources>
+        <converters:UtcToLocalDateTimeConverter x:Key="UtcToLocalDateTimeConverter" />
+    </ContentPage.Resources>
     <ContentPage.Content>
-        
-        <Grid
-            AutomationId="mainGrd">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            
-            <Button
-                AutomationId="homeButton"
-                x:Name="lblHome"
-                Style="{StaticResource TopButtonTitleStyle}"
-                HorizontalOptions="Start"
-                Padding="0,0,0,0"
-                Text="{Binding Resources[button_home]}"
-                Command="{Binding HomeCommand}"
-                />
 
-            <Label 
+        <Grid AutomationId="mainGrd">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Button
+                x:Name="lblHome"
+                Padding="0,0,0,0"
+                AutomationId="homeButton"
+                Command="{Binding HomeCommand}"
+                HorizontalOptions="Start"
+                Style="{StaticResource TopButtonTitleStyle}"
+                Text="{Binding Resources[button_home]}" />
+
+            <Label
                 AutomationId="palletDetailLabel"
+                HorizontalOptions="Center"
+                Style="{StaticResource LabelTitleStyle}"
                 Text="{Binding Resources[title_pallet_details]}"
-                Style="{StaticResource LabelTitleStyle}" 
-                TextColor="Black"
-                HorizontalOptions="Center" />
+                TextColor="Black" />
 
             <controls:TintedImage
-                AutomationId="shareImage"
-                TintColor="{StaticResource selectTextColor}"
-                HeightRequest="35"
                 x:Name="imgShare"
                 Margin="0,0,15,0"
-                HorizontalOptions="End">
+                AutomationId="shareImage"
+                HeightRequest="35"
+                HorizontalOptions="End"
+                TintColor="{StaticResource selectTextColor}">
 
                 <controls:TintedImage.Source>
-                    <FileImageSource File="{OnPlatform Android=actionshare.png,iOS=actionshare.png, UWP=Assets/actionshare.png }"/>
+                    <FileImageSource File="{OnPlatform Android=actionshare.png, iOS=actionshare.png, UWP=Assets/actionshare.png}" />
                 </controls:TintedImage.Source>
 
                 <controls:TintedImage.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding Path=BindingContext.ShareCommand, 
-                                                        Source={x:Reference Name=imgShare}}"
-                                                         CommandParameter="{Binding}"/>
+                    <TapGestureRecognizer Command="{Binding Path=BindingContext.ShareCommand, Source={x:Reference Name=imgShare}}" CommandParameter="{Binding}" />
 
                 </controls:TintedImage.GestureRecognizers>
             </controls:TintedImage>
 
             <Grid
                 Grid.Row="1"
+                Margin="10,0,10,0"
                 AutomationId="innerGrd"
-                RowSpacing="0"
-                Margin="10,0,10,0">
+                RowSpacing="0">
 
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <BoxView
-                    AutomationId="topBarSeperatorBoxView"
+                    Grid.Row="0"
                     Margin="-10,0,-10,0"
-                    Grid.Row="0"
+                    AutomationId="topBarSeperatorBoxView"
                     BackgroundColor="{StaticResource bannerBGColor}"
-                    VerticalOptions="FillAndExpand"
-                    HorizontalOptions="FillAndExpand"/>
-
-                <Label 
-                    AutomationId="manifestId8DigitLabel"
-                    Grid.Row="0"
-                    TextColor="White"
-                    Text="{Binding ManifestId,StringFormat='Pallet #: {0}',Converter={StaticResource StringToLast8CharacterConverter}}"
-                    Style="{StaticResource LabelBannerStyle}"
-                    VerticalOptions="Center"
-                    VerticalTextAlignment="Center"
-                    HorizontalOptions="Start" />
-
-                <Label 
-                    AutomationId="createdAtLabel"
-                    Grid.Row="1"
-                    Text="{Binding Resources[label_created_at]}"
-                    Style="{StaticResource LabelNormalStyle}"
-                    HorizontalOptions="Start" />
-
-                <Label 
-                    AutomationId="stockLocationLabel"
-                    Margin="10,0,0,0"
-                    Grid.Row="2"
-                    Text="{Binding StockLocation}"
-                    Style="{StaticResource LabelNormalStyle}"
-                    HorizontalOptions="Start" />
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="FillAndExpand" />
 
                 <Label
-                    AutomationId="locationLabel"
+                    Grid.Row="0"
+                    AutomationId="manifestId8DigitLabel"
+                    HorizontalOptions="Start"
+                    Style="{StaticResource LabelBannerStyle}"
+                    Text="{Binding ManifestId, StringFormat='Pallet #: {0}', Converter={StaticResource StringToLast8CharacterConverter}}"
+                    TextColor="White"
+                    VerticalOptions="Center"
+                    VerticalTextAlignment="Center" />
+
+                <Label
+                    Grid.Row="1"
+                    AutomationId="createdAtLabel"
+                    HorizontalOptions="Start"
+                    Style="{StaticResource LabelNormalStyle}"
+                    Text="{Binding Resources[label_created_at]}" />
+
+                <Label
+                    Grid.Row="2"
+                    Margin="10,0,0,0"
+                    AutomationId="stockLocationLabel"
+                    HorizontalOptions="Start"
+                    Style="{StaticResource LabelNormalStyle}"
+                    Text="{Binding StockLocation}" />
+
+                <Label
                     Grid.Row="3"
-                    Text="{Binding Resources[label_location]}"
+                    AutomationId="locationLabel"
+                    HorizontalOptions="Start"
                     Style="{StaticResource LabelNormalStyle}"
-                    HorizontalOptions="Start" />
+                    Text="{Binding Resources[label_location]}" />
 
-                <Label 
-                    AutomationId="stockLocationValue"
-                    Margin="10,0,0,0"
+                <Label
                     Grid.Row="4"
-                    Text="{Binding StockLocation}"
-                    Style="{StaticResource LabelNormalStyle}" 
-                    HorizontalOptions="Start" />
-
-                <Label 
-                    AutomationId="partnerTypeNameLabel"
                     Margin="10,0,0,0"
+                    AutomationId="stockLocationValue"
+                    HorizontalOptions="Start"
+                    Style="{StaticResource LabelNormalStyle}"
+                    Text="{Binding StockLocation}" />
+
+                <Label
                     Grid.Row="5"
-                    Text="{Binding PartnerTypeName}"
-                    Style="{StaticResource LabelNormalStyle}" 
-                    HorizontalOptions="Start" />
-
-                <Label 
-                    AutomationId="shippingDataLabel"
                     Margin="10,0,0,0"
+                    AutomationId="partnerTypeNameLabel"
+                    HorizontalOptions="Start"
+                    Style="{StaticResource LabelNormalStyle}"
+                    Text="{Binding PartnerTypeName}" />
+
+                <Label
                     Grid.Row="6"
-                    Text="{Binding ShippingDate, Converter={StaticResource UtcToLocalDateTimeConverter}}"
+                    Margin="10,0,0,0"
+                    AutomationId="shippingDataLabel"
+                    HorizontalOptions="Start"
                     Style="{StaticResource LabelNormalStyle}"
-                    HorizontalOptions="Start" />
+                    Text="{Binding ShippingDate, Converter={StaticResource UtcToLocalDateTimeConverter}}" />
 
-                <Label 
-                    AutomationId="ssccLabel"
+                <Label
                     Grid.Row="7"
-                    Text="{Binding Resources[label_sscc]}"
-                    Style="{StaticResource LabelNormalStyle}" 
-                    HorizontalOptions="Start" />
-
-                <Label 
-                    AutomationId="manifestIdLebel"
-                    Margin="10,0,0,0"
-                    Grid.Row="8"
-                    Text="{Binding ManifestId}"
-                    Style="{StaticResource LabelNormalStyle}" 
-                    HorizontalOptions="Start" />
-
-                <Label 
-                    AutomationId="targetLocationLabel"
-                    Grid.Row="9"
-                    Text="{Binding Resources[label_target_location]}"
+                    AutomationId="ssccLabel"
+                    HorizontalOptions="Start"
                     Style="{StaticResource LabelNormalStyle}"
-                    HorizontalOptions="Start" />
+                    Text="{Binding Resources[label_sscc]}" />
 
-                <Label 
-                    AutomationId="targetLocationValue"
+                <Label
+                    Grid.Row="8"
                     Margin="10,0,0,0"
+                    AutomationId="manifestIdLebel"
+                    HorizontalOptions="Start"
+                    Style="{StaticResource LabelNormalStyle}"
+                    Text="{Binding ManifestId}" />
+
+                <Label
+                    Grid.Row="9"
+                    AutomationId="targetLocationLabel"
+                    HorizontalOptions="Start"
+                    Style="{StaticResource LabelNormalStyle}"
+                    Text="{Binding Resources[label_target_location]}" />
+
+                <Label
                     Grid.Row="10"
-                    Text="{Binding TargetLocation}"
-                    Style="{StaticResource LabelNormalStyle}" 
-                    HorizontalOptions="Start" />
+                    Margin="10,0,0,0"
+                    AutomationId="targetLocationValue"
+                    HorizontalOptions="Start"
+                    Style="{StaticResource LabelNormalStyle}"
+                    Text="{Binding TargetLocation}" />
 
                 <Grid
-                    AutomationId="innerGrd"
                     x:Name="grdContent"
+                    Grid.Row="11"
                     Margin="0,5,0,0"
-                    RowSpacing="0"
+                    AutomationId="innerGrd"
                     ColumnSpacing="0"
-                    Grid.Row="11">
+                    RowSpacing="0">
 
                     <Grid.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding Path=BindingContext.GridTappedCommand, 
-                                                        Source={x:Reference Name=grdContent}}"
-                                                         CommandParameter="{Binding}"/>
+                        <TapGestureRecognizer Command="{Binding Path=BindingContext.GridTappedCommand, Source={x:Reference Name=grdContent}}" CommandParameter="{Binding}" />
                     </Grid.GestureRecognizers>
 
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
 
                     <BoxView
-                        AutomationId="lineSeperator1"
                         Grid.Row="0"
                         Grid.ColumnSpan="7"
+                        AutomationId="lineSeperator1"
                         BackgroundColor="Black"
                         HeightRequest="1"
-                        VerticalOptions="Start"
-                        HorizontalOptions="FillAndExpand"/>
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="Start" />
 
                     <BoxView
-                        AutomationId="lineSeperator2"
                         Grid.Row="0"
                         Grid.RowSpan="7"
+                        AutomationId="lineSeperator2"
                         BackgroundColor="Black"
-                        WidthRequest="1"
+                        HorizontalOptions="Start"
                         VerticalOptions="FillAndExpand"
-                        HorizontalOptions="Start"/>
+                        WidthRequest="1" />
 
                     <BoxView
-                        AutomationId="lineSeperator3"
                         Grid.Row="6"
                         Grid.ColumnSpan="7"
+                        AutomationId="lineSeperator3"
                         BackgroundColor="Black"
                         HeightRequest="1"
-                        VerticalOptions="End"
-                        HorizontalOptions="FillAndExpand"/>
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="End" />
 
                     <BoxView
-                        AutomationId="lineSeperator4"
                         Grid.Row="0"
-                        Grid.Column="6"
                         Grid.RowSpan="7"
+                        Grid.Column="6"
+                        AutomationId="lineSeperator4"
                         BackgroundColor="Black"
-                        WidthRequest="1"
+                        HorizontalOptions="End"
                         VerticalOptions="FillAndExpand"
-                        HorizontalOptions="End"/>
+                        WidthRequest="1" />
 
                     <Label
-                        AutomationId="brandLabel"
+                        Grid.Row="1"
                         Grid.Column="1"
-                        Grid.Row="1"
+                        AutomationId="brandLabel"
                         BackgroundColor="LightGray"
                         HorizontalOptions="FillAndExpand"
                         HorizontalTextAlignment="Center"
                         Style="{StaticResource LabelNormalStyle}"
-                        VerticalOptions="FillAndExpand"
+                        Text="{Binding Resources[label_brand]}"
                         TextColor="Black"
-                        Text="{Binding Resources[label_brand]}"/>
+                        VerticalOptions="FillAndExpand" />
 
                     <Label
-                        AutomationId="sizeLabel"
+                        Grid.Row="1"
                         Grid.Column="3"
-                        Grid.Row="1"
+                        AutomationId="sizeLabel"
                         BackgroundColor="LightGray"
                         HorizontalOptions="FillAndExpand"
                         HorizontalTextAlignment="Center"
-                        VerticalTextAlignment="Center"
                         Style="{StaticResource LabelNormalStyle}"
+                        Text="{Binding Resources[label_size]}"
                         TextColor="Black"
-                        Text="{Binding Resources[label_size]}"/>
+                        VerticalTextAlignment="Center" />
 
                     <Label
-                        AutomationId="qtyLabel"
-                        Grid.Column="5"
                         Grid.Row="1"
+                        Grid.Column="5"
+                        AutomationId="qtyLabel"
                         BackgroundColor="LightGray"
                         HorizontalOptions="FillAndExpand"
                         HorizontalTextAlignment="Center"
-                        VerticalTextAlignment="Center"
                         Style="{StaticResource LabelNormalStyle}"
+                        Text="{Binding Resources[label_quantity]}"
                         TextColor="Black"
-                        Text="{Binding Resources[label_quantity]}"/>
+                        VerticalTextAlignment="Center" />
 
                     <BoxView
-                        AutomationId="lineSeperator5"
                         Grid.Row="2"
                         Grid.ColumnSpan="7"
+                        AutomationId="lineSeperator5"
                         BackgroundColor="Black"
                         HeightRequest="1"
-                        VerticalOptions="Start"
-                        HorizontalOptions="FillAndExpand"/>
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="Start" />
 
                     <Label
-                        AutomationId="dummyLabel"
+                        Grid.Row="3"
                         Grid.Column="1"
-                        Grid.Row="3"
                         Margin="5,0,0,0"
-                        TextColor="Black"
+                        AutomationId="dummyLabel"
                         Style="{StaticResource LabelNormalStyle}"
-                        Text="Barcode Blonde"/>
+                        Text="Barcode Blonde"
+                        TextColor="Black" />
 
                     <BoxView
-                        AutomationId="lineSeperator6"
                         Grid.Row="1"
+                        Grid.RowSpan="5"
                         Grid.Column="2"
-                        Grid.RowSpan="5"
+                        AutomationId="lineSeperator6"
                         BackgroundColor="Black"
-                        WidthRequest="1"
+                        HorizontalOptions="Start"
                         VerticalOptions="FillAndExpand"
-                        HorizontalOptions="Start"/>
+                        WidthRequest="1" />
 
                     <Label
-                        AutomationId="bblLabel"
-                        Grid.Column="3"
                         Grid.Row="3"
+                        Grid.Column="3"
                         Margin="5,0,0,0"
+                        AutomationId="bblLabel"
                         Style="{StaticResource LabelNormalStyle}"
-                        TextColor="Black"
-                        Text="1/2 bbl"/>
+                        Text="1/2 bbl"
+                        TextColor="Black" />
 
                     <BoxView
-                        AutomationId="lineSeperator7"
                         Grid.Row="1"
-                        Grid.Column="4"
                         Grid.RowSpan="5"
+                        Grid.Column="4"
+                        AutomationId="lineSeperator7"
                         BackgroundColor="Black"
-                        WidthRequest="1"
+                        HorizontalOptions="Start"
                         VerticalOptions="FillAndExpand"
-                        HorizontalOptions="Start"/>
+                        WidthRequest="1" />
 
                     <Label
-                        AutomationId="itemCountLabel"
-                        Margin="0,0,5,0"
-                        HorizontalOptions="End"
-                        TextColor="{StaticResource selectTextColor}"
                         Grid.Row="3"
                         Grid.Column="5"
+                        Margin="0,0,5,0"
+                        AutomationId="itemCountLabel"
+                        HorizontalOptions="End"
                         Style="{StaticResource LabelNormalStyle}"
-                        Text="{Binding ItemCount}"/>
+                        Text="{Binding ItemCount}"
+                        TextColor="{StaticResource selectTextColor}" />
 
                     <BoxView
-                        AutomationId="lineSeperator8"
                         Grid.Row="4"
                         Grid.ColumnSpan="7"
+                        AutomationId="lineSeperator8"
                         BackgroundColor="Black"
                         HeightRequest="1"
-                        VerticalOptions="Start"
-                        HorizontalOptions="FillAndExpand"/>
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="Start" />
 
                     <Label
-                        AutomationId="totalLabel"
-                        Margin="5,0,0,0"
-                        Grid.Column="1"
                         Grid.Row="5"
-                        Style="{StaticResource LabelNormalStyle}"
-                        TextColor="Black"
+                        Grid.Column="1"
+                        Margin="5,0,0,0"
+                        AutomationId="totalLabel"
                         FontAttributes="Bold"
-                        Text="{Binding Resources[label_total]}"/>
+                        Style="{StaticResource LabelNormalStyle}"
+                        Text="{Binding Resources[label_total]}"
+                        TextColor="Black" />
 
                     <Label
-                        AutomationId="itemCountValue"
-                        Margin="0,0,5,0"
-                        HorizontalOptions="End"
-                        TextColor="{StaticResource selectTextColor}"
                         Grid.Row="5"
                         Grid.Column="5"
+                        Margin="0,0,5,0"
+                        AutomationId="itemCountValue"
+                        HorizontalOptions="End"
                         Style="{StaticResource LabelNormalStyle}"
-                        Text="{Binding ItemCount}"/>
+                        Text="{Binding ItemCount}"
+                        TextColor="{StaticResource selectTextColor}" />
                 </Grid>
 
                 <Button
-                    AutomationId="editButton"
-                    IsVisible="{Binding IsFromDashboard}"
-                    VerticalOptions="End"
-                    Margin="0,0,0,0"
                     Grid.Row="12"
-                    Style="{StaticResource TopButtonTitleStyle}"
+                    Margin="0,0,0,0"
+                    AutomationId="editButton"
                     Command="{Binding EditPalletCommand}"
-                    Text="{Binding Resources[button_edit]}"/>
+                    IsVisible="{Binding IsFromDashboard}"
+                    Style="{StaticResource TopButtonTitleStyle}"
+                    Text="{Binding Resources[button_edit]}"
+                    VerticalOptions="End" />
 
                 <Button
-                    AutomationId="moveButton"
-                    IsVisible="{Binding IsFromDashboard}"
-                    VerticalOptions="End"
-                    Margin="0,0,5,0"
                     Grid.Row="12"
-                    Style="{StaticResource TopButtonTitleStyle}"
+                    Margin="0,0,5,0"
+                    AutomationId="moveButton"
                     Command="{Binding MovePalletCommand}"
+                    HorizontalOptions="End"
+                    IsVisible="{Binding IsFromDashboard}"
+                    Style="{StaticResource TopButtonTitleStyle}"
                     Text="{Binding Resources[menu_action_move_pallet]}"
-                    HorizontalOptions="End"/>
+                    VerticalOptions="End" />
             </Grid>
         </Grid>
     </ContentPage.Content>

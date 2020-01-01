@@ -37,3 +37,6 @@ using Android.App;
 [assembly: UsesFeature("android.hardware.location", Required = false)]
 [assembly: UsesFeature("android.hardware.location.gps", Required = false)]
 [assembly: UsesFeature("android.hardware.location.network", Required = false)]
+[assembly: Permission(Name = "android.permission.READ_EXTERNAL_STORAGE")]
+[assembly: Permission(Name = "android.permission.WRITE_EXTERNAL_STORAGE")]
+
