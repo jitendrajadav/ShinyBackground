@@ -109,7 +109,6 @@ namespace KegID.ViewModel
                     try
                     {
                         var versionUpdated = VersionTracking.CurrentVersion.CompareTo(VersionTracking.PreviousVersion);
-                        UserDialogs.Instance.HideLoading();
                         if (versionUpdated > 0 && VersionTracking.PreviousVersion != null && VersionTracking.IsFirstLaunchForCurrentVersion)
                         {
                             await _navigationService.NavigateAsync("../WhatIsNewView", animated: false);

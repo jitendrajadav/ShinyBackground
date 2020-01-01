@@ -38,12 +38,12 @@ namespace KegID.Droid.DependencyServices
             while (file.Exists())
             {
                 x++;
-                file = new Java.IO.File(dir + "/" + filename + "( " + x + " )" + ".pdf");
+                file = new Java.IO.File(dir + "/" + filename + "( " + x + " ).pdf");
             }
 
             if (webpage == null)
             {
-                webpage = new global::Android.Webkit.WebView(CrossCurrentActivity.Current.AppContext);
+                webpage = new global::Android.Webkit.WebView(Application.Context);
             }
 
             if (flag == 0)
@@ -82,6 +82,31 @@ namespace KegID.Droid.DependencyServices
             //CrossCurrentActivity.Current.Activity.StartActivity(chooserIntent);
 
             //Approch 2 for updated sharing ption above +24 API
+            //try
+            //{
+            //    if (string.IsNullOrWhiteSpace(localFilePath))
+            //    {
+            //        System.Console.WriteLine("Plugin.ShareFile: ShareLocalFile Warning: localFilePath null or empty");
+            //        return;
+            //    }
+
+            //    global::Android.Net.Uri fileUri = FileProvider.GetUriForFile(Application.Context, $"{Application.Context.PackageName}.fileprovider", new Java.IO.File(localFilePath));
+
+            //    var builder =
+            //        ShareCompat.IntentBuilder.From(CrossCurrentActivity.Current.Activity).SetType(CrossCurrentActivity.Current.Activity.ContentResolver.GetType(fileUri)).SetText(title).AddStream(fileUri);
+            //    var chooserIntent = builder.CreateChooserIntent();
+            //    chooserIntent.SetFlags(ActivityFlags.ClearTop);
+            //    chooserIntent.SetFlags(ActivityFlags.NewTask);
+            //    chooserIntent.AddFlags(ActivityFlags.GrantReadUriPermission);
+            //    CrossCurrentActivity.Current.Activity.StartActivity(chooserIntent);
+            //}
+            //catch (Exception ex)
+            //{
+            //    if (!string.IsNullOrWhiteSpace(ex.Message))
+            //        System.Console.WriteLine("Exception in Plugin.ShareFile: ShareLocalFile Exception: {0}", ex);
+            //}
+
+            //Aproch 3 Old intially working fine
             try
             {
                 if (string.IsNullOrWhiteSpace(localFilePath))
@@ -90,56 +115,28 @@ namespace KegID.Droid.DependencyServices
                     return;
                 }
 
-                global::Android.Net.Uri fileUri = FileProvider.GetUriForFile(Application.Context, $"{Application.Context.PackageName}.fileprovider", new Java.IO.File(localFilePath));
+                if (!localFilePath.StartsWith("file://"))
+                    localFilePath = string.Format("file://{0}", localFilePath);
 
-                var builder =
-                    ShareCompat.IntentBuilder.From(CrossCurrentActivity.Current.Activity).SetType(CrossCurrentActivity.Current.Activity.ContentResolver.GetType(fileUri)).SetText(title).AddStream(fileUri);
-                var chooserIntent = builder.CreateChooserIntent();
+                var fileUri = global::Android.Net.Uri.Parse(localFilePath);
+                var intent = new Intent();
+                intent.SetFlags(ActivityFlags.ClearTop);
+                intent.SetFlags(ActivityFlags.NewTask);
+                intent.SetAction(Intent.ActionSend);
+                intent.SetType("*/*");
+                intent.PutExtra(Intent.ExtraStream, fileUri);
+                intent.AddFlags(ActivityFlags.GrantReadUriPermission);
+
+                var chooserIntent = Intent.CreateChooser(intent, title);
                 chooserIntent.SetFlags(ActivityFlags.ClearTop);
                 chooserIntent.SetFlags(ActivityFlags.NewTask);
-                chooserIntent.AddFlags(ActivityFlags.GrantReadUriPermission);
-                CrossCurrentActivity.Current.Activity.StartActivity(chooserIntent);
+                global::Android.App.Application.Context.StartActivity(chooserIntent);
             }
             catch (Exception ex)
             {
-                if (!string.IsNullOrWhiteSpace(ex.Message))
+                if (ex != null && !string.IsNullOrWhiteSpace(ex.Message))
                     System.Console.WriteLine("Exception in Plugin.ShareFile: ShareLocalFile Exception: {0}", ex);
             }
-
-
-            //Aproch 3 Old intially working fine
-            //try
-            //{
-
-            //    if (string.IsNullOrWhiteSpace(localFilePath))
-            //    {
-            //        System.Console.WriteLine("Plugin.ShareFile: ShareLocalFile Warning: localFilePath null or empty");
-            //        return;
-            //    }
-
-            //    if (!localFilePath.StartsWith("file://"))
-            //        localFilePath = string.Format("file://{0}", localFilePath);
-
-            //    var fileUri = global::Android.Net.Uri.Parse(localFilePath);
-            //    var intent = new Intent();
-            //    intent.SetFlags(ActivityFlags.ClearTop);
-            //    intent.SetFlags(ActivityFlags.NewTask);
-            //    intent.SetAction(Intent.ActionSend);
-            //    intent.SetType("*/*");
-            //    intent.PutExtra(Intent.ExtraStream, fileUri);
-            //    intent.AddFlags(ActivityFlags.GrantReadUriPermission);
-
-            //    var chooserIntent = Intent.CreateChooser(intent, title);
-            //    chooserIntent.SetFlags(ActivityFlags.ClearTop);
-            //    chooserIntent.SetFlags(ActivityFlags.NewTask);
-            //    global::Android.App.Application.Context.StartActivity(chooserIntent);
-            //}
-            //catch (Exception ex)
-            //{
-            //    if (ex != null && !string.IsNullOrWhiteSpace(ex.Message))
-            //        System.Console.WriteLine("Exception in Plugin.ShareFile: ShareLocalFile Exception: {0}", ex);
-            //}
-
         }
 
         /// <summary>
@@ -197,7 +194,8 @@ namespace KegID.Droid.DependencyServices
             string localPath = "";
             try
             {
-                var localFolder = Application.Context.CacheDir.AbsolutePath;
+                var localFolder = global::Android.OS.Environment.GetExternalStoragePublicDirectory(global::Android.OS.Environment.DirectoryDownloads).AbsolutePath;
+                //var localFolder = Application.Context.CacheDir.AbsolutePath;
                 localPath = Path.Combine(localFolder, fileName);
                 File.WriteAllBytes(localPath, bytes); // write to local storage
                 return localPath;
