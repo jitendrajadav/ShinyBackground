@@ -134,6 +134,7 @@
     <PackageReference Include="Zebra.Printer.SDK" Version="2.15.2634" />
     <PackageReference Include="Forms9Patch" Version="2.2.2" />
     <PackageReference Include="Xamarin.GooglePlayServices.Base" Version="71.1610.0" />
+    <PackageReference Include="Xamarin.GooglePlayServices.Basement" Version="71.1620.0" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DependencyServices\AndroidCloseApplication.cs" />
