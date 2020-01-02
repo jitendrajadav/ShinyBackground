@@ -97,23 +97,23 @@ namespace KegID.ViewModel
             }
         }
 
-        private async Task StartPrinterSearch()
+        private void StartPrinterSearch()
         {
             DiscoveryHandlerImplementation discoveryHandler = new DiscoveryHandlerImplementation();
-            await Task.Factory.StartNew(() =>
+            //await Task.Factory.StartNew(() =>
+            //{
+            try
             {
-                try
+                DependencyService.Get<IConnectionManager>().FindBluetoothPrinters(discoveryHandler);
+            }
+            catch (NotImplementedException)
+            {
+                Device.BeginInvokeOnMainThread(async () =>
                 {
-                    DependencyService.Get<IConnectionManager>().FindBluetoothPrinters(discoveryHandler);
-                }
-                catch (NotImplementedException)
-                {
-                    Device.BeginInvokeOnMainThread(async () =>
-                    {
-                        await Application.Current.MainPage.DisplayAlert("Error", "Bluetooth discovery not supported on this platform", "OK");
-                    });
-                }
-            });
+                    await Application.Current.MainPage.DisplayAlert("Error", "Bluetooth discovery not supported on this platform", "OK");
+                });
+            }
+            //});
         }
 
         private void HandleUnsubscribeMessages()
@@ -455,7 +455,7 @@ namespace KegID.ViewModel
             RefreshDashboardRecieverAsync();
             if (Device.RuntimePlatform != Device.UWP)
             {
-                await StartPrinterSearch();
+                StartPrinterSearch();
             }
 
             Connectivity.ConnectivityChanged -= Connectivity_ConnectivityChanged;

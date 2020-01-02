@@ -100,6 +100,7 @@ namespace KegID.ViewModel
 
                         KegRefresh = Convert.ToDouble(model.Preferences.ToList().Find(x => x.PreferenceName == "KEG_REFRESH")?.PreferenceValue);
                         await RunSafe(DeviceCheckIn());
+                        UserDialogs.Instance.HideLoading();
                     }
                     catch (Exception ex)
                     {
