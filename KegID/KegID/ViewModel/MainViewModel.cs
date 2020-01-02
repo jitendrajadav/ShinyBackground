@@ -447,7 +447,7 @@ namespace KegID.ViewModel
             base.OnNavigatedTo(parameters);
         }
 
-        public override async Task InitializeAsync(INavigationParameters parameters)
+        public override Task InitializeAsync(INavigationParameters parameters)
         {
             HandleUnsubscribeMessages();
             HandleReceivedMessages();
@@ -471,6 +471,8 @@ namespace KegID.ViewModel
                     ScanditService.ScanditLicense.AppKey = Resources["scanditiOSKey"];
                     break;
             }
+
+            return base.InitializeAsync(parameters);
         }
 
         #endregion
