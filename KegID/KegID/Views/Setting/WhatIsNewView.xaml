@@ -10,68 +10,58 @@
 
     <ContentPage.Content>
 
-        <RelativeLayout>
-            <Grid
-                Margin="0,0,0,0"
-                AutomationId="mainGrd"
-                ColumnSpacing="0"
-                RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,
-                                                                       Property=Height}"
-                RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,
-                                                                      Property=Width}"
-                RowSpacing="0">
+        <!--<RelativeLayout>-->
+        <Grid
+            AutomationId="mainGrd"
+            ColumnSpacing="0"
+            RowSpacing="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="90*" />
+                <RowDefinition Height="10*" />
+            </Grid.RowDefinitions>
 
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="91*" />
-                    <RowDefinition Height="10*" />
-                </Grid.RowDefinitions>
+            <CarouselView
+                x:Name="myCarouselViewCtrl"
+                AutomationId="whatsNewCarouselViewControl"
+                CurrentItem="{Binding CurrentItem, Mode=TwoWay}"
+                HorizontalOptions="Center"
+                ItemsSource="{Binding ImageCollection}"
+                VerticalOptions="CenterAndExpand">
+                <CarouselView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Path=BindingContext.KegFleetTappedCommand, Source={x:Reference Name=myCarouselViewCtrl}}" CommandParameter="{Binding}" />
+                            </Grid.GestureRecognizers>
+                            <ffimageloading:CachedImage
+                                Aspect="Fill"
+                                DownsampleToViewSize="False"
+                                ErrorPlaceholder="error.png"
+                                FadeAnimationEnabled="True"
+                                FadeAnimationForCachedImages="True"
+                                Source="{Binding ImageUri}">
+                                <ffimageloading:CachedImage.LoadingPlaceholder>
+                                    <OnPlatform x:TypeArguments="ImageSource">
+                                        <On Platform="Android, iOS">loadingplaceholder.png</On>
+                                    </OnPlatform>
+                                </ffimageloading:CachedImage.LoadingPlaceholder>
+                            </ffimageloading:CachedImage>
+                        </Grid>
+                    </DataTemplate>
+                </CarouselView.ItemTemplate>
+            </CarouselView>
 
-                <CarouselView
-                    x:Name="myCarouselViewCtrl"
-                    AutomationId="whatsNewCarouselViewControl"
-                    CurrentItemChanged="myCarouselViewCtrl_CurrentItemChanged"
-                    HorizontalOptions="Center"
-                    ItemsSource="{Binding ImageCollection}"
-                    RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,
-                                                                           Property=Height}"
-                    RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,
-                                                                          Property=Width}"
-                    VerticalOptions="Center">
-                    <CarouselView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <Grid.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding Path=BindingContext.KegFleetTappedCommand, Source={x:Reference Name=myCarouselViewCtrl}}" CommandParameter="{Binding}" />
-                                </Grid.GestureRecognizers>
-                                <ffimageloading:CachedImage
-                                    Aspect="Fill"
-                                    DownsampleToViewSize="False"
-                                    ErrorPlaceholder="error.png"
-                                    FadeAnimationEnabled="True"
-                                    FadeAnimationForCachedImages="True"
-                                    Source="{Binding ImageUri}">
-                                    <ffimageloading:CachedImage.LoadingPlaceholder>
-                                        <OnPlatform x:TypeArguments="ImageSource">
-                                            <On Platform="Android, iOS">loadingplaceholder.png</On>
-                                        </OnPlatform>
-                                    </ffimageloading:CachedImage.LoadingPlaceholder>
-                                </ffimageloading:CachedImage>
-                            </Grid>
-                        </DataTemplate>
-                    </CarouselView.ItemTemplate>
-                </CarouselView>
-
-                <Button
-                    x:Name="btnNavigation"
-                    Grid.Row="1"
-                    AutomationId="nextButton"
-                    Clicked="NavigationCommand"
-                    Style="{StaticResource BottomButtonTitleStyle}"
-                    Text="{Binding Resources[button_next]}"
-                    VerticalOptions="EndAndExpand" />
-
-            </Grid>
-        </RelativeLayout>
+            <Button
+                x:Name="btnNavigation"
+                Grid.Row="1"
+                Padding="0,0,0,0"
+                AutomationId="nextButton"
+                Command="{Binding NextCommand}"
+                Style="{StaticResource BottomButtonTitleStyle}"
+                Text="{Binding Title}"
+                VerticalOptions="EndAndExpand" />
+        </Grid>
+        <!--</RelativeLayout>-->
     </ContentPage.Content>
 
 </ContentPage>
