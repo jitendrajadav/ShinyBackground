@@ -116,7 +116,10 @@ namespace KegID.ViewModel
                         }
                         else
                         {
-                            await _navigationService.NavigateAsync("../MainPage", animated: false);
+                            if (TargetIdiom.Tablet == Device.Idiom)
+                                await _navigationService.NavigateAsync("../MainPageTablet", animated: false);
+                            else
+                                await _navigationService.NavigateAsync("../MainPage", animated: false);
                         }
                     }
                     catch (Exception ex)

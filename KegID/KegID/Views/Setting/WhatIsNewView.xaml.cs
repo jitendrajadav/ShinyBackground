@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using KegID.ViewModel;
+using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace KegID.Views
@@ -10,6 +11,11 @@ namespace KegID.Views
         {
             InitializeComponent();
             NavigationPage.SetHasNavigationBar(this, false);
+        }
+
+        private void myCarouselViewCtrl_CurrentItemChanged(object sender, CurrentItemChangedEventArgs e)
+        {
+            ((WhatIsNewViewModel)BindingContext).CurrentItemChanged.Execute((ImageClass)e.CurrentItem);
         }
     }
 }

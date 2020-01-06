@@ -33,6 +33,13 @@ namespace KegID.ViewModel
         public bool IsVisibleDraftmaniFestsLabel { get; set; }
         public string APIBase { get; set; }
 
+        public string Stock { get; set; }
+        public string Empty { get; set; }
+        public string InUse { get; set; }
+        public string Total { get; set; }
+        public string AverageCycle { get; set; }
+        public string Atriskegs { get; set; }
+
         public ObservableCollection<Dashboard> Dashboards { get; set; } = new ObservableCollection<Dashboard>();
 
         #endregion
@@ -396,14 +403,27 @@ namespace KegID.ViewModel
                 {
                     var response = await result.Content.ReadAsStringAsync();
                     var model = await Task.Run(() => JsonConvert.DeserializeObject<DashboardResponseModel>(response, GetJsonSetting()));
-
-                    Dashboards.LastOrDefault().Stock = model.Stock.ToString("0,0", CultureInfo.InvariantCulture);
-                    Dashboards.LastOrDefault().Empty = model.Empty.ToString("0,0", CultureInfo.InvariantCulture);
-                    Dashboards.LastOrDefault().InUse = model.InUse.ToString("0,0", CultureInfo.InvariantCulture);
                     var total = model.Stock + model.Empty + model.InUse;
-                    Dashboards.LastOrDefault().Total = total.ToString("0,0", CultureInfo.InvariantCulture);
-                    Dashboards.LastOrDefault().AverageCycle = model.AverageCycle.ToString() + " days";
-                    Dashboards.LastOrDefault().Atriskegs = model.InactiveKegs.ToString();
+
+                    if (TargetIdiom.Tablet == Device.Idiom)
+                    {
+                        Stock = model.Stock.ToString("0,0", CultureInfo.InvariantCulture);
+                        Empty = model.Empty.ToString("0,0", CultureInfo.InvariantCulture);
+                        InUse = model.InUse.ToString("0,0", CultureInfo.InvariantCulture);
+                        Total = total.ToString("0,0", CultureInfo.InvariantCulture);
+                        AverageCycle = model.AverageCycle.ToString() + " days";
+                        Atriskegs = model.InactiveKegs.ToString();
+                    }
+                    else
+                    {
+                        Dashboards.LastOrDefault().Stock = model.Stock.ToString("0,0", CultureInfo.InvariantCulture);
+                        Dashboards.LastOrDefault().Empty = model.Empty.ToString("0,0", CultureInfo.InvariantCulture);
+                        Dashboards.LastOrDefault().InUse = model.InUse.ToString("0,0", CultureInfo.InvariantCulture);
+                        Dashboards.LastOrDefault().Total = total.ToString("0,0", CultureInfo.InvariantCulture);
+                        Dashboards.LastOrDefault().AverageCycle = model.AverageCycle.ToString() + " days";
+                        Dashboards.LastOrDefault().Atriskegs = model.InactiveKegs.ToString();
+                    }
+
                 }
             }
             catch (Exception ex)
@@ -429,7 +449,7 @@ namespace KegID.ViewModel
 
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (Dashboards.Count == 0)
+            if (Dashboards.Count == 0 && TargetIdiom.Tablet != Device.Idiom)
             {
                 Dashboards.Add(new Dashboard());
                 Dashboards.Add(new Dashboard()
@@ -449,6 +469,13 @@ namespace KegID.ViewModel
 
         public override Task InitializeAsync(INavigationParameters parameters)
         {
+            Stock = "0";
+            Empty = "0";
+            InUse = "0";
+            Total = "0";
+            AverageCycle = "0 day";
+            Atriskegs = "0";
+
             HandleUnsubscribeMessages();
             HandleReceivedMessages();
 

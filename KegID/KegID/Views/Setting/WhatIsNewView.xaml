@@ -24,6 +24,7 @@
                 x:Name="myCarouselViewCtrl"
                 AutomationId="whatsNewCarouselViewControl"
                 CurrentItem="{Binding CurrentItem, Mode=TwoWay}"
+                CurrentItemChanged="myCarouselViewCtrl_CurrentItemChanged"
                 HorizontalOptions="Center"
                 ItemsSource="{Binding ImageCollection}"
                 VerticalOptions="CenterAndExpand">
@@ -59,7 +60,7 @@
                 Command="{Binding NextCommand}"
                 Style="{StaticResource BottomButtonTitleStyle}"
                 Text="{Binding Title}"
-                VerticalOptions="EndAndExpand" />
+                VerticalOptions="FillAndExpand" />
         </Grid>
         <!--</RelativeLayout>-->
     </ContentPage.Content>
