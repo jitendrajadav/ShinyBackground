@@ -20,8 +20,6 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>MinimumOSVersion</key>
-	<string>8.0</string>
 	<key>CFBundleDisplayName</key>
 	<string>KegIDBeta</string>
 	<key>CFBundleIdentifier</key>
@@ -61,7 +59,7 @@
 	<array>
 		<string>external-accessory</string>
 		<string>fetch</string>
-    <string>location</string>
+		<string>location</string>
 	</array>
 	<key>CFBundleDocumentTypes</key>
 	<array>
@@ -88,11 +86,13 @@
 	<string>LaunchScreen</string>
 	<key>CFBundleShortVersionString</key>
 	<string>4.0.0.0</string>
-  <key>NSMotionUsageDescription</key>
-  <string>Required for pedometer</string>
-  <key>NSLocationAlwaysUsageDescription</key>
-  <string>The beacons or geofences or GPS always have you!</string>
-  <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-  <string>The beacons or geofences or GPS always have you!</string>
+	<key>NSMotionUsageDescription</key>
+	<string>Required for pedometer</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>The beacons or geofences or GPS always have you!</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>The beacons or geofences or GPS always have you!</string>
+	<key>MinimumOSVersion</key>
+	<string>13.2</string>
 </dict>
 </plist>
