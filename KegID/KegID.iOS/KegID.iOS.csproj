@@ -232,10 +232,10 @@
       <Version>2.0.1</Version>
     </PackageReference>
     <PackageReference Include="Shiny.Core">
-      <Version>1.0.0.531-beta</Version>
+      <Version>1.0.0.560-beta</Version>
     </PackageReference>
     <PackageReference Include="Shiny.Locations">
-      <Version>1.0.0.531-beta</Version>
+      <Version>1.0.0.560-beta</Version>
     </PackageReference>
     <PackageReference Include="Shiny.Prism">
       <Version>7.2.0.844-pre</Version>
@@ -256,13 +256,13 @@
       <Version>2.4.11.982</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms">
-      <Version>4.4.0.991265</Version>
+      <Version>4.4.0.991477</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms.Maps">
-      <Version>4.4.0.991265</Version>
+      <Version>4.4.0.991477</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms.Visual.Material">
-      <Version>4.4.0.991265</Version>
+      <Version>4.4.0.991477</Version>
     </PackageReference>
     <PackageReference Include="Zebra.Printer.SDK">
       <Version>2.15.2634</Version>
