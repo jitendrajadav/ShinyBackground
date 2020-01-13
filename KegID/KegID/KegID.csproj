@@ -153,6 +153,9 @@
     <Compile Update="Views\Move\ContentTagsView.xaml.cs">
       <DependentUpon>ContentTagsView.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\Move\ScanKegsTabView .xaml.cs">
+      <DependentUpon>ScanKegsTabView .xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\Palletize\PalletizeDetailView.xaml.cs">
       <DependentUpon>PalletizeDetailView.xaml</DependentUpon>
     </Compile>

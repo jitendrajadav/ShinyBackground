@@ -288,19 +288,6 @@ namespace KegID.ViewModel
 
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (_gpsManager.IsListening)
-            {
-                await _gpsManager.StopListener();
-            }
-
-            await _gpsManager.StartListener(new GpsRequest
-            {
-                UseBackground = true,
-                Priority = GpsPriority.Highest,
-                Interval = TimeSpan.FromSeconds(5),
-                ThrottledInterval = TimeSpan.FromSeconds(3) //Should be lower than Interval
-            });
-
             switch (parameters.Keys.FirstOrDefault())
             {
                 case "partnerModel":
@@ -338,6 +325,19 @@ namespace KegID.ViewModel
                     BackCommandRecieverAsync();
                     break;
             }
+
+            if (_gpsManager.IsListening)
+            {
+                await _gpsManager.StopListener();
+            }
+
+            await _gpsManager.StartListener(new GpsRequest
+            {
+                UseBackground = true,
+                Priority = GpsPriority.Highest,
+                Interval = TimeSpan.FromSeconds(5),
+                ThrottledInterval = TimeSpan.FromSeconds(3) //Should be lower than Interval
+            });
         }
 
         public override async Task InitializeAsync(INavigationParameters parameters)

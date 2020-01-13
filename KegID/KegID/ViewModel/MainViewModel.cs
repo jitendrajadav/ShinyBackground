@@ -469,6 +469,8 @@ namespace KegID.ViewModel
 
         public override Task InitializeAsync(INavigationParameters parameters)
         {
+            RefreshDashboardRecieverAsync();
+
             Stock = "0";
             Empty = "0";
             InUse = "0";
@@ -479,7 +481,6 @@ namespace KegID.ViewModel
             HandleUnsubscribeMessages();
             HandleReceivedMessages();
 
-            RefreshDashboardRecieverAsync();
             if (Device.RuntimePlatform != Device.UWP)
             {
                 StartPrinterSearch();

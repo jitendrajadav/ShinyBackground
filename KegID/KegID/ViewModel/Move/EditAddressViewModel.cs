@@ -187,6 +187,11 @@ namespace KegID.ViewModel
 
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
+            if (parameters.ContainsKey("BackCommandRecieverAsync"))
+            {
+                BackCommandRecieverAsync();
+            }
+
             if (_gpsManager.IsListening)
             {
                 await _gpsManager.StopListener();
@@ -199,11 +204,6 @@ namespace KegID.ViewModel
                 Interval = TimeSpan.FromSeconds(5),
                 ThrottledInterval = TimeSpan.FromSeconds(3) //Should be lower than Interval
             });
-
-            if (parameters.ContainsKey("BackCommandRecieverAsync"))
-            {
-                BackCommandRecieverAsync();
-            }
         }
 
         public void Destroy()

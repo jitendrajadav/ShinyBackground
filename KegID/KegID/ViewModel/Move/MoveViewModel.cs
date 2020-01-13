@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
@@ -482,14 +483,31 @@ namespace KegID.ViewModel
                 }
                 else if (Barcodes != null)
                 {
-                    await _navigationService.NavigateAsync("ScanKegsView", new NavigationParameters
+                    if (TargetIdiom.Tablet == Device.Idiom)
+                    {
+                        await _navigationService.NavigateAsync("ScanKegsTabView", new NavigationParameters
                             {
                                 { "models", Barcodes }
                             }, animated: false);
+                    }
+                    else
+                    {
+                        await _navigationService.NavigateAsync("ScanKegsView", new NavigationParameters
+                            {
+                                { "models", Barcodes }
+                            }, animated: false);
+                    }
                 }
                 else
                 {
-                    await _navigationService.NavigateAsync("ScanKegsView", animated: false);
+                    if (TargetIdiom.Tablet == Device.Idiom)
+                    {
+                        await _navigationService.NavigateAsync("ScanKegsTabView", animated: false);
+                    }
+                    else
+                    {
+                        await _navigationService.NavigateAsync("ScanKegsView", animated: false);
+                    }
                 }
             }
             catch (Exception ex)
@@ -565,19 +583,6 @@ namespace KegID.ViewModel
 
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (_gpsManager.IsListening)
-            {
-                await _gpsManager.StopListener();
-            }
-
-            await _gpsManager.StartListener(new GpsRequest
-            {
-                UseBackground = true,
-                Priority = GpsPriority.Highest,
-                Interval = TimeSpan.FromSeconds(5),
-                ThrottledInterval = TimeSpan.FromSeconds(3) //Should be lower than Interval
-            });
-
             if (parameters.ContainsKey("CancelCommandRecieverAsync"))
             {
                 CancelCommandRecieverAsync();
@@ -612,9 +617,20 @@ namespace KegID.ViewModel
                 case "PartnerModel":
                     Destination = parameters.GetValue<PossessorLocation>("PartnerModel").FullName;
                     break;
-                default:
-                    break;
             }
+
+            if (_gpsManager.IsListening)
+            {
+                await _gpsManager.StopListener();
+            }
+
+            await _gpsManager.StartListener(new GpsRequest
+            {
+                UseBackground = true,
+                Priority = GpsPriority.Highest,
+                Interval = TimeSpan.FromSeconds(5),
+                ThrottledInterval = TimeSpan.FromSeconds(3) //Should be lower than Interval
+            });
         }
 
         public override Task InitializeAsync(INavigationParameters parameters)

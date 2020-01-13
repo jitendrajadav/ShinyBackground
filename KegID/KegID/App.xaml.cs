@@ -37,7 +37,7 @@ namespace KegID
                     Logger.Log(e.Exception.ToString(), Category.Exception, Priority.High);
                 };
 #if DEBUG
-                //HotReloader.Current.Run(this);
+                HotReloader.Current.Run(this);
                 ConstantManager.BaseUrl = ConstantManager.TestApiUrl;
 #elif RELEASE
                 ConstantManager.BaseUrl = ConstantManager.TestApiUrl;
@@ -125,6 +125,8 @@ namespace KegID
             containerRegistry.RegisterForNavigation<PartnersView, PartnersViewModel>();
             containerRegistry.RegisterForNavigation<ScanInfoView, ScanInfoViewModel>();
             containerRegistry.RegisterForNavigation<ScanKegsView, ScanKegsViewModel>();
+            containerRegistry.RegisterForNavigation<ScanKegsTabView, ScanKegsViewModel>();
+
             containerRegistry.RegisterForNavigation<AssetProfileView, AssetProfileViewModel>();
 
             containerRegistry.RegisterForNavigation<SearchedManifestsListView, SearchedManifestsListViewModel>();

@@ -1,0 +1,206 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="KegID.Views.ScanKegsTabView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:KegID.Behaviors"
+    xmlns:controls="clr-namespace:Plugin.CrossPlatformTintedImage.Abstractions;assembly=Plugin.CrossPlatformTintedImage.Abstractions"
+    xmlns:forms9="clr-namespace:Forms9Patch;assembly=Forms9Patch"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    xmlns:local="clr-namespace:KegID.Views"
+    ios:Page.UseSafeArea="true"
+    BackgroundColor="{StaticResource pageBGColor}">
+
+    <ContentPage.Content>
+
+        <Grid AutomationId="mainGrd" RowSpacing="0">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="5*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="80*" />
+            </Grid.RowDefinitions>
+
+            <Label
+                AutomationId="scanImtesLabel"
+                HorizontalOptions="Center"
+                HorizontalTextAlignment="Center"
+                Style="{StaticResource LabelTitleStyle}"
+                Text="{Binding Resources[title_scan_items]}"
+                TextColor="Black" />
+
+            <BoxView
+                Grid.Row="1"
+                AutomationId="topBarSeperatorBoxView"
+                BackgroundColor="{StaticResource lightGrayColor}"
+                HeightRequest="1"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="Start" />
+
+            <Grid
+                Grid.Row="2"
+                Margin="0,5,0,0"
+                AutomationId="innerGrd"
+                ColumnSpacing="{OnPlatform iOS=5,
+                                           Android=0,
+                                           UWP=0}"
+                RowSpacing="{OnPlatform iOS=5,
+                                        Android=0,
+                                        UWP=0}">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="80" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="55*" />
+                    <ColumnDefinition Width="30*" />
+                    <ColumnDefinition Width="20*" />
+                </Grid.ColumnDefinitions>
+
+                <Entry
+                    Grid.Row="0"
+                    Grid.ColumnSpan="2"
+                    AutomationId="barcodeEntry"
+                    Placeholder="{Binding Resources[label_barcode]}"
+                    Text="{Binding ManaulBarcode, Mode=TwoWay}">
+
+                    <Entry.Behaviors>
+                        <behaviors:EventToCommandBehavior Command="{Binding BarcodeManualCommand}" EventName="Completed" />
+                    </Entry.Behaviors>
+                </Entry>
+
+                <controls:TintedImage
+                    x:Name="imgCamera"
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    AutomationId="cameraImage"
+                    HeightRequest="60"
+                    HorizontalOptions="Center"
+                    TintColor="{StaticResource selectTextColor}"
+                    WidthRequest="60">
+
+                    <controls:TintedImage.Source>
+                        <FileImageSource File="{OnPlatform Android=camera.png, iOS=camera.png, UWP=Assets/camera.png}" />
+                    </controls:TintedImage.Source>
+
+                    <controls:TintedImage.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Path=BindingContext.BarcodeScanCommand, Source={x:Reference Name=imgCamera}}" CommandParameter="{Binding}" />
+                    </controls:TintedImage.GestureRecognizers>
+                </controls:TintedImage>
+
+                <forms9:Button
+                    x:Name="_singlePickerButton"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    BorderRadius="5"
+                    BorderWidth="1"
+                    Clicked="_singlePickerButton_Clicked"
+                    HtmlText="{Binding Resources[hint_select_content]}" />
+
+                <Entry
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    AutomationId="batchEntry"
+                    FontSize="14"
+                    Placeholder="{Binding Resources[tag_batch]}"
+                    Text="{Binding Batch}" />
+
+                <controls:TintedImage
+                    x:Name="imgTags"
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    AutomationId="tagsImage"
+                    HeightRequest="60"
+                    HorizontalOptions="Center"
+                    TintColor="{StaticResource selectTextColor}">
+
+                    <controls:TintedImage.Source>
+                        <FileImageSource File="{OnPlatform Android=tags.png, iOS=tags.png, UWP=Assets/tags.png}" />
+                    </controls:TintedImage.Source>
+
+                    <controls:TintedImage.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Path=BindingContext.AddTagsCommand, Source={x:Reference Name=imgTags}}" CommandParameter="{Binding}" />
+                    </controls:TintedImage.GestureRecognizers>
+                </controls:TintedImage>
+
+                <Label
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    AutomationId="tagsStrLabel"
+                    FontSize="10"
+                    LineBreakMode="TailTruncation"
+                    Text="{Binding TagsStr}" />
+
+                <BoxView
+                    Grid.Row="3"
+                    Grid.ColumnSpan="3"
+                    Margin="-10,0,-10,0"
+                    AutomationId="lineSeperator1"
+                    BackgroundColor="{StaticResource bannerBGColor}"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="FillAndExpand" />
+
+                <StackLayout
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Orientation="Horizontal">
+
+                    <Label
+                        Margin="15,0,10,0"
+                        AutomationId="scannedLabel"
+                        FontSize="30"
+                        HorizontalOptions="Start"
+                        Text="{Binding Resources[label_scanned]}"
+                        TextColor="White"
+                        VerticalOptions="Center" />
+
+                    <Label
+                        AutomationId="barcodeCountLabel"
+                        FontSize="45"
+                        HorizontalOptions="End"
+                        Text="{Binding BarcodeCollection.Count}"
+                        TextColor="{StaticResource scanCounterColor}"
+                        VerticalOptions="Center"
+                        VerticalTextAlignment="Center" />
+
+                    <ImageButton
+                        x:Name="lblExpand"
+                        AutomationId="expandButton"
+                        BackgroundColor="Transparent"
+                        Command="{Binding ExpandCommand}"
+                        HorizontalOptions="Center"
+                        Source="check.png"
+                        VerticalOptions="CenterAndExpand" />
+
+                </StackLayout>
+
+
+                <Button
+                    x:Name="lblDone"
+                    Grid.Row="3"
+                    Grid.Column="2"
+                    AutomationId="doneButton"
+                    BackgroundColor="#017AFF"
+                    Command="{Binding DoneCommand}"
+                    FontSize="24"
+                    HorizontalOptions="FillAndExpand"
+                    Text="{Binding Resources[button_done]}"
+                    TextColor="White" />
+
+                <local:ScanItemView
+                    Grid.Row="4"
+                    Grid.ColumnSpan="3"
+                    AutomationId="scanItemView" />
+
+            </Grid>
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

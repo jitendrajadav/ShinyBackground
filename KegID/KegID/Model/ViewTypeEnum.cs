@@ -37,6 +37,7 @@
         PartnersView,
         ScanInfoView,
         ScanKegsView,
+        ScanKegsTabView,
         SearchedManifestsListView,
         SearchManifestsView,
         SearchPartnersView,

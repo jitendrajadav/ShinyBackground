@@ -513,19 +513,6 @@ namespace KegID.ViewModel
 
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (_gpsManager.IsListening)
-            {
-                await _gpsManager.StopListener();
-            }
-
-            await _gpsManager.StartListener(new GpsRequest
-            {
-                UseBackground = true,
-                Priority = GpsPriority.Highest,
-                Interval = TimeSpan.FromSeconds(5),
-                ThrottledInterval = TimeSpan.FromSeconds(3) //Should be lower than Interval
-            });
-
             if (parameters.ContainsKey("FillKegsCommandRecieverAsync"))
             {
                 FillKegsCommandRecieverAsync();
@@ -543,6 +530,19 @@ namespace KegID.ViewModel
                     AssignValueToAddPalletAsync(parameters.GetValue<string>("AssignValueToAddPalletAsync"), parameters.GetValue<IList<BarcodeModel>>("BarcodesCollection"));
                     break;
             }
+
+            if (_gpsManager.IsListening)
+            {
+                await _gpsManager.StopListener();
+            }
+
+            await _gpsManager.StartListener(new GpsRequest
+            {
+                UseBackground = true,
+                Priority = GpsPriority.Highest,
+                Interval = TimeSpan.FromSeconds(5),
+                ThrottledInterval = TimeSpan.FromSeconds(3) //Should be lower than Interval
+            });
         }
 
         internal void AssignInitValue(INavigationParameters parameters)
