@@ -99,11 +99,11 @@ namespace KegID.ViewModel
                             model.Tags.Add(item);
                     }
                     models.Add(model);
-                    if (PageName == ViewTypeEnum.PalletizeView.ToString())
+                    if (PageName == nameof(ViewTypeEnum.PalletizeView))
                     {
                         ScannerToPalletAssign scannerToPalletAssign = new ScannerToPalletAssign
                         {
-                           Barcode = models.LastOrDefault().Barcode
+                           Barcode = models.LastOrDefault()?.Barcode
                         };
                         MessagingCenter.Send(scannerToPalletAssign, "ScannerToPalletAssign");
 
@@ -257,30 +257,30 @@ namespace KegID.ViewModel
                     case ViewTypeEnum.BulkUpdateScanView:
                         Tags = parameters.GetValue<List<Tag>>("Tags");
                         TagsStr = parameters.GetValue<string>("TagsStr");
-                        PageName = ViewTypeEnum.BulkUpdateScanView.ToString();
+                        PageName = nameof(ViewTypeEnum.BulkUpdateScanView);
                         break;
                     case ViewTypeEnum.KegSearchView:
                         Tags = parameters.GetValue<List<Tag>>("Tags");
                         TagsStr = parameters.GetValue<string>("TagsStr");
-                        PageName = ViewTypeEnum.KegSearchView.ToString();
+                        PageName = nameof(ViewTypeEnum.KegSearchView);
                         break;
                     case ViewTypeEnum.FillScanView:
                         Tags = parameters.GetValue<List<Tag>>("Tags");
                         TagsStr = parameters.GetValue<string>("TagsStr");
-                        PageName = ViewTypeEnum.FillScanView.ToString();
+                        PageName = nameof(ViewTypeEnum.FillScanView);
                         break;
                     case ViewTypeEnum.MaintainScanView:
                         Tags = parameters.GetValue<List<Tag>>("Tags");
                         TagsStr = parameters.GetValue<string>("TagsStr");
-                        PageName = ViewTypeEnum.MaintainScanView.ToString();
+                        PageName = nameof(ViewTypeEnum.MaintainScanView);
                         break;
                     case ViewTypeEnum.ScanKegsView:
                         Tags = parameters.GetValue<List<Tag>>("Tags");
                         TagsStr = parameters.GetValue<string>("TagsStr");
-                        PageName = ViewTypeEnum.ScanKegsView.ToString();
+                        PageName = nameof(ViewTypeEnum.ScanKegsView);
                         break;
                     case ViewTypeEnum.PalletizeView:
-                        PageName = ViewTypeEnum.PalletizeView.ToString();
+                        PageName = nameof(ViewTypeEnum.PalletizeView);
                         break;
                     default:
                         PageName = string.Empty;

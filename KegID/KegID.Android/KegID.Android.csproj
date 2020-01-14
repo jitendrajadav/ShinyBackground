@@ -430,5 +430,10 @@
   <ItemGroup>
     <ProguardConfiguration Include="proguard.cfg" />
   </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\KegID\Assets\expand.png">
+      <Link>Resources\drawable\expand.png</Link>
+    </AndroidResource>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

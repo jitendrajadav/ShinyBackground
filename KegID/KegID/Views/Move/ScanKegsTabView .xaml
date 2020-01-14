@@ -138,6 +138,44 @@
                     LineBreakMode="TailTruncation"
                     Text="{Binding TagsStr}" />
 
+                <Grid
+                    Grid.Row="3"
+                    Grid.RowSpan="2"
+                    Grid.ColumnSpan="3"
+                    IsVisible="{Binding IsExpand}">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <BoxView
+                        Grid.Row="0"
+                        Margin="-10,0,-10,0"
+                        AutomationId="lineSeperatorI1"
+                        BackgroundColor="{StaticResource bannerBGColor}"
+                        HeightRequest="220"
+                        HorizontalOptions="FillAndExpand"
+                        IsVisible="{Binding IsExpand}"
+                        VerticalOptions="FillAndExpand" />
+
+                    <Label
+                        Grid.Row="0"
+                        AutomationId="warningLabel"
+                        FontSize="200"
+                        HorizontalOptions="Center"
+                        Text="{Binding BarcodeCollection.Count}"
+                        TextColor="White" />
+
+                    <Label
+                        Grid.Row="1"
+                        AutomationId="warningLabel"
+                        FontSize="100"
+                        HorizontalOptions="Center"
+                        Text="{Binding Warning, StringFormat=' {0} Warnings'}"
+                        TextColor="Red" />
+                </Grid>
+
                 <BoxView
                     Grid.Row="3"
                     Grid.ColumnSpan="3"
@@ -145,11 +183,13 @@
                     AutomationId="lineSeperator1"
                     BackgroundColor="{StaticResource bannerBGColor}"
                     HorizontalOptions="FillAndExpand"
+                    IsVisible="{Binding IsExpand, Converter={StaticResource InvertedBooleanConverter}}"
                     VerticalOptions="FillAndExpand" />
 
                 <StackLayout
                     Grid.Row="3"
                     Grid.Column="0"
+                    IsVisible="{Binding IsExpand, Converter={StaticResource InvertedBooleanConverter}"
                     Orientation="Horizontal">
 
                     <Label
@@ -170,34 +210,48 @@
                         VerticalOptions="Center"
                         VerticalTextAlignment="Center" />
 
-                    <ImageButton
-                        x:Name="lblExpand"
-                        AutomationId="expandButton"
-                        BackgroundColor="Transparent"
-                        Command="{Binding ExpandCommand}"
-                        HorizontalOptions="Center"
-                        Source="check.png"
-                        VerticalOptions="CenterAndExpand" />
-
                 </StackLayout>
 
-
-                <Button
-                    x:Name="lblDone"
+                <StackLayout
                     Grid.Row="3"
-                    Grid.Column="2"
-                    AutomationId="doneButton"
-                    BackgroundColor="#017AFF"
-                    Command="{Binding DoneCommand}"
-                    FontSize="24"
-                    HorizontalOptions="FillAndExpand"
-                    Text="{Binding Resources[button_done]}"
-                    TextColor="White" />
+                    Grid.Column="1"
+                    Grid.ColumnSpan="2"
+                    IsVisible="{Binding IsExpand, Converter={StaticResource InvertedBooleanConverter}}"
+                    Orientation="Horizontal">
+
+                    <Image
+                        x:Name="imgExpand"
+                        AutomationId="expandButton"
+                        HeightRequest="60"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        WidthRequest="60">
+                        <Image.Source>
+                            <FileImageSource File="{OnPlatform Android=expand.png, iOS=expand.png, UWP=Assets/expand.png}" />
+                        </Image.Source>
+
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Path=BindingContext.ExpandCommand, Source={x:Reference Name=imgExpand}}" CommandParameter="{Binding}" />
+                        </Image.GestureRecognizers>
+                    </Image>
+
+                    <Button
+                        x:Name="lblDone"
+                        AutomationId="doneButton"
+                        BackgroundColor="#017AFF"
+                        Command="{Binding DoneCommand}"
+                        FontSize="30"
+                        HorizontalOptions="FillAndExpand"
+                        Text="{Binding Resources[button_done]}"
+                        TextColor="White" />
+
+                </StackLayout>
 
                 <local:ScanItemView
                     Grid.Row="4"
                     Grid.ColumnSpan="3"
-                    AutomationId="scanItemView" />
+                    AutomationId="scanItemView"
+                    IsVisible="{Binding IsExpand, Converter={StaticResource InvertedBooleanConverter}}" />
 
             </Grid>
 

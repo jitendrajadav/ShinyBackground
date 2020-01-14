@@ -149,6 +149,9 @@
     <Content Include="..\KegID\Assets\disallow.png">
       <Link>Assets\disallow.png</Link>
     </Content>
+    <Content Include="..\KegID\Assets\expand.png">
+      <Link>Assets\expand.png</Link>
+    </Content>
     <Content Include="..\KegID\Assets\Fill.png">
       <Link>Assets\Fill.png</Link>
     </Content>

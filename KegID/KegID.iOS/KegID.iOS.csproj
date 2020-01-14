@@ -544,4 +544,9 @@
       <Visible>false</Visible>
     </ImageAsset>
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\KegID\Assets\expand.png">
+      <Link>Resources\expand.png</Link>
+    </BundleResource>
+  </ItemGroup>
 </Project>

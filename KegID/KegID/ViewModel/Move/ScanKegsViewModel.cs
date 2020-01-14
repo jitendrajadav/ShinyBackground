@@ -37,6 +37,8 @@ namespace KegID.ViewModel
         public string ManaulBarcode { get; set; }
         public string TagsStr { get; set; }
         public string Batch { get; set; }
+        public bool IsExpand { get; set; }
+        public int Warning { get; set; }
 
         #endregion
 
@@ -49,6 +51,7 @@ namespace KegID.ViewModel
         public DelegateCommand<BarcodeModel> IconItemTappedCommand { get; }
         public DelegateCommand<BarcodeModel> LabelItemTappedCommand { get; }
         public DelegateCommand<BarcodeModel> DeleteItemCommand { get; set; }
+        public DelegateCommand ExpandCommand { get; }
 
         #endregion
 
@@ -66,6 +69,7 @@ namespace KegID.ViewModel
             LabelItemTappedCommand = new DelegateCommand<BarcodeModel>((model) => LabelItemTappedCommandRecieverAsync(model));
             IconItemTappedCommand = new DelegateCommand<BarcodeModel>((model) => IconItemTappedCommandRecieverAsync(model));
             DeleteItemCommand = new DelegateCommand<BarcodeModel>((model) => DeleteItemCommandReciever(model));
+            ExpandCommand = new DelegateCommand(ExpandCommandReciever);
             //LoadBrand();
 
             HandleUnsubscribeMessages();
@@ -75,6 +79,11 @@ namespace KegID.ViewModel
         #endregion
 
         #region Methods
+
+        private void ExpandCommandReciever()
+        {
+            IsExpand = true;
+        }
 
         private void HandleUnsubscribeMessages()
         {
@@ -96,7 +105,7 @@ namespace KegID.ViewModel
                         {
                             using (var db = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
                             {
-                                var oldBarcode = BarcodeCollection.Where(x => x.Barcode == value.Barcodes.Barcode).FirstOrDefault();
+                                var oldBarcode = BarcodeCollection.FirstOrDefault(x => x.Barcode == value.Barcodes.Barcode);
                                 oldBarcode.Pallets = value.Barcodes.Pallets;
                                 oldBarcode.Kegs = value.Barcodes.Kegs;
                                 oldBarcode.Icon = value?.Barcodes?.Kegs?.Partners.Count > 1 ? _getIconByPlatform.GetIcon("validationquestion.png") : value?.Barcodes?.Kegs?.Partners?.Count == 0 ? _getIconByPlatform.GetIcon("validationerror.png") : _getIconByPlatform.GetIcon("validationok.png");
@@ -390,14 +399,14 @@ namespace KegID.ViewModel
         {
             try
             {
-                var isNew = BarcodeCollection.Where(x => x.Barcode == ManaulBarcode).FirstOrDefault();
+                var isNew = BarcodeCollection.FirstOrDefault(x => x.Barcode == ManaulBarcode);
                 UpdateTagsStr();
                 BarcodeModel model = new BarcodeModel()
                 {
                     Barcode = ManaulBarcode,
                     TagsStr = TagsStr,
                     Icon = _getIconByPlatform.GetIcon(Cloud),
-                    Page = ViewTypeEnum.ScanKegsView.ToString(),
+                    Page = nameof(ViewTypeEnum.ScanKegsView),
                     Contents = SelectedBrand
                 };
 
@@ -420,7 +429,7 @@ namespace KegID.ViewModel
                 {
                     using (var db = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
                     {
-                        var oldBarcode = BarcodeCollection.Where(x => x.Barcode == ManaulBarcode).FirstOrDefault();
+                        var oldBarcode = BarcodeCollection.FirstOrDefault(x => x.Barcode == ManaulBarcode);
                         oldBarcode.TagsStr = model.TagsStr;
                         oldBarcode.Icon = model.Icon;
                         oldBarcode.Contents = SelectedBrand;
@@ -482,14 +491,20 @@ namespace KegID.ViewModel
                             {
                                 using (var db = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
                                 {
-                                    var oldBarcode = BarcodeCollection.FirstOrDefault(x => x.Barcode == data.Kegs.Partners?.FirstOrDefault().Kegs?.FirstOrDefault().Barcode);
-                                    oldBarcode.Pallets = data.Pallets;
-                                    oldBarcode.Kegs = data.Kegs;
-                                    oldBarcode.Icon = data?.Kegs?.Partners.Count > 1 ? _getIconByPlatform.GetIcon("validationquestion.png") : data?.Kegs?.Partners?.Count == 0 ? _getIconByPlatform.GetIcon("validationerror.png") : _getIconByPlatform.GetIcon("validationok.png");
-                                    if (oldBarcode.Icon == "validationerror.png")
-                                        Vibration.Vibrate();
-                                    oldBarcode.IsScanned = true;
-                                    db.Commit();
+                                    try
+                                    {
+                                        var oldBarcode = BarcodeCollection.FirstOrDefault(x => x.Barcode == data?.Kegs?.Partners?.FirstOrDefault().Kegs?.FirstOrDefault()?.Barcode);
+                                        oldBarcode.Pallets = data.Pallets;
+                                        oldBarcode.Kegs = data.Kegs;
+                                        oldBarcode.Icon = data?.Kegs?.Partners.Count > 1 ? _getIconByPlatform.GetIcon("validationquestion.png") : data?.Kegs?.Partners?.Count == 0 ? _getIconByPlatform.GetIcon("validationerror.png") : _getIconByPlatform.GetIcon("validationok.png");
+                                        if (oldBarcode.Icon == "validationerror.png")
+                                            Vibration.Vibrate();
+                                        oldBarcode.IsScanned = true;
+                                        db.Commit();
+                                    }
+                                    catch (Exception EX)
+                                    {
+                                    }
                                 }
                             }
                         }
