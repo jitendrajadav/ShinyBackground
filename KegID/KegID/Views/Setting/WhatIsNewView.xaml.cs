@@ -1,6 +1,7 @@
 ﻿using KegID.ViewModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using System.Linq;
 
 namespace KegID.Views
 {
@@ -20,7 +21,7 @@ namespace KegID.Views
 
         private void btnNavigation_Clicked(object sender, System.EventArgs e)
         {
-            if (myCarouselViewCtrl.Position != 3)
+            if (myCarouselViewCtrl.Position < ((System.Collections.Generic.List<ImageClass>)myCarouselViewCtrl.ItemsSource).Count - 1)
             {
                 myCarouselViewCtrl.Position++;
             }

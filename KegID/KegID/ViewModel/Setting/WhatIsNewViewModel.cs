@@ -53,25 +53,21 @@ namespace KegID.ViewModel
 
         private void CurrentItemChangedReciever(ImageClass obj)
         {
-            Title = obj.Index == 3 ? "Got It." : "Next >";
+            Title = obj.Index == (ImageCollection.Count-1) ? "Got It." : "Next >";
         }
 
         private async void NextCommandReciever(ImageClass obj)
         {
-            if (obj.Index == 3)
+            if (obj.Index == (ImageCollection.Count - 1))
             {
                 await _navigationService.NavigateAsync("../MainPage", animated: false);
             }
-            //else
-            //{
-            //    CurrentItem = ImageCollection[CurrentItem.Index + 1];
-            //}
             Title = obj.Index == 3 ? "Got It." : "Next >";
         }
 
         private void KegFleetTappedCommandReciever(ImageClass model)
         {
-            if (model.Index == 3)
+            if (model.Index == (ImageCollection.Count - 1))
             {
                 try
                 {
