@@ -57,7 +57,7 @@
                 Grid.Row="1"
                 Padding="0,0,0,0"
                 AutomationId="nextButton"
-                Command="{Binding NextCommand}"
+                Clicked="btnNavigation_Clicked"
                 Style="{StaticResource BottomButtonTitleStyle}"
                 Text="{Binding Title}"
                 VerticalOptions="FillAndExpand" />

@@ -94,8 +94,8 @@
     <PackageReference Include="Microsoft.AppCenter.Distribute" Version="2.6.4" />
     <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.0" />
-    <PackageReference Include="Microsoft.Extensions.Primitives" Version="3.1.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Primitives" Version="3.1.1" />
     <PackageReference Include="Microsoft.Net.Http.Headers" Version="2.2.8" />
     <PackageReference Include="Microsoft.NETCore.Platforms" Version="3.1.0" />
     <PackageReference Include="modernhttpclient" Version="2.4.2" />

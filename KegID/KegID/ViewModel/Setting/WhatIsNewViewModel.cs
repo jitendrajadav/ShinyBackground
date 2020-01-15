@@ -22,7 +22,7 @@ namespace KegID.ViewModel
         #region Commands
 
         public DelegateCommand<ImageClass> KegFleetTappedCommand { get; }
-        public DelegateCommand NextCommand { get; }
+        public DelegateCommand<ImageClass> NextCommand { get; }
         public DelegateCommand<ImageClass> CurrentItemChanged { get; }
 
         #endregion
@@ -43,7 +43,7 @@ namespace KegID.ViewModel
 
             KegFleetTappedCommand = new DelegateCommand<ImageClass>(KegFleetTappedCommandReciever);
             CurrentItemChanged = new DelegateCommand<ImageClass>(CurrentItemChangedReciever);
-            NextCommand = new DelegateCommand(NextCommandReciever);
+            NextCommand = new DelegateCommand<ImageClass>(NextCommandReciever);
             CurrentItem = ImageCollection.FirstOrDefault();
         }
 
@@ -56,17 +56,17 @@ namespace KegID.ViewModel
             Title = obj.Index == 3 ? "Got It." : "Next >";
         }
 
-        private async void NextCommandReciever()
+        private async void NextCommandReciever(ImageClass obj)
         {
-            if (CurrentItem.Index == 3)
+            if (obj.Index == 3)
             {
                 await _navigationService.NavigateAsync("../MainPage", animated: false);
             }
-            else
-            {
-                CurrentItem = ImageCollection[CurrentItem.Index + 1];
-            }
-            Title = CurrentItem.Index == 3 ? "Got It." : "Next >";
+            //else
+            //{
+            //    CurrentItem = ImageCollection[CurrentItem.Index + 1];
+            //}
+            Title = obj.Index == 3 ? "Got It." : "Next >";
         }
 
         private void KegFleetTappedCommandReciever(ImageClass model)

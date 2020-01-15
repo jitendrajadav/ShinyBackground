@@ -17,5 +17,14 @@ namespace KegID.Views
         {
             ((WhatIsNewViewModel)BindingContext).CurrentItemChanged.Execute((ImageClass)e.CurrentItem);
         }
+
+        private void btnNavigation_Clicked(object sender, System.EventArgs e)
+        {
+            if (myCarouselViewCtrl.Position != 3)
+            {
+                myCarouselViewCtrl.Position++;
+            }
+            ((WhatIsNewViewModel)BindingContext).NextCommand.Execute((ImageClass)myCarouselViewCtrl.CurrentItem);
+        }
     }
 }
