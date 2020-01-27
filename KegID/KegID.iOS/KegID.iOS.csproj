@@ -232,10 +232,10 @@
       <Version>2.0.1</Version>
     </PackageReference>
     <PackageReference Include="Shiny.Core">
-      <Version>1.0.0.1174</Version>
+      <Version>1.0.0.1182</Version>
     </PackageReference>
     <PackageReference Include="Shiny.Locations">
-      <Version>1.0.0.1174</Version>
+      <Version>1.0.0.1182</Version>
     </PackageReference>
     <PackageReference Include="Shiny.Prism">
       <Version>7.2.0.844-pre</Version>
