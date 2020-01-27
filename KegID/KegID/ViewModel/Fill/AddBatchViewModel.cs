@@ -28,8 +28,12 @@ namespace KegID.ViewModel
         public string AlcoholContent { get; set; }
         public string TagsStr { get; set; }
         public BrandModel BrandModel { get; set; }
+        public void OnBrandModelChanged()
+        {
+            BrandButtonTitle= BrandModel.BrandName;
+        }
         public List<Tag> Tags { get; set; }
-        public NewBatch NewBatchModel { get; set; }
+        public NewBatch NewBatchModel { get; set; } = new NewBatch();
 
         #endregion
 
@@ -161,26 +165,23 @@ namespace KegID.ViewModel
 
         public override Task InitializeAsync(INavigationParameters parameters)
         {
-            switch (parameters.Keys.FirstOrDefault())
+            if (parameters.Keys.Contains("VolumeModel"))
             {
-                case "BrandModel":
-                    BrandModel = parameters.GetValue<BrandModel>("BrandModel");
-                    break;
-                case "VolumeModel":
-                    VolumeChar = parameters.GetValue<string>("VolumeModel");
-                    break;
-                default:
-                    break;
+                VolumeChar = parameters.GetValue<string>("VolumeModel");
             }
-
             return base.InitializeAsync(parameters);
         }
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (parameters.ContainsKey("CancelCommandRecieverAsync"))
+            switch (parameters.Keys.FirstOrDefault())
             {
-                CancelCommandRecieverAsync();
+                case "BrandModel":
+                    BrandModel = parameters.GetValue<BrandModel>("BrandModel");
+                    break;
+                case "CancelCommandRecieverAsync":
+                    CancelCommandRecieverAsync();
+                    break;
             }
         }
 
