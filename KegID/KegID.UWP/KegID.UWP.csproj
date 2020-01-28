@@ -416,7 +416,7 @@
       <Version>1.0.0.1182</Version>
     </PackageReference>
     <PackageReference Include="Shiny.Prism">
-      <Version>7.2.0.844-pre</Version>
+      <Version>7.2.0.890</Version>
     </PackageReference>
     <PackageReference Include="Splat">
       <Version>9.3.11</Version>

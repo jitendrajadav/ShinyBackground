@@ -107,7 +107,7 @@
     <PackageReference Include="SegmentedControl.FormsPlugin" Version="2.0.1" />
     <PackageReference Include="Shiny.Core" Version="1.0.0.1182" />
     <PackageReference Include="Shiny.Locations" Version="1.0.0.1182" />
-    <PackageReference Include="Shiny.Prism" Version="7.2.0.844-pre" />
+    <PackageReference Include="Shiny.Prism" Version="7.2.0.890" />
     <PackageReference Include="Splat" Version="9.3.11" />
     <PackageReference Include="Xam.Plugin.Connectivity" Version="4.0.0.190-beta" />
     <PackageReference Include="Xam.Plugins.Settings" Version="4.1.0-beta" />
