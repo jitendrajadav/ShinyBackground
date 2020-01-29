@@ -199,7 +199,9 @@
                     VerticalOptions="Center"
                     VerticalTextAlignment="Center" />
 
-                <local:ScanItemView Grid.Row="5" AutomationId="scanItemView" />
+                <local:ScanItemView
+                    Margin="-8,0,-8,0" 
+                    Grid.Row="5" AutomationId="scanItemView" />
 
             </Grid>
         </Grid>
