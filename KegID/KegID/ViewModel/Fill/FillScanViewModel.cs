@@ -105,7 +105,7 @@ namespace KegID.ViewModel
         {
             MessagingCenter.Unsubscribe<FillScanMessage>(this, "FillScanMessage");
             MessagingCenter.Unsubscribe<AddPalletToFillScanMsg>(this, "AddPalletToFillScanMsg");
-            MessagingCenter.Unsubscribe<CancelledMessage>(this, "CancelledMessage");
+            //MessagingCenter.Unsubscribe<CancelledMessage>(this, "CancelledMessage");
         }
 
         private void HandleReceivedMessages()
@@ -158,17 +158,17 @@ namespace KegID.ViewModel
 
             MessagingCenter.Subscribe<AddPalletToFillScanMsg>(this, "AddPalletToFillScanMsg", _ => Device.BeginInvokeOnMainThread(Cleanup));
 
-            MessagingCenter.Subscribe<CancelledMessage>(this, "CancelledMessage", _ =>
-            {
-                Device.BeginInvokeOnMainThread(() =>
-                {
-                    const string value = "Cancelled";
-                    if (value == "Cancelled")
-                    {
+            //MessagingCenter.Subscribe<CancelledMessage>(this, "CancelledMessage", _ =>
+            //{
+            //    Device.BeginInvokeOnMainThread(() =>
+            //    {
+            //        const string value = "Cancelled";
+            //        if (value == "Cancelled")
+            //        {
 
-                    }
-                });
-            });
+            //        }
+            //    });
+            //});
         }
 
         internal void AssignInitValue(INavigationParameters parameters)

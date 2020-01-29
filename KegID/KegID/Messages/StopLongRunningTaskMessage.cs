@@ -1,6 +1,6 @@
-﻿namespace KegID.Messages
-{
-    public class StopLongRunningTaskMessage
-    {
-    }
-}
+﻿//namespace KegID.Messages
+//{
+//    public class StopLongRunningTaskMessage
+//    {
+//    }
+//}

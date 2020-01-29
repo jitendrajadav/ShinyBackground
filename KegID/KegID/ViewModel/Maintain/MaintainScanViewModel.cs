@@ -11,6 +11,7 @@ using KegID.Messages;
 using KegID.Model;
 using KegID.Services;
 using Microsoft.AppCenter.Crashes;
+using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
 using Realms;
@@ -117,17 +118,17 @@ namespace KegID.ViewModel
                 });
             });
 
-            MessagingCenter.Subscribe<CancelledMessage>(this, "CancelledMessage", message =>
-            {
-                Device.BeginInvokeOnMainThread(() =>
-                {
-                    var value = "Cancelled";
-                    if (value == "Cancelled")
-                    {
+            //MessagingCenter.Subscribe<CancelledMessage>(this, "CancelledMessage", message =>
+            //{
+            //    Device.BeginInvokeOnMainThread(() =>
+            //    {
+            //        var value = "Cancelled";
+            //        if (value == "Cancelled")
+            //        {
 
-                    }
-                });
-            });
+            //        }
+            //    });
+            //});
         }
 
         internal async Task AssignValidatedValueAsync(Partner model)
@@ -243,12 +244,46 @@ namespace KegID.ViewModel
                     var current = Connectivity.NetworkAccess;
                     if (current == NetworkAccess.Internet)
                     {
-                        var message = new StartLongRunningTaskMessage
+                        //var message = new StartLongRunningTaskMessage
+                        //{
+                        //    Barcode = new List<string>() { ManaulBarcode },
+                        //    PageName = ViewTypeEnum.MaintainScanView.ToString()
+                        //};
+                        //MessagingCenter.Send(message, "StartLongRunningTaskMessage");
+
+                        // IJobManager can and should be injected into your viewmodel code
+                        ShinyHost.Resolve<Shiny.Jobs.IJobManager>().RunTask("MaintainJob" + ManaulBarcode, async _ =>
                         {
-                            Barcode = new List<string>() { ManaulBarcode },
-                            PageName = ViewTypeEnum.MaintainScanView.ToString()
-                        };
-                        MessagingCenter.Send(message, "StartLongRunningTaskMessage");
+                            // your code goes here - async stuff is welcome (and necessary)
+                            var response = await ApiManager.GetValidateBarcode(ManaulBarcode, AppSettings.SessionId);
+                            if (response.IsSuccessStatusCode)
+                            {
+                                var json = await response.Content.ReadAsStringAsync();
+                                var data = await Task.Run(() => JsonConvert.DeserializeObject<BarcodeModel>(json, GetJsonSetting()));
+
+                                if (data.Kegs != null)
+                                {
+                                    using (var db = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
+                                    {
+                                        try
+                                        {
+                                            var oldBarcode = BarcodeCollection.FirstOrDefault(x => x.Barcode == data?.Kegs?.Partners?.FirstOrDefault().Kegs?.FirstOrDefault()?.Barcode);
+                                            oldBarcode.Pallets = data.Pallets;
+                                            oldBarcode.Kegs = data.Kegs;
+                                            oldBarcode.Icon = data?.Kegs?.Partners.Count > 1 ? _getIconByPlatform.GetIcon("validationquestion.png") : data?.Kegs?.Partners?.Count == 0 ? _getIconByPlatform.GetIcon("validationerror.png") : _getIconByPlatform.GetIcon("validationok.png");
+                                            if (oldBarcode.Icon == "validationerror.png")
+                                                Vibration.Vibrate();
+                                            oldBarcode.IsScanned = true;
+                                            db.Commit();
+                                        }
+                                        catch (Exception EX)
+                                        {
+                                        }
+                                    }
+                                }
+                            }
+                        });
+
                     }
 
                     ManaulBarcode = string.Empty;
@@ -536,7 +571,7 @@ namespace KegID.ViewModel
         public override void OnNavigatedFrom(INavigationParameters parameters)
         {
             MessagingCenter.Unsubscribe<MaintainScanMessage>(this, "MaintainScanMessage");
-            MessagingCenter.Unsubscribe<CancelledMessage>(this, "CancelledMessage");
+            //MessagingCenter.Unsubscribe<CancelledMessage>(this, "CancelledMessage");
         }
 
         public override async Task InitializeAsync(INavigationParameters parameters)

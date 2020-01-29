@@ -1,15 +1,22 @@
 ﻿using Acr.UserDialogs;
 using KegID.Common;
 using KegID.Converter;
+using KegID.LocalDb;
 using KegID.Messages;
 using KegID.Model;
+using KegID.Services;
+using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
+using Realms;
 using Scandit.BarcodePicker.Unified;
 using Scandit.BarcodePicker.Unified.Abstractions;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -19,10 +26,14 @@ namespace KegID.ViewModel
         #region Properties
 
         private const string Cloud = "collectionscloud.png";
+        private readonly IGetIconByPlatform _getIconByPlatform;
+
         public IList<Tag> Tags { get; set; }
         public string TagsStr { get; set; }
         public string PageName { get; set; }
         private readonly IList<BarcodeModel> models = new List<BarcodeModel>();
+        public ObservableCollection<BarcodeModel> BarcodeCollection { get; set; } = new ObservableCollection<BarcodeModel>();
+
         private ScanSettings _scanSettings;
         public bool IsAnalyzing { get; set; } = true;
         public bool IsScanning { get; set; } = true;
@@ -38,8 +49,10 @@ namespace KegID.ViewModel
 
         #region Constructor
 
-        public ScanditScanViewModel(INavigationService navigationService) : base(navigationService)
+        public ScanditScanViewModel(INavigationService navigationService, IGetIconByPlatform getIconByPlatform) : base(navigationService)
         {
+            _getIconByPlatform = getIconByPlatform;
+
             DoneCommand = new DelegateCommand(DoneCommandRecieverAsync);
             InitSettings();
         }
@@ -50,13 +63,49 @@ namespace KegID.ViewModel
 
         private async void OnDidStopAsync(DidStopReason reason)
         {
-            var message = new StartLongRunningTaskMessage
-            {
-                Barcode = models.Select(x => x.Barcode).ToList(),
-                PageName = PageName
-            };
-            MessagingCenter.Send(message, "StartLongRunningTaskMessage");
+            //var message = new StartLongRunningTaskMessage
+            //{
+            //    Barcode = models.Select(x => x.Barcode).ToList(),
+            //    PageName = PageName
+            //};
+            //MessagingCenter.Send(message, "StartLongRunningTaskMessage");
 
+            foreach (string Barcode in models.Select(x => x.Barcode).ToList())
+            {
+                // IJobManager can and should be injected into your viewmodel code
+                Shiny.ShinyHost.Resolve<Shiny.Jobs.IJobManager>().RunTask("ScanJob" + Barcode, async _ =>
+                {
+                    // your code goes here - async stuff is welcome (and necessary)
+                    var response = await ApiManager.GetValidateBarcode(Barcode, AppSettings.SessionId);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var json = await response.Content.ReadAsStringAsync();
+                        var data = await Task.Run(() => JsonConvert.DeserializeObject<BarcodeModel>(json, GetJsonSetting()));
+
+                        if (data.Kegs != null)
+                        {
+                            using (var db = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
+                            {
+                                try
+                                {
+                                    var oldBarcode = BarcodeCollection.FirstOrDefault(x => x.Barcode == data?.Kegs?.Partners?.FirstOrDefault().Kegs?.FirstOrDefault()?.Barcode);
+                                    oldBarcode.Pallets = data.Pallets;
+                                    oldBarcode.Kegs = data.Kegs;
+                                    oldBarcode.Icon = data?.Kegs?.Partners.Count > 1 ? _getIconByPlatform.GetIcon("validationquestion.png") : data?.Kegs?.Partners?.Count == 0 ? _getIconByPlatform.GetIcon("validationerror.png") : _getIconByPlatform.GetIcon("validationok.png");
+                                    if (oldBarcode.Icon == "validationerror.png")
+                                        Vibration.Vibrate();
+                                    oldBarcode.IsScanned = true;
+                                    db.Commit();
+                                }
+                                catch (Exception EX)
+                                {
+                                }
+                            }
+                        }
+                    }
+                });
+
+            }
             await _navigationService.GoBackAsync(new NavigationParameters
                     {
                         { "models", models }
@@ -106,7 +155,6 @@ namespace KegID.ViewModel
                            Barcode = models.LastOrDefault()?.Barcode
                         };
                         MessagingCenter.Send(scannerToPalletAssign, "ScannerToPalletAssign");
-
                     }
                     try
                     {

@@ -1,6 +1,6 @@
-﻿namespace KegID.Messages
-{
-    public class CancelledMessage
-    {
-    }
-}
+﻿//namespace KegID.Messages
+//{
+//    public class CancelledMessage
+//    {
+//    }
+//}
