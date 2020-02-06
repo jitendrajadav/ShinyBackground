@@ -398,13 +398,13 @@
       <Version>4.3.2</Version>
     </PackageReference>
     <PackageReference Include="Scandit.BarcodePicker">
-      <Version>5.13.3.10</Version>
+      <Version>5.14.0.10</Version>
     </PackageReference>
     <PackageReference Include="Scandit.BarcodePicker.Unified">
-      <Version>5.13.3.10</Version>
+      <Version>5.14.0.10</Version>
     </PackageReference>
     <PackageReference Include="Scandit.Recognition">
-      <Version>5.13.3.10</Version>
+      <Version>5.14.0.10</Version>
     </PackageReference>
     <PackageReference Include="SegmentedControl.FormsPlugin">
       <Version>2.0.1</Version>

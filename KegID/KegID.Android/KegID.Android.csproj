@@ -70,7 +70,7 @@
     <MandroidI18n />
     <AndroidCreatePackagePerAbi>false</AndroidCreatePackagePerAbi>
     <AndroidUseAapt2>true</AndroidUseAapt2>
-    <AndroidEnableMultiDex>false</AndroidEnableMultiDex>
+    <AndroidEnableMultiDex>true</AndroidEnableMultiDex>
     <AndroidEnableDesugar>true</AndroidEnableDesugar>
     <AndroidDexTool>d8</AndroidDexTool>
     <AndroidLinkTool>r8</AndroidLinkTool>
@@ -111,8 +111,8 @@
     <PackageReference Include="Realm" Version="4.2.0" />
     <PackageReference Include="Refit" Version="5.0.23" />
     <PackageReference Include="Rg.Plugins.Popup" Version="1.2.0.223" />
-    <PackageReference Include="Scandit.BarcodePicker.Unified" Version="5.13.3.10" />
-    <PackageReference Include="Scandit.BarcodePicker.Xamarin" Version="5.13.3.10" />
+    <PackageReference Include="Scandit.BarcodePicker.Unified" Version="5.14.0.10" />
+    <PackageReference Include="Scandit.BarcodePicker.Xamarin" Version="5.14.0.10" />
     <PackageReference Include="SegmentedControl.FormsPlugin" Version="2.0.1" />
     <PackageReference Include="Shiny.Core" Version="1.0.0.1182" />
     <PackageReference Include="Shiny.Prism" Version="7.2.0.890" />
