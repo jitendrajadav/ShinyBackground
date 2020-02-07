@@ -27,7 +27,7 @@ namespace KegID.Droid.DependencyServices
 
             global::Android.Webkit.WebView webpage = null;
             //var dir = new Java.IO.File(global::Android.OS.Environment.DirectoryDocuments + "/KegIdFiles/");
-            var dir = new Java.IO.File(global::Android.OS.Environment.ExternalStorageDirectory.AbsolutePath + "/KegIdFiles/");
+            var dir = new Java.IO.File(global::Android.OS.Environment.GetExternalStoragePublicDirectory(Environment.CurrentDirectory) + "/KegIdFiles/");
 
             var file = new Java.IO.File(dir + "/" + filename + ".pdf");
 
@@ -72,29 +72,13 @@ namespace KegID.Droid.DependencyServices
         public void ShareLocalFile(string localFilePath, string title = "", object view = null)
         {
             //Aproach 1 from xml file provider
-            //global::Android.Net.Uri apkURI = FileProvider.GetUriForFile(Application.Context, $"{Application.Context.PackageName}.provider", new Java.IO.File(localFilePath));
-            //var builder =
-            //    ShareCompat.IntentBuilder.From(CrossCurrentActivity.Current.Activity).SetType(CrossCurrentActivity.Current.Activity.ContentResolver.GetType(apkURI)).SetText(title).AddStream(apkURI);
-            //var chooserIntent = builder.CreateChooserIntent();
-
-            //chooserIntent.SetDataAndType(apkURI, CrossCurrentActivity.Current.Activity.ContentResolver.GetType(apkURI));
-            //chooserIntent.AddFlags(ActivityFlags.GrantReadUriPermission);
-            //CrossCurrentActivity.Current.Activity.StartActivity(chooserIntent);
-
-            //Approch 2 for updated sharing ption above +24 API
             //try
             //{
-            //    if (string.IsNullOrWhiteSpace(localFilePath))
-            //    {
-            //        System.Console.WriteLine("Plugin.ShareFile: ShareLocalFile Warning: localFilePath null or empty");
-            //        return;
-            //    }
-
-            //    global::Android.Net.Uri fileUri = FileProvider.GetUriForFile(Application.Context, $"{Application.Context.PackageName}.fileprovider", new Java.IO.File(localFilePath));
-
+            //    global::Android.Net.Uri apkURI = FileProvider.GetUriForFile(Application.Context, $"{Application.Context.PackageName}.provider", new Java.IO.File(localFilePath));
             //    var builder =
-            //        ShareCompat.IntentBuilder.From(CrossCurrentActivity.Current.Activity).SetType(CrossCurrentActivity.Current.Activity.ContentResolver.GetType(fileUri)).SetText(title).AddStream(fileUri);
+            //        ShareCompat.IntentBuilder.From(CrossCurrentActivity.Current.Activity).SetType(CrossCurrentActivity.Current.Activity.ContentResolver.GetType(apkURI)).SetText(title).AddStream(apkURI);
             //    var chooserIntent = builder.CreateChooserIntent();
+            //    chooserIntent.SetDataAndType(apkURI, CrossCurrentActivity.Current.Activity.ContentResolver.GetType(apkURI));
             //    chooserIntent.SetFlags(ActivityFlags.ClearTop);
             //    chooserIntent.SetFlags(ActivityFlags.NewTask);
             //    chooserIntent.AddFlags(ActivityFlags.GrantReadUriPermission);
@@ -102,11 +86,10 @@ namespace KegID.Droid.DependencyServices
             //}
             //catch (Exception ex)
             //{
-            //    if (!string.IsNullOrWhiteSpace(ex.Message))
-            //        System.Console.WriteLine("Exception in Plugin.ShareFile: ShareLocalFile Exception: {0}", ex);
+
             //}
 
-            //Aproch 3 Old intially working fine
+            //Approch 2 for updated sharing ption above +24 API
             try
             {
                 if (string.IsNullOrWhiteSpace(localFilePath))
@@ -115,28 +98,53 @@ namespace KegID.Droid.DependencyServices
                     return;
                 }
 
-                if (!localFilePath.StartsWith("file://"))
-                    localFilePath = string.Format("file://{0}", localFilePath);
+                global::Android.Net.Uri fileUri = FileProvider.GetUriForFile(Application.Context, $"{Application.Context.PackageName}.provider", new Java.IO.File(localFilePath));
 
-                var fileUri = global::Android.Net.Uri.Parse(localFilePath);
-                var intent = new Intent();
-                intent.SetFlags(ActivityFlags.ClearTop);
-                intent.SetFlags(ActivityFlags.NewTask);
-                intent.SetAction(Intent.ActionSend);
-                intent.SetType("*/*");
-                intent.PutExtra(Intent.ExtraStream, fileUri);
-                intent.AddFlags(ActivityFlags.GrantReadUriPermission);
-
-                var chooserIntent = Intent.CreateChooser(intent, title);
+                var builder =
+                    ShareCompat.IntentBuilder.From(CrossCurrentActivity.Current.Activity).SetType(CrossCurrentActivity.Current.Activity.ContentResolver.GetType(fileUri)).SetText(title).AddStream(fileUri);
+                var chooserIntent = builder.CreateChooserIntent();
                 chooserIntent.SetFlags(ActivityFlags.ClearTop);
                 chooserIntent.SetFlags(ActivityFlags.NewTask);
-                global::Android.App.Application.Context.StartActivity(chooserIntent);
+                chooserIntent.AddFlags(ActivityFlags.GrantReadUriPermission);
+                CrossCurrentActivity.Current.Activity.StartActivity(chooserIntent);
             }
             catch (Exception ex)
             {
-                if (ex != null && !string.IsNullOrWhiteSpace(ex.Message))
+                if (!string.IsNullOrWhiteSpace(ex.Message))
                     System.Console.WriteLine("Exception in Plugin.ShareFile: ShareLocalFile Exception: {0}", ex);
             }
+
+            //Aproch 3 Old intially working fine
+            //try
+            //{
+            //    if (string.IsNullOrWhiteSpace(localFilePath))
+            //    {
+            //        System.Console.WriteLine("Plugin.ShareFile: ShareLocalFile Warning: localFilePath null or empty");
+            //        return;
+            //    }
+
+            //    if (!localFilePath.StartsWith("file://"))
+            //        localFilePath = string.Format("file://{0}", localFilePath);
+
+            //    var fileUri = global::Android.Net.Uri.Parse(localFilePath);
+            //    var intent = new Intent();
+            //    intent.SetFlags(ActivityFlags.ClearTop);
+            //    intent.SetFlags(ActivityFlags.NewTask);
+            //    intent.SetAction(Intent.ActionSend);
+            //    intent.SetType("*/*");
+            //    intent.PutExtra(Intent.ExtraStream, fileUri);
+            //    intent.AddFlags(ActivityFlags.GrantReadUriPermission);
+
+            //    var chooserIntent = Intent.CreateChooser(intent, title);
+            //    chooserIntent.SetFlags(ActivityFlags.ClearTop);
+            //    chooserIntent.SetFlags(ActivityFlags.NewTask);
+            //    global::Android.App.Application.Context.StartActivity(chooserIntent);
+            //}
+            //catch (Exception ex)
+            //{
+            //    if (ex != null && !string.IsNullOrWhiteSpace(ex.Message))
+            //        System.Console.WriteLine("Exception in Plugin.ShareFile: ShareLocalFile Exception: {0}", ex);
+            //}
         }
 
         /// <summary>
