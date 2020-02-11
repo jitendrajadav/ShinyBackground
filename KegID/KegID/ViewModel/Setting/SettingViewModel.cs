@@ -92,7 +92,7 @@ namespace KegID.ViewModel
                 {
                     try
                     {
-                        AppSettings.RemoveUserData();
+                        Settings.RemoveUserData();
                     }
                     catch (Exception ex)
                     {
@@ -162,7 +162,7 @@ namespace KegID.ViewModel
                 // You can remove the switch to UI Thread if you are already in the UI Thread.
                 Device.BeginInvokeOnMainThread(() =>
                 {
-                    Launcher.OpenAsync(new Uri(mWebRoot + "/Account/Login/ZendeskSingleSignOnMobile?sessionid="+AppSettings.SessionId));
+                    Launcher.OpenAsync(new Uri(mWebRoot + "/Account/Login/ZendeskSingleSignOnMobile?sessionid="+ Settings.SessionId));
                 });
             }
             catch (Exception ex)

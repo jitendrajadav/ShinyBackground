@@ -71,7 +71,7 @@ namespace KegID.ViewModel
             try
             {
                 UserDialogs.Instance.ShowLoading("Loading");
-                var response = await ApiManager.GetKegPossession(AppSettings.SessionId, ConstantManager.DBPartnerId);
+                var response = await ApiManager.GetKegPossession(Settings.SessionId, ConstantManager.DBPartnerId);
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync();

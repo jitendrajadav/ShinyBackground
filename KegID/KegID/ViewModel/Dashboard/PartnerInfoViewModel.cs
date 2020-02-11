@@ -107,7 +107,7 @@ namespace KegID.ViewModel
             {
                 UserDialogs.Instance.ShowLoading("Loading");
 
-                var response = await ApiManager.GetPartnerInfo(AppSettings.SessionId, ConstantManager.DBPartnerId);
+                var response = await ApiManager.GetPartnerInfo(Settings.SessionId, ConstantManager.DBPartnerId);
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync();

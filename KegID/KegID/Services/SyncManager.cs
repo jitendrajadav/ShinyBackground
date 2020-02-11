@@ -45,7 +45,7 @@ namespace KegID.Services
                             switch ((EventTypeEnum)item.EventTypeId)
                             {
                                 case EventTypeEnum.MOVE_MANIFEST:
-                                    var response = await ApiManager.PostManifest(item, AppSettings.SessionId);
+                                    var response = await ApiManager.PostManifest(item, Settings.SessionId);
                                     if (response.IsSuccessStatusCode)
                                         AddorUpdateManifestOffline(item, false);
                                     break;
@@ -54,7 +54,7 @@ namespace KegID.Services
                                 case EventTypeEnum.RECEIVE_MANIFEST:
                                     break;
                                 case EventTypeEnum.FILL_MANIFEST:
-                                    response = await ApiManager.PostManifest(item, AppSettings.SessionId);
+                                    response = await ApiManager.PostManifest(item, Settings.SessionId);
                                     if (response.IsSuccessStatusCode)
                                         AddorUpdateManifestOffline(item, false);
                                     break;
@@ -64,7 +64,7 @@ namespace KegID.Services
                                 case EventTypeEnum.RETURN_MANIFEST:
                                     break;
                                 case EventTypeEnum.REPAIR_MANIFEST:
-                                    response = await ApiManager.PostMaintenanceDone(item.MaintenanceModels.MaintenanceDoneRequestModel, AppSettings.SessionId);
+                                    response = await ApiManager.PostMaintenanceDone(item.MaintenanceModels.MaintenanceDoneRequestModel, Settings.SessionId);
                                     if (response.IsSuccessStatusCode)
                                         AddorUpdateManifestOffline(item, false);
                                     break;
@@ -93,7 +93,7 @@ namespace KegID.Services
                 {
                     foreach (var pallet in pallets)
                     {
-                        var response = await ApiManager.PostPallet(pallet, AppSettings.SessionId);
+                        var response = await ApiManager.PostPallet(pallet, Settings.SessionId);
                         AddorUpdatePalletsOffline(pallet);
                     }
 

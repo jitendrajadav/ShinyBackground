@@ -175,7 +175,7 @@ namespace KegID.ViewModel
         public async Task LoadPartnersAsync()
         {
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-            AllPartners = RealmDb.All<PartnerModel>().Where(x=>x.PartnerId != AppSettings.CompanyId).ToList();
+            AllPartners = RealmDb.All<PartnerModel>().Where(x=>x.PartnerId != Settings.CompanyId).ToList();
             try
             {
                 if (AllPartners.Count <= 0)
@@ -200,7 +200,7 @@ namespace KegID.ViewModel
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             try
             {
-                var response = await ApiManager.GetPartnersList(AppSettings.SessionId);
+                var response = await ApiManager.GetPartnersList(Settings.SessionId);
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync();

@@ -7,7 +7,7 @@ using System;
 
 namespace KegID.Common
 {
-    public static class AppSettings
+    public static class Settings
     {
         // Endpoints
         private const string DefaultBookingEndpoint = "YOUR_BOOKING_ENDPOINT";
@@ -45,15 +45,16 @@ namespace KegID.Common
         // Fakes
         private const bool DefaultUseFakes = false;
 
-        private static ISettings Settings => CrossSettings.Current;
+        private static ISettings AppSettings => CrossSettings.Current;
 
         #region Scandit Settings
 
         private static IBarcodePicker picker = ScanditService.BarcodePicker;
         private static ScanSettings scanSettings = picker.GetDefaultScanSettings();
 
-        public const string SymbologyPrefix = "Sym_";
-        public const string InvSymbologyPrefix = "Inv_Sym_";
+        // DPM Mode
+        public const string DpmModeString = "Sym_DPM_Mode";
+        public const string DataMatrixString = "Sym_DataMatrix";
 
         // Checksum
         public const string MsiPlesseyChecksumString = "MsiPlesseyChecksum";
@@ -62,10 +63,6 @@ namespace KegID.Common
         public const string MsiPlesseyChecksumString_Mod11 = "Mod 11";
         public const string MsiPlesseyChecksumString_Mod1010 = "Mod 1010";
         public const string MsiPlesseyChecksumString_Mod1110 = "Mod 1110";
-
-        // DPM Mode
-        public const string DpmModeString = "Sym_DPM_Mode";
-        public const string DataMatrixString = "Sym_DataMatrix";
 
         // Feedback
         public const string BeepString = "Overlay_BeepEnabled";
@@ -129,26 +126,24 @@ namespace KegID.Common
             return (symbology == "Sym_Qr" || symbology == "Sym_DataMatrix");
         }
 
-        public static string getInvertedSymboloby(string symbology)
+        public static string getInvertedSymbology(string symbology)
         {
             if (hasInvertedSymbology(symbology))
             {
                 return ("Inv_" + symbology);
             }
-            else
-            {
-                throw new Exception("has no inversion");
-            }
+
+            throw new Exception("has no inversion");
         }
 
         public static bool getBoolSetting(string setting)
         {
-            return Settings.GetValueOrDefault(setting, defaultBool(setting));
+            return AppSettings.GetValueOrDefault(setting, defaultBool(setting));
         }
 
         public static void setBoolSetting(string setting, bool value)
         {
-            Settings.AddOrUpdateValue(setting, value);
+            AppSettings.AddOrUpdateValue(setting, value);
         }
 
         private static bool defaultBool(string setting)
@@ -165,12 +160,12 @@ namespace KegID.Common
 
         public static int getIntSetting(string setting)
         {
-            return Settings.GetValueOrDefault(setting, defaultInt(setting));
+            return AppSettings.GetValueOrDefault(setting, defaultInt(setting));
         }
 
         public static void setIntSetting(string setting, int value)
         {
-            Settings.AddOrUpdateValue(setting, value);
+            AppSettings.AddOrUpdateValue(setting, value);
         }
 
         private static int defaultInt(string setting)
@@ -180,15 +175,15 @@ namespace KegID.Common
 
         public static Double getDoubleSetting(string setting)
         {
-            return Settings.GetValueOrDefault(setting, defaultDouble(setting));
+            return AppSettings.GetValueOrDefault(setting, defaultDouble(setting));
         }
 
         public static void setDoubleSetting(string setting, Double value)
         {
-            Settings.AddOrUpdateValue(setting, value);
+            AppSettings.AddOrUpdateValue(setting, value);
         }
 
-        private static double defaultDouble(string setting)
+        private static Double defaultDouble(string setting)
         {
             switch (setting)
             {
@@ -206,7 +201,7 @@ namespace KegID.Common
                 case ViewFinderLandscapeWidthString:
                     return picker.ScanOverlay.ViewFinderSizeLandscape.Width;
                 case ViewFinderLandscapeHeightString:
-                    return picker.ScanOverlay.ViewFinderSizePortrait.Height;
+                    return picker.ScanOverlay.ViewFinderSizeLandscape.Height;
 
                 default:
                     throw (new Exception("No such Double setting: " + setting));
@@ -215,12 +210,12 @@ namespace KegID.Common
 
         public static string getStringSetting(string setting)
         {
-            return Settings.GetValueOrDefault(setting, defaultString(setting));
+            return AppSettings.GetValueOrDefault(setting, defaultString(setting));
         }
 
         public static void setStringSetting(string setting, string value)
         {
-            Settings.AddOrUpdateValue(setting, value);
+            AppSettings.AddOrUpdateValue(setting, value);
         }
 
         private static string defaultString(string setting)
@@ -240,268 +235,269 @@ namespace KegID.Common
             }
         }
 
+
         #endregion
 
         // Azure B2C settings
         public static string B2cClientId
         {
-            get => Settings.GetValueOrDefault(nameof(B2cClientId), DefaultB2cClientId);
-            set => Settings.AddOrUpdateValue(nameof(B2cClientId), value);
+            get => AppSettings.GetValueOrDefault(nameof(B2cClientId), DefaultB2cClientId);
+            set => AppSettings.AddOrUpdateValue(nameof(B2cClientId), value);
         }
 
         public static string B2cTenant
         {
-            get => Settings.GetValueOrDefault(nameof(B2cTenant), DefaultB2cTenant);
-            set => Settings.AddOrUpdateValue(nameof(B2cTenant), value);
+            get => AppSettings.GetValueOrDefault(nameof(B2cTenant), DefaultB2cTenant);
+            set => AppSettings.AddOrUpdateValue(nameof(B2cTenant), value);
         }
 
         public static string B2cPolicy
         {
-            get => Settings.GetValueOrDefault(nameof(B2cPolicy), DefaultB2cPolicy);
-            set => Settings.AddOrUpdateValue(nameof(B2cPolicy), value);
+            get => AppSettings.GetValueOrDefault(nameof(B2cPolicy), DefaultB2cPolicy);
+            set => AppSettings.AddOrUpdateValue(nameof(B2cPolicy), value);
         }
 
         // API Endpoints
         public static string BookingEndpoint
         {
-            get => Settings.GetValueOrDefault(nameof(BookingEndpoint), DefaultBookingEndpoint);
-            set => Settings.AddOrUpdateValue(nameof(BookingEndpoint), value);
+            get => AppSettings.GetValueOrDefault(nameof(BookingEndpoint), DefaultBookingEndpoint);
+            set => AppSettings.AddOrUpdateValue(nameof(BookingEndpoint), value);
         }
 
         public static string HotelsEndpoint
         {
-            get => Settings.GetValueOrDefault(nameof(HotelsEndpoint), DefaultHotelsEndpoint);
-            set => Settings.AddOrUpdateValue(nameof(HotelsEndpoint), value);
+            get => AppSettings.GetValueOrDefault(nameof(HotelsEndpoint), DefaultHotelsEndpoint);
+            set => AppSettings.AddOrUpdateValue(nameof(HotelsEndpoint), value);
         }
 
         public static string SuggestionsEndpoint
         {
-            get => Settings.GetValueOrDefault(nameof(SuggestionsEndpoint), DefaultSuggestionsEndpoint);
-            set => Settings.AddOrUpdateValue(nameof(SuggestionsEndpoint), value);
+            get => AppSettings.GetValueOrDefault(nameof(SuggestionsEndpoint), DefaultSuggestionsEndpoint);
+            set => AppSettings.AddOrUpdateValue(nameof(SuggestionsEndpoint), value);
         }
 
         public static string NotificationsEndpoint
         {
-            get => Settings.GetValueOrDefault(nameof(NotificationsEndpoint), DefaultNotificationsEndpoint);
-            set => Settings.AddOrUpdateValue(nameof(NotificationsEndpoint), value);
+            get => AppSettings.GetValueOrDefault(nameof(NotificationsEndpoint), DefaultNotificationsEndpoint);
+            set => AppSettings.AddOrUpdateValue(nameof(NotificationsEndpoint), value);
         }
 
         public static string ImagesBaseUri
         {
-            get => Settings.GetValueOrDefault(nameof(ImagesBaseUri), DefaultImagesBaseUri);
-            set => Settings.AddOrUpdateValue(nameof(ImagesBaseUri), value);
+            get => AppSettings.GetValueOrDefault(nameof(ImagesBaseUri), DefaultImagesBaseUri);
+            set => AppSettings.AddOrUpdateValue(nameof(ImagesBaseUri), value);
         }
 
         public static string SkypeBotId
         {
-            get => Settings.GetValueOrDefault(nameof(SkypeBotId), DefaultSkypeBotId);
-            set => Settings.AddOrUpdateValue(nameof(SkypeBotId), value);
+            get => AppSettings.GetValueOrDefault(nameof(SkypeBotId), DefaultSkypeBotId);
+            set => AppSettings.AddOrUpdateValue(nameof(SkypeBotId), value);
         }
 
         public static string FacebookBotId
         {
-            get => Settings.GetValueOrDefault(nameof(FacebookBotId), DefaultFacebookBotId);
-            set => Settings.AddOrUpdateValue(nameof(FacebookBotId), value);
+            get => AppSettings.GetValueOrDefault(nameof(FacebookBotId), DefaultFacebookBotId);
+            set => AppSettings.AddOrUpdateValue(nameof(FacebookBotId), value);
         }
 
-        // Other settings
+        // Other AppSettings
         public static string BingMapsApiKey
         {
-            get => Settings.GetValueOrDefault(nameof(BingMapsApiKey), DefaultBingMapsApiKey);
-            set => Settings.AddOrUpdateValue(nameof(BingMapsApiKey), value);
+            get => AppSettings.GetValueOrDefault(nameof(BingMapsApiKey), DefaultBingMapsApiKey);
+            set => AppSettings.AddOrUpdateValue(nameof(BingMapsApiKey), value);
         }
 
         public static string SettingsFileUrl
         {
-            get => Settings.GetValueOrDefault(nameof(SettingsFileUrl), DefaultSettingsFileUrl);
-            set => Settings.AddOrUpdateValue(nameof(SettingsFileUrl), value);
+            get => AppSettings.GetValueOrDefault(nameof(SettingsFileUrl), DefaultSettingsFileUrl);
+            set => AppSettings.AddOrUpdateValue(nameof(SettingsFileUrl), value);
         }
 
         public static string FallbackMapsLocation
         {
-            get => Settings.GetValueOrDefault(nameof(FallbackMapsLocation), DefaultFallbackMapsLocation);
-            set => Settings.AddOrUpdateValue(nameof(FallbackMapsLocation), value);
+            get => AppSettings.GetValueOrDefault(nameof(FallbackMapsLocation), DefaultFallbackMapsLocation);
+            set => AppSettings.AddOrUpdateValue(nameof(FallbackMapsLocation), value);
         }
 
         public static string SessionId
         {
-            get => Settings.GetValueOrDefault(nameof(SessionId), string.Empty);
-            set => Settings.AddOrUpdateValue(nameof(SessionId), value);
+            get => AppSettings.GetValueOrDefault(nameof(SessionId), string.Empty);
+            set => AppSettings.AddOrUpdateValue(nameof(SessionId), value);
         }
 
         public static string CompanyId
         {
-            get => Settings.GetValueOrDefault(nameof(CompanyId), string.Empty);
-            set => Settings.AddOrUpdateValue(nameof(CompanyId), value);
+            get => AppSettings.GetValueOrDefault(nameof(CompanyId), string.Empty);
+            set => AppSettings.AddOrUpdateValue(nameof(CompanyId), value);
         }
 
         public static string MasterCompanyId
         {
-            get => Settings.GetValueOrDefault(nameof(MasterCompanyId), string.Empty);
-            set => Settings.AddOrUpdateValue(nameof(MasterCompanyId), value);
+            get => AppSettings.GetValueOrDefault(nameof(MasterCompanyId), string.Empty);
+            set => AppSettings.AddOrUpdateValue(nameof(MasterCompanyId), value);
         }
 
         public static string UserId
         {
-            get => Settings.GetValueOrDefault(nameof(UserId), string.Empty);
-            set => Settings.AddOrUpdateValue(nameof(UserId), value);
+            get => AppSettings.GetValueOrDefault(nameof(UserId), string.Empty);
+            set => AppSettings.AddOrUpdateValue(nameof(UserId), value);
         }
 
         public static string SessionExpires
         {
-            get => Settings.GetValueOrDefault(nameof(SessionExpires), string.Empty);
-            set => Settings.AddOrUpdateValue(nameof(SessionExpires), value);
+            get => AppSettings.GetValueOrDefault(nameof(SessionExpires), string.Empty);
+            set => AppSettings.AddOrUpdateValue(nameof(SessionExpires), value);
         }
 
         public static long Overdue_days
         {
-            get => Settings.GetValueOrDefault(nameof(Overdue_days), 0);
-            set => Settings.AddOrUpdateValue(nameof(Overdue_days), value);
+            get => AppSettings.GetValueOrDefault(nameof(Overdue_days), 0);
+            set => AppSettings.AddOrUpdateValue(nameof(Overdue_days), value);
         }
 
         public static long At_risk_days
         {
-            get => Settings.GetValueOrDefault(nameof(At_risk_days), 0);
-            set => Settings.AddOrUpdateValue(nameof(At_risk_days), value);
+            get => AppSettings.GetValueOrDefault(nameof(At_risk_days), 0);
+            set => AppSettings.AddOrUpdateValue(nameof(At_risk_days), value);
         }
 
         public static string MobileCenterAnalyticsAndroid
         {
-            get => Settings.GetValueOrDefault(nameof(MobileCenterAnalyticsAndroid), DefaultMobileCenterAnalyticsAndroid);
-            set => Settings.AddOrUpdateValue(nameof(MobileCenterAnalyticsAndroid), value);
+            get => AppSettings.GetValueOrDefault(nameof(MobileCenterAnalyticsAndroid), DefaultMobileCenterAnalyticsAndroid);
+            set => AppSettings.AddOrUpdateValue(nameof(MobileCenterAnalyticsAndroid), value);
         }
 
         public static string MobileCenterAnalyticsIos
         {
-            get => Settings.GetValueOrDefault(nameof(MobileCenterAnalyticsIos), DefaultMobileCenterAnalyticsIos);
-            set => Settings.AddOrUpdateValue(nameof(MobileCenterAnalyticsIos), value);
+            get => AppSettings.GetValueOrDefault(nameof(MobileCenterAnalyticsIos), DefaultMobileCenterAnalyticsIos);
+            set => AppSettings.AddOrUpdateValue(nameof(MobileCenterAnalyticsIos), value);
         }
 
         public static string MobileCenterAnalyticsWindows
         {
-            get => Settings.GetValueOrDefault(nameof(MobileCenterAnalyticsWindows), DefaultMobileCenterAnalyticsWindows);
-            set => Settings.AddOrUpdateValue(nameof(MobileCenterAnalyticsWindows), value);
+            get => AppSettings.GetValueOrDefault(nameof(MobileCenterAnalyticsWindows), DefaultMobileCenterAnalyticsWindows);
+            set => AppSettings.AddOrUpdateValue(nameof(MobileCenterAnalyticsWindows), value);
         }
 
         public static bool UseFakes
         {
-            get => Settings.GetValueOrDefault(nameof(UseFakes), DefaultUseFakes);
-            set => Settings.AddOrUpdateValue(nameof(UseFakes), value);
+            get => AppSettings.GetValueOrDefault(nameof(UseFakes), DefaultUseFakes);
+            set => AppSettings.AddOrUpdateValue(nameof(UseFakes), value);
         }
 
         public static bool HasBooking
         {
-            get => Settings.GetValueOrDefault(nameof(HasBooking), DefaultHasBooking);
+            get => AppSettings.GetValueOrDefault(nameof(HasBooking), DefaultHasBooking);
 
-            set => Settings.AddOrUpdateValue(nameof(HasBooking), value);
+            set => AppSettings.AddOrUpdateValue(nameof(HasBooking), value);
         }
 
         public static bool IsMetaDataLoaded
         {
-            get => Settings.GetValueOrDefault(nameof(IsMetaDataLoaded), false);
-            set => Settings.AddOrUpdateValue(nameof(IsMetaDataLoaded), value);
+            get => AppSettings.GetValueOrDefault(nameof(IsMetaDataLoaded), false);
+            set => AppSettings.AddOrUpdateValue(nameof(IsMetaDataLoaded), value);
         }
 
         public static bool PrintEveryManifest
         {
-            get => Settings.GetValueOrDefault(nameof(PrintEveryManifest), false);
-            set => Settings.AddOrUpdateValue(nameof(PrintEveryManifest), value);
+            get => AppSettings.GetValueOrDefault(nameof(PrintEveryManifest), false);
+            set => AppSettings.AddOrUpdateValue(nameof(PrintEveryManifest), value);
         }
 
         public static bool PrintEveryPallet
         {
-            get => Settings.GetValueOrDefault(nameof(PrintEveryPallet), false);
-            set => Settings.AddOrUpdateValue(nameof(PrintEveryPallet), value);
+            get => AppSettings.GetValueOrDefault(nameof(PrintEveryPallet), false);
+            set => AppSettings.AddOrUpdateValue(nameof(PrintEveryPallet), value);
         }
 
         public static int PalletLabelCopies
         {
-            get => Settings.GetValueOrDefault(nameof(PalletLabelCopies), 1);
-            set => Settings.AddOrUpdateValue(nameof(PalletLabelCopies), value);
+            get => AppSettings.GetValueOrDefault(nameof(PalletLabelCopies), 1);
+            set => AppSettings.AddOrUpdateValue(nameof(PalletLabelCopies), value);
         }
 
         public static bool BeepOnValidScans
         {
-            get => Settings.GetValueOrDefault(nameof(BeepOnValidScans), false);
-            set => Settings.AddOrUpdateValue(nameof(BeepOnValidScans), value);
+            get => AppSettings.GetValueOrDefault(nameof(BeepOnValidScans), false);
+            set => AppSettings.AddOrUpdateValue(nameof(BeepOnValidScans), value);
         }
 
         public static bool Ean13
         {
-            get => Settings.GetValueOrDefault(nameof(Ean13), false);
-            set => Settings.AddOrUpdateValue(nameof(Ean13), value);
+            get => AppSettings.GetValueOrDefault(nameof(Ean13), false);
+            set => AppSettings.AddOrUpdateValue(nameof(Ean13), value);
         }
 
         public static bool Upce
         {
-            get => Settings.GetValueOrDefault(nameof(Upce), false);
-            set => Settings.AddOrUpdateValue(nameof(Upce), value);
+            get => AppSettings.GetValueOrDefault(nameof(Upce), false);
+            set => AppSettings.AddOrUpdateValue(nameof(Upce), value);
         }
 
         public static bool DataMatrix
         {
-            get => Settings.GetValueOrDefault(nameof(DataMatrix), false);
-            set => Settings.AddOrUpdateValue(nameof(DataMatrix), value);
+            get => AppSettings.GetValueOrDefault(nameof(DataMatrix), false);
+            set => AppSettings.AddOrUpdateValue(nameof(DataMatrix), value);
         }
 
         public static bool Qr
         {
-            get => Settings.GetValueOrDefault(nameof(Qr), false);
-            set => Settings.AddOrUpdateValue(nameof(Qr), value);
+            get => AppSettings.GetValueOrDefault(nameof(Qr), false);
+            set => AppSettings.AddOrUpdateValue(nameof(Qr), value);
         }
 
         public static bool Code39
         {
-            get => Settings.GetValueOrDefault(nameof(Code39), false);
-            set => Settings.AddOrUpdateValue(nameof(Code39), value);
+            get => AppSettings.GetValueOrDefault(nameof(Code39), false);
+            set => AppSettings.AddOrUpdateValue(nameof(Code39), value);
         }
         public static bool Code128
         {
-            get => Settings.GetValueOrDefault(nameof(Code128), false);
-            set => Settings.AddOrUpdateValue(nameof(Code128), value);
+            get => AppSettings.GetValueOrDefault(nameof(Code128), false);
+            set => AppSettings.AddOrUpdateValue(nameof(Code128), value);
         }
 
         public static bool BatchScan
         {
-            get => Settings.GetValueOrDefault(nameof(BatchScan), false);
-            set => Settings.AddOrUpdateValue(nameof(BatchScan), value);
+            get => AppSettings.GetValueOrDefault(nameof(BatchScan), false);
+            set => AppSettings.AddOrUpdateValue(nameof(BatchScan), value);
         }
 
         public static bool IsBluetoothOn
         {
-            get => Settings.GetValueOrDefault(nameof(IsBluetoothOn), false);
-            set => Settings.AddOrUpdateValue(nameof(IsBluetoothOn), value);
+            get => AppSettings.GetValueOrDefault(nameof(IsBluetoothOn), false);
+            set => AppSettings.AddOrUpdateValue(nameof(IsBluetoothOn), value);
         }
 
         public static string IpAddress
         {
-            get => Settings.GetValueOrDefault(nameof(IpAddress), string.Empty);
-            set => Settings.AddOrUpdateValue(nameof(IpAddress), value);
+            get => AppSettings.GetValueOrDefault(nameof(IpAddress), string.Empty);
+            set => AppSettings.AddOrUpdateValue(nameof(IpAddress), value);
         }
 
         public static string Port
         {
-            get => Settings.GetValueOrDefault(nameof(Port), string.Empty);
-            set => Settings.AddOrUpdateValue(nameof(Port), value);
+            get => AppSettings.GetValueOrDefault(nameof(Port), string.Empty);
+            set => AppSettings.AddOrUpdateValue(nameof(Port), value);
         }
 
         public static string PrinterAddress
         {
-            get => Settings.GetValueOrDefault(nameof(PrinterAddress), string.Empty);
-            set => Settings.AddOrUpdateValue(nameof(PrinterAddress), value);
+            get => AppSettings.GetValueOrDefault(nameof(PrinterAddress), string.Empty);
+            set => AppSettings.AddOrUpdateValue(nameof(PrinterAddress), value);
         }
 
         public static string FriendlyLbl
         {
-            get => Settings.GetValueOrDefault(nameof(FriendlyLbl), "Select printer");
-            set => Settings.AddOrUpdateValue(nameof(FriendlyLbl), value);
+            get => AppSettings.GetValueOrDefault(nameof(FriendlyLbl), "Select printer");
+            set => AppSettings.AddOrUpdateValue(nameof(FriendlyLbl), value);
         }
 
         public static void RemoveUserData()
         {
-            Settings.Remove(nameof(SessionId));
-            Settings.AddOrUpdateValue(nameof(IsMetaDataLoaded), false);
-            Settings.Clear();
+            AppSettings.Remove(nameof(SessionId));
+            AppSettings.AddOrUpdateValue(nameof(IsMetaDataLoaded), false);
+            AppSettings.Clear();
         }
     }
 }

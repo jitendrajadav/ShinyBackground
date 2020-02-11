@@ -273,7 +273,7 @@ namespace KegID.ViewModel
                         Shiny.ShinyHost.Resolve<Shiny.Jobs.IJobManager>().RunTask("BulkUpdateJob" + ManaulBarcode, async _ =>
                         {
                             // your code goes here - async stuff is welcome (and necessary)
-                            var response = await ApiManager.GetValidateBarcode(ManaulBarcode, AppSettings.SessionId);
+                            var response = await ApiManager.GetValidateBarcode(ManaulBarcode, Settings.SessionId);
                             if (response.IsSuccessStatusCode)
                             {
                                 var json = await response.Content.ReadAsStringAsync();
@@ -338,7 +338,7 @@ namespace KegID.ViewModel
                     var model = new KegBulkUpdateItemRequestModel();
                     var MassUpdateKegKegs = new List<MassUpdateKeg>();
                     MassUpdateKeg MassUpdateKeg = null;
-                    var val = await ApiManager.GetAssetVolume(AppSettings.SessionId, false);
+                    var val = await ApiManager.GetAssetVolume(Settings.SessionId, false);
                     foreach (var item in BarcodeCollection)
                     {
                         MassUpdateKeg = new MassUpdateKeg
@@ -348,7 +348,7 @@ namespace KegID.ViewModel
                             Barcode = item.Barcode,
                             AssetVolume = item.TagsStr,
                             KegId = _uuidManager.GetUuId(),
-                            OwnerId = AppSettings.CompanyId,
+                            OwnerId = Settings.CompanyId,
                             OwnerSkuId = "",
                             ProfileId = "",
                         };
@@ -357,7 +357,7 @@ namespace KegID.ViewModel
                     }
                     model.Kegs = MassUpdateKegKegs;
 
-                    var value = await ApiManager.PostKegUpload(model, AppSettings.SessionId);
+                    var value = await ApiManager.PostKegUpload(model, Settings.SessionId);
                     if (value.IsSuccessStatusCode)
                     {
                         await _navigationService.GoBackAsync(new NavigationParameters

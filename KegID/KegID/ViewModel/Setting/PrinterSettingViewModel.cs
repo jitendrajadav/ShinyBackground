@@ -86,39 +86,39 @@ namespace KegID.ViewModel
 
         private void UpdatePrintingSetting()
         {
-            AppSettings.PrintEveryManifest = PrintEveryManifest;
-            AppSettings.PrintEveryPallet = PrintEveryPallet;
-            AppSettings.PalletLabelCopies = PalletLabelCopies;
-            AppSettings.BeepOnValidScans = BeepOnValidScans;
-            AppSettings.Ean13 = Ean13;
-            AppSettings.Upce = Upce;
-            AppSettings.DataMatrix = DataMatrix;
-            AppSettings.Qr = Qr;
-            AppSettings.Code39 = Code39;
-            AppSettings.Code128 = Code128;
-            AppSettings.BatchScan = BatchScan;
-            AppSettings.IpAddress = IpAddress;
-            AppSettings.Port = Port;
-            AppSettings.FriendlyLbl = SelectedPrinter;
+            Settings.PrintEveryManifest = PrintEveryManifest;
+            Settings.PrintEveryPallet = PrintEveryPallet;
+            Settings.PalletLabelCopies = PalletLabelCopies;
+            Settings.BeepOnValidScans = BeepOnValidScans;
+            Settings.Ean13 = Ean13;
+            Settings.Upce = Upce;
+            Settings.DataMatrix = DataMatrix;
+            Settings.Qr = Qr;
+            Settings.Code39 = Code39;
+            Settings.Code128 = Code128;
+            Settings.BatchScan = BatchScan;
+            Settings.IpAddress = IpAddress;
+            Settings.Port = Port;
+            Settings.FriendlyLbl = SelectedPrinter;
         }
 
         private void AssignPrintingSetting()
         {
-            PrintEveryManifest = AppSettings.PrintEveryManifest;
-            PrintEveryPallet = AppSettings.PrintEveryPallet;
-            PalletLabelCopies = AppSettings.PalletLabelCopies;
-            BeepOnValidScans = AppSettings.BeepOnValidScans;
-            BatchScan = AppSettings.BatchScan;
-            IsBluetoothOn = AppSettings.IsBluetoothOn;
-            IpAddress = AppSettings.IpAddress;
-            Port = AppSettings.Port;
-            SelectedPrinter = AppSettings.FriendlyLbl;
-            Ean13 = AppSettings.Ean13;
-            Upce = AppSettings.Upce;
-            DataMatrix = AppSettings.DataMatrix;
-            Qr = AppSettings.Qr;
-            Code39 = AppSettings.Code39;
-            Code128 = AppSettings.Code128;
+            PrintEveryManifest = Settings.PrintEveryManifest;
+            PrintEveryPallet = Settings.PrintEveryPallet;
+            PalletLabelCopies = Settings.PalletLabelCopies;
+            BeepOnValidScans = Settings.BeepOnValidScans;
+            BatchScan = Settings.BatchScan;
+            IsBluetoothOn = Settings.IsBluetoothOn;
+            IpAddress = Settings.IpAddress;
+            Port = Settings.Port;
+            SelectedPrinter = Settings.FriendlyLbl;
+            Ean13 = Settings.Ean13;
+            Upce = Settings.Upce;
+            DataMatrix = Settings.DataMatrix;
+            Qr = Settings.Qr;
+            Code39 = Settings.Code39;
+            Code128 = Settings.Code128;
         }
 
         public override Task InitializeAsync(INavigationParameters parameters)
@@ -127,8 +127,8 @@ namespace KegID.ViewModel
             {
                 var printer = parameters.GetValue<DiscoveredPrinter>("IDiscoveredPrinter");
                 SelectedPrinter = printer.Address;
-                AppSettings.FriendlyLbl = SelectedPrinter;
-                AppSettings.PrinterAddress = SelectedPrinter;
+                Settings.FriendlyLbl = SelectedPrinter;
+                Settings.PrinterAddress = SelectedPrinter;
             }
             else
             {

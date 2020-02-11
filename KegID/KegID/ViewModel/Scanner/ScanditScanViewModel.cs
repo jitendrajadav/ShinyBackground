@@ -76,7 +76,7 @@ namespace KegID.ViewModel
                 Shiny.ShinyHost.Resolve<Shiny.Jobs.IJobManager>().RunTask("ScanJob" + Barcode, async _ =>
                 {
                     // your code goes here - async stuff is welcome (and necessary)
-                    var response = await ApiManager.GetValidateBarcode(Barcode, AppSettings.SessionId);
+                    var response = await ApiManager.GetValidateBarcode(Barcode, Settings.SessionId);
                     if (response.IsSuccessStatusCode)
                     {
                         var json = await response.Content.ReadAsStringAsync();
@@ -167,114 +167,128 @@ namespace KegID.ViewModel
                 }
             });
 
-            if (!AppSettings.BatchScan)
+            if (!Settings.BatchScan)
                 session.StopScanning();
         }
 
-        private async void InitSettings()
+        async Task InitSettings()
         {
-            IBarcodePicker _picker = ScanditService.BarcodePicker;
-
-            // The scanning behavior of the barcode picker is configured through scan
-            // settings. We start with empty scan settings and enable a very generous
-            // set of symbologies. In your own apps, only enable the symbologies you
-            // actually need.
-            _scanSettings = _picker.GetDefaultScanSettings();
-            Symbology[] symbologiesToEnable = new Symbology[] {
-                Symbology.Qr,
-                Symbology.Ean13,
-                Symbology.Upce,
-                Symbology.Code128,
-                Symbology.Ean8,
-                Symbology.Upca,
-                Symbology.DataMatrix,
-                Symbology.Code39,
-            };
-
-            foreach (var sym in symbologiesToEnable)
+            try
             {
-                switch (sym)
-                {
-                    case Symbology.Ean13:
-                        _scanSettings.EnableSymbology(sym, AppSettings.Ean13);
-                        break;
-                    case Symbology.Upce:
-                        _scanSettings.EnableSymbology(sym, AppSettings.Upce);
-                        break;
-                    case Symbology.Code128:
-                        _scanSettings.EnableSymbology(sym, AppSettings.Code128);
-                        break;
-                    case Symbology.Code39:
-                        _scanSettings.EnableSymbology(sym, AppSettings.Code39);
-                        break;
-                    case Symbology.Qr:
-                        _scanSettings.EnableSymbology(sym, AppSettings.Qr);
-                        break;
-                    case Symbology.DataMatrix:
-                        _scanSettings.EnableSymbology(sym, AppSettings.DataMatrix);
-                        break;
-                    default:
-                        _scanSettings.EnableSymbology(sym, true);
-                        break;
-                }
-            }
+                IBarcodePicker picker = ScanditService.BarcodePicker;
 
-            await _picker.ApplySettingsAsync(_scanSettings);
-            // This will open the scanner in full-screen mode.
-            ScanditService.BarcodePicker.CancelButtonText = "Done";
-            ScanditService.BarcodePicker.DidScan += OnDidScan;
-            ScanditService.BarcodePicker.DidStop += OnDidStopAsync;
-            ScanditService.BarcodePicker.AlwaysShowModally = true;
-            await UpdateScanSettings();
-            UpdateScanOverlay();
-            //ScanditService.BarcodePicker.CancelButtonText = "Done";
-            await ScanditService.BarcodePicker.StartScanningAsync(false);
+                // The scanning behavior of the barcode picker is configured through scan
+                // settings. We start with empty scan settings and enable a very generous
+                // set of symbologies. In your own apps, only enable the symbologies you
+                // actually need.
+                var settings = picker.GetDefaultScanSettings();
+                var symbologiesToEnable = new Symbology[] {
+                Symbology.Qr,
+                //Symbology.Ean13,
+                //Symbology.Upce,
+                //Symbology.Ean8,
+                //Symbology.Upca,
+                Symbology.Qr
+                //Symbology.DataMatrix
+            };
+                foreach (var sym in symbologiesToEnable)
+                    settings.EnableSymbology(sym, true);
+                await picker.ApplySettingsAsync(settings);
+                // This will open the scanner in full-screen mode. 
+
+                // This will open the scanner in full-screen mode.
+                ScanditService.BarcodePicker.CancelButtonText = "Done";
+                ScanditService.BarcodePicker.DidScan += OnDidScan;
+                ScanditService.BarcodePicker.DidStop += OnDidStopAsync;
+                ScanditService.BarcodePicker.AlwaysShowModally = true;
+
+                //await updateScanSettings();
+                //UpdateScanOverlay();
+                await ScanditService.BarcodePicker.StartScanningAsync(true);
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         // reads the values needed for ScanSettings from the Settings class
         // and applies them to the Picker
-        private async Task UpdateScanSettings()
+        async Task updateScanSettings()
         {
+            IBarcodePicker picker = ScanditService.BarcodePicker;
             bool addOnEnabled = false;
+            bool isScanningAreaOverriddenByDpmMode = false;
+
             foreach (string setting in ScanditConvert.settingToSymbologies.Keys)
             {
-                bool enabled = AppSettings.getBoolSetting(setting);
+                bool enabled = Settings.getBoolSetting(setting);
+
+                // DPM Mode 
+                if (Settings.isDpmMode(setting) && enabled)
+                {
+                    Rect restricted = new Rect(0.33f, 0.33f, 0.33f, 0.33f);
+                    _scanSettings.ActiveScanningAreaPortrait = restricted;
+                    _scanSettings.ActiveScanningAreaLandscape = restricted;
+
+                    isScanningAreaOverriddenByDpmMode = true;
+
+                    // Enabling the direct_part_marking_mode extension comes at the cost of increased frame processing times.
+                    // It is recommended to restrict the scanning area to a smaller part of the image for best performance.
+                    _scanSettings.Symbologies[Symbology.DataMatrix].SetExtensionEnabled("direct_part_marking_mode", true);
+                    continue;
+                }
+
+                if (ScanditConvert.settingToSymbologies[setting] == null) continue;
                 foreach (Symbology sym in ScanditConvert.settingToSymbologies[setting])
                 {
                     _scanSettings.EnableSymbology(sym, enabled);
-                    if (AppSettings.hasInvertedSymbology(setting))
-                        _scanSettings.Symbologies[sym].ColorInvertedEnabled = AppSettings.getBoolSetting(AppSettings.getInvertedSymboloby(setting));
-                    if (enabled && (sym == Symbology.TwoDigitAddOn || sym == Symbology.FiveDigitAddOn))
+                    if (Settings.hasInvertedSymbology(setting))
+                    {
+                        _scanSettings.Symbologies[sym].ColorInvertedEnabled = Settings.getBoolSetting(
+                            Settings.getInvertedSymbology(setting));
+                    }
+
+                    if (enabled && (sym == Symbology.TwoDigitAddOn
+                                    || sym == Symbology.FiveDigitAddOn))
+                    {
                         addOnEnabled = true;
+                    }
                 }
             }
+
             if (addOnEnabled)
-                _scanSettings.MaxNumberOfCodesPerFrame = 2;
-
-            _scanSettings.Symbologies[Symbology.MsiPlessey].Checksums = ScanditConvert.msiPlesseyChecksumToScanSetting[AppSettings.getStringSetting(AppSettings.MsiPlesseyChecksumString)];
-            _scanSettings.RestrictedAreaScanningEnabled = AppSettings.getBoolSetting(AppSettings.RestrictedAreaString);
-
-            if (_scanSettings.RestrictedAreaScanningEnabled)
             {
-                double HotSpotHeight = AppSettings.getDoubleSetting(AppSettings.HotSpotHeightString);
-                double HotSpotWidth = AppSettings.getDoubleSetting(AppSettings.HotSpotWidthString);
-                double HotSpotY = AppSettings.getDoubleSetting(AppSettings.HotSpotYString);
+                _scanSettings.MaxNumberOfCodesPerFrame = 2;
+            }
 
-                Rect restricted = new Rect(0.5f - HotSpotWidth * 0.5f, HotSpotY - 0.5f * HotSpotHeight, HotSpotWidth, HotSpotHeight);
+            _scanSettings.Symbologies[Symbology.MsiPlessey].Checksums =
+                ScanditConvert.msiPlesseyChecksumToScanSetting[Settings.getStringSetting(Settings.MsiPlesseyChecksumString)];
 
-                _scanSettings.ScanningHotSpot = new Scandit.BarcodePicker.Unified.Point(0.5, AppSettings.getDoubleSetting(AppSettings.HotSpotYString));
+            _scanSettings.RestrictedAreaScanningEnabled = isScanningAreaOverriddenByDpmMode || Settings.getBoolSetting(Settings.RestrictedAreaString);
+            if (Settings.getBoolSetting(Settings.RestrictedAreaString) && !isScanningAreaOverriddenByDpmMode)
+            {
+                Double HotSpotHeight = Settings.getDoubleSetting(Settings.HotSpotHeightString);
+                Double HotSpotWidth = Settings.getDoubleSetting(Settings.HotSpotWidthString);
+                Double HotSpotY = Settings.getDoubleSetting(Settings.HotSpotYString);
+
+                Rect restricted = new Rect(0.5f - HotSpotWidth * 0.5f, HotSpotY - 0.5f * HotSpotHeight,
+                                           HotSpotWidth, HotSpotHeight);
+
+                _scanSettings.ScanningHotSpot = new Scandit.BarcodePicker.Unified.Point(
+                        0.5, Settings.getDoubleSetting(Settings.HotSpotYString));
                 _scanSettings.ActiveScanningAreaPortrait = restricted;
                 _scanSettings.ActiveScanningAreaLandscape = restricted;
             }
+            _scanSettings.ResolutionPreference =
+                ScanditConvert.resolutionToScanSetting[Settings.getStringSetting(Settings.ResolutionString)];
 
-            _scanSettings.ResolutionPreference = ScanditConvert.resolutionToScanSetting[AppSettings.getStringSetting(AppSettings.ResolutionString)];
-            _scanSettings.CodeDuplicateFilter = 0;
-            await ScanditService.BarcodePicker.ApplySettingsAsync(_scanSettings);
+          await picker.ApplySettingsAsync(_scanSettings);
         }
 
         private void UpdateScanOverlay()
         {
-            ScanditService.BarcodePicker.ScanOverlay.BeepEnabled = AppSettings.BeepOnValidScans;
+            ScanditService.BarcodePicker.ScanOverlay.BeepEnabled = Settings.BeepOnValidScans;
             ScanditService.BarcodePicker.ScanOverlay.VibrateEnabled = true;
             ScanditService.BarcodePicker.ScanOverlay.TorchButtonVisible = true;
             ScanditService.BarcodePicker.ScanOverlay.CameraSwitchVisibility = CameraSwitchVisibility.Never;

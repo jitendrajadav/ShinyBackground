@@ -235,7 +235,7 @@ namespace KegID.ViewModel
         {
             try
             {
-                var response = await ApiManager.GetManifest(model.PalletId, AppSettings.SessionId);
+                var response = await ApiManager.GetManifest(model.PalletId, Settings.SessionId);
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync();

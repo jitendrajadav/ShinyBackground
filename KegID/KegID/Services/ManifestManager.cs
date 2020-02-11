@@ -46,7 +46,7 @@ namespace KegID.Services
                     Longitude = Longitude,
                     SubmittedDate = DateTimeOffset.UtcNow.Date,
                     ShipDate = DateTimeOffset.UtcNow.Date,
-                    SenderId = AppSettings.CompanyId,
+                    SenderId = Settings.CompanyId,
                     ReceiverId = partnerModel?.PartnerId,
                     DestinationId = partnerModel?.PartnerId,
                     EffectiveDate = EffectiveDateAllowed ?? DateTimeOffset.UtcNow.Date,

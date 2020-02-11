@@ -162,7 +162,7 @@ namespace KegID.ViewModel
                             var current = Connectivity.NetworkAccess;
                             if (current == NetworkAccess.Internet)
                             {
-                                var response = await ApiManager.PostManifest(manifestPostModel, AppSettings.SessionId);
+                                var response = await ApiManager.PostManifest(manifestPostModel, Settings.SessionId);
 
                                 try
                                 {

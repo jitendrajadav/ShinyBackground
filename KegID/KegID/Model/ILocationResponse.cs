@@ -20,7 +20,7 @@ namespace KegID.Model
 
             try
             {
-                var locationSetting = AppSettings.DefaultFallbackMapsLocation;
+                var locationSetting = Settings.DefaultFallbackMapsLocation;
                 var locationParts = locationSetting.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
 
                 result.Latitude = double.Parse(locationParts[0], CultureInfo.InvariantCulture);

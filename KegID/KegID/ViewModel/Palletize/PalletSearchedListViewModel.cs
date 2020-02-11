@@ -56,7 +56,7 @@ namespace KegID.ViewModel
             {
                 UserDialogs.Instance.ShowLoading("Loading");
                 //needs to assing partnerId??string.Empty once backend is ready...
-                var response = await ApiManager.GetPalletSearch(AppSettings.SessionId, string.Empty, fromDate, toDate, kegs, kegOwnerId);
+                var response = await ApiManager.GetPalletSearch(Settings.SessionId, string.Empty, fromDate, toDate, kegs, kegOwnerId);
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync();

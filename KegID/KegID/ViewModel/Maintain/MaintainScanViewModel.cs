@@ -255,7 +255,7 @@ namespace KegID.ViewModel
                         ShinyHost.Resolve<Shiny.Jobs.IJobManager>().RunTask("MaintainJob" + ManaulBarcode, async _ =>
                         {
                             // your code goes here - async stuff is welcome (and necessary)
-                            var response = await ApiManager.GetValidateBarcode(ManaulBarcode, AppSettings.SessionId);
+                            var response = await ApiManager.GetValidateBarcode(ManaulBarcode, Settings.SessionId);
                             if (response.IsSuccessStatusCode)
                             {
                                 var json = await response.Content.ReadAsStringAsync();
@@ -413,7 +413,7 @@ namespace KegID.ViewModel
                         var current = Connectivity.NetworkAccess;
                         if (current == NetworkAccess.Internet)
                         {
-                            var response = await ApiManager.PostMaintenanceDone(manifestPostModel.MaintenanceModels.MaintenanceDoneRequestModel, AppSettings.SessionId);
+                            var response = await ApiManager.PostMaintenanceDone(manifestPostModel.MaintenanceModels.MaintenanceDoneRequestModel, Settings.SessionId);
                             try
                             {
                                 AddorUpdateManifestOffline(manifestPostModel, false);

@@ -223,7 +223,7 @@ namespace KegID.ViewModel
                 {
                     Barcode = ManifestId.Split('-').LastOrDefault(),
                     BuildDate = DateTimeOffset.Now,
-                    OwnerId = AppSettings.CompanyId,
+                    OwnerId = Settings.CompanyId,
                     PalletId = _uuidManager.GetUuId(),
                     ReferenceKey = "",
                     StockLocation = StockLocation.PartnerId,
@@ -260,7 +260,7 @@ namespace KegID.ViewModel
                 var current = Connectivity.NetworkAccess;
                 if (current == NetworkAccess.Internet)
                 {
-                    var response = await ApiManager.PostPallet(palletRequestModel, AppSettings.SessionId);
+                    var response = await ApiManager.PostPallet(palletRequestModel, Settings.SessionId);
                 }
                 else
                 {

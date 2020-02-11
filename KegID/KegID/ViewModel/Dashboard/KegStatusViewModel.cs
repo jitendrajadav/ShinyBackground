@@ -123,7 +123,7 @@ namespace KegID.ViewModel
                 TypeName = _typeName;
                 SizeName = _sizeName;
 
-                var kegStatusResponse = await ApiManager.GetKegStatus(KegId, AppSettings.SessionId);
+                var kegStatusResponse = await ApiManager.GetKegStatus(KegId, Settings.SessionId);
                 if (kegStatusResponse.IsSuccessStatusCode)
                 {
                     var response = await kegStatusResponse.Content.ReadAsStringAsync();
@@ -158,7 +158,7 @@ namespace KegID.ViewModel
                         Lon = model.Location.Lon
                     };
 
-                    var kegMaintenaceResponse = await ApiManager.GetKegMaintenanceHistory(KegId, AppSettings.SessionId);
+                    var kegMaintenaceResponse = await ApiManager.GetKegMaintenanceHistory(KegId, Settings.SessionId);
                     if (kegMaintenaceResponse.IsSuccessStatusCode)
                     {
                         var kegResponse = await kegMaintenaceResponse.Content.ReadAsStringAsync();
@@ -268,7 +268,7 @@ namespace KegID.ViewModel
                 try
                 {
                     UserDialogs.Instance.ShowLoading("Loading");
-                    var postMaintenaceAlertResponse = await ApiManager.PostMaintenanceAlert(model, AppSettings.SessionId);
+                    var postMaintenaceAlertResponse = await ApiManager.PostMaintenanceAlert(model, Settings.SessionId);
 
                     if (postMaintenaceAlertResponse.IsSuccessStatusCode)
                     {
@@ -313,7 +313,7 @@ namespace KegID.ViewModel
                 };
                 try
                 {
-                    var result = await ApiManager.PostMaintenanceDeleteAlertUrl(model, AppSettings.SessionId);
+                    var result = await ApiManager.PostMaintenanceDeleteAlertUrl(model, Settings.SessionId);
                     if (result.IsSuccessStatusCode)
                     {
                         var response = await result.Content.ReadAsStringAsync();

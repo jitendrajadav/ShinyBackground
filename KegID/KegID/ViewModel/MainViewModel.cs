@@ -93,9 +93,9 @@ namespace KegID.ViewModel
 
         private async Task LoadMetadData()
         {
-            if (!AppSettings.IsMetaDataLoaded)
+            if (!Settings.IsMetaDataLoaded)
             {
-                AppSettings.IsMetaDataLoaded = true;
+                Settings.IsMetaDataLoaded = true;
                 UserDialogs.Instance.ShowLoading("Wait while downloading meta-data...");
 
                 _initializeMetaData.DeleteInitializeMetaData();
@@ -398,7 +398,7 @@ namespace KegID.ViewModel
             {
                 if (refresh)
                     await _navigationService.ClearPopupStackAsync(animated: false);
-                var result = await ApiManager.GetDeshboardDetail(AppSettings.SessionId);
+                var result = await ApiManager.GetDeshboardDetail(Settings.SessionId);
                 if (result.IsSuccessStatusCode)
                 {
                     var response = await result.Content.ReadAsStringAsync();
@@ -524,7 +524,7 @@ namespace KegID.ViewModel
             public void FoundPrinter(DiscoveredPrinter printer)
             {
                 Device.BeginInvokeOnMainThread(() => {
-                    if (printer.Address == AppSettings.PrinterAddress)
+                    if (printer.Address == Settings.PrinterAddress)
                     {
                         ConstantManager.PrinterSetting = printer;
                     }

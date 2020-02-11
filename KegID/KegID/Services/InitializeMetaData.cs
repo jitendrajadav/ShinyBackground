@@ -40,7 +40,7 @@ namespace KegID.Services
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             try
             {
-                var response = await ApiManager.GetSkuList(AppSettings.SessionId);
+                var response = await ApiManager.GetSkuList(Settings.SessionId);
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync();
@@ -79,7 +79,7 @@ namespace KegID.Services
             List<OperatorModel> operators = null;
             try
             {
-                var result = await ApiManager.GetOperators(AppSettings.SessionId);
+                var result = await ApiManager.GetOperators(Settings.SessionId);
                 if (result.IsSuccessStatusCode)
                 {
                     var response = await result.Content.ReadAsStringAsync();
@@ -120,7 +120,7 @@ namespace KegID.Services
         {
             try
             {
-                var response = await ApiManager.GetMaintainType(AppSettings.SessionId);
+                var response = await ApiManager.GetMaintainType(Settings.SessionId);
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync();
@@ -156,7 +156,7 @@ namespace KegID.Services
             {
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
 
-                var response = await ApiManager.GetBatchList(AppSettings.SessionId);
+                var response = await ApiManager.GetBatchList(Settings.SessionId);
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync();
@@ -190,7 +190,7 @@ namespace KegID.Services
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             try
             {
-                var response = await ApiManager.GetPartnersList(AppSettings.SessionId);
+                var response = await ApiManager.GetPartnersList(Settings.SessionId);
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync();
@@ -225,7 +225,7 @@ namespace KegID.Services
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             try
             {
-                var response = await ApiManager.GetBrandList(AppSettings.SessionId);
+                var response = await ApiManager.GetBrandList(Settings.SessionId);
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync();
@@ -262,7 +262,7 @@ namespace KegID.Services
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             try
             {
-                var result = await ApiManager.GetDashboardPartnersList(AppSettings.CompanyId, AppSettings.SessionId);
+                var result = await ApiManager.GetDashboardPartnersList(Settings.CompanyId, Settings.SessionId);
                 if (result.IsSuccessStatusCode)
                 {
                     var response = await result.Content.ReadAsStringAsync();
@@ -296,7 +296,7 @@ namespace KegID.Services
             List<AssetSizeModel> assetSizeModel = null;
             try
             {
-                var response = await ApiManager.GetAssetSize(AppSettings.SessionId, false);
+                var response = await ApiManager.GetAssetSize(Settings.SessionId, false);
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync();
@@ -338,7 +338,7 @@ namespace KegID.Services
             List<AssetTypeModel> assetTypeModels = null;
             try
             {
-                var response = await ApiManager.GetAssetType(AppSettings.SessionId, false);
+                var response = await ApiManager.GetAssetType(Settings.SessionId, false);
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync();
@@ -382,7 +382,7 @@ namespace KegID.Services
             List<AssetVolumeModel> assetVolumeModel = null;
             try
             {
-                var result = await ApiManager.GetAssetVolume(AppSettings.SessionId, false);
+                var result = await ApiManager.GetAssetVolume(Settings.SessionId, false);
                 if (result.IsSuccessStatusCode)
                 {
                     var response = await result.Content.ReadAsStringAsync();
@@ -424,7 +424,7 @@ namespace KegID.Services
             try
             {
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                var response = await ApiManager.GetOwner(AppSettings.SessionId);
+                var response = await ApiManager.GetOwner(Settings.SessionId);
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync();
@@ -460,7 +460,7 @@ namespace KegID.Services
             try
             {
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                var response = await ApiManager.GetPartnerType(AppSettings.SessionId);
+                var response = await ApiManager.GetPartnerType(Settings.SessionId);
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync();

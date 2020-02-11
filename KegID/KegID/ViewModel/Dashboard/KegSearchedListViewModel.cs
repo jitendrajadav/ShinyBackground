@@ -70,7 +70,7 @@ namespace KegID.ViewModel
             try
             {
                 UserDialogs.Instance.ShowLoading("Loading");
-                var response = await ApiManager.GetKegSearch(AppSettings.SessionId, barcode, true);
+                var response = await ApiManager.GetKegSearch(Settings.SessionId, barcode, true);
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync();

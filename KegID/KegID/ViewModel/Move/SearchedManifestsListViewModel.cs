@@ -56,7 +56,7 @@ namespace KegID.ViewModel
             {
                 UserDialogs.Instance.ShowLoading("Loading");
 
-                var response = await ApiManager.GetManifest(model.ManifestId, AppSettings.SessionId);
+                var response = await ApiManager.GetManifest(model.ManifestId, Settings.SessionId);
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync();

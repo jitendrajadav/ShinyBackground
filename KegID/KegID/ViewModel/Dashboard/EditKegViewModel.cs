@@ -110,7 +110,7 @@ namespace KegID.ViewModel
                     Colors = ""
                 };
 
-                var Result = await ApiManager.PostKegStatus(model, KegId, AppSettings.SessionId);
+                var Result = await ApiManager.PostKegStatus(model, KegId, Settings.SessionId);
                 await _navigationService.GoBackAsync(new NavigationParameters
                     {
                         { "TagsStr", TagsStr },

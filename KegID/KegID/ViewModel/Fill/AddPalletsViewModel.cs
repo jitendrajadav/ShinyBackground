@@ -200,7 +200,7 @@ namespace KegID.ViewModel
                             StockLocation = partnerModel?.PartnerId,
                             StockLocationId = partnerModel?.PartnerId,
                             StockLocationName = partnerModel?.FullName,
-                            OwnerId = AppSettings.CompanyId,
+                            OwnerId = Settings.CompanyId,
                             PalletId = _uuidManager.GetUuId(),
                             ReferenceKey = "",
                         };
@@ -243,7 +243,7 @@ namespace KegID.ViewModel
                             var current = Connectivity.NetworkAccess;
                             if (current == NetworkAccess.Internet)
                             {
-                                var response = await ApiManager.PostManifest(model, AppSettings.SessionId);
+                                var response = await ApiManager.PostManifest(model, Settings.SessionId);
 
                                 try
                                 {

@@ -468,7 +468,7 @@ namespace KegID.ViewModel
                     //    Markings = "",
                     //    Colors = ""
                     //};
-                    //var kegStatusResponse = await _dashboardService.PostKegAsync(KegModel, KegId, AppSettings.SessionId, Configuration.Keg);
+                    //var kegStatusResponse = await _dashboardService.PostKegAsync(KegModel, KegId, Settings.SessionId, Configuration.Keg);
 
                     //var message = new StartLongRunningTaskMessage
                     //{
@@ -481,7 +481,7 @@ namespace KegID.ViewModel
                     Shiny.ShinyHost.Resolve<Shiny.Jobs.IJobManager>().RunTask("MoveJob"+ManaulBarcode, async _ =>
                     {
                         // your code goes here - async stuff is welcome (and necessary)
-                       var response = await ApiManager.GetValidateBarcode(ManaulBarcode, AppSettings.SessionId);
+                       var response = await ApiManager.GetValidateBarcode(ManaulBarcode, Settings.SessionId);
                         if (response.IsSuccessStatusCode)
                         {
                             var json = await response.Content.ReadAsStringAsync();

@@ -255,7 +255,7 @@ namespace KegID.ViewModel
                     StockLocation = ConstantManager.Partner.PartnerId,
                     StockLocationId = ConstantManager.Partner.PartnerId,
                     StockLocationName = ConstantManager.Partner.FullName,
-                    OwnerId = AppSettings.CompanyId,
+                    OwnerId = Settings.CompanyId,
                     PalletId = pallet.BatchId,
                     ReferenceKey = "",
                     IsPalletze = IsPalletze

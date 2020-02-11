@@ -175,7 +175,7 @@ namespace KegID.ViewModel
                 Notes = Notes,
                 FirstName = PartnerName,
                 LastName = PartnerName,
-                ParentPartnerId = IsInternalOn ? AppSettings.CompanyId : _uuidManager.GetUuId(),
+                ParentPartnerId = IsInternalOn ? Settings.CompanyId : _uuidManager.GetUuId(),
                 PartnerId = _uuidManager.GetUuId(),
                 PartnerName = PartnerName,
                 PartnerTypeCode = SelectedPartnerType.Code,
@@ -192,7 +192,7 @@ namespace KegID.ViewModel
             try
             {
                 UserDialogs.Instance.ShowLoading("Loading");
-                var respose = await ApiManager.PostNewPartner(newPartnerRequestModel, AppSettings.SessionId);
+                var respose = await ApiManager.PostNewPartner(newPartnerRequestModel, Settings.SessionId);
                 if (respose.IsSuccessStatusCode)
                 {
                     try

@@ -51,7 +51,7 @@ namespace KegID
                 }
 
                 var versionUpdated = VersionTracking.CurrentVersion.CompareTo(VersionTracking.PreviousVersion);
-                if (string.IsNullOrEmpty(AppSettings.UserId))
+                if (string.IsNullOrEmpty(Settings.UserId))
                 {
                     await NavigationService.NavigateAsync("NavigationPage/LoginView");
                 }

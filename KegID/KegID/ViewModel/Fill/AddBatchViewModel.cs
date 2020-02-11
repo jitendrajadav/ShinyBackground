@@ -103,11 +103,11 @@ namespace KegID.ViewModel
                     NewBatchModel.BrewDate = BrewDate;
                     NewBatchModel.BrewedVolume = VolumeDigit;
                     NewBatchModel.BrewedVolumeUom = VolumeChar;
-                    NewBatchModel.CompanyId = AppSettings.CompanyId;
+                    NewBatchModel.CompanyId = Settings.CompanyId;
                     NewBatchModel.CompletedDate = DateTimeOffset.Now;
                     NewBatchModel.IsCompleted = true;
                     NewBatchModel.PackageDate = PackageDate;
-                    NewBatchModel.RecipeId = AppSettings.CompanyId;
+                    NewBatchModel.RecipeId = Settings.CompanyId;
                     NewBatchModel.SourceKey = "";
 
                     await _navigationService.GoBackAsync(new NavigationParameters { { "NewBatchModel", NewBatchModel } }, animated: false);

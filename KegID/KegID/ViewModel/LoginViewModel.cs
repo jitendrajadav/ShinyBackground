@@ -90,13 +90,13 @@ namespace KegID.ViewModel
                         {
                             ConstantManager.BaseUrl = ConstantManager.BaseUrl;// appDataWebServiceUrl;
                         }
-                        AppSettings.SessionId = model.SessionId;
-                        AppSettings.CompanyId = model.CompanyId;
-                        AppSettings.MasterCompanyId = model.MasterCompanyId;
-                        AppSettings.UserId = model.UserId;
-                        AppSettings.SessionExpires = model.SessionExpires;
-                        AppSettings.Overdue_days = !string.IsNullOrEmpty(overDues) ? long.Parse(overDues) : 0;
-                        AppSettings.At_risk_days = !string.IsNullOrEmpty(atRisk) ? long.Parse(atRisk) : 0;
+                        Settings.SessionId = model.SessionId;
+                        Settings.CompanyId = model.CompanyId;
+                        Settings.MasterCompanyId = model.MasterCompanyId;
+                        Settings.UserId = model.UserId;
+                        Settings.SessionExpires = model.SessionExpires;
+                        Settings.Overdue_days = !string.IsNullOrEmpty(overDues) ? long.Parse(overDues) : 0;
+                        Settings.At_risk_days = !string.IsNullOrEmpty(atRisk) ? long.Parse(atRisk) : 0;
 
                         KegRefresh = Convert.ToDouble(model.Preferences.ToList().Find(x => x.PreferenceName == "KEG_REFRESH")?.PreferenceValue);
                         await RunSafe(DeviceCheckIn());
@@ -177,9 +177,9 @@ namespace KegID.ViewModel
                     DeviceModel = DeviceInfo.Model,
                     OS = DeviceInfo.VersionString,
                     PushToken = "",
-                    UserId = AppSettings.UserId
+                    UserId = Settings.UserId
                 };
-                var deviceCheckInResponse = await ApiManager.PostDeviceCheckin(deviceModel, AppSettings.SessionId);
+                var deviceCheckInResponse = await ApiManager.PostDeviceCheckin(deviceModel, Settings.SessionId);
                 if (!deviceCheckInResponse.IsSuccessStatusCode)
                 {
                     var param = new NavigationParameters
@@ -223,7 +223,7 @@ namespace KegID.ViewModel
 
                     Task.Factory.StartNew(async () =>
                     {
-                        var value = await ApiManager.PostKeg(model, string.Empty, AppSettings.SessionId);
+                        var value = await ApiManager.PostKeg(model, string.Empty, Settings.SessionId);
                     });
                     return false; // True = Repeat again, False = Stop the timer
                 });
@@ -235,7 +235,7 @@ namespace KegID.ViewModel
             if (parameters.ContainsKey("IsLogOut"))
             {
                 IsLogOut = true;
-                AppSettings.RemoveUserData();
+                Settings.RemoveUserData();
             }
             else
             { IsLogOut = false; }
