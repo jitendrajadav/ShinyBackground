@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "GtTgXBZHL8nxDu97Z1pF5BpG/fSat3LPhJZUTEsBBTiH0enKhkAvB365cLXdx8RGa9zZcby9XPj8xP10wEyrYQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\jdj1\\Source\\Repos\\SatelliteLogisticsGroup\\kegid-x\\KegID\\Prism.Plugin.Popups\\Prism.Plugin.Popups.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\jdj1\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512",
+    "C:\\Users\\jdj1\\.nuget\\packages\\prism.core\\7.2.0.1422\\prism.core.7.2.0.1422.nupkg.sha512",
+    "C:\\Users\\jdj1\\.nuget\\packages\\prism.forms\\7.2.0.1422\\prism.forms.7.2.0.1422.nupkg.sha512",
+    "C:\\Users\\jdj1\\.nuget\\packages\\rg.plugins.popup\\1.2.0.223\\rg.plugins.popup.1.2.0.223.nupkg.sha512",
+    "C:\\Users\\jdj1\\.nuget\\packages\\xamarin.forms\\3.6.0.344457\\xamarin.forms.3.6.0.344457.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -10,8 +10,15 @@ namespace KegID.Views
     {
         public AboutAppView()
         {
-            InitializeComponent();
-            NavigationPage.SetHasNavigationBar(this, false);
+            try
+            {
+                InitializeComponent();
+                NavigationPage.SetHasNavigationBar(this, false);
+            }
+            catch (System.Exception ex)
+            {
+
+            }
         }
 
         protected override bool OnBackButtonPressed()

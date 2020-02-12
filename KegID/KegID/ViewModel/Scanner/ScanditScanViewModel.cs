@@ -34,7 +34,9 @@ namespace KegID.ViewModel
         private readonly IList<BarcodeModel> models = new List<BarcodeModel>();
         public ObservableCollection<BarcodeModel> BarcodeCollection { get; set; } = new ObservableCollection<BarcodeModel>();
 
-        private ScanSettings _scanSettings;
+        private ScanSettings scanSettings;
+        readonly IBarcodePicker picker = ScanditService.BarcodePicker;
+
         public bool IsAnalyzing { get; set; } = true;
         public bool IsScanning { get; set; } = true;
         public string BottonText { get; set; }
@@ -54,7 +56,7 @@ namespace KegID.ViewModel
             _getIconByPlatform = getIconByPlatform;
 
             DoneCommand = new DelegateCommand(DoneCommandRecieverAsync);
-            InitSettings();
+            _ = InitSettings();
         }
 
         #endregion
@@ -175,36 +177,35 @@ namespace KegID.ViewModel
         {
             try
             {
-                IBarcodePicker picker = ScanditService.BarcodePicker;
+                scanSettings = picker.GetDefaultScanSettings();
+                UpdateScanOverlay();
 
                 // The scanning behavior of the barcode picker is configured through scan
                 // settings. We start with empty scan settings and enable a very generous
                 // set of symbologies. In your own apps, only enable the symbologies you
                 // actually need.
-                var settings = picker.GetDefaultScanSettings();
                 var symbologiesToEnable = new Symbology[] {
                 Symbology.Qr,
-                //Symbology.Ean13,
-                //Symbology.Upce,
-                //Symbology.Ean8,
-                //Symbology.Upca,
-                Symbology.Qr
-                //Symbology.DataMatrix
+                Symbology.Ean13,
+                Symbology.Upce,
+                Symbology.Ean8,
+                Symbology.Upca,
+                Symbology.Qr,
+                Symbology.DataMatrix
             };
                 foreach (var sym in symbologiesToEnable)
-                    settings.EnableSymbology(sym, true);
-                await picker.ApplySettingsAsync(settings);
+                    scanSettings.EnableSymbology(sym, true);
+                await picker.ApplySettingsAsync(scanSettings);
                 // This will open the scanner in full-screen mode. 
 
                 // This will open the scanner in full-screen mode.
-                ScanditService.BarcodePicker.CancelButtonText = "Done";
-                ScanditService.BarcodePicker.DidScan += OnDidScan;
-                ScanditService.BarcodePicker.DidStop += OnDidStopAsync;
-                ScanditService.BarcodePicker.AlwaysShowModally = true;
+                picker.CancelButtonText = "Done";
+                picker.DidScan += OnDidScan;
+                picker.DidStop += OnDidStopAsync;
+                picker.AlwaysShowModally = true;
 
-                //await updateScanSettings();
-                //UpdateScanOverlay();
-                await ScanditService.BarcodePicker.StartScanningAsync(true);
+                //await UpdateScanSettings();
+                await picker.StartScanningAsync();
             }
             catch (Exception ex)
             {
@@ -214,9 +215,8 @@ namespace KegID.ViewModel
 
         // reads the values needed for ScanSettings from the Settings class
         // and applies them to the Picker
-        async Task updateScanSettings()
+        async Task UpdateScanSettings()
         {
-            IBarcodePicker picker = ScanditService.BarcodePicker;
             bool addOnEnabled = false;
             bool isScanningAreaOverriddenByDpmMode = false;
 
@@ -228,24 +228,24 @@ namespace KegID.ViewModel
                 if (Settings.isDpmMode(setting) && enabled)
                 {
                     Rect restricted = new Rect(0.33f, 0.33f, 0.33f, 0.33f);
-                    _scanSettings.ActiveScanningAreaPortrait = restricted;
-                    _scanSettings.ActiveScanningAreaLandscape = restricted;
+                    scanSettings.ActiveScanningAreaPortrait = restricted;
+                    scanSettings.ActiveScanningAreaLandscape = restricted;
 
                     isScanningAreaOverriddenByDpmMode = true;
 
                     // Enabling the direct_part_marking_mode extension comes at the cost of increased frame processing times.
                     // It is recommended to restrict the scanning area to a smaller part of the image for best performance.
-                    _scanSettings.Symbologies[Symbology.DataMatrix].SetExtensionEnabled("direct_part_marking_mode", true);
+                    scanSettings.Symbologies[Symbology.DataMatrix].SetExtensionEnabled("direct_part_marking_mode", true);
                     continue;
                 }
 
                 if (ScanditConvert.settingToSymbologies[setting] == null) continue;
                 foreach (Symbology sym in ScanditConvert.settingToSymbologies[setting])
                 {
-                    _scanSettings.EnableSymbology(sym, enabled);
+                    scanSettings.EnableSymbology(sym, enabled);
                     if (Settings.hasInvertedSymbology(setting))
                     {
-                        _scanSettings.Symbologies[sym].ColorInvertedEnabled = Settings.getBoolSetting(
+                        scanSettings.Symbologies[sym].ColorInvertedEnabled = Settings.getBoolSetting(
                             Settings.getInvertedSymbology(setting));
                     }
 
@@ -259,13 +259,13 @@ namespace KegID.ViewModel
 
             if (addOnEnabled)
             {
-                _scanSettings.MaxNumberOfCodesPerFrame = 2;
+                scanSettings.MaxNumberOfCodesPerFrame = 2;
             }
 
-            _scanSettings.Symbologies[Symbology.MsiPlessey].Checksums =
+            scanSettings.Symbologies[Symbology.MsiPlessey].Checksums =
                 ScanditConvert.msiPlesseyChecksumToScanSetting[Settings.getStringSetting(Settings.MsiPlesseyChecksumString)];
 
-            _scanSettings.RestrictedAreaScanningEnabled = isScanningAreaOverriddenByDpmMode || Settings.getBoolSetting(Settings.RestrictedAreaString);
+            scanSettings.RestrictedAreaScanningEnabled = isScanningAreaOverriddenByDpmMode || Settings.getBoolSetting(Settings.RestrictedAreaString);
             if (Settings.getBoolSetting(Settings.RestrictedAreaString) && !isScanningAreaOverriddenByDpmMode)
             {
                 Double HotSpotHeight = Settings.getDoubleSetting(Settings.HotSpotHeightString);
@@ -275,24 +275,33 @@ namespace KegID.ViewModel
                 Rect restricted = new Rect(0.5f - HotSpotWidth * 0.5f, HotSpotY - 0.5f * HotSpotHeight,
                                            HotSpotWidth, HotSpotHeight);
 
-                _scanSettings.ScanningHotSpot = new Scandit.BarcodePicker.Unified.Point(
+                scanSettings.ScanningHotSpot = new Scandit.BarcodePicker.Unified.Point(
                         0.5, Settings.getDoubleSetting(Settings.HotSpotYString));
-                _scanSettings.ActiveScanningAreaPortrait = restricted;
-                _scanSettings.ActiveScanningAreaLandscape = restricted;
+                scanSettings.ActiveScanningAreaPortrait = restricted;
+                scanSettings.ActiveScanningAreaLandscape = restricted;
             }
-            _scanSettings.ResolutionPreference =
+            scanSettings.ResolutionPreference =
                 ScanditConvert.resolutionToScanSetting[Settings.getStringSetting(Settings.ResolutionString)];
 
-          await picker.ApplySettingsAsync(_scanSettings);
+          await picker.ApplySettingsAsync(scanSettings);
         }
 
         private void UpdateScanOverlay()
         {
-            ScanditService.BarcodePicker.ScanOverlay.BeepEnabled = Settings.BeepOnValidScans;
-            ScanditService.BarcodePicker.ScanOverlay.VibrateEnabled = true;
-            ScanditService.BarcodePicker.ScanOverlay.TorchButtonVisible = true;
-            ScanditService.BarcodePicker.ScanOverlay.CameraSwitchVisibility = CameraSwitchVisibility.Never;
-            ScanditService.BarcodePicker.ScanOverlay.GuiStyle = GuiStyle.Default;
+            picker.ScanOverlay.BeepEnabled = Settings.BeepOnValidScans;
+            picker.ScanOverlay.VibrateEnabled = true;
+            picker.ScanOverlay.TorchButtonVisible = true;
+
+            picker.ScanOverlay.ViewFinderSizePortrait = new Scandit.BarcodePicker.Unified.Size(
+               (float)Settings.getDoubleSetting(Settings.ViewFinderPortraitWidthString),
+               (float)Settings.getDoubleSetting(Settings.ViewFinderPortraitHeightString)
+           );
+            picker.ScanOverlay.ViewFinderSizeLandscape = new Scandit.BarcodePicker.Unified.Size(
+                   (float)Settings.getDoubleSetting(Settings.ViewFinderLandscapeWidthString),
+                   (float)Settings.getDoubleSetting(Settings.ViewFinderLandscapeHeightString)
+            );
+            picker.ScanOverlay.CameraSwitchVisibility = CameraSwitchVisibility.Always;
+            picker.ScanOverlay.GuiStyle = GuiStyle.Laser;
         }
 
         private void DoneCommandRecieverAsync()
