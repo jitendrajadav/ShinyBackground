@@ -59,6 +59,7 @@
                 <Button
                     x:Name="lblSave"
                     Grid.Row="0"
+                    Grid.Column="1"
                     AutomationId="saveButton"
                     Command="{Binding SaveCommand}"
                     HorizontalOptions="End"
