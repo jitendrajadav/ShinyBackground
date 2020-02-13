@@ -158,6 +158,11 @@ namespace KegID.ViewModel
                         };
                         MessagingCenter.Send(scannerToPalletAssign, "ScannerToPalletAssign");
                     }
+                    var moveScan = new MoveScanKegsMessage
+                    {
+                        Barcode = message
+                    };
+                    MessagingCenter.Send(moveScan, "MoveScanKegsMessage");
                     try
                     {
                         var toastConfig = new ToastConfig("Last scan: " + message);
@@ -304,19 +309,13 @@ namespace KegID.ViewModel
             picker.ScanOverlay.GuiStyle = GuiStyle.Laser;
         }
 
-        private void DoneCommandRecieverAsync()
+        private async void DoneCommandRecieverAsync()
         {
-            //var message = new StartLongRunningTaskMessage
-            //{
-            //    Barcode = models.Select(x => x.Barcode).ToList(),
-            //    PageName = Page
-            //};
-            //MessagingCenter.Send(message, "StartLongRunningTaskMessage");
 
-            //await _navigationService.GoBackAsync(new NavigationParameters
-            //        {
-            //            { "models", models }
-            //        }, useModalNavigation: true, animated: false);
+            await _navigationService.GoBackAsync(new NavigationParameters
+                    {
+                        { "models", models }
+                    }, useModalNavigation: true, animated: false);
         }
 
         public override Task InitializeAsync(INavigationParameters parameters)

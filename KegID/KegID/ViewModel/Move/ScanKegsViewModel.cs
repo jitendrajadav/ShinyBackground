@@ -87,41 +87,24 @@ namespace KegID.ViewModel
 
         private void HandleUnsubscribeMessages()
         {
-            //MessagingCenter.Unsubscribe<ScanKegsMessage>(this, "ScanKegsMessage");
+            MessagingCenter.Unsubscribe<MoveScanKegsMessage>(this, "MoveScanKegsMessage");
             MessagingCenter.Unsubscribe<PalletToScanKegPagesMsg>(this, "PalletToScanKegPagesMsg");
-            //MessagingCenter.Unsubscribe<CancelledMessage>(this, "CancelledMessage");
         }
 
         private void HandleReceivedMessages()
         {
-            //MessagingCenter.Subscribe<ScanKegsMessage>(this, "ScanKegsMessage", message =>
-            //{
-            //    Device.BeginInvokeOnMainThread(() =>
-            //    {
-            //        var value = message;
-            //        if (value != null)
-            //        {
-            //            try
-            //            {
-            //                using (var db = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
-            //                {
-            //                    var oldBarcode = BarcodeCollection.FirstOrDefault(x => x.Barcode == value.Barcodes.Barcode);
-            //                    oldBarcode.Pallets = value.Barcodes.Pallets;
-            //                    oldBarcode.Kegs = value.Barcodes.Kegs;
-            //                    oldBarcode.Icon = value?.Barcodes?.Kegs?.Partners.Count > 1 ? _getIconByPlatform.GetIcon("validationquestion.png") : value?.Barcodes?.Kegs?.Partners?.Count == 0 ? _getIconByPlatform.GetIcon("validationerror.png") : _getIconByPlatform.GetIcon("validationok.png");
-            //                    if (oldBarcode.Icon == "validationerror.png")
-            //                        Vibration.Vibrate();
-            //                    oldBarcode.IsScanned = true;
-            //                    db.Commit();
-            //                }
-            //            }
-            //            catch (Exception ex)
-            //            {
-            //                Crashes.TrackError(ex);
-            //            }
-            //        }
-            //    });
-            //});
+            MessagingCenter.Subscribe<MoveScanKegsMessage>(this, "MoveScanKegsMessage", message =>
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    var value = message;
+                    if (value != null)
+                    {
+                        ManaulBarcode = message.Barcode;
+                        BarcodeManualCommandRecieverAsync();
+                    }
+                });
+            });
 
             MessagingCenter.Subscribe<PalletToScanKegPagesMsg>(this, "PalletToScanKegPagesMsg", message =>
             {
@@ -134,18 +117,6 @@ namespace KegID.ViewModel
                     }
                 });
             });
-
-            //MessagingCenter.Subscribe<CancelledMessage>(this, "CancelledMessage", message =>
-            //{
-            //    Device.BeginInvokeOnMainThread(() =>
-            //    {
-            //        var value = "Cancelled";
-            //        if (value == "Cancelled")
-            //        {
-
-            //        }
-            //    });
-            //});
         }
 
         public void LoadBrand()

@@ -2,9 +2,9 @@
 
 namespace KegID.Messages
 {
-    public class ScanKegsMessage
+    public class MoveScanKegsMessage
     {
-        public BarcodeModel Barcodes { get; set; }
+        public string Barcode { get; set; }
     }
 
     public class FillScanMessage
