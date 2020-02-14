@@ -72,7 +72,7 @@ namespace KegID.ViewModel
             ExpandCommand = new DelegateCommand(ExpandCommandReciever);
             //LoadBrand();
 
-            HandleUnsubscribeMessages();
+            //HandleUnsubscribeMessages();
             HandleReceivedMessages();
         }
 

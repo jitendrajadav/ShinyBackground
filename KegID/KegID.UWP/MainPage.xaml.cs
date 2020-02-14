@@ -16,7 +16,7 @@ namespace KegID.UWP
         {
             InitializeComponent();
             SetupAdditionalEncodingProviders();
-            Xamarin.FormsMaps.Init(AppSettings.BingMapsApiKey);
+            Xamarin.FormsMaps.Init(Settings.BingMapsApiKey);
             LoadApplication(new KegID.App());
         }
 
