@@ -17,7 +17,7 @@ namespace KegID.Extensions
                 JsonSerializerSettings serializeSettings = GetSerializerSettings();
                 result = JsonConvert.DeserializeObject<T>(serialized);
             }
-            catch (Exception ex)
+            catch (Exception ex)//TODO: don't catch a generic exception
             {
                 System.Diagnostics.Debug.WriteLine($"Error deserializing settings value: {ex}");
             }
@@ -28,19 +28,10 @@ namespace KegID.Extensions
 
         public static bool AddOrUpdateValue<T>(this ISettings settings, string key, T obj) where T : class
         {
-            try
-            {
-                JsonSerializerSettings serializeSettings = GetSerializerSettings();
-                string serialized = JsonConvert.SerializeObject(obj, serializeSettings);
+            JsonSerializerSettings serializeSettings = GetSerializerSettings();
+            string serialized = JsonConvert.SerializeObject(obj, serializeSettings);
 
-                return settings.AddOrUpdateValue(key, serialized);
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"Error serializing settings value: {ex}");
-            }
-
-            return false;
+            return settings.AddOrUpdateValue(key, serialized);
         }
 
         private static JsonSerializerSettings GetSerializerSettings()

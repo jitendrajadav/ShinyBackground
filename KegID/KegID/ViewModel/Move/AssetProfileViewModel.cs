@@ -34,17 +34,10 @@ namespace KegID.ViewModel
 
         private async void DoneCommandRecieverAsync()
         {
-            try
-            {
                 await _navigationService.GoBackAsync(new NavigationParameters
                         {
                             { "AssignSizesValue", ConstantManager.VerifiedBarcodes }
                         }, animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
         }
 
         public override void OnNavigatedTo(INavigationParameters parameters)

@@ -73,90 +73,62 @@ namespace KegID.ViewModel
 
         private async Task LoginCommandRecieverAsync()
         {
-            try
+            UserDialogs.Instance.ShowLoading("Loging");
+            var loginResponse = await ApiManager.GetAuthenticate(Username, Password);
+            if (loginResponse.IsSuccessStatusCode)
             {
-                UserDialogs.Instance.ShowLoading("Loging");
-                var loginResponse = await ApiManager.GetAuthenticate(Username, Password);
-                if (loginResponse.IsSuccessStatusCode)
+                var response = await loginResponse.Content.ReadAsStringAsync();
+                var model = await Task.Run(() => JsonConvert.DeserializeObject<LoginModel>(response, GetJsonSetting())); var overDues = model.Preferences.Where(x => x.PreferenceName == "OVERDUE_DAYS").Select(x => x.PreferenceValue).FirstOrDefault();
+                var atRisk = model.Preferences.Where(x => x.PreferenceName == "AT_RISK_DAYS").Select(x => x.PreferenceValue).FirstOrDefault();
+                var appDataWebServiceUrl = model.Preferences.Where(x => x.PreferenceName == "AppDataWebServiceUrl").Select(x => x.PreferenceValue).FirstOrDefault();
+                if (appDataWebServiceUrl != null)
                 {
-                    var response = await loginResponse.Content.ReadAsStringAsync();
-                    var model = await Task.Run(() => JsonConvert.DeserializeObject<LoginModel>(response, GetJsonSetting()));
-                    try
-                    {
-                        var overDues = model.Preferences.Where(x => x.PreferenceName == "OVERDUE_DAYS").Select(x => x.PreferenceValue).FirstOrDefault();
-                        var atRisk = model.Preferences.Where(x => x.PreferenceName == "AT_RISK_DAYS").Select(x => x.PreferenceValue).FirstOrDefault();
-                        var appDataWebServiceUrl = model.Preferences.Where(x => x.PreferenceName == "AppDataWebServiceUrl").Select(x => x.PreferenceValue).FirstOrDefault();
-                        if (appDataWebServiceUrl != null)
-                        {
-                            ConstantManager.BaseUrl = ConstantManager.BaseUrl;// appDataWebServiceUrl;
-                        }
-                        Settings.SessionId = model.SessionId;
-                        Settings.CompanyId = model.CompanyId;
-                        Settings.MasterCompanyId = model.MasterCompanyId;
-                        Settings.UserId = model.UserId;
-                        Settings.SessionExpires = model.SessionExpires;
-                        Settings.Overdue_days = !string.IsNullOrEmpty(overDues) ? long.Parse(overDues) : 0;
-                        Settings.At_risk_days = !string.IsNullOrEmpty(atRisk) ? long.Parse(atRisk) : 0;
+                    ConstantManager.BaseUrl = ConstantManager.BaseUrl;// appDataWebServiceUrl;
+                }
+                Settings.SessionId = model.SessionId;
+                Settings.CompanyId = model.CompanyId;
+                Settings.MasterCompanyId = model.MasterCompanyId;
+                Settings.UserId = model.UserId;
+                Settings.SessionExpires = model.SessionExpires;
+                Settings.Overdue_days = !string.IsNullOrEmpty(overDues) ? long.Parse(overDues) : 0;
+                Settings.At_risk_days = !string.IsNullOrEmpty(atRisk) ? long.Parse(atRisk) : 0;
 
-                        KegRefresh = Convert.ToDouble(model.Preferences.ToList().Find(x => x.PreferenceName == "KEG_REFRESH")?.PreferenceValue);
-                        await RunSafe(DeviceCheckIn());
-                        UserDialogs.Instance.HideLoading();
-                    }
-                    catch (Exception ex)
-                    {
-                        UserDialogs.Instance.HideLoading();
-                        Crashes.TrackError(ex);
-                    }
-                    try
-                    {
-                        var versionUpdated = VersionTracking.CurrentVersion.CompareTo(VersionTracking.PreviousVersion);
-                        if (versionUpdated > 0 && VersionTracking.PreviousVersion != null && VersionTracking.IsFirstLaunchForCurrentVersion)
-                        {
-                            await _navigationService.NavigateAsync("../WhatIsNewView", animated: false);
-                        }
-                        else
-                        {
-                            if (TargetIdiom.Tablet == Device.Idiom)
-                                await _navigationService.NavigateAsync("../MainPageTablet", animated: false);
-                            else
-                                await _navigationService.NavigateAsync("../MainPage", animated: false);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Crashes.TrackError(ex);
-                        UserDialogs.Instance.HideLoading();
-                    }
-                    try
-                    {
-                        if (!IsLogOut)
-                        {
-                            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                            await RealmDb.WriteAsync((realmDb) => realmDb.Add(model));
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Crashes.TrackError(ex);
-                        UserDialogs.Instance.HideLoading();
-                    }
+                KegRefresh = Convert.ToDouble(model.Preferences.ToList().Find(x => x.PreferenceName == "KEG_REFRESH")?.PreferenceValue);
+                await RunSafe(DeviceCheckIn());
+                UserDialogs.Instance.HideLoading();
+
+                UserDialogs.Instance.HideLoading();
+
+                var versionUpdated = VersionTracking.CurrentVersion.CompareTo(VersionTracking.PreviousVersion);
+                if (versionUpdated > 0 && VersionTracking.PreviousVersion != null && VersionTracking.IsFirstLaunchForCurrentVersion)
+                {
+                    await _navigationService.NavigateAsync("../WhatIsNewView", animated: false);
                 }
                 else
                 {
-                    await _dialogService.DisplayAlertAsync("Error", "Error while login please check", "Ok");
-                    UserDialogs.Instance.HideLoading();
+                    if (TargetIdiom.Tablet == Device.Idiom)
+                        await _navigationService.NavigateAsync("../MainPageTablet", animated: false);
+                    else
+                        await _navigationService.NavigateAsync("../MainPage", animated: false);
                 }
-            }
-            catch (Exception ex)
-            {
                 UserDialogs.Instance.HideLoading();
-                Debug.WriteLine(ex.Message);
-                await _dialogService.DisplayAlertAsync("Error", AsyncErrorHandler.Message + "\n\nError while login please check", "Ok");
+
+                if (!IsLogOut)
+                {
+                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                    await RealmDb.WriteAsync((realmDb) => realmDb.Add(model));
+                }
+
+                UserDialogs.Instance.HideLoading();
+
             }
-            finally
+            else
             {
-                Analytics.TrackEvent("Loged In");
+                await _dialogService.DisplayAlertAsync("Error", "Error while login please check", "Ok");
+                UserDialogs.Instance.HideLoading();
             }
+
+            Analytics.TrackEvent("Loged In");
         }
 
         private async Task DeviceCheckIn()

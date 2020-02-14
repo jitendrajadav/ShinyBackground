@@ -118,19 +118,13 @@ namespace KegID.ViewModel
                     {
                         using (var db = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
                         {
-                            try
-                            {
-                                var oldBarcode = BarcodeCollection.Where(x => x.Barcode == message.Barcodes.Barcode).FirstOrDefault();
-                                oldBarcode.Pallets = message?.Barcodes?.Pallets;
-                                oldBarcode.Kegs = message?.Barcodes?.Kegs;
-                                oldBarcode.Icon = message?.Barcodes?.Kegs?.Partners?.Count > 1 ? _getIconByPlatform.GetIcon("validationquestion.png") : message?.Barcodes?.Kegs?.Partners?.Count == 0 ? _getIconByPlatform.GetIcon("validationerror.png") : _getIconByPlatform.GetIcon("validationok.png");
-                                oldBarcode.IsScanned = true;
-                                db.Commit();
-                            }
-                            catch (Exception ex)
-                            {
-                                Crashes.TrackError(ex);
-                            }
+                            var oldBarcode = BarcodeCollection.Where(x => x.Barcode == message.Barcodes.Barcode).FirstOrDefault();
+                            oldBarcode.Pallets = message?.Barcodes?.Pallets;
+                            oldBarcode.Kegs = message?.Barcodes?.Kegs;
+                            oldBarcode.Icon = message?.Barcodes?.Kegs?.Partners?.Count > 1 ? _getIconByPlatform.GetIcon("validationquestion.png") : message?.Barcodes?.Kegs?.Partners?.Count == 0 ? _getIconByPlatform.GetIcon("validationerror.png") : _getIconByPlatform.GetIcon("validationok.png");
+                            oldBarcode.IsScanned = true;
+                            db.Commit();
+
                         }
 
                         if (FillFromLocations != null)
@@ -173,108 +167,81 @@ namespace KegID.ViewModel
 
         internal void AssignInitValue(INavigationParameters parameters)
         {
-            try
-            {
-                BatchModel = parameters.GetValue<NewBatch>("NewBatchModel");
-                SizeButtonTitle = parameters.GetValue<string>("SizeButtonTitle");
-                PartnerModel = parameters.GetValue<PartnerModel>("PartnerModel");
-                IsPalletze = parameters.GetValue<bool>("IsPalletze");
-                Title = parameters.GetValue<string>("Title");
-                ManifestId = parameters.GetValue<string>("ManifestId");
-                FillFromLocations = parameters.GetValue<IList<string>>("FillFromLocations");
-                AllowMaintenanceFill = parameters.GetValue<bool>("AllowMaintenanceFill");
+            BatchModel = parameters.GetValue<NewBatch>("NewBatchModel");
+            SizeButtonTitle = parameters.GetValue<string>("SizeButtonTitle");
+            PartnerModel = parameters.GetValue<PartnerModel>("PartnerModel");
+            IsPalletze = parameters.GetValue<bool>("IsPalletze");
+            Title = parameters.GetValue<string>("Title");
+            ManifestId = parameters.GetValue<string>("ManifestId");
+            FillFromLocations = parameters.GetValue<IList<string>>("FillFromLocations");
+            AllowMaintenanceFill = parameters.GetValue<bool>("AllowMaintenanceFill");
 
-                foreach (var item in parameters.GetValue<IList<BarcodeModel>>("Barcodes"))
-                {
-                    BarcodeCollection.Add(item);
-                    TagsStr = item.TagsStr;
-                }
-
-                GenerateManifestId(null);
-            }
-            catch (Exception ex)
+            foreach (var item in parameters.GetValue<IList<BarcodeModel>>("Barcodes"))
             {
-                Crashes.TrackError(ex);
+                BarcodeCollection.Add(item);
+                TagsStr = item.TagsStr;
             }
+
+            GenerateManifestId(null);
         }
 
         internal async Task AssignValidateBarcodeValueAsync()
         {
-            try
-            {
-                try
-                {
-                    ConstantManager.Barcodes = BarcodeCollection;
-                    ConstantManager.Tags = Tags;
-                    var formsNav = ((Prism.Common.IPageAware)_navigationService).Page;
-                    var page = formsNav.Navigation.NavigationStack[formsNav.Navigation.NavigationStack.Count - 2];
-                    (page?.BindingContext as INavigationAware)?.OnNavigatedTo(new NavigationParameters
+            ConstantManager.Barcodes = BarcodeCollection;
+            ConstantManager.Tags = Tags;
+            var formsNav = ((Prism.Common.IPageAware)_navigationService).Page;
+            var page = formsNav.Navigation.NavigationStack[formsNav.Navigation.NavigationStack.Count - 2];
+            (page?.BindingContext as INavigationAware)?.OnNavigatedTo(new NavigationParameters
                     {
                         { "Barcodes", BarcodeCollection },{ "BatchId", BatchId }
                     });
-                }
-                catch (Exception ex)
-                {
-                    Crashes.TrackError(ex);
-                }
-                await _navigationService.ClearPopupStackAsync(animated: false);
-                if (IsPalletze)
-                {
-                    await _navigationService.GoBackAsync(animated: false);
-                }
-                else
-                {
-                    await _navigationService.NavigateAsync("FillScanReviewView", new NavigationParameters
+
+            await _navigationService.ClearPopupStackAsync(animated: false);
+            if (IsPalletze)
+            {
+                await _navigationService.GoBackAsync(animated: false);
+            }
+            else
+            {
+                await _navigationService.NavigateAsync("FillScanReviewView", new NavigationParameters
                     {
                         { "BatchId", BatchId },{ "Count", BarcodeCollection.Count }
                     }, animated: false);
-                }
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
             }
         }
 
         public void GenerateManifestId(PalletModel palletModel)
         {
-            try
+            DateTimeOffset now = DateTimeOffset.Now;
+            string barCode;
+            long prefix = 0;
+            var lastCharOfYear = now.Year.ToString().ToCharArray().LastOrDefault().ToString();
+            var dayOfYear = now.DayOfYear;
+            var secondsInDayTillNow = SecondsInDayTillNow();
+            var millisecond = now.Millisecond;
+
+            if (IsPalletze)
             {
-                DateTimeOffset now = DateTimeOffset.Now;
-                string barCode;
-                long prefix = 0;
-                var lastCharOfYear = now.Year.ToString().ToCharArray().LastOrDefault().ToString();
-                var dayOfYear = now.DayOfYear;
-                var secondsInDayTillNow = SecondsInDayTillNow();
-                var millisecond = now.Millisecond;
-
-                if (IsPalletze)
+                if (palletModel != null)
                 {
-                    if (palletModel != null)
+                    BatchId = palletModel.BatchId;
+                    Title = "Pallet #" + BatchId;
+                    foreach (var item in palletModel.Barcode)
                     {
-                        BatchId = palletModel.BatchId;
-                        Title = "Pallet #" + BatchId;
-                        foreach (var item in palletModel.Barcode)
-                        {
-                            BarcodeCollection.Add(item);
-                            TagsStr = item.TagsStr ?? string.Empty;
-                        }
-                    }
-                    else
-                    {
-                        BarcodeCollection.Clear();
-
-                        barCode = GenerateBatchId(ref prefix, lastCharOfYear, dayOfYear, secondsInDayTillNow, millisecond);
+                        BarcodeCollection.Add(item);
+                        TagsStr = item.TagsStr ?? string.Empty;
                     }
                 }
                 else
                 {
+                    BarcodeCollection.Clear();
+
                     barCode = GenerateBatchId(ref prefix, lastCharOfYear, dayOfYear, secondsInDayTillNow, millisecond);
                 }
             }
-            catch (Exception ex)
+            else
             {
-                Crashes.TrackError(ex);
+                barCode = GenerateBatchId(ref prefix, lastCharOfYear, dayOfYear, secondsInDayTillNow, millisecond);
             }
         }
 
@@ -309,211 +276,165 @@ namespace KegID.ViewModel
 
         private async void LabelItemTappedCommandRecieverAsync(BarcodeModel model)
         {
-            try
+            if (model.Kegs.Partners.Count > 1)
             {
-                if (model.Kegs.Partners.Count > 1)
-                {
-                    List<BarcodeModel> modelList = new List<BarcodeModel>
+                List<BarcodeModel> modelList = new List<BarcodeModel>
                     {
                         model
                     };
-                    await NavigateToValidatePartner(modelList);
-                }
-                else
-                {
-                    await _navigationService.NavigateAsync("AddTagsView", new NavigationParameters
+                await NavigateToValidatePartner(modelList);
+            }
+            else
+            {
+                await _navigationService.NavigateAsync("AddTagsView", new NavigationParameters
                     {
                         {"viewTypeEnum",ViewTypeEnum.FillScanView },
                         {"AddTagsViewInitialValue",model }
                     }, animated: false);
-                }
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
             }
         }
 
         private async void IconItemTappedCommandRecieverAsync(BarcodeModel model)
         {
-            try
+            if (model.Kegs.Partners.Count > 1)
             {
-                if (model.Kegs.Partners.Count > 1)
-                {
-                    List<BarcodeModel> modelList = new List<BarcodeModel>
+                List<BarcodeModel> modelList = new List<BarcodeModel>
                     {
                         model
                     };
-                    await NavigateToValidatePartner(modelList);
+                await NavigateToValidatePartner(modelList);
+            }
+            else
+            {
+                if (model.Kegs.Partners?.FirstOrDefault()?.Kegs.FirstOrDefault().MaintenanceItems?.Count > 0)
+                {
+                    string strAlert = string.Empty;
+                    for (int i = 0; i < model.Kegs.MaintenanceItems.Count; i++)
+                    {
+                        strAlert += "-" + model.Kegs.MaintenanceItems[i].Name + "\n";
+                        if (model.Kegs.Partners.FirstOrDefault().Kegs.FirstOrDefault().MaintenanceItems.Count == i)
+                        {
+                            break;
+                        }
+                    }
+                    await _dialogService.DisplayAlertAsync("Warning", "This keg needs the following maintenance performed:\n" + strAlert, "Ok");
                 }
                 else
                 {
-                    if (model.Kegs.Partners?.FirstOrDefault()?.Kegs.FirstOrDefault().MaintenanceItems?.Count > 0)
+                    if (model.Icon == "validationerror.png")
                     {
-                        string strAlert = string.Empty;
-                        for (int i = 0; i < model.Kegs.MaintenanceItems.Count; i++)
-                        {
-                            strAlert += "-" + model.Kegs.MaintenanceItems[i].Name + "\n";
-                            if (model.Kegs.Partners.FirstOrDefault().Kegs.FirstOrDefault().MaintenanceItems.Count == i)
-                            {
-                                break;
-                            }
-                        }
-                        await _dialogService.DisplayAlertAsync("Warning", "This keg needs the following maintenance performed:\n" + strAlert, "Ok");
+                        bool accept = await _dialogService.DisplayAlertAsync("Warning", "This scan could not be verified", "Keep", "Delete");
                     }
                     else
                     {
-                        if (model.Icon == "validationerror.png")
-                        {
-                            bool accept = await _dialogService.DisplayAlertAsync("Warning", "This scan could not be verified", "Keep", "Delete");
-                        }
-                        else
-                        {
-                            await _navigationService.NavigateAsync("ScanInfoView", new NavigationParameters
+                        await _navigationService.NavigateAsync("ScanInfoView", new NavigationParameters
                             {
                                 { "model", model }
                             }, animated: false);
-                        }
                     }
                 }
             }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+
         }
 
         private async Task NavigateToValidatePartner(List<BarcodeModel> model)
         {
-            try
-            {
-                await _navigationService.NavigateAsync("ValidateBarcodeView", new NavigationParameters
+            await _navigationService.NavigateAsync("ValidateBarcodeView", new NavigationParameters
                     {
                         { "model", model }
                     }, animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+
         }
 
         private void BarcodeManualCommandReciever()
         {
-            try
+            if (!Lastbadscan)
             {
-                if (!Lastbadscan)
+                bool isNew = BarcodeCollection.ToList().Any(x => x.Barcode == ManaulBarcode);
+
+                BarcodeModel model = null;
+                if (!isNew)
                 {
-                    bool isNew = BarcodeCollection.ToList().Any(x => x.Barcode == ManaulBarcode);
-
-                    BarcodeModel model = null;
-                    if (!isNew)
+                    model = new BarcodeModel
                     {
-                        try
+                        Barcode = ManaulBarcode,
+                        TagsStr = TagsStr,
+                        Icon = Cloud,
+                        Page = nameof(ViewTypeEnum.FillScanView),
+                        Contents = Tags.Count > 2 ? Tags?[2]?.Name ?? string.Empty : string.Empty
+                    };
+                    if (ConstantManager.Tags != null)
+                    {
+                        foreach (var item in ConstantManager.Tags)
+                            model.Tags.Add(item);
+                    }
+                    BarcodeCollection.Add(model);
+
+
+                    //    var message = new StartLongRunningTaskMessage
+                    //    {
+                    //        Barcode = new List<string>() { ManaulBarcode },
+                    //        PageName = nameof(ViewTypeEnum.FillScanView)
+                    //    };
+                    //    MessagingCenter.Send(message, "StartLongRunningTaskMessage");
+
+                    var current = Connectivity.NetworkAccess;
+                    if (current == NetworkAccess.Internet)
+                    {
+                        // IJobManager can and should be injected into your viewmodel code
+                        Shiny.ShinyHost.Resolve<Shiny.Jobs.IJobManager>().RunTask("FillJob" + ManaulBarcode, async _ =>
+                    {
+                        // your code goes here - async stuff is welcome (and necessary)
+                        var response = await ApiManager.GetValidateBarcode(ManaulBarcode, Settings.SessionId);
+                        if (response.IsSuccessStatusCode)
                         {
-                            model = new BarcodeModel
+                            var json = await response.Content.ReadAsStringAsync();
+                            var data = await Task.Run(() => JsonConvert.DeserializeObject<BarcodeModel>(json, GetJsonSetting()));
+
+                            if (data.Kegs != null)
                             {
-                                Barcode = ManaulBarcode,
-                                TagsStr = TagsStr,
-                                Icon = Cloud,
-                                Page = nameof(ViewTypeEnum.FillScanView),
-                                Contents = Tags.Count > 2 ? Tags?[2]?.Name ?? string.Empty : string.Empty
-                            };
-                            if (ConstantManager.Tags != null)
-                            {
-                                foreach (var item in ConstantManager.Tags)
-                                    model.Tags.Add(item);
-                            }
-                            BarcodeCollection.Add(model);
-                        }
-
-                        catch (Exception ex)
-                        {
-                            Crashes.TrackError(ex);
-                        }
-
-
-                        //    var message = new StartLongRunningTaskMessage
-                        //    {
-                        //        Barcode = new List<string>() { ManaulBarcode },
-                        //        PageName = nameof(ViewTypeEnum.FillScanView)
-                        //    };
-                        //    MessagingCenter.Send(message, "StartLongRunningTaskMessage");
-
-                        var current = Connectivity.NetworkAccess;
-                        if (current == NetworkAccess.Internet)
-                        {
-                            // IJobManager can and should be injected into your viewmodel code
-                            Shiny.ShinyHost.Resolve<Shiny.Jobs.IJobManager>().RunTask("FillJob" + ManaulBarcode, async _ =>
-                        {
-                            // your code goes here - async stuff is welcome (and necessary)
-                            var response = await ApiManager.GetValidateBarcode(ManaulBarcode, Settings.SessionId);
-                            if (response.IsSuccessStatusCode)
-                            {
-                                var json = await response.Content.ReadAsStringAsync();
-                                var data = await Task.Run(() => JsonConvert.DeserializeObject<BarcodeModel>(json, GetJsonSetting()));
-
-                                if (data.Kegs != null)
+                                using (var db = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
                                 {
-                                    using (var db = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
-                                    {
-                                        try
-                                        {
-                                            var oldBarcode = BarcodeCollection.FirstOrDefault(x => x.Barcode == data?.Kegs?.Partners?.FirstOrDefault().Kegs?.FirstOrDefault()?.Barcode);
-                                            oldBarcode.Pallets = data.Pallets;
-                                            oldBarcode.Kegs = data.Kegs;
-                                            oldBarcode.Icon = data?.Kegs?.Partners.Count > 1 ? _getIconByPlatform.GetIcon("validationquestion.png") : data?.Kegs?.Partners?.Count == 0 ? _getIconByPlatform.GetIcon("validationerror.png") : _getIconByPlatform.GetIcon("validationok.png");
-                                            if (oldBarcode.Icon == "validationerror.png")
-                                                Vibration.Vibrate();
-                                            oldBarcode.IsScanned = true;
-                                            db.Commit();
-                                        }
-                                        catch (Exception EX)
-                                        {
-                                        }
-                                    }
+                                    var oldBarcode = BarcodeCollection.FirstOrDefault(x => x.Barcode == data?.Kegs?.Partners?.FirstOrDefault().Kegs?.FirstOrDefault()?.Barcode);
+                                    oldBarcode.Pallets = data.Pallets;
+                                    oldBarcode.Kegs = data.Kegs;
+                                    oldBarcode.Icon = data?.Kegs?.Partners.Count > 1 ? _getIconByPlatform.GetIcon("validationquestion.png") : data?.Kegs?.Partners?.Count == 0 ? _getIconByPlatform.GetIcon("validationerror.png") : _getIconByPlatform.GetIcon("validationok.png");
+                                    if (oldBarcode.Icon == "validationerror.png")
+                                        Vibration.Vibrate();
+                                    oldBarcode.IsScanned = true;
+                                    db.Commit();
                                 }
                             }
-                        });
                         }
-
-                        ManaulBarcode = string.Empty;
+                    });
                     }
-                }
-                else
-                {
-                    _ = _dialogService.DisplayAlertAsync("Alert", "There is a kegs with maintenance pleaser remove scan", "Ok");
+
+                    ManaulBarcode = string.Empty;
                 }
             }
-            catch (Exception ex)
+            else
             {
-                Crashes.TrackError(ex);
+                _ = _dialogService.DisplayAlertAsync("Alert", "There is a kegs with maintenance pleaser remove scan", "Ok");
             }
+
         }
 
         private async void SubmitCommandRecieverAsync()
         {
-            try
+            var current = Connectivity.NetworkAccess;
+            if (current == NetworkAccess.Internet)
             {
-                var current = Connectivity.NetworkAccess;
-                if (current == NetworkAccess.Internet)
-                {
-                    var result = BarcodeCollection.Where(x => x.Kegs.Partners.Count > 1).ToList();
-                    if (result.Count > 0)
-                        await NavigateToValidatePartner(result.ToList());
-                    else
-                    {
-                        await NavigateToFillScanReview();
-                    }
-                }
+                var result = BarcodeCollection.Where(x => x.Kegs.Partners.Count > 1).ToList();
+                if (result.Count > 0)
+                    await NavigateToValidatePartner(result.ToList());
                 else
                 {
                     await NavigateToFillScanReview();
                 }
             }
-            catch (Exception ex)
+            else
             {
-                Crashes.TrackError(ex);
+                await NavigateToFillScanReview();
             }
         }
 
@@ -549,317 +470,198 @@ namespace KegID.ViewModel
             List<BarcodeModel> alert = BarcodeCollection.Where(x => x.Icon == "maintenace.png").ToList();
             if (alert.Count > 0 && alert.FirstOrDefault()?.HasMaintenaceVerified == false)
             {
-                try
+                string strBarcode = alert.FirstOrDefault().Barcode;
+                var option = await _dialogService.DisplayActionSheetAsync("No keg with a barcode of \n" + strBarcode + " could be found",
+                    null, null, "Remove unverified scans", "Assign sizes", "Countinue with current scans", "Stay here");
+                switch (option)
                 {
-                    string strBarcode = alert.FirstOrDefault().Barcode;
-                    var option = await _dialogService.DisplayActionSheetAsync("No keg with a barcode of \n" + strBarcode + " could be found",
-                        null, null, "Remove unverified scans", "Assign sizes", "Countinue with current scans", "Stay here");
-                    switch (option)
-                    {
-                        case "Remove unverified scans":
-                            BarcodeCollection.Remove(alert.FirstOrDefault());
+                    case "Remove unverified scans":
+                        BarcodeCollection.Remove(alert.FirstOrDefault());
 
-                            new Task(new Action(() =>
-                            {
-                                PrintPallet();
-                            })).Start();
+                        new Task(new Action(() =>
+                        {
+                            PrintPallet();
+                        })).Start();
 
-                            await _navigationService.GoBackAsync(new NavigationParameters
+                        await _navigationService.GoBackAsync(new NavigationParameters
                                     {
                                         { "AssignValueToAddPalletAsync", BatchId }, { "BarcodesCollection", BarcodeCollection },
                                     }, animated: false);
-                            break;
-                        case "Assign sizes":
-                            var param = new NavigationParameters
+                        break;
+                    case "Assign sizes":
+                        var param = new NavigationParameters
                             {
                                 { "alert", alert }
                             };
-                            await _navigationService.NavigateAsync("AssignSizesView", param, animated: false);
+                        await _navigationService.NavigateAsync("AssignSizesView", param, animated: false);
 
-                            break;
-                        case "Continue with current scans":
-                            await NavigateNextPage();
-                            break;
+                        break;
+                    case "Continue with current scans":
+                        await NavigateNextPage();
+                        break;
 
-                        case "Stay here":
-                            break;
-                    }
+                    case "Stay here":
+                        break;
                 }
-                catch (Exception ex)
-                {
-                    Crashes.TrackError(ex);
-                }
+
             }
             else
             {
-                try
-                {
-                    await NavigateNextPage();
-                }
-                catch (Exception ex)
-                {
-                    Crashes.TrackError(ex);
-                }
+                await NavigateNextPage();
             }
         }
 
         private async Task NavigateNextPage()
         {
-            try
+            ConstantManager.Barcodes = BarcodeCollection.ToList();
+            if (BarcodeCollection.Any(x => x?.Kegs?.Partners?.Count > 1))
+                await NavigateToValidatePartner(BarcodeCollection.Where(x => x?.Kegs?.Partners?.Count > 1).ToList());
+            else
             {
-                ConstantManager.Barcodes = BarcodeCollection.ToList();
-                if (BarcodeCollection.Any(x => x?.Kegs?.Partners?.Count > 1))
-                    await NavigateToValidatePartner(BarcodeCollection.Where(x => x?.Kegs?.Partners?.Count > 1).ToList());
-                else
-                {
-                    try
-                    {
-                        PrintPallet();
-                    }
-                    catch (Exception ex)
-                    {
-                        Crashes.TrackError(ex);
-                    }
+                PrintPallet();
 
-                    await _navigationService.GoBackAsync(new NavigationParameters
+                await _navigationService.GoBackAsync(new NavigationParameters
                                     {
                                         { "AssignValueToAddPalletAsync", BatchId }, { "BarcodesCollection", BarcodeCollection },
                                     }, animated: false);
-                }
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
             }
         }
 
         public void PrintPallet()
         {
-            try
+            string header = string.Format(_zebraPrinterManager.PalletHeader, BatchId, PartnerModel.ParentPartnerName, PartnerModel.Address1, PartnerModel.City + "," + PartnerModel.State + " " + PartnerModel.PostalCode, "", PartnerModel.ParentPartnerName, BatchModel.BatchCode, DateTimeOffset.UtcNow.Date.ToShortDateString(), "1", "", BatchModel.BrandName,
+                                "1", "", "", "", "", "", "", "", "", "",
+                                "", "", "", "", "", "", "", "", "", "",
+                                "", BatchId, BatchId);
+            new Thread(() =>
             {
-                string header = string.Format(_zebraPrinterManager.PalletHeader, BatchId, PartnerModel.ParentPartnerName, PartnerModel.Address1, PartnerModel.City + "," + PartnerModel.State + " " + PartnerModel.PostalCode, "", PartnerModel.ParentPartnerName, BatchModel.BatchCode, DateTimeOffset.UtcNow.Date.ToShortDateString(), "1", "", BatchModel.BrandName,
-                                    "1", "", "", "", "", "", "", "", "", "",
-                                    "", "", "", "", "", "", "", "", "", "",
-                                    "", BatchId, BatchId);
-                new Thread(() =>
-                {
-                    _zebraPrinterManager.SendZplPalletAsync(header, ConstantManager.IPAddr);
-                }).Start();
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+                _zebraPrinterManager.SendZplPalletAsync(header, ConstantManager.IPAddr);
+            }).Start();
         }
 
         private async void CancelCommandRecieverAsync()
         {
-            try
+            if (!Lastbadscan)
             {
-                if (!Lastbadscan)
-                {
-                    await _navigationService.GoBackAsync(new NavigationParameters
+                await _navigationService.GoBackAsync(new NavigationParameters
                 {
                     { "BarcodeCollection", BarcodeCollection },
                     { "BatchId", BatchId },
                     { "ManifestId", ManifestId },
 
                 }, animated: false);
-                }
-                else
-                {
-                    _ = _dialogService.DisplayAlertAsync("Alert", "There is a kegs with maintenance pleaser remove scan", "Ok");
-                }
             }
-            catch (Exception ex)
+            else
             {
-                Crashes.TrackError(ex);
+                _ = _dialogService.DisplayAlertAsync("Alert", "There is a kegs with maintenance pleaser remove scan", "Ok");
             }
         }
 
         private async void BarcodeScanCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.NavigateAsync("ScanditScanView", new NavigationParameters
+            await _navigationService.NavigateAsync("ScanditScanView", new NavigationParameters
                     {
                         { "Tags", Tags },{ "TagsStr", TagsStr },{ "ViewTypeEnum", ViewTypeEnum.FillScanView }
                     }, animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
         }
 
         internal void AssignBarcodeScannerValue(IList<BarcodeModel> barcodes)
         {
-            try
-            {
-                foreach (var item in barcodes)
-                    BarcodeCollection.Add(item);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            foreach (var item in barcodes)
+                BarcodeCollection.Add(item);
         }
 
         internal void AssignAddTagsValue(List<Tag> _tags, string _tagsStr)
         {
-            try
-            {
-                Tags = _tags;
-                TagsStr = _tagsStr;
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            Tags = _tags;
+            TagsStr = _tagsStr;
         }
 
         private async void AddTagsCommandRecieverAsync()
         {
-            try
+            if (!Lastbadscan)
             {
-                if (!Lastbadscan)
-                {
-                    await _navigationService.NavigateAsync("AddTagsView", new NavigationParameters
+                await _navigationService.NavigateAsync("AddTagsView", new NavigationParameters
                     {
                         {"viewTypeEnum",ViewTypeEnum.FillScanView }
                     }, animated: false);
-                }
-                else
-                {
-                    _ = _dialogService.DisplayAlertAsync("Alert", "There is a kegs with maintenance pleaser remove scan", "Ok");
-                }
             }
-            catch (Exception ex)
+            else
             {
-                Crashes.TrackError(ex);
+                _ = _dialogService.DisplayAlertAsync("Alert", "There is a kegs with maintenance pleaser remove scan", "Ok");
             }
         }
 
         internal async Task AssignValidatedValueAsync(Partner model)
         {
-            try
+            IList<Partner> selecetdPertner = BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault()?.Barcode).Select(x => x.Kegs.Partners).FirstOrDefault();
+            Partner unusedPartner = null;
+            foreach (var item in selecetdPertner)
             {
-                IList<Partner> selecetdPertner = BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault()?.Barcode).Select(x => x.Kegs.Partners).FirstOrDefault();
-                Partner unusedPartner = null;
-                foreach (var item in selecetdPertner)
+                if (item.FullName == model.FullName)
                 {
-                    if (item.FullName == model.FullName)
-                    {
-                    }
-                    else
-                    {
-                        unusedPartner = item;
-                        break;
-                    }
                 }
-                try
+                else
                 {
-                    if (model.Kegs.FirstOrDefault()?.MaintenanceItems?.Count > 0)
-                    {
-                        Realm RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                        RealmDb.Write(() => BarcodeCollection.FirstOrDefault(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).Icon = _getIconByPlatform.GetIcon(Maintenace));
-                    }
-                    else
-                    {
-                        var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                        try
-                        {
-                            RealmDb.Write(() => BarcodeCollection.FirstOrDefault(x => x.Barcode == model
-                                .Kegs
-                                .FirstOrDefault()
-                                .Barcode).Icon = _getIconByPlatform.GetIcon(ValidationOK));
-                        }
-                        catch (Exception ex)
-                        {
-                            Crashes.TrackError(ex);
-                        }
-                    }
-
-                    try
-                    {
-                        var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                        RealmDb.Write(() => BarcodeCollection.FirstOrDefault(x => x.Barcode == model.Kegs.FirstOrDefault()?.Barcode)?.Kegs.Partners.Remove(unusedPartner));
-                    }
-                    catch (Exception ex)
-                    {
-                        Crashes.TrackError(ex);
-                    }
-
-                    if (!BarcodeCollection.Any(x => x?.Kegs?.Partners?.Count > 1))
-                        await _navigationService.GoBackAsync(animated: false);
-                }
-                catch (Exception ex)
-                {
-                    Crashes.TrackError(ex);
-                }
-                finally
-                {
-                    unusedPartner = null;
+                    unusedPartner = item;
+                    break;
                 }
             }
-            catch (Exception ex)
+
+            Realm RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+
+            if (model.Kegs.FirstOrDefault()?.MaintenanceItems?.Count > 0)
             {
-                Crashes.TrackError(ex);
+                RealmDb.Write(() => BarcodeCollection.FirstOrDefault(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).Icon = _getIconByPlatform.GetIcon(Maintenace));
             }
+            else
+            {
+
+                RealmDb.Write(() => BarcodeCollection.FirstOrDefault(x => x.Barcode == model
+                    .Kegs
+                    .FirstOrDefault()
+                    .Barcode).Icon = _getIconByPlatform.GetIcon(ValidationOK));
+            }
+
+            RealmDb.Write(() => BarcodeCollection.FirstOrDefault(x => x.Barcode == model.Kegs.FirstOrDefault()?.Barcode)?.Kegs.Partners.Remove(unusedPartner));
+
+
+            if (!BarcodeCollection.Any(x => x?.Kegs?.Partners?.Count > 1))
+                await _navigationService.GoBackAsync(animated: false);
+
         }
 
         public void Cleanup()
         {
-            try
-            {
-                BarcodeCollection.Clear();
-                Tags = null;
-                TagsStr = string.Empty;
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            BarcodeCollection.Clear();
+            Tags = null;
+            TagsStr = string.Empty;
         }
 
         internal void AssignAddTagsValue(INavigationParameters parameters)
         {
-            try
+            if (parameters.ContainsKey("Barcode"))
             {
-                if (parameters.ContainsKey("Barcode"))
+                using (var db = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
                 {
-                    try
-                    {
-                        using (var db = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
-                        {
-                            string barcode = parameters.GetValue<string>("Barcode");
-                            var oldBarcode = BarcodeCollection.Where(x => x.Barcode == barcode).FirstOrDefault();
+                    string barcode = parameters.GetValue<string>("Barcode");
+                    var oldBarcode = BarcodeCollection.Where(x => x.Barcode == barcode).FirstOrDefault();
 
-                            for (int i = oldBarcode.Tags.Count - 1; i >= 0; i--)
-                            {
-                                oldBarcode.Tags.RemoveAt(i);
-                            }
-                            foreach (var item in ConstantManager.Tags)
-                            {
-                                oldBarcode.Tags.Add(item);
-                            }
-                            oldBarcode.TagsStr = ConstantManager.TagsStr;
-                            db.Commit();
-                        }
-                    }
-                    catch (Exception ex)
+                    for (int i = oldBarcode.Tags.Count - 1; i >= 0; i--)
                     {
-                        Crashes.TrackError(ex);
+                        oldBarcode.Tags.RemoveAt(i);
                     }
+                    foreach (var item in ConstantManager.Tags)
+                    {
+                        oldBarcode.Tags.Add(item);
+                    }
+                    oldBarcode.TagsStr = ConstantManager.TagsStr;
+                    db.Commit();
                 }
+            }
 
-                Tags = ConstantManager.Tags;
-                TagsStr = ConstantManager.TagsStr;
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            Tags = ConstantManager.Tags;
+            TagsStr = ConstantManager.TagsStr;
         }
 
         public override async void OnNavigatedTo(INavigationParameters parameters)
@@ -882,16 +684,9 @@ namespace KegID.ViewModel
                     break;
                 case "GenerateManifestIdAsync":
                     GenerateManifestId(null);
-                    try
-                    {
-                        BatchModel = parameters.GetValue<NewBatch>("NewBatchModel");
-                        SizeButtonTitle = parameters.GetValue<string>("SizeButtonTitle");
-                        PartnerModel = parameters.GetValue<PartnerModel>("PartnerModel");
-                    }
-                    catch (Exception ex)
-                    {
-                        Crashes.TrackError(ex);
-                    }
+                    BatchModel = parameters.GetValue<NewBatch>("NewBatchModel");
+                    SizeButtonTitle = parameters.GetValue<string>("SizeButtonTitle");
+                    PartnerModel = parameters.GetValue<PartnerModel>("PartnerModel");
                     break;
                 case "models":
                     AssignBarcodeScannerValue(parameters.GetValue<IList<BarcodeModel>>("models"));

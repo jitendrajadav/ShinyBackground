@@ -51,7 +51,7 @@ namespace KegID.ViewModel
                 //if (ShowLoading) UserDialogs.Instance.ShowLoading(loadinMessage ?? "Loading");
                 await task;
             }
-            catch (Exception e)
+            catch (Exception e)//TODO: restrict this
             {
                 IsBusy = false;
                 UserDialogs.Instance.HideLoading();

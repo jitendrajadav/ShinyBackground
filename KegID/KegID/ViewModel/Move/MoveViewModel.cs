@@ -146,119 +146,70 @@ namespace KegID.ViewModel
 
         private async Task SubmitCommandRecieverAsync()
         {
-            try
-            {
-                UserDialogs.Instance.ShowLoading("Loading");
-                //var location = await _geolocationService.GetLastLocationAsync();
+            UserDialogs.Instance.ShowLoading("Loading");
+            //var location = await _geolocationService.GetLastLocationAsync();
 
-                ManifestModel manifestPostModel = null;
-                try
-                {
-                    manifestPostModel = GenerateManifest(LocationMessage ?? new Position(0, 0));
-                    if (manifestPostModel != null)
-                    {
-                        try
-                        {
-                            var current = Connectivity.NetworkAccess;
-                            if (current == NetworkAccess.Internet)
-                            {
-                                var response = await ApiManager.PostManifest(manifestPostModel, Settings.SessionId);
+            ManifestModel manifestPostModel = null;
 
-                                try
-                                {
-                                    AddorUpdateManifestOffline(manifestPostModel, false);
-                                }
-                                catch (Exception ex)
-                                {
-                                    Crashes.TrackError(ex);
-                                }
-                                await GetPostedManifestDetail();
-                            }
-                            else
-                            {
-                                try
-                                {
-                                    AddorUpdateManifestOffline(manifestPostModel, true);
-                                }
-                                catch (Exception ex)
-                                {
-                                    Crashes.TrackError(ex);
-                                }
-                                await GetPostedManifestDetail();
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            Crashes.TrackError(ex);
-                        }
-                        finally
-                        {
-                            manifestPostModel = null;
-                            Cleanup();
-                        }
-                    }
-                    else
-                        await _dialogService.DisplayAlertAsync("Alert", "Something goes wrong please check again", "Ok");
-                }
-                catch (Exception ex)
+            manifestPostModel = GenerateManifest(LocationMessage ?? new Position(0, 0));
+            if (manifestPostModel != null)
+            {
+                var current = Connectivity.NetworkAccess;
+                if (current == NetworkAccess.Internet)
                 {
-                    Crashes.TrackError(ex);
+                    var response = await ApiManager.PostManifest(manifestPostModel, Settings.SessionId);
+
+                    AddorUpdateManifestOffline(manifestPostModel, false);
+                    await GetPostedManifestDetail();
                 }
+                else
+                {
+                    AddorUpdateManifestOffline(manifestPostModel, true);
+
+                    await GetPostedManifestDetail();
+                }
+                manifestPostModel = null;
+                Cleanup();
+
             }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
-            finally
-            {
-                UserDialogs.Instance.HideLoading();
-            }
+            else
+                await _dialogService.DisplayAlertAsync("Alert", "Something goes wrong please check again", "Ok");
+            UserDialogs.Instance.HideLoading();
+
         }
 
         private async Task GetPostedManifestDetail()
         {
             string sizeName = string.Empty;
             ManifestResponseModel manifest = new ManifestResponseModel();
-            try
+            sizeName = ConstantManager.Tags.LastOrDefault().Value;
+
+            manifest.ManifestItems = new List<CreatedManifestItem>();
+            foreach (var item in Barcodes)
             {
-                sizeName = ConstantManager.Tags.LastOrDefault().Value;
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
-            try
-            {
-                manifest.ManifestItems = new List<CreatedManifestItem>();
-                foreach (var item in Barcodes)
+                manifest.ManifestItems.Add(new CreatedManifestItem
                 {
-                    manifest.ManifestItems.Add(new CreatedManifestItem
+                    Barcode = item.Barcode,
+                    Contents = Contents,
+                    Keg = new CreatedManifestKeg
                     {
                         Barcode = item.Barcode,
                         Contents = Contents,
-                        Keg = new CreatedManifestKeg
-                        {
-                            Barcode = item.Barcode,
-                            Contents = Contents,
-                            VolumeName = "Needs to add here!",
-                            OwnerName = ConstantManager.Partner.FullName,
-                            SizeName = sizeName,
-                        }
-                    });
-                }
+                        VolumeName = "Needs to add here!",
+                        OwnerName = ConstantManager.Partner.FullName,
+                        SizeName = sizeName,
+                    }
+                });
+            }
 
-                manifest.TrackingNumber = ManifestId;
-                manifest.ShipDate = DateTimeOffset.UtcNow.Date.ToShortDateString();
-                manifest.CreatorCompany = new CreatorCompany { Address = ConstantManager.Partner.Address, State = ConstantManager.Partner.State, PostalCode = ConstantManager.Partner.PostalCode, Lon = ConstantManager.Partner.Lon, Address1 = ConstantManager.Partner.Address1, City = ConstantManager.Partner.City, CompanyNo = ConstantManager.Partner.CompanyNo.ToString(), Country = ConstantManager.Partner.Country, FullName = ConstantManager.Partner.FullName, IsActive = ConstantManager.Partner.IsActive, IsInternal = ConstantManager.Partner.IsInternal, IsShared = ConstantManager.Partner.IsShared, Lat = ConstantManager.Partner.Lat, LocationCode = ConstantManager.Partner.LocationCode, LocationStatus = ConstantManager.Partner.LocationStatus, MasterCompanyId = ConstantManager.Partner.MasterCompanyId, ParentPartnerId = ConstantManager.Partner.ParentPartnerId, ParentPartnerName = ConstantManager.Partner.ParentPartnerName, PartnerId = ConstantManager.Partner.PartnerId, PartnershipIsActive = ConstantManager.Partner.PartnershipIsActive, PartnerTypeCode = ConstantManager.Partner.PartnerTypeCode, PartnerTypeName = ConstantManager.Partner.PartnerTypeName, PhoneNumber = ConstantManager.Partner.PhoneNumber, SourceKey = ConstantManager.Partner.SourceKey };
-                manifest.SenderPartner = new CreatorCompany { Address = ConstantManager.Partner.Address/*, State = ConstantManager.Partner.State, PostalCode = ConstantManager.Partner.PostalCode, Lon = ConstantManager.Partner.Lon, Address1 = ConstantManager.Partner.Address1, City = ConstantManager.Partner.City, CompanyNo = ConstantManager.Partner.CompanyNo.HasValue ? ConstantManager.Partner.CompanyNo.Value.ToString() : string.Empty, Country = ConstantManager.Partner.Country, FullName = ConstantManager.Partner.FullName, IsActive = ConstantManager.Partner.IsActive, IsInternal = ConstantManager.Partner.IsInternal, IsShared = ConstantManager.Partner.IsShared, Lat = ConstantManager.Partner.Lat, LocationCode = ConstantManager.Partner.LocationCode, LocationStatus = ConstantManager.Partner.LocationStatus, MasterCompanyId = ConstantManager.Partner.MasterCompanyId, ParentPartnerId = ConstantManager.Partner.ParentPartnerId, ParentPartnerName = ConstantManager.Partner.ParentPartnerName, PartnerId = ConstantManager.Partner.PartnerId, PartnershipIsActive = ConstantManager.Partner.PartnershipIsActive, PartnerTypeCode = ConstantManager.Partner.PartnerTypeCode, PartnerTypeName = ConstantManager.Partner.PartnerTypeName, PhoneNumber = ConstantManager.Partner.PhoneNumber, SourceKey = ConstantManager.Partner.SourceKey */};
-                manifest.ReceiverPartner = new CreatorCompany { Address = ConstantManager.Partner.Address, State = ConstantManager.Partner.State, PostalCode = ConstantManager.Partner.PostalCode, Lon = ConstantManager.Partner.Lon, Address1 = ConstantManager.Partner.Address1, City = ConstantManager.Partner.City, CompanyNo = ConstantManager.Partner.CompanyNo.ToString(), Country = ConstantManager.Partner.Country, FullName = ConstantManager.Partner.FullName, IsActive = ConstantManager.Partner.IsActive, IsInternal = ConstantManager.Partner.IsInternal, IsShared = ConstantManager.Partner.IsShared, Lat = ConstantManager.Partner.Lat, LocationCode = ConstantManager.Partner.LocationCode, LocationStatus = ConstantManager.Partner.LocationStatus, MasterCompanyId = ConstantManager.Partner.MasterCompanyId, ParentPartnerId = ConstantManager.Partner.ParentPartnerId, ParentPartnerName = ConstantManager.Partner.ParentPartnerName, PartnerId = ConstantManager.Partner.PartnerId, PartnershipIsActive = ConstantManager.Partner.PartnershipIsActive, PartnerTypeCode = ConstantManager.Partner.PartnerTypeCode, PartnerTypeName = ConstantManager.Partner.PartnerTypeName, PhoneNumber = ConstantManager.Partner.PhoneNumber, SourceKey = ConstantManager.Partner.SourceKey };
-                manifest.SenderShipAddress = new Address { City = ConstantManager.Partner.City, Country = ConstantManager.Partner.Country, Geocoded = false, Latitude = (long)ConstantManager.Partner.Lat, Line1 = ConstantManager.Partner.Address, Line2 = ConstantManager.Partner.Address1, Longitude = (long)ConstantManager.Partner.Lon, PostalCode = ConstantManager.Partner.PostalCode, State = ConstantManager.Partner.State };
-                manifest.ReceiverShipAddress = new Address { City = ConstantManager.Partner.City, Country = ConstantManager.Partner.Country, Geocoded = false, Latitude = (long)ConstantManager.Partner.Lat, Line1 = ConstantManager.Partner.Address, Line2 = ConstantManager.Partner.Address1, Longitude = (long)ConstantManager.Partner.Lon, PostalCode = ConstantManager.Partner.PostalCode, State = ConstantManager.Partner.State };
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            manifest.TrackingNumber = ManifestId;
+            manifest.ShipDate = DateTimeOffset.UtcNow.Date.ToShortDateString();
+            manifest.CreatorCompany = new CreatorCompany { Address = ConstantManager.Partner.Address, State = ConstantManager.Partner.State, PostalCode = ConstantManager.Partner.PostalCode, Lon = ConstantManager.Partner.Lon, Address1 = ConstantManager.Partner.Address1, City = ConstantManager.Partner.City, CompanyNo = ConstantManager.Partner.CompanyNo.ToString(), Country = ConstantManager.Partner.Country, FullName = ConstantManager.Partner.FullName, IsActive = ConstantManager.Partner.IsActive, IsInternal = ConstantManager.Partner.IsInternal, IsShared = ConstantManager.Partner.IsShared, Lat = ConstantManager.Partner.Lat, LocationCode = ConstantManager.Partner.LocationCode, LocationStatus = ConstantManager.Partner.LocationStatus, MasterCompanyId = ConstantManager.Partner.MasterCompanyId, ParentPartnerId = ConstantManager.Partner.ParentPartnerId, ParentPartnerName = ConstantManager.Partner.ParentPartnerName, PartnerId = ConstantManager.Partner.PartnerId, PartnershipIsActive = ConstantManager.Partner.PartnershipIsActive, PartnerTypeCode = ConstantManager.Partner.PartnerTypeCode, PartnerTypeName = ConstantManager.Partner.PartnerTypeName, PhoneNumber = ConstantManager.Partner.PhoneNumber, SourceKey = ConstantManager.Partner.SourceKey };
+            manifest.SenderPartner = new CreatorCompany { Address = ConstantManager.Partner.Address/*, State = ConstantManager.Partner.State, PostalCode = ConstantManager.Partner.PostalCode, Lon = ConstantManager.Partner.Lon, Address1 = ConstantManager.Partner.Address1, City = ConstantManager.Partner.City, CompanyNo = ConstantManager.Partner.CompanyNo.HasValue ? ConstantManager.Partner.CompanyNo.Value.ToString() : string.Empty, Country = ConstantManager.Partner.Country, FullName = ConstantManager.Partner.FullName, IsActive = ConstantManager.Partner.IsActive, IsInternal = ConstantManager.Partner.IsInternal, IsShared = ConstantManager.Partner.IsShared, Lat = ConstantManager.Partner.Lat, LocationCode = ConstantManager.Partner.LocationCode, LocationStatus = ConstantManager.Partner.LocationStatus, MasterCompanyId = ConstantManager.Partner.MasterCompanyId, ParentPartnerId = ConstantManager.Partner.ParentPartnerId, ParentPartnerName = ConstantManager.Partner.ParentPartnerName, PartnerId = ConstantManager.Partner.PartnerId, PartnershipIsActive = ConstantManager.Partner.PartnershipIsActive, PartnerTypeCode = ConstantManager.Partner.PartnerTypeCode, PartnerTypeName = ConstantManager.Partner.PartnerTypeName, PhoneNumber = ConstantManager.Partner.PhoneNumber, SourceKey = ConstantManager.Partner.SourceKey */};
+            manifest.ReceiverPartner = new CreatorCompany { Address = ConstantManager.Partner.Address, State = ConstantManager.Partner.State, PostalCode = ConstantManager.Partner.PostalCode, Lon = ConstantManager.Partner.Lon, Address1 = ConstantManager.Partner.Address1, City = ConstantManager.Partner.City, CompanyNo = ConstantManager.Partner.CompanyNo.ToString(), Country = ConstantManager.Partner.Country, FullName = ConstantManager.Partner.FullName, IsActive = ConstantManager.Partner.IsActive, IsInternal = ConstantManager.Partner.IsInternal, IsShared = ConstantManager.Partner.IsShared, Lat = ConstantManager.Partner.Lat, LocationCode = ConstantManager.Partner.LocationCode, LocationStatus = ConstantManager.Partner.LocationStatus, MasterCompanyId = ConstantManager.Partner.MasterCompanyId, ParentPartnerId = ConstantManager.Partner.ParentPartnerId, ParentPartnerName = ConstantManager.Partner.ParentPartnerName, PartnerId = ConstantManager.Partner.PartnerId, PartnershipIsActive = ConstantManager.Partner.PartnershipIsActive, PartnerTypeCode = ConstantManager.Partner.PartnerTypeCode, PartnerTypeName = ConstantManager.Partner.PartnerTypeName, PhoneNumber = ConstantManager.Partner.PhoneNumber, SourceKey = ConstantManager.Partner.SourceKey };
+            manifest.SenderShipAddress = new Address { City = ConstantManager.Partner.City, Country = ConstantManager.Partner.Country, Geocoded = false, Latitude = (long)ConstantManager.Partner.Lat, Line1 = ConstantManager.Partner.Address, Line2 = ConstantManager.Partner.Address1, Longitude = (long)ConstantManager.Partner.Lon, PostalCode = ConstantManager.Partner.PostalCode, State = ConstantManager.Partner.State };
+            manifest.ReceiverShipAddress = new Address { City = ConstantManager.Partner.City, Country = ConstantManager.Partner.Country, Geocoded = false, Latitude = (long)ConstantManager.Partner.Lat, Line1 = ConstantManager.Partner.Address, Line2 = ConstantManager.Partner.Address1, Longitude = (long)ConstantManager.Partner.Lon, PostalCode = ConstantManager.Partner.PostalCode, State = ConstantManager.Partner.State };
+
 
             await _navigationService.NavigateAsync("ManifestDetailView", new NavigationParameters
                                 {
@@ -272,38 +223,24 @@ namespace KegID.ViewModel
             var isNew = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).Find<ManifestModel>(manifestId);
             if (isNew != null)
             {
-                try
+                manifestPostModel.IsDraft = false;
+                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                RealmDb.Write(() =>
                 {
-                    manifestPostModel.IsDraft = false;
-                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                    RealmDb.Write(() =>
-                    {
-                        RealmDb.Add(manifestPostModel, update: true);
-                    });
-                }
-                catch (Exception ex)
-                {
-                    Crashes.TrackError(ex);
-                }
+                    RealmDb.Add(manifestPostModel, update: true);
+                });
             }
             else
             {
-                try
+                if (queue)
                 {
-                    if (queue)
-                    {
-                        manifestPostModel.IsQueue = true;
-                    }
-                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                    RealmDb.Write(() =>
-                    {
-                        RealmDb.Add(manifestPostModel);
-                    });
+                    manifestPostModel.IsQueue = true;
                 }
-                catch (Exception ex)
+                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                RealmDb.Write(() =>
                 {
-                    Crashes.TrackError(ex);
-                }
+                    RealmDb.Add(manifestPostModel);
+                });
             }
         }
 
@@ -359,37 +296,23 @@ namespace KegID.ViewModel
 
         internal void AssingScanKegsValue(List<BarcodeModel> _barcodes, List<Tag> _tags, string _contents)
         {
-            try
-            {
-                Contents = _contents;
-                Tags = _tags;
-                Barcodes = _barcodes;
-                if (_barcodes.Count > 1)
-                    AddKegs = string.Format("{0} Items", _barcodes.Count);
-                else if (_barcodes.Count == 1)
-                    AddKegs = string.Format("{0} Item", _barcodes.Count);
-                else
-                    AddKegs = string.Format("Add {0}", ContainerTypes);
-                //if (!IsSubmitVisible)
-                //    IsSubmitVisible = true;
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            Contents = _contents;
+            Tags = _tags;
+            Barcodes = _barcodes;
+            if (_barcodes.Count > 1)
+                AddKegs = string.Format("{0} Items", _barcodes.Count);
+            else if (_barcodes.Count == 1)
+                AddKegs = string.Format("{0} Item", _barcodes.Count);
+            else
+                AddKegs = string.Format("Add {0}", ContainerTypes);
+            //if (!IsSubmitVisible)
+            //    IsSubmitVisible = true;
         }
 
         internal void AssignAddTagsValue(List<Tag> _tags, string _tagsStr)
         {
-            try
-            {
-                Tags = _tags;
-                TagsStr = _tagsStr;
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            Tags = _tags;
+            TagsStr = _tagsStr;
         }
 
         private async void CancelCommandRecieverAsync()

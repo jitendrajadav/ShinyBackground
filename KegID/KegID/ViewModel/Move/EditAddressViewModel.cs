@@ -107,7 +107,7 @@ namespace KegID.ViewModel
                 }
                 else
                 {
-                    await _dialogService.DisplayAlertAsync("Warning"," location updates unavailable", "Ok");
+                    await _dialogService.DisplayAlertAsync("Warning", " location updates unavailable", "Ok");
                 }
             }
             catch (FeatureNotSupportedException)
@@ -115,59 +115,40 @@ namespace KegID.ViewModel
                 //Crashes.TrackError(fnsEx);
                 // Feature not supported on device
             }
-            catch (Exception)
-            {
-                await _dialogService.DisplayAlertAsync("Warning", " location updates unavailable", "Ok");
-                //Crashes.TrackError(ex);
-                // Handle exception that may have occurred in geocoding
-            }
+
         }
 
         private async void DoneCommandRecieverAsync()
         {
-            try
+            Address address = new Address()
             {
-                Address address = new Address()
-                {
-                    Line1 = Line1,
-                    Line2 = Line2,
-                    Line3 = Line3,
-                    City = City,
-                    State = State,
-                    PostalCode = PostalCode,
-                    Country = Country
-                };
+                Line1 = Line1,
+                Line2 = Line2,
+                Line3 = Line3,
+                City = City,
+                State = State,
+                PostalCode = PostalCode,
+                Country = Country
+            };
 
-                IsShipping = AddressTitle.Contains("Shipping");
-                await _navigationService.GoBackAsync(new NavigationParameters
+            IsShipping = AddressTitle.Contains("Shipping");
+            await _navigationService.GoBackAsync(new NavigationParameters
                         {
                             { "EditAddress", address },{ "IsShipping", IsShipping }
                         }, animated: false);
 
-                CleanupData();
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            CleanupData();
         }
 
         private void CleanupData()
         {
-            try
-            {
-                Line1 = default;
-                Line2 = default;
-                Line3 = default;
-                City = default;
-                State = default;
-                PostalCode = default;
-                Country = default;
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            Line1 = default;
+            Line2 = default;
+            Line3 = default;
+            City = default;
+            State = default;
+            PostalCode = default;
+            Country = default;
         }
 
         private async void BackCommandRecieverAsync()

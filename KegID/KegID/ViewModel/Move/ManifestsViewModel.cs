@@ -62,63 +62,49 @@ namespace KegID.ViewModel
 
         private async void ItemTappedCommandRecieverAsync(ManifestModel model)
         {
-            try
+            if (model.IsDraft)
             {
-                if (model.IsDraft)
+                switch ((EventTypeEnum)model.EventTypeId)
                 {
-                    switch ((EventTypeEnum)model.EventTypeId)
-                    {
-                        case EventTypeEnum.MOVE_MANIFEST:
-                            await _navigationService.NavigateAsync("MoveView", new NavigationParameters
+                    case EventTypeEnum.MOVE_MANIFEST:
+                        await _navigationService.NavigateAsync("MoveView", new NavigationParameters
                                 {
                                     { "AssignInitialValue", model }
                                 }, animated: false);
-                            break;
-                        case EventTypeEnum.SHIP_MANIFEST:
-                            break;
-                        case EventTypeEnum.RECEIVE_MANIFEST:
-                            break;
-                        case EventTypeEnum.FILL_MANIFEST:
-                            await _navigationService.NavigateAsync("FillView", new NavigationParameters
+                        break;
+                    case EventTypeEnum.SHIP_MANIFEST:
+                        break;
+                    case EventTypeEnum.RECEIVE_MANIFEST:
+                        break;
+                    case EventTypeEnum.FILL_MANIFEST:
+                        await _navigationService.NavigateAsync("FillView", new NavigationParameters
                                 {
                                     { "AssignInitialValue", model }
                                 }, animated: false);
-                            break;
-                        case EventTypeEnum.PALLETIZE_MANIFEST:
-                            break;
-                        case EventTypeEnum.RETURN_MANIFEST:
-                            break;
-                        case EventTypeEnum.REPAIR_MANIFEST:
-                            await _navigationService.NavigateAsync("MaintainView", new NavigationParameters
+                        break;
+                    case EventTypeEnum.PALLETIZE_MANIFEST:
+                        break;
+                    case EventTypeEnum.RETURN_MANIFEST:
+                        break;
+                    case EventTypeEnum.REPAIR_MANIFEST:
+                        await _navigationService.NavigateAsync("MaintainView", new NavigationParameters
                                 {
                                     { "AssignInitialValue", model }
                                 }, animated: false);
-                            break;
-                        case EventTypeEnum.COLLECT_MANIFEST:
-                            break;
-                        case EventTypeEnum.ARCHIVE_MANIFEST:
-                            break;
-                        default:
-                            break;
-                    }
+                        break;
+                    case EventTypeEnum.COLLECT_MANIFEST:
+                        break;
+                    case EventTypeEnum.ARCHIVE_MANIFEST:
+                        break;
+                    default:
+                        break;
                 }
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
             }
         }
 
         private async void HomeCommandRecieverAsync()
         {
-            try
-            {
                 await _navigationService.GoBackToRootAsync();
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
         }
 
         private async void ActionSearchCommandRecieverAsync()

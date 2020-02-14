@@ -22,7 +22,7 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public DelegateCommand<NewBatch> ItemTappedCommand { get;}
+        public DelegateCommand<NewBatch> ItemTappedCommand { get; }
         public DelegateCommand AddBatchCommand { get; }
 
         #endregion
@@ -44,49 +44,30 @@ namespace KegID.ViewModel
 
         private async void AddBatchCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.NavigateAsync("AddBatchView", animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            await _navigationService.NavigateAsync("AddBatchView", animated: false);
+
         }
 
         private async void ItemTappedCommandRecieverAsync(NewBatch model)
         {
-            try
+            if (model != null)
             {
-                if (model != null)
-                {
-                    await _navigationService.GoBackAsync(new NavigationParameters
+                await _navigationService.GoBackAsync(new NavigationParameters
                     {
                         { "BatchModel", model }
                     }, animated: false);
-                }
-                else
-                {
-                    await _dialogService.DisplayAlertAsync("Error", "Error: Please select batch.", "Ok");
-                }
             }
-            catch (Exception ex)
+            else
             {
-                Crashes.TrackError(ex);
+                await _dialogService.DisplayAlertAsync("Error", "Error: Please select batch.", "Ok");
             }
+
         }
 
         public void LoadBatchAsync()
         {
-            try
-            {
-                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                BatchCollection = RealmDb.All<NewBatch>().ToList();
-            }
-            catch (Exception ex)
-            {
-                 Crashes.TrackError(ex);
-            }
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            BatchCollection = RealmDb.All<NewBatch>().ToList();
         }
 
         public async override void OnNavigatedTo(INavigationParameters parameters)

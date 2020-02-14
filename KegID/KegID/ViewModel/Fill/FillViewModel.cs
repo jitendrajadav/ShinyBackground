@@ -146,24 +146,17 @@ namespace KegID.ViewModel
 
         private async void CancelCommandRecieverAsync()
         {
-            try
+            var result = await _dialogService.DisplayActionSheetAsync("Cancel? \n You have like to save this manifest as a draft or delete?", null, null, "Delete manifest", "Save as draft");
+            if (result == "Delete manifest")
             {
-                var result = await _dialogService.DisplayActionSheetAsync("Cancel? \n You have like to save this manifest as a draft or delete?", null, null, "Delete manifest", "Save as draft");
-                if (result == "Delete manifest")
-                {
-                    // Delete an object with a transaction
-                    DeleteManifest(ManifestId);
-                    _ = await _navigationService.GoBackAsync(animated: false);
-                }
-                else
-                {
-                    //Save Draft Manifest logic here...
-                    SaveDraftCommandRecieverAsync();
-                }
+                // Delete an object with a transaction
+                DeleteManifest(ManifestId);
+                _ = await _navigationService.GoBackAsync(animated: false);
             }
-            catch (Exception ex)
+            else
             {
-                Crashes.TrackError(ex);
+                //Save Draft Manifest logic here...
+                SaveDraftCommandRecieverAsync();
             }
         }
 
@@ -203,20 +196,13 @@ namespace KegID.ViewModel
 
         private void Cleanup()
         {
-            try
-            {
-                PalletCollection.Clear();
+            PalletCollection.Clear();
 
-                AddPalletToFillScanMsg msg = new AddPalletToFillScanMsg
-                {
-                    CleanUp = true
-                };
-                MessagingCenter.Send(msg, "AddPalletToFillScanMsg");
-            }
-            catch (Exception ex)
+            AddPalletToFillScanMsg msg = new AddPalletToFillScanMsg
             {
-                Crashes.TrackError(ex);
-            }
+                CleanUp = true
+            };
+            MessagingCenter.Send(msg, "AddPalletToFillScanMsg");
         }
 
         public ManifestModel GenerateManifest(IList<PalletModel> palletCollection, Position location)
@@ -278,19 +264,12 @@ namespace KegID.ViewModel
 
         private void DeleteManifest(string manifestId)
         {
-            try
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            var manifest = RealmDb.All<ManifestModel>().First(b => b.ManifestId == manifestId);
+            using (var trans = RealmDb.BeginWrite())
             {
-                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                var manifest = RealmDb.All<ManifestModel>().First(b => b.ManifestId == manifestId);
-                using (var trans = RealmDb.BeginWrite())
-                {
-                    RealmDb.Remove(manifest);
-                    trans.Commit();
-                }
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
+                RealmDb.Remove(manifest);
+                trans.Commit();
             }
             ConstantManager.Barcodes?.Clear();
             PalletCollection?.Clear();
@@ -298,13 +277,11 @@ namespace KegID.ViewModel
 
         private async void NextCommandRecieverAsync()
         {
-            try
+            if (!BatchButtonTitle.Contains("Select batch") && !DestinationTitle.Contains("Select destination"))
             {
-                if (!BatchButtonTitle.Contains("Select batch") && !DestinationTitle.Contains("Select destination"))
+                if (IsPalletze)
                 {
-                    if (IsPalletze)
-                    {
-                        await _navigationService.NavigateAsync("AddPalletsView", new NavigationParameters
+                    await _navigationService.NavigateAsync("AddPalletsView", new NavigationParameters
                         {
                             { "AddPalletsTitle", "Filling " + SizeButtonTitle + " kegs with " + BatchButtonTitle + "\n" + DestinationTitle },
                             {"PalletCollection",PalletCollection },
@@ -313,10 +290,10 @@ namespace KegID.ViewModel
                             {"NewBatchModel",NewBatchModel },
                             {"SizeButtonTitle",SizeButtonTitle }
                         }, animated: false);
-                    }
-                    else
-                    {
-                        await _navigationService.NavigateAsync("FillScanView", new NavigationParameters
+                }
+                else
+                {
+                    await _navigationService.NavigateAsync("FillScanView", new NavigationParameters
                         {
                             { "IsPalletze",IsPalletze},
                             { "Title","Filling " + SizeButtonTitle + " kegs with " + BatchButtonTitle + " " + DestinationTitle},
@@ -328,32 +305,20 @@ namespace KegID.ViewModel
                             { "FillFromLocations",FillFromLocations},
                             { "AllowMaintenanceFill",AllowMaintenanceFill }
                         }, animated: false);
-                    }
-                }
-                else
-                {
-                    await _dialogService.DisplayAlertAsync("Error", "Batch and destination is required please select it.", "Ok");
                 }
             }
-            catch (Exception ex)
+            else
             {
-                Crashes.TrackError(ex);
+                await _dialogService.DisplayAlertAsync("Error", "Batch and destination is required please select it.", "Ok");
             }
         }
 
         private async void DestinationCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.NavigateAsync("PartnersView", new NavigationParameters
+            await _navigationService.NavigateAsync("PartnersView", new NavigationParameters
                     {
                         { "BrewerStockOn", true }
                     }, animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
         }
 
         private async void BatchCommandRecieverAsync()
@@ -375,56 +340,42 @@ namespace KegID.ViewModel
 
         private void AssignInitialValue(ManifestModel manifestModel)
         {
-            try
+            NewBatchModel = manifestModel?.NewBatches.FirstOrDefault();
+            SizeButtonTitle = manifestModel?.Size;
+            DestinationTitle = manifestModel?.OwnerName;
+            ManifestId = manifestModel?.ManifestId;
+            ConstantManager.Barcodes = manifestModel?.BarcodeModels;
+
+            PartnerModel partner = new PartnerModel()
             {
-                NewBatchModel = manifestModel?.NewBatches.FirstOrDefault();
-                SizeButtonTitle = manifestModel?.Size;
-                DestinationTitle = manifestModel?.OwnerName;
-                ManifestId = manifestModel?.ManifestId;
-                ConstantManager.Barcodes = manifestModel?.BarcodeModels;
-
-                try
+                PartnerId = manifestModel?.ReceiverId,
+                FullName = manifestModel?.OwnerName
+            };
+            ConstantManager.Partner = partner;
+            if (manifestModel.Tags != null)
+            {
+                ConstantManager.Tags = new List<Tag>();
+                foreach (var item in manifestModel.Tags)
                 {
-                    PartnerModel partner = new PartnerModel()
-                    {
-                        PartnerId = manifestModel?.ReceiverId,
-                        FullName = manifestModel?.OwnerName
-                    };
-                    ConstantManager.Partner = partner;
-                    if (manifestModel.Tags != null)
-                    {
-                        ConstantManager.Tags = new List<Tag>();
-                        foreach (var item in manifestModel.Tags)
-                        {
-                            ConstantManager.Tags.Add(item);
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Crashes.TrackError(ex);
-                }
-
-                foreach (var item in manifestModel.NewPallets)
-                {
-                    PalletModel palletModel = new PalletModel
-                    {
-                        Count = item.PalletItems.Count,
-                        ManifestId = ManifestId,
-                        BatchId = item.PalletId
-                    };
-                    palletModel.Barcode = ConstantManager.Barcodes;
-                    if (PalletCollection == null)
-                    {
-                        PalletCollection = new List<PalletModel>();
-                    }
-                    PalletCollection.Add(palletModel);
-                    IsPalletze = item.IsPalletze;
+                    ConstantManager.Tags.Add(item);
                 }
             }
-            catch (Exception ex)
+
+            foreach (var item in manifestModel.NewPallets)
             {
-                Crashes.TrackError(ex);
+                PalletModel palletModel = new PalletModel
+                {
+                    Count = item.PalletItems.Count,
+                    ManifestId = ManifestId,
+                    BatchId = item.PalletId
+                };
+                palletModel.Barcode = ConstantManager.Barcodes;
+                if (PalletCollection == null)
+                {
+                    PalletCollection = new List<PalletModel>();
+                }
+                PalletCollection.Add(palletModel);
+                IsPalletze = item.IsPalletze;
             }
         }
 
@@ -488,13 +439,11 @@ namespace KegID.ViewModel
 
         private void AssingScanToFillView(INavigationParameters parameters)
         {
-            try
-            {
-                ConstantManager.Barcodes = parameters.GetValue<IList<BarcodeModel>>("BarcodeCollection");
-                string BatchId = parameters.GetValue<string>("BatchId");
-                string ManifestId = parameters.GetValue<string>("ManifestId");
+            ConstantManager.Barcodes = parameters.GetValue<IList<BarcodeModel>>("BarcodeCollection");
+            string BatchId = parameters.GetValue<string>("BatchId");
+            string ManifestId = parameters.GetValue<string>("ManifestId");
 
-                PalletCollection = new List<PalletModel>
+            PalletCollection = new List<PalletModel>
                     {
                     new PalletModel
                         {
@@ -504,11 +453,6 @@ namespace KegID.ViewModel
                               Count = ConstantManager.Barcodes.Count
                         }
                     };
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
         }
 
         public void Destroy()

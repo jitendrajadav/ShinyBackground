@@ -30,7 +30,7 @@ namespace KegID.ViewModel
 
         public KegSearchedListViewModel(INavigationService navigationService) : base(navigationService)
         {
-            ItemTappedCommand = new DelegateCommand<KegSearchResponseModel>( (model) => ItemTappedCommandRecieverAsync(model));
+            ItemTappedCommand = new DelegateCommand<KegSearchResponseModel>((model) => ItemTappedCommandRecieverAsync(model));
             KegSearchCommand = new DelegateCommand(KegSearchCommandRecieverAsync);
         }
 
@@ -40,53 +40,29 @@ namespace KegID.ViewModel
 
         private async void KegSearchCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.GoBackAsync(animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            await _navigationService.GoBackAsync(animated: false);
         }
 
         private async void ItemTappedCommandRecieverAsync(KegSearchResponseModel model)
         {
-            try
-            {
-                await _navigationService.NavigateAsync("KegStatusView", new NavigationParameters
+            await _navigationService.NavigateAsync("KegStatusView", new NavigationParameters
                     {
                         { "KegSearchedKegStatusModel", model }
                     }, animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
         }
 
         internal async Task LoadKegSearchAsync(string barcode)
         {
-            try
+            UserDialogs.Instance.ShowLoading("Loading");
+            var response = await ApiManager.GetKegSearch(Settings.SessionId, barcode, true);
+            if (response.IsSuccessStatusCode)
             {
-                UserDialogs.Instance.ShowLoading("Loading");
-                var response = await ApiManager.GetKegSearch(Settings.SessionId, barcode, true);
-                if (response.IsSuccessStatusCode)
-                {
-                    var json = await response.Content.ReadAsStringAsync();
-                    var data = await Task.Run(() => JsonConvert.DeserializeObject<IList<KegSearchResponseModel>>(json, GetJsonSetting()));
+                var json = await response.Content.ReadAsStringAsync();
+                var data = await Task.Run(() => JsonConvert.DeserializeObject<IList<KegSearchResponseModel>>(json, GetJsonSetting()));
 
-                    KegSearchCollection = data;
-                }
+                KegSearchCollection = data;
             }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
-            finally
-            {
-                UserDialogs.Instance.HideLoading();
-            }
+            UserDialogs.Instance.HideLoading();
         }
 
         public override async void OnNavigatedTo(INavigationParameters parameters)
@@ -97,7 +73,7 @@ namespace KegID.ViewModel
             }
             if (parameters.ContainsKey("LoadKegSearchAsync"))
             {
-              await RunSafe(LoadKegSearchAsync(parameters.GetValue<string>("LoadKegSearchAsync")));
+                await RunSafe(LoadKegSearchAsync(parameters.GetValue<string>("LoadKegSearchAsync")));
             }
         }
 

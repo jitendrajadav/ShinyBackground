@@ -59,85 +59,43 @@ namespace KegID.ViewModel
         }
         private async void SearchCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.NavigateAsync("KegSearchedListView", new NavigationParameters
+            await _navigationService.NavigateAsync("KegSearchedListView", new NavigationParameters
                     {
                         { "LoadKegSearchAsync", Barcode }
                     }, animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
         }
 
         private async void HomeCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.GoBackAsync(animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            await _navigationService.GoBackAsync(animated: false);
         }
 
         private async void BarcodeScanCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.NavigateAsync("CognexScanView", new NavigationParameters
+            await _navigationService.NavigateAsync("CognexScanView", new NavigationParameters
                     {
                         { "Tags", null },{ "TagsStr", string.Empty },{ "ViewTypeEnum", ViewTypeEnum.KegSearchView }
                     }, animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
         }
 
         private async void BulkUpdateCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.NavigateAsync("BulkUpdateScanView", animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            await _navigationService.NavigateAsync("BulkUpdateScanView", animated: false);
         }
 
         internal async void AssingSuccessMsgAsync()
         {
-            try
-            {
-                KegsSuccessMsg = "Kegs successfully updated";
-                await Task.Delay(new TimeSpan(0, 0, 5));
-                KegsSuccessMsg = string.Empty;
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            KegsSuccessMsg = "Kegs successfully updated";
+            await Task.Delay(new TimeSpan(0, 0, 5));
+            KegsSuccessMsg = string.Empty;
         }
 
         internal async void AssignBarcodeScannerValueAsync(Barcode barcodes)
         {
-            try
-            {
-                await _navigationService.NavigateAsync("KegSearchedListView", new NavigationParameters
+            await _navigationService.NavigateAsync("KegSearchedListView", new NavigationParameters
                     {
                         { "LoadKegSearchAsync", barcodes }
                     }, animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
         }
 
         public override void OnNavigatedFrom(INavigationParameters parameters)

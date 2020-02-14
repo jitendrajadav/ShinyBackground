@@ -140,208 +140,153 @@ namespace KegID.ViewModel
                     {
                         { "IsLogOut",true}
                     };
-                    await _navigationService.NavigateAsync("/NavigationPage/LoginView", param,animated:false);
+                    await _navigationService.NavigateAsync("/NavigationPage/LoginView", param, animated: false);
                 });
             });
 
-            MessagingCenter.Subscribe<SettingToDashboardMsg>(this, "SettingToDashboardMsg", _ => Device.BeginInvokeOnMainThread(()=>RefreshDashboardRecieverAsync(true)));
+            MessagingCenter.Subscribe<SettingToDashboardMsg>(this, "SettingToDashboardMsg", _ => Device.BeginInvokeOnMainThread(() => RefreshDashboardRecieverAsync(true)));
 
             MessagingCenter.Subscribe<CheckDraftmaniFests>(this, "CheckDraftmaniFests", _ => Device.BeginInvokeOnMainThread(() => CheckDraftmaniFests()));
         }
 
         private async void MoveCommandRecieverAsync()
         {
-            try
-            {
-                _ = await _navigationService.NavigateAsync("MoveView", new NavigationParameters
+            _ = await _navigationService.NavigateAsync("MoveView", new NavigationParameters
                 {
                     { "ManifestId", _uuidManager.GetUuId() }
                 }, animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
         }
 
         private async void InUsePartnerCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.NavigateAsync("DashboardPartnersView", animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            await _navigationService.NavigateAsync("DashboardPartnersView", animated: false);
         }
 
         private async void KegsCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.NavigateAsync("KegSearchView", animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            await _navigationService.NavigateAsync("KegSearchView", animated: false);
+
         }
 
         private async void PartnerCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.NavigateAsync("DashboardPartnersView", animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            await _navigationService.NavigateAsync("DashboardPartnersView", animated: false);
         }
 
         private async void StockCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.NavigateAsync("InventoryView", new NavigationParameters
+            await _navigationService.NavigateAsync("InventoryView", new NavigationParameters
                     {
                         { "currentPage", 0 }
                     }, animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
         }
 
         private async void EmptyCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.NavigateAsync("InventoryView", new NavigationParameters
+            await _navigationService.NavigateAsync("InventoryView", new NavigationParameters
                     {
                         { "currentPage", 1 }
                     }, animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
         }
 
         private async void ManifestCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.NavigateAsync("ManifestsView", animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            await _navigationService.NavigateAsync("ManifestsView", animated: false);
         }
 
         internal void CheckDraftmaniFests()
         {
-            try
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            var manifests = RealmDb.All<ManifestModel>().Where(x => x.IsDraft || x.IsQueue).ToList();
+            var pallets = RealmDb.All<PalletRequestModel>().Where(x => x.IsQueue).ToList();
+
+            var draft = manifests.Where(x => x.IsDraft).ToList();
+            var queue = manifests.Where(x => x.IsQueue).ToList();
+            string queueMsg = queue.Count > 1 ? "queued manifests" : "queued manifest";
+            string draftMsg = draft.Count > 1 ? "draft manifests" : "draft manifest";
+            string palletMsg = pallets.Count > 1 ? "queued pallets" : "queued pallet";
+
+            var current = Connectivity.NetworkAccess;
+            if (current == NetworkAccess.Internet)
             {
-                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                var manifests = RealmDb.All<ManifestModel>().Where(x => x.IsDraft || x.IsQueue).ToList();
-                var pallets = RealmDb.All<PalletRequestModel>().Where(x => x.IsQueue).ToList();
-
-                var draft = manifests.Where(x => x.IsDraft).ToList();
-                var queue = manifests.Where(x => x.IsQueue).ToList();
-                string queueMsg = queue.Count > 1 ? "queued manifests" : "queued manifest";
-                string draftMsg = draft.Count > 1 ? "draft manifests" : "draft manifest";
-                string palletMsg = pallets.Count > 1 ? "queued pallets" : "queued pallet";
-
-                var current = Connectivity.NetworkAccess;
-                if (current == NetworkAccess.Internet)
+                if (manifests.Count > 0)
                 {
-                    if (manifests.Count > 0)
+                    if (draft.Count > 0)
                     {
-                        if (draft.Count > 0)
+                        if (queue.Count > 0)
                         {
-                            if (queue.Count > 0)
-                            {
-                                DraftmaniFests = pallets.Count > 0
-                                    ? string.Format("{0} " + draftMsg + ", {1} " + queueMsg + ", {2} " + palletMsg, draft.Count, queue.Count, pallets.Count)
-                                    : string.Format("{0} " + draftMsg + ", {1} " + queueMsg, draft.Count, queue.Count);
-                            }
-                            else
-                            {
-                                DraftmaniFests = pallets.Count > 0
-                                    ? string.Format("{0} " + draftMsg + ", {1} " + palletMsg, draft.Count, pallets.Count)
-                                    : string.Format("{0} " + draftMsg, draft.Count);
-                            }
-                        }
-                        else if (queue.Count > 0)
-                        {
-                            if (pallets.Count > 0)
-                            {
-                                DraftmaniFests = string.Format("{0} " + queueMsg + ", {1} " + palletMsg, queue.Count, pallets.Count);
-                            }
-                            DraftmaniFests = string.Format("{0} " + queueMsg, queue.Count);
-                        }
-
-                        IsVisibleDraftmaniFestsLabel = true;
-                    }
-                    else if (pallets.Count > 0)
-                    {
-                        DraftmaniFests = string.Format("{0} " + palletMsg, pallets.Count);
-                    }
-                    else
-                    {
-                        DraftmaniFests = string.Empty;
-                        IsVisibleDraftmaniFestsLabel = false;
-                    }
-                }
-                else
-                {
-                    if (manifests.Count > 0)
-                    {
-                        if (draft.Count > 0)
-                        {
-                            if (queue.Count > 0)
-                            {
-                                DraftmaniFests = pallets.Count > 0
-                                    ? string.Format("Lost communication with KegID.com, {0} " + draftMsg + ", {1} " + queueMsg + ", {2} " + palletMsg, draft.Count, queue.Count, pallets.Count)
-                                    : string.Format("Lost communication with KegID.com, {0} " + draftMsg + ", {1} " + queueMsg, draft.Count, queue.Count);
-                            }
-                            else
-                            {
-                                DraftmaniFests = pallets.Count > 0
-                                    ? string.Format("Lost communication with KegID.com, {0} " + draftMsg + ", {1} " + palletMsg, draft.Count, pallets.Count)
-                                    : string.Format("Lost communication with KegID.com, {0} " + draftMsg, draft.Count);
-                            }
+                            DraftmaniFests = pallets.Count > 0
+                                ? string.Format("{0} " + draftMsg + ", {1} " + queueMsg + ", {2} " + palletMsg, draft.Count, queue.Count, pallets.Count)
+                                : string.Format("{0} " + draftMsg + ", {1} " + queueMsg, draft.Count, queue.Count);
                         }
                         else
                         {
-                            if (queue.Count > 0)
-                            {
-                                DraftmaniFests = pallets.Count > 0
-                                    ? string.Format("Lost communication with KegID.com, {0} " + queueMsg + ", {1} " + palletMsg, queue.Count, pallets.Count)
-                                    : string.Format("Lost communication with KegID.com, {0} " + queueMsg , queue.Count);
-                            }
+                            DraftmaniFests = pallets.Count > 0
+                                ? string.Format("{0} " + draftMsg + ", {1} " + palletMsg, draft.Count, pallets.Count)
+                                : string.Format("{0} " + draftMsg, draft.Count);
                         }
-
-                        IsVisibleDraftmaniFestsLabel = true;
                     }
-                    else if (pallets.Count > 0)
+                    else if (queue.Count > 0)
                     {
-                        DraftmaniFests = string.Format("Lost communication with KegID.com, {0} " + palletMsg, pallets.Count);
+                        if (pallets.Count > 0)
+                        {
+                            DraftmaniFests = string.Format("{0} " + queueMsg + ", {1} " + palletMsg, queue.Count, pallets.Count);
+                        }
+                        DraftmaniFests = string.Format("{0} " + queueMsg, queue.Count);
+                    }
+
+                    IsVisibleDraftmaniFestsLabel = true;
+                }
+                else if (pallets.Count > 0)
+                {
+                    DraftmaniFests = string.Format("{0} " + palletMsg, pallets.Count);
+                }
+                else
+                {
+                    DraftmaniFests = string.Empty;
+                    IsVisibleDraftmaniFestsLabel = false;
+                }
+            }
+            else
+            {
+                if (manifests.Count > 0)
+                {
+                    if (draft.Count > 0)
+                    {
+                        if (queue.Count > 0)
+                        {
+                            DraftmaniFests = pallets.Count > 0
+                                ? string.Format("Lost communication with KegID.com, {0} " + draftMsg + ", {1} " + queueMsg + ", {2} " + palletMsg, draft.Count, queue.Count, pallets.Count)
+                                : string.Format("Lost communication with KegID.com, {0} " + draftMsg + ", {1} " + queueMsg, draft.Count, queue.Count);
+                        }
+                        else
+                        {
+                            DraftmaniFests = pallets.Count > 0
+                                ? string.Format("Lost communication with KegID.com, {0} " + draftMsg + ", {1} " + palletMsg, draft.Count, pallets.Count)
+                                : string.Format("Lost communication with KegID.com, {0} " + draftMsg, draft.Count);
+                        }
                     }
                     else
                     {
-                        DraftmaniFests = string.Format("Lost communication with KegID.com");
-                        IsVisibleDraftmaniFestsLabel = true;
+                        if (queue.Count > 0)
+                        {
+                            DraftmaniFests = pallets.Count > 0
+                                ? string.Format("Lost communication with KegID.com, {0} " + queueMsg + ", {1} " + palletMsg, queue.Count, pallets.Count)
+                                : string.Format("Lost communication with KegID.com, {0} " + queueMsg, queue.Count);
+                        }
                     }
+
+                    IsVisibleDraftmaniFestsLabel = true;
                 }
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
+                else if (pallets.Count > 0)
+                {
+                    DraftmaniFests = string.Format("Lost communication with KegID.com, {0} " + palletMsg, pallets.Count);
+                }
+                else
+                {
+                    DraftmaniFests = string.Format("Lost communication with KegID.com");
+                    IsVisibleDraftmaniFestsLabel = true;
+                }
             }
         }
 
@@ -352,99 +297,61 @@ namespace KegID.ViewModel
 
         private async void PalletizeCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.NavigateAsync("PalletizeView", new NavigationParameters
+            await _navigationService.NavigateAsync("PalletizeView", new NavigationParameters
                     {
                         { "GenerateManifestIdAsync", "GenerateManifestIdAsync" }
                     }, animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
         }
 
         private async void PalletsCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.NavigateAsync("SearchPalletView", animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            await _navigationService.NavigateAsync("SearchPalletView", animated: false);
         }
 
         private async void MaintainCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.NavigateAsync("MaintainView", new NavigationParameters
+            await _navigationService.NavigateAsync("MaintainView", new NavigationParameters
                     {
                         { "LoadMaintenanceTypeAsync", "LoadMaintenanceTypeAsync" }
                     }, animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
         }
 
         public async void RefreshDashboardRecieverAsync(bool refresh = false)
         {
-            try
+            if (refresh)
+                await _navigationService.ClearPopupStackAsync(animated: false);
+            var result = await ApiManager.GetDeshboardDetail(Settings.SessionId);
+            if (result.IsSuccessStatusCode)
             {
-                if (refresh)
-                    await _navigationService.ClearPopupStackAsync(animated: false);
-                var result = await ApiManager.GetDeshboardDetail(Settings.SessionId);
-                if (result.IsSuccessStatusCode)
+                var response = await result.Content.ReadAsStringAsync();
+                var model = await Task.Run(() => JsonConvert.DeserializeObject<DashboardResponseModel>(response, GetJsonSetting()));
+                var total = model.Stock + model.Empty + model.InUse;
+
+                if (TargetIdiom.Tablet == Device.Idiom)
                 {
-                    var response = await result.Content.ReadAsStringAsync();
-                    var model = await Task.Run(() => JsonConvert.DeserializeObject<DashboardResponseModel>(response, GetJsonSetting()));
-                    var total = model.Stock + model.Empty + model.InUse;
-
-                    if (TargetIdiom.Tablet == Device.Idiom)
-                    {
-                        Stock = model.Stock.ToString("0,0", CultureInfo.InvariantCulture);
-                        Empty = model.Empty.ToString("0,0", CultureInfo.InvariantCulture);
-                        InUse = model.InUse.ToString("0,0", CultureInfo.InvariantCulture);
-                        Total = total.ToString("0,0", CultureInfo.InvariantCulture);
-                        AverageCycle = model.AverageCycle.ToString() + " days";
-                        Atriskegs = model.InactiveKegs.ToString();
-                    }
-                    else
-                    {
-                        Dashboards.LastOrDefault().Stock = model.Stock.ToString("0,0", CultureInfo.InvariantCulture);
-                        Dashboards.LastOrDefault().Empty = model.Empty.ToString("0,0", CultureInfo.InvariantCulture);
-                        Dashboards.LastOrDefault().InUse = model.InUse.ToString("0,0", CultureInfo.InvariantCulture);
-                        Dashboards.LastOrDefault().Total = total.ToString("0,0", CultureInfo.InvariantCulture);
-                        Dashboards.LastOrDefault().AverageCycle = model.AverageCycle.ToString() + " days";
-                        Dashboards.LastOrDefault().Atriskegs = model.InactiveKegs.ToString();
-                    }
-
+                    Stock = model.Stock.ToString("0,0", CultureInfo.InvariantCulture);
+                    Empty = model.Empty.ToString("0,0", CultureInfo.InvariantCulture);
+                    InUse = model.InUse.ToString("0,0", CultureInfo.InvariantCulture);
+                    Total = total.ToString("0,0", CultureInfo.InvariantCulture);
+                    AverageCycle = model.AverageCycle.ToString() + " days";
+                    Atriskegs = model.InactiveKegs.ToString();
                 }
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
-            finally
-            {
+                else
+                {
+                    Dashboards.LastOrDefault().Stock = model.Stock.ToString("0,0", CultureInfo.InvariantCulture);
+                    Dashboards.LastOrDefault().Empty = model.Empty.ToString("0,0", CultureInfo.InvariantCulture);
+                    Dashboards.LastOrDefault().InUse = model.InUse.ToString("0,0", CultureInfo.InvariantCulture);
+                    Dashboards.LastOrDefault().Total = total.ToString("0,0", CultureInfo.InvariantCulture);
+                    Dashboards.LastOrDefault().AverageCycle = model.AverageCycle.ToString() + " days";
+                    Dashboards.LastOrDefault().Atriskegs = model.InactiveKegs.ToString();
+                }
+
             }
         }
 
         private async void MoreCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.NavigateAsync("SettingView", animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            await _navigationService.NavigateAsync("SettingView", animated: false);
         }
 
         public override async void OnNavigatedTo(INavigationParameters parameters)
@@ -516,14 +423,16 @@ namespace KegID.ViewModel
 
             public void DiscoveryFinished()
             {
-                Device.BeginInvokeOnMainThread(() => {
+                Device.BeginInvokeOnMainThread(() =>
+                {
                     //discoveryDemoPage.SetInputEnabled(true);
                 });
             }
 
             public void FoundPrinter(DiscoveredPrinter printer)
             {
-                Device.BeginInvokeOnMainThread(() => {
+                Device.BeginInvokeOnMainThread(() =>
+                {
                     if (printer.Address == Settings.PrinterAddress)
                     {
                         ConstantManager.PrinterSetting = printer;

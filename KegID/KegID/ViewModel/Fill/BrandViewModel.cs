@@ -31,7 +31,7 @@ namespace KegID.ViewModel
         public BrandViewModel(INavigationService navigationService, IPageDialogService dialogService) : base(navigationService)
         {
             _dialogService = dialogService;
-            ItemTappedCommand = new DelegateCommand<BrandModel>((model)=>ItemTappedCommandRecieverAsync(model));
+            ItemTappedCommand = new DelegateCommand<BrandModel>((model) => ItemTappedCommandRecieverAsync(model));
             LoadBrand();
         }
 
@@ -41,36 +41,22 @@ namespace KegID.ViewModel
 
         private void LoadBrand()
         {
-            try
-            {
-                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                BrandCollection = RealmDb.All<BrandModel>().ToList();
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            BrandCollection = RealmDb.All<BrandModel>().ToList();
         }
 
         private async void ItemTappedCommandRecieverAsync(BrandModel model)
         {
-            try
+            if (model != null)
             {
-                if (model != null)
-                {
-                    await _navigationService.GoBackAsync(new NavigationParameters
+                await _navigationService.GoBackAsync(new NavigationParameters
                     {
                         { "BrandModel", model }
                     }, animated: false);
-                }
-                else
-                {
-                    await _dialogService.DisplayAlertAsync("Warning!", "Warning! Please select brand.", "Ok");
-                }
             }
-            catch (Exception ex)
+            else
             {
-                Crashes.TrackError(ex);
+                await _dialogService.DisplayAlertAsync("Warning!", "Warning! Please select brand.", "Ok");
             }
         }
 

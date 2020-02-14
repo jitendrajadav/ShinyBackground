@@ -64,54 +64,45 @@ namespace KegID.ViewModel
 
         private async void CancelCommandRecieverAsync()
         {
-            try
-            {
-                bool accept = await _dialogService.DisplayAlertAsync("Cancel?", Resources["dialog_cancel_message"], "Stay here", "Leave");
-                if (!accept)
-                    await _navigationService.GoBackAsync(animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            bool accept = await _dialogService.DisplayAlertAsync("Cancel?", Resources["dialog_cancel_message"], "Stay here", "Leave");
+            if (!accept)
+                await _navigationService.GoBackAsync(animated: false);
         }
 
         private async Task SaveCommandRecieverAsync()
         {
-            try
+            var model = new KegRequestModel
             {
-                var model = new KegRequestModel
-                {
-                    KegId = KegId,
-                    Barcode = Barcode,
-                    OwnerId = PartnerModel.PartnerId,
-                    AltBarcode = AltBarcode,
-                    Notes = "",
-                    ReferenceKey = "",
-                    ProfileId = "",
-                    AssetType = SelectedItemType,
-                    AssetSize = Size,
-                    AssetVolume = "",
-                    AssetDescription = "",
-                    OwnerSkuId = "",
-                    FixedContents = "",
-                    Tags = Tags,
-                    MaintenanceAlertIds = new List<string>(),
-                    LessorId = "",
-                    PurchaseDate = DateTimeOffset.Now,
-                    PurchasePrice = 0,
-                    PurchaseOrder = "",
-                    ManufacturerName = "",
-                    ManufacturerId = "",
-                    ManufactureLocation = "",
-                    ManufactureDate = DateTimeOffset.Now,
-                    Material = "",
-                    Markings = "",
-                    Colors = ""
-                };
+                KegId = KegId,
+                Barcode = Barcode,
+                OwnerId = PartnerModel.PartnerId,
+                AltBarcode = AltBarcode,
+                Notes = "",
+                ReferenceKey = "",
+                ProfileId = "",
+                AssetType = SelectedItemType,
+                AssetSize = Size,
+                AssetVolume = "",
+                AssetDescription = "",
+                OwnerSkuId = "",
+                FixedContents = "",
+                Tags = Tags,
+                MaintenanceAlertIds = new List<string>(),
+                LessorId = "",
+                PurchaseDate = DateTimeOffset.Now,
+                PurchasePrice = 0,
+                PurchaseOrder = "",
+                ManufacturerName = "",
+                ManufacturerId = "",
+                ManufactureLocation = "",
+                ManufactureDate = DateTimeOffset.Now,
+                Material = "",
+                Markings = "",
+                Colors = ""
+            };
 
-                var Result = await ApiManager.PostKegStatus(model, KegId, Settings.SessionId);
-                await _navigationService.GoBackAsync(new NavigationParameters
+            var Result = await ApiManager.PostKegStatus(model, KegId, Settings.SessionId);
+            await _navigationService.GoBackAsync(new NavigationParameters
                     {
                         { "TagsStr", TagsStr },
                         { "Owner", Owner },
@@ -119,79 +110,39 @@ namespace KegID.ViewModel
                         { "Type",SelectedItemType},
                         { "AltBarcode",AltBarcode}
                     }, animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
         }
 
         private async void PartnerCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.NavigateAsync("PartnersView", animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            await _navigationService.NavigateAsync("PartnersView", animated: false);
         }
 
         private async void SizeCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.NavigateAsync("SizeView", animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            await _navigationService.NavigateAsync("SizeView", animated: false);
         }
 
         private async void AddTagsCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.NavigateAsync("AddTagsView", new NavigationParameters
+            await _navigationService.NavigateAsync("AddTagsView", new NavigationParameters
                     {
                         {"viewTypeEnum",ViewTypeEnum.EditKegView }
                     }, animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
         }
 
         internal void AssingInitialValue(string _kegId, string _barcode, string _owner, string _typeName, string _sizeName)
         {
-            try
-            {
-                KegId = _kegId;
-                Barcode = _barcode;
-                Owner = _owner;
-                SelectedItemType = _typeName;
-                Size = _sizeName;
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            KegId = _kegId;
+            Barcode = _barcode;
+            Owner = _owner;
+            SelectedItemType = _typeName;
+            Size = _sizeName;
         }
 
         internal void AssignAddTagsValue(List<Tag> _tags, string _tagsStr)
         {
-            try
-            {
-                Tags = _tags;
-                TagsStr = _tagsStr;
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            Tags = _tags;
+            TagsStr = _tagsStr;
         }
 
         public override Task InitializeAsync(INavigationParameters parameters)

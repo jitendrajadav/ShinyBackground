@@ -60,18 +60,11 @@ namespace KegID.ViewModel
 
         internal void LoadInfo(IList<BarcodeModel> barcodeCollection)
         {
-            try
-            {
-                TrackingNo = _uuidManager.GetUuId();
-                StockLocation = ConstantManager.Partner.FullName + "\n" + ConstantManager.Partner.PartnerTypeName;
-                ItemCount = barcodeCollection.Count;
-                Barcodes = barcodeCollection.Select(x => x.Barcode).ToList();
-                Contents = string.Empty;
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            TrackingNo = _uuidManager.GetUuId();
+            StockLocation = ConstantManager.Partner.FullName + "\n" + ConstantManager.Partner.PartnerTypeName;
+            ItemCount = barcodeCollection.Count;
+            Barcodes = barcodeCollection.Select(x => x.Barcode).ToList();
+            Contents = string.Empty;
         }
 
         public override Task InitializeAsync(INavigationParameters parameters)

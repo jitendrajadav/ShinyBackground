@@ -25,11 +25,11 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public DelegateCommand<PossessorResponseModel> ItemTappedCommand { get;}
+        public DelegateCommand<PossessorResponseModel> ItemTappedCommand { get; }
         public DelegateCommand AddNewPartnerCommand { get; }
         public DelegateCommand BackCommand { get; }
-        public DelegateCommand TextChangedCommand { get;}
-        public DelegateCommand<object> SelectedSegmentCommand { get;}
+        public DelegateCommand TextChangedCommand { get; }
+        public DelegateCommand<object> SelectedSegmentCommand { get; }
         public string ContainerTypes { get; set; }
 
         #endregion
@@ -98,15 +98,8 @@ namespace KegID.ViewModel
         {
             if (!string.IsNullOrEmpty(PartnerName))
             {
-                try
-                {
-                    var result = AllPartners.Where(x => x.Location.FullName.IndexOf(PartnerName, StringComparison.OrdinalIgnoreCase) >= 0);
-                    PartnerCollection = new ObservableCollection<PossessorResponseModel>(result);
-                }
-                catch (Exception ex)
-                {
-                    Crashes.TrackError(ex);
-                }
+                var result = AllPartners.Where(x => x.Location.FullName.IndexOf(PartnerName, StringComparison.OrdinalIgnoreCase) >= 0);
+                PartnerCollection = new ObservableCollection<PossessorResponseModel>(result);
             }
             else
             {
@@ -116,26 +109,14 @@ namespace KegID.ViewModel
 
         private async void ItemTappedCommandRecieverAsync(PossessorResponseModel model)
         {
-            try
+            if (model != null)
             {
-                if (model != null)
-                {
-                    try
-                    {
-                        ConstantManager.DBPartnerId = model.Location.PartnerId;
-                    }
-                    catch (Exception)
-                    {
-                    }
-                    await _navigationService.NavigateAsync("PartnerInfoView", new NavigationParameters
+                ConstantManager.DBPartnerId = model.Location.PartnerId;
+
+                await _navigationService.NavigateAsync("PartnerInfoView", new NavigationParameters
                     {
                         { "PartnerModel", model }
                     }, animated: false);
-                }
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
             }
         }
 
@@ -146,14 +127,8 @@ namespace KegID.ViewModel
 
         private async void AddNewPartnerCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.NavigateAsync("AddPartnerView", animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            await _navigationService.NavigateAsync("AddPartnerView", animated: false);
+
         }
 
         public override void OnNavigatedTo(INavigationParameters parameters)

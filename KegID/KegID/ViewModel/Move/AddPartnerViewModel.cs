@@ -113,49 +113,33 @@ namespace KegID.ViewModel
 
         private async void BillingAddressCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.NavigateAsync("EditAddressView", new NavigationParameters
+            await _navigationService.NavigateAsync("EditAddressView", new NavigationParameters
                     {
                         { "AddressTitle", "Billing Address" }
                     }, animated: false);
 
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+
         }
 
         private async void ShippingAddressCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.NavigateAsync("EditAddressView", new NavigationParameters
+
+            await _navigationService.NavigateAsync("EditAddressView", new NavigationParameters
                     {
                         { "AddressTitle", "Shipping Address" }
                     }, animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+
         }
 
         private async void CalcelCommandRecieverAsync()
         {
-            try
+
+            bool accept = await _dialogService.DisplayAlertAsync("Cancel?", "Are you sure you want to cancel?", "Stay here", "Leave");
+            if (!accept)
             {
-                bool accept = await _dialogService.DisplayAlertAsync("Cancel?", "Are you sure you want to cancel?", "Stay here", "Leave");
-                if (!accept)
-                {
-                    await _navigationService.GoBackAsync(animated: false);
-                }
+                await _navigationService.GoBackAsync(animated: false);
             }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+
         }
 
         private async Task SubmitCommandRecieverAsync()
@@ -189,62 +173,46 @@ namespace KegID.ViewModel
                 Website = ""//Website;
             };
 
-            try
-            {
                 UserDialogs.Instance.ShowLoading("Loading");
                 var respose = await ApiManager.PostNewPartner(newPartnerRequestModel, Settings.SessionId);
                 if (respose.IsSuccessStatusCode)
                 {
-                    try
+                    PartnerModel partnerModel = new PartnerModel
                     {
-                        PartnerModel partnerModel = new PartnerModel
-                        {
-                            Address = BillingAddress,
-                            Address1 = ShippingAddress,
-                            City = newPartnerRequestModel.BillAddress != null ? newPartnerRequestModel.BillAddress.City : string.Empty,
-                            ParentPartnerId = newPartnerRequestModel.ParentPartnerId,
-                            ParentPartnerName = newPartnerRequestModel.PartnerName,
-                            PartnerId = newPartnerRequestModel.PartnerId,
-                            PartnershipIsActive = newPartnerRequestModel.IsInternal,
-                            IsInternal = newPartnerRequestModel.IsInternal,
-                            IsShared = newPartnerRequestModel.IsShared,
-                            Lat = newPartnerRequestModel.BillAddress != null ? newPartnerRequestModel.BillAddress.Latitude : default(double),
-                            LocationCode = newPartnerRequestModel.LocationCode,
-                            LocationStatus = newPartnerRequestModel.LocationStatus,
-                            Lon = newPartnerRequestModel.BillAddress != null ? newPartnerRequestModel.BillAddress.Longitude : default(double),
-                            MasterCompanyId = newPartnerRequestModel.ParentPartnerId,
-                            PartnerTypeCode = newPartnerRequestModel.PartnerTypeCode,
-                            PartnerTypeName = newPartnerRequestModel.PartnerName,
-                            PhoneNumber = newPartnerRequestModel.PartnerName,
-                            PostalCode = newPartnerRequestModel.BillAddress != null ? newPartnerRequestModel.BillAddress.PostalCode : string.Empty,
-                            SourceKey = newPartnerRequestModel.RouteName,
-                            State = newPartnerRequestModel.BillAddress != null ? newPartnerRequestModel.BillAddress.State : string.Empty,
-                            FullName = newPartnerRequestModel.PartnerName,
-                        };
-                        var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                        await RealmDb.WriteAsync((realmDb) =>
-                         {
-                             realmDb.Add(partnerModel);
-                         });
-                        await _navigationService.GoBackAsync(new NavigationParameters
+                        Address = BillingAddress,
+                        Address1 = ShippingAddress,
+                        City = newPartnerRequestModel.BillAddress != null ? newPartnerRequestModel.BillAddress.City : string.Empty,
+                        ParentPartnerId = newPartnerRequestModel.ParentPartnerId,
+                        ParentPartnerName = newPartnerRequestModel.PartnerName,
+                        PartnerId = newPartnerRequestModel.PartnerId,
+                        PartnershipIsActive = newPartnerRequestModel.IsInternal,
+                        IsInternal = newPartnerRequestModel.IsInternal,
+                        IsShared = newPartnerRequestModel.IsShared,
+                        Lat = newPartnerRequestModel.BillAddress != null ? newPartnerRequestModel.BillAddress.Latitude : default(double),
+                        LocationCode = newPartnerRequestModel.LocationCode,
+                        LocationStatus = newPartnerRequestModel.LocationStatus,
+                        Lon = newPartnerRequestModel.BillAddress != null ? newPartnerRequestModel.BillAddress.Longitude : default(double),
+                        MasterCompanyId = newPartnerRequestModel.ParentPartnerId,
+                        PartnerTypeCode = newPartnerRequestModel.PartnerTypeCode,
+                        PartnerTypeName = newPartnerRequestModel.PartnerName,
+                        PhoneNumber = newPartnerRequestModel.PartnerName,
+                        PostalCode = newPartnerRequestModel.BillAddress != null ? newPartnerRequestModel.BillAddress.PostalCode : string.Empty,
+                        SourceKey = newPartnerRequestModel.RouteName,
+                        State = newPartnerRequestModel.BillAddress != null ? newPartnerRequestModel.BillAddress.State : string.Empty,
+                        FullName = newPartnerRequestModel.PartnerName,
+                    };
+                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                    await RealmDb.WriteAsync((realmDb) =>
+                     {
+                         realmDb.Add(partnerModel);
+                     });
+                    await _navigationService.GoBackAsync(new NavigationParameters
                         {
                             { "partnerModel", partnerModel }
                         }, animated: false);
-                    }
-                    catch (Exception ex)
-                    {
-                        Crashes.TrackError(ex);
-                    }
+
                 }
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
-            finally
-            {
                 UserDialogs.Instance.HideLoading();
-            }
         }
 
         public void LoadPartnerAsync(PartnerInfoResponseModel partnerInfoModel)
@@ -258,24 +226,18 @@ namespace KegID.ViewModel
 
         private void AssingValueAddPartner(PartnerInfoResponseModel partnerInfoModel)
         {
-            try
-            {
-                PartnerInfoModel = partnerInfoModel;
-                PartnerName = PartnerInfoModel.FullName;
-                ShipAddress = PartnerInfoModel.ShipAddress;
-                BillAddress = PartnerInfoModel.BillAddress;
-                ContactName = PartnerInfoModel.ContactName;
-                Phone = PartnerInfoModel.Phone;
-                ContactEmail = PartnerInfoModel.ContactEmail;
-                AccountNumber = PartnerInfoModel.AccountNumber;
-                ReferenceKey = PartnerInfoModel.ReferenceKey;
-                Notes = PartnerInfoModel.Notes;
-                SelectedPartnerType = PartnerTypeCollectioin.Where(x => x.Name == PartnerInfoModel.PartnerTypeName).FirstOrDefault();
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            PartnerInfoModel = partnerInfoModel;
+            PartnerName = PartnerInfoModel.FullName;
+            ShipAddress = PartnerInfoModel.ShipAddress;
+            BillAddress = PartnerInfoModel.BillAddress;
+            ContactName = PartnerInfoModel.ContactName;
+            Phone = PartnerInfoModel.Phone;
+            ContactEmail = PartnerInfoModel.ContactEmail;
+            AccountNumber = PartnerInfoModel.AccountNumber;
+            ReferenceKey = PartnerInfoModel.ReferenceKey;
+            Notes = PartnerInfoModel.Notes;
+            SelectedPartnerType = PartnerTypeCollectioin.Where(x => x.Name == PartnerInfoModel.PartnerTypeName).FirstOrDefault();
+
         }
 
         public override Task InitializeAsync(INavigationParameters parameters)

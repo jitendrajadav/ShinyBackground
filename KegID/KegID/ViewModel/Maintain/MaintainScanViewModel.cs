@@ -133,165 +133,124 @@ namespace KegID.ViewModel
 
         internal async Task AssignValidatedValueAsync(Partner model)
         {
-            try
+            var unusedPerner = BarcodeCollection.Where(x => x.Kegs.Partners != model).Select(x => x.Kegs.Partners.FirstOrDefault()).FirstOrDefault();
+            if (model.Kegs.FirstOrDefault().MaintenanceItems?.Count > 0)
             {
-                var unusedPerner = BarcodeCollection.Where(x => x.Kegs.Partners != model).Select(x => x.Kegs.Partners.FirstOrDefault()).FirstOrDefault();
-                if (model.Kegs.FirstOrDefault().MaintenanceItems?.Count > 0)
-                {
-                    BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = _getIconByPlatform.GetIcon(Maintenace);
-                }
-                else
-                {
-                    BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = _getIconByPlatform.GetIcon(ValidationOK);
-                }
-
-                await _navigationService.GoBackAsync(animated: false);
-
-                foreach (var item in BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode))
-                {
-                    item.Kegs.Partners.Remove(unusedPerner);
-                }
+                BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = _getIconByPlatform.GetIcon(Maintenace);
             }
-            catch (Exception ex)
+            else
             {
-                Crashes.TrackError(ex);
+                BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = _getIconByPlatform.GetIcon(ValidationOK);
+            }
+
+            await _navigationService.GoBackAsync(animated: false);
+
+            foreach (var item in BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode))
+            {
+                item.Kegs.Partners.Remove(unusedPerner);
             }
         }
 
         private async void LabelItemTappedCommandRecieverAsync(BarcodeModel model)
         {
-            try
+            if (model.Kegs.Partners.Count > 1)
             {
-                if (model.Kegs.Partners.Count > 1)
-                {
-                    List<BarcodeModel> modelList = new List<BarcodeModel>
+                List<BarcodeModel> modelList = new List<BarcodeModel>
                     {
                         model
                     };
-                    await NavigateToValidatePartner(modelList);
-                }
-                else
-                {
-                    await _navigationService.NavigateAsync("AddTagsView", new NavigationParameters
+                await NavigateToValidatePartner(modelList);
+            }
+            else
+            {
+                await _navigationService.NavigateAsync("AddTagsView", new NavigationParameters
                     {
                         {"viewTypeEnum",ViewTypeEnum.MaintainScanView },
                         {"AddTagsViewInitialValue",model }
                     }, animated: false);
-                }
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
             }
         }
 
         private async void IconItemTappedCommandRecieverAsync(BarcodeModel model)
         {
-            try
+            if (model.Kegs.Partners.Count > 1)
             {
-                if (model.Kegs.Partners.Count > 1)
-                {
-                    List<BarcodeModel> modelList = new List<BarcodeModel>
+                List<BarcodeModel> modelList = new List<BarcodeModel>
                     {
                         model
                     };
-                    await NavigateToValidatePartner(modelList);
-                }
-                else
-                {
-                    await _navigationService.NavigateAsync("ScanInfoView", new NavigationParameters
+                await NavigateToValidatePartner(modelList);
+            }
+            else
+            {
+                await _navigationService.NavigateAsync("ScanInfoView", new NavigationParameters
                     {
                         { "model", model }
                     }, animated: false);
-                }
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
             }
         }
 
         private async Task NavigateToValidatePartner(List<BarcodeModel> models)
         {
-            try
-            {
-                await _navigationService.NavigateAsync("ValidateBarcodeView", new NavigationParameters
+            await _navigationService.NavigateAsync("ValidateBarcodeView", new NavigationParameters
                     {
                         { "model", models }
                     }, animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
         }
 
         private void BarcodeManualCommandRecieverAsync()
         {
-            try
+            var isNew = BarcodeCollection.ToList().Any(x => x.Barcode == ManaulBarcode);
+            if (!isNew)
             {
-                var isNew = BarcodeCollection.ToList().Any(x => x.Barcode == ManaulBarcode);
-                if (!isNew)
+                BarcodeModel model = new BarcodeModel
                 {
-                    BarcodeModel model = new BarcodeModel
-                    {
-                        Barcode = ManaulBarcode,
-                        TagsStr = string.Empty,
-                        Icon = Cloud
-                    };
+                    Barcode = ManaulBarcode,
+                    TagsStr = string.Empty,
+                    Icon = Cloud
+                };
 
-                    BarcodeCollection.Add(model);
-                    var current = Connectivity.NetworkAccess;
-                    if (current == NetworkAccess.Internet)
-                    {
-                        //var message = new StartLongRunningTaskMessage
-                        //{
-                        //    Barcode = new List<string>() { ManaulBarcode },
-                        //    PageName = ViewTypeEnum.MaintainScanView.ToString()
-                        //};
-                        //MessagingCenter.Send(message, "StartLongRunningTaskMessage");
+                BarcodeCollection.Add(model);
+                var current = Connectivity.NetworkAccess;
+                if (current == NetworkAccess.Internet)
+                {
+                    //var message = new StartLongRunningTaskMessage
+                    //{
+                    //    Barcode = new List<string>() { ManaulBarcode },
+                    //    PageName = ViewTypeEnum.MaintainScanView.ToString()
+                    //};
+                    //MessagingCenter.Send(message, "StartLongRunningTaskMessage");
 
-                        // IJobManager can and should be injected into your viewmodel code
-                        ShinyHost.Resolve<Shiny.Jobs.IJobManager>().RunTask("MaintainJob" + ManaulBarcode, async _ =>
-                        {
+                    // IJobManager can and should be injected into your viewmodel code
+                    ShinyHost.Resolve<Shiny.Jobs.IJobManager>().RunTask("MaintainJob" + ManaulBarcode, async _ =>
+                    {
                             // your code goes here - async stuff is welcome (and necessary)
                             var response = await ApiManager.GetValidateBarcode(ManaulBarcode, Settings.SessionId);
-                            if (response.IsSuccessStatusCode)
-                            {
-                                var json = await response.Content.ReadAsStringAsync();
-                                var data = await Task.Run(() => JsonConvert.DeserializeObject<BarcodeModel>(json, GetJsonSetting()));
+                        if (response.IsSuccessStatusCode)
+                        {
+                            var json = await response.Content.ReadAsStringAsync();
+                            var data = await Task.Run(() => JsonConvert.DeserializeObject<BarcodeModel>(json, GetJsonSetting()));
 
-                                if (data.Kegs != null)
+                            if (data.Kegs != null)
+                            {
+                                using (var db = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
                                 {
-                                    using (var db = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
-                                    {
-                                        try
-                                        {
-                                            var oldBarcode = BarcodeCollection.FirstOrDefault(x => x.Barcode == data?.Kegs?.Partners?.FirstOrDefault().Kegs?.FirstOrDefault()?.Barcode);
-                                            oldBarcode.Pallets = data.Pallets;
-                                            oldBarcode.Kegs = data.Kegs;
-                                            oldBarcode.Icon = data?.Kegs?.Partners.Count > 1 ? _getIconByPlatform.GetIcon("validationquestion.png") : data?.Kegs?.Partners?.Count == 0 ? _getIconByPlatform.GetIcon("validationerror.png") : _getIconByPlatform.GetIcon("validationok.png");
-                                            if (oldBarcode.Icon == "validationerror.png")
-                                                Vibration.Vibrate();
-                                            oldBarcode.IsScanned = true;
-                                            db.Commit();
-                                        }
-                                        catch (Exception EX)
-                                        {
-                                        }
-                                    }
+                                    var oldBarcode = BarcodeCollection.FirstOrDefault(x => x.Barcode == data?.Kegs?.Partners?.FirstOrDefault().Kegs?.FirstOrDefault()?.Barcode);
+                                    oldBarcode.Pallets = data.Pallets;
+                                    oldBarcode.Kegs = data.Kegs;
+                                    oldBarcode.Icon = data?.Kegs?.Partners.Count > 1 ? _getIconByPlatform.GetIcon("validationquestion.png") : data?.Kegs?.Partners?.Count == 0 ? _getIconByPlatform.GetIcon("validationerror.png") : _getIconByPlatform.GetIcon("validationok.png");
+                                    if (oldBarcode.Icon == "validationerror.png")
+                                        Vibration.Vibrate();
+                                    oldBarcode.IsScanned = true;
+                                    db.Commit();
                                 }
                             }
-                        });
+                        }
+                    });
 
-                    }
-
-                    ManaulBarcode = string.Empty;
                 }
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
+
+                ManaulBarcode = string.Empty;
             }
         }
 
@@ -315,147 +274,78 @@ namespace KegID.ViewModel
             var isNew = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).Find<ManifestModel>(manifestId);
             if (isNew != null)
             {
-                try
+                manifestPostModel.IsDraft = false;
+                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                RealmDb.Write(() =>
                 {
-                    manifestPostModel.IsDraft = false;
-                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                    RealmDb.Write(() =>
-                    {
-                        RealmDb.Add(manifestPostModel, update: true);
-                    });
-                }
-                catch (Exception ex)
-                {
-                    Crashes.TrackError(ex);
-                }
+                    RealmDb.Add(manifestPostModel, update: true);
+                });
             }
             else
             {
-                try
+                if (queue)
                 {
-                    if (queue)
-                    {
-                        manifestPostModel.IsQueue = true;
-                    }
-                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                    RealmDb.Write(() =>
-                    {
-                        RealmDb.Add(manifestPostModel);
-                    });
+                    manifestPostModel.IsQueue = true;
                 }
-                catch (Exception ex)
+                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                RealmDb.Write(() =>
                 {
-                    Crashes.TrackError(ex);
-                }
+                    RealmDb.Add(manifestPostModel);
+                });
             }
         }
 
         private async void BarcodeScanCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.NavigateAsync("ScanditScanView", new NavigationParameters
+            await _navigationService.NavigateAsync("ScanditScanView", new NavigationParameters
                     {
                         { "Tags", null },{ "TagsStr", string.Empty },{ "ViewTypeEnum", ViewTypeEnum.MaintainScanView }
                     }, animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
         }
 
         internal void AssignBarcodeScannerValue(IList<BarcodeModel> models)
         {
-            try
-            {
-                foreach (var item in models)
-                    BarcodeCollection.Add(item);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            foreach (var item in models)
+                BarcodeCollection.Add(item);
         }
 
         private async void BackCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.GoBackAsync(animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            await _navigationService.GoBackAsync(animated: false);
         }
 
         public async Task SubmitCommandRecieverAsync()
         {
-            try
+            UserDialogs.Instance.ShowLoading("Loading");
+
+            //var location = await _geolocationService.GetLastLocationAsync();
+
+            ManifestModel manifestPostModel = null;
+
+            var result = BarcodeCollection.Where(x => x?.Kegs?.Partners?.Count > 1).ToList();
+            if (result?.Count > 0)
+                await NavigateToValidatePartner(result.ToList());
+
+            else
             {
-                UserDialogs.Instance.ShowLoading("Loading");
+                manifestPostModel = GenerateManifest(LocationMessage ?? new Position(0, 0), ManifestId);
 
-                //var location = await _geolocationService.GetLastLocationAsync();
-
-                ManifestModel manifestPostModel = null;
-
-                var result = BarcodeCollection.Where(x => x?.Kegs?.Partners?.Count > 1).ToList();
-                if (result?.Count > 0)
-                    await NavigateToValidatePartner(result.ToList());
-
+                var current = Connectivity.NetworkAccess;
+                if (current == NetworkAccess.Internet)
+                {
+                    var response = await ApiManager.PostMaintenanceDone(manifestPostModel.MaintenanceModels.MaintenanceDoneRequestModel, Settings.SessionId);
+                    
+                        AddorUpdateManifestOffline(manifestPostModel, false);
+                    await GetPostedManifestDetail();
+                }
                 else
                 {
-                    try
-                    {
-                        manifestPostModel = GenerateManifest(LocationMessage ?? new Position(0, 0), ManifestId);
-
-                        var current = Connectivity.NetworkAccess;
-                        if (current == NetworkAccess.Internet)
-                        {
-                            var response = await ApiManager.PostMaintenanceDone(manifestPostModel.MaintenanceModels.MaintenanceDoneRequestModel, Settings.SessionId);
-                            try
-                            {
-                                AddorUpdateManifestOffline(manifestPostModel, false);
-                            }
-                            catch (Exception ex)
-                            {
-                                Crashes.TrackError(ex);
-                            }
-                            await GetPostedManifestDetail();
-                        }
-                        else
-                        {
-                            try
-                            {
-                                AddorUpdateManifestOffline(manifestPostModel, true);
-                            }
-                            catch (Exception ex)
-                            {
-                                Crashes.TrackError(ex);
-                            }
-                            await GetPostedManifestDetail();
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Crashes.TrackError(ex);
-                    }
-                    finally
-                    {
-                        Cleanup();
-                    }
+                    AddorUpdateManifestOffline(manifestPostModel, true);
+                    await GetPostedManifestDetail();
                 }
 
             }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
-            finally
-            {
-                UserDialogs.Instance.HideLoading();
-            }
+            UserDialogs.Instance.HideLoading();
         }
 
         public ManifestModel GenerateManifest(Position location, string manifestId = "")
@@ -501,12 +391,8 @@ namespace KegID.ViewModel
 
         internal void AssignAddTagsValue(INavigationParameters parameters)
         {
-            try
-            {
                 if (parameters.ContainsKey("Barcode"))
                 {
-                    try
-                    {
                         string barcode = parameters.GetValue<string>("Barcode");
                         var oldBarcode = BarcodeCollection.Where(x => x.Barcode == barcode).FirstOrDefault();
 
@@ -524,17 +410,7 @@ namespace KegID.ViewModel
                             oldBarcode.TagsStr = ConstantManager.TagsStr;
                             db.Commit();
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        Crashes.TrackError(ex);
-                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
         }
 
         private void Cleanup()
@@ -597,8 +473,6 @@ namespace KegID.ViewModel
 
         private void AssignMaintenanceViewValue(INavigationParameters parameters)
         {
-            try
-            {
                 BarcodeCollection.Clear();
                 Notes = parameters.GetValue<string>("Notes");
                 ConstantManager.Partner = parameters.GetValue<PartnerModel>("PartnerModel");
@@ -613,11 +487,6 @@ namespace KegID.ViewModel
                         BarcodeCollection.Add(new BarcodeModel { Barcode = item.Barcode });
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
         }
 
         public void Destroy()

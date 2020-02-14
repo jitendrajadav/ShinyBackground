@@ -49,150 +49,111 @@ namespace KegID.ViewModel
 
         private async void DoneCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.GoBackAsync(new NavigationParameters
+            await _navigationService.GoBackAsync(new NavigationParameters
                         {
                             { "AssignSizesValue", ConstantManager.VerifiedBarcodes }
                         }, animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+
         }
 
         private void ApplyToAllCommandReciever()
         {
-            try
+            if (SelectedType != null)
             {
-                if (SelectedType != null)
+                foreach (var item in MaintenaceCollection)
                 {
-                    foreach (var item in MaintenaceCollection)
-                    {
-                        item.SelectedUType = SelectedType;
-                    }
-                }
-                if (SelectedSize != null)
-                {
-                    foreach (var item in MaintenaceCollection)
-                    {
-                        item.SelectedUSize = SelectedSize;
-                    }
-                }
-                if (SelectedOwner != null)
-                {
-                    foreach (var item in MaintenaceCollection)
-                    {
-                        item.SelectedUOwner = SelectedOwner;
-                    }
+                    item.SelectedUType = SelectedType;
                 }
             }
-            catch (Exception ex)
+            if (SelectedSize != null)
             {
-                Crashes.TrackError(ex);
+                foreach (var item in MaintenaceCollection)
+                {
+                    item.SelectedUSize = SelectedSize;
+                }
             }
+            if (SelectedOwner != null)
+            {
+                foreach (var item in MaintenaceCollection)
+                {
+                    item.SelectedUOwner = SelectedOwner;
+                }
+            }
+
         }
 
         private void LoadOwnderAsync()
         {
-            try
-            {
-                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                OwnerCollection = RealmDb.All<OwnerModel>().ToList();
-                SelectedOwner = OwnerCollection.OrderBy(x => x.FullName).FirstOrDefault();
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            OwnerCollection = RealmDb.All<OwnerModel>().ToList();
+            SelectedOwner = OwnerCollection.OrderBy(x => x.FullName).FirstOrDefault();
         }
 
         private void LoadAssetSizeAsync()
         {
-            try
-            {
-                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                SizeCollection = RealmDb.All<AssetSizeModel>().ToList();
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            SizeCollection = RealmDb.All<AssetSizeModel>().ToList();
         }
 
         private void LoadAssetTypeAsync()
         {
-            try
-            {
-                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                TypeCollection = RealmDb.All<AssetTypeModel>().ToList();
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            TypeCollection = RealmDb.All<AssetTypeModel>().ToList();
         }
 
         internal void AssignInitialValueAsync(List<BarcodeModel> _alerts)
         {
-            try
+            ConstantManager.VerifiedBarcodes = _alerts;
+
+            LoadOwnderAsync();
+            LoadAssetSizeAsync();
+            LoadAssetTypeAsync();
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+
+            foreach (var item in _alerts)
             {
-                ConstantManager.VerifiedBarcodes = _alerts;
+                AssetTypeModel selectedType = null;
+                AssetSizeModel selectedSize = null;
+                OwnerModel selectedOwner = OwnerCollection.Where(x => x.FullName == item?.Kegs?.Partners?.FirstOrDefault()?.FullName).FirstOrDefault();
 
-                LoadOwnderAsync();
-                LoadAssetSizeAsync();
-                LoadAssetTypeAsync();
-                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-
-                foreach (var item in _alerts)
+                if (selectedOwner != null)
                 {
-                    AssetTypeModel selectedType = null;
-                    AssetSizeModel selectedSize = null;
-                    OwnerModel selectedOwner = OwnerCollection.Where(x => x.FullName == item?.Kegs?.Partners?.FirstOrDefault()?.FullName).FirstOrDefault();
-
-                    if (selectedOwner!= null)
+                    RealmDb.Write(() =>
                     {
-                        RealmDb.Write(() =>
-                        {
-                            selectedOwner.HasInitial = true;
-                        });
-                    }
-                    if (item.Tags.Count > 2)
-                    {
-                        selectedType = TypeCollection.Where(x => x.AssetType == item.Tags?[2]?.Value).FirstOrDefault();
-
-                        RealmDb.Write(() =>
-                        {
-                            selectedType.HasInitial = true;
-                        });
-                    }
-                    if (item.Tags.Count > 3)
-                    {
-                        selectedSize = SizeCollection.Where(x => x.AssetSize == item.Tags?[3]?.Value).FirstOrDefault();
-                        RealmDb.Write(() =>
-                        {
-                            selectedSize.HasInitial = true;
-                        });
-                    }
-
-                    MaintenaceCollection.Add(
-                        new MoveMaintenanceAlertModel
-                        {
-                            UOwnerCollection = OwnerCollection.ToList(),
-                            USizeCollection = SizeCollection.ToList(),
-                            UTypeCollection = TypeCollection.ToList(),
-                            BarcodeId = item.Barcode,
-                            SelectedUOwner = selectedOwner ?? selectedOwner,
-                            SelectedUSize = selectedSize ?? selectedSize,
-                            SelectedUType = selectedType ?? selectedType
-                        });
+                        selectedOwner.HasInitial = true;
+                    });
                 }
+                if (item.Tags.Count > 2)
+                {
+                    selectedType = TypeCollection.Where(x => x.AssetType == item.Tags?[2]?.Value).FirstOrDefault();
+
+                    RealmDb.Write(() =>
+                    {
+                        selectedType.HasInitial = true;
+                    });
+                }
+                if (item.Tags.Count > 3)
+                {
+                    selectedSize = SizeCollection.Where(x => x.AssetSize == item.Tags?[3]?.Value).FirstOrDefault();
+                    RealmDb.Write(() =>
+                    {
+                        selectedSize.HasInitial = true;
+                    });
+                }
+
+                MaintenaceCollection.Add(
+                    new MoveMaintenanceAlertModel
+                    {
+                        UOwnerCollection = OwnerCollection.ToList(),
+                        USizeCollection = SizeCollection.ToList(),
+                        UTypeCollection = TypeCollection.ToList(),
+                        BarcodeId = item.Barcode,
+                        SelectedUOwner = selectedOwner ?? selectedOwner,
+                        SelectedUSize = selectedSize ?? selectedSize,
+                        SelectedUType = selectedType ?? selectedType
+                    });
             }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+
         }
 
         public override Task InitializeAsync(INavigationParameters parameters)

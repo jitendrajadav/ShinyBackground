@@ -44,51 +44,27 @@ namespace KegID.ViewModel
 
         private async void PartnerInfoCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.GoBackAsync(animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            await _navigationService.GoBackAsync(animated: false);
         }
 
         private async void ItemTappedCommandRecieverAsync(KegPossessionResponseModel model)
         {
-            try
-            {
-                await _navigationService.NavigateAsync("KegStatusView", new NavigationParameters { { "KegStatusModel", model } }, animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            await _navigationService.NavigateAsync("KegStatusView", new NavigationParameters { { "KegStatusModel", model } }, animated: false);
         }
 
         private async void LoadKegPossessionAsync()
         {
-            try
+            UserDialogs.Instance.ShowLoading("Loading");
+            var response = await ApiManager.GetKegPossession(Settings.SessionId, ConstantManager.DBPartnerId);
+            if (response.IsSuccessStatusCode)
             {
-                UserDialogs.Instance.ShowLoading("Loading");
-                var response = await ApiManager.GetKegPossession(Settings.SessionId, ConstantManager.DBPartnerId);
-                if (response.IsSuccessStatusCode)
-                {
-                    var json = await response.Content.ReadAsStringAsync();
-                    var data = await Task.Run(() => JsonConvert.DeserializeObject<IList<KegPossessionResponseModel>>(json, GetJsonSetting()));
+                var json = await response.Content.ReadAsStringAsync();
+                var data = await Task.Run(() => JsonConvert.DeserializeObject<IList<KegPossessionResponseModel>>(json, GetJsonSetting()));
 
-                    KegPossessionCollection = data;
-                    KegsTitle = KegPossessionCollection.FirstOrDefault()?.PossessorName;
-                }
+                KegPossessionCollection = data;
+                KegsTitle = KegPossessionCollection.FirstOrDefault()?.PossessorName;
             }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
-            finally
-            {
-                UserDialogs.Instance.HideLoading();
-            }
+            UserDialogs.Instance.HideLoading();
         }
 
         public override void OnNavigatedTo(INavigationParameters parameters)

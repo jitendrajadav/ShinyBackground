@@ -91,19 +91,12 @@ namespace KegID.ViewModel
 
         public void LoadMaintenanceTypeAsync()
         {
-            try
-            {
-                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                var result = RealmDb.All<MaintainTypeReponseModel>();
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            var result = RealmDb.All<MaintainTypeReponseModel>();
 
-                foreach (var item in result.Where(x => x.ActivationMethod == "ReverseOnly").OrderBy(x => x.Name).ToList())
-                {
-                    MaintainTypeCollection.Add(new MaintenanceTypeModel { ActivationMethod = item.ActivationMethod, DefectType = item.DefectType, DeletedDate = item.DeletedDate, Description = item.Description, Id = item.Id, InUse = item.InUse, IsAction = item.IsAction, IsAlert = item.IsAlert, IsToggled = item.IsToggled, Name = item.Name });
-                }
-            }
-            catch (Exception ex)
+            foreach (var item in result.Where(x => x.ActivationMethod == "ReverseOnly").OrderBy(x => x.Name).ToList())
             {
-                Crashes.TrackError(ex);
+                MaintainTypeCollection.Add(new MaintenanceTypeModel { ActivationMethod = item.ActivationMethod, DefectType = item.DefectType, DeletedDate = item.DeletedDate, Description = item.Description, Id = item.Id, InUse = item.InUse, IsAction = item.IsAction, IsAlert = item.IsAlert, IsToggled = item.IsToggled, Name = item.Name });
             }
         }
 
@@ -114,40 +107,26 @@ namespace KegID.ViewModel
 
         private async void PartnerCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.NavigateAsync("PartnersView", animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            await _navigationService.NavigateAsync("PartnersView", animated: false);
         }
 
         private async void NextCommandRecieverAsync()
         {
-            try
+            var selectedMaintenance = MaintainTypeCollection.Where(x => x.IsToggled).ToList();
+            if (selectedMaintenance.Count > 0)
             {
-                var selectedMaintenance = MaintainTypeCollection.Where(x => x.IsToggled).ToList();
-                if (selectedMaintenance.Count > 0)
-                {
-                    await _navigationService.NavigateAsync("MaintainScanView",
-                        new NavigationParameters
-                        {
+                await _navigationService.NavigateAsync("MaintainScanView",
+                    new NavigationParameters
+                    {
                             { "Notes", Notes },
                             { "PartnerModel", PartnerModel},
                             { "ManifestModel", ManifestModel },
                             { "selectedMaintenance", selectedMaintenance }
-                        }, animated: false);
-                }
-                else
-                {
-                    await _dialogService.DisplayAlertAsync("Error", "Please select at least one maintenance item to perform.", "Ok");
-                }
+                    }, animated: false);
             }
-            catch (Exception ex)
+            else
             {
-                Crashes.TrackError(ex);
+                await _dialogService.DisplayAlertAsync("Error", "Please select at least one maintenance item to perform.", "Ok");
             }
         }
 
@@ -188,50 +167,36 @@ namespace KegID.ViewModel
 
         private void AssignInitialValue(ManifestModel manifestModel)
         {
-            try
-            {
-                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                var maintenance = RealmDb.All<MaintainTypeReponseModel>().ToList();
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            var maintenance = RealmDb.All<MaintainTypeReponseModel>().ToList();
 
-                ManifestModel = manifestModel;
-                foreach (var item in maintenance.Where(x => x.ActivationMethod == "ReverseOnly").OrderBy(x => x.Name).ToList())
-                {
-                    MaintainTypeCollection.Add(new MaintenanceTypeModel { ActivationMethod = item.ActivationMethod, DefectType = item.DefectType, DeletedDate = item.DeletedDate, Description = item.Description, Id = item.Id, InUse = item.InUse, IsAction = item.IsAction, IsAlert = item.IsAlert, IsToggled = item.IsToggled, Name = item.Name });
-                }
-
-                foreach (var item in manifestModel.MaintenanceModels.MaintenanceDoneRequestModel.ActionsPerformed)
-                {
-                    var result = maintenance.Find(x => x.Id == item);
-                    if (result != null)
-                    {
-                        MaintainTypeCollection.FirstOrDefault(x => x.Id == result.Id).IsToggled = true;
-                    }
-                }
-                Notes = manifestModel?.MaintenanceModels?.MaintenanceDoneRequestModel?.Notes;
-                PartnerModel = manifestModel?.MaintenanceModels?.MaintenanceDoneRequestModel?.PartnerModel;
-            }
-            catch (Exception ex)
+            ManifestModel = manifestModel;
+            foreach (var item in maintenance.Where(x => x.ActivationMethod == "ReverseOnly").OrderBy(x => x.Name).ToList())
             {
-                Crashes.TrackError(ex);
+                MaintainTypeCollection.Add(new MaintenanceTypeModel { ActivationMethod = item.ActivationMethod, DefectType = item.DefectType, DeletedDate = item.DeletedDate, Description = item.Description, Id = item.Id, InUse = item.InUse, IsAction = item.IsAction, IsAlert = item.IsAlert, IsToggled = item.IsToggled, Name = item.Name });
             }
+
+            foreach (var item in manifestModel.MaintenanceModels.MaintenanceDoneRequestModel.ActionsPerformed)
+            {
+                var result = maintenance.Find(x => x.Id == item);
+                if (result != null)
+                {
+                    MaintainTypeCollection.FirstOrDefault(x => x.Id == result.Id).IsToggled = true;
+                }
+            }
+            Notes = manifestModel?.MaintenanceModels?.MaintenanceDoneRequestModel?.Notes;
+            PartnerModel = manifestModel?.MaintenanceModels?.MaintenanceDoneRequestModel?.PartnerModel;
         }
 
         private void Cleanup()
         {
-            try
-            {
-                //using (var trans = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
-                //{
-                PartnerModel.FullName = "Select a location";
-                //trans.Commit();
-                //}
-                LoadMaintenanceTypeAsync();
-                Notes = string.Empty;
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            //using (var trans = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
+            //{
+            PartnerModel.FullName = "Select a location";
+            //trans.Commit();
+            //}
+            LoadMaintenanceTypeAsync();
+            Notes = string.Empty;
         }
 
         #endregion

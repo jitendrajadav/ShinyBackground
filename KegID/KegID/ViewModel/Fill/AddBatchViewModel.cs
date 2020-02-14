@@ -30,7 +30,7 @@ namespace KegID.ViewModel
         public BrandModel BrandModel { get; set; }
         public void OnBrandModelChanged()
         {
-            BrandButtonTitle= BrandModel.BrandName;
+            BrandButtonTitle = BrandModel.BrandName;
         }
         public List<Tag> Tags { get; set; }
         public NewBatch NewBatchModel { get; set; } = new NewBatch();
@@ -66,56 +66,40 @@ namespace KegID.ViewModel
 
         private async void VolumeCharCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.NavigateAsync("VolumeView", animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            await _navigationService.NavigateAsync("VolumeView", animated: false);
+
         }
 
         private async void BrandCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.NavigateAsync("BrandView", animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+
+            await _navigationService.NavigateAsync("BrandView", animated: false);
+
         }
 
         private async void DoneCommandRecieverAsync()
         {
             if (!string.Equals(BrandButtonTitle, "brand", StringComparison.OrdinalIgnoreCase))
             {
-                try
-                {
-                    var abv = AlcoholContent ?? "";
-                    NewBatchModel.Abv = abv;
-                    NewBatchModel.BatchCode = BatchCode;
-                    NewBatchModel.BatchId = _uuidManager.GetUuId();
-                    NewBatchModel.BestBeforeDate = BestByDate ?? DateTime.Now;
-                    NewBatchModel.BrandName = BrandButtonTitle;
-                    NewBatchModel.BrewDate = BrewDate;
-                    NewBatchModel.BrewedVolume = VolumeDigit;
-                    NewBatchModel.BrewedVolumeUom = VolumeChar;
-                    NewBatchModel.CompanyId = Settings.CompanyId;
-                    NewBatchModel.CompletedDate = DateTimeOffset.Now;
-                    NewBatchModel.IsCompleted = true;
-                    NewBatchModel.PackageDate = PackageDate;
-                    NewBatchModel.RecipeId = Settings.CompanyId;
-                    NewBatchModel.SourceKey = "";
 
-                    await _navigationService.GoBackAsync(new NavigationParameters { { "NewBatchModel", NewBatchModel } }, animated: false);
-                }
-                catch (Exception ex)
-                {
-                    Crashes.TrackError(ex);
-                }
+                var abv = AlcoholContent ?? "";
+                NewBatchModel.Abv = abv;
+                NewBatchModel.BatchCode = BatchCode;
+                NewBatchModel.BatchId = _uuidManager.GetUuId();
+                NewBatchModel.BestBeforeDate = BestByDate ?? DateTime.Now;
+                NewBatchModel.BrandName = BrandButtonTitle;
+                NewBatchModel.BrewDate = BrewDate;
+                NewBatchModel.BrewedVolume = VolumeDigit;
+                NewBatchModel.BrewedVolumeUom = VolumeChar;
+                NewBatchModel.CompanyId = Settings.CompanyId;
+                NewBatchModel.CompletedDate = DateTimeOffset.Now;
+                NewBatchModel.IsCompleted = true;
+                NewBatchModel.PackageDate = PackageDate;
+                NewBatchModel.RecipeId = Settings.CompanyId;
+                NewBatchModel.SourceKey = "";
+
+                await _navigationService.GoBackAsync(new NavigationParameters { { "NewBatchModel", NewBatchModel } }, animated: false);
+
             }
             else
             {
@@ -125,42 +109,26 @@ namespace KegID.ViewModel
 
         private async void CancelCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.GoBackAsync(animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            await _navigationService.GoBackAsync(animated: false);
+
         }
 
         private async void AddTagsCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.NavigateAsync("AddTagsView", new NavigationParameters
+
+            await _navigationService.NavigateAsync("AddTagsView", new NavigationParameters
                     {
                         {"viewTypeEnum",ViewTypeEnum.AddBatchView }
                     }, animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+
         }
 
         internal void AssignAddTagsValue(List<Tag> _tags, string _tagsStr)
         {
-            try
-            {
-                Tags = _tags;
-                TagsStr = _tagsStr;
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+
+            Tags = _tags;
+            TagsStr = _tagsStr;
+
         }
 
         public override Task InitializeAsync(INavigationParameters parameters)

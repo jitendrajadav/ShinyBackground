@@ -18,18 +18,11 @@ namespace KegID.Model
         {
             GeoLocation result = new GeoLocation();
 
-            try
-            {
-                var locationSetting = Settings.DefaultFallbackMapsLocation;
-                var locationParts = locationSetting.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+            var locationSetting = Settings.DefaultFallbackMapsLocation;
+            var locationParts = locationSetting.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
 
-                result.Latitude = double.Parse(locationParts[0], CultureInfo.InvariantCulture);
-                result.Longitude = double.Parse(locationParts[1], CultureInfo.InvariantCulture);
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"Error parsing location: {ex}");
-            }
+            result.Latitude = double.Parse(locationParts[0], CultureInfo.InvariantCulture);
+            result.Longitude = double.Parse(locationParts[1], CultureInfo.InvariantCulture);
 
             return result;
         }

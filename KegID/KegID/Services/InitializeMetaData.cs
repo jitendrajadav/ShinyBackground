@@ -38,264 +38,161 @@ namespace KegID.Services
         private async Task LoadGetSkuListAsync()
         {
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-            try
+            var response = await ApiManager.GetSkuList(Settings.SessionId);
+            if (response.IsSuccessStatusCode)
             {
-                var response = await ApiManager.GetSkuList(Settings.SessionId);
-                if (response.IsSuccessStatusCode)
+                var json = await response.Content.ReadAsStringAsync();
+                var data = await Task.Run(() => JsonConvert.DeserializeObject<IList<Sku>>(json, GetJsonSetting()));
+
+                await RealmDb.WriteAsync((realmDb) =>
                 {
-                    var json = await response.Content.ReadAsStringAsync();
-                    var data = await Task.Run(() => JsonConvert.DeserializeObject<IList<Sku>>(json, GetJsonSetting()));
-
-                    await RealmDb.WriteAsync((realmDb) =>
+                    foreach (var item in data)
                     {
-                        foreach (var item in data)
-                        {
-                            try
-                            {
-                                realmDb.Add(item);
-                            }
-                            catch (Exception ex)
-                            {
-                                Crashes.TrackError(ex);
-                            }
-                        }
-                    });
-                }
+                        realmDb.Add(item);
+                    }
+                });
+            }
 
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
-            finally
-            {
-                //service = null;
-            }
+
         }
 
         private async Task LoadOperators()
         {
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             List<OperatorModel> operators = null;
-            try
+            var result = await ApiManager.GetOperators(Settings.SessionId);
+            if (result.IsSuccessStatusCode)
             {
-                var result = await ApiManager.GetOperators(Settings.SessionId);
-                if (result.IsSuccessStatusCode)
-                {
-                    var response = await result.Content.ReadAsStringAsync();
-                    var model = await Task.Run(() => JsonConvert.DeserializeObject<IList<string>>(response, GetJsonSetting()));
+                var response = await result.Content.ReadAsStringAsync();
+                var model = await Task.Run(() => JsonConvert.DeserializeObject<IList<string>>(response, GetJsonSetting()));
 
-                    operators = new List<OperatorModel>();
-                    foreach (var item in model)
-                    {
-                        operators.Add(new OperatorModel { Operator = item });
-                    }
-                    await RealmDb.WriteAsync((realmDb) =>
-                    {
-                        foreach (var item in operators)
-                        {
-                            try
-                            {
-                                realmDb.Add(item);
-                            }
-                            catch (Exception ex)
-                            {
-                                Crashes.TrackError(ex);
-                            }
-                        }
-                    });
+                operators = new List<OperatorModel>();
+                foreach (var item in model)
+                {
+                    operators.Add(new OperatorModel { Operator = item });
                 }
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
-            finally
-            {
-                //service = null;
+                await RealmDb.WriteAsync((realmDb) =>
+                {
+                    foreach (var item in operators)
+                    {
+                        realmDb.Add(item);
+                    }
+                });
             }
         }
 
         private async Task LoadMaintainTypeAsync()
         {
-            try
+            var response = await ApiManager.GetMaintainType(Settings.SessionId);
+            if (response.IsSuccessStatusCode)
             {
-                var response = await ApiManager.GetMaintainType(Settings.SessionId);
-                if (response.IsSuccessStatusCode)
+                var json = await response.Content.ReadAsStringAsync();
+                var data = await Task.Run(() => JsonConvert.DeserializeObject<IList<MaintainTypeReponseModel>>(json, GetJsonSetting()));
+
+                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+
+                await RealmDb.WriteAsync((realmDb) =>
                 {
-                    var json = await response.Content.ReadAsStringAsync();
-                    var data = await Task.Run(() => JsonConvert.DeserializeObject<IList<MaintainTypeReponseModel>>(json, GetJsonSetting()));
-
-                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-
-                    await RealmDb.WriteAsync((realmDb) =>
+                    foreach (var item in data)
                     {
-                        foreach (var item in data)
-                        {
-                            try
-                            {
-                                realmDb.Add(item);
-                            }
-                            catch (Exception ex)
-                            {
-                                Crashes.TrackError(ex);
-                            }
-                        }
-                    });
-                }
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
+                        realmDb.Add(item);
+                    }
+                });
             }
         }
 
         public async Task LoadBatchAsync()
         {
-            try
-            {
-                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
 
-                var response = await ApiManager.GetBatchList(Settings.SessionId);
-                if (response.IsSuccessStatusCode)
+            var response = await ApiManager.GetBatchList(Settings.SessionId);
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                var data = await Task.Run(() => JsonConvert.DeserializeObject<IList<NewBatch>>(json, GetJsonSetting()));
+
+                var batches = data.Where(p => !string.IsNullOrEmpty(p.BrandName)).OrderBy(x => x.BrandName).ToList();
+                await RealmDb.WriteAsync((realmDb) =>
                 {
-                    var json = await response.Content.ReadAsStringAsync();
-                    var data = await Task.Run(() => JsonConvert.DeserializeObject<IList<NewBatch>>(json, GetJsonSetting()));
-
-                    var batches = data.Where(p => !string.IsNullOrEmpty(p.BrandName)).OrderBy(x => x.BrandName).ToList();
-                    await RealmDb.WriteAsync((realmDb) =>
+                    foreach (var item in batches)
                     {
-                        foreach (var item in batches)
-                        {
-                            try
-                            {
-                                realmDb.Add(item);
-                            }
-                            catch (Exception ex)
-                            {
-                                Crashes.TrackError(ex);
-                            }
-                        }
-                    });
-                }
+                        realmDb.Add(item);
+
+                    }
+                });
             }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+
         }
 
         private async Task LoadPartnersAsync()
         {
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-            try
+            var response = await ApiManager.GetPartnersList(Settings.SessionId);
+            if (response.IsSuccessStatusCode)
             {
-                var response = await ApiManager.GetPartnersList(Settings.SessionId);
-                if (response.IsSuccessStatusCode)
-                {
-                    var json = await response.Content.ReadAsStringAsync();
-                    var data = await Task.Run(() => JsonConvert.DeserializeObject<IList<PartnerModel>>(json,GetJsonSetting()));
+                var json = await response.Content.ReadAsStringAsync();
+                var data = await Task.Run(() => JsonConvert.DeserializeObject<IList<PartnerModel>>(json, GetJsonSetting()));
 
-                    var Partners = data.Where(x => !string.IsNullOrEmpty(x.FullName)).ToList();
+                var Partners = data.Where(x => !string.IsNullOrEmpty(x.FullName)).ToList();
 
-                    await RealmDb.WriteAsync((realmDb) =>
+                await RealmDb.WriteAsync((realmDb) =>
+                  {
+                      foreach (var item in Partners)
                       {
-                          foreach (var item in Partners)
-                          {
-                              try
-                              {
-                                  realmDb.Add(item);
-                              }
-                              catch (Exception ex)
-                              {
-                                  Crashes.TrackError(ex);
-                              }
-                          }
-                      });
-                }
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
+                          realmDb.Add(item);
+                      }
+                  });
             }
         }
 
         private async Task LoadBrandAsync()
         {
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-            try
+            var response = await ApiManager.GetBrandList(Settings.SessionId);
+            if (response.IsSuccessStatusCode)
             {
-                var response = await ApiManager.GetBrandList(Settings.SessionId);
-                if (response.IsSuccessStatusCode)
-                {
-                    var json = await response.Content.ReadAsStringAsync();
+                var json = await response.Content.ReadAsStringAsync();
 
-                    var data = JsonConvert.DeserializeObject<IList<BrandModel>>(json, GetJsonSetting());
-                    data.Insert(0, new BrandModel { BrandName = "Add", BrandCode = "Add", BrandId = Guid.NewGuid().ToString() });
-                    data.Insert(1, new BrandModel { BrandName = "'\"'", BrandCode = "'\"'", BrandId = Guid.NewGuid().ToString() });
-                    data.Move(data.FirstOrDefault(x => x.BrandName == "Empty"), 2);
+                var data = JsonConvert.DeserializeObject<IList<BrandModel>>(json, GetJsonSetting());
+                data.Insert(0, new BrandModel { BrandName = "Add", BrandCode = "Add", BrandId = Guid.NewGuid().ToString() });
+                data.Insert(1, new BrandModel { BrandName = "'\"'", BrandCode = "'\"'", BrandId = Guid.NewGuid().ToString() });
+                data.Move(data.FirstOrDefault(x => x.BrandName == "Empty"), 2);
 
-                    await RealmDb.WriteAsync((realmDb) =>
+                await RealmDb.WriteAsync((realmDb) =>
+                 {
+                     foreach (var item in data)
                      {
-                         foreach (var item in data)
-                         {
-                             try
-                             {
-                                 realmDb.Add(item);
-                             }
-                             catch (Exception ex)
-                             {
-                                 Crashes.TrackError(ex);
-                             }
-                         }
-                     });
-                }
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
+                         realmDb.Add(item);
+
+                     }
+                 });
             }
         }
 
         private async Task LoadDashboardPartnersAsync()
         {
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-            try
-            {
-                var result = await ApiManager.GetDashboardPartnersList(Settings.CompanyId, Settings.SessionId);
-                if (result.IsSuccessStatusCode)
-                {
-                    var response = await result.Content.ReadAsStringAsync();
-                    var model = await Task.Run(() => JsonConvert.DeserializeObject<IList<PossessorResponseModel>>(response, GetJsonSetting()));
-                    var partners = model.Where(x => !string.IsNullOrEmpty(x.Location.FullName)).ToList();
-                    await RealmDb.WriteAsync((realmDb) =>
-                     {
-                         foreach (var item in partners)
-                         {
-                             try
-                             {
-                                 realmDb.Add(item);
-                             }
-                             catch (Exception ex)
-                             {
-                                 Crashes.TrackError(ex);
-                             }
-                         }
-                     });
-                }
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
-        }
 
-        private async Task LoadAssetSizeAsync()
-        {
-            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-            List<AssetSizeModel> assetSizeModel = null;
-            try
+            var result = await ApiManager.GetDashboardPartnersList(Settings.CompanyId, Settings.SessionId);
+            if (result.IsSuccessStatusCode)
             {
+                var response = await result.Content.ReadAsStringAsync();
+                var model = await Task.Run(() => JsonConvert.DeserializeObject<IList<PossessorResponseModel>>(response, GetJsonSetting()));
+                var partners = model.Where(x => !string.IsNullOrEmpty(x.Location.FullName)).ToList();
+                await RealmDb.WriteAsync((realmDb) =>
+                 {
+                     foreach (var item in partners)
+                     {
+                         realmDb.Add(item);
+                     }
+                 });
+            }
+
+        }
+        private async Task LoadAssetSizeAsync()
+            {
+                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                List<AssetSizeModel> assetSizeModel = null;
                 var response = await ApiManager.GetAssetSize(Settings.SessionId, false);
                 if (response.IsSuccessStatusCode)
                 {
@@ -311,33 +208,16 @@ namespace KegID.Services
                      {
                          foreach (var item in assetSizeModel)
                          {
-                             try
-                             {
-                                 realmDb.Add(item);
-                             }
-                             catch (Exception ex)
-                             {
-                                 Crashes.TrackError(ex);
-                             }
+                             realmDb.Add(item);
                          }
                      });
                 }
             }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
-            finally
-            {
-            }
-        }
 
-        private async Task LoadAssetTypeAsync()
-        {
-            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-            List<AssetTypeModel> assetTypeModels = null;
-            try
+            private async Task LoadAssetTypeAsync()
             {
+                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                List<AssetTypeModel> assetTypeModels = null;
                 var response = await ApiManager.GetAssetType(Settings.SessionId, false);
                 if (response.IsSuccessStatusCode)
                 {
@@ -354,34 +234,16 @@ namespace KegID.Services
                      {
                          foreach (var item in assetTypeModels)
                          {
-                             try
-                             {
-                                 realmDb.Add(item);
-                             }
-                             catch (Exception ex)
-                             {
-                                 Crashes.TrackError(ex);
-                             }
+                             realmDb.Add(item);
                          }
                      });
                 }
             }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
-            finally
-            {
-                //service = null;
-            }
-        }
 
-        private async Task LoadAssetVolumeAsync()
-        {
-            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-            List<AssetVolumeModel> assetVolumeModel = null;
-            try
+            private async Task LoadAssetVolumeAsync()
             {
+                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                List<AssetVolumeModel> assetVolumeModel = null;
                 var result = await ApiManager.GetAssetVolume(Settings.SessionId, false);
                 if (result.IsSuccessStatusCode)
                 {
@@ -397,31 +259,13 @@ namespace KegID.Services
                      {
                          foreach (var item in assetVolumeModel)
                          {
-                             try
-                             {
-                                 realmDb.Add(item);
-                             }
-                             catch (Exception ex)
-                             {
-                                 Crashes.TrackError(ex);
-                             }
+                             realmDb.Add(item);
                          }
                      });
                 }
             }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
-            finally
-            {
-                //service = null;
-            }
-        }
 
-        private async Task LoadOwnerAsync()
-        {
-            try
+            private async Task LoadOwnerAsync()
             {
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                 var response = await ApiManager.GetOwner(Settings.SessionId);
@@ -434,83 +278,49 @@ namespace KegID.Services
                  {
                      foreach (var item in data)
                      {
-                         try
-                         {
-                             realmDb.Add(item);
-                         }
-                         catch (Exception ex)
-                         {
-                             Crashes.TrackError(ex);
-                         }
+                         realmDb.Add(item);
                      }
                  });
                 }
             }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
-            finally
-            {
-            }
-        }
 
         public async Task LoadPartnerTypeAsync()
         {
-            try
+
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            var response = await ApiManager.GetPartnerType(Settings.SessionId);
+            if (response.IsSuccessStatusCode)
             {
-                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                var response = await ApiManager.GetPartnerType(Settings.SessionId);
-                if (response.IsSuccessStatusCode)
-                {
-                    var json = await response.Content.ReadAsStringAsync();
-                    var data = await Task.Run(() => JsonConvert.DeserializeObject<IList<PartnerTypeModel>>(json, GetJsonSetting()));
-                    await RealmDb.WriteAsync((realmDb) =>
+                var json = await response.Content.ReadAsStringAsync();
+                var data = await Task.Run(() => JsonConvert.DeserializeObject<IList<PartnerTypeModel>>(json, GetJsonSetting()));
+                await RealmDb.WriteAsync((realmDb) =>
+                 {
+                     foreach (var item in data)
                      {
-                         foreach (var item in data)
-                         {
-                             try
-                             {
-                                 realmDb.Add(item);
-                             }
-                             catch (Exception ex)
-                             {
-                                 Crashes.TrackError(ex);
-                             }
-                         }
-                     });
-                }
+                         realmDb.Add(item);
+                     }
+                 });
             }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+
         }
 
         public void DeleteInitializeMetaData()
-        {
-            try
-            {
-                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                using (var trans = RealmDb.BeginWrite())
                 {
-                    RealmDb.RemoveAll<MaintainTypeReponseModel>();
-                    RealmDb.RemoveAll<PartnerTypeModel>();
-                    RealmDb.RemoveAll<OwnerModel>();
-                    RealmDb.RemoveAll<AssetVolumeModel>();
-                    RealmDb.RemoveAll<AssetTypeModel>();
-                    RealmDb.RemoveAll<AssetSizeModel>();
-                    RealmDb.RemoveAll<PossessorResponseModel>();
-                    RealmDb.RemoveAll<BrandModel>();
-                    RealmDb.RemoveAll<PartnerModel>();
-                    RealmDb.RemoveAll<NewBatch>();
-                    trans.Commit();
+                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                    using (var trans = RealmDb.BeginWrite())
+                    {
+                        RealmDb.RemoveAll<MaintainTypeReponseModel>();
+                        RealmDb.RemoveAll<PartnerTypeModel>();
+                        RealmDb.RemoveAll<OwnerModel>();
+                        RealmDb.RemoveAll<AssetVolumeModel>();
+                        RealmDb.RemoveAll<AssetTypeModel>();
+                        RealmDb.RemoveAll<AssetSizeModel>();
+                        RealmDb.RemoveAll<PossessorResponseModel>();
+                        RealmDb.RemoveAll<BrandModel>();
+                        RealmDb.RemoveAll<PartnerModel>();
+                        RealmDb.RemoveAll<NewBatch>();
+                        trans.Commit();
+                    }
                 }
             }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
         }
-    }
-}

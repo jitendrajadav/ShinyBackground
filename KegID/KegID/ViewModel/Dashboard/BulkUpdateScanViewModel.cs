@@ -126,212 +126,150 @@ namespace KegID.ViewModel
 
         private void LoadAssetSizeAsync()
         {
-            try
-            {
-                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                var value = RealmDb.All<AssetSizeModel>().ToList();
-                SizeCollection = value.Select(x => x.AssetSize).ToList();
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            var value = RealmDb.All<AssetSizeModel>().ToList();
+            SizeCollection = value.Select(x => x.AssetSize).ToList();
+
         }
 
         private void LoadAssetTypeAsync()
         {
-            try
-            {
-                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                var value = RealmDb.All<AssetTypeModel>().ToList();
-                AssetTypeCollection = value.Select(x => x.AssetType).ToList();
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            var value = RealmDb.All<AssetTypeModel>().ToList();
+            AssetTypeCollection = value.Select(x => x.AssetType).ToList();
         }
 
         private async void IconItemTappedCommandRecieverAsync(BarcodeModel model)
         {
-            try
+            if (model.Kegs.Partners.Count > 1)
             {
-                if (model.Kegs.Partners.Count > 1)
-                {
-                    List<BarcodeModel> modelList = new List<BarcodeModel>
+                List<BarcodeModel> modelList = new List<BarcodeModel>
                     {
                         model
                     };
-                    await NavigateToValidatePartner(modelList);
-                }
-                else
-                {
-                    await _navigationService.NavigateAsync("ScanInfoView", new NavigationParameters
+                await NavigateToValidatePartner(modelList);
+            }
+            else
+            {
+                await _navigationService.NavigateAsync("ScanInfoView", new NavigationParameters
                     {
                         { "model", model }
                     }, animated: false);
-                }
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
             }
         }
 
         private async void LabelItemTappedCommandRecieverAsync(BarcodeModel model)
         {
-            try
+            if (model.Kegs.Partners.Count > 1)
             {
-                if (model.Kegs.Partners.Count > 1)
-                {
-                    List<BarcodeModel> modelList = new List<BarcodeModel>
+                List<BarcodeModel> modelList = new List<BarcodeModel>
                     {
                         model
                     };
-                    await NavigateToValidatePartner(modelList);
-                }
-                else
-                {
-                    ConstantManager.IsFromScanned = true;
-                    await _navigationService.NavigateAsync("AddTagsView", new NavigationParameters
-                    {
-                        {"viewTypeEnum",ViewTypeEnum.BulkUpdateScanView }
-                    }, animated: false);
-                }
+                await NavigateToValidatePartner(modelList);
             }
-            catch (Exception ex)
+            else
             {
-                Crashes.TrackError(ex);
-            }
-        }
-
-        private async Task NavigateToValidatePartner(List<BarcodeModel> model)
-        {
-            try
-            {
-                await _navigationService.NavigateAsync("ValidateBarcodeView", new NavigationParameters
-                    {
-                        { "model", model }
-                    }, animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
-        }
-
-        private async void AddTagsCommandRecieverAsync()
-        {
-            try
-            {
+                ConstantManager.IsFromScanned = true;
                 await _navigationService.NavigateAsync("AddTagsView", new NavigationParameters
                     {
                         {"viewTypeEnum",ViewTypeEnum.BulkUpdateScanView }
                     }, animated: false);
             }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+
+        }
+
+        private async Task NavigateToValidatePartner(List<BarcodeModel> model)
+        {
+            await _navigationService.NavigateAsync("ValidateBarcodeView", new NavigationParameters
+                    {
+                        { "model", model }
+                    }, animated: false);
+        }
+
+        private async void AddTagsCommandRecieverAsync()
+        {
+            await _navigationService.NavigateAsync("AddTagsView", new NavigationParameters
+                    {
+                        {"viewTypeEnum",ViewTypeEnum.BulkUpdateScanView }
+                    }, animated: false);
         }
 
         private void BarcodeManualCommandRecieverAsync()
         {
-            try
+            var isNew = BarcodeCollection.ToList().Any(x => x?.Kegs?.Partners?.FirstOrDefault()?.Kegs?.FirstOrDefault()?.Barcode == ManaulBarcode);
+            if (!isNew)
             {
-                var isNew = BarcodeCollection.ToList().Any(x => x?.Kegs?.Partners?.FirstOrDefault()?.Kegs?.FirstOrDefault()?.Barcode == ManaulBarcode);
-                if (!isNew)
+                BarcodeModel model = new BarcodeModel()
                 {
-                    BarcodeModel model = new BarcodeModel()
+                    Barcode = ManaulBarcode,
+                    TagsStr = TagsStr,
+                    Icon = _getIconByPlatform.GetIcon(Cloud),
+                    Page = nameof(ViewTypeEnum.BulkUpdateScanView),
+                    Contents = SelectedItemType
+                };
+
+                if (ConstantManager.Tags != null)
+                {
+                    foreach (var item in ConstantManager.Tags)
+                        model.Tags.Add(item);
+                }
+
+                BarcodeCollection.Add(model);
+
+                var current = Connectivity.NetworkAccess;
+                if (current == NetworkAccess.Internet)
+                {
+                    //var message = new StartLongRunningTaskMessage
+                    //{
+                    //    Barcode = new List<string>() { ManaulBarcode },
+                    //    PageName = nameof(ViewTypeEnum.BulkUpdateScanView)
+                    //};
+                    //MessagingCenter.Send(message, "StartLongRunningTaskMessage");
+
+                    // IJobManager can and should be injected into your viewmodel code
+                    Shiny.ShinyHost.Resolve<Shiny.Jobs.IJobManager>().RunTask("BulkUpdateJob" + ManaulBarcode, async _ =>
                     {
-                        Barcode = ManaulBarcode,
-                        TagsStr = TagsStr,
-                        Icon = _getIconByPlatform.GetIcon(Cloud),
-                        Page = nameof(ViewTypeEnum.BulkUpdateScanView),
-                        Contents = SelectedItemType
-                    };
-
-                    if (ConstantManager.Tags != null)
-                    {
-                        foreach (var item in ConstantManager.Tags)
-                            model.Tags.Add(item);
-                    }
-
-                    BarcodeCollection.Add(model);
-
-                    var current = Connectivity.NetworkAccess;
-                    if (current == NetworkAccess.Internet)
-                    {
-                        //var message = new StartLongRunningTaskMessage
-                        //{
-                        //    Barcode = new List<string>() { ManaulBarcode },
-                        //    PageName = nameof(ViewTypeEnum.BulkUpdateScanView)
-                        //};
-                        //MessagingCenter.Send(message, "StartLongRunningTaskMessage");
-
-                        // IJobManager can and should be injected into your viewmodel code
-                        Shiny.ShinyHost.Resolve<Shiny.Jobs.IJobManager>().RunTask("BulkUpdateJob" + ManaulBarcode, async _ =>
-                        {
                             // your code goes here - async stuff is welcome (and necessary)
                             var response = await ApiManager.GetValidateBarcode(ManaulBarcode, Settings.SessionId);
-                            if (response.IsSuccessStatusCode)
-                            {
-                                var json = await response.Content.ReadAsStringAsync();
-                                var data = await Task.Run(() => JsonConvert.DeserializeObject<BarcodeModel>(json, GetJsonSetting()));
+                        if (response.IsSuccessStatusCode)
+                        {
+                            var json = await response.Content.ReadAsStringAsync();
+                            var data = await Task.Run(() => JsonConvert.DeserializeObject<BarcodeModel>(json, GetJsonSetting()));
 
-                                if (data.Kegs != null)
+                            if (data.Kegs != null)
+                            {
+                                using (var db = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
                                 {
-                                    using (var db = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
-                                    {
-                                        try
-                                        {
-                                            var oldBarcode = BarcodeCollection.FirstOrDefault(x => x.Barcode == data?.Kegs?.Partners?.FirstOrDefault().Kegs?.FirstOrDefault()?.Barcode);
-                                            oldBarcode.Pallets = data.Pallets;
-                                            oldBarcode.Kegs = data.Kegs;
-                                            oldBarcode.Icon = data?.Kegs?.Partners.Count > 1 ? _getIconByPlatform.GetIcon("validationquestion.png") : data?.Kegs?.Partners?.Count == 0 ? _getIconByPlatform.GetIcon("validationerror.png") : _getIconByPlatform.GetIcon("validationok.png");
-                                            if (oldBarcode.Icon == "validationerror.png")
-                                                Vibration.Vibrate();
-                                            oldBarcode.IsScanned = true;
-                                            db.Commit();
-                                        }
-                                        catch (Exception EX)
-                                        {
-                                        }
-                                    }
+                                        var oldBarcode = BarcodeCollection.FirstOrDefault(x => x.Barcode == data?.Kegs?.Partners?.FirstOrDefault().Kegs?.FirstOrDefault()?.Barcode);
+                                        oldBarcode.Pallets = data.Pallets;
+                                        oldBarcode.Kegs = data.Kegs;
+                                        oldBarcode.Icon = data?.Kegs?.Partners.Count > 1 ? _getIconByPlatform.GetIcon("validationquestion.png") : data?.Kegs?.Partners?.Count == 0 ? _getIconByPlatform.GetIcon("validationerror.png") : _getIconByPlatform.GetIcon("validationok.png");
+                                        if (oldBarcode.Icon == "validationerror.png")
+                                            Vibration.Vibrate();
+                                        oldBarcode.IsScanned = true;
+                                        db.Commit();
                                 }
                             }
-                        });
+                        }
+                    });
 
-                    }
-
-                    ManaulBarcode = string.Empty;
                 }
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
+
+                ManaulBarcode = string.Empty;
             }
         }
 
         private async void BarcodeScanCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.NavigateAsync("CognexScanView", new NavigationParameters
+            await _navigationService.NavigateAsync("CognexScanView", new NavigationParameters
                     {
                         { "Tags", Tags },{ "TagsStr", TagsStr },{ "ViewTypeEnum", ViewTypeEnum.BulkUpdateScanView }
                     }, animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
         }
 
         private async Task SaveCommandRecieverAsync()
         {
-            try
-            {
                 if (BarcodeCollection.Count > 0)
                 {
                     UserDialogs.Instance.ShowLoading("Loading");
@@ -370,40 +308,19 @@ namespace KegID.ViewModel
                 {
                     await _dialogService.DisplayAlertAsync("Alert", "Please add scan item", "Ok");
                 }
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
-            finally
-            {
                 UserDialogs.Instance.HideLoading();
-            }
+            
         }
 
         private async void CancelCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.GoBackAsync(animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            await _navigationService.GoBackAsync(animated: false);
         }
 
         internal void AssignAddTagsValue(List<Tag> _tags, string _tagsStr)
         {
-            try
-            {
-                Tags = _tags;
-                TagsStr = _tagsStr;
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            Tags = _tags;
+            TagsStr = _tagsStr;
         }
 
         public override void OnNavigatedTo(INavigationParameters parameters)

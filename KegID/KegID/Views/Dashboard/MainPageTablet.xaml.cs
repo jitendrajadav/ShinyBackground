@@ -10,15 +10,8 @@ namespace KegID
     {
         public MainPageTablet()
         {
-            try
-            {
-                InitializeComponent();
-                NavigationPage.SetHasNavigationBar(this, false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            InitializeComponent();
+            NavigationPage.SetHasNavigationBar(this, false);
         }
     }
 }
