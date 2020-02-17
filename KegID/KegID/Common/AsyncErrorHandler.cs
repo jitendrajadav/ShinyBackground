@@ -1,4 +1,5 @@
-﻿using Microsoft.AppCenter.Crashes;
+﻿using Acr.UserDialogs;
+using Microsoft.AppCenter.Crashes;
 using System;
 using System.Diagnostics;
 
@@ -13,6 +14,7 @@ namespace KegID.Common
             Message = ex.Message;
             Debug.WriteLine(ex.Message);
             Crashes.TrackError(ex);
+            UserDialogs.Instance.HideLoading();
         }
     }
 }

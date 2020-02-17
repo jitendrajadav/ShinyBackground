@@ -2,7 +2,6 @@
 using KegID.LocalDb;
 using KegID.Model;
 using KegID.ViewModel;
-using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
 using Prism.Navigation;
 using Realms;
@@ -52,8 +51,6 @@ namespace KegID.Services
                     }
                 });
             }
-
-
         }
 
         private async Task LoadOperators()
@@ -121,7 +118,6 @@ namespace KegID.Services
                     }
                 });
             }
-
         }
 
         private async Task LoadPartnersAsync()
@@ -136,12 +132,12 @@ namespace KegID.Services
                 var Partners = data.Where(x => !string.IsNullOrEmpty(x.FullName)).ToList();
 
                 await RealmDb.WriteAsync((realmDb) =>
-                  {
+                {
                       foreach (var item in Partners)
                       {
                           realmDb.Add(item);
                       }
-                  });
+                });
             }
         }
 
@@ -159,13 +155,13 @@ namespace KegID.Services
                 data.Move(data.FirstOrDefault(x => x.BrandName == "Empty"), 2);
 
                 await RealmDb.WriteAsync((realmDb) =>
-                 {
+                {
                      foreach (var item in data)
                      {
                          realmDb.Add(item);
 
                      }
-                 });
+                });
             }
         }
 
@@ -180,113 +176,113 @@ namespace KegID.Services
                 var model = await Task.Run(() => JsonConvert.DeserializeObject<IList<PossessorResponseModel>>(response, GetJsonSetting()));
                 var partners = model.Where(x => !string.IsNullOrEmpty(x.Location.FullName)).ToList();
                 await RealmDb.WriteAsync((realmDb) =>
-                 {
+                {
                      foreach (var item in partners)
                      {
                          realmDb.Add(item);
                      }
-                 });
+                });
             }
-
         }
+
         private async Task LoadAssetSizeAsync()
+        {
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            List<AssetSizeModel> assetSizeModel = null;
+            var response = await ApiManager.GetAssetSize(Settings.SessionId, false);
+            if (response.IsSuccessStatusCode)
             {
-                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                List<AssetSizeModel> assetSizeModel = null;
-                var response = await ApiManager.GetAssetSize(Settings.SessionId, false);
-                if (response.IsSuccessStatusCode)
-                {
-                    var json = await response.Content.ReadAsStringAsync();
-                    var data = await Task.Run(() => JsonConvert.DeserializeObject<IList<string>>(json, GetJsonSetting()));
+                var json = await response.Content.ReadAsStringAsync();
+                var data = await Task.Run(() => JsonConvert.DeserializeObject<IList<string>>(json, GetJsonSetting()));
 
-                    assetSizeModel = new List<AssetSizeModel>();
-                    foreach (var item in data)
-                    {
-                        assetSizeModel.Add(new AssetSizeModel { AssetSize = item });
-                    }
-                    await RealmDb.WriteAsync((realmDb) =>
-                     {
-                         foreach (var item in assetSizeModel)
-                         {
-                             realmDb.Add(item);
-                         }
-                     });
+                assetSizeModel = new List<AssetSizeModel>();
+                foreach (var item in data)
+                {
+                    assetSizeModel.Add(new AssetSizeModel { AssetSize = item });
                 }
-            }
-
-            private async Task LoadAssetTypeAsync()
-            {
-                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                List<AssetTypeModel> assetTypeModels = null;
-                var response = await ApiManager.GetAssetType(Settings.SessionId, false);
-                if (response.IsSuccessStatusCode)
+                await RealmDb.WriteAsync((realmDb) =>
                 {
-                    var json = await response.Content.ReadAsStringAsync();
-                    var data = await Task.Run(() => JsonConvert.DeserializeObject<IList<string>>(json, GetJsonSetting()));
-
-                    assetTypeModels = new List<AssetTypeModel>();
-                    foreach (var item in data)
-                    {
-                        assetTypeModels.Add(new AssetTypeModel { AssetType = item });
-                    }
-
-                    await RealmDb.WriteAsync((realmDb) =>
+                     foreach (var item in assetSizeModel)
                      {
-                         foreach (var item in assetTypeModels)
-                         {
-                             realmDb.Add(item);
-                         }
-                     });
-                }
+                         realmDb.Add(item);
+                     }
+                });
             }
+        }
 
-            private async Task LoadAssetVolumeAsync()
+        private async Task LoadAssetTypeAsync()
+        {
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            List<AssetTypeModel> assetTypeModels = null;
+            var response = await ApiManager.GetAssetType(Settings.SessionId, false);
+            if (response.IsSuccessStatusCode)
             {
-                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                List<AssetVolumeModel> assetVolumeModel = null;
-                var result = await ApiManager.GetAssetVolume(Settings.SessionId, false);
-                if (result.IsSuccessStatusCode)
-                {
-                    var response = await result.Content.ReadAsStringAsync();
-                    var model = await Task.Run(() => JsonConvert.DeserializeObject<IList<string>>(response, GetJsonSetting()));
+                var json = await response.Content.ReadAsStringAsync();
+                var data = await Task.Run(() => JsonConvert.DeserializeObject<IList<string>>(json, GetJsonSetting()));
 
-                    assetVolumeModel = new List<AssetVolumeModel>();
-                    foreach (var item in model)
-                    {
-                        assetVolumeModel.Add(new AssetVolumeModel { AssetVolume = item });
-                    }
-                    await RealmDb.WriteAsync((realmDb) =>
+                assetTypeModels = new List<AssetTypeModel>();
+                foreach (var item in data)
+                {
+                    assetTypeModels.Add(new AssetTypeModel { AssetType = item });
+                }
+
+                await RealmDb.WriteAsync((realmDb) =>
+                {
+                     foreach (var item in assetTypeModels)
                      {
-                         foreach (var item in assetVolumeModel)
-                         {
-                             realmDb.Add(item);
-                         }
-                     });
-                }
+                         realmDb.Add(item);
+                     }
+                });
             }
+        }
 
-            private async Task LoadOwnerAsync()
+        private async Task LoadAssetVolumeAsync()
+        {
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            List<AssetVolumeModel> assetVolumeModel = null;
+            var result = await ApiManager.GetAssetVolume(Settings.SessionId, false);
+            if (result.IsSuccessStatusCode)
             {
-                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                var response = await ApiManager.GetOwner(Settings.SessionId);
-                if (response.IsSuccessStatusCode)
-                {
-                    var json = await response.Content.ReadAsStringAsync();
-                    var data = await Task.Run(() => JsonConvert.DeserializeObject<IList<OwnerModel>>(json, GetJsonSetting()));
+                var response = await result.Content.ReadAsStringAsync();
+                var model = await Task.Run(() => JsonConvert.DeserializeObject<IList<string>>(response, GetJsonSetting()));
 
-                    await RealmDb.WriteAsync((realmDb) =>
-                 {
+                assetVolumeModel = new List<AssetVolumeModel>();
+                foreach (var item in model)
+                {
+                    assetVolumeModel.Add(new AssetVolumeModel { AssetVolume = item });
+                }
+
+                await RealmDb.WriteAsync((realmDb) =>
+                {
+                     foreach (var item in assetVolumeModel)
+                     {
+                         realmDb.Add(item);
+                     }
+                });
+            }
+        }
+
+        private async Task LoadOwnerAsync()
+        {
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            var response = await ApiManager.GetOwner(Settings.SessionId);
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                var data = await Task.Run(() => JsonConvert.DeserializeObject<IList<OwnerModel>>(json, GetJsonSetting()));
+
+                await RealmDb.WriteAsync((realmDb) =>
+                {
                      foreach (var item in data)
                      {
                          realmDb.Add(item);
                      }
-                 });
-                }
+                });
             }
+        }
 
         public async Task LoadPartnerTypeAsync()
         {
-
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             var response = await ApiManager.GetPartnerType(Settings.SessionId);
             if (response.IsSuccessStatusCode)
@@ -294,33 +290,32 @@ namespace KegID.Services
                 var json = await response.Content.ReadAsStringAsync();
                 var data = await Task.Run(() => JsonConvert.DeserializeObject<IList<PartnerTypeModel>>(json, GetJsonSetting()));
                 await RealmDb.WriteAsync((realmDb) =>
-                 {
+                {
                      foreach (var item in data)
                      {
                          realmDb.Add(item);
                      }
-                 });
+                });
             }
-
         }
 
         public void DeleteInitializeMetaData()
-                {
-                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                    using (var trans = RealmDb.BeginWrite())
-                    {
-                        RealmDb.RemoveAll<MaintainTypeReponseModel>();
-                        RealmDb.RemoveAll<PartnerTypeModel>();
-                        RealmDb.RemoveAll<OwnerModel>();
-                        RealmDb.RemoveAll<AssetVolumeModel>();
-                        RealmDb.RemoveAll<AssetTypeModel>();
-                        RealmDb.RemoveAll<AssetSizeModel>();
-                        RealmDb.RemoveAll<PossessorResponseModel>();
-                        RealmDb.RemoveAll<BrandModel>();
-                        RealmDb.RemoveAll<PartnerModel>();
-                        RealmDb.RemoveAll<NewBatch>();
-                        trans.Commit();
-                    }
-                }
+        {
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            using (var trans = RealmDb.BeginWrite())
+            {
+                RealmDb.RemoveAll<MaintainTypeReponseModel>();
+                RealmDb.RemoveAll<PartnerTypeModel>();
+                RealmDb.RemoveAll<OwnerModel>();
+                RealmDb.RemoveAll<AssetVolumeModel>();
+                RealmDb.RemoveAll<AssetTypeModel>();
+                RealmDb.RemoveAll<AssetSizeModel>();
+                RealmDb.RemoveAll<PossessorResponseModel>();
+                RealmDb.RemoveAll<BrandModel>();
+                RealmDb.RemoveAll<PartnerModel>();
+                RealmDb.RemoveAll<NewBatch>();
+                trans.Commit();
             }
         }
+    }
+}

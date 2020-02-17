@@ -220,7 +220,9 @@ namespace KegID.ViewModel
 
         // reads the values needed for ScanSettings from the Settings class
         // and applies them to the Picker
-        async Task UpdateScanSettings()
+#pragma warning disable IDE0051 // Remove unused private members
+        private async Task UpdateScanSettings()
+#pragma warning restore IDE0051 // Remove unused private members
         {
             bool addOnEnabled = false;
             bool isScanningAreaOverriddenByDpmMode = false;

@@ -85,11 +85,11 @@ namespace KegID.ViewModel
             IsExpand = true;
         }
 
-        private void HandleUnsubscribeMessages()
-        {
-            MessagingCenter.Unsubscribe<MoveScanKegsMessage>(this, "MoveScanKegsMessage");
-            MessagingCenter.Unsubscribe<PalletToScanKegPagesMsg>(this, "PalletToScanKegPagesMsg");
-        }
+        //private void HandleUnsubscribeMessages()
+        //{
+        //    MessagingCenter.Unsubscribe<MoveScanKegsMessage>(this, "MoveScanKegsMessage");
+        //    MessagingCenter.Unsubscribe<PalletToScanKegPagesMsg>(this, "PalletToScanKegPagesMsg");
+        //}
 
         private void HandleReceivedMessages()
         {

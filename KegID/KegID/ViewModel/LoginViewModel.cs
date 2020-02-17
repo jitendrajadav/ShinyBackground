@@ -4,7 +4,6 @@ using KegID.LocalDb;
 using KegID.Model;
 using KegID.Services;
 using Microsoft.AppCenter.Analytics;
-using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
@@ -12,7 +11,6 @@ using Prism.Services;
 using Realms;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
@@ -64,7 +62,6 @@ namespace KegID.ViewModel
 
         #region Methods
 
-
         private void KegIDCommandReciever()
         {
             // You can remove the switch to UI Thread if you are already in the UI Thread.
@@ -95,9 +92,6 @@ namespace KegID.ViewModel
 
                 KegRefresh = Convert.ToDouble(model.Preferences.ToList().Find(x => x.PreferenceName == "KEG_REFRESH")?.PreferenceValue);
                 await RunSafe(DeviceCheckIn());
-                UserDialogs.Instance.HideLoading();
-
-                UserDialogs.Instance.HideLoading();
 
                 var versionUpdated = VersionTracking.CurrentVersion.CompareTo(VersionTracking.PreviousVersion);
                 if (versionUpdated > 0 && VersionTracking.PreviousVersion != null && VersionTracking.IsFirstLaunchForCurrentVersion)
@@ -111,16 +105,11 @@ namespace KegID.ViewModel
                     else
                         await _navigationService.NavigateAsync("../MainPage", animated: false);
                 }
-                UserDialogs.Instance.HideLoading();
-
                 if (!IsLogOut)
                 {
                     var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                     await RealmDb.WriteAsync((realmDb) => realmDb.Add(model));
                 }
-
-                UserDialogs.Instance.HideLoading();
-
             }
             else
             {
@@ -135,7 +124,9 @@ namespace KegID.ViewModel
         {
             Device.StartTimer(TimeSpan.FromDays(1), () =>
             {
+#pragma warning disable IDE0039 // Use local function
                 Func<Task> value = async () => await RunSafe(DeviceCheckIn());
+#pragma warning restore IDE0039 // Use local function
                 return true; // True = Repeat again, False = Stop the timer
             });
 
@@ -213,9 +204,8 @@ namespace KegID.ViewModel
             { IsLogOut = false; }
 
             return base.InitializeAsync(parameters);
-
-            #endregion
         }
 
+        #endregion
     }
 }
