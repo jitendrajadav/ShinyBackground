@@ -3,9 +3,7 @@ using KegID.LocalDb;
 using KegID.Messages;
 using KegID.Model;
 using KegID.ViewModel;
-using Microsoft.AppCenter.Crashes;
 using Realms;
-using System;
 using System.Linq;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -38,53 +36,46 @@ namespace KegID.Services
 
                 if (value.Count > 0)
                 {
-                    try
+                    foreach (var item in value)
                     {
-                        foreach (var item in value)
+                        switch ((EventTypeEnum)item.EventTypeId)
                         {
-                            switch ((EventTypeEnum)item.EventTypeId)
-                            {
-                                case EventTypeEnum.MOVE_MANIFEST:
-                                    var response = await ApiManager.PostManifest(item, Settings.SessionId);
-                                    if (response.IsSuccessStatusCode)
-                                        AddorUpdateManifestOffline(item, false);
-                                    break;
-                                case EventTypeEnum.SHIP_MANIFEST:
-                                    break;
-                                case EventTypeEnum.RECEIVE_MANIFEST:
-                                    break;
-                                case EventTypeEnum.FILL_MANIFEST:
-                                    response = await ApiManager.PostManifest(item, Settings.SessionId);
-                                    if (response.IsSuccessStatusCode)
-                                        AddorUpdateManifestOffline(item, false);
-                                    break;
-                                case EventTypeEnum.PALLETIZE_MANIFEST:
+                            case EventTypeEnum.MOVE_MANIFEST:
+                                var response = await ApiManager.PostManifest(item, Settings.SessionId);
+                                if (response.IsSuccessStatusCode)
+                                    AddorUpdateManifestOffline(item, false);
+                                break;
+                            case EventTypeEnum.SHIP_MANIFEST:
+                                break;
+                            case EventTypeEnum.RECEIVE_MANIFEST:
+                                break;
+                            case EventTypeEnum.FILL_MANIFEST:
+                                response = await ApiManager.PostManifest(item, Settings.SessionId);
+                                if (response.IsSuccessStatusCode)
+                                    AddorUpdateManifestOffline(item, false);
+                                break;
+                            case EventTypeEnum.PALLETIZE_MANIFEST:
 
-                                    break;
-                                case EventTypeEnum.RETURN_MANIFEST:
-                                    break;
-                                case EventTypeEnum.REPAIR_MANIFEST:
-                                    response = await ApiManager.PostMaintenanceDone(item.MaintenanceModels.MaintenanceDoneRequestModel, Settings.SessionId);
-                                    if (response.IsSuccessStatusCode)
-                                        AddorUpdateManifestOffline(item, false);
-                                    break;
-                                case EventTypeEnum.COLLECT_MANIFEST:
-                                    break;
-                                case EventTypeEnum.ARCHIVE_MANIFEST:
-                                    break;
-                            }
+                                break;
+                            case EventTypeEnum.RETURN_MANIFEST:
+                                break;
+                            case EventTypeEnum.REPAIR_MANIFEST:
+                                response = await ApiManager.PostMaintenanceDone(item.MaintenanceModels.MaintenanceDoneRequestModel, Settings.SessionId);
+                                if (response.IsSuccessStatusCode)
+                                    AddorUpdateManifestOffline(item, false);
+                                break;
+                            case EventTypeEnum.COLLECT_MANIFEST:
+                                break;
+                            case EventTypeEnum.ARCHIVE_MANIFEST:
+                                break;
                         }
+                    }
 
-                        CheckDraftmaniFests checkDraftmaniFests = new CheckDraftmaniFests
-                        {
-                            IsCheckDraft = true
-                        };
-                        MessagingCenter.Send(checkDraftmaniFests, "CheckDraftmaniFests");
-                    }
-                    catch (Exception ex)
+                    CheckDraftmaniFests checkDraftmaniFests = new CheckDraftmaniFests
                     {
-                        Crashes.TrackError(ex);
-                    }
+                        IsCheckDraft = true
+                    };
+                    MessagingCenter.Send(checkDraftmaniFests, "CheckDraftmaniFests");
                 }
 
                 var pallets = RealmDb.All<PalletRequestModel>().Where(x => x.IsQueue).ToList();
@@ -112,39 +103,25 @@ namespace KegID.Services
             var isNew = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).Find<ManifestModel>(manifestId);
             if (isNew != null)
             {
-                try
+                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                RealmDb.Write(() =>
                 {
-                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                    RealmDb.Write(() =>
-                    {
-                        manifestPostModel.IsQueue = false;
-                        manifestPostModel.IsDraft = false;
-                        RealmDb.Add(manifestPostModel, update: true);
-                    });
-                }
-                catch (Exception ex)
-                {
-                    Crashes.TrackError(ex);
-                }
+                    manifestPostModel.IsQueue = false;
+                    manifestPostModel.IsDraft = false;
+                    RealmDb.Add(manifestPostModel, update: true);
+                });
             }
             else
             {
-                try
+                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                RealmDb.Write(() =>
                 {
-                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                    RealmDb.Write(() =>
+                    if (queue)
                     {
-                        if (queue)
-                        {
-                            manifestPostModel.IsQueue = true;
-                        }
-                        RealmDb.Add(manifestPostModel);
-                    });
-                }
-                catch (Exception ex)
-                {
-                    Crashes.TrackError(ex);
-                }
+                        manifestPostModel.IsQueue = true;
+                    }
+                    RealmDb.Add(manifestPostModel);
+                });
             }
         }
 
@@ -154,19 +131,12 @@ namespace KegID.Services
             var isNew = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).Find<PalletRequestModel>(palletId);
             if (isNew != null)
             {
-                try
+                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                RealmDb.Write(() =>
                 {
-                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                    RealmDb.Write(() =>
-                    {
-                        palletRequestModel.IsQueue = false;
-                        RealmDb.Add(palletRequestModel, update: true);
-                    });
-                }
-                catch (Exception ex)
-                {
-                    Crashes.TrackError(ex);
-                }
+                    palletRequestModel.IsQueue = false;
+                    RealmDb.Add(palletRequestModel, update: true);
+                });
             }
         }
     }

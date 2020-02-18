@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using KegID.LocalDb;
 using KegID.Model;
 using KegID.Services;
-using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
 using Realms;
@@ -53,7 +51,6 @@ namespace KegID.ViewModel
                         {
                             { "AssignSizesValue", ConstantManager.VerifiedBarcodes }
                         }, animated: false);
-
         }
 
         private void ApplyToAllCommandReciever()
@@ -79,7 +76,6 @@ namespace KegID.ViewModel
                     item.SelectedUOwner = SelectedOwner;
                 }
             }
-
         }
 
         private void LoadOwnderAsync()
@@ -153,7 +149,6 @@ namespace KegID.ViewModel
                         SelectedUType = selectedType ?? selectedType
                     });
             }
-
         }
 
         public override Task InitializeAsync(INavigationParameters parameters)

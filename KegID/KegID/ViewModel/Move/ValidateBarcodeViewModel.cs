@@ -1,8 +1,6 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
 using KegID.Model;
-using System;
-using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
 using System.Threading.Tasks;
@@ -40,66 +38,35 @@ namespace KegID.ViewModel
 
         private async void CancelCommandRecievierAsync()
         {
-            await _navigationService.ClearPopupStackAsync(animated:false);
+            await _navigationService.ClearPopupStackAsync(animated: false);
         }
 
         private void ItemTappedCommandRecieverAsync(Partner model)
         {
-            try
-            {
-                try
-                {
-                    var formsNav = ((Prism.Common.IPageAware)_navigationService).Page;
-                    var page = formsNav.Navigation.NavigationStack.Last();
-                    (page?.BindingContext as INavigationAware)?.OnNavigatedTo(new NavigationParameters
+            var formsNav = ((Prism.Common.IPageAware)_navigationService).Page;
+            var page = formsNav.Navigation.NavigationStack.Last();
+            (page?.BindingContext as INavigationAware)?.OnNavigatedTo(new NavigationParameters
                     {
                         { "Partner", model }
                     });
-                }
-                catch (Exception ex)
-                {
-                    Crashes.TrackError(ex);
-                }
 
-                if (Models.Count > 0)
-                    Models.RemoveAt(0);
+            if (Models.Count > 0)
+                Models.RemoveAt(0);
 
-                if (Models.Count > 0)
-                    ValidateScannedBarcode();
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            if (Models.Count > 0)
+                ValidateScannedBarcode();
         }
 
         public void LoadBarcodeValue(List<BarcodeModel> _models)
         {
-            try
-            {
-                Models = _models;
-                ValidateScannedBarcode();
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            Models = _models;
+            ValidateScannedBarcode();
         }
 
         private void ValidateScannedBarcode()
         {
-            try
-            {
-                PartnerCollection = Models?.FirstOrDefault()?.Kegs?.Partners;
-                MultipleKegsTitle = string.Format(" Multiple kgs were found with \n barcode {0}. \n Please select the correct one.", Models.FirstOrDefault().Barcode);
-            }
-            catch (Exception ex)
-            {
-                 Crashes.TrackError(ex);
-            }
-            finally
-            {
-            }
+            PartnerCollection = Models?.FirstOrDefault()?.Kegs?.Partners;
+            MultipleKegsTitle = string.Format(" Multiple kgs were found with \n barcode {0}. \n Please select the correct one.", Models.FirstOrDefault().Barcode);
         }
 
         public override Task InitializeAsync(INavigationParameters parameters)

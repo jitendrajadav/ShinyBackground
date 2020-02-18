@@ -1,14 +1,12 @@
 ﻿using KegID.Model;
-using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace KegID.ViewModel
 {
-    public class ScanInfoViewModel  : BaseViewModel
+    public class ScanInfoViewModel : BaseViewModel
     {
         #region Properties
 
@@ -41,40 +39,18 @@ namespace KegID.ViewModel
 
         private async void DoneCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.GoBackAsync(animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            await _navigationService.GoBackAsync(animated: false);
         }
 
         internal void AssignInitialValue(BarcodeModel _barcode)
         {
-            try
-            {
-                Barcode = string.Format(" Barcode {0} ", _barcode.Barcode);
-                //AltBarcode = _barcode.Barcode;
-                Ownername = _barcode?.Kegs?.Partners?.FirstOrDefault()?.FullName;
-                try
-                {
-                    Size = _barcode?.Tags[3]?.Value;
-                }
-                catch (Exception ex)
-                {
-                    Size = _barcode?.Kegs.Sizes.FirstOrDefault();
-                    Crashes.TrackError(ex);
-                }
-                Contents = _barcode.Contents;
-                Batch = _barcode.Kegs.Batches.FirstOrDefault();
-                Location = _barcode.Kegs.Locations.FirstOrDefault().Name;
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            Barcode = string.Format(" Barcode {0} ", _barcode.Barcode);
+            //AltBarcode = _barcode.Barcode;
+            Ownername = _barcode?.Kegs?.Partners?.FirstOrDefault()?.FullName;
+            Size = _barcode?.Tags[3]?.Value;
+            Contents = _barcode.Contents;
+            Batch = _barcode.Kegs.Batches.FirstOrDefault();
+            Location = _barcode.Kegs.Locations.FirstOrDefault().Name;
         }
 
         public override Task InitializeAsync(INavigationParameters parameters)

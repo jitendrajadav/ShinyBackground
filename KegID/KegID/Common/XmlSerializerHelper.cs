@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
+﻿using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -22,37 +20,27 @@ namespace KegID.Common
 
         public string Serialize(object obj)
         {
-            try
-            {
+            // process obData as normal using XmlSerializer
+            var serializer = new XmlSerializer(obj.GetType());
 
-                // process obData as normal using XmlSerializer
-                var serializer = new XmlSerializer(obj.GetType());
-
-                var writerSettings =
-                    new XmlWriterSettings
-                    {
-                        OmitXmlDeclaration = true,
-                        Indent = true
-                    };
-
-                var manifestNameSpace = new XmlSerializerNamespaces();
-                manifestNameSpace.Add("i", "http://www.w3.org/2001/XMLSchema-instance");
-
-                var shipDateNameSpace = new XmlSerializerNamespaces();
-                manifestNameSpace.Add("d2p1", "http://schemas.datacontract.org/2004/07/System");
-
-                var stringWriter = new StringWriter();
-                using (var xmlWriter = XmlWriter.Create(stringWriter, writerSettings))
+            var writerSettings =
+                new XmlWriterSettings
                 {
-                    serializer.Serialize(xmlWriter, obj, manifestNameSpace);
+                    OmitXmlDeclaration = true,
+                    Indent = true
+                };
 
-                    return stringWriter.ToString();
-                }
-            }
-            catch (Exception ex)
+            var manifestNameSpace = new XmlSerializerNamespaces();
+            manifestNameSpace.Add("i", "http://www.w3.org/2001/XMLSchema-instance");
+
+            manifestNameSpace.Add("d2p1", "http://schemas.datacontract.org/2004/07/System");
+
+            var stringWriter = new StringWriter();
+            using (var xmlWriter = XmlWriter.Create(stringWriter, writerSettings))
             {
-                Debug.WriteLine(ex.InnerException);
-                return string.Empty;
+                serializer.Serialize(xmlWriter, obj, manifestNameSpace);
+
+                return stringWriter.ToString();
             }
         }
     }

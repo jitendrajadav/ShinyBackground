@@ -3,7 +3,6 @@ using KegID.DependencyServices;
 using KegID.Model;
 using KegID.Model.PrintPDF;
 using KegID.Services;
-using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
 using System;

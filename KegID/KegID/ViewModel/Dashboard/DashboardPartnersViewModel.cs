@@ -4,7 +4,6 @@ using System.Linq;
 using System.Collections.Generic;
 using KegID.Model;
 using System;
-using Microsoft.AppCenter.Crashes;
 using Realms;
 using KegID.LocalDb;
 using Prism.Commands;

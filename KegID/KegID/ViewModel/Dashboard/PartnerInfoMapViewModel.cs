@@ -1,7 +1,5 @@
-﻿using Microsoft.AppCenter.Crashes;
-using Prism.Commands;
+﻿using Prism.Commands;
 using Prism.Navigation;
-using System;
 
 namespace KegID.ViewModel
 {
@@ -21,14 +19,7 @@ namespace KegID.ViewModel
 
         public PartnerInfoMapViewModel(INavigationService navigationService) : base(navigationService)
         {
-            try
-            {
-                PartnerInfoCommand = new DelegateCommand(PartnerInfoCommandRecieverAsync);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            PartnerInfoCommand = new DelegateCommand(PartnerInfoCommandRecieverAsync);
         }
 
         #endregion
@@ -37,14 +28,7 @@ namespace KegID.ViewModel
 
         private async void PartnerInfoCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.GoBackAsync(animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            await _navigationService.GoBackAsync(animated: false);
         }
 
 

@@ -1,8 +1,6 @@
 ﻿using KegID.Services;
-using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
-using System;
 
 namespace KegID.ViewModel
 {

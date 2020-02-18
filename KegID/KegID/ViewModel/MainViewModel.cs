@@ -5,7 +5,6 @@ using KegID.LocalDb;
 using KegID.Messages;
 using KegID.Model;
 using KegID.Services;
-using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;

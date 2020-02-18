@@ -1,7 +1,6 @@
 ﻿using KegID.Common;
 using KegID.Model;
 using KegID.Services;
-using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
@@ -60,6 +59,7 @@ namespace KegID.ViewModel
             BrandCommand = new DelegateCommand(BrandCommandRecieverAsync);
             VolumeCharCommand = new DelegateCommand(VolumeCharCommandRecieverAsync);
         }
+
         #endregion
 
         #region Methods
@@ -67,21 +67,17 @@ namespace KegID.ViewModel
         private async void VolumeCharCommandRecieverAsync()
         {
             await _navigationService.NavigateAsync("VolumeView", animated: false);
-
         }
 
         private async void BrandCommandRecieverAsync()
         {
-
             await _navigationService.NavigateAsync("BrandView", animated: false);
-
         }
 
         private async void DoneCommandRecieverAsync()
         {
             if (!string.Equals(BrandButtonTitle, "brand", StringComparison.OrdinalIgnoreCase))
             {
-
                 var abv = AlcoholContent ?? "";
                 NewBatchModel.Abv = abv;
                 NewBatchModel.BatchCode = BatchCode;
@@ -99,7 +95,6 @@ namespace KegID.ViewModel
                 NewBatchModel.SourceKey = "";
 
                 await _navigationService.GoBackAsync(new NavigationParameters { { "NewBatchModel", NewBatchModel } }, animated: false);
-
             }
             else
             {
@@ -110,25 +105,20 @@ namespace KegID.ViewModel
         private async void CancelCommandRecieverAsync()
         {
             await _navigationService.GoBackAsync(animated: false);
-
         }
 
         private async void AddTagsCommandRecieverAsync()
         {
-
             await _navigationService.NavigateAsync("AddTagsView", new NavigationParameters
                     {
                         {"viewTypeEnum",ViewTypeEnum.AddBatchView }
                     }, animated: false);
-
         }
 
         internal void AssignAddTagsValue(List<Tag> _tags, string _tagsStr)
         {
-
             Tags = _tags;
             TagsStr = _tagsStr;
-
         }
 
         public override Task InitializeAsync(INavigationParameters parameters)

@@ -6,7 +6,6 @@ using KegID.Common;
 using KegID.DependencyServices;
 using KegID.Model;
 using KegID.Services;
-using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
@@ -39,8 +38,8 @@ namespace KegID.ViewModel
         public DelegateCommand KegsCommand { get; }
         public DelegateCommand ShipToCommand { get; }
         public DelegateCommand PhoneNumberCommand { get; }
-        public DelegateCommand ContactEmailCommand { get;}
-        public DelegateCommand SendKegsCommand { get;}
+        public DelegateCommand ContactEmailCommand { get; }
+        public DelegateCommand SendKegsCommand { get; }
 
         #endregion
 
@@ -65,236 +64,141 @@ namespace KegID.ViewModel
 
         private async void ContactEmailCommandRecieverAsync()
         {
-            try
-            {
-                await SendEmail("KegID","Mail Sending",new List<string> { "test@kegid.com" });
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            await SendEmail("KegID", "Mail Sending", new List<string> { "test@kegid.com" });
         }
 
         public async Task SendEmail(string subject, string body, List<string> recipients)
         {
-            try
+            var message = new EmailMessage
             {
-                var message = new EmailMessage
-                {
-                    Subject = subject,
-                    Body = body,
-                    To = recipients,
-                    //Cc = ccRecipients,
-                    //Bcc = bccRecipients
-                };
-                await Email.ComposeAsync(message);
-            }
-            catch (FeatureNotSupportedException fbsEx)
-            {
-                // Sms is not supported on this device
-                Crashes.TrackError(fbsEx);
-            }
-            catch (Exception ex)
-            {
-                // Some other exception occured
-                Crashes.TrackError(ex);
-            }
+                Subject = subject,
+                Body = body,
+                To = recipients,
+                //Cc = ccRecipients,
+                //Bcc = bccRecipients
+            };
+            await Email.ComposeAsync(message);
         }
 
         private async void LoadPartnerInfoAsync()
         {
-            try
-            {
-                UserDialogs.Instance.ShowLoading("Loading");
+            UserDialogs.Instance.ShowLoading("Loading");
 
-                var response = await ApiManager.GetPartnerInfo(Settings.SessionId, ConstantManager.DBPartnerId);
-                if (response.IsSuccessStatusCode)
-                {
-                    var json = await response.Content.ReadAsStringAsync();
-                    var data = await Task.Run(() => JsonConvert.DeserializeObject<PartnerInfoResponseModel>(json, GetJsonSetting()));
-                    PartnerInfoModel = data;
-                    KegsHeld = PartnerInfoModel.KegsHeld.ToString();
-                    Notes = PartnerInfoModel.Notes;
-                    Ref = PartnerInfoModel.ReferenceKey;
-                    ContactEmail = PartnerInfoModel.ContactEmail;
-                }
-            }
-            catch (Exception ex)
+            var response = await ApiManager.GetPartnerInfo(Settings.SessionId, ConstantManager.DBPartnerId);
+            if (response.IsSuccessStatusCode)
             {
-                Crashes.TrackError(ex);
+                var json = await response.Content.ReadAsStringAsync();
+                var data = await Task.Run(() => JsonConvert.DeserializeObject<PartnerInfoResponseModel>(json, GetJsonSetting()));
+                PartnerInfoModel = data;
+                KegsHeld = PartnerInfoModel.KegsHeld.ToString();
+                Notes = PartnerInfoModel.Notes;
+                Ref = PartnerInfoModel.ReferenceKey;
+                ContactEmail = PartnerInfoModel.ContactEmail;
             }
-            finally
-            {
-                UserDialogs.Instance.HideLoading();
-            }
+
+            UserDialogs.Instance.HideLoading();
         }
 
         private async void SendKegsCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.NavigateAsync("MoveView", new NavigationParameters
+            await _navigationService.NavigateAsync("MoveView", new NavigationParameters
                     {
                         { "PartnerModel", PartnerModel }
                     }, animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
         }
 
         private async void ShipToCommandRecieverAsync()
         {
-            try
+            ConstantManager.Position = new LocationInfo
             {
-                ConstantManager.Position = new LocationInfo
-                {
-                    Lat = PartnerInfoModel.Lat,
-                    Lon = PartnerInfoModel.Lon,
-                    Label = PartnerInfoModel.BillAddress.City,
-                    Address = PartnerInfoModel.BillAddress.Line1
-                };
-                await _navigationService.NavigateAsync("PartnerInfoMapView", new NavigationParameters
+                Lat = PartnerInfoModel.Lat,
+                Lon = PartnerInfoModel.Lon,
+                Label = PartnerInfoModel.BillAddress.City,
+                Address = PartnerInfoModel.BillAddress.Line1
+            };
+            await _navigationService.NavigateAsync("PartnerInfoMapView", new NavigationParameters
                     {
                         { "PartnerInfoModel", PartnerInfoModel }
                     }, animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
         }
 
         private async void KegsCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.NavigateAsync("KegsView", animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            await _navigationService.NavigateAsync("KegsView", animated: false);
         }
 
         private void PhoneNumberCommandReciever()
         {
-            OnTranslate(null,null);
+            OnTranslate(null, null);
         }
 
         void OnTranslate(object sender, EventArgs e)
         {
-            try
+            translatedNumber = PhoneTranslator.ToNumber(PartnerModel.PhoneNumber);
+            if (!string.IsNullOrWhiteSpace(translatedNumber))
             {
-                translatedNumber = PhoneTranslator.ToNumber(PartnerModel.PhoneNumber);
-                if (!string.IsNullOrWhiteSpace(translatedNumber))
-                {
-                    //callButton.IsEnabled = true;
-                    //callButton.Text = "Call " + translatedNumber;
-                    //OnCall(null, null);
-                    PlacePhoneCallAsync();
-                }
-                else
-                {
-                    //callButton.IsEnabled = false;
-                    //callButton.Text = "Call";
-                }
+                //callButton.IsEnabled = true;
+                //callButton.Text = "Call " + translatedNumber;
+                //OnCall(null, null);
+                PlacePhoneCallAsync();
             }
-            catch (Exception ex)
+            else
             {
-                Crashes.TrackError(ex);
+                //callButton.IsEnabled = false;
+                //callButton.Text = "Call";
             }
         }
 
         private async void PlacePhoneCallAsync()
         {
-            try
-            {
-                if (!await Application.Current.MainPage.DisplayAlert(
-                           "Dial a Number",
-                           "Would you like to call " + translatedNumber + "?",
-                           "Cancel",
-                           "Call"))
-                {
-                    // TODO: dial the phone
-                    var dialer = DependencyService.Get<IDialer>();
-                    if (dialer != null)
-                        await dialer.DialAsync(translatedNumber);
 
-                    // Not working with -
-                    //PhoneDialer.Open(translatedNumber);
-                }
-            }
-            catch (ArgumentNullException anEx)
+            if (!await Application.Current.MainPage.DisplayAlert(
+                       "Dial a Number",
+                       "Would you like to call " + translatedNumber + "?",
+                       "Cancel",
+                       "Call"))
             {
-                Crashes.TrackError(anEx);
-                // Number was null or white space
-            }
-            catch (FeatureNotSupportedException ex)
-            {
-                Crashes.TrackError(ex);
-                // Phone Dialer is not supported on this device.
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-                // Other error has occurred.
+                // TODO: dial the phone
+                var dialer = DependencyService.Get<IDialer>();
+                if (dialer != null)
+                    await dialer.DialAsync(translatedNumber);
+
+                // Not working with -
+                //PhoneDialer.Open(translatedNumber);
             }
         }
 
         async void OnCall(object sender, EventArgs e)
         {
-            try
+            if (!await Application.Current.MainPage.DisplayAlert(
+                    "Dial a Number",
+                    "Would you like to call " + translatedNumber + "?",
+                    "Cancel",
+                    "Call"))
             {
-                if (!await Application.Current.MainPage.DisplayAlert(
-                        "Dial a Number",
-                        "Would you like to call " + translatedNumber + "?",
-                        "Cancel",
-                        "Call"))
-                {
-                    //// TODO: dial the phone
-                    //var dialer = DependencyService.Get<IDialer>();
-                    //if (dialer != null)
-                    //    await dialer.DialAsync(translatedNumber);
+                //// TODO: dial the phone
+                //var dialer = DependencyService.Get<IDialer>();
+                //if (dialer != null)
+                //    await dialer.DialAsync(translatedNumber);
 
-                    // Make Phone Call
-                    //var phoneCallTask = CrossMessaging.Current.PhoneDialer;
-                    //if (phoneCallTask.CanMakePhoneCall)
-                    //    phoneCallTask.MakePhoneCall(translatedNumber);
-                }
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
+                // Make Phone Call
+                //var phoneCallTask = CrossMessaging.Current.PhoneDialer;
+                //if (phoneCallTask.CanMakePhoneCall)
+                //    phoneCallTask.MakePhoneCall(translatedNumber);
             }
         }
 
         private async void EditCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.NavigateAsync("AddPartnerView", new NavigationParameters
+            await _navigationService.NavigateAsync("AddPartnerView", new NavigationParameters
                     {
                         { "PartnerInfoModel", PartnerInfoModel }
                     }, animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
         }
 
         private async void PartnersCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.GoBackAsync(animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            await _navigationService.GoBackAsync(animated: false);
         }
 
         public override Task InitializeAsync(INavigationParameters parameters)

@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using KegID.DependencyServices;
 using KegID.Services;
-using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
@@ -48,20 +46,13 @@ namespace KegID.ViewModel
         private async void ItemTappedCommandReciever(DiscoveredPrinter discoveredPrinter)
         {
             ClearDiscoveredPrinters();
-            Dictionary<string, string> settings = discoveredPrinter.DiscoveryDataMap;
-            try
-            {
-                ConstantManager.PrinterSetting = discoveredPrinter;
-                await _navigationService.GoBackAsync(new NavigationParameters
+
+            ConstantManager.PrinterSetting = discoveredPrinter;
+            await _navigationService.GoBackAsync(new NavigationParameters
                         {
                             {"IDiscoveredPrinter", ConstantManager.PrinterSetting}
                         }, animated: false);
 
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
         }
 
         private async void BackCommandReceiver()

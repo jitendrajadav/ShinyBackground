@@ -1,7 +1,6 @@
 ﻿using System;
 using KegID.Common;
 using KegID.Messages;
-using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
@@ -48,129 +47,68 @@ namespace KegID.ViewModel
 
         private async void AboutAppCommandRecieverAsync()
         {
-            try
-            {
-                try
-                {
-                    await _navigationService.NavigateAsync("AboutAppView", animated: false);
-                    await _navigationService.ClearPopupStackAsync("SettingView", null);
-                }
-                catch (Exception ex)
-                {
-                    Crashes.TrackError(ex);
-                }
-
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            await _navigationService.NavigateAsync("AboutAppView", animated: false);
+            await _navigationService.ClearPopupStackAsync("SettingView", null);
         }
 
         private void RefreshSettingCommandRecieverAsync()
         {
-            try
+            SettingToDashboardMsg msg = new SettingToDashboardMsg
             {
-                SettingToDashboardMsg msg = new SettingToDashboardMsg
-                {
-                    IsRefresh = true
-                };
-                MessagingCenter.Send(msg, "SettingToDashboardMsg");
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+                IsRefresh = true
+            };
+            MessagingCenter.Send(msg, "SettingToDashboardMsg");
         }
 
         private async void LogOutSettingCommandRecieverAsync()
         {
-            try
+            bool accept = await _dialogService.DisplayAlertAsync("Warning", "You have at least on draft item that will be deleted if you log out.", "Stay", "Log Out");
+            if (!accept)
             {
-                bool accept = await _dialogService.DisplayAlertAsync("Warning", "You have at least on draft item that will be deleted if you log out.", "Stay", "Log Out");
-                if (!accept)
-                {
-                    try
-                    {
-                        Settings.RemoveUserData();
-                    }
-                    catch (Exception ex)
-                    {
-                         Crashes.TrackError(ex);
-                    }
-                    var param = new NavigationParameters
+
+                Settings.RemoveUserData();
+
+                var param = new NavigationParameters
                     {
                         { "IsLogOut",true}
                     };
-                    await _navigationService.ClearPopupStackAsync(animated: false);
-                    await _navigationService.NavigateAsync("/NavigationPage/LoginView", param, animated: false);
-                }
-            }
-            catch (Exception ex)
-            {
-                 Crashes.TrackError(ex);
+                await _navigationService.ClearPopupStackAsync(animated: false);
+                await _navigationService.NavigateAsync("/NavigationPage/LoginView", param, animated: false);
             }
         }
 
         private async void PrinterSettingCommandRecieverAsync()
         {
-            try
-            {
-                try
-                {
-                    await _navigationService.NavigateAsync("PrinterSettingView", animated: false);
-                }
-                catch (Exception ex)
-                {
-                    Crashes.TrackError(ex);
-                }
-                await _navigationService.ClearPopupStackAsync("SettingView", null);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            await _navigationService.NavigateAsync("PrinterSettingView", animated: false);
+            await _navigationService.ClearPopupStackAsync("SettingView", null);
         }
 
         private async void WhatsNewCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.NavigateAsync("WhatIsNewView", animated: false);
-                await _navigationService.ClearPopupStackAsync("SettingView", null, animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            await _navigationService.NavigateAsync("WhatIsNewView", animated: false);
+            await _navigationService.ClearPopupStackAsync("SettingView", null, animated: false);
         }
 
         private async void SupportCommandRecieverAsync()
         {
             string mWebRoot = string.Empty;
-            try
-            {
-                if (Preferences.Get("BaseURL", "BaseURL").Contains("https://api.kegid.com/api/"))
-                    mWebRoot = "https://www.kegid.com";
-                else if (Preferences.Get("BaseURL", "BaseURL").Contains("https://stageapi.kegid.com/api/"))
-                    mWebRoot = "https://stage.kegid.com";
-                else
-                    mWebRoot = "https://test.kegid.com";
 
-                await _navigationService.ClearPopupStackAsync(animated:false);
-                //await Application.Current.MainPage.Navigation.PopPopupAsync();
-                // You can remove the switch to UI Thread if you are already in the UI Thread.
-                Device.BeginInvokeOnMainThread(() =>
-                {
-                    Launcher.OpenAsync(new Uri(mWebRoot + "/Account/Login/ZendeskSingleSignOnMobile?sessionid="+ Settings.SessionId));
-                });
-            }
-            catch (Exception ex)
+            if (Preferences.Get("BaseURL", "BaseURL").Contains("https://api.kegid.com/api/"))
+                mWebRoot = "https://www.kegid.com";
+            else if (Preferences.Get("BaseURL", "BaseURL").Contains("https://stageapi.kegid.com/api/"))
+                mWebRoot = "https://stage.kegid.com";
+            else
+                mWebRoot = "https://test.kegid.com";
+
+            await _navigationService.ClearPopupStackAsync(animated: false);
+            //await Application.Current.MainPage.Navigation.PopPopupAsync();
+            // You can remove the switch to UI Thread if you are already in the UI Thread.
+            Device.BeginInvokeOnMainThread(() =>
             {
-                Crashes.TrackError(ex);
-            }
+                Launcher.OpenAsync(new Uri(mWebRoot + "/Account/Login/ZendeskSingleSignOnMobile?sessionid=" + Settings.SessionId));
+            });
         }
 
-#endregion
+        #endregion
     }
 }

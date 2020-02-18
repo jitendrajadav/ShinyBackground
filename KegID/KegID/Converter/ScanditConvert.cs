@@ -180,6 +180,5 @@ namespace KegID.Converter
             "Sym_Interleaved2Of5", "Sym_Qr", "Sym_DataMatrix", Settings.BeepString,
             Settings.TorchButtonString
         };
-
     }
 }

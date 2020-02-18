@@ -1,8 +1,6 @@
 ﻿using KegID.Model;
 using System.Collections.Generic;
 using System.Linq;
-using System;
-using Microsoft.AppCenter.Crashes;
 using Realms;
 using KegID.LocalDb;
 using Prism.Commands;
@@ -23,7 +21,7 @@ namespace KegID.ViewModel
 
         #region Commands
 
-        public DelegateCommand<Sku> ItemTappedCommand { get;}
+        public DelegateCommand<Sku> ItemTappedCommand { get; }
         public DelegateCommand AddBatchCommand { get; }
 
         #endregion
@@ -43,49 +41,28 @@ namespace KegID.ViewModel
 
         private async void AddBatchCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.NavigateAsync("AddBatchView", animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            await _navigationService.NavigateAsync("AddBatchView", animated: false);
         }
 
         private async void ItemTappedCommandRecieverAsync(Sku model)
         {
-            try
+            if (model != null)
             {
-                if (model != null)
-                {
-                    await _navigationService.GoBackAsync(new NavigationParameters
+                await _navigationService.GoBackAsync(new NavigationParameters
                     {
                         { "SKUModel", model }
                     }, animated: false);
-                }
-                else
-                {
-                    await _dialogService.DisplayAlertAsync("Error", "Error: Please select sku.", "Ok");
-                }
             }
-            catch (Exception ex)
+            else
             {
-                Crashes.TrackError(ex);
+                await _dialogService.DisplayAlertAsync("Error", "Error: Please select sku.", "Ok");
             }
         }
 
         public override Task InitializeAsync(INavigationParameters parameters)
         {
-            try
-            {
-                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                SKUCollection = RealmDb.All<Sku>().ToList();
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            SKUCollection = RealmDb.All<Sku>().ToList();
             return base.InitializeAsync(parameters);
         }
 

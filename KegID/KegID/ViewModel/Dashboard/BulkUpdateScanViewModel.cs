@@ -1,22 +1,18 @@
 ﻿using Acr.UserDialogs;
 using KegID.Common;
 using KegID.LocalDb;
-using KegID.Messages;
 using KegID.Model;
 using KegID.Services;
-using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
 using Realms;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
-using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {
@@ -230,8 +226,8 @@ namespace KegID.ViewModel
                     // IJobManager can and should be injected into your viewmodel code
                     Shiny.ShinyHost.Resolve<Shiny.Jobs.IJobManager>().RunTask("BulkUpdateJob" + ManaulBarcode, async _ =>
                     {
-                            // your code goes here - async stuff is welcome (and necessary)
-                            var response = await ApiManager.GetValidateBarcode(ManaulBarcode, Settings.SessionId);
+                        // your code goes here - async stuff is welcome (and necessary)
+                        var response = await ApiManager.GetValidateBarcode(ManaulBarcode, Settings.SessionId);
                         if (response.IsSuccessStatusCode)
                         {
                             var json = await response.Content.ReadAsStringAsync();
@@ -241,14 +237,14 @@ namespace KegID.ViewModel
                             {
                                 using (var db = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
                                 {
-                                        var oldBarcode = BarcodeCollection.FirstOrDefault(x => x.Barcode == data?.Kegs?.Partners?.FirstOrDefault().Kegs?.FirstOrDefault()?.Barcode);
-                                        oldBarcode.Pallets = data.Pallets;
-                                        oldBarcode.Kegs = data.Kegs;
-                                        oldBarcode.Icon = data?.Kegs?.Partners.Count > 1 ? _getIconByPlatform.GetIcon("validationquestion.png") : data?.Kegs?.Partners?.Count == 0 ? _getIconByPlatform.GetIcon("validationerror.png") : _getIconByPlatform.GetIcon("validationok.png");
-                                        if (oldBarcode.Icon == "validationerror.png")
-                                            Vibration.Vibrate();
-                                        oldBarcode.IsScanned = true;
-                                        db.Commit();
+                                    var oldBarcode = BarcodeCollection.FirstOrDefault(x => x.Barcode == data?.Kegs?.Partners?.FirstOrDefault().Kegs?.FirstOrDefault()?.Barcode);
+                                    oldBarcode.Pallets = data.Pallets;
+                                    oldBarcode.Kegs = data.Kegs;
+                                    oldBarcode.Icon = data?.Kegs?.Partners.Count > 1 ? _getIconByPlatform.GetIcon("validationquestion.png") : data?.Kegs?.Partners?.Count == 0 ? _getIconByPlatform.GetIcon("validationerror.png") : _getIconByPlatform.GetIcon("validationok.png");
+                                    if (oldBarcode.Icon == "validationerror.png")
+                                        Vibration.Vibrate();
+                                    oldBarcode.IsScanned = true;
+                                    db.Commit();
                                 }
                             }
                         }
@@ -270,46 +266,46 @@ namespace KegID.ViewModel
 
         private async Task SaveCommandRecieverAsync()
         {
-                if (BarcodeCollection.Count > 0)
+            if (BarcodeCollection.Count > 0)
+            {
+                UserDialogs.Instance.ShowLoading("Loading");
+                var model = new KegBulkUpdateItemRequestModel();
+                var MassUpdateKegKegs = new List<MassUpdateKeg>();
+                MassUpdateKeg MassUpdateKeg = null;
+                var val = await ApiManager.GetAssetVolume(Settings.SessionId, false);
+                foreach (var item in BarcodeCollection)
                 {
-                    UserDialogs.Instance.ShowLoading("Loading");
-                    var model = new KegBulkUpdateItemRequestModel();
-                    var MassUpdateKegKegs = new List<MassUpdateKeg>();
-                    MassUpdateKeg MassUpdateKeg = null;
-                    var val = await ApiManager.GetAssetVolume(Settings.SessionId, false);
-                    foreach (var item in BarcodeCollection)
+                    MassUpdateKeg = new MassUpdateKeg
                     {
-                        MassUpdateKeg = new MassUpdateKeg
-                        {
-                            AssetSize = SelectedItemSize,
-                            AssetType = SelectedItemType,
-                            Barcode = item.Barcode,
-                            AssetVolume = item.TagsStr,
-                            KegId = _uuidManager.GetUuId(),
-                            OwnerId = Settings.CompanyId,
-                            OwnerSkuId = "",
-                            ProfileId = "",
-                        };
+                        AssetSize = SelectedItemSize,
+                        AssetType = SelectedItemType,
+                        Barcode = item.Barcode,
+                        AssetVolume = item.TagsStr,
+                        KegId = _uuidManager.GetUuId(),
+                        OwnerId = Settings.CompanyId,
+                        OwnerSkuId = "",
+                        ProfileId = "",
+                    };
 
-                        MassUpdateKegKegs.Add(MassUpdateKeg);
-                    }
-                    model.Kegs = MassUpdateKegKegs;
+                    MassUpdateKegKegs.Add(MassUpdateKeg);
+                }
+                model.Kegs = MassUpdateKegKegs;
 
-                    var value = await ApiManager.PostKegUpload(model, Settings.SessionId);
-                    if (value.IsSuccessStatusCode)
-                    {
-                        await _navigationService.GoBackAsync(new NavigationParameters
+                var value = await ApiManager.PostKegUpload(model, Settings.SessionId);
+                if (value.IsSuccessStatusCode)
+                {
+                    await _navigationService.GoBackAsync(new NavigationParameters
                         {
                             { "AssingSuccessMsgAsync", "AssingSuccessMsgAsync" }
                         }, animated: false);
-                    }
                 }
-                else
-                {
-                    await _dialogService.DisplayAlertAsync("Alert", "Please add scan item", "Ok");
-                }
-                UserDialogs.Instance.HideLoading();
-            
+            }
+            else
+            {
+                await _dialogService.DisplayAlertAsync("Alert", "Please add scan item", "Ok");
+            }
+            UserDialogs.Instance.HideLoading();
+
         }
 
         private async void CancelCommandRecieverAsync()

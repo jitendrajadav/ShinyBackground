@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Acr.UserDialogs;
 using KegID.Common;
 using KegID.Model;
 using KegID.Services;
-using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
@@ -48,26 +46,16 @@ namespace KegID.ViewModel
         {
             if (!string.IsNullOrEmpty(PartnerSearch))
             {
-                try
+                UserDialogs.Instance.ShowLoading("Loading");
+                var response = await ApiManager.GetPartnerSearch(Settings.SessionId, PartnerSearch, false, true);
+                if (response.IsSuccessStatusCode)
                 {
-                    UserDialogs.Instance.ShowLoading("Loading");
-                    var response = await ApiManager.GetPartnerSearch(Settings.SessionId, PartnerSearch, false, true);
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var json = await response.Content.ReadAsStringAsync();
-                        var data = await Task.Run(() => JsonConvert.DeserializeObject<IList<PartnerModel>>(json, GetJsonSetting()));
+                    var json = await response.Content.ReadAsStringAsync();
+                    var data = await Task.Run(() => JsonConvert.DeserializeObject<IList<PartnerModel>>(json, GetJsonSetting()));
 
-                        PartnerSearchCollection = data;
-                    }
+                    PartnerSearchCollection = data;
                 }
-                catch (Exception ex)
-                {
-                    Crashes.TrackError(ex);
-                }
-                finally
-                {
-                    UserDialogs.Instance.HideLoading();
-                }
+                UserDialogs.Instance.HideLoading();
             }
         }
 
@@ -78,20 +66,13 @@ namespace KegID.ViewModel
 
         private async void ItemTappedCommandRecieverAsync(PartnerModel model)
         {
-            try
+            if (model != null)
             {
-                if (model != null)
-                {
-                    ConstantManager.Partner = model;
-                    await _navigationService.NavigateAsync("../../", new NavigationParameters
+                ConstantManager.Partner = model;
+                await _navigationService.NavigateAsync("../../", new NavigationParameters
                     {
                         { "model", model }
                     }, animated: false);
-                }
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
             }
         }
 

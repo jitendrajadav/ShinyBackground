@@ -9,7 +9,6 @@ using KegID.LocalDb;
 using KegID.Messages;
 using KegID.Model;
 using KegID.Services;
-using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
@@ -140,47 +139,32 @@ namespace KegID.ViewModel
             var millisecond = now.Millisecond;
 
             var preference = RealmDb.All<Preference>().Where(x => x.PreferenceName == "DashboardPreferences").ToList();
-            try
+
+            foreach (var item in preference)
             {
-                foreach (var item in preference)
+                if (item.PreferenceValue.Contains("OldestKegs"))
                 {
-                    if (item.PreferenceValue.Contains("OldestKegs"))
-                    {
-                        var preferenceValue = JsonConvert.DeserializeObject<PreferenceValueResponseModel>(item.PreferenceValue);
-                        var value = preferenceValue.SelectedWidgets.Where(x => x.Id == "OldestKegs").FirstOrDefault();
-                        prefix = value.Pos.Y;
-                    }
+                    var preferenceValue = JsonConvert.DeserializeObject<PreferenceValueResponseModel>(item.PreferenceValue);
+                    var value = preferenceValue.SelectedWidgets.Where(x => x.Id == "OldestKegs").FirstOrDefault();
+                    prefix = value.Pos.Y;
                 }
-                barCode = prefix.ToString().PadLeft(9, '0') + lastCharOfYear + dayOfYear + secondsInDayTillNow + (millisecond / 100);
-                var checksumDigit = _calcCheckDigitMngr.CalculateCheckDigit(barCode);
-                ManifestId = barCode + checksumDigit;
             }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
-            finally
-            {
-                preference = null;
-            }
+            barCode = prefix.ToString().PadLeft(9, '0') + lastCharOfYear + dayOfYear + secondsInDayTillNow + (millisecond / 100);
+            var checksumDigit = _calcCheckDigitMngr.CalculateCheckDigit(barCode);
+            ManifestId = barCode + checksumDigit;
+
+            preference = null;
         }
 
         internal void AssignPartnerValue(PartnerModel model)
         {
-            try
+            if (TargetLocationPartner)
             {
-                if (TargetLocationPartner)
-                {
-                    TargetLocationPartner = false;
-                    TargetLocation = model;
-                }
-                else
-                    StockLocation = model;
+                TargetLocationPartner = false;
+                TargetLocation = model;
             }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            else
+                StockLocation = model;
         }
 
         private static int SecondsInDayTillNow()
@@ -200,129 +184,106 @@ namespace KegID.ViewModel
             var barCodeCollection = ConstantManager.Barcodes;
             PalletResponseModel palletResponseModel = null;
 
-            try
+            UserDialogs.Instance.ShowLoading("Loading");
+
+            foreach (var item in barCodeCollection)
             {
-                UserDialogs.Instance.ShowLoading("Loading");
-
-                foreach (var item in barCodeCollection)
+                pallet = new PalletItem
                 {
-                    pallet = new PalletItem
-                    {
-                        Barcode = item.Barcode,
-                        ScanDate = DateTimeOffset.Now,
-                    };
-
-                    foreach (var tag in ConstantManager.Tags)
-                    {
-                        pallet.Tags.Add(tag);
-                    }
-                    palletItems.Add(pallet);
-                }
-
-                palletRequestModel = new PalletRequestModel
-                {
-                    Barcode = ManifestId.Split('-').LastOrDefault(),
-                    BuildDate = DateTimeOffset.Now,
-                    OwnerId = Settings.CompanyId,
-                    PalletId = _uuidManager.GetUuId(),
-                    ReferenceKey = "",
-                    StockLocation = StockLocation.PartnerId,
-                    StockLocationId = StockLocation.PartnerId,
-                    StockLocationName = StockLocation.FullName,
+                    Barcode = item.Barcode,
+                    ScanDate = DateTimeOffset.Now,
                 };
 
-                foreach (var item in palletItems)
+                foreach (var tag in ConstantManager.Tags)
                 {
-                    palletRequestModel.PalletItems.Add(item);
+                    pallet.Tags.Add(tag);
                 }
-                foreach (var item in ConstantManager.Tags)
-                {
-                    palletRequestModel.Tags.Add(item);
-                }
+                palletItems.Add(pallet);
+            }
 
-                palletResponseModel = new PalletResponseModel
-                {
-                    Barcode = ManifestId.Split('-').LastOrDefault(),
-                    BuildDate = DateTimeOffset.Now,
-                    Container = null,
-                    CreatedDate = DateTimeOffset.Now,
-                    DataInfo = new Model.PrintPDF.DateInfo { },
-                    Location = new Owner { },
-                    Owner = new Owner { },
-                    PalletId = palletRequestModel.PalletId,
-                    PalletItems = palletItems,
-                    ReferenceKey = string.Empty,
-                    StockLocation = new Owner { FullName = StockLocation.FullName, PartnerTypeName = StockLocation.PartnerTypeName },
-                    TargetLocation = new Model.PrintPDF.TargetLocation { },
-                    Tags = ConstantManager.Tags,
-                };
+            palletRequestModel = new PalletRequestModel
+            {
+                Barcode = ManifestId.Split('-').LastOrDefault(),
+                BuildDate = DateTimeOffset.Now,
+                OwnerId = Settings.CompanyId,
+                PalletId = _uuidManager.GetUuId(),
+                ReferenceKey = "",
+                StockLocation = StockLocation.PartnerId,
+                StockLocationId = StockLocation.PartnerId,
+                StockLocationName = StockLocation.FullName,
+            };
 
-                var current = Connectivity.NetworkAccess;
-                if (current == NetworkAccess.Internet)
-                {
-                    var response = await ApiManager.PostPallet(palletRequestModel, Settings.SessionId);
-                }
-                else
-                {
-                    try
-                    {
-                        palletRequestModel.IsQueue = true;
-                        var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                        RealmDb.Write(() =>
-                        {
-                            RealmDb.Add(palletRequestModel, update: true);
-                        });
-                    }
-                    catch (Exception ex)
-                    {
-                        Crashes.TrackError(ex);
-                    }
-                }
+            foreach (var item in palletItems)
+            {
+                palletRequestModel.PalletItems.Add(item);
+            }
+            foreach (var item in ConstantManager.Tags)
+            {
+                palletRequestModel.Tags.Add(item);
+            }
 
-                PrintPallet();
+            palletResponseModel = new PalletResponseModel
+            {
+                Barcode = ManifestId.Split('-').LastOrDefault(),
+                BuildDate = DateTimeOffset.Now,
+                Container = null,
+                CreatedDate = DateTimeOffset.Now,
+                DataInfo = new Model.PrintPDF.DateInfo { },
+                Location = new Owner { },
+                Owner = new Owner { },
+                PalletId = palletRequestModel.PalletId,
+                PalletItems = palletItems,
+                ReferenceKey = string.Empty,
+                StockLocation = new Owner { FullName = StockLocation.FullName, PartnerTypeName = StockLocation.PartnerTypeName },
+                TargetLocation = new Model.PrintPDF.TargetLocation { },
+                Tags = ConstantManager.Tags,
+            };
 
-                await _navigationService.NavigateAsync("PalletizeDetailView", new NavigationParameters
+            var current = Connectivity.NetworkAccess;
+            if (current == NetworkAccess.Internet)
+            {
+                var response = await ApiManager.PostPallet(palletRequestModel, Settings.SessionId);
+            }
+            else
+            {
+                palletRequestModel.IsQueue = true;
+                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                RealmDb.Write(() =>
+                {
+                    RealmDb.Add(palletRequestModel, update: true);
+                });
+            }
+
+            PrintPallet();
+
+            await _navigationService.NavigateAsync("PalletizeDetailView", new NavigationParameters
                     {
                         { "LoadInfo", palletResponseModel },{ "Contents", ConstantManager.Contents }
                     }, animated: false);
 
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
-            finally
-            {
-                UserDialogs.Instance.HideLoading();
-                palletItems = null;
-                pallet = null;
-                barCodeCollection = null;
-                palletRequestModel = null;
-                Cleanup();
-            }
+            UserDialogs.Instance.HideLoading();
+            palletItems = null;
+            pallet = null;
+            barCodeCollection = null;
+            palletRequestModel = null;
+            Cleanup();
         }
 
         public void PrintPallet()
         {
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             var brandCode = RealmDb.All<BrandModel>().Where(x => x.BrandName == ConstantManager.Contents).FirstOrDefault();
-            try
-            {
-                var addresss = StockLocation;
-                string header = string.Format(_zebraPrinterManager.PalletHeader, ManifestId, addresss.ParentPartnerName, addresss.Address1, addresss.City + "," + addresss.State + " " + addresss.PostalCode, "", addresss.ParentPartnerName, brandCode, DateTimeOffset.UtcNow.Date.ToShortDateString(), "1", "", ConstantManager.Contents,
-                                    "1", "", "", "", "", "", "", "", "", "",
-                                    "", "", "", "", "", "", "", "", "", "",
-                                    "", ManifestId, ManifestId);
-                new Thread(() =>
-                {
-                    _zebraPrinterManager.SendZplPalletAsync(header, ConstantManager.IPAddr);
-                }).Start();
 
-            }
-            catch (Exception ex)
+            var addresss = StockLocation;
+            string header = string.Format(_zebraPrinterManager.PalletHeader, ManifestId, addresss.ParentPartnerName, addresss.Address1, addresss.City + "," + addresss.State + " " + addresss.PostalCode, "", addresss.ParentPartnerName, brandCode, DateTimeOffset.UtcNow.Date.ToShortDateString(), "1", "", ConstantManager.Contents,
+                                "1", "", "", "", "", "", "", "", "", "",
+                                "", "", "", "", "", "", "", "", "", "",
+                                "", ManifestId, ManifestId);
+            new Thread(() =>
             {
-                Crashes.TrackError(ex);
-            }
+                _zebraPrinterManager.SendZplPalletAsync(header, ConstantManager.IPAddr);
+            }).Start();
+
         }
 
         internal void AssingScanKegsValue(IList<BarcodeModel> _barcodes)
@@ -337,17 +298,10 @@ namespace KegID.ViewModel
 
         private async void BarcodeScanCommandReciever()
         {
-            try
-            {
-                await _navigationService.NavigateAsync("ScanditScanView", new NavigationParameters
+            await _navigationService.NavigateAsync("ScanditScanView", new NavigationParameters
                     {
                         { "ViewTypeEnum", ViewTypeEnum.PalletizeView }
                     }, animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
         }
 
         private void IsPalletVisibleCommandReciever()
@@ -357,103 +311,61 @@ namespace KegID.ViewModel
 
         private async void AddKegsCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.NavigateAsync("ScanKegsView", new NavigationParameters { { "models", ConstantManager.Barcodes } }, animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            await _navigationService.NavigateAsync("ScanKegsView", new NavigationParameters { { "models", ConstantManager.Barcodes } }, animated: false);
         }
 
         private async void AddTagsCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.NavigateAsync("AddTagsView", new NavigationParameters
+            await _navigationService.NavigateAsync("AddTagsView", new NavigationParameters
                     {
                         {"viewTypeEnum",ViewTypeEnum.PalletizeView }
                     }, animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
         }
 
         private async void PartnerCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.NavigateAsync("PartnersView", animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            await _navigationService.NavigateAsync("PartnersView", animated: false);
         }
 
         private async void TargetLocationPartnerCommandRecieverAsync()
         {
-            try
-            {
-                TargetLocationPartner = true;
-                await _navigationService.NavigateAsync("PartnersView", animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            TargetLocationPartner = true;
+            await _navigationService.NavigateAsync("PartnersView", animated: false);
         }
 
         private async void CancelCommandRecieverAsync()
         {
-            try
+            if (AddInfoTitle == "Add info" && AddKegs == string.Format("Add {0}", ContainerTypes))
             {
-                if (AddInfoTitle == "Add info" && AddKegs == string.Format("Add {0}", ContainerTypes))
+                await _navigationService.GoBackAsync(animated: false);
+                IsCameraVisible = false;
+            }
+            else
+            {
+                bool result = await _dialogService.DisplayAlertAsync("Cancel?", "Are you sure you want to cancel?", "Leave", "Stay here");
+                if (result)
                 {
                     await _navigationService.GoBackAsync(animated: false);
                     IsCameraVisible = false;
+                    Cleanup();
                 }
-                else
-                {
-                    bool result = await _dialogService.DisplayAlertAsync("Cancel?", "Are you sure you want to cancel?", "Leave", "Stay here");
-                    if (result)
-                    {
-                        await _navigationService.GoBackAsync(animated: false);
-                        IsCameraVisible = false;
-                        Cleanup();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
             }
         }
 
         public void Cleanup()
         {
-            try
-            {
-                AddInfoTitle = "Add info";
-                AddKegs = string.Format("Add {0}", ContainerTypes);
-                IsSubmitVisible = false;
-                // Update an object with a transaction
-                //using (var trans = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
-                //{
-                //    StockLocation.FullName = "Barcode Brewing";
-                //    TargetLocation.FullName = "None";
-                //    trans.Commit();
-                //}
-                Tags = null;
-                ConstantManager.Barcodes.Clear();
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            AddInfoTitle = "Add info";
+            AddKegs = string.Format("Add {0}", ContainerTypes);
+            IsSubmitVisible = false;
+            // Update an object with a transaction
+            //using (var trans = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
+            //{
+            //    StockLocation.FullName = "Barcode Brewing";
+            //    TargetLocation.FullName = "None";
+            //    trans.Commit();
+            //}
+            Tags = null;
+            ConstantManager.Barcodes.Clear();
         }
 
         public override void OnNavigatedTo(INavigationParameters parameters)

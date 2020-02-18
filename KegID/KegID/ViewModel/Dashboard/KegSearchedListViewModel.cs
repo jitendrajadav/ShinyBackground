@@ -1,11 +1,9 @@
 ﻿using Acr.UserDialogs;
 using KegID.Common;
 using KegID.Model;
-using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Acr.UserDialogs;
@@ -7,7 +6,6 @@ using KegID.Common;
 using KegID.LocalDb;
 using KegID.Model;
 using KegID.Services;
-using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
@@ -117,29 +115,23 @@ namespace KegID.ViewModel
                     {
                         { "AddressTitle", "Billing Address" }
                     }, animated: false);
-
-
         }
 
         private async void ShippingAddressCommandRecieverAsync()
         {
-
             await _navigationService.NavigateAsync("EditAddressView", new NavigationParameters
                     {
                         { "AddressTitle", "Shipping Address" }
                     }, animated: false);
-
         }
 
         private async void CalcelCommandRecieverAsync()
         {
-
             bool accept = await _dialogService.DisplayAlertAsync("Cancel?", "Are you sure you want to cancel?", "Stay here", "Leave");
             if (!accept)
             {
                 await _navigationService.GoBackAsync(animated: false);
             }
-
         }
 
         private async Task SubmitCommandRecieverAsync()
@@ -173,46 +165,46 @@ namespace KegID.ViewModel
                 Website = ""//Website;
             };
 
-                UserDialogs.Instance.ShowLoading("Loading");
-                var respose = await ApiManager.PostNewPartner(newPartnerRequestModel, Settings.SessionId);
-                if (respose.IsSuccessStatusCode)
+            UserDialogs.Instance.ShowLoading("Loading");
+            var respose = await ApiManager.PostNewPartner(newPartnerRequestModel, Settings.SessionId);
+            if (respose.IsSuccessStatusCode)
+            {
+                PartnerModel partnerModel = new PartnerModel
                 {
-                    PartnerModel partnerModel = new PartnerModel
-                    {
-                        Address = BillingAddress,
-                        Address1 = ShippingAddress,
-                        City = newPartnerRequestModel.BillAddress != null ? newPartnerRequestModel.BillAddress.City : string.Empty,
-                        ParentPartnerId = newPartnerRequestModel.ParentPartnerId,
-                        ParentPartnerName = newPartnerRequestModel.PartnerName,
-                        PartnerId = newPartnerRequestModel.PartnerId,
-                        PartnershipIsActive = newPartnerRequestModel.IsInternal,
-                        IsInternal = newPartnerRequestModel.IsInternal,
-                        IsShared = newPartnerRequestModel.IsShared,
-                        Lat = newPartnerRequestModel.BillAddress != null ? newPartnerRequestModel.BillAddress.Latitude : default(double),
-                        LocationCode = newPartnerRequestModel.LocationCode,
-                        LocationStatus = newPartnerRequestModel.LocationStatus,
-                        Lon = newPartnerRequestModel.BillAddress != null ? newPartnerRequestModel.BillAddress.Longitude : default(double),
-                        MasterCompanyId = newPartnerRequestModel.ParentPartnerId,
-                        PartnerTypeCode = newPartnerRequestModel.PartnerTypeCode,
-                        PartnerTypeName = newPartnerRequestModel.PartnerName,
-                        PhoneNumber = newPartnerRequestModel.PartnerName,
-                        PostalCode = newPartnerRequestModel.BillAddress != null ? newPartnerRequestModel.BillAddress.PostalCode : string.Empty,
-                        SourceKey = newPartnerRequestModel.RouteName,
-                        State = newPartnerRequestModel.BillAddress != null ? newPartnerRequestModel.BillAddress.State : string.Empty,
-                        FullName = newPartnerRequestModel.PartnerName,
-                    };
-                    var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                    await RealmDb.WriteAsync((realmDb) =>
-                     {
-                         realmDb.Add(partnerModel);
-                     });
-                    await _navigationService.GoBackAsync(new NavigationParameters
+                    Address = BillingAddress,
+                    Address1 = ShippingAddress,
+                    City = newPartnerRequestModel.BillAddress != null ? newPartnerRequestModel.BillAddress.City : string.Empty,
+                    ParentPartnerId = newPartnerRequestModel.ParentPartnerId,
+                    ParentPartnerName = newPartnerRequestModel.PartnerName,
+                    PartnerId = newPartnerRequestModel.PartnerId,
+                    PartnershipIsActive = newPartnerRequestModel.IsInternal,
+                    IsInternal = newPartnerRequestModel.IsInternal,
+                    IsShared = newPartnerRequestModel.IsShared,
+                    Lat = newPartnerRequestModel.BillAddress != null ? newPartnerRequestModel.BillAddress.Latitude : default(double),
+                    LocationCode = newPartnerRequestModel.LocationCode,
+                    LocationStatus = newPartnerRequestModel.LocationStatus,
+                    Lon = newPartnerRequestModel.BillAddress != null ? newPartnerRequestModel.BillAddress.Longitude : default(double),
+                    MasterCompanyId = newPartnerRequestModel.ParentPartnerId,
+                    PartnerTypeCode = newPartnerRequestModel.PartnerTypeCode,
+                    PartnerTypeName = newPartnerRequestModel.PartnerName,
+                    PhoneNumber = newPartnerRequestModel.PartnerName,
+                    PostalCode = newPartnerRequestModel.BillAddress != null ? newPartnerRequestModel.BillAddress.PostalCode : string.Empty,
+                    SourceKey = newPartnerRequestModel.RouteName,
+                    State = newPartnerRequestModel.BillAddress != null ? newPartnerRequestModel.BillAddress.State : string.Empty,
+                    FullName = newPartnerRequestModel.PartnerName,
+                };
+                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+                await RealmDb.WriteAsync((realmDb) =>
+                 {
+                     realmDb.Add(partnerModel);
+                 });
+                await _navigationService.GoBackAsync(new NavigationParameters
                         {
                             { "partnerModel", partnerModel }
                         }, animated: false);
 
-                }
-                UserDialogs.Instance.HideLoading();
+            }
+            UserDialogs.Instance.HideLoading();
         }
 
         public void LoadPartnerAsync(PartnerInfoResponseModel partnerInfoModel)
@@ -237,7 +229,6 @@ namespace KegID.ViewModel
             ReferenceKey = PartnerInfoModel.ReferenceKey;
             Notes = PartnerInfoModel.Notes;
             SelectedPartnerType = PartnerTypeCollectioin.Where(x => x.Name == PartnerInfoModel.PartnerTypeName).FirstOrDefault();
-
         }
 
         public override Task InitializeAsync(INavigationParameters parameters)

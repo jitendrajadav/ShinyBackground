@@ -7,7 +7,6 @@ using KegID.Services;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
 using KegID.Messages;
@@ -104,19 +103,15 @@ namespace KegID.ViewModel
 
         private async Task ItemTappedCommandRecieverAsync(PalletModel model)
         {
-
             await _navigationService.NavigateAsync("FillScanView", new NavigationParameters
                     {
                         { "model", model }
                     }, animated: false);
-
         }
 
         private async void FillKegsCommandRecieverAsync()
         {
-
             await _navigationService.GoBackAsync(new NavigationParameters { { "PalletCollection", PalletCollection } }, animated: false);
-
         }
 
         public async Task SubmitCommandRecieverAsync()
@@ -221,48 +216,33 @@ namespace KegID.ViewModel
 
             if (model != null)
             {
-                try
+                var current = Connectivity.NetworkAccess;
+                if (current == NetworkAccess.Internet)
                 {
-                    var current = Connectivity.NetworkAccess;
-                    if (current == NetworkAccess.Internet)
-                    {
-                        var response = await ApiManager.PostManifest(model, Settings.SessionId);
-
-
-                        AddorUpdateManifestOffline(model, false);
-
-                        await GetPostedManifestDetail();
-                    }
-                    else
-                    {
-                        AddorUpdateManifestOffline(model, true);
-
-                        await GetPostedManifestDetail();
-                    }
+                    var response = await ApiManager.PostManifest(model, Settings.SessionId);
+                    AddorUpdateManifestOffline(model, false);
+                    await GetPostedManifestDetail();
                 }
-                catch (Exception ex)//TODO: restrict this
+                else
                 {
-                    Crashes.TrackError(ex);
+                    AddorUpdateManifestOffline(model, true);
+                    await GetPostedManifestDetail();
                 }
-                finally
-                {
-                    model = null;
-                    barcodes = null;
-                    tags = null;
-                    partnerModel = null;
-                    closedBatches = null;
-                    newPallets = null;
-                    newPallet = null;
-                    palletItems = null;
-                    palletItem = null;
-                    Cleanup();
-                }
+
+                model = null;
+                barcodes = null;
+                tags = null;
+                partnerModel = null;
+                closedBatches = null;
+                newPallets = null;
+                newPallet = null;
+                palletItems = null;
+                palletItem = null;
+                Cleanup();
             }
             else
                 await _dialogService.DisplayAlertAsync("Alert", "Something goes wrong please check again", "Ok");//TODO: better wording
-
             UserDialogs.Instance.HideLoading();
-
         }
 
         private async Task GetPostedManifestDetail()
@@ -273,9 +253,7 @@ namespace KegID.ViewModel
 
             if (string.IsNullOrEmpty(Contents))
             {
-
                 Contents = ConstantManager.Tags.Count > 3 ? ConstantManager.Tags?[3]?.Value ?? string.Empty : string.Empty;
-
             }
 
             manifest.ManifestItems = new List<CreatedManifestItem>();
@@ -302,7 +280,6 @@ namespace KegID.ViewModel
             manifest.SenderShipAddress = new Address { City = ConstantManager.Partner.City, Country = ConstantManager.Partner.Country, Geocoded = false, Latitude = (long)ConstantManager.Partner.Lat, Line1 = ConstantManager.Partner.Address, Line2 = ConstantManager.Partner.Address1, Longitude = (long)ConstantManager.Partner.Lon, PostalCode = ConstantManager.Partner.PostalCode, State = ConstantManager.Partner.State };
             manifest.ReceiverShipAddress = new Address { City = ConstantManager.Partner.City, Country = ConstantManager.Partner.Country, Geocoded = false, Latitude = (long)ConstantManager.Partner.Lat, Line1 = ConstantManager.Partner.Address, Line2 = ConstantManager.Partner.Address1, Longitude = (long)ConstantManager.Partner.Lon, PostalCode = ConstantManager.Partner.PostalCode, State = ConstantManager.Partner.State };
 
-
             await _navigationService.NavigateAsync("ManifestDetailView", new NavigationParameters
                                 {
                                     { "manifest", manifest },{ "Contents", Contents }
@@ -315,14 +292,12 @@ namespace KegID.ViewModel
             var isNew = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).Find<ManifestModel>(manifestId);
             if (isNew != null)
             {
-
                 manifestPostModel.IsDraft = false;
                 var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                 RealmDb.Write(() =>
                 {
                     RealmDb.Add(manifestPostModel, update: true);
                 });
-
             }
             else
             {
@@ -335,7 +310,6 @@ namespace KegID.ViewModel
                 {
                     RealmDb.Add(manifestPostModel);
                 });
-
             }
         }
 
@@ -348,7 +322,6 @@ namespace KegID.ViewModel
                             {"NewBatchModel",BatchModel },
                             {"SizeButtonTitle",SizeButtonTitle }
                     }, animated: false);
-
         }
 
         internal void AssignValueToAddPalletAsync(string _batchId, IList<BarcodeModel> barcodes)
@@ -369,7 +342,6 @@ namespace KegID.ViewModel
                 PalletCollection.Where(x => x.BatchId == _batchId).FirstOrDefault().Count = barcodes.Count;
                 CountKegs();
             }
-
         }
 
         private void CountKegs()
@@ -382,7 +354,6 @@ namespace KegID.ViewModel
 
         internal void AssignFillScanValue(IList<BarcodeModel> _barcodes, string _batchId)
         {
-
             PalletModel pallet = PalletCollection.Where(x => x.BatchId == _batchId).FirstOrDefault();
             if (pallet != null)
             {
@@ -406,7 +377,6 @@ namespace KegID.ViewModel
                 Kegs = string.Format("({0} {1})", PalletCollection.Sum(x => x.Count), ContainerTypes);
             else
                 Kegs = string.Format("({0} {1})", PalletCollection.Sum(x => x.Count), ContainerType);
-
         }
 
         public void Cleanup()

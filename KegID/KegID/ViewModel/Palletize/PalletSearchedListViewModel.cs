@@ -1,11 +1,9 @@
 ﻿using Acr.UserDialogs;
 using KegID.Common;
 using KegID.Model;
-using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -40,54 +38,31 @@ namespace KegID.ViewModel
 
         private async void BackCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.GoBackAsync(animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            await _navigationService.GoBackAsync(animated: false);
         }
 
         internal async Task GetPalletSearchAsync(string partnerId, string fromDate, string toDate, string kegs, string kegOwnerId)
         {
-            try
+            UserDialogs.Instance.ShowLoading("Loading");
+            //needs to assing partnerId??string.Empty once backend is ready...
+            var response = await ApiManager.GetPalletSearch(Settings.SessionId, string.Empty, fromDate, toDate, kegs, kegOwnerId);
+            if (response.IsSuccessStatusCode)
             {
-                UserDialogs.Instance.ShowLoading("Loading");
-                //needs to assing partnerId??string.Empty once backend is ready...
-                var response = await ApiManager.GetPalletSearch(Settings.SessionId, string.Empty, fromDate, toDate, kegs, kegOwnerId);
-                if (response.IsSuccessStatusCode)
-                {
-                    var json = await response.Content.ReadAsStringAsync();
-                    var data = await Task.Run(() => JsonConvert.DeserializeObject<IList<SearchPalletResponseModel>>(json, GetJsonSetting()));
+                var json = await response.Content.ReadAsStringAsync();
+                var data = await Task.Run(() => JsonConvert.DeserializeObject<IList<SearchPalletResponseModel>>(json, GetJsonSetting()));
 
-                    PalletSearchCollection = data;
-                }
+                PalletSearchCollection = data;
             }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
-            finally
-            {
-                UserDialogs.Instance.HideLoading();
-            }
+
+            UserDialogs.Instance.HideLoading();
         }
 
         private async void ItemTappedCommandRecieverAsync(SearchPalletResponseModel model)
         {
-            try
-            {
-                await _navigationService.NavigateAsync("PalletizeDetailView", new NavigationParameters
+            await _navigationService.NavigateAsync("PalletizeDetailView", new NavigationParameters
                     {
                         { "model", model }
                     }, animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
         }
 
         public override async Task InitializeAsync(INavigationParameters parameters)

@@ -10,7 +10,6 @@ using KegID.LocalDb;
 using KegID.Messages;
 using KegID.Model;
 using KegID.Services;
-using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
@@ -224,8 +223,8 @@ namespace KegID.ViewModel
                     // IJobManager can and should be injected into your viewmodel code
                     ShinyHost.Resolve<Shiny.Jobs.IJobManager>().RunTask("MaintainJob" + ManaulBarcode, async _ =>
                     {
-                            // your code goes here - async stuff is welcome (and necessary)
-                            var response = await ApiManager.GetValidateBarcode(ManaulBarcode, Settings.SessionId);
+                        // your code goes here - async stuff is welcome (and necessary)
+                        var response = await ApiManager.GetValidateBarcode(ManaulBarcode, Settings.SessionId);
                         if (response.IsSuccessStatusCode)
                         {
                             var json = await response.Content.ReadAsStringAsync();
@@ -334,8 +333,8 @@ namespace KegID.ViewModel
                 if (current == NetworkAccess.Internet)
                 {
                     var response = await ApiManager.PostMaintenanceDone(manifestPostModel.MaintenanceModels.MaintenanceDoneRequestModel, Settings.SessionId);
-                    
-                        AddorUpdateManifestOffline(manifestPostModel, false);
+
+                    AddorUpdateManifestOffline(manifestPostModel, false);
                     await GetPostedManifestDetail();
                 }
                 else
@@ -391,26 +390,26 @@ namespace KegID.ViewModel
 
         internal void AssignAddTagsValue(INavigationParameters parameters)
         {
-                if (parameters.ContainsKey("Barcode"))
+            if (parameters.ContainsKey("Barcode"))
+            {
+                string barcode = parameters.GetValue<string>("Barcode");
+                var oldBarcode = BarcodeCollection.Where(x => x.Barcode == barcode).FirstOrDefault();
+
+                for (int i = oldBarcode.Tags.Count - 1; i >= 0; i--)
                 {
-                        string barcode = parameters.GetValue<string>("Barcode");
-                        var oldBarcode = BarcodeCollection.Where(x => x.Barcode == barcode).FirstOrDefault();
-
-                        for (int i = oldBarcode.Tags.Count - 1; i >= 0; i--)
-                        {
-                            oldBarcode.Tags.RemoveAt(i);
-                        }
-
-                        using (var db = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
-                        {
-                            foreach (var item in ConstantManager.Tags)
-                            {
-                                oldBarcode.Tags.Add(item);
-                            }
-                            oldBarcode.TagsStr = ConstantManager.TagsStr;
-                            db.Commit();
-                        }
+                    oldBarcode.Tags.RemoveAt(i);
                 }
+
+                using (var db = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
+                {
+                    foreach (var item in ConstantManager.Tags)
+                    {
+                        oldBarcode.Tags.Add(item);
+                    }
+                    oldBarcode.TagsStr = ConstantManager.TagsStr;
+                    db.Commit();
+                }
+            }
         }
 
         private void Cleanup()
@@ -473,20 +472,20 @@ namespace KegID.ViewModel
 
         private void AssignMaintenanceViewValue(INavigationParameters parameters)
         {
-                BarcodeCollection.Clear();
-                Notes = parameters.GetValue<string>("Notes");
-                ConstantManager.Partner = parameters.GetValue<PartnerModel>("PartnerModel");
-                var value = parameters.GetValue<ManifestModel>("ManifestModel");
-                SelectedMaintainenace = parameters.GetValue<List<MaintenanceTypeModel>>("selectedMaintenance");
+            BarcodeCollection.Clear();
+            Notes = parameters.GetValue<string>("Notes");
+            ConstantManager.Partner = parameters.GetValue<PartnerModel>("PartnerModel");
+            var value = parameters.GetValue<ManifestModel>("ManifestModel");
+            SelectedMaintainenace = parameters.GetValue<List<MaintenanceTypeModel>>("selectedMaintenance");
 
-                if (value != null)
+            if (value != null)
+            {
+                ManifestId = value.ManifestId;
+                foreach (var item in value.MaintenanceModels.MaintenanceDoneRequestModel.Kegs)
                 {
-                    ManifestId = value.ManifestId;
-                    foreach (var item in value.MaintenanceModels.MaintenanceDoneRequestModel.Kegs)
-                    {
-                        BarcodeCollection.Add(new BarcodeModel { Barcode = item.Barcode });
-                    }
+                    BarcodeCollection.Add(new BarcodeModel { Barcode = item.Barcode });
                 }
+            }
         }
 
         public void Destroy()

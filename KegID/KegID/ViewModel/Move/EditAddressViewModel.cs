@@ -1,7 +1,5 @@
 ﻿using KegID.Delegates;
 using KegID.Model;
-using KegID.Services;
-using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
@@ -70,52 +68,43 @@ namespace KegID.ViewModel
 
         private async void GetCurrentLocationCommandRecieverAsync()
         {
-            try
+            //var location = await _geolocationService.GetLastLocationAsync();
+
+            if (LocationMessage != null)
             {
-                //var location = await _geolocationService.GetLastLocationAsync();
+                var placemarks = await Geocoding.GetPlacemarksAsync(LocationMessage.Latitude, LocationMessage.Longitude);
 
-                if (LocationMessage != null)
+                var placemark = placemarks?.FirstOrDefault();
+                if (placemark != null)
                 {
-                    var placemarks = await Geocoding.GetPlacemarksAsync(LocationMessage.Latitude, LocationMessage.Longitude);
-
-                    var placemark = placemarks?.FirstOrDefault();
-                    if (placemark != null)
-                    {
-                        var geocodeAddress =
-                            $"AdminArea:       {placemark.AdminArea}\n" +
-                            $"CountryCode:     {placemark.CountryCode}\n" +
-                            $"CountryName:     {placemark.CountryName}\n" +
-                            $"FeatureName:     {placemark.FeatureName}\n" +
-                            $"Locality:        {placemark.Locality}\n" +
-                            $"PostalCode:      {placemark.PostalCode}\n" +
-                            $"SubAdminArea:    {placemark.SubAdminArea}\n" +
-                            $"SubLocality:     {placemark.SubLocality}\n" +
-                            $"SubThoroughfare: {placemark.SubThoroughfare}\n" +
-                            $"Thoroughfare:    {placemark.Thoroughfare}\n";
+                    var geocodeAddress =
+                        $"AdminArea:       {placemark.AdminArea}\n" +
+                        $"CountryCode:     {placemark.CountryCode}\n" +
+                        $"CountryName:     {placemark.CountryName}\n" +
+                        $"FeatureName:     {placemark.FeatureName}\n" +
+                        $"Locality:        {placemark.Locality}\n" +
+                        $"PostalCode:      {placemark.PostalCode}\n" +
+                        $"SubAdminArea:    {placemark.SubAdminArea}\n" +
+                        $"SubLocality:     {placemark.SubLocality}\n" +
+                        $"SubThoroughfare: {placemark.SubThoroughfare}\n" +
+                        $"Thoroughfare:    {placemark.Thoroughfare}\n";
 
 
-                        Line1 = placemark.SubLocality;
-                        Line2 = placemark.Locality;
-                        Line3 = placemark.SubAdminArea;
-                        City = placemark.Locality;
-                        State = placemark.AdminArea;
-                        PostalCode = placemark.PostalCode;
-                        Country = placemark.CountryCode;
+                    Line1 = placemark.SubLocality;
+                    Line2 = placemark.Locality;
+                    Line3 = placemark.SubAdminArea;
+                    City = placemark.Locality;
+                    State = placemark.AdminArea;
+                    PostalCode = placemark.PostalCode;
+                    Country = placemark.CountryCode;
 
-                        Console.WriteLine(geocodeAddress);
-                    }
-                }
-                else
-                {
-                    await _dialogService.DisplayAlertAsync("Warning", " location updates unavailable", "Ok");
+                    Console.WriteLine(geocodeAddress);
                 }
             }
-            catch (FeatureNotSupportedException)
+            else
             {
-                //Crashes.TrackError(fnsEx);
-                // Feature not supported on device
+                await _dialogService.DisplayAlertAsync("Warning", " location updates unavailable", "Ok");
             }
-
         }
 
         private async void DoneCommandRecieverAsync()

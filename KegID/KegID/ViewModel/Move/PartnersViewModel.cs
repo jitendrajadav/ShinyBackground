@@ -4,7 +4,6 @@ using System.Linq;
 using System.Collections.Generic;
 using KegID.Model;
 using System;
-using Microsoft.AppCenter.Crashes;
 using Realms;
 using KegID.LocalDb;
 using Prism.Commands;
@@ -83,24 +82,17 @@ namespace KegID.ViewModel
         {
             if (!string.IsNullOrEmpty(PartnerName))
             {
-                try
+                if (SelectedSegment == 2)
                 {
-                    if (SelectedSegment == 2)
-                    {
-                        var notNullPartners = AllPartners.Where(x => x.SourceKey != null).ToList();
-                        List<PartnerModel> result = notNullPartners.Where(x => x.SourceKey.IndexOf(PartnerName, StringComparison.CurrentCultureIgnoreCase) >= 0).ToList();
-                        PartnerCollection = new ObservableCollection<PartnerModel>(result);
-                    }
-                    else
-                    {
-                        var notNullPartners = AllPartners.Where(x => x.FullName != null).ToList();
-                        var result = notNullPartners.Where(x => x.FullName.IndexOf(PartnerName, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
-                        PartnerCollection = new ObservableCollection<PartnerModel>(result);
-                    }
+                    var notNullPartners = AllPartners.Where(x => x.SourceKey != null).ToList();
+                    List<PartnerModel> result = notNullPartners.Where(x => x.SourceKey.IndexOf(PartnerName, StringComparison.CurrentCultureIgnoreCase) >= 0).ToList();
+                    PartnerCollection = new ObservableCollection<PartnerModel>(result);
                 }
-                catch (Exception ex)
+                else
                 {
-                    Crashes.TrackError(ex);
+                    var notNullPartners = AllPartners.Where(x => x.FullName != null).ToList();
+                    var result = notNullPartners.Where(x => x.FullName.IndexOf(PartnerName, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
+                    PartnerCollection = new ObservableCollection<PartnerModel>(result);
                 }
             }
             else
@@ -153,137 +145,81 @@ namespace KegID.ViewModel
 
         private async void ItemTappedCommandRecieverAsync(PartnerModel model)
         {
-            try
+            if (model != null)
             {
-                if (model != null)
-                {
-                    ConstantManager.Partner = model;
-                    await _navigationService.GoBackAsync(new NavigationParameters
+                ConstantManager.Partner = model;
+                await _navigationService.GoBackAsync(new NavigationParameters
                     {
                         { "model", model },{ "CommingFrom", CommingFrom }
                     }, animated: false);
 
-                    Cleanup();
-                }
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
+                Cleanup();
             }
         }
 
         public async Task LoadPartnersAsync()
         {
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-            AllPartners = RealmDb.All<PartnerModel>().Where(x=>x.PartnerId != Settings.CompanyId).ToList();
-            try
+            AllPartners = RealmDb.All<PartnerModel>().Where(x => x.PartnerId != Settings.CompanyId).ToList();
+
+            if (AllPartners.Count <= 0)
             {
-                if (AllPartners.Count <= 0)
-                {
-                    DeletePartners();
-                    await RunSafe(LoadMetaDataPartnersAsync());
-                    await LoadPartnersAsync();
-                }
+                DeletePartners();
+                await RunSafe(LoadMetaDataPartnersAsync());
+                await LoadPartnersAsync();
             }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
-            finally
-            {
-                UserDialogs.Instance.HideLoading();
-            }
+
+            UserDialogs.Instance.HideLoading();
         }
 
         public async Task LoadMetaDataPartnersAsync()
         {
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-            try
+            var response = await ApiManager.GetPartnersList(Settings.SessionId);
+            if (response.IsSuccessStatusCode)
             {
-                var response = await ApiManager.GetPartnersList(Settings.SessionId);
-                if (response.IsSuccessStatusCode)
-                {
-                    var json = await response.Content.ReadAsStringAsync();
-                    var data = await Task.Run(() => JsonConvert.DeserializeObject<IList<PartnerModel>>(json, GetJsonSetting()));
-                    var Partners = data.Where(x => !string.IsNullOrEmpty(x.FullName)).ToList();
+                var json = await response.Content.ReadAsStringAsync();
+                var data = await Task.Run(() => JsonConvert.DeserializeObject<IList<PartnerModel>>(json, GetJsonSetting()));
+                var Partners = data.Where(x => !string.IsNullOrEmpty(x.FullName)).ToList();
 
-                    if (BrewerStockOn)
-                        PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners.Where(x => x.PartnerTypeName == "Brewer - Stock").ToList());
-                    else
-                        PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners);
-                }
+                if (BrewerStockOn)
+                    PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners.Where(x => x.PartnerTypeName == "Brewer - Stock").ToList());
+                else
+                    PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners);
             }
-            catch
-            {
-            }
-         }
+        }
 
         private void DeletePartners()
         {
-            try
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            using (var trans = RealmDb.BeginWrite())
             {
-                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                using (var trans = RealmDb.BeginWrite())
-                {
-                    RealmDb.RemoveAll<PartnerModel>();
-                    trans.Commit();
-                }
-                var AllPartners = RealmDb.All<PartnerModel>().ToList();
+                RealmDb.RemoveAll<PartnerModel>();
+                trans.Commit();
             }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            var AllPartners = RealmDb.All<PartnerModel>().ToList();
         }
 
         private async void BackCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.GoBackAsync(animated: false);
-                Cleanup();
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            await _navigationService.GoBackAsync(animated: false);
+            Cleanup();
         }
 
         private async void AddNewPartnerCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.NavigateAsync("AddPartnerView", animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            await _navigationService.NavigateAsync("AddPartnerView", animated: false);
         }
 
         private async void SearchPartnerCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.NavigateAsync("SearchPartnersView", animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            await _navigationService.NavigateAsync("SearchPartnersView", animated: false);
         }
 
         public void Cleanup()
         {
-            try
-            {
-                BrewerStockOn = false;
-                PartnerCollection = null;
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            BrewerStockOn = false;
+            PartnerCollection = null;
         }
 
         public override async void OnNavigatedTo(INavigationParameters parameters)

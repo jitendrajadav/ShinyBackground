@@ -1,8 +1,6 @@
-﻿using Microsoft.AppCenter.Crashes;
-using Prism.Commands;
+﻿using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
-using System;
 using System.Collections.Generic;
 
 namespace KegID.ViewModel
@@ -27,7 +25,7 @@ namespace KegID.ViewModel
         public VolumeViewModel(INavigationService navigationService, IPageDialogService dialogService) : base(navigationService)
         {
             _dialogService = dialogService;
-            ItemTappedCommand = new DelegateCommand<string>((model)=>ItemTappedCommandRecieverAsync(model));
+            ItemTappedCommand = new DelegateCommand<string>((model) => ItemTappedCommandRecieverAsync(model));
             LoadAssetVolumeAsync();
         }
 
@@ -37,40 +35,26 @@ namespace KegID.ViewModel
 
         private void LoadAssetVolumeAsync()
         {
-            try
-            {
-                VolumeCollection = new List<string>
+            VolumeCollection = new List<string>
                 {
                     "bbl",
                     "hl",
                     "gal"
                 };
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
         }
 
         private async void ItemTappedCommandRecieverAsync(string model)
         {
-            try
+            if (!string.IsNullOrEmpty(model))
             {
-                if (!string.IsNullOrEmpty(model))
-                {
-                    await _navigationService.GoBackAsync(new NavigationParameters
+                await _navigationService.GoBackAsync(new NavigationParameters
                     {
                         { "VolumeModel", model }
                     }, animated: false);
-                }
-                else
-                {
-                    await _dialogService.DisplayAlertAsync("Error", "Error: Please select volume.", "Ok");
-                }
             }
-            catch (Exception ex)
+            else
             {
-                Crashes.TrackError(ex);
+                await _dialogService.DisplayAlertAsync("Error", "Error: Please select volume.", "Ok");
             }
         }
 

@@ -4,7 +4,6 @@ using KegID.Delegates;
 using KegID.LocalDb;
 using KegID.Model;
 using KegID.Services;
-using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
@@ -175,7 +174,6 @@ namespace KegID.ViewModel
             else
                 await _dialogService.DisplayAlertAsync("Alert", "Something goes wrong please check again", "Ok");
             UserDialogs.Instance.HideLoading();
-
         }
 
         private async Task GetPostedManifestDetail()
@@ -317,46 +315,29 @@ namespace KegID.ViewModel
 
         private async void CancelCommandRecieverAsync()
         {
-            try
+            var result = await _dialogService.DisplayActionSheetAsync("Cancel? \n Would you like to save this manifest as a draft or delete?", null, null, "Delete manifest", "Save as draft");
+            if (result == "Delete manifest")
             {
-                var result = await _dialogService.DisplayActionSheetAsync("Cancel? \n Would you like to save this manifest as a draft or delete?", null, null, "Delete manifest", "Save as draft");
-                if (result == "Delete manifest")
-                {
-                    // Delete an object with a transaction
-                    DeleteManifest(ManifestId);
-                    await _navigationService.GoBackAsync(animated: false);
-                }
-                else if (result == "Save as draft")
-                {
-                    //Save Draft Logic here...
-                    SaveDraftCommandRecieverAsync();
-                }
+                // Delete an object with a transaction
+                DeleteManifest(ManifestId);
+                await _navigationService.GoBackAsync(animated: false);
             }
-            catch (Exception ex)
+            else if (result == "Save as draft")
             {
-                Crashes.TrackError(ex);
+                //Save Draft Logic here...
+                SaveDraftCommandRecieverAsync();
             }
-            finally
-            {
-                Cleanup();
-            }
+            Cleanup();
         }
 
         private void DeleteManifest(string manifestId)
         {
-            try
+            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            var manifest = RealmDb.All<ManifestModel>().First(b => b.ManifestId == manifestId);
+            using (var trans = RealmDb.BeginWrite())
             {
-                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-                var manifest = RealmDb.All<ManifestModel>().First(b => b.ManifestId == manifestId);
-                using (var trans = RealmDb.BeginWrite())
-                {
-                    RealmDb.Remove(manifest);
-                    trans.Commit();
-                }
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
+                RealmDb.Remove(manifest);
+                trans.Commit();
             }
         }
 
@@ -382,126 +363,104 @@ namespace KegID.ViewModel
                     {
                         {"viewTypeEnum",ViewTypeEnum.MoveView }
                     }, animated: false);
-
         }
 
         private async void ScanKegsCommadRecieverAsync()
         {
-            try
+            if (string.IsNullOrEmpty(ConstantManager.Partner?.PartnerId))
             {
-                if (string.IsNullOrEmpty(ConstantManager.Partner?.PartnerId))
+                await _dialogService.DisplayAlertAsync("Error", "Please select a destination first.", "Ok");
+                return;
+            }
+            if (OrderNumRequired && string.IsNullOrEmpty(Order))
+            {
+                await _dialogService.DisplayAlertAsync("Error", "Please enter order first.", "Ok");
+                return;
+            }
+            if (OriginRequired && Origin.Contains("Select a location"))
+            {
+                await _dialogService.DisplayAlertAsync("Error", "Please select a origin first.", "Ok");
+                return;
+            }
+            else if (Barcodes != null)
+            {
+                if (TargetIdiom.Tablet == Device.Idiom)
                 {
-                    await _dialogService.DisplayAlertAsync("Error", "Please select a destination first.", "Ok");
-                    return;
-                }
-                if (OrderNumRequired && string.IsNullOrEmpty(Order))
-                {
-                    await _dialogService.DisplayAlertAsync("Error", "Please enter order first.", "Ok");
-                    return;
-                }
-                if (OriginRequired && Origin.Contains("Select a location"))
-                {
-                    await _dialogService.DisplayAlertAsync("Error", "Please select a origin first.", "Ok");
-                    return;
-                }
-                else if (Barcodes != null)
-                {
-                    if (TargetIdiom.Tablet == Device.Idiom)
-                    {
-                        await _navigationService.NavigateAsync("ScanKegsTabView", new NavigationParameters
+                    await _navigationService.NavigateAsync("ScanKegsTabView", new NavigationParameters
                             {
                                 { "models", Barcodes }
                             }, animated: false);
-                    }
-                    else
-                    {
-                        await _navigationService.NavigateAsync("ScanKegsView", new NavigationParameters
-                            {
-                                { "models", Barcodes }
-                            }, animated: false);
-                    }
                 }
                 else
                 {
-                    if (TargetIdiom.Tablet == Device.Idiom)
-                    {
-                        await _navigationService.NavigateAsync("ScanKegsTabView", animated: false);
-                    }
-                    else
-                    {
-                        await _navigationService.NavigateAsync("ScanKegsView", animated: false);
-                    }
+                    await _navigationService.NavigateAsync("ScanKegsView", new NavigationParameters
+                            {
+                                { "models", Barcodes }
+                            }, animated: false);
                 }
             }
-            catch (Exception ex)
+            else
             {
-                Crashes.TrackError(ex);
+                if (TargetIdiom.Tablet == Device.Idiom)
+                {
+                    await _navigationService.NavigateAsync("ScanKegsTabView", animated: false);
+                }
+                else
+                {
+                    await _navigationService.NavigateAsync("ScanKegsView", animated: false);
+                }
             }
         }
 
         internal void AssignInitialValue(string _kegId, IList<ManifestItem> _barcode, string _addKegs, string _destination, string _partnerId, bool isSaveDraftVisible, IList<Tag> tags, string tagsStr)
         {
-            try
+            if (_barcode != null)
             {
-                if (_barcode != null)
+                foreach (var item in _barcode)
                 {
-                    foreach (var item in _barcode)
+                    var model = new BarcodeModel
                     {
-                        var model = new BarcodeModel
-                        {
-                            Barcode = item?.Barcode,
-                            Icon = item?.Icon,
-                            TagsStr = item?.TagsStr
-                        };
-                        foreach (Tag tag in item?.Tags)
-                        {
-                            model.Tags.Add(tag);
-                        }
-                        ConstantManager.Barcodes.Add(model);
-                    }
-                }
-                Barcodes = ConstantManager.Barcodes;
-                Tags = tags?.ToList();
-                TagsStr = !string.IsNullOrEmpty(tagsStr) ? tagsStr : "Add info";
-                ManifestId = !string.IsNullOrEmpty(_kegId) ? _kegId : _uuidManager.GetUuId();
-                AddKegs = !string.IsNullOrEmpty(_addKegs) ? Convert.ToUInt32(_addKegs) > 1 ? string.Format("{0} Items", _addKegs) : string.Format("{0} Item", _addKegs) : string.Format("Add {0}", ContainerTypes);
-                if (!string.IsNullOrEmpty(_destination))
-                {
-                    Destination = _destination;
-                    ConstantManager.Partner = new PartnerModel
-                    {
-                        PartnerId = _partnerId,
-                        FullName = _destination
+                        Barcode = item?.Barcode,
+                        Icon = item?.Icon,
+                        TagsStr = item?.TagsStr
                     };
-                    IsRequiredVisible = false;
+                    foreach (Tag tag in item?.Tags)
+                    {
+                        model.Tags.Add(tag);
+                    }
+                    ConstantManager.Barcodes.Add(model);
                 }
-                IsSaveDraftVisible = isSaveDraftVisible;
             }
-            catch (Exception ex)
+            Barcodes = ConstantManager.Barcodes;
+            Tags = tags?.ToList();
+            TagsStr = !string.IsNullOrEmpty(tagsStr) ? tagsStr : "Add info";
+            ManifestId = !string.IsNullOrEmpty(_kegId) ? _kegId : _uuidManager.GetUuId();
+            AddKegs = !string.IsNullOrEmpty(_addKegs) ? Convert.ToUInt32(_addKegs) > 1 ? string.Format("{0} Items", _addKegs) : string.Format("{0} Item", _addKegs) : string.Format("Add {0}", ContainerTypes);
+            if (!string.IsNullOrEmpty(_destination))
             {
-                Crashes.TrackError(ex);
+                Destination = _destination;
+                ConstantManager.Partner = new PartnerModel
+                {
+                    PartnerId = _partnerId,
+                    FullName = _destination
+                };
+                IsRequiredVisible = false;
             }
+            IsSaveDraftVisible = isSaveDraftVisible;
         }
 
         public void Cleanup()
         {
-            try
-            {
-                TagsStr = "Add info";
-                AddKegs = string.Format("Add {0}", ContainerTypes);
-                IsSaveDraftVisible = false;
-                IsSubmitVisible = false;
-                IsRequiredVisible = true;
-                Destination = "Select a location";
-                ManifestId = _uuidManager.GetUuId();
-                Tags = null;
-                Barcodes = null;
-                ConstantManager.Barcodes.Clear();
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            TagsStr = "Add info";
+            AddKegs = string.Format("Add {0}", ContainerTypes);
+            IsSaveDraftVisible = false;
+            IsSubmitVisible = false;
+            IsRequiredVisible = true;
+            Destination = "Select a location";
+            ManifestId = _uuidManager.GetUuId();
+            Tags = null;
+            Barcodes = null;
+            ConstantManager.Barcodes.Clear();
         }
 
         public override async void OnNavigatedTo(INavigationParameters parameters)
@@ -605,38 +564,31 @@ namespace KegID.ViewModel
         private void AssignInitialValue(INavigationParameters parameters)
         {
             ManifestModel model = parameters.GetValue<ManifestModel>("AssignInitialValue");
-            try
+            if (model != null)
             {
-                if (model != null)
+                foreach (var item in model.BarcodeModels)
                 {
-                    foreach (var item in model.BarcodeModels)
-                    {
-                        ConstantManager.Barcodes.Add(item);
-                    }
+                    ConstantManager.Barcodes.Add(item);
                 }
-                Barcodes = ConstantManager.Barcodes;
-                Tags = model.Tags?.ToList();
-                TagsStr = !string.IsNullOrEmpty(model.TagsStr) ? model.TagsStr : "Add info";
-                ManifestId = !string.IsNullOrEmpty(model.ManifestId) ? model.ManifestId : _uuidManager.GetUuId();
-                AddKegs = !string.IsNullOrEmpty(model.ManifestItemsCount.ToString()) ? Convert.ToUInt32(model.ManifestItemsCount.ToString()) > 1 ? string.Format("{0} Items", model.ManifestItemsCount.ToString()) : string.Format("{0} Item", model.ManifestItemsCount.ToString()) : string.Format("Add {0}", ContainerTypes);
-                if (!string.IsNullOrEmpty(model.OwnerName))
-                {
-                    Destination = model.OwnerName;
-                    Origin = model.OriginId;
-                    Order = model.KegOrderId;
-                    ConstantManager.Partner = new PartnerModel
-                    {
-                        PartnerId = model.ReceiverId,
-                        FullName = model.OwnerName
-                    };
-                    IsRequiredVisible = false;
-                }
-                IsSaveDraftVisible = true;
             }
-            catch (Exception ex)
+            Barcodes = ConstantManager.Barcodes;
+            Tags = model.Tags?.ToList();
+            TagsStr = !string.IsNullOrEmpty(model.TagsStr) ? model.TagsStr : "Add info";
+            ManifestId = !string.IsNullOrEmpty(model.ManifestId) ? model.ManifestId : _uuidManager.GetUuId();
+            AddKegs = !string.IsNullOrEmpty(model.ManifestItemsCount.ToString()) ? Convert.ToUInt32(model.ManifestItemsCount.ToString()) > 1 ? string.Format("{0} Items", model.ManifestItemsCount.ToString()) : string.Format("{0} Item", model.ManifestItemsCount.ToString()) : string.Format("Add {0}", ContainerTypes);
+            if (!string.IsNullOrEmpty(model.OwnerName))
             {
-                Crashes.TrackError(ex);
+                Destination = model.OwnerName;
+                Origin = model.OriginId;
+                Order = model.KegOrderId;
+                ConstantManager.Partner = new PartnerModel
+                {
+                    PartnerId = model.ReceiverId,
+                    FullName = model.OwnerName
+                };
+                IsRequiredVisible = false;
             }
+            IsSaveDraftVisible = true;
         }
 
         public void Destroy()

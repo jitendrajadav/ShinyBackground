@@ -1,9 +1,7 @@
-﻿using KegID.Messages;
-using KegID.Services;
+﻿using KegID.Services;
 using Prism.Commands;
 using Prism.Navigation;
 using System;
-using Xamarin.Forms;
 
 namespace KegID.ViewModel
 {

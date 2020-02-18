@@ -2,12 +2,10 @@
 using KegID.Common;
 using KegID.LocalDb;
 using KegID.Model;
-using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
 using Realms;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;

@@ -88,20 +88,14 @@ namespace KegID.ViewModel
                         {
                             using (var db = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
                             {
-                                try
-                                {
-                                    var oldBarcode = BarcodeCollection.FirstOrDefault(x => x.Barcode == data?.Kegs?.Partners?.FirstOrDefault().Kegs?.FirstOrDefault()?.Barcode);
-                                    oldBarcode.Pallets = data.Pallets;
-                                    oldBarcode.Kegs = data.Kegs;
-                                    oldBarcode.Icon = data?.Kegs?.Partners.Count > 1 ? _getIconByPlatform.GetIcon("validationquestion.png") : data?.Kegs?.Partners?.Count == 0 ? _getIconByPlatform.GetIcon("validationerror.png") : _getIconByPlatform.GetIcon("validationok.png");
-                                    if (oldBarcode.Icon == "validationerror.png")
-                                        Vibration.Vibrate();
-                                    oldBarcode.IsScanned = true;
-                                    db.Commit();
-                                }
-                                catch (Exception EX)
-                                {
-                                }
+                                var oldBarcode = BarcodeCollection.FirstOrDefault(x => x.Barcode == data?.Kegs?.Partners?.FirstOrDefault().Kegs?.FirstOrDefault()?.Barcode);
+                                oldBarcode.Pallets = data.Pallets;
+                                oldBarcode.Kegs = data.Kegs;
+                                oldBarcode.Icon = data?.Kegs?.Partners.Count > 1 ? _getIconByPlatform.GetIcon("validationquestion.png") : data?.Kegs?.Partners?.Count == 0 ? _getIconByPlatform.GetIcon("validationerror.png") : _getIconByPlatform.GetIcon("validationok.png");
+                                if (oldBarcode.Icon == "validationerror.png")
+                                    Vibration.Vibrate();
+                                oldBarcode.IsScanned = true;
+                                db.Commit();
                             }
                         }
                     }
@@ -154,7 +148,7 @@ namespace KegID.ViewModel
                     {
                         ScannerToPalletAssign scannerToPalletAssign = new ScannerToPalletAssign
                         {
-                           Barcode = models.LastOrDefault()?.Barcode
+                            Barcode = models.LastOrDefault()?.Barcode
                         };
                         MessagingCenter.Send(scannerToPalletAssign, "ScannerToPalletAssign");
                     }
@@ -163,14 +157,11 @@ namespace KegID.ViewModel
                         Barcode = message
                     };
                     MessagingCenter.Send(moveScan, "MoveScanKegsMessage");
-                    try
-                    {
-                        var toastConfig = new ToastConfig("Last scan: " + message);
-                        toastConfig.SetDuration(3000);
-                        toastConfig.SetBackgroundColor(System.Drawing.Color.FromArgb(12, 131, 193));
-                        UserDialogs.Instance.Toast(toastConfig);
-                    }
-                    catch { }
+
+                    var toastConfig = new ToastConfig("Last scan: " + message);
+                    toastConfig.SetDuration(3000);
+                    toastConfig.SetBackgroundColor(System.Drawing.Color.FromArgb(12, 131, 193));
+                    UserDialogs.Instance.Toast(toastConfig);
                 }
             });
 
@@ -178,18 +169,16 @@ namespace KegID.ViewModel
                 session.StopScanning();
         }
 
-        async Task InitSettings()
+        private async Task InitSettings()
         {
-            try
-            {
-                scanSettings = picker.GetDefaultScanSettings();
-                UpdateScanOverlay();
+            scanSettings = picker.GetDefaultScanSettings();
+            UpdateScanOverlay();
 
-                // The scanning behavior of the barcode picker is configured through scan
-                // settings. We start with empty scan settings and enable a very generous
-                // set of symbologies. In your own apps, only enable the symbologies you
-                // actually need.
-                var symbologiesToEnable = new Symbology[] {
+            // The scanning behavior of the barcode picker is configured through scan
+            // settings. We start with empty scan settings and enable a very generous
+            // set of symbologies. In your own apps, only enable the symbologies you
+            // actually need.
+            var symbologiesToEnable = new Symbology[] {
                 Symbology.Qr,
                 Symbology.Ean13,
                 Symbology.Upce,
@@ -198,24 +187,19 @@ namespace KegID.ViewModel
                 Symbology.Qr,
                 Symbology.DataMatrix
             };
-                foreach (var sym in symbologiesToEnable)
-                    scanSettings.EnableSymbology(sym, true);
-                await picker.ApplySettingsAsync(scanSettings);
-                // This will open the scanner in full-screen mode. 
+            foreach (var sym in symbologiesToEnable)
+                scanSettings.EnableSymbology(sym, true);
+            await picker.ApplySettingsAsync(scanSettings);
+            // This will open the scanner in full-screen mode.
 
-                // This will open the scanner in full-screen mode.
-                picker.CancelButtonText = "Done";
-                picker.DidScan += OnDidScan;
-                picker.DidStop += OnDidStopAsync;
-                picker.AlwaysShowModally = true;
+            // This will open the scanner in full-screen mode.
+            picker.CancelButtonText = "Done";
+            picker.DidScan += OnDidScan;
+            picker.DidStop += OnDidStopAsync;
+            picker.AlwaysShowModally = true;
 
-                //await UpdateScanSettings();
-                await picker.StartScanningAsync();
-            }
-            catch (Exception ex)
-            {
-
-            }
+            //await UpdateScanSettings();
+            await picker.StartScanningAsync();
         }
 
         // reads the values needed for ScanSettings from the Settings class
@@ -231,7 +215,7 @@ namespace KegID.ViewModel
             {
                 bool enabled = Settings.getBoolSetting(setting);
 
-                // DPM Mode 
+                // DPM Mode
                 if (Settings.isDpmMode(setting) && enabled)
                 {
                     Rect restricted = new Rect(0.33f, 0.33f, 0.33f, 0.33f);
@@ -290,7 +274,7 @@ namespace KegID.ViewModel
             scanSettings.ResolutionPreference =
                 ScanditConvert.resolutionToScanSetting[Settings.getStringSetting(Settings.ResolutionString)];
 
-          await picker.ApplySettingsAsync(scanSettings);
+            await picker.ApplySettingsAsync(scanSettings);
         }
 
         private void UpdateScanOverlay()
@@ -308,7 +292,7 @@ namespace KegID.ViewModel
                    (float)Settings.getDoubleSetting(Settings.ViewFinderLandscapeHeightString)
             );
             picker.ScanOverlay.CameraSwitchVisibility = CameraSwitchVisibility.Always;
-            picker.ScanOverlay.GuiStyle = GuiStyle.Laser;
+            picker.ScanOverlay.GuiStyle = GuiStyle.Default;
         }
 
         private async void DoneCommandRecieverAsync()

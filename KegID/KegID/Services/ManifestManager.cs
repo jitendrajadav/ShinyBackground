@@ -1,6 +1,5 @@
 ﻿using KegID.Common;
 using KegID.Model;
-using Microsoft.AppCenter.Crashes;
 using System;
 using System.Collections.Generic;
 using System.Linq;

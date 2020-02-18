@@ -1,11 +1,9 @@
 ﻿using Acr.UserDialogs;
 using KegID.Common;
 using KegID.Model;
-using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -40,43 +38,27 @@ namespace KegID.ViewModel
 
         private async void SearchManifestsCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.GoBackAsync(animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            await _navigationService.GoBackAsync(animated: false);
         }
 
         private async Task ItemTappedCommandRecieverAsync(ManifestSearchResponseModel model)
         {
-            try
+            UserDialogs.Instance.ShowLoading("Loading");
+
+            var response = await ApiManager.GetManifest(model.ManifestId, Settings.SessionId);
+            if (response.IsSuccessStatusCode)
             {
-                UserDialogs.Instance.ShowLoading("Loading");
+                var json = await response.Content.ReadAsStringAsync();
+                var data = await Task.Run(() => JsonConvert.DeserializeObject<ManifestResponseModel>(json, GetJsonSetting()));
 
-                var response = await ApiManager.GetManifest(model.ManifestId, Settings.SessionId);
-                if (response.IsSuccessStatusCode)
-                {
-                    var json = await response.Content.ReadAsStringAsync();
-                    var data = await Task.Run(() => JsonConvert.DeserializeObject<ManifestResponseModel>(json, GetJsonSetting()));
-
-                    UserDialogs.Instance.HideLoading();
-                    await _navigationService.NavigateAsync("ManifestDetailView", new NavigationParameters
+                UserDialogs.Instance.HideLoading();
+                await _navigationService.NavigateAsync("ManifestDetailView", new NavigationParameters
                     {
                         { "manifest", data }
                     }, animated: false);
-                }
             }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
-            finally
-            {
-                UserDialogs.Instance.HideLoading();
-            }
+
+            UserDialogs.Instance.HideLoading();
         }
 
         public override Task InitializeAsync(INavigationParameters parameters)

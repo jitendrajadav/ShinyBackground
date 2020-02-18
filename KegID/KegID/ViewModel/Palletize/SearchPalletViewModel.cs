@@ -1,6 +1,5 @@
 ﻿using System;
 using KegID.Model;
-using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
 
@@ -46,41 +45,20 @@ namespace KegID.ViewModel
 
         private async void LocationCreatedCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.NavigateAsync("PartnersView", animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            await _navigationService.NavigateAsync("PartnersView", animated: false);
         }
 
         private async void HomeCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.GoBackAsync(animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            await _navigationService.GoBackAsync(animated: false);
         }
 
         private async void SearchCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.NavigateAsync("PalletSearchedListView", new NavigationParameters
+            await _navigationService.NavigateAsync("PalletSearchedListView", new NavigationParameters
                     {
                         { "GetPalletSearchAsync", PartnerModel?.PartnerId },{ "FromDate", FromDate.Date.ToShortDateString() },{ "ToDate", ToDate.Date.ToShortDateString() }
                     }, animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
         }
 
         public override void OnNavigatedTo(INavigationParameters parameters)

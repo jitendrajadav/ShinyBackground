@@ -1,6 +1,5 @@
 ﻿using KegID.Common;
 using KegID.Model;
-using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
@@ -51,49 +50,28 @@ namespace KegID.ViewModel
 
         private async Task SearchCommandRecieverAsync()
         {
-            try
+            var response = await ApiManager.GetManifestSearch(Settings.SessionId, TrackingNumber, Barcode, ManifestSender, ManifestDestination, Referencekey, FromDate.ToString("MM/dd/yyyy", CultureInfo.CreateSpecificCulture("en-US")), ToDate.ToString("MM/dd/yyyy", CultureInfo.CreateSpecificCulture("en-US")));
+            if (response.IsSuccessStatusCode)
             {
-                var response = await ApiManager.GetManifestSearch(Settings.SessionId, TrackingNumber, Barcode, ManifestSender, ManifestDestination, Referencekey, FromDate.ToString("MM/dd/yyyy", CultureInfo.CreateSpecificCulture("en-US")), ToDate.ToString("MM/dd/yyyy", CultureInfo.CreateSpecificCulture("en-US")));
-                if (response.IsSuccessStatusCode)
-                {
-                    var json = await response.Content.ReadAsStringAsync();
-                    var data = await Task.Run(() => JsonConvert.DeserializeObject<IList<ManifestSearchResponseModel>>(json, GetJsonSetting()));
+                var json = await response.Content.ReadAsStringAsync();
+                var data = await Task.Run(() => JsonConvert.DeserializeObject<IList<ManifestSearchResponseModel>>(json, GetJsonSetting()));
 
-                    await _navigationService.NavigateAsync("SearchedManifestsListView", new NavigationParameters
+                await _navigationService.NavigateAsync("SearchedManifestsListView", new NavigationParameters
                     {
                         { "SearchManifestsCollection", data }
                     }, animated: false);
-                }
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
             }
         }
 
         private async void ManifestDestinationCommandRecieverAsync()
         {
-            try
-            {
-                IsManifestDestination = true;
-                await _navigationService.NavigateAsync("PartnersView", animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            IsManifestDestination = true;
+            await _navigationService.NavigateAsync("PartnersView", animated: false);
         }
 
         private async void ManifestSenderCommandRecieverAsync()
         {
-            try
-            {
-                await _navigationService.NavigateAsync("PartnersView", animated: false);
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            await _navigationService.NavigateAsync("PartnersView", animated: false);
         }
 
         private async void ManifestsCommandRecieverAsync()
@@ -103,20 +81,13 @@ namespace KegID.ViewModel
 
         internal void AssignPartnerValue(PartnerModel model)
         {
-            try
+            if (IsManifestDestination)
             {
-                if (IsManifestDestination)
-                {
-                    IsManifestDestination = false;
-                    ManifestDestination = model.FullName;
-                }
-                else
-                    ManifestSender = model.FullName;
+                IsManifestDestination = false;
+                ManifestDestination = model.FullName;
             }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
+            else
+                ManifestSender = model.FullName;
         }
 
         public override Task InitializeAsync(INavigationParameters parameters)

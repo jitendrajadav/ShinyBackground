@@ -1,12 +1,10 @@
 ﻿using KegID.LocalDb;
 using KegID.Messages;
 using KegID.Model;
-using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
 using Realms;
-using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;

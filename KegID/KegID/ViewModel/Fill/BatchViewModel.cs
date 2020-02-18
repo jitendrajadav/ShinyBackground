@@ -1,8 +1,6 @@
 ﻿using KegID.Model;
 using System.Collections.Generic;
 using System.Linq;
-using System;
-using Microsoft.AppCenter.Crashes;
 using Realms;
 using KegID.LocalDb;
 using Prism.Commands;
@@ -45,7 +43,6 @@ namespace KegID.ViewModel
         private async void AddBatchCommandRecieverAsync()
         {
             await _navigationService.NavigateAsync("AddBatchView", animated: false);
-
         }
 
         private async void ItemTappedCommandRecieverAsync(NewBatch model)
@@ -61,7 +58,6 @@ namespace KegID.ViewModel
             {
                 await _dialogService.DisplayAlertAsync("Error", "Error: Please select batch.", "Ok");
             }
-
         }
 
         public void LoadBatchAsync()

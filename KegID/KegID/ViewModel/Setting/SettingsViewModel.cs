@@ -1,6 +1,5 @@
 ﻿
 using KegID.Localization;
-using Microsoft.AppCenter.Crashes;
 using Prism.Navigation;
 using System.Collections.Generic;
 using Xamarin.Forms;
@@ -35,17 +34,10 @@ namespace KegID.ViewModel
 
         private void SetLanguage()
         {
-            try
-            {
-                App.CurrentLanguage = SelectedLanguage;
-                MessagingCenter.Send<object, CultureChangedMessage>(this,
-                        string.Empty, new CultureChangedMessage(SelectedLanguage));
+            App.CurrentLanguage = SelectedLanguage;
+            MessagingCenter.Send<object, CultureChangedMessage>(this,
+                    string.Empty, new CultureChangedMessage(SelectedLanguage));
 
-            }
-            catch (System.Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
         }
     }
 }

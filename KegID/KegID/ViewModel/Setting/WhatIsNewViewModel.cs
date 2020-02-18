@@ -1,5 +1,4 @@
-﻿using Microsoft.AppCenter.Crashes;
-using Prism.Commands;
+﻿using Prism.Commands;
 using Prism.Navigation;
 using System;
 using System.Collections.Generic;
@@ -53,7 +52,7 @@ namespace KegID.ViewModel
 
         private void CurrentItemChangedReciever(ImageClass obj)
         {
-            Title = obj.Index == (ImageCollection.Count-1) ? "Got It." : "Next >";
+            Title = obj.Index == (ImageCollection.Count - 1) ? "Got It." : "Next >";
         }
 
         private async void NextCommandReciever(ImageClass obj)
@@ -69,15 +68,8 @@ namespace KegID.ViewModel
         {
             if (model.Index == (ImageCollection.Count - 1))
             {
-                try
-                {
-                    // You can remove the switch to UI Thread if you are already in the UI Thread.
-                    Device.BeginInvokeOnMainThread(() => Launcher.OpenAsync(new Uri("https://www.slg.com/kegfleet/")));
-                }
-                catch (Exception ex)
-                {
-                    Crashes.TrackError(ex);
-                }
+                // You can remove the switch to UI Thread if you are already in the UI Thread.
+                Device.BeginInvokeOnMainThread(() => Launcher.OpenAsync(new Uri("https://www.slg.com/kegfleet/")));
             }
         }
 
