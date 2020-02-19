@@ -15,16 +15,6 @@ namespace KegID.iOS
     [Register("AppDelegate")]
     public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
     {
-        //iOSLongRunningTaskExample longRunningTaskExample;
-        //public static Action BackgroundSessionCompletionHandler;
-
-        //public override void HandleEventsForBackgroundUrl(UIApplication application, string sessionIdentifier, Action completionHandler)
-        //{
-        //    Console.WriteLine("HandleEventsForBackgroundUrl(): " + sessionIdentifier);
-        //    // We get a completion handler which we are supposed to call if our transfer is done.
-        //    BackgroundSessionCompletionHandler = completionHandler;
-        //}
-
         //
         // This method is invoked when the application has loaded and is ready to run. In this
         // method you should instantiate the window, load the UI into it and then make the window

@@ -48,20 +48,17 @@ namespace KegID.ViewModel
             {
                 if (IsBusy) return;
                 IsBusy = true;
-                //if (ShowLoading) UserDialogs.Instance.ShowLoading(loadinMessage ?? "Loading");
                 await task;
             }
-            catch (Exception e)//TODO: restrict this
+            catch //TODO: restrict this
             {
                 IsBusy = false;
                 UserDialogs.Instance.HideLoading();
-                Debug.WriteLine(e.ToString());
                 await Prism.PrismApplicationBase.Current.MainPage.DisplayAlert("Eror", "Check your internet connection", "Ok");
             }
             finally
             {
                 IsBusy = false;
-                //if (ShowLoading) UserDialogs.Instance.HideLoading();
             }
         }
 

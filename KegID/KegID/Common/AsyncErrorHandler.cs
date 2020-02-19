@@ -12,7 +12,6 @@ namespace KegID.Common
         public static void HandleException(Exception ex)
         {
             Message = ex.Message;
-            Debug.WriteLine(ex.Message);
             Crashes.TrackError(ex);
             UserDialogs.Instance.HideLoading();
         }

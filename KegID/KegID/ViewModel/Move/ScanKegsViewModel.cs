@@ -83,12 +83,6 @@ namespace KegID.ViewModel
             IsExpand = true;
         }
 
-        //private void HandleUnsubscribeMessages()
-        //{
-        //    MessagingCenter.Unsubscribe<MoveScanKegsMessage>(this, "MoveScanKegsMessage");
-        //    MessagingCenter.Unsubscribe<PalletToScanKegPagesMsg>(this, "PalletToScanKegPagesMsg");
-        //}
-
         private void HandleReceivedMessages()
         {
             MessagingCenter.Subscribe<MoveScanKegsMessage>(this, "MoveScanKegsMessage", message =>
@@ -364,13 +358,6 @@ namespace KegID.ViewModel
                 //    Colors = ""
                 //};
                 //var kegStatusResponse = await _dashboardService.PostKegAsync(KegModel, KegId, Settings.SessionId, Configuration.Keg);
-
-                //var message = new StartLongRunningTaskMessage
-                //{
-                //    Barcode = new List<string>() { ManaulBarcode },
-                //    PageName = nameof(ViewTypeEnum.ScanKegsView)
-                //};
-                //MessagingCenter.Send(message, "StartLongRunningTaskMessage");
 
                 // IJobManager can and should be injected into your viewmodel code
                 Shiny.ShinyHost.Resolve<Shiny.Jobs.IJobManager>().RunTask("MoveJob" + ManaulBarcode, async _ =>

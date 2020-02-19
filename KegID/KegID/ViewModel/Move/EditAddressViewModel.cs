@@ -97,8 +97,6 @@ namespace KegID.ViewModel
                     State = placemark.AdminArea;
                     PostalCode = placemark.PostalCode;
                     Country = placemark.CountryCode;
-
-                    Console.WriteLine(geocodeAddress);
                 }
             }
             else

@@ -10,7 +10,6 @@ using Plugin.CurrentActivity;
 using KegID.Droid.DependencyServices;
 using KegID.DependencyServices;
 using Android.Graphics.Pdf;
-using Microsoft.AppCenter.Crashes;
 
 [assembly: Xamarin.Forms.Dependency(typeof(ShareFileImplementation))]
 namespace KegID.Droid.DependencyServices
@@ -71,30 +70,10 @@ namespace KegID.Droid.DependencyServices
         /// <returns>awaitable Task</returns>
         public void ShareLocalFile(string localFilePath, string title = "", object view = null)
         {
-            //Aproach 1 from xml file provider
-            //try
-            //{
-            //    global::Android.Net.Uri apkURI = FileProvider.GetUriForFile(Application.Context, $"{Application.Context.PackageName}.provider", new Java.IO.File(localFilePath));
-            //    var builder =
-            //        ShareCompat.IntentBuilder.From(CrossCurrentActivity.Current.Activity).SetType(CrossCurrentActivity.Current.Activity.ContentResolver.GetType(apkURI)).SetText(title).AddStream(apkURI);
-            //    var chooserIntent = builder.CreateChooserIntent();
-            //    chooserIntent.SetDataAndType(apkURI, CrossCurrentActivity.Current.Activity.ContentResolver.GetType(apkURI));
-            //    chooserIntent.SetFlags(ActivityFlags.ClearTop);
-            //    chooserIntent.SetFlags(ActivityFlags.NewTask);
-            //    chooserIntent.AddFlags(ActivityFlags.GrantReadUriPermission);
-            //    CrossCurrentActivity.Current.Activity.StartActivity(chooserIntent);
-            //}
-            //catch (Exception ex)
-            //{
-
-            //}
-
             //Approch 2 for updated sharing ption above +24 API
-            try
-            {
+           
                 if (string.IsNullOrWhiteSpace(localFilePath))
                 {
-                    System.Console.WriteLine("Plugin.ShareFile: ShareLocalFile Warning: localFilePath null or empty");
                     return;
                 }
 
@@ -107,44 +86,6 @@ namespace KegID.Droid.DependencyServices
                 chooserIntent.SetFlags(ActivityFlags.NewTask);
                 chooserIntent.AddFlags(ActivityFlags.GrantReadUriPermission);
                 CrossCurrentActivity.Current.Activity.StartActivity(chooserIntent);
-            }
-            catch (Exception ex)
-            {
-                if (!string.IsNullOrWhiteSpace(ex.Message))
-                    System.Console.WriteLine("Exception in Plugin.ShareFile: ShareLocalFile Exception: {0}", ex);
-            }
-
-            //Aproch 3 Old intially working fine
-            //try
-            //{
-            //    if (string.IsNullOrWhiteSpace(localFilePath))
-            //    {
-            //        System.Console.WriteLine("Plugin.ShareFile: ShareLocalFile Warning: localFilePath null or empty");
-            //        return;
-            //    }
-
-            //    if (!localFilePath.StartsWith("file://"))
-            //        localFilePath = string.Format("file://{0}", localFilePath);
-
-            //    var fileUri = global::Android.Net.Uri.Parse(localFilePath);
-            //    var intent = new Intent();
-            //    intent.SetFlags(ActivityFlags.ClearTop);
-            //    intent.SetFlags(ActivityFlags.NewTask);
-            //    intent.SetAction(Intent.ActionSend);
-            //    intent.SetType("*/*");
-            //    intent.PutExtra(Intent.ExtraStream, fileUri);
-            //    intent.AddFlags(ActivityFlags.GrantReadUriPermission);
-
-            //    var chooserIntent = Intent.CreateChooser(intent, title);
-            //    chooserIntent.SetFlags(ActivityFlags.ClearTop);
-            //    chooserIntent.SetFlags(ActivityFlags.NewTask);
-            //    global::Android.App.Application.Context.StartActivity(chooserIntent);
-            //}
-            //catch (Exception ex)
-            //{
-            //    if (ex != null && !string.IsNullOrWhiteSpace(ex.Message))
-            //        System.Console.WriteLine("Exception in Plugin.ShareFile: ShareLocalFile Exception: {0}", ex);
-            //}
         }
 
         /// <summary>
@@ -156,39 +97,11 @@ namespace KegID.Droid.DependencyServices
         /// <returns>awaitable bool</returns>
         public async Task ShareRemoteFile(string fileUri, string fileName, string title = "", object view = null)
         {
-            try
-            {
-                using (var webClient = new WebClient())
-                {
-                    var uri = new System.Uri(fileUri);
-                    var bytes = await webClient.DownloadDataTaskAsync(uri);
-                    var filePath = WriteFile(fileName, bytes);
-                    ShareLocalFile(filePath, title);
-                    //return true;
-                }
-            }
-            catch (Exception ex)
-            {
-                if (!string.IsNullOrWhiteSpace(ex.Message))
-                    Console.WriteLine("Exception in Plugin.ShareFile: ShareRemoteFile Exception: {0}", ex.Message);
-            }
-
-            //try
-            //{
-            //    using (var webClient = new WebClient())
-            //    {
-            //        var uri = new Uri(fileUri);
-            //        var bytes = await webClient.DownloadDataTaskAsync(uri);
-            //        var filePath = WriteFile(fileName, bytes);
-            //        ShareLocalFile(filePath, title);
-            //        //return true;
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    if (ex != null && !string.IsNullOrWhiteSpace(ex.Message))
-            //        System.Console.WriteLine("Exception in Plugin.ShareFile: ShareRemoteFile Exception: {0}", ex.Message);
-            //}
+            using var webClient = new WebClient();
+            var uri = new System.Uri(fileUri);
+            var bytes = await webClient.DownloadDataTaskAsync(uri);
+            var filePath = WriteFile(fileName, bytes);
+            ShareLocalFile(filePath, title);
         }
 
         /// <summary>
@@ -200,38 +113,10 @@ namespace KegID.Droid.DependencyServices
         public string WriteFile(string fileName, byte[] bytes)
         {
             string localPath = "";
-            try
-            {
                 var localFolder = global::Android.OS.Environment.GetExternalStoragePublicDirectory(global::Android.OS.Environment.DirectoryDownloads).AbsolutePath;
-                //var localFolder = Application.Context.CacheDir.AbsolutePath;
                 localPath = Path.Combine(localFolder, fileName);
                 File.WriteAllBytes(localPath, bytes); // write to local storage
                 return localPath;
-            }
-            catch (Exception ex)
-            {
-                if (!string.IsNullOrWhiteSpace(ex.Message))
-                    Console.WriteLine("Exception in Plugin.ShareFile: ShareRemoteFile Exception: {0}", ex);
-            }
-            return localPath;
-
-            //string localPath = "";
-
-            //try
-            //{
-            //    var localFolder = Application.Context.CacheDir.AbsolutePath;
-            //    localPath = Path.Combine(localFolder, fileName);
-            //    System.IO.File.WriteAllBytes(localPath, bytes); // write to local storage
-
-            //    return string.Format("file://{0}/{1}", localFolder, fileName);
-            //}
-            //catch (Exception ex)
-            //{
-            //    if (ex != null && !string.IsNullOrWhiteSpace(ex.Message))
-            //        System.Console.WriteLine("Exception in Plugin.ShareFile: ShareRemoteFile Exception: {0}", ex);
-            //}
-
-            //return localPath;
         }
     }
 
@@ -265,17 +150,11 @@ namespace KegID.Droid.DependencyServices
             myWebview.Draw(page.Canvas);
             document.FinishPage(page);
             Stream filestream = new MemoryStream();
-            try
-            {
+            
                 Java.IO.FileOutputStream fos = new Java.IO.FileOutputStream(fileNameWithPath, false);
                 document.WriteTo(filestream);
                 fos.Write(((MemoryStream)filestream).ToArray(), 0, (int)filestream.Length);
                 fos.Close();
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
         }
     }
 }
