@@ -20,7 +20,7 @@
 &lt;/plist&gt;
 </TargetiOSDevice>
     <SelectedDevice>India 6</SelectedDevice>
-    <ProjectView>ShowAllFiles</ProjectView>
+    <ProjectView>ProjectFiles</ProjectView>
     <DefaultDevice>iPhone 8 iOS 11.3</DefaultDevice>
     <DeveloperId />
     <DevelopmentTeamId />

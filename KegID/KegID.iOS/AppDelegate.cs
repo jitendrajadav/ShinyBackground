@@ -16,14 +16,14 @@ namespace KegID.iOS
     public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
     {
         //iOSLongRunningTaskExample longRunningTaskExample;
-        public static Action BackgroundSessionCompletionHandler;
+        //public static Action BackgroundSessionCompletionHandler;
 
-        public override void HandleEventsForBackgroundUrl(UIApplication application, string sessionIdentifier, Action completionHandler)
-        {
-            Console.WriteLine("HandleEventsForBackgroundUrl(): " + sessionIdentifier);
-            // We get a completion handler which we are supposed to call if our transfer is done.
-            BackgroundSessionCompletionHandler = completionHandler;
-        }
+        //public override void HandleEventsForBackgroundUrl(UIApplication application, string sessionIdentifier, Action completionHandler)
+        //{
+        //    Console.WriteLine("HandleEventsForBackgroundUrl(): " + sessionIdentifier);
+        //    // We get a completion handler which we are supposed to call if our transfer is done.
+        //    BackgroundSessionCompletionHandler = completionHandler;
+        //}
 
         //
         // This method is invoked when the application has loaded and is ready to run. In this
@@ -35,7 +35,9 @@ namespace KegID.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             // this needs to be loaded before EVERYTHING
+#pragma warning disable CS1702 // Assuming assembly reference matches identity
             iOSShinyHost.Init(new Startup());
+#pragma warning restore CS1702 // Assuming assembly reference matches identity
 
             Forms.Init();
             FormsMaterial.Init();
