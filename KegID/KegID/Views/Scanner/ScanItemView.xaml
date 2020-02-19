@@ -78,7 +78,7 @@
             x:Name="lstBarcode"
             android:ListView.IsFastScrollEnabled="true"
             AutomationId="barcodeListView"
-            ItemsSource="{Binding BarcodeCollection}"
+            ItemsSource="{Binding BarcodeCollection,Mode=TwoWay}"
             SelectionMode="None">
 
             <CollectionView.ItemTemplate>

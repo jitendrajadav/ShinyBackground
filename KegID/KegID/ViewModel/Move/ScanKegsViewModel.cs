@@ -375,8 +375,8 @@ namespace KegID.ViewModel
                 // IJobManager can and should be injected into your viewmodel code
                 Shiny.ShinyHost.Resolve<Shiny.Jobs.IJobManager>().RunTask("MoveJob" + ManaulBarcode, async _ =>
                   {
-                        // your code goes here - async stuff is welcome (and necessary)
-                        var response = await ApiManager.GetValidateBarcode(ManaulBarcode, Settings.SessionId);
+                      // your code goes here - async stuff is welcome (and necessary)
+                      System.Net.Http.HttpResponseMessage response = await ApiManager.GetValidateBarcode(ManaulBarcode, Settings.SessionId);
                       if (response.IsSuccessStatusCode)
                       {
                           var json = await response.Content.ReadAsStringAsync();
