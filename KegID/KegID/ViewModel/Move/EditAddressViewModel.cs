@@ -121,7 +121,7 @@ namespace KegID.ViewModel
             };
 
             IsShipping = AddressTitle.Contains("Shipping");
-            await _navigationService.GoBackAsync(new NavigationParameters
+            await NavigationService.GoBackAsync(new NavigationParameters
                         {
                             { "EditAddress", address },{ "IsShipping", IsShipping }
                         }, animated: false);
@@ -142,7 +142,7 @@ namespace KegID.ViewModel
 
         private async void BackCommandRecieverAsync()
         {
-            await _navigationService.GoBackAsync(animated: false);
+            await NavigationService.GoBackAsync(animated: false);
         }
 
         public override Task InitializeAsync(INavigationParameters parameters)

@@ -45,17 +45,17 @@ namespace KegID.ViewModel
 
         private async void LocationCreatedCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("PartnersView", animated: false);
+            await NavigationService.NavigateAsync("PartnersView", animated: false);
         }
 
         private async void HomeCommandRecieverAsync()
         {
-            await _navigationService.GoBackAsync(animated: false);
+            await NavigationService.GoBackAsync(animated: false);
         }
 
         private async void SearchCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("PalletSearchedListView", new NavigationParameters
+            await NavigationService.NavigateAsync("PalletSearchedListView", new NavigationParameters
                     {
                         { "GetPalletSearchAsync", PartnerModel?.PartnerId },{ "FromDate", FromDate.Date.ToShortDateString() },{ "ToDate", ToDate.Date.ToShortDateString() }
                     }, animated: false);

@@ -28,7 +28,7 @@ namespace KegID.ViewModel
 
         private async void PartnerInfoCommandRecieverAsync()
         {
-            await _navigationService.GoBackAsync(animated: false);
+            await NavigationService.GoBackAsync(animated: false);
         }
 
 

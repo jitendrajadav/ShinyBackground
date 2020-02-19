@@ -38,12 +38,12 @@ namespace KegID.ViewModel
 
         private async void CancelCommandRecievierAsync()
         {
-            await _navigationService.ClearPopupStackAsync(animated: false);
+            await NavigationService.ClearPopupStackAsync(animated: false);
         }
 
         private void ItemTappedCommandRecieverAsync(Partner model)
         {
-            var formsNav = ((Prism.Common.IPageAware)_navigationService).Page;
+            var formsNav = ((Prism.Common.IPageAware)NavigationService).Page;
             var page = formsNav.Navigation.NavigationStack.Last();
             (page?.BindingContext as INavigationAware)?.OnNavigatedTo(new NavigationParameters
                     {

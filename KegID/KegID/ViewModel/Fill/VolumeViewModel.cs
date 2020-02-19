@@ -47,7 +47,7 @@ namespace KegID.ViewModel
         {
             if (!string.IsNullOrEmpty(model))
             {
-                await _navigationService.GoBackAsync(new NavigationParameters
+                await NavigationService.GoBackAsync(new NavigationParameters
                     {
                         { "VolumeModel", model }
                     }, animated: false);

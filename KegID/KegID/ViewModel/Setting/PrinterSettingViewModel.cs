@@ -22,7 +22,7 @@ namespace KegID.ViewModel
         public bool PrintEveryPallet { get; set; }
         public int PalletLabelCopies { get; set; } = 1;
         public bool BeepOnValidScans { get; set; }
-        public bool BatchScan { get; set; }
+        public bool BatchScan { get; set; } = true;
         public string Version { get; set; }
         public bool Ean13 { get; set; }
         public bool Upce { get; set; }
@@ -62,7 +62,7 @@ namespace KegID.ViewModel
 
         private async void SelectPrinterCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("SelectPrinterView", animated: false);
+            await NavigationService.NavigateAsync("SelectPrinterView", animated: false);
         }
 
         private void PrinterTestCommandReciever()
@@ -75,13 +75,13 @@ namespace KegID.ViewModel
 
         private async void CancelCommandRecieverAsync()
         {
-            await _navigationService.GoBackAsync(animated: false);
+            await NavigationService.GoBackAsync(animated: false);
         }
 
         private async void SaveCommandRecieverAsync()
         {
             UpdatePrintingSetting();
-            await _navigationService.GoBackAsync(animated: false);
+            await NavigationService.GoBackAsync(animated: false);
         }
 
         private void UpdatePrintingSetting()

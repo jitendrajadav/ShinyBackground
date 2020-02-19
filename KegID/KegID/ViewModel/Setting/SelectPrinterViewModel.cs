@@ -18,7 +18,7 @@ namespace KegID.ViewModel
 
         private readonly IPageDialogService _dialogService;
         public string LabelMsg { get; set; } = "Discovering Printers...";
-        public ObservableCollection<DiscoveredPrinter> discoveredPrinters { get; set; } = new ObservableCollection<DiscoveredPrinter>();
+        public ObservableCollection<DiscoveredPrinter> DiscoveredPrinters { get; set; } = new ObservableCollection<DiscoveredPrinter>();
         public string FriendlyLbl { get; set; }
 
         #endregion
@@ -48,17 +48,16 @@ namespace KegID.ViewModel
             ClearDiscoveredPrinters();
 
             ConstantManager.PrinterSetting = discoveredPrinter;
-            await _navigationService.GoBackAsync(new NavigationParameters
+            await NavigationService.GoBackAsync(new NavigationParameters
                         {
                             {"IDiscoveredPrinter", ConstantManager.PrinterSetting}
                         }, animated: false);
-
         }
 
         private async void BackCommandReceiver()
         {
             ClearDiscoveredPrinters();
-            await _navigationService.GoBackAsync(new NavigationParameters
+            await NavigationService.GoBackAsync(new NavigationParameters
                         {
                             {"IDiscoveredPrinter", ConstantManager.PrinterSetting},{"friendlyLbl", FriendlyLbl }
                         }, animated: false);
@@ -68,11 +67,11 @@ namespace KegID.ViewModel
         {
             try
             {
-                discoveredPrinters.Clear();
+                DiscoveredPrinters.Clear();
             }
             catch (NotImplementedException)
             {
-                discoveredPrinters.Clear(); // Workaround for Xamarin.Forms.Platform.WPF issue: https://github.com/xamarin/Xamarin.Forms/issues/3648
+                DiscoveredPrinters.Clear(); // Workaround for Xamarin.Forms.Platform.WPF issue: https://github.com/xamarin/Xamarin.Forms/issues/3648
             }
         }
 
@@ -105,22 +104,6 @@ namespace KegID.ViewModel
             }
         }
 
-        private void OnError(string message)
-        {
-            Device.BeginInvokeOnMainThread(async () =>
-            {
-                await _dialogService.DisplayAlertAsync("Error", message, "OK");
-            });
-        }
-
-        private void OnStatusMessage(string message)
-        {
-            Device.BeginInvokeOnMainThread(() =>
-            {
-                LabelMsg = message;
-            });
-        }
-
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
             StartSearch();
@@ -128,7 +111,7 @@ namespace KegID.ViewModel
 
         private class DiscoveryHandlerImplementation : DiscoveryHandler
         {
-            private SelectPrinterViewModel selectPrinterViewModel;
+            private readonly SelectPrinterViewModel selectPrinterViewModel;
 
             public DiscoveryHandlerImplementation(SelectPrinterViewModel selectPrinterViewModel)
             {
@@ -155,7 +138,7 @@ namespace KegID.ViewModel
             {
                 Device.BeginInvokeOnMainThread(() =>
                 {
-                    selectPrinterViewModel.discoveredPrinters.Add(printer);
+                    selectPrinterViewModel.DiscoveredPrinters.Add(printer);
                 });
             }
         }

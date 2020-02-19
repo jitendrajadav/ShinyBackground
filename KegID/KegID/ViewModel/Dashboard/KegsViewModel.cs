@@ -42,12 +42,12 @@ namespace KegID.ViewModel
 
         private async void PartnerInfoCommandRecieverAsync()
         {
-            await _navigationService.GoBackAsync(animated: false);
+            await NavigationService.GoBackAsync(animated: false);
         }
 
         private async void ItemTappedCommandRecieverAsync(KegPossessionResponseModel model)
         {
-            await _navigationService.NavigateAsync("KegStatusView", new NavigationParameters { { "KegStatusModel", model } }, animated: false);
+            await NavigationService.NavigateAsync("KegStatusView", new NavigationParameters { { "KegStatusModel", model } }, animated: false);
         }
 
         private async void LoadKegPossessionAsync()

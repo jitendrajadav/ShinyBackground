@@ -44,7 +44,7 @@ namespace KegID.ViewModel
 
         private async void HomeCommandRecieverAsync()
         {
-            await _navigationService.GoBackAsync(animated: false);
+            await NavigationService.GoBackAsync(animated: false);
         }
 
         public async Task InventoryCommandRecieverAsync()

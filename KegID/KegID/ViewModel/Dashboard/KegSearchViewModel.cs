@@ -57,7 +57,7 @@ namespace KegID.ViewModel
         }
         private async void SearchCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("KegSearchedListView", new NavigationParameters
+            await NavigationService.NavigateAsync("KegSearchedListView", new NavigationParameters
                     {
                         { "LoadKegSearchAsync", Barcode }
                     }, animated: false);
@@ -65,12 +65,12 @@ namespace KegID.ViewModel
 
         private async void HomeCommandRecieverAsync()
         {
-            await _navigationService.GoBackAsync(animated: false);
+            await NavigationService.GoBackAsync(animated: false);
         }
 
         private async void BarcodeScanCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("CognexScanView", new NavigationParameters
+            await NavigationService.NavigateAsync("CognexScanView", new NavigationParameters
                     {
                         { "Tags", null },{ "TagsStr", string.Empty },{ "ViewTypeEnum", ViewTypeEnum.KegSearchView }
                     }, animated: false);
@@ -78,7 +78,7 @@ namespace KegID.ViewModel
 
         private async void BulkUpdateCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("BulkUpdateScanView", animated: false);
+            await NavigationService.NavigateAsync("BulkUpdateScanView", animated: false);
         }
 
         internal async void AssingSuccessMsgAsync()
@@ -90,7 +90,7 @@ namespace KegID.ViewModel
 
         internal async void AssignBarcodeScannerValueAsync(Barcode barcodes)
         {
-            await _navigationService.NavigateAsync("KegSearchedListView", new NavigationParameters
+            await NavigationService.NavigateAsync("KegSearchedListView", new NavigationParameters
                     {
                         { "LoadKegSearchAsync", barcodes }
                     }, animated: false);

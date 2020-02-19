@@ -102,12 +102,12 @@ namespace KegID.ViewModel
                 });
 
             }
-            await _navigationService.GoBackAsync(new NavigationParameters
+            await NavigationService.GoBackAsync(new NavigationParameters
                     {
                         { "models", models }
                     }, animated: false);
 
-            await _navigationService.GoBackAsync(animated: false);
+            await NavigationService.GoBackAsync(animated: false);
         }
 
         private void OnDidScan(ScanSession session)
@@ -213,10 +213,10 @@ namespace KegID.ViewModel
 
             foreach (string setting in ScanditConvert.settingToSymbologies.Keys)
             {
-                bool enabled = Settings.getBoolSetting(setting);
+                bool enabled = Settings.GetBoolSetting(setting);
 
                 // DPM Mode
-                if (Settings.isDpmMode(setting) && enabled)
+                if (Settings.IsDpmMode(setting) && enabled)
                 {
                     Rect restricted = new Rect(0.33f, 0.33f, 0.33f, 0.33f);
                     scanSettings.ActiveScanningAreaPortrait = restricted;
@@ -234,10 +234,10 @@ namespace KegID.ViewModel
                 foreach (Symbology sym in ScanditConvert.settingToSymbologies[setting])
                 {
                     scanSettings.EnableSymbology(sym, enabled);
-                    if (Settings.hasInvertedSymbology(setting))
+                    if (Settings.HasInvertedSymbology(setting))
                     {
-                        scanSettings.Symbologies[sym].ColorInvertedEnabled = Settings.getBoolSetting(
-                            Settings.getInvertedSymbology(setting));
+                        scanSettings.Symbologies[sym].ColorInvertedEnabled = Settings.GetBoolSetting(
+                            Settings.GetInvertedSymbology(setting));
                     }
 
                     if (enabled && (sym == Symbology.TwoDigitAddOn
@@ -254,25 +254,25 @@ namespace KegID.ViewModel
             }
 
             scanSettings.Symbologies[Symbology.MsiPlessey].Checksums =
-                ScanditConvert.msiPlesseyChecksumToScanSetting[Settings.getStringSetting(Settings.MsiPlesseyChecksumString)];
+                ScanditConvert.msiPlesseyChecksumToScanSetting[Settings.GetStringSetting(Settings.MsiPlesseyChecksumString)];
 
-            scanSettings.RestrictedAreaScanningEnabled = isScanningAreaOverriddenByDpmMode || Settings.getBoolSetting(Settings.RestrictedAreaString);
-            if (Settings.getBoolSetting(Settings.RestrictedAreaString) && !isScanningAreaOverriddenByDpmMode)
+            scanSettings.RestrictedAreaScanningEnabled = isScanningAreaOverriddenByDpmMode || Settings.GetBoolSetting(Settings.RestrictedAreaString);
+            if (Settings.GetBoolSetting(Settings.RestrictedAreaString) && !isScanningAreaOverriddenByDpmMode)
             {
-                Double HotSpotHeight = Settings.getDoubleSetting(Settings.HotSpotHeightString);
-                Double HotSpotWidth = Settings.getDoubleSetting(Settings.HotSpotWidthString);
-                Double HotSpotY = Settings.getDoubleSetting(Settings.HotSpotYString);
+                Double HotSpotHeight = Settings.GetDoubleSetting(Settings.HotSpotHeightString);
+                Double HotSpotWidth = Settings.GetDoubleSetting(Settings.HotSpotWidthString);
+                Double HotSpotY = Settings.GetDoubleSetting(Settings.HotSpotYString);
 
                 Rect restricted = new Rect(0.5f - HotSpotWidth * 0.5f, HotSpotY - 0.5f * HotSpotHeight,
                                            HotSpotWidth, HotSpotHeight);
 
                 scanSettings.ScanningHotSpot = new Scandit.BarcodePicker.Unified.Point(
-                        0.5, Settings.getDoubleSetting(Settings.HotSpotYString));
+                        0.5, Settings.GetDoubleSetting(Settings.HotSpotYString));
                 scanSettings.ActiveScanningAreaPortrait = restricted;
                 scanSettings.ActiveScanningAreaLandscape = restricted;
             }
             scanSettings.ResolutionPreference =
-                ScanditConvert.resolutionToScanSetting[Settings.getStringSetting(Settings.ResolutionString)];
+                ScanditConvert.resolutionToScanSetting[Settings.GetStringSetting(Settings.ResolutionString)];
 
             await picker.ApplySettingsAsync(scanSettings);
         }
@@ -284,12 +284,12 @@ namespace KegID.ViewModel
             picker.ScanOverlay.TorchButtonVisible = true;
 
             picker.ScanOverlay.ViewFinderSizePortrait = new Scandit.BarcodePicker.Unified.Size(
-               (float)Settings.getDoubleSetting(Settings.ViewFinderPortraitWidthString),
-               (float)Settings.getDoubleSetting(Settings.ViewFinderPortraitHeightString)
+               (float)Settings.GetDoubleSetting(Settings.ViewFinderPortraitWidthString),
+               (float)Settings.GetDoubleSetting(Settings.ViewFinderPortraitHeightString)
            );
             picker.ScanOverlay.ViewFinderSizeLandscape = new Scandit.BarcodePicker.Unified.Size(
-                   (float)Settings.getDoubleSetting(Settings.ViewFinderLandscapeWidthString),
-                   (float)Settings.getDoubleSetting(Settings.ViewFinderLandscapeHeightString)
+                   (float)Settings.GetDoubleSetting(Settings.ViewFinderLandscapeWidthString),
+                   (float)Settings.GetDoubleSetting(Settings.ViewFinderLandscapeHeightString)
             );
             picker.ScanOverlay.CameraSwitchVisibility = CameraSwitchVisibility.Always;
             picker.ScanOverlay.GuiStyle = GuiStyle.Default;
@@ -298,7 +298,7 @@ namespace KegID.ViewModel
         private async void DoneCommandRecieverAsync()
         {
 
-            await _navigationService.GoBackAsync(new NavigationParameters
+            await NavigationService.GoBackAsync(new NavigationParameters
                     {
                         { "models", models }
                     }, useModalNavigation: true, animated: false);

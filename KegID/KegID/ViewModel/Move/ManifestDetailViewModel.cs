@@ -54,7 +54,7 @@ namespace KegID.ViewModel
 
         private async void GridTappedCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("ContentTagsView", new NavigationParameters
+            await NavigationService.NavigateAsync("ContentTagsView", new NavigationParameters
                             {
                                 { "Barcode", Barcode }
                             }, animated: false);
@@ -98,7 +98,7 @@ namespace KegID.ViewModel
         {
             ConstantManager.Barcodes.Clear();
             var pages = Application.Current.MainPage.Navigation.NavigationStack;
-            await _navigationService.GoBackToRootAsync();
+            await NavigationService.GoBackToRootAsync();
         }
 
         internal void AssignInitialValue(ManifestResponseModel manifest, string content)

@@ -139,7 +139,7 @@ namespace KegID.ViewModel
                     {
                         { "IsLogOut",true}
                     };
-                    await _navigationService.NavigateAsync("/NavigationPage/LoginView", param, animated: false);
+                    await NavigationService.NavigateAsync("/NavigationPage/LoginView", param, animated: false);
                 });
             });
 
@@ -150,7 +150,7 @@ namespace KegID.ViewModel
 
         private async void MoveCommandRecieverAsync()
         {
-            _ = await _navigationService.NavigateAsync("MoveView", new NavigationParameters
+            _ = await NavigationService.NavigateAsync("MoveView", new NavigationParameters
                 {
                     { "ManifestId", _uuidManager.GetUuId() }
                 }, animated: false);
@@ -158,23 +158,23 @@ namespace KegID.ViewModel
 
         private async void InUsePartnerCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("DashboardPartnersView", animated: false);
+            await NavigationService.NavigateAsync("DashboardPartnersView", animated: false);
         }
 
         private async void KegsCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("KegSearchView", animated: false);
+            await NavigationService.NavigateAsync("KegSearchView", animated: false);
 
         }
 
         private async void PartnerCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("DashboardPartnersView", animated: false);
+            await NavigationService.NavigateAsync("DashboardPartnersView", animated: false);
         }
 
         private async void StockCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("InventoryView", new NavigationParameters
+            await NavigationService.NavigateAsync("InventoryView", new NavigationParameters
                     {
                         { "currentPage", 0 }
                     }, animated: false);
@@ -182,7 +182,7 @@ namespace KegID.ViewModel
 
         private async void EmptyCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("InventoryView", new NavigationParameters
+            await NavigationService.NavigateAsync("InventoryView", new NavigationParameters
                     {
                         { "currentPage", 1 }
                     }, animated: false);
@@ -190,7 +190,7 @@ namespace KegID.ViewModel
 
         private async void ManifestCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("ManifestsView", animated: false);
+            await NavigationService.NavigateAsync("ManifestsView", animated: false);
         }
 
         internal void CheckDraftmaniFests()
@@ -291,12 +291,12 @@ namespace KegID.ViewModel
 
         private async void FillCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("FillView", new NavigationParameters { { "UuId", _uuidManager.GetUuId() } }, animated: false);
+            await NavigationService.NavigateAsync("FillView", new NavigationParameters { { "UuId", _uuidManager.GetUuId() } }, animated: false);
         }
 
         private async void PalletizeCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("PalletizeView", new NavigationParameters
+            await NavigationService.NavigateAsync("PalletizeView", new NavigationParameters
                     {
                         { "GenerateManifestIdAsync", "GenerateManifestIdAsync" }
                     }, animated: false);
@@ -304,12 +304,12 @@ namespace KegID.ViewModel
 
         private async void PalletsCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("SearchPalletView", animated: false);
+            await NavigationService.NavigateAsync("SearchPalletView", animated: false);
         }
 
         private async void MaintainCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("MaintainView", new NavigationParameters
+            await NavigationService.NavigateAsync("MaintainView", new NavigationParameters
                     {
                         { "LoadMaintenanceTypeAsync", "LoadMaintenanceTypeAsync" }
                     }, animated: false);
@@ -318,7 +318,7 @@ namespace KegID.ViewModel
         public async void RefreshDashboardRecieverAsync(bool refresh = false)
         {
             if (refresh)
-                await _navigationService.ClearPopupStackAsync(animated: false);
+                await NavigationService.ClearPopupStackAsync(animated: false);
             var result = await ApiManager.GetDeshboardDetail(Settings.SessionId);
             if (result.IsSuccessStatusCode)
             {
@@ -350,7 +350,7 @@ namespace KegID.ViewModel
 
         private async void MoreCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("SettingView", animated: false);
+            await NavigationService.NavigateAsync("SettingView", animated: false);
         }
 
         public override async void OnNavigatedTo(INavigationParameters parameters)

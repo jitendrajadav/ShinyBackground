@@ -66,7 +66,7 @@ namespace KegID.ViewModel
                 switch ((EventTypeEnum)model.EventTypeId)
                 {
                     case EventTypeEnum.MOVE_MANIFEST:
-                        await _navigationService.NavigateAsync("MoveView", new NavigationParameters
+                        await NavigationService.NavigateAsync("MoveView", new NavigationParameters
                                 {
                                     { "AssignInitialValue", model }
                                 }, animated: false);
@@ -76,7 +76,7 @@ namespace KegID.ViewModel
                     case EventTypeEnum.RECEIVE_MANIFEST:
                         break;
                     case EventTypeEnum.FILL_MANIFEST:
-                        await _navigationService.NavigateAsync("FillView", new NavigationParameters
+                        await NavigationService.NavigateAsync("FillView", new NavigationParameters
                                 {
                                     { "AssignInitialValue", model }
                                 }, animated: false);
@@ -86,7 +86,7 @@ namespace KegID.ViewModel
                     case EventTypeEnum.RETURN_MANIFEST:
                         break;
                     case EventTypeEnum.REPAIR_MANIFEST:
-                        await _navigationService.NavigateAsync("MaintainView", new NavigationParameters
+                        await NavigationService.NavigateAsync("MaintainView", new NavigationParameters
                                 {
                                     { "AssignInitialValue", model }
                                 }, animated: false);
@@ -103,12 +103,12 @@ namespace KegID.ViewModel
 
         private async void HomeCommandRecieverAsync()
         {
-                await _navigationService.GoBackToRootAsync();
+                await NavigationService.GoBackToRootAsync();
         }
 
         private async void ActionSearchCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("SearchManifestsView", animated: false);
+            await NavigationService.NavigateAsync("SearchManifestsView", animated: false);
         }
 
         private void SelectedSegmentCommandReciever(object seg)

@@ -65,7 +65,7 @@ namespace KegID.ViewModel
         {
             bool accept = await _dialogService.DisplayAlertAsync("Cancel?", Resources["dialog_cancel_message"], "Stay here", "Leave");
             if (!accept)
-                await _navigationService.GoBackAsync(animated: false);
+                await NavigationService.GoBackAsync(animated: false);
         }
 
         private async Task SaveCommandRecieverAsync()
@@ -101,7 +101,7 @@ namespace KegID.ViewModel
             };
 
             var Result = await ApiManager.PostKegStatus(model, KegId, Settings.SessionId);
-            await _navigationService.GoBackAsync(new NavigationParameters
+            await NavigationService.GoBackAsync(new NavigationParameters
                     {
                         { "TagsStr", TagsStr },
                         { "Owner", Owner },
@@ -113,17 +113,17 @@ namespace KegID.ViewModel
 
         private async void PartnerCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("PartnersView", animated: false);
+            await NavigationService.NavigateAsync("PartnersView", animated: false);
         }
 
         private async void SizeCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("SizeView", animated: false);
+            await NavigationService.NavigateAsync("SizeView", animated: false);
         }
 
         private async void AddTagsCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("AddTagsView", new NavigationParameters
+            await NavigationService.NavigateAsync("AddTagsView", new NavigationParameters
                     {
                         {"viewTypeEnum",ViewTypeEnum.EditKegView }
                     }, animated: false);

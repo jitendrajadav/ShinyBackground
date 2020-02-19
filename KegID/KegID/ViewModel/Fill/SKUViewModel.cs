@@ -41,14 +41,14 @@ namespace KegID.ViewModel
 
         private async void AddBatchCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("AddBatchView", animated: false);
+            await NavigationService.NavigateAsync("AddBatchView", animated: false);
         }
 
         private async void ItemTappedCommandRecieverAsync(Sku model)
         {
             if (model != null)
             {
-                await _navigationService.GoBackAsync(new NavigationParameters
+                await NavigationService.GoBackAsync(new NavigationParameters
                     {
                         { "SKUModel", model }
                     }, animated: false);
@@ -70,7 +70,7 @@ namespace KegID.ViewModel
         {
             if (parameters.ContainsKey("NewBatchModel"))
             {
-                await _navigationService.GoBackAsync(parameters, animated: false);
+                await NavigationService.GoBackAsync(parameters, animated: false);
             }
             if (parameters.ContainsKey("ItemTappedCommandRecieverAsync"))
             {

@@ -148,7 +148,7 @@ namespace KegID.ViewModel
             if (model != null)
             {
                 ConstantManager.Partner = model;
-                await _navigationService.GoBackAsync(new NavigationParameters
+                await NavigationService.GoBackAsync(new NavigationParameters
                     {
                         { "model", model },{ "CommingFrom", CommingFrom }
                     }, animated: false);
@@ -202,18 +202,18 @@ namespace KegID.ViewModel
 
         private async void BackCommandRecieverAsync()
         {
-            await _navigationService.GoBackAsync(animated: false);
+            await NavigationService.GoBackAsync(animated: false);
             Cleanup();
         }
 
         private async void AddNewPartnerCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("AddPartnerView", animated: false);
+            await NavigationService.NavigateAsync("AddPartnerView", animated: false);
         }
 
         private async void SearchPartnerCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("SearchPartnersView", animated: false);
+            await NavigationService.NavigateAsync("SearchPartnersView", animated: false);
         }
 
         public void Cleanup()

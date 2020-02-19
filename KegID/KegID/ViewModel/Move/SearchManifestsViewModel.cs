@@ -56,7 +56,7 @@ namespace KegID.ViewModel
                 var json = await response.Content.ReadAsStringAsync();
                 var data = await Task.Run(() => JsonConvert.DeserializeObject<IList<ManifestSearchResponseModel>>(json, GetJsonSetting()));
 
-                await _navigationService.NavigateAsync("SearchedManifestsListView", new NavigationParameters
+                await NavigationService.NavigateAsync("SearchedManifestsListView", new NavigationParameters
                     {
                         { "SearchManifestsCollection", data }
                     }, animated: false);
@@ -66,17 +66,17 @@ namespace KegID.ViewModel
         private async void ManifestDestinationCommandRecieverAsync()
         {
             IsManifestDestination = true;
-            await _navigationService.NavigateAsync("PartnersView", animated: false);
+            await NavigationService.NavigateAsync("PartnersView", animated: false);
         }
 
         private async void ManifestSenderCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("PartnersView", animated: false);
+            await NavigationService.NavigateAsync("PartnersView", animated: false);
         }
 
         private async void ManifestsCommandRecieverAsync()
         {
-            await _navigationService.GoBackAsync(animated: false);
+            await NavigationService.GoBackAsync(animated: false);
         }
 
         internal void AssignPartnerValue(PartnerModel model)

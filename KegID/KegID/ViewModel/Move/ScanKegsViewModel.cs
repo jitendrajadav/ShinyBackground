@@ -149,7 +149,7 @@ namespace KegID.ViewModel
             else
             {
                 ConstantManager.IsFromScanned = true;
-                await _navigationService.NavigateAsync("AddTagsView", new NavigationParameters
+                await NavigationService.NavigateAsync("AddTagsView", new NavigationParameters
                     {
                         {"viewTypeEnum",ViewTypeEnum.ScanKegsView },
                         {"AddTagsViewInitialValue",model }
@@ -191,7 +191,7 @@ namespace KegID.ViewModel
                     }
                     else
                     {
-                        await _navigationService.NavigateAsync("ScanInfoView", new NavigationParameters
+                        await NavigationService.NavigateAsync("ScanInfoView", new NavigationParameters
                             {
                                 { "model", model }
                             }, animated: false);
@@ -202,7 +202,7 @@ namespace KegID.ViewModel
 
         private async Task NavigateToValidatePartner(List<BarcodeModel> model)
         {
-            await _navigationService.NavigateAsync("ValidateBarcodeView", new NavigationParameters
+            await NavigationService.NavigateAsync("ValidateBarcodeView", new NavigationParameters
                             {
                                 { "model", model }
                             }, animated: false);
@@ -210,7 +210,7 @@ namespace KegID.ViewModel
 
         private async void AddTagsCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("AddTagsView", new NavigationParameters
+            await NavigationService.NavigateAsync("AddTagsView", new NavigationParameters
                     {
                         {"viewTypeEnum", ViewTypeEnum.ScanKegsView },
                     }, animated: false);
@@ -229,7 +229,7 @@ namespace KegID.ViewModel
                 {
                     case "Remove unverified scans":
                         BarcodeCollection.Remove(alert.FirstOrDefault());
-                        await _navigationService.GoBackAsync(animated: false);
+                        await NavigationService.GoBackAsync(animated: false);
                         Cleanup();
 
                         break;
@@ -238,7 +238,7 @@ namespace KegID.ViewModel
                             {
                                 { "alert", alert }
                             };
-                        await _navigationService.NavigateAsync("AssignSizesView", param, animated: false);
+                        await NavigationService.NavigateAsync("AssignSizesView", param, animated: false);
                         break;
                     case "Countinue with current scans":
                         await NavigateNextPage();
@@ -264,7 +264,7 @@ namespace KegID.ViewModel
                 await NavigateToValidatePartner(BarcodeCollection.Where(x => x?.Kegs?.Partners?.Count > 1).ToList());
             else
             {
-                await _navigationService.GoBackAsync(animated: false);
+                await NavigationService.GoBackAsync(animated: false);
                 Cleanup();
             }
         }
@@ -442,7 +442,7 @@ namespace KegID.ViewModel
         internal async void BarcodeScanCommandReciever()
         {
             UpdateTagsStr();
-            await _navigationService.NavigateAsync("ScanditScanView", new NavigationParameters
+            await NavigationService.NavigateAsync("ScanditScanView", new NavigationParameters
                     {
                         { "Tags", ConstantManager.Tags },{ "TagsStr", TagsStr },{ "ViewTypeEnum", ViewTypeEnum.ScanKegsView }
                     }, animated: false);
@@ -499,7 +499,7 @@ namespace KegID.ViewModel
 
             if (HasDone && model.Kegs?.FirstOrDefault()?.MaintenanceItems?.Count < 0)
             {
-                await _navigationService.NavigateAsync("../../", animated: false);
+                await NavigationService.NavigateAsync("../../", animated: false);
                 Cleanup();
             }
             else
@@ -507,7 +507,7 @@ namespace KegID.ViewModel
                 var check = BarcodeCollection.Where(x => x?.Kegs?.Partners?.Count > 1).ToList();
                 if (check.Count == 0)
                 {
-                    await _navigationService.GoBackAsync(animated: false);
+                    await NavigationService.GoBackAsync(animated: false);
                 }
             }
 

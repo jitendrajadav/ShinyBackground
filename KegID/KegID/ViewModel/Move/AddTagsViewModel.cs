@@ -36,7 +36,7 @@ namespace KegID.ViewModel
         {
             if (!string.IsNullOrEmpty(Barcode))
             {
-                await _navigationService.GoBackAsync(new NavigationParameters
+                await NavigationService.GoBackAsync(new NavigationParameters
                                 {
                                     { "AddTags", ConstantManager.Tags },
                                     { "Barcode", Barcode }
@@ -44,7 +44,7 @@ namespace KegID.ViewModel
             }
             else
             {
-                await _navigationService.GoBackAsync(new NavigationParameters
+                await NavigationService.GoBackAsync(new NavigationParameters
                                 {
                                     { "AddTags", ConstantManager.Tags },
                             }, animated: false);

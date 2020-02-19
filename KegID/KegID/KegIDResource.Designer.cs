@@ -1393,6 +1393,15 @@ namespace KegID {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Batch scan.
+        /// </summary>
+        internal static string label_batch_scan {
+            get {
+                return ResourceManager.GetString("label_batch_scan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Beeps on valid scans.
         /// </summary>
         internal static string label_beeps_on_valid_scan {
@@ -2131,7 +2140,7 @@ namespace KegID {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Printer Settings.
+        ///   Looks up a localized string similar to Settings.
         /// </summary>
         internal static string label_printer_settings {
             get {

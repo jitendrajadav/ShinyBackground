@@ -47,7 +47,7 @@ namespace KegID.ViewModel
         {
             if (model != null)
             {
-                await _navigationService.GoBackAsync(new NavigationParameters
+                await NavigationService.GoBackAsync(new NavigationParameters
                     {
                         { "BrandModel", model }
                     }, animated: false);

@@ -38,7 +38,7 @@ namespace KegID.ViewModel
 
         private async void SearchManifestsCommandRecieverAsync()
         {
-            await _navigationService.GoBackAsync(animated: false);
+            await NavigationService.GoBackAsync(animated: false);
         }
 
         private async Task ItemTappedCommandRecieverAsync(ManifestSearchResponseModel model)
@@ -52,7 +52,7 @@ namespace KegID.ViewModel
                 var data = await Task.Run(() => JsonConvert.DeserializeObject<ManifestResponseModel>(json, GetJsonSetting()));
 
                 UserDialogs.Instance.HideLoading();
-                await _navigationService.NavigateAsync("ManifestDetailView", new NavigationParameters
+                await NavigationService.NavigateAsync("ManifestDetailView", new NavigationParameters
                     {
                         { "manifest", data }
                     }, animated: false);

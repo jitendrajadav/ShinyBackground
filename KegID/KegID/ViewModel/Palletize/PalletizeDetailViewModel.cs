@@ -66,14 +66,14 @@ namespace KegID.ViewModel
 
         private async void EditPalletCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("PalletizeView", animated: false);
+            await NavigationService.NavigateAsync("PalletizeView", animated: false);
         }
 
         private async void MovePalletCommandRecieverAsync()
         {
             // here we needs to pass value for e.g Barcode only string value, KegId Optional and Manifest but those value we have to fetch from
             // AssingIntialValueAsync() this needs to correct
-            await _navigationService.NavigateAsync("MoveView", new NavigationParameters
+            await NavigationService.NavigateAsync("MoveView", new NavigationParameters
                     {
                         { "AssignInitialValueFromKegStatus", Barcodes },
                         { "KegId", string.Empty },
@@ -83,7 +83,7 @@ namespace KegID.ViewModel
 
         private async void GridTappedCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("ContentTagsView", new NavigationParameters
+            await NavigationService.NavigateAsync("ContentTagsView", new NavigationParameters
                             {
                                 { "Barcode", Barcodes }
                             }, animated: false);
@@ -126,7 +126,7 @@ namespace KegID.ViewModel
         private async void HomeCommandRecieverAsync()
         {
             ConstantManager.Barcodes.Clear();
-            await _navigationService.GoBackToRootAsync();
+            await NavigationService.GoBackToRootAsync();
         }
 
         internal void LoadInfo(PalletResponseModel value)

@@ -47,8 +47,8 @@ namespace KegID.ViewModel
 
         private async void AboutAppCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("AboutAppView", animated: false);
-            await _navigationService.ClearPopupStackAsync("SettingView", null);
+            await NavigationService.NavigateAsync("AboutAppView", animated: false);
+            await NavigationService.ClearPopupStackAsync("SettingView", null);
         }
 
         private void RefreshSettingCommandRecieverAsync()
@@ -72,21 +72,21 @@ namespace KegID.ViewModel
                     {
                         { "IsLogOut",true}
                     };
-                await _navigationService.ClearPopupStackAsync(animated: false);
-                await _navigationService.NavigateAsync("/NavigationPage/LoginView", param, animated: false);
+                await NavigationService.ClearPopupStackAsync(animated: false);
+                await NavigationService.NavigateAsync("/NavigationPage/LoginView", param, animated: false);
             }
         }
 
         private async void PrinterSettingCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("PrinterSettingView", animated: false);
-            await _navigationService.ClearPopupStackAsync("SettingView", null);
+            await NavigationService.NavigateAsync("PrinterSettingView", animated: false);
+            await NavigationService.ClearPopupStackAsync("SettingView", null);
         }
 
         private async void WhatsNewCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("WhatIsNewView", animated: false);
-            await _navigationService.ClearPopupStackAsync("SettingView", null, animated: false);
+            await NavigationService.NavigateAsync("WhatIsNewView", animated: false);
+            await NavigationService.ClearPopupStackAsync("SettingView", null, animated: false);
         }
 
         private async void SupportCommandRecieverAsync()
@@ -100,7 +100,7 @@ namespace KegID.ViewModel
             else
                 mWebRoot = "https://test.kegid.com";
 
-            await _navigationService.ClearPopupStackAsync(animated: false);
+            await NavigationService.ClearPopupStackAsync(animated: false);
             //await Application.Current.MainPage.Navigation.PopPopupAsync();
             // You can remove the switch to UI Thread if you are already in the UI Thread.
             Device.BeginInvokeOnMainThread(() =>

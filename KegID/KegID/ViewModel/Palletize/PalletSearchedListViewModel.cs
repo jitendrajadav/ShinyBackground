@@ -38,10 +38,10 @@ namespace KegID.ViewModel
 
         private async void BackCommandRecieverAsync()
         {
-            await _navigationService.GoBackAsync(animated: false);
+            await NavigationService.GoBackAsync(animated: false);
         }
 
-        internal async Task GetPalletSearchAsync(string partnerId, string fromDate, string toDate, string kegs, string kegOwnerId)
+        internal async Task GetPalletSearchAsync(string fromDate, string toDate, string kegs, string kegOwnerId)
         {
             UserDialogs.Instance.ShowLoading("Loading");
             //needs to assing partnerId??string.Empty once backend is ready...
@@ -59,7 +59,7 @@ namespace KegID.ViewModel
 
         private async void ItemTappedCommandRecieverAsync(SearchPalletResponseModel model)
         {
-            await _navigationService.NavigateAsync("PalletizeDetailView", new NavigationParameters
+            await NavigationService.NavigateAsync("PalletizeDetailView", new NavigationParameters
                     {
                         { "model", model }
                     }, animated: false);
@@ -69,7 +69,7 @@ namespace KegID.ViewModel
         {
             if (parameters.ContainsKey("GetPalletSearchAsync"))
             {
-                await RunSafe(GetPalletSearchAsync(parameters.GetValue<string>("GetPalletSearchAsync"), parameters.GetValue<string>("FromDate"), parameters.GetValue<string>("ToDate"), string.Empty, string.Empty));
+                await RunSafe(GetPalletSearchAsync(parameters.GetValue<string>("FromDate"), parameters.GetValue<string>("ToDate"), string.Empty, string.Empty));
             }
 
             //return base.InitializeAsync(parameters);

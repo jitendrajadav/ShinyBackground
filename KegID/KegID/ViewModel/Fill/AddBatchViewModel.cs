@@ -66,12 +66,12 @@ namespace KegID.ViewModel
 
         private async void VolumeCharCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("VolumeView", animated: false);
+            await NavigationService.NavigateAsync("VolumeView", animated: false);
         }
 
         private async void BrandCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("BrandView", animated: false);
+            await NavigationService.NavigateAsync("BrandView", animated: false);
         }
 
         private async void DoneCommandRecieverAsync()
@@ -94,7 +94,7 @@ namespace KegID.ViewModel
                 NewBatchModel.RecipeId = Settings.CompanyId;
                 NewBatchModel.SourceKey = "";
 
-                await _navigationService.GoBackAsync(new NavigationParameters { { "NewBatchModel", NewBatchModel } }, animated: false);
+                await NavigationService.GoBackAsync(new NavigationParameters { { "NewBatchModel", NewBatchModel } }, animated: false);
             }
             else
             {
@@ -104,12 +104,12 @@ namespace KegID.ViewModel
 
         private async void CancelCommandRecieverAsync()
         {
-            await _navigationService.GoBackAsync(animated: false);
+            await NavigationService.GoBackAsync(animated: false);
         }
 
         private async void AddTagsCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("AddTagsView", new NavigationParameters
+            await NavigationService.NavigateAsync("AddTagsView", new NavigationParameters
                     {
                         {"viewTypeEnum",ViewTypeEnum.AddBatchView }
                     }, animated: false);

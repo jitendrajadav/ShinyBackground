@@ -101,7 +101,7 @@ namespace KegID.ViewModel
 
         private async void SendKegsCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("MoveView", new NavigationParameters
+            await NavigationService.NavigateAsync("MoveView", new NavigationParameters
                     {
                         { "PartnerModel", PartnerModel }
                     }, animated: false);
@@ -116,7 +116,7 @@ namespace KegID.ViewModel
                 Label = PartnerInfoModel.BillAddress.City,
                 Address = PartnerInfoModel.BillAddress.Line1
             };
-            await _navigationService.NavigateAsync("PartnerInfoMapView", new NavigationParameters
+            await NavigationService.NavigateAsync("PartnerInfoMapView", new NavigationParameters
                     {
                         { "PartnerInfoModel", PartnerInfoModel }
                     }, animated: false);
@@ -124,7 +124,7 @@ namespace KegID.ViewModel
 
         private async void KegsCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("KegsView", animated: false);
+            await NavigationService.NavigateAsync("KegsView", animated: false);
         }
 
         private void PhoneNumberCommandReciever()
@@ -190,7 +190,7 @@ namespace KegID.ViewModel
 
         private async void EditCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("AddPartnerView", new NavigationParameters
+            await NavigationService.NavigateAsync("AddPartnerView", new NavigationParameters
                     {
                         { "PartnerInfoModel", PartnerInfoModel }
                     }, animated: false);
@@ -198,7 +198,7 @@ namespace KegID.ViewModel
 
         private async void PartnersCommandRecieverAsync()
         {
-            await _navigationService.GoBackAsync(animated: false);
+            await NavigationService.GoBackAsync(animated: false);
         }
 
         public override Task InitializeAsync(INavigationParameters parameters)

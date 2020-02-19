@@ -16,6 +16,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
+using System.Linq;
 
 namespace KegID.ViewModel
 {
@@ -209,7 +210,7 @@ namespace KegID.ViewModel
             manifest.ReceiverShipAddress = new Address { City = ConstantManager.Partner.City, Country = ConstantManager.Partner.Country, Geocoded = false, Latitude = (long)ConstantManager.Partner.Lat, Line1 = ConstantManager.Partner.Address, Line2 = ConstantManager.Partner.Address1, Longitude = (long)ConstantManager.Partner.Lon, PostalCode = ConstantManager.Partner.PostalCode, State = ConstantManager.Partner.State };
 
 
-            await _navigationService.NavigateAsync("ManifestDetailView", new NavigationParameters
+            await NavigationService.NavigateAsync("ManifestDetailView", new NavigationParameters
                                 {
                                     { "manifest", manifest },{ "Contents", Contents }
                                 }, animated: false);
@@ -271,7 +272,7 @@ namespace KegID.ViewModel
                    });
                 }
 
-                await _navigationService.NavigateAsync("ManifestsView",
+                await NavigationService.NavigateAsync("ManifestsView",
                     new NavigationParameters
                     {
                                 { "LoadDraftManifestAsync", "LoadDraftManifestAsync" }
@@ -320,7 +321,7 @@ namespace KegID.ViewModel
             {
                 // Delete an object with a transaction
                 DeleteManifest(ManifestId);
-                await _navigationService.GoBackAsync(animated: false);
+                await NavigationService.GoBackAsync(animated: false);
             }
             else if (result == "Save as draft")
             {
@@ -333,17 +334,20 @@ namespace KegID.ViewModel
         private void DeleteManifest(string manifestId)
         {
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-            var manifest = RealmDb.All<ManifestModel>().First(b => b.ManifestId == manifestId);
-            using (var trans = RealmDb.BeginWrite())
+            var manifest = RealmDb.Find<ManifestModel>(manifestId);
+            if (manifest != null)
             {
-                RealmDb.Remove(manifest);
-                trans.Commit();
+                using (var trans = RealmDb.BeginWrite())
+                {
+                    RealmDb.Remove(manifest);
+                    trans.Commit();
+                } 
             }
         }
 
         private async void SelectLocationCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("PartnersView", new NavigationParameters
+            await NavigationService.NavigateAsync("PartnersView", new NavigationParameters
                     {
                         { "GoingFrom",  "Destination" }
                     }, animated: false);
@@ -351,7 +355,7 @@ namespace KegID.ViewModel
 
         private async void SelectOriginLocationCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("PartnersView", new NavigationParameters
+            await NavigationService.NavigateAsync("PartnersView", new NavigationParameters
                     {
                         { "GoingFrom",  "MoveOrigin" }
                     }, animated: false);
@@ -359,7 +363,7 @@ namespace KegID.ViewModel
 
         private async void MoreInfoCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("AddTagsView", new NavigationParameters
+            await NavigationService.NavigateAsync("AddTagsView", new NavigationParameters
                     {
                         {"viewTypeEnum",ViewTypeEnum.MoveView }
                     }, animated: false);
@@ -386,14 +390,14 @@ namespace KegID.ViewModel
             {
                 if (TargetIdiom.Tablet == Device.Idiom)
                 {
-                    await _navigationService.NavigateAsync("ScanKegsTabView", new NavigationParameters
+                    await NavigationService.NavigateAsync("ScanKegsTabView", new NavigationParameters
                             {
                                 { "models", Barcodes }
                             }, animated: false);
                 }
                 else
                 {
-                    await _navigationService.NavigateAsync("ScanKegsView", new NavigationParameters
+                    await NavigationService.NavigateAsync("ScanKegsView", new NavigationParameters
                             {
                                 { "models", Barcodes }
                             }, animated: false);
@@ -403,11 +407,11 @@ namespace KegID.ViewModel
             {
                 if (TargetIdiom.Tablet == Device.Idiom)
                 {
-                    await _navigationService.NavigateAsync("ScanKegsTabView", animated: false);
+                    await NavigationService.NavigateAsync("ScanKegsTabView", animated: false);
                 }
                 else
                 {
-                    await _navigationService.NavigateAsync("ScanKegsView", animated: false);
+                    await NavigationService.NavigateAsync("ScanKegsView", animated: false);
                 }
             }
         }

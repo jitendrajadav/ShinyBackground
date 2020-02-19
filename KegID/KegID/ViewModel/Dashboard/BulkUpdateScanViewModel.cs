@@ -147,7 +147,7 @@ namespace KegID.ViewModel
             }
             else
             {
-                await _navigationService.NavigateAsync("ScanInfoView", new NavigationParameters
+                await NavigationService.NavigateAsync("ScanInfoView", new NavigationParameters
                     {
                         { "model", model }
                     }, animated: false);
@@ -167,7 +167,7 @@ namespace KegID.ViewModel
             else
             {
                 ConstantManager.IsFromScanned = true;
-                await _navigationService.NavigateAsync("AddTagsView", new NavigationParameters
+                await NavigationService.NavigateAsync("AddTagsView", new NavigationParameters
                     {
                         {"viewTypeEnum",ViewTypeEnum.BulkUpdateScanView }
                     }, animated: false);
@@ -177,7 +177,7 @@ namespace KegID.ViewModel
 
         private async Task NavigateToValidatePartner(List<BarcodeModel> model)
         {
-            await _navigationService.NavigateAsync("ValidateBarcodeView", new NavigationParameters
+            await NavigationService.NavigateAsync("ValidateBarcodeView", new NavigationParameters
                     {
                         { "model", model }
                     }, animated: false);
@@ -185,7 +185,7 @@ namespace KegID.ViewModel
 
         private async void AddTagsCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("AddTagsView", new NavigationParameters
+            await NavigationService.NavigateAsync("AddTagsView", new NavigationParameters
                     {
                         {"viewTypeEnum",ViewTypeEnum.BulkUpdateScanView }
                     }, animated: false);
@@ -258,7 +258,7 @@ namespace KegID.ViewModel
 
         private async void BarcodeScanCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("CognexScanView", new NavigationParameters
+            await NavigationService.NavigateAsync("CognexScanView", new NavigationParameters
                     {
                         { "Tags", Tags },{ "TagsStr", TagsStr },{ "ViewTypeEnum", ViewTypeEnum.BulkUpdateScanView }
                     }, animated: false);
@@ -294,7 +294,7 @@ namespace KegID.ViewModel
                 var value = await ApiManager.PostKegUpload(model, Settings.SessionId);
                 if (value.IsSuccessStatusCode)
                 {
-                    await _navigationService.GoBackAsync(new NavigationParameters
+                    await NavigationService.GoBackAsync(new NavigationParameters
                         {
                             { "AssingSuccessMsgAsync", "AssingSuccessMsgAsync" }
                         }, animated: false);
@@ -310,7 +310,7 @@ namespace KegID.ViewModel
 
         private async void CancelCommandRecieverAsync()
         {
-            await _navigationService.GoBackAsync(animated: false);
+            await NavigationService.GoBackAsync(animated: false);
         }
 
         internal void AssignAddTagsValue(List<Tag> _tags, string _tagsStr)

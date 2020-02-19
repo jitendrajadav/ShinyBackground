@@ -112,7 +112,7 @@ namespace KegID.ViewModel
             {
                 ConstantManager.DBPartnerId = model.Location.PartnerId;
 
-                await _navigationService.NavigateAsync("PartnerInfoView", new NavigationParameters
+                await NavigationService.NavigateAsync("PartnerInfoView", new NavigationParameters
                     {
                         { "PartnerModel", model }
                     }, animated: false);
@@ -121,12 +121,12 @@ namespace KegID.ViewModel
 
         private async void BackCommandRecieverAsync()
         {
-            await _navigationService.GoBackAsync(animated: false);
+            await NavigationService.GoBackAsync(animated: false);
         }
 
         private async void AddNewPartnerCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("AddPartnerView", animated: false);
+            await NavigationService.NavigateAsync("AddPartnerView", animated: false);
 
         }
 

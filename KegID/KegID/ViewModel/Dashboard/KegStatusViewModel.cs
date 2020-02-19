@@ -94,7 +94,7 @@ namespace KegID.ViewModel
 
         private async void MoveKegCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("MoveView", new NavigationParameters
+            await NavigationService.NavigateAsync("MoveView", new NavigationParameters
                     {
                         { "AssignInitialValueFromKegStatus", Barcode },
                         { "KegId", KegId },
@@ -158,7 +158,7 @@ namespace KegID.ViewModel
 
         private async void KegsCommandRecieverAsync()
         {
-            await _navigationService.GoBackAsync(animated: false);
+            await NavigationService.GoBackAsync(animated: false);
             KegHasAlert = false;
             Alerts = null;
             MaintenanceCollection.Clear();
@@ -167,7 +167,7 @@ namespace KegID.ViewModel
 
         private async void EditCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("EditKegView", new NavigationParameters
+            await NavigationService.NavigateAsync("EditKegView", new NavigationParameters
                     {
                         { "AssignInitialValue", Barcode }, {"KegId",KegId },{"Owner",Owner },{"TypeName",TypeName },{"SizeName",SizeName }
                     }, animated: false);
@@ -189,7 +189,7 @@ namespace KegID.ViewModel
         private async void CurrentLocationCommandRecieverAsync()
         {
             ConstantManager.Position = Posision;
-            await _navigationService.NavigateAsync("PartnerInfoMapView", new NavigationParameters
+            await NavigationService.NavigateAsync("PartnerInfoMapView", new NavigationParameters
                     {
                         { "Posision", Posision }
                     }, animated: false);

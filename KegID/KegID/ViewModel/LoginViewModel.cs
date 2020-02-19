@@ -96,14 +96,14 @@ namespace KegID.ViewModel
                 var versionUpdated = VersionTracking.CurrentVersion.CompareTo(VersionTracking.PreviousVersion);
                 if (versionUpdated > 0 && VersionTracking.PreviousVersion != null && VersionTracking.IsFirstLaunchForCurrentVersion)
                 {
-                    await _navigationService.NavigateAsync("../WhatIsNewView", animated: false);
+                    await NavigationService.NavigateAsync("../WhatIsNewView", animated: false);
                 }
                 else
                 {
                     if (TargetIdiom.Tablet == Device.Idiom)
-                        await _navigationService.NavigateAsync("../MainPageTablet", animated: false);
+                        await NavigationService.NavigateAsync("../MainPageTablet", animated: false);
                     else
-                        await _navigationService.NavigateAsync("../MainPage", animated: false);
+                        await NavigationService.NavigateAsync("../MainPage", animated: false);
                 }
                 if (!IsLogOut)
                 {
@@ -149,7 +149,7 @@ namespace KegID.ViewModel
                     {
                         { "IsLogOut",true}
                     };
-                    await _navigationService.NavigateAsync("/NavigationPage/LoginView", param);
+                    await NavigationService.NavigateAsync("/NavigationPage/LoginView", param);
                 }
 
                 Device.StartTimer(TimeSpan.FromMilliseconds(KegRefresh), () =>

@@ -1714,7 +1714,7 @@
     <value>Pallet label copies</value>
   </data>
   <data name="label_printer_settings" xml:space="preserve">
-    <value>Printer Settings</value>
+    <value>Settings</value>
   </data>
   <data name="label_print_every_menifest" xml:space="preserve">
     <value>Print every manifest</value>
@@ -1835,5 +1835,8 @@
   </data>
   <data name="scanditiOSKey" xml:space="preserve">
     <value>AfZLcFjmRttIKSgzrTsvZw0OHeoICxs+IzO9Pg1aN8CUY8E1Z0MAn45SJfUGK87Wh0BYqftD6k1gSltf02cobChLzolPYriTmguX/JExthMvWtJ0yETXKQpzBuPofaSpInozs9oUmwzANmdGCgPpvCz2IURgWo3zmR+2sfZJ+/r4mT3BN84LmBNpecZkv2yXhv9qXf69wkqAoNqXEOa8q8BWFqT6h982b8ZVLbW+NhBFv8atAVLgLFYZbI17CFzCAoBhJCIIM1be0R/EWiHHJkVuU53vSNtkSLrVgglb5NMOKjTegI0hqEca3g+VTPms6j3/DsdwOGXZfg4fvRGNky1Pkh3FOcP250pLl+ew6BJwt15+9u6arSB0CN+c4ZgzLvkT7V+Xkn8rN6VAgLvLEPS+A+SONdjlJboQbXE8mWEKBJ1tmc8/62cRhSB0u0FdisIefUmTyx44kml8rDIrLKgwCf/bv6sWMuMo8gvyN72JWFtHm3jkTQ69M5F4hcTHvtvF6e15NM++1jmncBHuuqtRAwe8UokSiodH1nDMiVwLDWO3pgsLNH5H+U7Gi3OunUkUyQVFgvsxUTTSheH3RSkfndvisePsV1UKtJWTxM8qWUrZtB+hPyOLEWt7dUJOsTNSySb2BeLGaWwD8f3AS51tuBAbMLjFY3iFfqfH6I3mnSRxQM3J9w2cIpeISyrzsdtrSOrj/2QUr2EyrmzjZNhgUEt4I4XqesfFGgxLnUwNww8wDHGAWJs+rGi8vrytJWjrHfINYlPbIv0jSQYX0bMBB/FOIfohuTnMwZI4myACRG8gB2KhBiUE</value>
+  </data>
+  <data name="label_batch_scan" xml:space="preserve">
+    <value>Batch scan</value>
   </data>
 </root>

@@ -188,21 +188,21 @@ namespace KegID.ViewModel
         {
             ConstantManager.Barcodes = BarcodeCollection;
             ConstantManager.Tags = Tags;
-            var formsNav = ((Prism.Common.IPageAware)_navigationService).Page;
+            var formsNav = ((Prism.Common.IPageAware)NavigationService).Page;
             var page = formsNav.Navigation.NavigationStack[formsNav.Navigation.NavigationStack.Count - 2];
             (page?.BindingContext as INavigationAware)?.OnNavigatedTo(new NavigationParameters
                     {
                         { "Barcodes", BarcodeCollection },{ "BatchId", BatchId }
                     });
 
-            await _navigationService.ClearPopupStackAsync(animated: false);
+            await NavigationService.ClearPopupStackAsync(animated: false);
             if (IsPalletze)
             {
-                await _navigationService.GoBackAsync(animated: false);
+                await NavigationService.GoBackAsync(animated: false);
             }
             else
             {
-                await _navigationService.NavigateAsync("FillScanReviewView", new NavigationParameters
+                await NavigationService.NavigateAsync("FillScanReviewView", new NavigationParameters
                     {
                         { "BatchId", BatchId },{ "Count", BarcodeCollection.Count }
                     }, animated: false);
@@ -285,7 +285,7 @@ namespace KegID.ViewModel
             }
             else
             {
-                await _navigationService.NavigateAsync("AddTagsView", new NavigationParameters
+                await NavigationService.NavigateAsync("AddTagsView", new NavigationParameters
                     {
                         {"viewTypeEnum",ViewTypeEnum.FillScanView },
                         {"AddTagsViewInitialValue",model }
@@ -326,7 +326,7 @@ namespace KegID.ViewModel
                     }
                     else
                     {
-                        await _navigationService.NavigateAsync("ScanInfoView", new NavigationParameters
+                        await NavigationService.NavigateAsync("ScanInfoView", new NavigationParameters
                             {
                                 { "model", model }
                             }, animated: false);
@@ -338,7 +338,7 @@ namespace KegID.ViewModel
 
         private async Task NavigateToValidatePartner(List<BarcodeModel> model)
         {
-            await _navigationService.NavigateAsync("ValidateBarcodeView", new NavigationParameters
+            await NavigationService.NavigateAsync("ValidateBarcodeView", new NavigationParameters
                     {
                         { "model", model }
                     }, animated: false);
@@ -439,7 +439,7 @@ namespace KegID.ViewModel
 
         private async Task NavigateToFillScanReview()
         {
-            await _navigationService.NavigateAsync("FillScanReviewView",
+            await NavigationService.NavigateAsync("FillScanReviewView",
                                         new NavigationParameters
                                         {
                                 { "BatchId", BatchId },{ "BarcodeCollection", BarcodeCollection }
@@ -482,7 +482,7 @@ namespace KegID.ViewModel
                             PrintPallet();
                         })).Start();
 
-                        await _navigationService.GoBackAsync(new NavigationParameters
+                        await NavigationService.GoBackAsync(new NavigationParameters
                                     {
                                         { "AssignValueToAddPalletAsync", BatchId }, { "BarcodesCollection", BarcodeCollection },
                                     }, animated: false);
@@ -492,7 +492,7 @@ namespace KegID.ViewModel
                             {
                                 { "alert", alert }
                             };
-                        await _navigationService.NavigateAsync("AssignSizesView", param, animated: false);
+                        await NavigationService.NavigateAsync("AssignSizesView", param, animated: false);
 
                         break;
                     case "Continue with current scans":
@@ -519,7 +519,7 @@ namespace KegID.ViewModel
             {
                 PrintPallet();
 
-                await _navigationService.GoBackAsync(new NavigationParameters
+                await NavigationService.GoBackAsync(new NavigationParameters
                                     {
                                         { "AssignValueToAddPalletAsync", BatchId }, { "BarcodesCollection", BarcodeCollection },
                                     }, animated: false);
@@ -542,7 +542,7 @@ namespace KegID.ViewModel
         {
             if (!Lastbadscan)
             {
-                await _navigationService.GoBackAsync(new NavigationParameters
+                await NavigationService.GoBackAsync(new NavigationParameters
                 {
                     { "BarcodeCollection", BarcodeCollection },
                     { "BatchId", BatchId },
@@ -558,7 +558,7 @@ namespace KegID.ViewModel
 
         private async void BarcodeScanCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("ScanditScanView", new NavigationParameters
+            await NavigationService.NavigateAsync("ScanditScanView", new NavigationParameters
                     {
                         { "Tags", Tags },{ "TagsStr", TagsStr },{ "ViewTypeEnum", ViewTypeEnum.FillScanView }
                     }, animated: false);
@@ -580,7 +580,7 @@ namespace KegID.ViewModel
         {
             if (!Lastbadscan)
             {
-                await _navigationService.NavigateAsync("AddTagsView", new NavigationParameters
+                await NavigationService.NavigateAsync("AddTagsView", new NavigationParameters
                     {
                         {"viewTypeEnum",ViewTypeEnum.FillScanView }
                     }, animated: false);
@@ -626,7 +626,7 @@ namespace KegID.ViewModel
 
 
             if (!BarcodeCollection.Any(x => x?.Kegs?.Partners?.Count > 1))
-                await _navigationService.GoBackAsync(animated: false);
+                await NavigationService.GoBackAsync(animated: false);
 
         }
 

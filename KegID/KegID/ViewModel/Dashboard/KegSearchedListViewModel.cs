@@ -38,12 +38,12 @@ namespace KegID.ViewModel
 
         private async void KegSearchCommandRecieverAsync()
         {
-            await _navigationService.GoBackAsync(animated: false);
+            await NavigationService.GoBackAsync(animated: false);
         }
 
         private async void ItemTappedCommandRecieverAsync(KegSearchResponseModel model)
         {
-            await _navigationService.NavigateAsync("KegStatusView", new NavigationParameters
+            await NavigationService.NavigateAsync("KegStatusView", new NavigationParameters
                     {
                         { "KegSearchedKegStatusModel", model }
                     }, animated: false);

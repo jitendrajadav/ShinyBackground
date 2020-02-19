@@ -45,7 +45,7 @@ namespace KegID.ViewModel
 
         private async void GridTappedCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("ContentTagsView", new NavigationParameters
+            await NavigationService.NavigateAsync("ContentTagsView", new NavigationParameters
                             {
                                 { "Barcode", Barcodes }
                             }, animated: false);
@@ -53,7 +53,7 @@ namespace KegID.ViewModel
 
         private async void HomeCommandCommandRecieverAsync()
         {
-            await _navigationService.GoBackToRootAsync();
+            await NavigationService.GoBackToRootAsync();
         }
 
         internal void LoadInfo(IList<BarcodeModel> barcodeCollection)

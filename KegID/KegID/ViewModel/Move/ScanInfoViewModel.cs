@@ -39,7 +39,7 @@ namespace KegID.ViewModel
 
         private async void DoneCommandRecieverAsync()
         {
-            await _navigationService.GoBackAsync(animated: false);
+            await NavigationService.GoBackAsync(animated: false);
         }
 
         internal void AssignInitialValue(BarcodeModel _barcode)

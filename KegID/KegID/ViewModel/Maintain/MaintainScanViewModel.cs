@@ -142,7 +142,7 @@ namespace KegID.ViewModel
                 BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode).FirstOrDefault().Icon = _getIconByPlatform.GetIcon(ValidationOK);
             }
 
-            await _navigationService.GoBackAsync(animated: false);
+            await NavigationService.GoBackAsync(animated: false);
 
             foreach (var item in BarcodeCollection.Where(x => x.Barcode == model.Kegs.FirstOrDefault().Barcode))
             {
@@ -162,7 +162,7 @@ namespace KegID.ViewModel
             }
             else
             {
-                await _navigationService.NavigateAsync("AddTagsView", new NavigationParameters
+                await NavigationService.NavigateAsync("AddTagsView", new NavigationParameters
                     {
                         {"viewTypeEnum",ViewTypeEnum.MaintainScanView },
                         {"AddTagsViewInitialValue",model }
@@ -182,7 +182,7 @@ namespace KegID.ViewModel
             }
             else
             {
-                await _navigationService.NavigateAsync("ScanInfoView", new NavigationParameters
+                await NavigationService.NavigateAsync("ScanInfoView", new NavigationParameters
                     {
                         { "model", model }
                     }, animated: false);
@@ -191,7 +191,7 @@ namespace KegID.ViewModel
 
         private async Task NavigateToValidatePartner(List<BarcodeModel> models)
         {
-            await _navigationService.NavigateAsync("ValidateBarcodeView", new NavigationParameters
+            await NavigationService.NavigateAsync("ValidateBarcodeView", new NavigationParameters
                     {
                         { "model", models }
                     }, animated: false);
@@ -255,7 +255,7 @@ namespace KegID.ViewModel
 
         private async Task GetPostedManifestDetail()
         {
-            await _navigationService.NavigateAsync("MaintainDetailView",
+            await NavigationService.NavigateAsync("MaintainDetailView",
                               new NavigationParameters
                               {
                                 {
@@ -296,7 +296,7 @@ namespace KegID.ViewModel
 
         private async void BarcodeScanCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("ScanditScanView", new NavigationParameters
+            await NavigationService.NavigateAsync("ScanditScanView", new NavigationParameters
                     {
                         { "Tags", null },{ "TagsStr", string.Empty },{ "ViewTypeEnum", ViewTypeEnum.MaintainScanView }
                     }, animated: false);
@@ -310,7 +310,7 @@ namespace KegID.ViewModel
 
         private async void BackCommandRecieverAsync()
         {
-            await _navigationService.GoBackAsync(animated: false);
+            await NavigationService.GoBackAsync(animated: false);
         }
 
         public async Task SubmitCommandRecieverAsync()

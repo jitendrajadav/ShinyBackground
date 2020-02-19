@@ -111,7 +111,7 @@ namespace KegID.ViewModel
 
         private async void BillingAddressCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("EditAddressView", new NavigationParameters
+            await NavigationService.NavigateAsync("EditAddressView", new NavigationParameters
                     {
                         { "AddressTitle", "Billing Address" }
                     }, animated: false);
@@ -119,7 +119,7 @@ namespace KegID.ViewModel
 
         private async void ShippingAddressCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("EditAddressView", new NavigationParameters
+            await NavigationService.NavigateAsync("EditAddressView", new NavigationParameters
                     {
                         { "AddressTitle", "Shipping Address" }
                     }, animated: false);
@@ -130,7 +130,7 @@ namespace KegID.ViewModel
             bool accept = await _dialogService.DisplayAlertAsync("Cancel?", "Are you sure you want to cancel?", "Stay here", "Leave");
             if (!accept)
             {
-                await _navigationService.GoBackAsync(animated: false);
+                await NavigationService.GoBackAsync(animated: false);
             }
         }
 
@@ -198,7 +198,7 @@ namespace KegID.ViewModel
                  {
                      realmDb.Add(partnerModel);
                  });
-                await _navigationService.GoBackAsync(new NavigationParameters
+                await NavigationService.GoBackAsync(new NavigationParameters
                         {
                             { "partnerModel", partnerModel }
                         }, animated: false);

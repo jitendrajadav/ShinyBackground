@@ -100,12 +100,12 @@ namespace KegID.ViewModel
 
         private async void HomeCommandRecieverAsync()
         {
-            await _navigationService.GoBackAsync(animated: false);
+            await NavigationService.GoBackAsync(animated: false);
         }
 
         private async void PartnerCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("PartnersView", animated: false);
+            await NavigationService.NavigateAsync("PartnersView", animated: false);
         }
 
         private async void NextCommandRecieverAsync()
@@ -113,7 +113,7 @@ namespace KegID.ViewModel
             var selectedMaintenance = MaintainTypeCollection.Where(x => x.IsToggled).ToList();
             if (selectedMaintenance.Count > 0)
             {
-                await _navigationService.NavigateAsync("MaintainScanView",
+                await NavigationService.NavigateAsync("MaintainScanView",
                     new NavigationParameters
                     {
                             { "Notes", Notes },
@@ -141,7 +141,7 @@ namespace KegID.ViewModel
             }
             if (parameters.ContainsKey("MaintainHome"))
             {
-                await _navigationService.GoBackAsync(animated: false);
+                await NavigationService.GoBackAsync(animated: false);
             }
             if (parameters.ContainsKey("HomeCommandRecieverAsync"))
             {

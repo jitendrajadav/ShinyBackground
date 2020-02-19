@@ -150,7 +150,7 @@ namespace KegID.ViewModel
             {
                 // Delete an object with a transaction
                 DeleteManifest(ManifestId);
-                _ = await _navigationService.GoBackAsync(animated: false);
+                _ = await NavigationService.GoBackAsync(animated: false);
             }
             else
             {
@@ -180,7 +180,7 @@ namespace KegID.ViewModel
                     RealmDb.Write(() => RealmDb.Add(manifestModel));
                 }
 
-                await _navigationService.NavigateAsync("ManifestsView",
+                await NavigationService.NavigateAsync("ManifestsView",
                     new NavigationParameters { { "LoadDraftManifestAsync", "LoadDraftManifestAsync" } }, animated: false);
             }
             else
@@ -264,11 +264,14 @@ namespace KegID.ViewModel
         private void DeleteManifest(string manifestId)
         {
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-            var manifest = RealmDb.All<ManifestModel>().First(b => b.ManifestId == manifestId);
-            using (var trans = RealmDb.BeginWrite())
+            var manifest = RealmDb.Find<ManifestModel>(manifestId);
+            if (manifest != null)
             {
-                RealmDb.Remove(manifest);
-                trans.Commit();
+                using (var trans = RealmDb.BeginWrite())
+                {
+                    RealmDb.Remove(manifest);
+                    trans.Commit();
+                } 
             }
             ConstantManager.Barcodes?.Clear();
             PalletCollection?.Clear();
@@ -280,7 +283,7 @@ namespace KegID.ViewModel
             {
                 if (IsPalletze)
                 {
-                    await _navigationService.NavigateAsync("AddPalletsView", new NavigationParameters
+                    await NavigationService.NavigateAsync("AddPalletsView", new NavigationParameters
                         {
                             { "AddPalletsTitle", "Filling " + SizeButtonTitle + " kegs with " + BatchButtonTitle + "\n" + DestinationTitle },
                             {"PalletCollection",PalletCollection },
@@ -292,7 +295,7 @@ namespace KegID.ViewModel
                 }
                 else
                 {
-                    await _navigationService.NavigateAsync("FillScanView", new NavigationParameters
+                    await NavigationService.NavigateAsync("FillScanView", new NavigationParameters
                         {
                             { "IsPalletze",IsPalletze},
                             { "Title","Filling " + SizeButtonTitle + " kegs with " + BatchButtonTitle + " " + DestinationTitle},
@@ -314,7 +317,7 @@ namespace KegID.ViewModel
 
         private async void DestinationCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("PartnersView", new NavigationParameters
+            await NavigationService.NavigateAsync("PartnersView", new NavigationParameters
                     {
                         { "BrewerStockOn", true }
                     }, animated: false);
@@ -324,17 +327,17 @@ namespace KegID.ViewModel
         {
             if (UsesSkus)
             {
-                await _navigationService.NavigateAsync("SKUView", animated: false);
+                await NavigationService.NavigateAsync("SKUView", animated: false);
             }
             else
             {
-                await _navigationService.NavigateAsync("BatchView", animated: false);
+                await NavigationService.NavigateAsync("BatchView", animated: false);
             }
         }
 
         private async void SizeCommandRecieverAsync()
         {
-            await _navigationService.NavigateAsync("SizeView", animated: false);
+            await NavigationService.NavigateAsync("SizeView", animated: false);
         }
 
         private void AssignInitialValue(ManifestModel manifestModel)

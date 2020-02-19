@@ -49,8 +49,8 @@ namespace KegID.Common
 
         #region Scandit Settings
 
-        private static IBarcodePicker picker = ScanditService.BarcodePicker;
-        private static ScanSettings scanSettings = picker.GetDefaultScanSettings();
+        private static readonly IBarcodePicker picker = ScanditService.BarcodePicker;
+        private static readonly ScanSettings scanSettings = picker.GetDefaultScanSettings();
 
         // DPM Mode
         public const string DpmModeString = "Sym_DPM_Mode";
@@ -111,24 +111,24 @@ namespace KegID.Common
         public const string GuiStyleString_None = "Overlay_GuiStyle_None";
         public const string GuiStyleString_LocationsOnly = "Overlay_GuiStyle_LocationsOnly";
 
-        public static bool isDpmMode(string symbology)
+        public static bool IsDpmMode(string symbology)
         {
             return symbology == DpmModeString;
         }
 
-        public static bool isDataMatrix(string symbology)
+        public static bool IsDataMatrix(string symbology)
         {
             return symbology == DataMatrixString;
         }
 
-        public static bool hasInvertedSymbology(string symbology)
+        public static bool HasInvertedSymbology(string symbology)
         {
             return (symbology == "Sym_Qr" || symbology == "Sym_DataMatrix");
         }
 
-        public static string getInvertedSymbology(string symbology)
+        public static string GetInvertedSymbology(string symbology)
         {
-            if (hasInvertedSymbology(symbology))
+            if (HasInvertedSymbology(symbology))
             {
                 return ("Inv_" + symbology);
             }
@@ -136,17 +136,17 @@ namespace KegID.Common
             throw new Exception("has no inversion");
         }
 
-        public static bool getBoolSetting(string setting)
+        public static bool GetBoolSetting(string setting)
         {
-            return AppSettings.GetValueOrDefault(setting, defaultBool(setting));
+            return AppSettings.GetValueOrDefault(setting, DefaultBool(setting));
         }
 
-        public static void setBoolSetting(string setting, bool value)
+        public static void SetBoolSetting(string setting, bool value)
         {
             AppSettings.AddOrUpdateValue(setting, value);
         }
 
-        private static bool defaultBool(string setting)
+        private static bool DefaultBool(string setting)
         {
             if (Array.IndexOf(ScanditConvert.EnabledSettings, setting) >= 0)
             {
@@ -158,32 +158,34 @@ namespace KegID.Common
             }
         }
 
-        public static int getIntSetting(string setting)
+        public static int GetIntSetting(string setting)
         {
-            return AppSettings.GetValueOrDefault(setting, defaultInt(setting));
+            return AppSettings.GetValueOrDefault(setting, DefaultInt(setting));
         }
 
-        public static void setIntSetting(string setting, int value)
+        public static void SetIntSetting(string setting, int value)
         {
             AppSettings.AddOrUpdateValue(setting, value);
         }
 
-        private static int defaultInt(string setting)
+#pragma warning disable IDE0060 // Remove unused parameter
+        private static int DefaultInt(string setting)
+#pragma warning restore IDE0060 // Remove unused parameter
         {
             return 15;
         }
 
-        public static Double getDoubleSetting(string setting)
+        public static Double GetDoubleSetting(string setting)
         {
-            return AppSettings.GetValueOrDefault(setting, defaultDouble(setting));
+            return AppSettings.GetValueOrDefault(setting, DefaultDouble(setting));
         }
 
-        public static void setDoubleSetting(string setting, Double value)
+        public static void SetDoubleSetting(string setting, Double value)
         {
             AppSettings.AddOrUpdateValue(setting, value);
         }
 
-        private static Double defaultDouble(string setting)
+        private static Double DefaultDouble(string setting)
         {
             switch (setting)
             {
@@ -208,17 +210,17 @@ namespace KegID.Common
             }
         }
 
-        public static string getStringSetting(string setting)
+        public static string GetStringSetting(string setting)
         {
-            return AppSettings.GetValueOrDefault(setting, defaultString(setting));
+            return AppSettings.GetValueOrDefault(setting, DefaultString(setting));
         }
 
-        public static void setStringSetting(string setting, string value)
+        public static void SetStringSetting(string setting, string value)
         {
             AppSettings.AddOrUpdateValue(setting, value);
         }
 
-        private static string defaultString(string setting)
+        private static string DefaultString(string setting)
         {
             switch (setting)
             {

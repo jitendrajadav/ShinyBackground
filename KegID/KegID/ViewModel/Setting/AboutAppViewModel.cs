@@ -35,7 +35,7 @@ namespace KegID.ViewModel
 
         private async void CancelCommandRecieverAsync()
         {
-            await _navigationService.GoBackAsync(animated: false);
+            await NavigationService.GoBackAsync(animated: false);
         }
 
         public override void OnNavigatedTo(INavigationParameters parameters)

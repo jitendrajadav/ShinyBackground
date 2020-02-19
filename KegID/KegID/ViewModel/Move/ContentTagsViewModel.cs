@@ -32,7 +32,7 @@ namespace KegID.ViewModel
 
         private async void ManifestCommandRecieverAsync()
         {
-            await _navigationService.GoBackAsync(animated: false);
+            await NavigationService.GoBackAsync(animated: false);
         }
 
         public override Task InitializeAsync(INavigationParameters parameters)

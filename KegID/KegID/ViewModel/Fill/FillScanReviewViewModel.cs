@@ -232,7 +232,7 @@ namespace KegID.ViewModel
             manifest.SenderShipAddress = new Address { City = ConstantManager.Partner.City, Country = ConstantManager.Partner.Country, Geocoded = false, Latitude = (long)ConstantManager.Partner.Lat, Line1 = ConstantManager.Partner.Address, Line2 = ConstantManager.Partner.Address1, Longitude = (long)ConstantManager.Partner.Lon, PostalCode = ConstantManager.Partner.PostalCode, State = ConstantManager.Partner.State };
             manifest.ReceiverShipAddress = new Address { City = ConstantManager.Partner.City, Country = ConstantManager.Partner.Country, Geocoded = false, Latitude = (long)ConstantManager.Partner.Lat, Line1 = ConstantManager.Partner.Address, Line2 = ConstantManager.Partner.Address1, Longitude = (long)ConstantManager.Partner.Lon, PostalCode = ConstantManager.Partner.PostalCode, State = ConstantManager.Partner.State };
 
-            await _navigationService.NavigateAsync("ManifestDetailView", new NavigationParameters
+            await NavigationService.NavigateAsync("ManifestDetailView", new NavigationParameters
                                 {
                                     { "manifest", manifest },{ "Contents", Contents }
                                 }, animated: false);
@@ -273,7 +273,7 @@ namespace KegID.ViewModel
 
         private async Task ItemTappedCommandRecieverAsync(BarcodeModel model)
         {
-            await _navigationService.NavigateAsync("FillScanView", new NavigationParameters
+            await NavigationService.NavigateAsync("FillScanView", new NavigationParameters
                     {
                         { "model", model }
                     }, animated: false);
@@ -290,7 +290,7 @@ namespace KegID.ViewModel
 
         private async void ScanCommandRecieverAsync()
         {
-            await _navigationService.GoBackAsync(animated: false);
+            await NavigationService.GoBackAsync(animated: false);
         }
 
         internal void AssignInitialValue(INavigationParameters parameters)

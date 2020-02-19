@@ -59,7 +59,7 @@ namespace KegID.ViewModel
         {
             if (obj.Index == (ImageCollection.Count - 1))
             {
-                await _navigationService.NavigateAsync("../MainPage", animated: false);
+                await NavigationService.NavigateAsync("../MainPage", animated: false);
             }
             Title = obj.Index == 3 ? "Got It." : "Next >";
         }

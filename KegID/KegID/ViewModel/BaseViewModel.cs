@@ -28,7 +28,7 @@ namespace KegID.ViewModel
          */
 
         public bool IsBusy { get; set; }
-        protected INavigationService _navigationService { get; }
+        protected INavigationService NavigationService { get; }
 
         public LocalizedResources Resources
         {
@@ -37,7 +37,7 @@ namespace KegID.ViewModel
 
         protected BaseViewModel(INavigationService navigationService)
         {
-            _navigationService = navigationService;
+            NavigationService = navigationService;
             ApiManager = new ApiManager(_accountApi, _dashboardApi, _fillApi, _maintainApi, _moveApi, _palletApi);
             Resources = new LocalizedResources(typeof(KegIDResource), App.CurrentLanguage);
         }
