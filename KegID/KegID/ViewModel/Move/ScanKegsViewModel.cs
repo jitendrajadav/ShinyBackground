@@ -187,7 +187,7 @@ namespace KegID.ViewModel
                 {
                     if (model.Icon == "validationerror.png")
                     {
-                        bool accept = await _dialogService.DisplayAlertAsync("Warning", "This scan could not be verified", "Keep", "Delete");
+                        _ = await _dialogService.DisplayAlertAsync("Warning", "This scan could not be verified", "Keep", "Delete");
                     }
                     else
                     {

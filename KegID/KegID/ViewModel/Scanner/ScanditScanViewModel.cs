@@ -1,22 +1,17 @@
 ﻿using Acr.UserDialogs;
 using KegID.Common;
 using KegID.Converter;
-using KegID.LocalDb;
 using KegID.Messages;
 using KegID.Model;
 using KegID.Services;
-using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
-using Realms;
 using Scandit.BarcodePicker.Unified;
 using Scandit.BarcodePicker.Unified.Abstractions;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace KegID.ViewModel
@@ -72,36 +67,36 @@ namespace KegID.ViewModel
             //};
             //MessagingCenter.Send(message, "StartLongRunningTaskMessage");
 
-            foreach (string Barcode in models.Select(x => x.Barcode).ToList())
-            {
-                // IJobManager can and should be injected into your viewmodel code
-                Shiny.ShinyHost.Resolve<Shiny.Jobs.IJobManager>().RunTask("ScanJob" + Barcode, async _ =>
-                {
-                    // your code goes here - async stuff is welcome (and necessary)
-                    var response = await ApiManager.GetValidateBarcode(Barcode, Settings.SessionId);
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var json = await response.Content.ReadAsStringAsync();
-                        var data = await Task.Run(() => JsonConvert.DeserializeObject<BarcodeModel>(json, GetJsonSetting()));
+            //foreach (string Barcode in models.Select(x => x.Barcode).ToList())
+            //{
+            //    // IJobManager can and should be injected into your viewmodel code
+            //    Shiny.ShinyHost.Resolve<Shiny.Jobs.IJobManager>().RunTask("ScanJob" + Barcode, async _ =>
+            //    {
+            //        // your code goes here - async stuff is welcome (and necessary)
+            //        var response = await ApiManager.GetValidateBarcode(Barcode, Settings.SessionId);
+            //        if (response.IsSuccessStatusCode)
+            //        {
+            //            var json = await response.Content.ReadAsStringAsync();
+            //            var data = await Task.Run(() => JsonConvert.DeserializeObject<BarcodeModel>(json, GetJsonSetting()));
 
-                        if (data.Kegs != null)
-                        {
-                            using (var db = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
-                            {
-                                var oldBarcode = BarcodeCollection.FirstOrDefault(x => x.Barcode == data?.Kegs?.Partners?.FirstOrDefault().Kegs?.FirstOrDefault()?.Barcode);
-                                oldBarcode.Pallets = data.Pallets;
-                                oldBarcode.Kegs = data.Kegs;
-                                oldBarcode.Icon = data?.Kegs?.Partners.Count > 1 ? _getIconByPlatform.GetIcon("validationquestion.png") : data?.Kegs?.Partners?.Count == 0 ? _getIconByPlatform.GetIcon("validationerror.png") : _getIconByPlatform.GetIcon("validationok.png");
-                                if (oldBarcode.Icon == "validationerror.png")
-                                    Vibration.Vibrate();
-                                oldBarcode.IsScanned = true;
-                                db.Commit();
-                            }
-                        }
-                    }
-                });
+            //            if (data.Kegs != null)
+            //            {
+            //                using (var db = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
+            //                {
+            //                    var oldBarcode = BarcodeCollection.FirstOrDefault(x => x.Barcode == data?.Kegs?.Partners?.FirstOrDefault().Kegs?.FirstOrDefault()?.Barcode);
+            //                    oldBarcode.Pallets = data.Pallets;
+            //                    oldBarcode.Kegs = data.Kegs;
+            //                    oldBarcode.Icon = data?.Kegs?.Partners.Count > 1 ? _getIconByPlatform.GetIcon("validationquestion.png") : data?.Kegs?.Partners?.Count == 0 ? _getIconByPlatform.GetIcon("validationerror.png") : _getIconByPlatform.GetIcon("validationok.png");
+            //                    if (oldBarcode.Icon == "validationerror.png")
+            //                        Vibration.Vibrate();
+            //                    oldBarcode.IsScanned = true;
+            //                    db.Commit();
+            //                }
+            //            }
+            //        }
+            //    });
 
-            }
+            //}
             await NavigationService.GoBackAsync(new NavigationParameters
                     {
                         { "models", models }
@@ -160,7 +155,7 @@ namespace KegID.ViewModel
 
                     var toastConfig = new ToastConfig("Last scan: " + message);
                     toastConfig.SetDuration(3000);
-                    toastConfig.SetBackgroundColor(System.Drawing.Color.FromArgb(12, 131, 193));
+                    toastConfig.SetBackgroundColor(System.Drawing.Color.White);
                     UserDialogs.Instance.Toast(toastConfig);
                 }
             });
@@ -259,9 +254,9 @@ namespace KegID.ViewModel
             scanSettings.RestrictedAreaScanningEnabled = isScanningAreaOverriddenByDpmMode || Settings.GetBoolSetting(Settings.RestrictedAreaString);
             if (Settings.GetBoolSetting(Settings.RestrictedAreaString) && !isScanningAreaOverriddenByDpmMode)
             {
-                Double HotSpotHeight = Settings.GetDoubleSetting(Settings.HotSpotHeightString);
-                Double HotSpotWidth = Settings.GetDoubleSetting(Settings.HotSpotWidthString);
-                Double HotSpotY = Settings.GetDoubleSetting(Settings.HotSpotYString);
+                double HotSpotHeight = Settings.GetDoubleSetting(Settings.HotSpotHeightString);
+                double HotSpotWidth = Settings.GetDoubleSetting(Settings.HotSpotWidthString);
+                double HotSpotY = Settings.GetDoubleSetting(Settings.HotSpotYString);
 
                 Rect restricted = new Rect(0.5f - HotSpotWidth * 0.5f, HotSpotY - 0.5f * HotSpotHeight,
                                            HotSpotWidth, HotSpotHeight);
