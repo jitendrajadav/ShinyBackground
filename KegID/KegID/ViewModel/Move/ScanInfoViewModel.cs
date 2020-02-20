@@ -45,7 +45,6 @@ namespace KegID.ViewModel
         internal void AssignInitialValue(BarcodeModel _barcode)
         {
             Barcode = string.Format(" Barcode {0} ", _barcode.Barcode);
-            //AltBarcode = _barcode.Barcode;
             Ownername = _barcode?.Kegs?.Partners?.FirstOrDefault()?.FullName;
             Size = _barcode?.Tags[3]?.Value;
             Contents = _barcode.Contents;

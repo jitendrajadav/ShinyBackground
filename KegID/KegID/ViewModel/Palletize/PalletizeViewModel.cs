@@ -357,13 +357,6 @@ namespace KegID.ViewModel
             AddInfoTitle = "Add info";
             AddKegs = string.Format("Add {0}", ContainerTypes);
             IsSubmitVisible = false;
-            // Update an object with a transaction
-            //using (var trans = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
-            //{
-            //    StockLocation.FullName = "Barcode Brewing";
-            //    TargetLocation.FullName = "None";
-            //    trans.Commit();
-            //}
             Tags = null;
             ConstantManager.Barcodes.Clear();
         }

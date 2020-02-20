@@ -16,19 +16,19 @@ namespace KegID.iOS.Renderers
         {
             base.OnElementChanged(e);
 
-            if (e.NewElement != null && this.Control != null)
+            if (e.NewElement != null && Control != null)
             {
-                this.AddClearButton();
+                AddClearButton();
 
-                var entry = (NullableDatePicker)this.Element;
+                var entry = (NullableDatePicker)Element;
                 if (!entry.NullableDate.HasValue)
                 {
-                    this.Control.Text = entry.PlaceHolder;
+                    Control.Text = entry.PlaceHolder;
                 }
 
                 if (Device.Idiom == TargetIdiom.Tablet)
                 {
-                    this.Control.Font = UIFont.SystemFontOfSize(25);
+                    Control.Font = UIFont.SystemFontOfSize(25);
                 }
             }
         }
@@ -36,14 +36,14 @@ namespace KegID.iOS.Renderers
         protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             // Check if the property we are updating is the format property
-            if (e.PropertyName == Xamarin.Forms.DatePicker.DateProperty.PropertyName || e.PropertyName == Xamarin.Forms.DatePicker.FormatProperty.PropertyName)
+            if (e.PropertyName == DatePicker.DateProperty.PropertyName || e.PropertyName == DatePicker.FormatProperty.PropertyName)
             {
-                var entry = (NullableDatePicker)this.Element;
+                var entry = (NullableDatePicker)Element;
 
                 // If we are updating the format to the placeholder then just update the text and return
-                if (this.Element.Format == entry.PlaceHolder)
+                if (Element.Format == entry.PlaceHolder)
                 {
-                    this.Control.Text = entry.PlaceHolder;
+                    Control.Text = entry.PlaceHolder;
                     return;
                 }
             }
@@ -53,15 +53,13 @@ namespace KegID.iOS.Renderers
 
         private void AddClearButton()
         {
-            var originalToolbar = this.Control.InputAccessoryView as UIToolbar;
-
-            if (originalToolbar != null && originalToolbar.Items.Length <= 2)
+            if (Control.InputAccessoryView is UIToolbar originalToolbar && originalToolbar.Items.Length <= 2)
             {
                 var clearButton = new UIBarButtonItem("Clear", UIBarButtonItemStyle.Plain, ((sender, ev) =>
                 {
-                    NullableDatePicker baseDatePicker = this.Element as NullableDatePicker;
-                    this.Element.Unfocus();
-                    this.Element.Date = DateTimeOffset.Now.Date;
+                    NullableDatePicker baseDatePicker = Element as NullableDatePicker;
+                    Element.Unfocus();
+                    Element.Date = DateTimeOffset.Now.Date;
                     baseDatePicker.CleanDate();
 
                 }));

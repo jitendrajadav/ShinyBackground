@@ -68,9 +68,6 @@ namespace KegID.ViewModel
             IconItemTappedCommand = new DelegateCommand<BarcodeModel>((model) => IconItemTappedCommandRecieverAsync(model));
             DeleteItemCommand = new DelegateCommand<BarcodeModel>((model) => DeleteItemCommandReciever(model));
             ExpandCommand = new DelegateCommand(ExpandCommandReciever);
-            //LoadBrand();
-
-            //HandleUnsubscribeMessages();
             HandleReceivedMessages();
         }
 
@@ -148,7 +145,6 @@ namespace KegID.ViewModel
                         {"viewTypeEnum",ViewTypeEnum.ScanKegsView },
                         {"AddTagsViewInitialValue",model }
                     }, animated: false);
-
             }
         }
 

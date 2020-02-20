@@ -1,6 +1,5 @@
 ﻿using KegID.Services;
 using Prism.Navigation;
-using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using Xamarin.Forms.Xaml;

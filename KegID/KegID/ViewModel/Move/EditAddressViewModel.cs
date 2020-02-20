@@ -35,7 +35,6 @@ namespace KegID.ViewModel
         public DelegateCommand BackCommand { get; }
         public DelegateCommand DoneCommand { get; }
         public DelegateCommand GetCurrentLocationCommand { get; }
-        //private readonly IGeolocationService _geolocationService;
         private readonly IPageDialogService _dialogService;
 
         #endregion
@@ -44,7 +43,6 @@ namespace KegID.ViewModel
 
         public EditAddressViewModel(INavigationService navigationService, IGpsManager gpsManager, IGpsListener gpsListener, IPageDialogService dialogService) : base(navigationService)
         {
-            //_geolocationService = geolocationService;
             _gpsManager = gpsManager;
             _gpsListener = gpsListener;
             _gpsListener.OnReadingReceived += OnReadingReceived;
@@ -63,21 +61,17 @@ namespace KegID.ViewModel
         void OnReadingReceived(object sender, GpsReadingEventArgs e)
         {
             LocationMessage = e.Reading.Position;
-            //= $"{e.Reading.Position.Latitude}, {e.Reading.Position.Longitude}";
         }
 
         private async void GetCurrentLocationCommandRecieverAsync()
         {
-            //var location = await _geolocationService.GetLastLocationAsync();
-
             if (LocationMessage != null)
             {
                 var placemarks = await Geocoding.GetPlacemarksAsync(LocationMessage.Latitude, LocationMessage.Longitude);
-
                 var placemark = placemarks?.FirstOrDefault();
                 if (placemark != null)
                 {
-                    var geocodeAddress =
+                    _ =
                         $"AdminArea:       {placemark.AdminArea}\n" +
                         $"CountryCode:     {placemark.CountryCode}\n" +
                         $"CountryName:     {placemark.CountryName}\n" +
@@ -88,7 +82,6 @@ namespace KegID.ViewModel
                         $"SubLocality:     {placemark.SubLocality}\n" +
                         $"SubThoroughfare: {placemark.SubThoroughfare}\n" +
                         $"Thoroughfare:    {placemark.Thoroughfare}\n";
-
 
                     Line1 = placemark.SubLocality;
                     Line2 = placemark.Locality;

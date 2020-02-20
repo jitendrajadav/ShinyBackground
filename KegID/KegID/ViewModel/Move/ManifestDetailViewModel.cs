@@ -97,7 +97,6 @@ namespace KegID.ViewModel
         private async void ManifestsCommandRecieverAsync()
         {
             ConstantManager.Barcodes.Clear();
-            var pages = Application.Current.MainPage.Navigation.NavigationStack;
             await NavigationService.GoBackToRootAsync();
         }
 

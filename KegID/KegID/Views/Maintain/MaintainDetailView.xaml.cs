@@ -1,8 +1,6 @@
 ﻿using KegID.Model;
 using Prism.Navigation;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 

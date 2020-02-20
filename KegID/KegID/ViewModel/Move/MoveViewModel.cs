@@ -16,7 +16,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
-using System.Linq;
 
 namespace KegID.ViewModel
 {
@@ -27,7 +26,6 @@ namespace KegID.ViewModel
         private readonly IPageDialogService _dialogService;
         private readonly IManifestManager _manifestManager;
         private readonly IUuidManager _uuidManager;
-        //private readonly IGeolocationService _geolocationService;
         private readonly IGpsListener _gpsListener;
         private readonly IGpsManager _gpsManager;
 
@@ -97,7 +95,6 @@ namespace KegID.ViewModel
             _dialogService = dialogService;
             _manifestManager = manifestManager;
             _uuidManager = uuidManager;
-            //_geolocationService = geolocationService;
             _gpsManager = gpsManager;
             _gpsListener = gpsListener;
             _gpsListener.OnReadingReceived += OnReadingReceived;
@@ -121,7 +118,6 @@ namespace KegID.ViewModel
         public void OnReadingReceived(object sender, GpsReadingEventArgs e)
         {
             LocationMessage = e.Reading.Position;
-            //= $"{e.Reading.Position.Latitude}, {e.Reading.Position.Longitude}";
         }
 
         private void PreferenceSetting()
@@ -147,30 +143,22 @@ namespace KegID.ViewModel
         private async Task SubmitCommandRecieverAsync()
         {
             UserDialogs.Instance.ShowLoading("Loading");
-            //var location = await _geolocationService.GetLastLocationAsync();
-
-            ManifestModel manifestPostModel = null;
-
-            manifestPostModel = GenerateManifest(LocationMessage ?? new Position(0, 0));
+            ManifestModel manifestPostModel = GenerateManifest(LocationMessage ?? new Position(0, 0));
             if (manifestPostModel != null)
             {
                 var current = Connectivity.NetworkAccess;
                 if (current == NetworkAccess.Internet)
                 {
-                    var response = await ApiManager.PostManifest(manifestPostModel, Settings.SessionId);
-
+                    _ = await ApiManager.PostManifest(manifestPostModel, Settings.SessionId);
                     AddorUpdateManifestOffline(manifestPostModel, false);
                     await GetPostedManifestDetail();
                 }
                 else
                 {
                     AddorUpdateManifestOffline(manifestPostModel, true);
-
                     await GetPostedManifestDetail();
                 }
-                manifestPostModel = null;
                 Cleanup();
-
             }
             else
                 await _dialogService.DisplayAlertAsync("Alert", "Something goes wrong please check again", "Ok");
@@ -179,9 +167,8 @@ namespace KegID.ViewModel
 
         private async Task GetPostedManifestDetail()
         {
-            string sizeName = string.Empty;
             ManifestResponseModel manifest = new ManifestResponseModel();
-            sizeName = ConstantManager.Tags.LastOrDefault().Value;
+            string sizeName = ConstantManager.Tags.LastOrDefault().Value;
 
             manifest.ManifestItems = new List<CreatedManifestItem>();
             foreach (var item in Barcodes)
@@ -245,14 +232,10 @@ namespace KegID.ViewModel
 
         private async void SaveDraftCommandRecieverAsync()
         {
-            //var location = await _geolocationService.GetLastLocationAsync();
-
             ManifestModel manifestModel = null;
-
             manifestModel = GenerateManifest(LocationMessage ?? new Position(0, 0));
             if (manifestModel != null)
             {
-
                 manifestModel.IsDraft = true;
                 var isNew = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).Find<ManifestModel>(manifestModel.ManifestId);
                 if (isNew != null)
@@ -304,8 +287,6 @@ namespace KegID.ViewModel
                 AddKegs = string.Format("{0} Item", _barcodes.Count);
             else
                 AddKegs = string.Format("Add {0}", ContainerTypes);
-            //if (!IsSubmitVisible)
-            //    IsSubmitVisible = true;
         }
 
         internal void AssignAddTagsValue(List<Tag> _tags, string _tagsStr)
@@ -341,7 +322,7 @@ namespace KegID.ViewModel
                 {
                     RealmDb.Remove(manifest);
                     trans.Commit();
-                } 
+                }
             }
         }
 
@@ -523,24 +504,20 @@ namespace KegID.ViewModel
         {
             if (ConstantManager.Barcodes?.Count > 0)
                 AssingScanKegsValue(ConstantManager.Barcodes.ToList(), ConstantManager.Tags, ConstantManager.Contents);
-
             if (parameters.ContainsKey("ManifestId"))
             {
                 ManifestId = parameters.GetValue<string>("ManifestId");
             }
-
             return base.InitializeAsync(parameters);
         }
 
         private void AssignInitialValueFromKegStatus(INavigationParameters parameters)
         {
-            List<string> Barcode = null;
             List<ManifestItem> manifestItems = new List<ManifestItem>();
-
             var getType = parameters.FirstOrDefault().Value.GetType();
             if (getType.FullName.Contains("System.Collections.Generic"))
             {
-                Barcode = parameters.GetValue<List<string>>("AssignInitialValueFromKegStatus");
+                List<string> Barcode = parameters.GetValue<List<string>>("AssignInitialValueFromKegStatus");
                 ManifestItem manifestItem;
                 foreach (var item in Barcode)
                 {
@@ -561,7 +538,6 @@ namespace KegID.ViewModel
                 manifestItems.Add(manifestItem);
             }
             string KegId = parameters.GetValue<string>("KegId");
-
             AssignInitialValue(KegId, manifestItems, "1", string.Empty, string.Empty, true, null, string.Empty);
         }
 

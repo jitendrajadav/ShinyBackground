@@ -124,7 +124,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="DependencyServices\ConnectionManagerImplementation.cs" />
-    <Compile Include="DependencyServices\IOSUniqueIdentifier.cs" />
     <Compile Include="DependencyServices\PhoneDialerIOS.cs" />
     <Compile Include="DependencyServices\ShareFileImplementation.cs" />
     <Compile Include="DependencyServices\XsltContent.cs" />
@@ -134,7 +133,6 @@
     <Compile Include="Renderers\NullableDatePickerRenderer.cs" />
     <Compile Include="Renderers\SelectableEntryRenderer.cs" />
     <Compile Include="Renderers\SignaturePadRenderer.cs" />
-    <Compile Include="Services\iOSLongRunningTaskExample.cs" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist">
       <SubType>Designer</SubType>

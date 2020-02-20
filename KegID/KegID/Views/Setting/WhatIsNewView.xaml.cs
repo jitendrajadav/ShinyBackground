@@ -1,7 +1,6 @@
 ﻿using KegID.ViewModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using System.Linq;
 
 namespace KegID.Views
 {

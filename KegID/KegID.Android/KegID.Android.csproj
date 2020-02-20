@@ -150,7 +150,6 @@
     <Compile Include="Renderers\SelectableEntryRenderer.cs" />
     <Compile Include="Renderers\ZebraLabelRenderer.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
-    <Compile Include="Services\LongRunningTaskService.cs" />
     <Compile Include="SplashActivity.cs" />
   </ItemGroup>
   <ItemGroup>

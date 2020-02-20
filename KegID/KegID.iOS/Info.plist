@@ -51,6 +51,8 @@
 			</array>
 		</dict>
 	</array>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Your location is recorded with each manifest to better track where you are when scanning.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Camera</string>
 	<key>UIBackgroundModes</key>

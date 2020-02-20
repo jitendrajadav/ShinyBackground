@@ -3,9 +3,7 @@ using KegID.LocalDb;
 using KegID.Model;
 using Newtonsoft.Json;
 using Prism.Navigation;
-
 using Realms;
-
 using System;
 using System.Linq;
 using Xamarin.Forms;

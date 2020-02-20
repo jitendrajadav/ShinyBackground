@@ -22,6 +22,5 @@ namespace KegID.Views
                     });
             return true;
         }
-
     }
 }

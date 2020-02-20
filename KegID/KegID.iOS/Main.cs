@@ -1,5 +1,4 @@
-﻿using Microsoft.AppCenter.Crashes;
-using UIKit;
+﻿using UIKit;
 
 namespace KegID.iOS
 {

@@ -1,10 +1,7 @@
 ﻿using KegID.LocalDb;
-using KegID.Messages;
 using KegID.Model;
 using KegID.Services;
 using KegID.ViewModel;
-using Microsoft.AppCenter.Crashes;
-using Prism;
 using Prism.Navigation;
 using Realms;
 using System;
@@ -303,7 +300,6 @@ namespace KegID.Views
             {
                 Grid.SetRow(child, Grid.GetRow(child) - 1);
             }
-
         }
 
         private void SaveTagsClickedAsync(object sender, EventArgs e)
@@ -357,8 +353,6 @@ namespace KegID.Views
             }
             ConstantManager.Tags = tags;
             ConstantManager.TagsStr = tagsStr;
-            //INavigation currentNavigationProxy = PrismApplicationBase.Current.MainPage.Navigation;
-            //var binding = currentNavigationProxy.NavigationStack.LastOrDefault()?.BindingContext;
             ((AddTagsViewModel)BindingContext).Barcode = barcodeModel?.Barcode ?? "";
             ((AddTagsViewModel)BindingContext).SaveCommand.Execute();
         }

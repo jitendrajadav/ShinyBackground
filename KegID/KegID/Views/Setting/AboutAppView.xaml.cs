@@ -1,5 +1,4 @@
 ﻿using Prism.Navigation;
-using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -12,7 +11,6 @@ namespace KegID.Views
         {
             InitializeComponent();
             NavigationPage.SetHasNavigationBar(this, false);
-
         }
 
         protected override bool OnBackButtonPressed()

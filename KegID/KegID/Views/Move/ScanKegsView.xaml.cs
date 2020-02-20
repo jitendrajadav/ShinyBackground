@@ -1,9 +1,7 @@
 ﻿using KegID.LocalDb;
 using KegID.Model;
-using Microsoft.AppCenter.Crashes;
 using Prism.Navigation;
 using Realms;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xamarin.Forms;
@@ -24,17 +22,11 @@ namespace KegID.Views
             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             var all = RealmDb.All<BrandModel>().ToList();
             List<string> model = all.Select(x => x.BrandName).ToList();
-            try
-            {
-                if (model.Count > 0)
-                    return model;
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
+
+            if (model.Count > 0)
+                return model;
+            else
                 return null;
-            }
-            return model;
         }
 
         public ScanKegsView ()

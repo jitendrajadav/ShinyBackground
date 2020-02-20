@@ -2,7 +2,6 @@
 using Rg.Plugins.Popup.Pages;
 using Xamarin.Forms;
 using Prism.Navigation;
-using System.Linq;
 
 namespace KegID.Views
 {

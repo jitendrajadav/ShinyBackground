@@ -23,7 +23,6 @@ namespace KegID.ViewModel
     {
         #region Properties
 
-        //private readonly IGeolocationService _geolocationService;
         private readonly IGpsListener _gpsListener;
         private readonly IGpsManager _gpsManager;
 
@@ -55,7 +54,6 @@ namespace KegID.ViewModel
 
         public PartnersViewModel(INavigationService navigationService, IGpsManager gpsManager, IGpsListener gpsListener) : base(navigationService)
         {
-            //_geolocationService = geolocationService;
             _gpsManager = gpsManager;
             _gpsListener = gpsListener;
             _gpsListener.OnReadingReceived += OnReadingReceived;
@@ -75,7 +73,6 @@ namespace KegID.ViewModel
         void OnReadingReceived(object sender, GpsReadingEventArgs e)
         {
             LocationMessage = e.Reading.Position;
-            //= $"{e.Reading.Position.Latitude}, {e.Reading.Position.Longitude}";
         }
 
         private void TextChangedCommandRecieverAsync()
@@ -123,7 +120,6 @@ namespace KegID.ViewModel
                                 PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners.OrderBy(x => x.FullName));
                             break;
                         case 2:
-                            //var locationStart = await _geolocationService.GetLastLocationAsync();
                             var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
                             using (var trans = RealmDb.BeginWrite())
                             {
@@ -174,14 +170,12 @@ namespace KegID.ViewModel
 
         public async Task LoadMetaDataPartnersAsync()
         {
-            var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
+            Realm RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
             var response = await ApiManager.GetPartnersList(Settings.SessionId);
             if (response.IsSuccessStatusCode)
             {
                 var json = await response.Content.ReadAsStringAsync();
-                var data = await Task.Run(() => JsonConvert.DeserializeObject<IList<PartnerModel>>(json, GetJsonSetting()));
-                var Partners = data.Where(x => !string.IsNullOrEmpty(x.FullName)).ToList();
-
+                IList<PartnerModel> data = await Task.Run(() => JsonConvert.DeserializeObject<IList<PartnerModel>>(json, GetJsonSetting()));
                 if (BrewerStockOn)
                     PartnerCollection = new ObservableCollection<PartnerModel>(AllPartners.Where(x => x.PartnerTypeName == "Brewer - Stock").ToList());
                 else
@@ -197,7 +191,6 @@ namespace KegID.ViewModel
                 RealmDb.RemoveAll<PartnerModel>();
                 trans.Commit();
             }
-            var AllPartners = RealmDb.All<PartnerModel>().ToList();
         }
 
         private async void BackCommandRecieverAsync()

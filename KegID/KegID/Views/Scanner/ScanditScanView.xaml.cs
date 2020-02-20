@@ -11,10 +11,5 @@ namespace KegID.Views
             InitializeComponent();
             NavigationPage.SetHasNavigationBar(this, false);
         }
-
-        //private void ZXingDefaultOverlay_FlashButtonClicked(Button sender, System.EventArgs e)
-        //{
-        //    zxing.IsTorchOn = !zxing.IsTorchOn;
-        //}
     }
 }

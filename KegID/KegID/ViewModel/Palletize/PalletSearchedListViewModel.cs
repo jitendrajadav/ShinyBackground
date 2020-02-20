@@ -71,8 +71,6 @@ namespace KegID.ViewModel
             {
                 await RunSafe(GetPalletSearchAsync(parameters.GetValue<string>("FromDate"), parameters.GetValue<string>("ToDate"), string.Empty, string.Empty));
             }
-
-            //return base.InitializeAsync(parameters);
         }
 
         public override void OnNavigatedTo(INavigationParameters parameters)

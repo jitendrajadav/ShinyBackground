@@ -40,7 +40,7 @@ namespace KegID
             HotReloader.Current.Run(this);
             ConstantManager.BaseUrl = ConstantManager.TestApiUrl;
 #elif RELEASE
-                ConstantManager.BaseUrl = ConstantManager.TestApiUrl;
+            ConstantManager.BaseUrl = ConstantManager.TestApiUrl;
 #endif
 
             switch (Xamarin.Forms.Device.RuntimePlatform)

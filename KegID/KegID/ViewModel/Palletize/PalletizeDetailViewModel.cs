@@ -166,7 +166,6 @@ namespace KegID.ViewModel
                 {
                     Barcode = item.Barcode,
                     Contents = ConstantManager.Contents,
-                    //ContentsKey = item.Contents,
                     DateScanned = item.DateScanned.Date.ToShortDateString(),
                     Keg = new Model.PrintPDF.Keg
                     {

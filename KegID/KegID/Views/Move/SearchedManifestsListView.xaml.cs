@@ -1,6 +1,5 @@
 ﻿
 using Prism.Navigation;
-using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -23,6 +22,5 @@ namespace KegID.Views
                     });
             return true;
         }
-
     }
 }

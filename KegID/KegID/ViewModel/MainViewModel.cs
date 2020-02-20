@@ -106,8 +106,6 @@ namespace KegID.ViewModel
         private void StartPrinterSearch()
         {
             DiscoveryHandlerImplementation discoveryHandler = new DiscoveryHandlerImplementation();
-            //await Task.Factory.StartNew(() =>
-            //{
             try
             {
                 DependencyService.Get<IConnectionManager>().FindBluetoothPrinters(discoveryHandler);
@@ -119,7 +117,6 @@ namespace KegID.ViewModel
                     await Application.Current.MainPage.DisplayAlert("Error", "Bluetooth discovery not supported on this platform", "OK");
                 });
             }
-            //});
         }
 
         private void HandleUnsubscribeMessages()
@@ -164,7 +161,6 @@ namespace KegID.ViewModel
         private async void KegsCommandRecieverAsync()
         {
             await NavigationService.NavigateAsync("KegSearchView", animated: false);
-
         }
 
         private async void PartnerCommandRecieverAsync()
@@ -344,7 +340,6 @@ namespace KegID.ViewModel
                     Dashboards.LastOrDefault().AverageCycle = model.AverageCycle.ToString() + " days";
                     Dashboards.LastOrDefault().Atriskegs = model.InactiveKegs.ToString();
                 }
-
             }
         }
 
@@ -422,10 +417,9 @@ namespace KegID.ViewModel
 
             public void DiscoveryFinished()
             {
-                Device.BeginInvokeOnMainThread(() =>
-                {
-                    //discoveryDemoPage.SetInputEnabled(true);
-                });
+                //Device.BeginInvokeOnMainThread(() =>
+                //{
+                //});
             }
 
             public void FoundPrinter(DiscoveredPrinter printer)
