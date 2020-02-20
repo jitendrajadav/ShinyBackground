@@ -199,8 +199,8 @@
     <PackageReference Include="Polly">
       <Version>7.2.0</Version>
     </PackageReference>
-    <PackageReference Include="Prism.DryIoc.Forms.Extended">
-      <Version>7.2.0.702</Version>
+    <PackageReference Include="Prism.DryIoc.Extensions">
+      <Version>7.2.0.898</Version>
     </PackageReference>
     <PackageReference Include="Prism.Forms">
       <Version>7.2.0.1422</Version>

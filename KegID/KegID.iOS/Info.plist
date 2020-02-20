@@ -90,8 +90,8 @@
 	<string>Required for pedometer</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>The beacons or geofences or GPS always have you!</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>The beacons or geofences or GPS always have you!</string>
+	<!--<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>The beacons or geofences or GPS always have you!</string>-->
 	<key>MinimumOSVersion</key>
 	<string>13.2</string>
 </dict>

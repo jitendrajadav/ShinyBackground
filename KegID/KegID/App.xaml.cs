@@ -15,6 +15,7 @@ using KegID.DependencyServices;
 using KegID.Common;
 using Xamarin.Essentials;
 using Prism.Logging;
+using Prism;
 
 namespace KegID
 {

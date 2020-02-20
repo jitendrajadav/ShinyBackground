@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "GtTgXBZHL8nxDu97Z1pF5BpG/fSat3LPhJZUTEsBBTiH0enKhkAvB365cLXdx8RGa9zZcby9XPj8xP10wEyrYQ==",
+  "dgSpecHash": "jtVIs7AHFny6TIFUgvwYX0Jz9v7cID+Xoho+r66hDsOg+SbQduht9y+96Qi5xmuswNYHTP7hp0vLf6JqbhAlog==",
   "success": true,
-  "projectFilePath": "C:\\Users\\jdj1\\Source\\Repos\\SatelliteLogisticsGroup\\kegid-x\\KegID\\Prism.Plugin.Popups\\Prism.Plugin.Popups.csproj",
+  "projectFilePath": "C:\\Users\\jdj1\\source\\repos\\SatelliteLogisticsGroup\\kegid-x\\KegID\\Prism.Plugin.Popups\\Prism.Plugin.Popups.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\jdj1\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512",
