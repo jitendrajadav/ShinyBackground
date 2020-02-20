@@ -19,42 +19,41 @@ namespace KegID.iOS.DependencyServices
     {
         public void ShareLocalFile(string localFilePath, string title = "", object view = null)
         {
-                if (string.IsNullOrWhiteSpace(localFilePath))
+            if (string.IsNullOrWhiteSpace(localFilePath))
+            {
+                return;
+            }
+
+            var rootController = GetVisibleViewController();// UIApplication.SharedApplication.KeyWindow.RootViewController;
+            var sharedItems = new List<NSObject>();
+            var fileName = Path.GetFileName(localFilePath);
+
+            var fileUrl = NSUrl.FromFilename(localFilePath);
+            sharedItems.Add(fileUrl);
+
+            UIActivity[] applicationActivities = null;
+            var activityViewController = new UIActivityViewController(sharedItems.ToArray(), applicationActivities);
+
+            // Subject
+            if (!string.IsNullOrWhiteSpace(title))
+                activityViewController.SetValueForKey(NSObject.FromObject(title), new NSString("subject"));
+
+            if (UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone)
+            {
+                rootController.PresentViewController(activityViewController, true, null);
+            }
+            else
+            {
+                if (view is UIView shareView)
                 {
-                    return;
-                }
-
-                var rootController = GetVisibleViewController();// UIApplication.SharedApplication.KeyWindow.RootViewController;
-                var sharedItems = new List<NSObject>();
-                var fileName = Path.GetFileName(localFilePath);
-
-                var fileUrl = NSUrl.FromFilename(localFilePath);
-                sharedItems.Add(fileUrl);
-
-                UIActivity[] applicationActivities = null;
-                var activityViewController = new UIActivityViewController(sharedItems.ToArray(), applicationActivities);
-
-                // Subject
-                if (!string.IsNullOrWhiteSpace(title))
-                    activityViewController.SetValueForKey(NSObject.FromObject(title), new NSString("subject"));
-
-                if (UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone)
-                {
-                    rootController.PresentViewController(activityViewController, true, null);
+                    UIPopoverController popCont = new UIPopoverController(activityViewController);
+                    popCont.PresentFromRect(shareView.Frame, shareView, UIPopoverArrowDirection.Any, true);
                 }
                 else
                 {
-                    var shareView = view as UIView;
-                    if (shareView != null)
-                    {
-                        UIPopoverController popCont = new UIPopoverController(activityViewController);
-                        popCont.PresentFromRect(shareView.Frame, shareView, UIPopoverArrowDirection.Any, true);
-                    }
-                    else
-                    {
-                        throw new Exception("view is null: for iPad you must pass the view paramater. The view parameter should be the view that triggers the share action, i.e. the share button.");
-                    }
+                    throw new Exception("view is null: for iPad you must pass the view paramater. The view parameter should be the view that triggers the share action, i.e. the share button.");
                 }
+            }
         }
 
         UIViewController GetVisibleViewController(UIViewController controller = null)
@@ -86,13 +85,13 @@ namespace KegID.iOS.DependencyServices
         /// <returns>awaitable bool</returns>
         public async Task ShareRemoteFile(string fileUri, string fileName, string title = "", object view = null)
         {
-               using (var webClient = new WebClient())
-                {
-                    var uri = new System.Uri(fileUri);
-                    var bytes = await webClient.DownloadDataTaskAsync(uri);
-                    var filePath = WriteFile(fileName, bytes);
-                    ShareLocalFile(filePath, title, view);
-                }
+            using (var webClient = new WebClient())
+            {
+                var uri = new System.Uri(fileUri);
+                var bytes = await webClient.DownloadDataTaskAsync(uri);
+                var filePath = WriteFile(fileName, bytes);
+                ShareLocalFile(filePath, title, view);
+            }
         }
 
         /// <summary>
@@ -110,7 +109,7 @@ namespace KegID.iOS.DependencyServices
             return localPath;
         }
 
-        public string SafeHTMLToPDF(string html, string filename,int flag)
+        public string SafeHTMLToPDF(string html, string filename, int flag)
         {
             UIWebView webView = new UIWebView(new CGRect(0, 0, 6.5 * 72, 9 * 72));
 
@@ -128,7 +127,7 @@ namespace KegID.iOS.DependencyServices
 
         class WebViewCallBack : UIWebViewDelegate
         {
-            string filename = null;
+            readonly string filename = null;
             public WebViewCallBack(string path)
             {
                 filename = path;
@@ -136,38 +135,31 @@ namespace KegID.iOS.DependencyServices
 
             public override void LoadingFinished(UIWebView webView)
             {
-                try
-                {
-                    double height, width;
-                    int header, sidespace;
+                double height, width;
+                int header, sidespace;
 
-                    width = 595.2;
-                    height = 841.8;
-                    header = 10;
-                    sidespace = 10;
+                width = 595.2;
+                height = 841.8;
+                header = 10;
+                sidespace = 10;
 
 
-                    UIEdgeInsets pageMargins = new UIEdgeInsets(header, sidespace, header, sidespace);
-                    webView.ViewPrintFormatter.ContentInsets = pageMargins;
+                UIEdgeInsets pageMargins = new UIEdgeInsets(header, sidespace, header, sidespace);
+                webView.ViewPrintFormatter.ContentInsets = pageMargins;
 
-                    UIPrintPageRenderer renderer = new UIPrintPageRenderer();
-                    renderer.AddPrintFormatter(webView.ViewPrintFormatter, 0);
+                UIPrintPageRenderer renderer = new UIPrintPageRenderer();
+                renderer.AddPrintFormatter(webView.ViewPrintFormatter, 0);
 
-                    CGSize pageSize = new CGSize(width, height);
-                    CGRect printableRect = new CGRect(sidespace,
-                                      header,
-                                      pageSize.Width - (sidespace * 2),
-                                      pageSize.Height - (header * 2));
-                    CGRect paperRect = new CGRect(0, 0, width, height);
-                    renderer.SetValueForKey(FromObject(paperRect), (NSString)"paperRect");
-                    renderer.SetValueForKey(FromObject(printableRect), (NSString)"printableRect");
-                    NSData file = PrintToPDFWithRenderer(renderer, paperRect);
-                    File.WriteAllBytes(filename, file.ToArray());
-                }
-                catch (Exception ex)
-                {
-
-                }
+                CGSize pageSize = new CGSize(width, height);
+                CGRect printableRect = new CGRect(sidespace,
+                                  header,
+                                  pageSize.Width - (sidespace * 2),
+                                  pageSize.Height - (header * 2));
+                CGRect paperRect = new CGRect(0, 0, width, height);
+                renderer.SetValueForKey(FromObject(paperRect), (NSString)"paperRect");
+                renderer.SetValueForKey(FromObject(printableRect), (NSString)"printableRect");
+                NSData file = PrintToPDFWithRenderer(renderer, paperRect);
+                File.WriteAllBytes(filename, file.ToArray());
             }
 
             private NSData PrintToPDFWithRenderer(UIPrintPageRenderer renderer, CGRect paperRect)
@@ -176,8 +168,7 @@ namespace KegID.iOS.DependencyServices
                 UIGraphics.BeginPDFContext(pdfData, paperRect, null);
 
                 renderer.PrepareForDrawingPages(new NSRange(0, renderer.NumberOfPages));
-
-                CGRect bounds = UIGraphics.PDFContextBounds;
+                _ = UIGraphics.PDFContextBounds;
 
                 for (int i = 0; i < renderer.NumberOfPages; i++)
                 {
@@ -189,7 +180,5 @@ namespace KegID.iOS.DependencyServices
                 return pdfData;
             }
         }
-
     }
-
 }

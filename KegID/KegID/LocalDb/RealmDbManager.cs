@@ -15,16 +15,6 @@ namespace KegID.LocalDb
                 }
             };
 
-            //try
-            //{
-            //    var realm = await Realm.GetInstanceAsync(config);
-            //    // Realm successfully opened, with migration applied on background thread
-            //}
-            //catch (Exception ex)
-            //{
-            //    // Handle exception that occurred while opening the Realm
-            //}
-
             return config;
         }
     }

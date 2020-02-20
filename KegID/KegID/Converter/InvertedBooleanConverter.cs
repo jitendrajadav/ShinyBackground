@@ -40,19 +40,5 @@ namespace KegID.Converter
         {
             throw new NotImplementedException();
         }
-
-        /// <param name="value">To be added.</param>
-        /// <param name="targetType">To be added.</param>
-        /// <param name="parameter">To be added.</param>
-        /// <param name="culture">To be added.</param>
-        /// <summary>
-        /// Converts the back.
-        /// </summary>
-        /// <returns>The back.</returns>
-        //public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        //{
-
-        //}
     }
-
 }

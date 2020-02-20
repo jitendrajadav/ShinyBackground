@@ -27,7 +27,6 @@ namespace KegID.ViewModel
 
         private readonly IPageDialogService _dialogService;
         private readonly IManifestManager _manifestManager;
-        //private readonly IGeolocationService _geolocationService;
         private readonly IGpsListener _gpsListener;
         private readonly IGpsManager _gpsManager;
         public Position LocationMessage { get; set; }
@@ -97,7 +96,6 @@ namespace KegID.ViewModel
         {
             _dialogService = dialogService;
             _manifestManager = manifestManager;
-            //_geolocationService = geolocationService;
             _gpsManager = gpsManager;
             _gpsListener = gpsListener;
             _gpsListener.OnReadingReceived += OnReadingReceived;
@@ -118,7 +116,6 @@ namespace KegID.ViewModel
         void OnReadingReceived(object sender, GpsReadingEventArgs e)
         {
             LocationMessage = e.Reading.Position;
-            //= $"{e.Reading.Position.Latitude}, {e.Reading.Position.Longitude}";
         }
 
         private void PreferenceSetting()
@@ -161,8 +158,6 @@ namespace KegID.ViewModel
 
         private async void SaveDraftCommandRecieverAsync()
         {
-            //var location = await _geolocationService.GetLastLocationAsync();
-
             ManifestModel manifestModel = GenerateManifest(PalletCollection ?? new List<PalletModel>(), LocationMessage ?? new Position(0, 0));
             if (manifestModel != null)
             {
@@ -208,15 +203,12 @@ namespace KegID.ViewModel
         {
             _ = new List<string>();
             List<NewPallet> newPallets = new List<NewPallet>();
-            NewPallet newPallet = null;
             List<ManifestTItem> palletItems = new List<ManifestTItem>();
-            ManifestTItem palletItem = null;
-
             foreach (var pallet in palletCollection)
             {
                 foreach (var item in pallet.Barcode)
                 {
-                    palletItem = new ManifestTItem
+                    ManifestTItem palletItem = new ManifestTItem
                     {
                         Barcode = item.Barcode,
                         ScanDate = DateTimeOffset.UtcNow.Date,
@@ -233,7 +225,7 @@ namespace KegID.ViewModel
                     palletItems.Add(palletItem);
                 }
 
-                newPallet = new NewPallet
+                NewPallet newPallet = new NewPallet
                 {
                     Barcode = pallet.ManifestId,
                     BuildDate = DateTimeOffset.UtcNow.Date,

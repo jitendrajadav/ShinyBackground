@@ -8,8 +8,6 @@ using Android.Runtime;
 using Android.Support.V4.App;
 using Android.Support.V4.Content;
 using Android.Views;
-//using KegID.Droid.Services;
-using KegID.Messages;
 using Plugin.CrossPlatformTintedImage.Android;
 using Plugin.CurrentActivity;
 using SegmentedControl.FormsPlugin.Android;
@@ -46,8 +44,6 @@ namespace KegID.Droid
             SegmentedControlRenderer.Init();
             Forms.Init(this, bundle);
             LoadApplication(new App());
-
-            //WireUpLongRunningTask();
             GetAccessCoarseLocationPermission();
         }
 
@@ -87,23 +83,6 @@ namespace KegID.Droid
         {
             return myActivity;
         }
-
-        //private void WireUpLongRunningTask()
-        //{
-        //    MessagingCenter.Subscribe<StartLongRunningTaskMessage>(this, "StartLongRunningTaskMessage", message =>
-        //    {
-        //        var intent = new Intent(this, typeof(LongRunningTaskService));
-        //        intent.PutStringArrayListExtra("Barcode", message.Barcode);
-        //        intent.PutExtra("PageName", message.PageName);
-        //        StartService(intent);
-        //    });
-
-        //    MessagingCenter.Subscribe<StopLongRunningTaskMessage>(this, "StopLongRunningTaskMessage", _ =>
-        //    {
-        //        var intent = new Intent(this, typeof(LongRunningTaskService));
-        //        StopService(intent);
-        //    });
-        //}
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
         {

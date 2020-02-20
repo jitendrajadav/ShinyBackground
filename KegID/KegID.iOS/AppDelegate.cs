@@ -35,15 +35,12 @@ namespace KegID.iOS
             Xamarin.FormsMaps.Init();
             Rg.Plugins.Popup.Popup.Init();
             TintedImageRenderer.Init();
-            //UIApplication.SharedApplication.SetMinimumBackgroundFetchInterval(UIApplication.BackgroundFetchIntervalMinimum);
             Forms9Patch.iOS.Settings.Initialize(this);
             SegmentedControlRenderer.Init();
 
             Distribute.DontCheckForUpdatesInDebug();
 
             LoadApplication(new App());
-            //WireUpLongRunningTask();
-
             return base.FinishedLaunching(app, options);
         }
 
@@ -51,26 +48,5 @@ namespace KegID.iOS
         {
             Shiny.Jobs.JobManager.OnBackgroundFetch(completionHandler);
         }
-
-        //void WireUpLongRunningTask()
-        //{
-        //    MessagingCenter.Subscribe<StartLongRunningTaskMessage>(this, "StartLongRunningTaskMessage", async message =>
-        //    {
-        //        longRunningTaskExample = new iOSLongRunningTaskExample();
-        //        await longRunningTaskExample.Start(message);
-        //    });
-
-        //    MessagingCenter.Subscribe<StopLongRunningTaskMessage>(this, "StopLongRunningTaskMessage", message =>
-        //    {
-        //        longRunningTaskExample.Stop();
-        //    });
-        //}
     }
-
-    //public class IOSInitializer : IPlatformInitializer
-    //{
-    //    public void RegisterTypes(IContainerRegistry containerRegistry)
-    //    {
-    //    }
-    //}
 }

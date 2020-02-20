@@ -188,11 +188,7 @@ namespace KegID.ViewModel
 
         private void Cleanup()
         {
-            //using (var trans = Realm.GetInstance(RealmDbManager.GetRealmDbConfig()).BeginWrite())
-            //{
             PartnerModel.FullName = "Select a location";
-            //trans.Commit();
-            //}
             LoadMaintenanceTypeAsync();
             Notes = string.Empty;
         }

@@ -104,7 +104,6 @@ namespace KegID.ViewModel
         {
             MessagingCenter.Unsubscribe<FillScanMessage>(this, "FillScanMessage");
             MessagingCenter.Unsubscribe<AddPalletToFillScanMsg>(this, "AddPalletToFillScanMsg");
-            //MessagingCenter.Unsubscribe<CancelledMessage>(this, "CancelledMessage");
         }
 
         private void HandleReceivedMessages()
@@ -150,18 +149,6 @@ namespace KegID.ViewModel
             });
 
             MessagingCenter.Subscribe<AddPalletToFillScanMsg>(this, "AddPalletToFillScanMsg", _ => Device.BeginInvokeOnMainThread(Cleanup));
-
-            //MessagingCenter.Subscribe<CancelledMessage>(this, "CancelledMessage", _ =>
-            //{
-            //    Device.BeginInvokeOnMainThread(() =>
-            //    {
-            //        const string value = "Cancelled";
-            //        if (value == "Cancelled")
-            //        {
-
-            //        }
-            //    });
-            //});
         }
 
         internal void AssignInitValue(INavigationParameters parameters)
@@ -212,7 +199,6 @@ namespace KegID.ViewModel
         public void GenerateManifestId(PalletModel palletModel)
         {
             DateTimeOffset now = DateTimeOffset.Now;
-            string barCode;
             long prefix = 0;
             var lastCharOfYear = now.Year.ToString().ToCharArray().LastOrDefault().ToString();
             var dayOfYear = now.DayOfYear;
@@ -235,12 +221,12 @@ namespace KegID.ViewModel
                 {
                     BarcodeCollection.Clear();
 
-                    barCode = GenerateBatchId(ref prefix, lastCharOfYear, dayOfYear, secondsInDayTillNow, millisecond);
+                    _ = GenerateBatchId(ref prefix, lastCharOfYear, dayOfYear, secondsInDayTillNow, millisecond);
                 }
             }
             else
             {
-                barCode = GenerateBatchId(ref prefix, lastCharOfYear, dayOfYear, secondsInDayTillNow, millisecond);
+                _ = GenerateBatchId(ref prefix, lastCharOfYear, dayOfYear, secondsInDayTillNow, millisecond);
             }
         }
 
@@ -322,7 +308,7 @@ namespace KegID.ViewModel
                 {
                     if (model.Icon == "validationerror.png")
                     {
-                        bool accept = await _dialogService.DisplayAlertAsync("Warning", "This scan could not be verified", "Keep", "Delete");
+                        _ = await _dialogService.DisplayAlertAsync("Warning", "This scan could not be verified", "Keep", "Delete");
                     }
                     else
                     {
@@ -333,7 +319,6 @@ namespace KegID.ViewModel
                     }
                 }
             }
-
         }
 
         private async Task NavigateToValidatePartner(List<BarcodeModel> model)
@@ -369,14 +354,6 @@ namespace KegID.ViewModel
                     }
                     BarcodeCollection.Add(model);
 
-
-                    //    var message = new StartLongRunningTaskMessage
-                    //    {
-                    //        Barcode = new List<string>() { ManaulBarcode },
-                    //        PageName = nameof(ViewTypeEnum.FillScanView)
-                    //    };
-                    //    MessagingCenter.Send(message, "StartLongRunningTaskMessage");
-
                     var current = Connectivity.NetworkAccess;
                     if (current == NetworkAccess.Internet)
                     {
@@ -384,7 +361,7 @@ namespace KegID.ViewModel
                         Shiny.ShinyHost.Resolve<Shiny.Jobs.IJobManager>().RunTask("FillJob" + ManaulBarcode, async _ =>
                     {
                         // your code goes here - async stuff is welcome (and necessary)
-                        var response = await ApiManager.GetValidateBarcode(ManaulBarcode, Settings.SessionId);
+                        System.Net.Http.HttpResponseMessage response = await ApiManager.GetValidateBarcode(ManaulBarcode, Settings.SessionId);
                         if (response.IsSuccessStatusCode)
                         {
                             var json = await response.Content.ReadAsStringAsync();
@@ -627,7 +604,6 @@ namespace KegID.ViewModel
 
             if (!BarcodeCollection.Any(x => x?.Kegs?.Partners?.Count > 1))
                 await NavigationService.GoBackAsync(animated: false);
-
         }
 
         public void Cleanup()

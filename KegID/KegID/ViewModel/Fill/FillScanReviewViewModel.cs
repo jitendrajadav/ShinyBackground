@@ -27,7 +27,6 @@ namespace KegID.ViewModel
         private readonly IPageDialogService _dialogService;
         private readonly IUuidManager _uuidManager;
         private readonly IManifestManager _manifestManager;
-        //private readonly IGeolocationService _geolocationService;
         private readonly IGpsListener _gpsListener;
         private readonly IGpsManager _gpsManager;
 
@@ -55,7 +54,6 @@ namespace KegID.ViewModel
             _uuidManager = uuidManager;
             _dialogService = dialogService;
             _manifestManager = manifestManager;
-            //_geolocationService = geolocationService;
             _gpsManager = gpsManager;
             _gpsListener = gpsListener;
             _gpsListener.OnReadingReceived += OnReadingReceived;
@@ -71,16 +69,11 @@ namespace KegID.ViewModel
         void OnReadingReceived(object sender, GpsReadingEventArgs e)
         {
             LocationMessage = e.Reading.Position;
-            //= $"{e.Reading.Position.Latitude}, {e.Reading.Position.Longitude}";
         }
 
         private async Task SubmitCommandRecieverAsync()
         {
             UserDialogs.Instance.ShowLoading("Loading");
-
-            //var location = await _geolocationService.GetLastLocationAsync();
-
-            UserDialogs.Instance.HideLoading();
 
             var tags = ConstantManager.Tags;
             var partnerModel = ConstantManager.Partner;
@@ -169,7 +162,7 @@ namespace KegID.ViewModel
                 var current = Connectivity.NetworkAccess;
                 if (current == NetworkAccess.Internet)
                 {
-                    var response = await ApiManager.PostManifest(model, Settings.SessionId);
+                    System.Net.Http.HttpResponseMessage response = await ApiManager.PostManifest(model, Settings.SessionId);
                     AddorUpdateManifestOffline(model, false);
                     await GetPostedManifestDetail();
                 }
@@ -206,7 +199,6 @@ namespace KegID.ViewModel
             {
                 Contents = ConstantManager.Tags.Count > 3 ? ConstantManager.Tags?[3]?.Value ?? string.Empty : string.Empty;
             }
-
 
             manifest.ManifestItems = new List<CreatedManifestItem>();
             foreach (var item in ConstantManager.Barcodes)

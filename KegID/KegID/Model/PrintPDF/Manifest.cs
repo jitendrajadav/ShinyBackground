@@ -332,13 +332,6 @@ namespace KegID.Model.PrintPDF
         public string Country { get; set; }
     }
 
-    //[XmlRoot(ElementName = "Contents", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
-    //public class Contents
-    //{
-    //    [XmlAttribute(AttributeName = "nil", Namespace = "http://www.w3.org/2001/XMLSchema-instance")]
-    //    public string Nil { get; set; }
-    //}
-
     [XmlRoot(ElementName = "ReceivedDate", Namespace = "http://schemas.datacontract.org/2004/07/com.anotherroundapps.apps.kegid.objects")]
     public class ReceivedDate
     {

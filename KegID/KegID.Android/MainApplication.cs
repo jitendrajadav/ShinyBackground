@@ -21,7 +21,6 @@ namespace KegID.Droid
         {
             base.OnCreate();
             CrossCurrentActivity.Current.Init(this);
-            //Shiny.AndroidShinyHost.Init(this, new Startup());
         }
     }
 }

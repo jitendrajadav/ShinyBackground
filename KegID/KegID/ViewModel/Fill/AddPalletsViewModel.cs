@@ -83,7 +83,6 @@ namespace KegID.ViewModel
         void OnReadingReceived(object sender, GpsReadingEventArgs e)
         {
             LocationMessage = e.Reading.Position;
-            //= $"{e.Reading.Position.Latitude}, {e.Reading.Position.Longitude}";
         }
 
         private void PreferenceSetting()
@@ -116,7 +115,6 @@ namespace KegID.ViewModel
 
         public async Task SubmitCommandRecieverAsync()
         {
-            //var location = await _geolocationService.GetLastLocationAsync();
             var barcodes = ConstantManager.Barcodes;
             var tags = ConstantManager.Tags;
             var partnerModel = ConstantManager.Partner;
@@ -219,7 +217,7 @@ namespace KegID.ViewModel
                 var current = Connectivity.NetworkAccess;
                 if (current == NetworkAccess.Internet)
                 {
-                    var response = await ApiManager.PostManifest(model, Settings.SessionId);
+                    System.Net.Http.HttpResponseMessage response = await ApiManager.PostManifest(model, Settings.SessionId);
                     AddorUpdateManifestOffline(model, false);
                     await GetPostedManifestDetail();
                 }

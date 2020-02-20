@@ -314,7 +314,6 @@ namespace KegID.Services
                 if (!string.IsNullOrEmpty(ipAddr))
                 {
                     connection = new TcpConnection(ipAddr, 9100);
-                                    //ConnectionBuilder.Current.Build("TCP:" + ipAddr + ":9100");
                 }
                 else
                 {
@@ -325,25 +324,13 @@ namespace KegID.Services
                 await Task.Run(async () => {
                     try
                     {
-                        //await DisplayConnectionStatusAsync("Connecting...", Color.Goldenrod, 1500);
-
                         connection.Open();
-
-                        //await DisplayConnectionStatusAsync("Connected", Color.Green, 1500);
-                        //await DisplayConnectionStatusAsync("Determining printer language...", Color.Goldenrod, 1500);
-
                         PrinterLanguage printerLanguage = ZebraPrinterFactory.GetInstance(connection).PrinterControlLanguage;
-                        //await DisplayConnectionStatusAsync("Printer language: " + printerLanguage.ToString(), Color.Blue, 1500);
-
-                        //UpdateConnectionStatus("Sending data...", Color.Goldenrod);
-
                         connection.Write(GetTestLabelBytes(printerLanguage, header));
-
                         await Task.Delay(1000);
                     }
                     catch (Exception e)
                     {
-                        //await DisplayConnectionStatusAsync($"Error: {e.Message}", Color.Red, 3000);
                         // Connection Exceptions and issues are caught here
                         Device.BeginInvokeOnMainThread(async () =>
                         {
@@ -355,9 +342,6 @@ namespace KegID.Services
                         try
                         {
                             connection?.Close();
-
-                            //await DisplayConnectionStatusAsync("Disconnecting...", Color.Goldenrod, 1000);
-                            //UpdateConnectionStatus("Not connected", Color.Red);
                         }
                         catch (ConnectionException) { }
                     }

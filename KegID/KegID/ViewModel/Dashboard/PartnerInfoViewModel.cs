@@ -137,15 +137,7 @@ namespace KegID.ViewModel
             translatedNumber = PhoneTranslator.ToNumber(PartnerModel.PhoneNumber);
             if (!string.IsNullOrWhiteSpace(translatedNumber))
             {
-                //callButton.IsEnabled = true;
-                //callButton.Text = "Call " + translatedNumber;
-                //OnCall(null, null);
                 PlacePhoneCallAsync();
-            }
-            else
-            {
-                //callButton.IsEnabled = false;
-                //callButton.Text = "Call";
             }
         }
 
@@ -162,29 +154,6 @@ namespace KegID.ViewModel
                 var dialer = DependencyService.Get<IDialer>();
                 if (dialer != null)
                     await dialer.DialAsync(translatedNumber);
-
-                // Not working with -
-                //PhoneDialer.Open(translatedNumber);
-            }
-        }
-
-        async void OnCall(object sender, EventArgs e)
-        {
-            if (!await Application.Current.MainPage.DisplayAlert(
-                    "Dial a Number",
-                    "Would you like to call " + translatedNumber + "?",
-                    "Cancel",
-                    "Call"))
-            {
-                //// TODO: dial the phone
-                //var dialer = DependencyService.Get<IDialer>();
-                //if (dialer != null)
-                //    await dialer.DialAsync(translatedNumber);
-
-                // Make Phone Call
-                //var phoneCallTask = CrossMessaging.Current.PhoneDialer;
-                //if (phoneCallTask.CanMakePhoneCall)
-                //    phoneCallTask.MakePhoneCall(translatedNumber);
             }
         }
 

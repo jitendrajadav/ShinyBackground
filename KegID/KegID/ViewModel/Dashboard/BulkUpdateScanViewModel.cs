@@ -66,59 +66,11 @@ namespace KegID.ViewModel
 
             LoadAssetSizeAsync();
             LoadAssetTypeAsync();
-
-            //HandleUnsubscribeMessages();
-            //HandleReceivedMessages();
         }
 
         #endregion
 
         #region Methods
-
-        //private void HandleUnsubscribeMessages()
-        //{
-        //    //MessagingCenter.Unsubscribe<BulkUpdateScanMessage>(this, "BulkUpdateScanMessage");
-        //    //MessagingCenter.Unsubscribe<CancelledMessage>(this, "CancelledMessage");
-        //}
-
-        //private void HandleReceivedMessages()
-        //{
-        //    //MessagingCenter.Subscribe<BulkUpdateScanMessage>(this, "BulkUpdateScanMessage", message => {
-        //    //    Device.BeginInvokeOnMainThread(() =>
-        //    //    {
-        //    //        var value = message;
-        //    //        if (value != null)
-        //    //        {
-        //    //            try
-        //    //            {
-        //    //                var RealmDb = Realm.GetInstance(RealmDbManager.GetRealmDbConfig());
-        //    //                RealmDb.Write(() =>
-        //    //                {
-        //    //                    var oldBarcode = BarcodeCollection.FirstOrDefault(x => x.Barcode == value.Barcodes.Barcode);
-        //    //                    oldBarcode.Pallets = value.Barcodes.Pallets;
-        //    //                    oldBarcode.Kegs = value.Barcodes.Kegs;
-        //    //                    oldBarcode.Icon = value?.Barcodes?.Kegs?.Partners.Count > 1 ? _getIconByPlatform.GetIcon("validationquestion.png") : value?.Barcodes?.Kegs?.Partners?.Count == 0 ? _getIconByPlatform.GetIcon("validationerror.png") : _getIconByPlatform.GetIcon("validationok.png");
-        //    //                    oldBarcode.IsScanned = true;
-        //    //                });
-        //    //            }
-        //    //            catch (Exception ex)
-        //    //            {
-        //    //                Crashes.TrackError(ex);
-        //    //            }
-        //    //        }
-        //    //    });
-        //    //});
-
-        //    //MessagingCenter.Subscribe<CancelledMessage>(this, "CancelledMessage", message => {
-        //    //    Device.BeginInvokeOnMainThread(() => {
-        //    //        var value = "Cancelled";
-        //    //        if (value == "Cancelled")
-        //    //        {
-
-        //    //        }
-        //    //    });
-        //    //});
-        //}
 
         private void LoadAssetSizeAsync()
         {
@@ -172,7 +124,6 @@ namespace KegID.ViewModel
                         {"viewTypeEnum",ViewTypeEnum.BulkUpdateScanView }
                     }, animated: false);
             }
-
         }
 
         private async Task NavigateToValidatePartner(List<BarcodeModel> model)
@@ -216,13 +167,6 @@ namespace KegID.ViewModel
                 var current = Connectivity.NetworkAccess;
                 if (current == NetworkAccess.Internet)
                 {
-                    //var message = new StartLongRunningTaskMessage
-                    //{
-                    //    Barcode = new List<string>() { ManaulBarcode },
-                    //    PageName = nameof(ViewTypeEnum.BulkUpdateScanView)
-                    //};
-                    //MessagingCenter.Send(message, "StartLongRunningTaskMessage");
-
                     // IJobManager can and should be injected into your viewmodel code
                     Shiny.ShinyHost.Resolve<Shiny.Jobs.IJobManager>().RunTask("BulkUpdateJob" + ManaulBarcode, async _ =>
                     {
@@ -271,11 +215,10 @@ namespace KegID.ViewModel
                 UserDialogs.Instance.ShowLoading("Loading");
                 var model = new KegBulkUpdateItemRequestModel();
                 var MassUpdateKegKegs = new List<MassUpdateKeg>();
-                MassUpdateKeg MassUpdateKeg = null;
-                var val = await ApiManager.GetAssetVolume(Settings.SessionId, false);
+                _ = await ApiManager.GetAssetVolume(Settings.SessionId, false);
                 foreach (var item in BarcodeCollection)
                 {
-                    MassUpdateKeg = new MassUpdateKeg
+                    MassUpdateKeg MassUpdateKeg = new MassUpdateKeg
                     {
                         AssetSize = SelectedItemSize,
                         AssetType = SelectedItemType,
@@ -305,7 +248,6 @@ namespace KegID.ViewModel
                 await _dialogService.DisplayAlertAsync("Alert", "Please add scan item", "Ok");
             }
             UserDialogs.Instance.HideLoading();
-
         }
 
         private async void CancelCommandRecieverAsync()

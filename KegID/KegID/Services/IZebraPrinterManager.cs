@@ -4,8 +4,8 @@ namespace KegID.Services
 {
     public interface IZebraPrinterManager
     {
-        String PalletHeader { get; set; }
-        String TestPrint { get; set; }
+        string PalletHeader { get; set; }
+        string TestPrint { get; set; }
         void SendZplPalletAsync(string header, string ipAddr);
     }
 }

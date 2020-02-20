@@ -51,8 +51,6 @@
 			</array>
 		</dict>
 	</array>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Your location is recorded with each manifest to better track where you are when scanning.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Camera</string>
 	<key>UIBackgroundModes</key>
@@ -90,8 +88,8 @@
 	<string>Required for pedometer</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>The beacons or geofences or GPS always have you!</string>
-	<!--<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>The beacons or geofences or GPS always have you!</string>-->
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>The beacons or geofences or GPS always have you!</string>
 	<key>MinimumOSVersion</key>
 	<string>13.2</string>
 </dict>

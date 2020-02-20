@@ -48,8 +48,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Model\Request\Fill\**" />
     <Compile Remove="PrintTemplates\**" />
+    <EmbeddedResource Remove="Model\Request\Fill\**" />
     <EmbeddedResource Remove="PrintTemplates\**" />
+    <None Remove="Model\Request\Fill\**" />
     <None Remove="PrintTemplates\**" />
   </ItemGroup>
 
@@ -468,10 +471,6 @@
     <None Update="Views\Setting\WhatIsNewView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Model\Request\Fill\" />
   </ItemGroup>
 
   <ItemGroup>

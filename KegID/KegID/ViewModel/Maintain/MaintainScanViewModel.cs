@@ -35,7 +35,6 @@ namespace KegID.ViewModel
         private readonly IGetIconByPlatform _getIconByPlatform;
         private readonly IUuidManager _uuidManager;
         private readonly IManifestManager _manifestManager;
-        //private readonly IGeolocationService _geolocationService;
         private readonly IGpsListener _gpsListener;
         private readonly IGpsManager _gpsManager;
         public Position LocationMessage { get; set; }
@@ -64,7 +63,6 @@ namespace KegID.ViewModel
             _getIconByPlatform = getIconByPlatform;
             _uuidManager = uuidManager;
             _manifestManager = manifestManager;
-            //_geolocationService = geolocationService;
             _gpsManager = gpsManager;
             _gpsListener = gpsListener;
             _gpsListener.OnReadingReceived += OnReadingReceived;
@@ -87,7 +85,6 @@ namespace KegID.ViewModel
         void OnReadingReceived(object sender, GpsReadingEventArgs e)
         {
             LocationMessage = e.Reading.Position;
-            //= $"{e.Reading.Position.Latitude}, {e.Reading.Position.Longitude}";
         }
 
         private void DeleteItemCommandReciever(BarcodeModel model)
@@ -116,18 +113,6 @@ namespace KegID.ViewModel
                     }
                 });
             });
-
-            //MessagingCenter.Subscribe<CancelledMessage>(this, "CancelledMessage", message =>
-            //{
-            //    Device.BeginInvokeOnMainThread(() =>
-            //    {
-            //        var value = "Cancelled";
-            //        if (value == "Cancelled")
-            //        {
-
-            //        }
-            //    });
-            //});
         }
 
         internal async Task AssignValidatedValueAsync(Partner model)
@@ -213,13 +198,6 @@ namespace KegID.ViewModel
                 var current = Connectivity.NetworkAccess;
                 if (current == NetworkAccess.Internet)
                 {
-                    //var message = new StartLongRunningTaskMessage
-                    //{
-                    //    Barcode = new List<string>() { ManaulBarcode },
-                    //    PageName = ViewTypeEnum.MaintainScanView.ToString()
-                    //};
-                    //MessagingCenter.Send(message, "StartLongRunningTaskMessage");
-
                     // IJobManager can and should be injected into your viewmodel code
                     ShinyHost.Resolve<Shiny.Jobs.IJobManager>().RunTask("MaintainJob" + ManaulBarcode, async _ =>
                     {
@@ -316,9 +294,6 @@ namespace KegID.ViewModel
         public async Task SubmitCommandRecieverAsync()
         {
             UserDialogs.Instance.ShowLoading("Loading");
-
-            //var location = await _geolocationService.GetLastLocationAsync();
-
             ManifestModel manifestPostModel = null;
 
             var result = BarcodeCollection.Where(x => x?.Kegs?.Partners?.Count > 1).ToList();
@@ -412,16 +387,6 @@ namespace KegID.ViewModel
             }
         }
 
-        private void Cleanup()
-        {
-            BarcodeCollection.Clear();
-            MaintainDTToMaintMsg message = new MaintainDTToMaintMsg
-            {
-                CleanUp = true
-            };
-            MessagingCenter.Send(message, "MaintainDTToMaintMsg");
-        }
-
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
             if (parameters.ContainsKey("BackCommandRecieverAsync"))
@@ -446,7 +411,6 @@ namespace KegID.ViewModel
         public override void OnNavigatedFrom(INavigationParameters parameters)
         {
             MessagingCenter.Unsubscribe<MaintainScanMessage>(this, "MaintainScanMessage");
-            //MessagingCenter.Unsubscribe<CancelledMessage>(this, "CancelledMessage");
         }
 
         public override async Task InitializeAsync(INavigationParameters parameters)
@@ -466,8 +430,6 @@ namespace KegID.ViewModel
                     AssignMaintenanceViewValue(parameters);
                     break;
             }
-
-            //return base.InitializeAsync(parameters);
         }
 
         private void AssignMaintenanceViewValue(INavigationParameters parameters)
